@@ -33,12 +33,13 @@
 
 function ControlKit(parentDomElementId,params)
 {
+    params           = params || {};
 
-    this._width       = params ? params.width : 300;
-    this._height      = window.innerHeight - 40;
-    this._ratioLabel  = params ? params.labelWidth : 40;
-    this._ratioComp   = 100 - this._ratioLabel;
-    this._hidden      = params ? params.show : true;
+    this._width      = params.width      = params.width  || 300;
+    this._height     = params.height     = params.height || window.innerHeight-40;
+    this._ratioLabel = params.labelRatio = params.labelRatio || 40;
+    this._ratioComp  = 100 - this._ratioLabel;
+    this._hidden     = params.show       = !params.show || false;
 
     this._blocks = [];
 
@@ -95,7 +96,13 @@ ControlKit.prototype.addBlock = function(label,params)
 ControlKit.prototype._updateCSS = function()
 {
     this._ulBlocks.style.height = this._height + 'px';
+};
 
+ControlKit.prototype._forceUpdate = function()
+{
+    var i = -1,j;
+    var b = this._blocks,c;
+    while(++i< b.length){j=-1;c=b[i]._comps;while(++j< c.length){c[i]._forceUpdate();}}
 };
 
 /*------------------------------------------------------------------------------*/
@@ -103,8 +110,10 @@ ControlKit.prototype._updateCSS = function()
 ControlKit.Block = function(parent,label,params)
 {
     this._parent = parent;
-    this._hidden = params ? params.hidden : false;
-    this._delay  = params ? params.delay  : false;
+
+    params       = params || {};
+    this._hidden = params.show  = !params.show || false;
+    this._delay  = params.delay = params.delay || false;
     this._height = 0;
 
     this._comps  = [];
@@ -158,6 +167,11 @@ ControlKit.Block._applyChanges = function()
     while(++i<this._comps.length){this._comps[i]._applyChange();}
 };
 
+ControlKit.Block.prototype._forceUpdate = function()
+{
+    this._parent._forceUpdate();
+};
+
 ControlKit.Block.prototype.addCheckbox = function(object,label,value,params)
 {
     this._comps.push(new ControlKit.CheckBox(this,object,value,label,params));
@@ -193,12 +207,6 @@ ControlKit.Block.prototype.addRangeField = function(object,label,value,params)
     return this;
 };
 
-ControlKit.Block.prototype.addRangeSlider = function(object,label,value,targetvalue,params)
-{
-    this._comps.push(new ControlKit.RangeSlider(this,object,value,label,targetvalue,params));
-    this._updateHeight();
-    return this;
-};
 
 ControlKit.Block.prototype.addSlider = function(object,label,value,targetvalue,params)
 {
@@ -215,6 +223,7 @@ ControlKit.Component = function(parent,object,value)
     this._object   = object;
     this._key      = value;
     this._onChange = function(){};
+    this._onFinish = function(){};
     this._cache    = null;
 
     this._delay  = this._parent._delay;
@@ -226,6 +235,8 @@ ControlKit.Component = function(parent,object,value)
     this._divComp     = d.addDiv(this._liComponent);
 };
 
+ControlKit.Component.prototype._forceUpdate = function(){};
+
 ControlKit.Component.prototype._applyChange = function()
 {
     this._object[this._key] = this._cache;
@@ -236,6 +247,10 @@ ControlKit.Component.prototype._applyChange = function()
 ControlKit.CheckBox = function(parent,object,value,label,params)
 {
     ControlKit.Component.apply(this,arguments);
+
+    params = params || {};
+    this._onChange  = params.onChange = params.onChange || this._onChange;
+    this._onFinish  = params.onFinish = params.onFinish || this._onFinish;
 
     var d = ControlKit.DOM,
         c = d.CSS;
@@ -258,6 +273,8 @@ ControlKit.CheckBox = function(parent,object,value,label,params)
                                       this._cache = this._checkbox.checked;
                                   }
 
+                                  this._parent._forceUpdate();
+
                               }.bind(this);
 
 
@@ -265,11 +282,20 @@ ControlKit.CheckBox = function(parent,object,value,label,params)
 
 ControlKit.CheckBox.prototype = Object.create((ControlKit.Component).prototype);
 
+ControlKit.CheckBox.prototype._forceUpdate = function()
+{
+    this._checkbox.checked  = this._object[this._key];
+};
+
 /*------------------------------------------------------------------------------*/
 
 ControlKit.TextField = function(parent,object,value,label,params)
 {
     ControlKit.Component.apply(this,arguments);
+
+    params = params || {};
+    this._onChange  = params.onChange = params.onChange || this._onChange;
+    this._onFinish  = params.onFinish = params.onFinish || this._onFinish;
 
     var d = ControlKit.DOM;
 
@@ -308,10 +334,17 @@ ControlKit.TextField = function(parent,object,value,label,params)
                                        this._textfield.value = this._object[this._key];
                                    }
 
+                                   this._parent._forceUpdate();
+
                                }.bind(this);
 };
 
 ControlKit.TextField.prototype = Object.create((ControlKit.Component).prototype);
+
+ControlKit.TextField.prototype._forceUpdate = function()
+{
+    this._textfield.value = this._object[this._key];
+};
 
 /*------------------------------------------------------------------------------*/
 
@@ -319,7 +352,11 @@ ControlKit.Stepper = function(parent,object,value,label,params)
 {
     ControlKit.Component.apply(this,arguments);
 
-    this._stepValue = params ? params.step : 1;
+    params = params || {};
+    this._onChange  = params.onChange = params.onChange || this._onChange;
+    this._onFinish  = params.onFinish = params.onFinish || this._onFinish;
+    this._dp        = params.dp       = params.dp   || 2;
+    this._stepValue = params.step     = params.step || 1;
 
     var d = ControlKit.DOM,
         c = d.CSS;
@@ -327,41 +364,35 @@ ControlKit.Stepper = function(parent,object,value,label,params)
     d.set(this._divLabel,{className:d.CSS.CompLabel,innerHTML:label});
     d.set(this._divComp, {className:d.CSS.CompStepperSlot});
 
-    this._textFieldStepper = d.addInput(this._divComp,       {type:'text'});
+    this._textFieldStepper = new ControlKit._NumberField(this._divComp,this._stepValue,this._dp,function(){this._updateValue();this._onChange();this._parent._forceUpdate();}.bind(this),
+                                                                                                function(){this._updateValue();this._onFinish();this._parent._forceUpdate();}.bind(this));
     this._divStepperBtns   = d.addDiv(  this._divComp,       {className:c.StepperBtns});
     this._stepperBtnUp     = d.addInput(this._divStepperBtns,{type:'button',className:c.StepperBtnUp, value:'+'});
     this._stepperBtnDown   = d.addInput(this._divStepperBtns,{type:'button',className:c.StepperBtnDown,value:'-'});
 
     this._textFieldStepper.value = this._object[this._key];
 
-    this._stepperBtnUp.onclick   = function(){this._step( 1);}.bind(this);
-    this._stepperBtnDown.onclick = function(){this._step(-1);}.bind(this);
+    this._stepperBtnUp.onclick   = function(){this._textFieldStepper.stepUp();this._parent._forceUpdate();}.bind(this);
+    this._stepperBtnDown.onclick = function(){this._textFieldStepper.stepDown();this._parent._forceUpdate();}.bind(this);
 
-    var _this = this;
-
-    this._textFieldStepper.onkeydown = function(e)
-                                   {
-                                       e.preventDefault();
-
-                                       var tf = _this._textFieldStepper;
-
-                                       switch (e.keyCode)
-                                       {
-                                           case 38:
-                                           tf.value = Number(tf.value) + _this._stepValue;
-                                           break;
-                                           case 40:
-                                           tf.value =  Number(tf.value) - _this._stepValue;
-                                           break;
-                                       }
-                                   };
 };
 
 ControlKit.Stepper.prototype = Object.create((ControlKit.Component).prototype);
 
+ControlKit.Stepper.prototype._updateValue = function()
+{
+    var value = this._textFieldStepper.getValue();
+    if(this._delay)this._cache = value;else this._object[this._key] = value;
+};
+
 ControlKit.Stepper.prototype._step =  function(n)
 {
     this._object[this._key]+=this._stepValue * n;
+    this._textFieldStepper.value = this._object[this._key];
+};
+
+ControlKit.Stepper.prototype._forceUpdate = function()
+{
     this._textFieldStepper.value = this._object[this._key];
 };
 
@@ -370,6 +401,9 @@ ControlKit.Stepper.prototype._step =  function(n)
 ControlKit.Select = function(parent,object,value,label,params)
 {
     ControlKit.Component.apply(this,arguments);
+
+    params = params || {};
+    this._onChange  = params.onChange = params.onChange || this._onChange;
 
     var d = ControlKit.DOM,
         c = d.CSS;
@@ -386,14 +420,27 @@ ControlKit.Select = function(parent,object,value,label,params)
 
 ControlKit.Select.prototype = Object.create((ControlKit.Component).prototype);
 
+ControlKit.Select.prototype._forceUpdate = function()
+{
+    //this._textFieldStepper.value = this._object[this._key];
+};
+
 /*------------------------------------------------------------------------------*/
 
 ControlKit.RangeField = function(parent,object,value,label,params)
 {
     ControlKit.Component.apply(this,arguments);
 
-    this._cache  = new Array(2);
-    this._values = this._object[this._key];
+    this._cache     = new Array(2);
+    this._values    = this._object[this._key];
+
+    params          = params          || {};
+
+    this._step      = params.step     = params.step     || 1;
+    this._onChange  = params.onChange = params.onChange || this._onChange;
+    this._onFinish  = params.onFinish = params.onFinish || this._onFinish;
+    this._dp        = params.dp       = params.dp   || 2;
+
 
     var d = ControlKit.DOM,
         c = d.CSS;
@@ -402,104 +449,58 @@ ControlKit.RangeField = function(parent,object,value,label,params)
     d.set(this._divComp, {className:d.CSS.CompRangeFieldSlot});
 
     this._divLabelMin  = d.addDiv(  this._divComp,{className:c.CompLabel,innerHTML:'min'});
-    this._textfieldMin = d.addInput(this._divComp,{type:'text'});
+    this._textfieldMin = new ControlKit._NumberField(this._divComp,this._step,this._dp,function()
+                                                                       {
+                                                                           this._updateValueMin();
+                                                                           this._onChange();
+                                                                           this._parent._forceUpdate();
+                                                                       }.bind(this),
+                                                                       function()
+                                                                       {
+                                                                           this._updateValueMin();
+                                                                           this._onFinish();
+                                                                           this._parent._forceUpdate();
+                                                                       }.bind(this));
     this._divLabelMax  = d.addDiv(  this._divComp,{className:c.CompLabel,innerHTML:'max'});
-    this._textfieldMax = d.addInput(this._divComp,{type:'text'});
-
-    this._textfieldMin.value = this._values[0];
-    this._textfieldMax.value = this._values[1];
-
-    this._step = 1;
-
-    var fvalue,fvalueIsNumber;
-
-    this._textfieldMin.onchange = function()
-                                  {
-                                      fvalue = this._textfieldMin.value;
-                                      fvalueIsNumber = fvalue === fvalue + 0;
-
-                                      if(fvalueIsNumber)
-                                      {
-                                          if(!this._delay)
-                                          {
-                                              this._values[0] = fvalue;
-                                          }
-                                          else
-                                          {
-                                              this._cache[0] = fvalue;
-                                          }
-                                      }
-                                      else
-                                      {
-                                          this._textfieldMin.value = this._values[0];
-                                      }
+    this._textfieldMax = new ControlKit._NumberField(this._divComp,this._step,this._dp,function()
+                                                                       {
+                                                                           this._updateValueMax();
+                                                                           this._onChange();
+                                                                           this._parent._forceUpdate();
+                                                                       }.bind(this),
+                                                                       function()
+                                                                       {
+                                                                           this._updateValueMax();
+                                                                           this._onFinish();
+                                                                           this._parent._forceUpdate();
+                                                                       }.bind(this));
+    this._textfieldMin.setValue(this._values[0]);
+    this._textfieldMax.setValue(this._values[1]);
 
 
-                                  }.bind(this);
-
-    var _this = this;
-
-    this._textfieldMin.onkeydown = function(e)
-                                   {
-                                       e.preventDefault();
-
-                                       var tf = _this._textfieldMin;
-
-                                       switch (e.keyCode)
-                                       {
-                                           case 38:
-                                               tf.value = Number(tf.value) + _this._step;
-                                               break;
-                                           case 40:
-                                               tf.value =  Number(tf.value) - _this._step;
-                                               break;
-                                       }
-                                   };
-
-    this._textfieldMax.onchange = function()
-                                  {
-                                      fvalue = this._textfieldMax.value;
-                                      fvalueIsNumber = fvalue === fvalue + 0;
-
-                                      if(fvalueIsNumber)
-                                      {
-                                          if(!this._delay)
-                                          {
-                                              this._values[1] = fvalue;
-                                          }
-                                          else
-                                          {
-                                              this._cache[1] = fvalue;
-                                          }
-                                      }
-                                      else
-                                      {
-                                          this._textfieldMax.value = this._values[1];
-                                      }
-
-                                  }.bind(this);
-
-
-    this._textfieldMax.onkeydown = function(e)
-                                   {
-                                       e.preventDefault();
-
-                                       var tf = _this._textfieldMax;
-
-                                       switch (e.keyCode)
-                                       {
-                                           case 38:
-                                               tf.value = Number(tf.value) + _this._step;
-                                               break;
-                                           case 40:
-                                               tf.value =  Number(tf.value) - _this._step;
-                                               break;
-                                       }
-                                   };
 };
+
 
 ControlKit.RangeField.prototype = Object.create((ControlKit.Component).prototype);
 
+
+ControlKit.RangeField.prototype._updateValueMin = function()
+{
+    var value = this._textfieldMin.getValue();
+    if(this._delay) this._cache[0] = value; else this._values[0] = value;
+};
+
+ControlKit.RangeField.prototype._updateValueMax = function()
+{
+    var value = this._textfieldMax.getValue();
+    if(this._delay)this._cache[1] = value; else this._values[1] = value;
+};
+
+ControlKit.RangeField.prototype._forceUpdate = function()
+{
+    this._textfieldMin.setValue(this._values[0]);
+    this._textfieldMax.setValue(this._values[1]);
+};
 
 /*------------------------------------------------------------------------------*/
 
@@ -530,12 +531,14 @@ ControlKit.Slider.prototype._onSliderChange = function()
 {
     this._updateValueField();
     this._onChange();
+    this._parent._forceUpdate();
 };
 
 ControlKit.Slider.prototype._onSliderFinish = function()
 {
     this._updateValueField();
     this._onFinish();
+    this._parent._forceUpdate();
 };
 
 ControlKit.Slider.prototype._updateValueField = function()
@@ -546,6 +549,11 @@ ControlKit.Slider.prototype._updateValueField = function()
 ControlKit.Slider.prototype._applyChange = function()
 {
     this._object[this._target] = this._cache;
+};
+
+ControlKit.Slider.prototype._forceUpdate = function()
+{
+
 };
 
 /*------------------------------------------------------------------------------*/
@@ -576,8 +584,6 @@ ControlKit._Slider = function(parent,fixed,callbackOnChange,callbackOnFinish)
 
     this._slotOffset = d.getElementPos(this._slot);
     this._slotWidth  = this._slot.offsetWidth - 6 - this._handleWidth;
-
-
 
     this._slot.onmousedown = function()
                            {
@@ -654,6 +660,115 @@ ControlKit._Slider.prototype._update = function()
 };
 
 /*------------------------------------------------------------------------------*/
+
+
+
+ControlKit._NumberField = function(parentDiv,stepValue,decimalPlaces,onChange,onFinish)
+{
+    var d = ControlKit.DOM;
+
+    this._value        = 0;
+    this._temp         = this._value;
+    this._valueStep    = stepValue || 1;
+    this._valueDPlace  = decimalPlaces + 1;
+
+
+    this._onChange  = onChange || function(){};
+    this._onFinish  = onFinish || function(){};
+
+    this._input = d.addInput(parentDiv,{type:'text'});
+    this._input.value = this._value;
+
+    var mult,keycode;
+
+    this._input.onkeydown = function(e)
+                            {
+                                mult    = e.shiftKey ? 10 : 1;
+                                keycode = e.keyCode;
+
+                                if(keycode == 38 || keycode == 40)
+                                {
+                                    e.preventDefault();
+                                    this._validateNumber();
+                                    this._value = this._temp  = this._value + (this._valueStep * mult) * (keycode == 38 ? 1.0 : -1.0);
+                                    console.log(this._value);
+
+                                    this._output();
+                                }
+
+                                this._onChange();
+
+                            }.bind(this);
+
+    this._input.onchange = function()
+                           {
+                               this._validateInput();
+                               this._output();
+
+                               this._onFinish();
+
+                           }.bind(this);
+
+};
+
+ControlKit._NumberField.prototype._validateInput = function()
+{
+    if(this.inputValueIsNumber())
+    {
+        this._temp = this._value = Number(this._input.value);
+        return;
+    }
+
+    this._temp = this._input.value = this._value;
+};
+
+ControlKit._NumberField.prototype._output = function()
+{
+    this._temp   = this._value;
+    this._out    = this._temp.toString();
+
+    var output = this._out,
+        index  = output.indexOf('.');
+
+    if(index>0)this._out = output.slice(0,index+this._valueDPlace);
+
+    this._input.value = Number(this._out);
+};
+
+ControlKit._NumberField.prototype._validateNumber = function()
+{
+    if(this.inputValueIsNumber())return;
+
+    this._temp = this._value;
+};
+
+ControlKit._NumberField.prototype.inputValueIsNumber = function()
+{
+    return /^\s*-?[1-9]\d*(\.\d{1,100})?\s*$/.test(this._input.value);
+};
+
+ControlKit._NumberField.prototype.getValue = function()
+{
+    return this._value;
+};
+
+ControlKit._NumberField.prototype.setValue = function(n)
+{
+    this._value = this._temp = n;
+    this._output();
+};
+
+ControlKit._NumberField.prototype.stepUp = function()
+{
+    this._value = this._temp  = this._value + (this._valueStep);
+    this._output();
+};
+
+ControlKit._NumberField.prototype.stepDown = function()
+{
+    this._value = this._temp  = this._value - (this._valueStep);
+    this._output();
+};
 
 
 /*------------------------------------------------------------------------------*/
