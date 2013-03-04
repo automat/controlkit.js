@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link href="../src/sty.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="canvas.js"></script>
+    <script type="text/javascript" src="../src/requestAnimationFrame.js"></script>
+    <script type="text/javascript" src="../src/controlKit.js"></script>
+
+    <script type="text/javascript">
+
+        //var testObj = {autoAnim:false,x:0,y:0,bool:true,string:'hello',number:1,select:['hello','bello','cello'],range:[0,100],value:10};
+
+
+
+        var testObj    = {autoAnim:true,x:15.9,y:0,radiusMinMax:[0,100],radius:50};
+
+
+        function onBodyLoaded()
+        {
+
+            var canvas = new Canvas('container');
+                canvas.setSize(window.innerWidth,window.innerHeight);
+                canvas.setAntialias(false);
+
+
+
+            var ck = new ControlKit('container',{update:false});
+
+            ck.addBlock('Ball Controls')
+                    .addCheckbox(testObj,'Auto Anim','autoAnim')
+                    .addStepper(testObj,'Pos X','x')
+                    .addStepper(testObj,'Pos Y','y')
+                    .addRange(testObj,'RadiusBounds','radiusMinMax')
+                    .addSlider(testObj,'Radius','radiusMinMax','radius');
+
+            /*
+                    .addRange(  testObj,'RadiusMinMax','range')
+                    .addSlider( testObj,'Radius','range','value');
+                    */
+
+
+            /*
+            ck.addBlock('Presets')
+                    .addStepper(testObj,'Pos X','x')
+                    .addStepper(testObj,'Pos Y','y')
+                    .addRangeField(  testObj,'RRange','range')
+                    .addSlider(    testObj,'Radius','range','value')
+              .addCheckbox(testObj,'Bool Label','bool')
+              .addTextField(testObj,'String label','string')
+              .addTextField(testObj,'String label','string')
+              .addStepper(testObj,'Stepper label','number')
+              .addSelect(testObj,'Select label','select')
+              .addRangeField(testObj,'Range Field','range',{step:1})
+              .addSlider(testObj,'Range Slider','range','value')
+                    .addCheckbox(testObj,'Bool Label','bool')
+                    .addTextField(testObj,'String label','string')
+                    .addTextField(testObj,'String label','string')
+                    .addStepper(testObj,'Stepper label','number')
+                    .addSelect(testObj,'Select label','select');
+                    */
+
+
+
+
+
+            var t = 0.0;
+
+            function draw()
+            {
+                t+=0.025;
+
+                ck.update();
+
+
+                canvas.background(0);
+                canvas.push();
+                canvas.translate(canvas.width*0.5,canvas.height*0.5);
+                canvas.fill(255);
+
+
+
+                if(testObj.autoAnim)
+                {
+                    testObj.x = testObj.radius*2*Math.cos(t);
+                    testObj.y = testObj.radius*2*Math.sin(t);
+                }
+
+                //console.log(testObj);
+
+
+                canvas.circle(testObj.x,testObj.y,testObj.radius);
+                canvas.pop();
+
+            }
+
+            function loop(){requestAnimationFrame(loop);draw();}
+
+            loop();
+
+
+
+
+        }
+
+
+    </script>
+
+
+
+
+</head>
+<body onload="onBodyLoaded();">
+<div id="container">
+</div>
+</body>
+</html>
