@@ -2,10 +2,10 @@
 <html>
 <head>
     <title></title>
-    <link href="../src/sty.css" rel="stylesheet" type="text/css">
+    <link href="../src/controlKit/style/style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="canvas.js"></script>
-    <script type="text/javascript" src="../src/requestAnimationFrame.js"></script>
-    <script type="text/javascript" src="../src/controlKit.js"></script>
+    <script type="text/javascript" src="requestAnimationFrame.js"></script>
+    <script type="text/javascript" src="imports.js"></script>
 
     <script type="text/javascript">
 
@@ -13,7 +13,9 @@
 
 
 
-        var testObj    = {autoAnim:true,x:15.9,y:0,radiusMinMax:[0,100],radius:50};
+        var canvasSettings = {color:true,clear:true,alphaMinMax:[0,1],alpha:0.04,string:'',select:['hello','bello','cello'],selectTarget:'cello'};
+        var testObj        = {autoAnim:true,x:15.9,y:0,radiusMinMax:[0,100],radius:50,strokeAlphaMinMax:[0,1],strokeAlpha:0.5};
+
 
 
         function onBodyLoaded()
@@ -27,58 +29,40 @@
 
             var ck = new ControlKit('container',{update:false});
 
+            ck.addBlock('Canvas Settings')
+                    .addTextField(canvasSettings,'String value','string')
+                    .addSelect(canvasSettings,'Best boyfriend','select','selectTarget')
+                    .addCheckbox(canvasSettings,'Bg Clear','clear')
+                    .addSlider(canvasSettings,'Bg Alpha','alphaMinMax','alpha');
+
             ck.addBlock('Ball Controls')
-                    .addCheckbox(testObj,'Auto Anim','autoAnim')
-                    .addStepper(testObj,'Pos X','x')
-                    .addStepper(testObj,'Pos Y','y')
-                    .addRange(testObj,'RadiusBounds','radiusMinMax')
-                    .addSlider(testObj,'Radius','radiusMinMax','radius');
-
-            /*
-                    .addRange(  testObj,'RadiusMinMax','range')
-                    .addSlider( testObj,'Radius','range','value');
-                    */
-
-
-            /*
-            ck.addBlock('Presets')
-                    .addStepper(testObj,'Pos X','x')
-                    .addStepper(testObj,'Pos Y','y')
-                    .addRangeField(  testObj,'RRange','range')
-                    .addSlider(    testObj,'Radius','range','value')
-              .addCheckbox(testObj,'Bool Label','bool')
-              .addTextField(testObj,'String label','string')
-              .addTextField(testObj,'String label','string')
-              .addStepper(testObj,'Stepper label','number')
-              .addSelect(testObj,'Select label','select')
-              .addRangeField(testObj,'Range Field','range',{step:1})
-              .addSlider(testObj,'Range Slider','range','value')
-                    .addCheckbox(testObj,'Bool Label','bool')
-                    .addTextField(testObj,'String label','string')
-                    .addTextField(testObj,'String label','string')
-                    .addStepper(testObj,'Stepper label','number')
-                    .addSelect(testObj,'Select label','select');
-                    */
-
+              .addCheckbox(testObj,'Auto Anim','autoAnim')
+              .addStepper( testObj,'Pos X','x',{step:1.0})
+              .addStepper( testObj,'Pos Y','y',{step:1.0})
+              .addRange(   testObj,'RadiusBounds','radiusMinMax',{step:1.0})
+              .addSlider(  testObj,'Radius','radiusMinMax','radius')
+                    .addSlider(testObj,'strokeAplha','strokeAlphaMinMax','strokeAlpha')
+              .addButton('hello',function(){console.log('hy');});
 
 
 
 
             var t = 0.0;
 
+            canvas.background(255);
             function draw()
             {
                 t+=0.025;
 
                 ck.update();
 
+                if(canvasSettings.clear)
+                canvas.background(255,canvasSettings.alpha);
 
-                canvas.background(0);
                 canvas.push();
                 canvas.translate(canvas.width*0.5,canvas.height*0.5);
                 canvas.fill(255);
-
-
+                canvas.stroke(0,testObj.strokeAlpha);
 
                 if(testObj.autoAnim)
                 {
@@ -86,12 +70,14 @@
                     testObj.y = testObj.radius*2*Math.sin(t);
                 }
 
-                //console.log(testObj);
-
-
                 canvas.circle(testObj.x,testObj.y,testObj.radius);
-                canvas.pop();
+                canvas.fill(0);
 
+                var string = canvasSettings.string;
+
+                canvas.setFontSize(20);
+                canvas.text(string,testObj.x-canvas.getTextWidth(string)*0.5,testObj.y);
+                canvas.pop();
             }
 
             function loop(){requestAnimationFrame(loop);draw();}
@@ -104,6 +90,7 @@
         }
 
 
+
     </script>
 
 
@@ -111,7 +98,11 @@
 
 </head>
 <body onload="onBodyLoaded();">
+<body>
 <div id="container">
+
+
+    </div>
 </div>
 </body>
 </html>
