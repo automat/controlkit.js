@@ -4,18 +4,22 @@ function importCK(pathToCK)
     var imports = ['controlKit/components/ckDom.js',
                    'controlKit/components/ckOptions.js',
                    'controlKit/controlKit.js',
+                   'controlKit/components/ckScrollBar.js',
                    'controlKit/components/ckBlock.js',
                    'controlKit/components/ckComponent.js',
                    'controlKit/components/ckCheckbox.js',
+                   'controlKit/components/ckPresetBtn_Internal.js',
                    'controlKit/components/ckTextField.js',
                    'controlKit/components/ckNumberInput_Internal.js',
                    'controlKit/components/ckButton.js',
                    'controlKit/components/ckRange.js',
-                   'controlKit/components/ckStepper.js',
                    'controlKit/components/ckSlider_Internal.js',
                    'controlKit/components/ckSlider.js',
                    'controlKit/components/ckSelect.js',
-                   'controlKit/components/ckPicker.js'
+                   'controlKit/components/ckPicker.js',
+
+                   'controlKit/components/ckNumberInput.js'
+
                   ];
     var i = -1;
     while(++i < imports.length)

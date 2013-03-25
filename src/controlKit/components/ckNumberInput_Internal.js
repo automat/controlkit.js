@@ -20,12 +20,11 @@ function CKNumberInput_Internal(parentDiv,stepValue,decimalPlaces,onChange,onFin
         keycode = e.keyCode;
 
         if(keycode == 38 || keycode == 40 ||
-            keycode == 39 || keycode == 37)
+           keycode == 39 || keycode == 37)
         {
             e.preventDefault();
             this._validateNumber();
-            this._value = this._temp  = this._value + (this._valueStep * mult) * ((keycode == 38 ||
-                keycode == 39) ? 1.0 : -1.0);
+            this._value = this._temp  = this._value + (this._valueStep * mult) * ((keycode == 38 || keycode == 39) ? 1.0 : -1.0);
             this._onChange();
             this._formatDisplayOutput();
         }
@@ -116,4 +115,9 @@ CKNumberInput_Internal.prototype.stepDown = function()
 {
     this._value = this._temp  = this._value - (this._valueStep);
     this._formatDisplayOutput();
+};
+
+CKNumberInput_Internal.prototype.getElement = function()
+{
+    return this._input;
 };

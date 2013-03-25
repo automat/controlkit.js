@@ -1,1 +1,4 @@
-function CKPicker(parent,object,value,label,onclick){}
+function CKPicker(parent,object,value,label,onclick)
+{
+
+}

@@ -1,5 +1,5 @@
 
-CKSelect = function(parent,object,value,label,targetValue,params)
+function CKSelect(parent,object,value,label,targetValue,params)
 {
     CKComponent.apply(this,arguments);
 
@@ -26,32 +26,37 @@ CKSelect = function(parent,object,value,label,targetValue,params)
         d.set(this._divLabel,{className:c.CompLabel,innerHTML:label});
         d.set(this._divComp, {className:c.CompSlot});
 
-        this._select = d.addDiv(this._divComp,  {className: c.Select,innerHTML:selectedValue});
-        d.addDiv(this._divComp,  {className: c.SelectArrow});
+        this._select = d.addDiv(this._divComp, {className: c.Select});
+                       d.addDiv(this._select,  {className: c.ArrowSelect});
+        this._text   = d.addDiv(this._select,  {className: c.SelectTextLabel, innerHTML:selectedValue});
 
-        var select = this._select,
-            options = ControlKit._Options;
+        var select  = this._select,
+            options = ControlKit._Options,
+            text    = this._text;
 
         this._select.onclick =  function()
         {
-            d.set(select,{className: c.SelectSelected});
+            if(!options.isBuild())
+            {
+                d.set(select,{className: c.SelectSelected});
 
-            options.build(vals,
-                select.innerHTML,
-                d.getElementPos(select),
-                select.offsetWidth,
-                select.offsetHeight,
-                function(){obj[target] = select.innerHTML = vals[options.getSelected()];},
-                function(){d.set(select, {className: c.Select});}
-            );
+                options.build(vals,
+                    text.innerHTML,
+                    select,
+                    function(){obj[target] = text.innerHTML = vals[options.getSelected()];},
+                    function(){d.set(select, {className: c.Select});}
+                );
+            }
+
         };
     }
     else
     {
+        //no value state eg pad
 
     }
 
 
-};
+}
 
 CKSelect.prototype = Object.create(CKComponent.prototype);

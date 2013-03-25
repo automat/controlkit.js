@@ -13,14 +13,15 @@
 
 
 
-        var canvasSettings = {color:true,clear:true,alphaMinMax:[0,1],alpha:0.04,string:'',select:['hello','bello','cello'],selectTarget:'cello'};
-        var testObj        = {autoAnim:true,x:15.9,y:0,radiusMinMax:[0,100],radius:50,strokeAlphaMinMax:[0,1],strokeAlpha:0.5};
+        var canvasSettings = {color:true,clear:true,alphaMinMax:[0,1],alpha:0.04,string:'',select:['hello','bello','cello','veryveryveryverylonglonglonglonglonglongstringi'],selectTarget:'cello'};
+        var testObj        = {autoAnim:true,x:15.9,y:0,radiusMinMax:[0,100],radius:50,strokeAlphaMinMax:[0,1],strokeAlpha:0.5,stringWp:'labba',stringP : ['digga','alda','discret','korrekt'],numberWp:4,numberP:[2,4,6,8,9]};
 
 
 
         function onBodyLoaded()
         {
 
+            /*
             var canvas = new Canvas('container');
                 canvas.setSize(window.innerWidth,window.innerHeight);
                 canvas.setAntialias(false);
@@ -30,18 +31,21 @@
             var ck = new ControlKit('container',{update:false});
 
             ck.addBlock('Canvas Settings')
-                    .addTextField(canvasSettings,'String value','string')
-                    .addSelect(canvasSettings,'Best boyfriend','select','selectTarget')
-                    .addCheckbox(canvasSettings,'Bg Clear','clear')
-                    .addSlider(canvasSettings,'Bg Alpha','alphaMinMax','alpha');
+                    .addNumberInput(testObj,'number with Input','numberWp',{presets:'numberP'})
+
+              .addStringInput(canvasSettings,'String value','string')
+              .addSelect(canvasSettings,'Best boyfriend','select','selectTarget')
+              .addCheckbox(canvasSettings,'Bg Clear','clear')
+              .addSlider(canvasSettings,'Bg Alpha','alphaMinMax','alpha');
 
             ck.addBlock('Ball Controls')
+              .addStringInput(testObj,'With Preset','stringWp',{presets:'stringP'})
               .addCheckbox(testObj,'Auto Anim','autoAnim')
-              .addStepper( testObj,'Pos X','x',{step:1.0})
-              .addStepper( testObj,'Pos Y','y',{step:1.0})
+              .addNumberInput( testObj,'Pos X','x',{step:1.0})
+              .addNumberInput( testObj,'Pos Y','y',{step:1.0})
               .addRange(   testObj,'RadiusBounds','radiusMinMax',{step:1.0})
               .addSlider(  testObj,'Radius','radiusMinMax','radius')
-                    .addSlider(testObj,'strokeAplha','strokeAlphaMinMax','strokeAlpha')
+              .addSlider(testObj,'strokeAplha','strokeAlphaMinMax','strokeAlpha')
               .addButton('hello',function(){console.log('hy');});
 
 
@@ -83,6 +87,9 @@
             function loop(){requestAnimationFrame(loop);draw();}
 
             loop();
+            */
+
+            var scrollbar = new CKScrollBar(document.getElementById('wrapper'));
 
 
 
@@ -98,8 +105,12 @@
 
 </head>
 <body onload="onBodyLoaded();">
-<body>
 <div id="container">
+    <div id='wrapper' class="kit" style="height: 300px;overflow-y: hidden;">
+        <div id='content' style="width: auto;height: 1000px;background: red;">
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+    </div>
 
 
     </div>

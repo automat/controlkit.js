@@ -35,13 +35,14 @@ function ControlKit(parentDomElementId,params)
 {
     params            = params || {};
 
-    this._width       = params.width    || 300;
-    this._height      = params.height   || window.innerHeight-40;
-    this._position    = params.position || [20,20];
+    this._width       = params.width      || 300;
+    this._height      = params.height     || window.innerHeight-40;
+    this._position    = params.position   || [20,20];
     this._ratioLabel  = params.labelRatio || 40;
     this._ratioComp   = 100 - this._ratioLabel;
-    this._hidden      = !params.show || false;
-    this._headLabel   = params.label || 'Controls';
+    this._hidden      = !params.show      || false;
+    this._headLabel   = params.label      || 'Controls';
+    this._align       = params.align      || 'vertical';
 
     this.updateValues = params.update || false;
 
@@ -57,6 +58,8 @@ function ControlKit(parentDomElementId,params)
     this._ulBlocks  = d.addElement(this._divKit,'ul',{className:c.Content});
 
     if(!ControlKit._Options)ControlKit._Options = new CKOptions(this._divKit);
+
+    this._divKit.style.width = this._width + 'px';
 
     //this._updateCSS();
 

@@ -6,6 +6,7 @@ function CKBlock(parent,label,params)
 
     params       = params || {};
     this._hidden = params.show  = !params.show || false;
+    this._heightMax = params.maxHeight;
     this._update = this._parent.updateValues;
     this._height = 0;
 
@@ -54,13 +55,13 @@ CKBlock.prototype.hide = function()
 
 CKBlock.prototype._updateHeight = function()
 {
-    this._height = this._content.offsetHeight;
+    this._height = this._divBlock.offsetHeight;
 };
 
 CKBlock.prototype._updateVisibility = function()
 {
     var h = this._hidden,
-        d =CKDOM,
+        d = CKDOM,
         c = d.CSS;
 
     var height = !h ? 0 : this._height;
@@ -88,16 +89,9 @@ CKBlock.prototype.addCheckbox = function(object,label,value,params)
     return this;
 };
 
-CKBlock.prototype.addTextField = function(object,label,value,params)
+CKBlock.prototype.addStringInput = function(object,label,value,params)
 {
     this._comps.push(new CKTextField(this,object,value,label,params));
-    this._updateHeight();
-    return this;
-};
-
-CKBlock.prototype.addStepper = function(object,label,value,params)
-{
-    this._comps.push(new CKStepper(this,object,value,label,params));
     this._updateHeight();
     return this;
 };
@@ -129,4 +123,12 @@ CKBlock.prototype.addButton = function(label,onclick)
     this._comps.push(new CKButton(this,null,'',label,onclick));
     this._updateHeight();
     return this;
+};
+
+CKBlock.prototype.addNumberInput = function(object,label,value,params)
+{
+    this._comps.push(new CKNumberInput(this,object,value,label,params));
+    this._updateHeight();
+    return this;
+
 };

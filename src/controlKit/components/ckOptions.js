@@ -4,16 +4,23 @@ function CKOptions(parentDiv)
     this._hover        = false;
     this._selected     = null;
     this._ul           = CKDOM.addElement(this._parentDiv,'ul',{className: CKDOM.CSS.Options});
+    this._build        = false;
 }
 
-CKOptions.prototype.build = function(values,selected,compPos,compWidth,compHeight,callbackSelect,callbackOut)
+CKOptions.prototype.build = function(values,selected,element,callbackSelect,callbackOut)
 {
+
+
     this._clear();
 
     this._selected     = null;
 
     var d      = CKDOM,
         ul     = this._ul;
+
+    var compPos    = d.getElementPos(element),
+        compWidth  = element.offsetWidth,
+        compHeight = element.offsetHeight;
 
     var li;
 
@@ -68,6 +75,8 @@ CKOptions.prototype.build = function(values,selected,compPos,compWidth,compHeigh
 
     }.bind(this);
 
+    this._build = true;
+
 };
 
 CKOptions.prototype.getSelected = function()
@@ -80,6 +89,12 @@ CKOptions.prototype._clear = function()
 {
     var ul = this._ul;
     while(ul.hasChildNodes())ul.removeChild(ul.lastChild);
+    this._build = false;
+};
+
+CKOptions.prototype.clear = function()
+{
+    this._clear();
 };
 
 CKOptions.prototype._hide = function()
@@ -94,5 +109,10 @@ CKOptions.prototype._hide = function()
     style.left       = '-1px';
     style.top        = '-1px';
 
+};
+
+CKOptions.prototype.isBuild = function()
+{
+    return this._build;
 };
 

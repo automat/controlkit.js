@@ -1,17 +1,23 @@
 var CKDOM = {};
 
-CKDOM.addElement = function(parent,type,params)
+CKDOM.addElement = function(parent,type,params,before)
 {
     var element = document.createElement(type);
     if(params)for(var p in params)element[p] = params[p];
 
-    return parent.appendChild(element);
+    return before ? parent.insertBefore(element,parent.firstChild): parent.appendChild(element);
 };
 
 CKDOM.addDiv = function(parent,params)
 {
     return CKDOM.addElement(parent,'div',params);
 };
+
+CKDOM.addDivBefore = function(parent,params)
+{
+    return CKDOM.addElement(parent,'div',params,true)
+};
+
 
 CKDOM.addInput = function(parent,params)
 {
@@ -59,15 +65,27 @@ CKDOM.CSS =
     CompSliderSlot:        'compSliderSlot',
     CompRangeFieldSlot:    'compRangeFieldSlot',
     StepperBtns:           'stepperBtns',
-    StepperInput         : 'compInput',
+    StepperInput:          'compInput',
     StepperBtnUp:          'stepperUp',
     StepperBtnDown:        'stepperDown',
     Select:                'select',
     SelectSelected:        'selected',
-    SelectArrow:           'selectArrow',
+    SelectTextLabel:       'selectTextLabel',
     Options:               'options',
     LiSelected:            'liSelected',
     SliderSlot:            'sliderSlot',
     SliderBg:              'sliderBg',
-    Slider:                'slider'
+    Slider:                'slider',
+    CompAutoSlot:   'compAutoSlot',
+    PresetBtn:             'presetBtn',
+    PresetBtnActive:       'presetBtnActive',
+    TextWPresetInput:      'compInput',
+    ArrowSmallMax:         'arrowSmallMax',
+    ArrowSmallMin:         'arrowSmallMin',
+    ArrowSelect:           'arrowSelect',
+    Scrollbar:             'scrollbar',
+    ScrollbarTrack:        'track',
+    ScrollbarBtnUp:        'btnUp',
+    ScrollbarBtnDown:      'btnDown'
+
 };
