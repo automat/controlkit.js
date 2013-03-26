@@ -35,14 +35,20 @@ function ControlKit(parentDomElementId,params)
 {
     params            = params || {};
 
+    var divParent = this._divParent   = document.getElementById(parentDomElementId);
+
     this._width       = params.width      || 300;
-    this._height      = params.height     || window.innerHeight-40;
+    this._height      = params.height     || (window.innerHeight - divParent.style.paddingBottom - divParent.style.paddingTop) ;
     this._position    = params.position   || [20,20];
     this._ratioLabel  = params.labelRatio || 40;
     this._ratioComp   = 100 - this._ratioLabel;
     this._hidden      = !params.show      || false;
     this._headLabel   = params.label      || 'Controls';
     this._align       = params.align      || 'vertical';
+
+
+
+
 
     this.updateValues = params.update || false;
 
@@ -51,15 +57,16 @@ function ControlKit(parentDomElementId,params)
     var d = CKDOM,
         c = d.CSS;
 
-    this._divParent = document.getElementById(parentDomElementId);
-
     this._divKit    = d.addDiv(this._divParent, {className:c.Kit});
     this._divHead   = d.addDiv(this._divKit,    {className:c.Head,innerHTML:this._headLabel});
     this._ulBlocks  = d.addElement(this._divKit,'ul',{className:c.Content});
 
     if(!ControlKit._Options)ControlKit._Options = new CKOptions(this._divKit);
 
-    this._divKit.style.width = this._width + 'px';
+    this._divKit.style.width    = this._width + 'px';
+    this._ulBlocks.style.height = this._height + 'px';
+
+    this._scrollbar = null;
 
     //this._updateCSS();
 
@@ -106,6 +113,8 @@ ControlKit.prototype.addBlock = function(label,params)
 {
     var b = this._blocks;
     b.push(new CKBlock(this,label,params));
+
+    if(!this._scrollbar)this._scrollbar = new CKScrollBar(this._ulBlocks);
     return b[b.length-1];
 };
 
@@ -127,6 +136,16 @@ ControlKit.prototype._forceUpdate = function()
             c[j]._forceUpdate();
         }
     }
+};
+
+ControlKit.prototype.onElementAdded = function()
+{
+    if(!this._scrollbar)return;
+
+    console.log('hello');
+
+    this._scrollbar.onScrollContentChange();
+
 };
 
 ControlKit.prototype._defocus = function()

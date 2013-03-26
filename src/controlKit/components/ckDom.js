@@ -86,6 +86,7 @@ CKDOM.CSS =
     Scrollbar:             'scrollbar',
     ScrollbarTrack:        'track',
     ScrollbarBtnUp:        'btnUp',
-    ScrollbarBtnDown:      'btnDown'
+    ScrollbarBtnDown:      'btnDown',
+    ScrollbarThumb:        'thumb'
 
 };

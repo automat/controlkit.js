@@ -31,6 +31,8 @@
     transition:  height ease 0.3s;
 
 
+
+
 }
 
 
@@ -100,7 +102,7 @@
     padding:    0;
     list-style: none;
 
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
 
 
@@ -922,7 +924,7 @@
 .kit .scrollbar
 {
     box-sizing: content-box;
-    width: 17px;
+    width: 18px;
     height: 100%;
     float: right;
     position: relative;
@@ -930,25 +932,20 @@
 
 .kit .scrollbar .track
 {
-    width:  100%;
-    height: auto;
+    width: 100%;
+    height: 100%;
     background: #212628;
     -moz-box-shadow:    inset  1px 0 0 0 #131313;
     -webkit-box-shadow: inset  1px 0 0 0 #131313;
     box-shadow: inset  1px 0 0 0 #131313;
-
+    position: relative;
 }
 
 .kit .scrollbar .btnUp
 {
-    position: absolute;
+    position: relative;
     bottom: 0;
-    width:  100%;
-    height: 18px;
-
-
-    margin-bottom: 0;
-    width:  100%;
+    width:  18px;
     height: 18px;
 
     -webkit-box-sizing: border-box;
@@ -965,13 +962,19 @@
     -moz-box-shadow:    inset  0 0 0 1px #131313,inset  -1px 2px #566166;
     -webkit-box-shadow: inset  0 0 0 1px #131313,inset  -1px 2px #566166;
     box-shadow: inset  0 0 0 1px #131313,inset  -1px 2px #566166;
+}
 
+.kit .scrollbar .btnUp:hover
+{
+    background-image: none;
+    background-color: #3c494e;
 }
 
 .kit .scrollbar .btnDown
 {
-    margin-bottom: 0;
-    width:  100%;
+    position: absolute;
+    bottom: 0;
+    width:  18px;
     height: 18px;
 
     -webkit-box-sizing: border-box;
@@ -990,9 +993,42 @@
     box-shadow: inset  0 0 0 1px #131313,inset  -1px 2px #566166;
 }
 
-.kit .scrollbar .btnDown .arrowSmallMin
+.kit .scrollbar .btnDown:hover
 {
+    background-image: none;
+    background-color: #3c494e;
+}
 
+.kit .scrollbar .btnUp .arrowSmallMin
+{
+    height: 16px;
+}
+
+.kit .scrollbar .thumb
+{
+    position: absolute;
+    margin-left: 2px;
+    top: 2px;
+
+    width: 14px;
+    height: 20px;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing:    border-box;
+    box-sizing:         border-box;
+
+    background: #3b484e;
+
+
+    -moz-box-shadow:    inset  0 0 0 1px #131313,inset  -1px 2px #566166;
+    -webkit-box-shadow: inset  0 0 0 1px #131313,inset  -1px 2px #566166;
+    box-shadow: inset  0 0 0 1px #131313,inset  -1px 2px #566166;
+}
+
+.kit .scrollbar .thumb:hover
+{
+    background-image: none;
+    background-color: #3c494e;
 }
 
 /*///////////////////////////////////////////////////////////////////////////////////////*/

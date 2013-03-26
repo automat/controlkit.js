@@ -21,7 +21,7 @@
         function onBodyLoaded()
         {
 
-            /*
+
             var canvas = new Canvas('container');
                 canvas.setSize(window.innerWidth,window.innerHeight);
                 canvas.setAntialias(false);
@@ -47,6 +47,18 @@
               .addSlider(  testObj,'Radius','radiusMinMax','radius')
               .addSlider(testObj,'strokeAplha','strokeAlphaMinMax','strokeAlpha')
               .addButton('hello',function(){console.log('hy');});
+
+            ck.addBlock('Ball Controls')
+                    .addStringInput(testObj,'With Preset','stringWp',{presets:'stringP'})
+                    .addCheckbox(testObj,'Auto Anim','autoAnim')
+                    .addNumberInput( testObj,'Pos X','x',{step:1.0})
+                    .addNumberInput( testObj,'Pos Y','y',{step:1.0})
+                    .addRange(   testObj,'RadiusBounds','radiusMinMax',{step:1.0})
+                    .addSlider(  testObj,'Radius','radiusMinMax','radius')
+                    .addSlider(testObj,'strokeAplha','strokeAlphaMinMax','strokeAlpha')
+                    .addButton('hello',function(){console.log('hy');});
+
+
 
 
 
@@ -82,16 +94,17 @@
                 canvas.setFontSize(20);
                 canvas.text(string,testObj.x-canvas.getTextWidth(string)*0.5,testObj.y);
                 canvas.pop();
+
+
             }
+
+
+
+
 
             function loop(){requestAnimationFrame(loop);draw();}
 
             loop();
-            */
-
-            var scrollbar = new CKScrollBar(document.getElementById('wrapper'));
-
-
 
 
         }
@@ -106,11 +119,6 @@
 </head>
 <body onload="onBodyLoaded();">
 <div id="container">
-    <div id='wrapper' class="kit" style="height: 300px;overflow-y: hidden;">
-        <div id='content' style="width: auto;height: 1000px;background: red;">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-
-    </div>
 
 
     </div>

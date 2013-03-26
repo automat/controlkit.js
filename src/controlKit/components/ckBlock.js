@@ -23,7 +23,7 @@ function CKBlock(parent,label,params)
 
     this._content      = d.addDiv(this._divBlock,{className: c.Content});
     this._ulContent    = d.addElement(this._content, 'ul', {className:c.List});
-    this._updateHeight();
+    this.onElementAdded();
 
     this._divHead.onclick = function()
     {
@@ -53,9 +53,10 @@ CKBlock.prototype.hide = function()
     this._updateVisibility();
 };
 
-CKBlock.prototype._updateHeight = function()
+CKBlock.prototype.onElementAdded = function()
 {
-    this._height = this._divBlock.offsetHeight;
+    this._height = this._ulContent.offsetHeight;
+    this._parent.onElementAdded();
 };
 
 CKBlock.prototype._updateVisibility = function()
@@ -85,28 +86,28 @@ CKBlock.prototype._forceUpdate = function()
 CKBlock.prototype.addCheckbox = function(object,label,value,params)
 {
     this._comps.push(new CKCheckbox(this,object,value,label,params));
-    this._updateHeight();
+    this.onElementAdded();
     return this;
 };
 
 CKBlock.prototype.addStringInput = function(object,label,value,params)
 {
     this._comps.push(new CKTextField(this,object,value,label,params));
-    this._updateHeight();
+    this.onElementAdded();
     return this;
 };
 
 CKBlock.prototype.addSelect = function(object,label,value,targetValue,params)
 {
     this._comps.push(new CKSelect(this,object,value,label,targetValue,params));
-    this._updateHeight();
+    this.onElementAdded();
     return this;
 };
 
 CKBlock.prototype.addRange = function(object,label,value,params)
 {
     this._comps.push(new CKRange(this,object,value,label,params));
-    this._updateHeight();
+    this.onElementAdded();
     return this;
 };
 
@@ -114,21 +115,21 @@ CKBlock.prototype.addRange = function(object,label,value,params)
 CKBlock.prototype.addSlider = function(object,label,value,targetValue,params)
 {
     this._comps.push(new CKSlider(this,object,value,label,targetValue,params));
-    this._updateHeight();
+    this.onElementAdded();
     return this;
 };
 
 CKBlock.prototype.addButton = function(label,onclick)
 {
     this._comps.push(new CKButton(this,null,'',label,onclick));
-    this._updateHeight();
+    this.onElementAdded();
     return this;
 };
 
 CKBlock.prototype.addNumberInput = function(object,label,value,params)
 {
     this._comps.push(new CKNumberInput(this,object,value,label,params));
-    this._updateHeight();
+    this.onElementAdded();
     return this;
 
 };
