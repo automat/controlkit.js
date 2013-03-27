@@ -1,40 +1,35 @@
 
-
-
 function CKCheckbox(parent,object,value,label,params)
 {
-    CKComponent.apply(this,arguments);
+    CKComponent_Internal.apply(this,arguments);
 
     params = params || {};
-    this._onChange  = params.onChange = params.onChange || this._onChange;
-    this._onFinish  = params.onFinish = params.onFinish || this._onFinish;
+    params.onChange = params.onChange || this._onChange;
+    params.onFinish = params.onFinish || this._onFinish;
 
-    var d = CKDOM,
-        c = d.CSS;
+    this._onChange = params.onChange;
+    this._onFinish = params.onFinish;
 
-    d.set(this._divLabel,{className:c.CompLabel,innerHTML:label});
-    d.set(this._divComp, {className:c.CompSlot});
+    this._lablNode.setProperty('innerHTML',label);
 
-    this._checkbox = d.addInput(this._divComp,{type:'checkbox'});
+    var input = this._input = new CKNode(CKNode.Type.INPUT_CHECKBOX);
 
-    this._checkbox.checked  = this._object[this._key];
-    this._checkbox.onchange = function()
-    {
-        this._doFocus();
-        this._object[this._key] = !this._object[this._key];
-        this._onChange();
+    input.setProperty('checked',this._object[this._key]);
+    input.setListener(CKNode.Event.CHANGE,this._onInputChange.bind(this));
 
-        //this._parent._forceUpdate();
-
-    }.bind(this);
-
-
+    this._wrapNode.addChild(this._input);
 }
 
-CKCheckbox.prototype = Object.create(CKComponent.prototype);
+CKCheckbox.prototype = Object.create(CKComponent_Internal.prototype);
 
-CKCheckbox.prototype._forceUpdate = function()
+CKCheckbox.prototype._onInputChange = function()
 {
-    //if(this._focus)return;
-    this._checkbox.checked  = this._object[this._key];
+    this._object[this._key] = !this._object[this._key];
+    this._onChange();
+    this._parent.forceUpdate();
+};
+
+CKCheckbox.prototype.forceUpdate = function()
+{
+    this._input.setProperty('checked',this._object[this._key]);
 };

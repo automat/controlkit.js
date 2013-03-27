@@ -1,18 +1,15 @@
-function CKButton(parent,object,value,label,onclick)
+function CKButton(parent,object,value,label,onPress)
 {
-    CKComponent.apply(this,arguments);
+    CKComponent_Internal.apply(this,arguments);
 
-    this._onChange = onclick;
+    this._lablNode.setProperty('innerHTML','');
 
-    var d = CKDOM,
-        c = d.CSS;
+    var inputBtn = this._inputBtn = new CKNode(CKNode.Type.INPUT_BUTTON);
 
-    d.set(this._divLabel,{className:c.CompLabel,innerHTML:''});
-    d.set(this._divComp, {className:c.CompSlot});
+    inputBtn.setProperty('value',label);
+    inputBtn.setListener(CKNode.Event.ON_CLICK,onPress);
 
-    this._button = d.addInput(this._divComp,{type:'button',value:label});
-    this._button.onclick = this._onChange;
-
+    this._wrapNode.addChild(inputBtn);
 }
 
-CKButton.prototype = Object.create(CKComponent.prototype);
+CKButton.prototype = Object.create(CKComponent_Internal.prototype);

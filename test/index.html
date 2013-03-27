@@ -3,114 +3,14 @@
 <head>
     <title></title>
     <link href="../src/controlKit/style/style.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="canvas.js"></script>
-    <script type="text/javascript" src="requestAnimationFrame.js"></script>
-    <script type="text/javascript" src="imports.js"></script>
+    <script type="text/javascript" src="TestControlKit.js"></script>
 
     <script type="text/javascript">
 
-        //var testObj = {autoAnim:false,x:0,y:0,bool:true,string:'hello',number:1,select:['hello','bello','cello'],range:[0,100],value:10};
-
-
-
-        var canvasSettings = {color:true,clear:true,alphaMinMax:[0,1],alpha:0.04,string:'',select:['hello','bello','cello','veryveryveryverylonglonglonglonglonglongstringi'],selectTarget:'cello'};
-        var testObj        = {autoAnim:true,x:15.9,y:0,radiusMinMax:[0,100],radius:50,strokeAlphaMinMax:[0,1],strokeAlpha:0.5,stringWp:'labba',stringP : ['digga','alda','discret','korrekt'],numberWp:4,numberP:[2,4,6,8,9]};
-
-
-
         function onBodyLoaded()
         {
-
-
-            var canvas = new Canvas('container');
-                canvas.setSize(window.innerWidth,window.innerHeight);
-                canvas.setAntialias(false);
-
-
-
-            var ck = new ControlKit('container',{update:false});
-
-            ck.addBlock('Canvas Settings')
-                    .addNumberInput(testObj,'number with Input','numberWp',{presets:'numberP'})
-
-              .addStringInput(canvasSettings,'String value','string')
-              .addSelect(canvasSettings,'Best boyfriend','select','selectTarget')
-              .addCheckbox(canvasSettings,'Bg Clear','clear')
-              .addSlider(canvasSettings,'Bg Alpha','alphaMinMax','alpha');
-
-            ck.addBlock('Ball Controls')
-              .addStringInput(testObj,'With Preset','stringWp',{presets:'stringP'})
-              .addCheckbox(testObj,'Auto Anim','autoAnim')
-              .addNumberInput( testObj,'Pos X','x',{step:1.0})
-              .addNumberInput( testObj,'Pos Y','y',{step:1.0})
-              .addRange(   testObj,'RadiusBounds','radiusMinMax',{step:1.0})
-              .addSlider(  testObj,'Radius','radiusMinMax','radius')
-              .addSlider(testObj,'strokeAplha','strokeAlphaMinMax','strokeAlpha')
-              .addButton('hello',function(){console.log('hy');});
-
-            ck.addBlock('Ball Controls')
-                    .addStringInput(testObj,'With Preset','stringWp',{presets:'stringP'})
-                    .addCheckbox(testObj,'Auto Anim','autoAnim')
-                    .addNumberInput( testObj,'Pos X','x',{step:1.0})
-                    .addNumberInput( testObj,'Pos Y','y',{step:1.0})
-                    .addRange(   testObj,'RadiusBounds','radiusMinMax',{step:1.0})
-                    .addSlider(  testObj,'Radius','radiusMinMax','radius')
-                    .addSlider(testObj,'strokeAplha','strokeAlphaMinMax','strokeAlpha')
-                    .addButton('hello',function(){console.log('hy');});
-
-
-
-
-
-
-            var t = 0.0;
-
-            canvas.background(255);
-            function draw()
-            {
-                t+=0.025;
-
-                ck.update();
-
-                if(canvasSettings.clear)
-                canvas.background(255,canvasSettings.alpha);
-
-                canvas.push();
-                canvas.translate(canvas.width*0.5,canvas.height*0.5);
-                canvas.fill(255);
-                canvas.stroke(0,testObj.strokeAlpha);
-
-                if(testObj.autoAnim)
-                {
-                    testObj.x = testObj.radius*2*Math.cos(t);
-                    testObj.y = testObj.radius*2*Math.sin(t);
-                }
-
-                canvas.circle(testObj.x,testObj.y,testObj.radius);
-                canvas.fill(0);
-
-                var string = canvasSettings.string;
-
-                canvas.setFontSize(20);
-                canvas.text(string,testObj.x-canvas.getTextWidth(string)*0.5,testObj.y);
-                canvas.pop();
-
-
-            }
-
-
-
-
-
-            function loop(){requestAnimationFrame(loop);draw();}
-
-            loop();
-
-
+            var test = new TestControlKit('container');
         }
-
-
-
     </script>
 
 
@@ -119,9 +19,6 @@
 </head>
 <body onload="onBodyLoaded();">
 <div id="container">
-
-
-    </div>
 </div>
 </body>
 </html>

@@ -30,148 +30,74 @@
  *
  */
 
-
-function ControlKit(parentDomElementId,params)
+function ControlKit(parentDomElementId, params)
 {
+    var parentElement = this._parentElement = document.getElementById(parentDomElementId);
+
     params            = params || {};
+    params.position   = params.position   || [20,20];
+    params.width      = params.width      ||  300;
+    params.height     = params.height     ||  window.innerHeight;
+    params.ratioLabel = params.ratioLabel ||  40;
+    params.label      = params.label      || 'Controls';
 
-    var divParent = this._divParent   = document.getElementById(parentDomElementId);
+    this._maxHeight = params.maxHeight || window.innerHeight;
 
-    this._width       = params.width      || 300;
-    this._height      = params.height     || (window.innerHeight - divParent.style.paddingBottom - divParent.style.paddingTop) ;
-    this._position    = params.position   || [20,20];
-    this._ratioLabel  = params.labelRatio || 40;
-    this._ratioComp   = 100 - this._ratioLabel;
-    this._hidden      = !params.show      || false;
-    this._headLabel   = params.label      || 'Controls';
-    this._align       = params.align      || 'vertical';
+    var rootNode = this._node = new CKNode(CKNode.Type.DIV),
+        headNode = new CKNode(CKNode.Type.DIV),
+        lablNode = new CKNode(CKNode.Type.DIV),
+        wrapNode = new CKNode(CKNode.Type.DIV),
+        listNode = this._listNode = new CKNode(CKNode.Type.LIST);
 
+    rootNode.setStyleClass(CKCSS.Kit);
+    headNode.setStyleClass(CKCSS.Head);
+    lablNode.setStyleClass(CKCSS.Label);
+    wrapNode.setStyleClass(CKCSS.Wrap);
 
+    rootNode.setPositionGlobal(params.position[0],params.position[1]);
+    rootNode.setWidth(params.width);
+    lablNode.setProperty('innerHTML',params.label);
 
+    headNode.addChild(lablNode);
+    wrapNode.addChild(listNode);
+    rootNode.addChild(headNode);
+    rootNode.addChild(wrapNode);
 
+    parentElement.appendChild(rootNode.getElement());
 
-    this.updateValues = params.update || false;
+    headNode.setListener(CKNode.Event.MOUSE_DOWN,function(){});
 
     this._blocks = [];
 
-    var d = CKDOM,
-        c = d.CSS;
-
-    this._divKit    = d.addDiv(this._divParent, {className:c.Kit});
-    this._divHead   = d.addDiv(this._divKit,    {className:c.Head,innerHTML:this._headLabel});
-    this._ulBlocks  = d.addElement(this._divKit,'ul',{className:c.Content});
-
-    if(!ControlKit._Options)ControlKit._Options = new CKOptions(this._divKit);
-
-    this._divKit.style.width    = this._width + 'px';
-    this._ulBlocks.style.height = this._height + 'px';
-
-    this._scrollbar = null;
-
-    //this._updateCSS();
-
-    this._addMouseListener();
-
 }
 
-
-
-
-
-
-ControlKit._Options = null;
-ControlKit._Mouse   = [0,0];
-
-ControlKit.prototype._addMouseListener = function()
+ControlKit.prototype =
 {
-    var m = ControlKit._Mouse;
-    var mx,my;
-
-    var doconmousemove = document.onmousemove || function(){};
-    document.onmousemove = function(e)
+    addBlock : function(label,params)
     {
-        doconmousemove(e);
+        var block = new CKBlock(this,label,params);
+        this._listNode.addChild(block.getNode());
+        this._blocks.push(block);
+        return block;
+    },
 
-        mx = my = 0;
-        if(!e)e = window.event;
-        if(e.pageX)
-        {
-            mx = e.pageX;
-            my= e.pageY;
-        }
-        else if(e.clientX)
-        {
-            mx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-            my = e.clientY + document.body.scrollTop  + document.documentElement.scrollTop;
-        }
-        m[0] = mx;
-        m[1] = my;
-    };
-};
-
-ControlKit.prototype.addBlock = function(label,params)
-{
-    var b = this._blocks;
-    b.push(new CKBlock(this,label,params));
-
-    if(!this._scrollbar)this._scrollbar = new CKScrollBar(this._ulBlocks);
-    return b[b.length-1];
-};
-
-ControlKit.prototype._updateCSS = function()
-{
-    this._ulBlocks.style.height = this._height + 'px';
-};
-
-ControlKit.prototype._forceUpdate = function()
-{
-    var i = -1,j;
-    var b = this._blocks,c;
-    while(++i< b.length)
+    forceUpdate : function()
     {
-        c=b[i]._comps;
-        j=-1;
-        while(++j< c.length)
+        var i = -1, j;
+        var blocks = this._blocks;
+        var components;
+
+        while(++i < blocks.length)
         {
-            c[j]._forceUpdate();
+            components = blocks[i].getComponents();
+            j = -1;
+            while(++j < components.length)
+            {
+                components[j].forceUpdate();
+            }
         }
     }
-};
 
-ControlKit.prototype.onElementAdded = function()
-{
-    if(!this._scrollbar)return;
 
-    console.log('hello');
-
-    this._scrollbar.onScrollContentChange();
 
 };
-
-ControlKit.prototype._defocus = function()
-{
-    var i = -1,j;
-    var b = this._blocks,c;
-    while(++i< b.length)
-    {
-        c=b[i]._comps;
-        j=-1;
-        while(++j< c.length)
-        {
-            c[j]._focus = false;
-        }
-    }
-};
-
-ControlKit.prototype.update = function()
-{
-    if(!this._update)return;
-
-    this._forceUpdate();
-
-};
-
-/*------------------------------------------------------------------------------*/
-
-
-

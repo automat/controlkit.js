@@ -1,4 +1,4 @@
-function CKNumberInput_Internal(parentDiv,stepValue,decimalPlaces,onChange,onFinish)
+function CKNumberInput_Internal(stepValue,decimalPlaces,onChange,onFinish)
 {
     this._value        = this._temp  = 0;
     this._valueStep    = stepValue || 1.0;
@@ -7,77 +7,76 @@ function CKNumberInput_Internal(parentDiv,stepValue,decimalPlaces,onChange,onFin
     this._onChange  = onChange || function(){};
     this._onFinish  = onFinish || function(){};
 
-    var d = CKDOM;
+    var input = this._input = new CKNode(CKNode.Type.INPUT_TEXT);
 
-    this._input = d.addInput(parentDiv,{type:'text'});
-    this._input.value = this._value;
+    input.setProperty('value',this._value);
 
-    var mult,keycode;
-
-    this._input.onkeydown = function(e)
-    {
-        mult    = e.shiftKey ? 10 : 1;
-        keycode = e.keyCode;
-
-        if(keycode == 38 || keycode == 40 ||
-           keycode == 39 || keycode == 37)
-        {
-            e.preventDefault();
-            this._validateNumber();
-            this._value = this._temp  = this._value + (this._valueStep * mult) * ((keycode == 38 || keycode == 39) ? 1.0 : -1.0);
-            this._onChange();
-            this._formatDisplayOutput();
-        }
-
-    }.bind(this);
-
-    this._input.onkeyup = function(e)
-    {
-        keycode = e.keyCode;
-
-        if(e.shiftKey    || keycode == 38  ||
-            keycode == 40 || keycode == 190 ||
-            keycode == 8  || keycode == 39  ||
-            keycode == 37)return;
-
-        this._validateInput();
-        this._onChange();
-
-    }.bind(this);
-
-    this._input.onchange = function()
-    {
-        this._validateInput();
-        this._formatDisplayOutput();
-
-        this._onFinish();
-
-    }.bind(this);
-
+    input.setListener(CKNode.Event.KEY_DOWN,this._onInputKeyDown.bind(this));
+    input.setListener(CKNode.Event.KEY_UP,  this._onInputKeyUp.bind(this));
+    input.setListener(CKNode.Event.CHANGE,  this._onInputChange.bind(this));
 }
+
+CKNumberInput_Internal.prototype._onInputKeyDown = function(e)
+{
+    var mult    = e.shiftKey ? 10 : 1,
+        keyCode = e.keyCode;
+
+    if( keyCode == 38 || keyCode == 40 ||
+        keyCode == 39 || keyCode == 37)
+    {
+        e.preventDefault();
+        this._validateNumber();
+        this._value = this._temp  = this._value + (this._valueStep * mult) * ((keyCode == 38 || keyCode == 39) ? 1.0 : -1.0);
+        this._onChange();
+        this._formatDisplayOutput();
+    }
+};
+
+CKNumberInput_Internal.prototype._onInputKeyUp = function(e)
+{
+    var keyCode = e.keyCode;
+
+    if(e.shiftKey     || keyCode == 38  ||
+        keyCode == 40 || keyCode == 190 ||
+        keyCode == 8  || keyCode == 39  ||
+        keyCode == 37)return;
+
+    this._validateInput();
+    this._onChange();
+};
+
+CKNumberInput_Internal.prototype._onInputChange = function(e)
+{
+    this._validateInput();
+    this._formatDisplayOutput();
+    this._onFinish();
+};
 
 CKNumberInput_Internal.prototype._validateInput = function()
 {
     if(this._inputIsNumber())
     {
-        this._temp = this._value = Number(this._input.value);
+        this._temp = this._value = Number(this._input.getProperty('value'));
         return;
     }
 
-    this._temp = this._input.value = this._value;
+    this._temp = this._value;
+    this._input.setProperty('value',this._value);
 };
 
 CKNumberInput_Internal.prototype._validateNumber = function()
 {
     if(this._inputIsNumber())return;
-
     this._temp = this._value;
 };
 
 CKNumberInput_Internal.prototype._inputIsNumber = function()
 {
-    if(this._input.value == '-')return true;
-    return /^\s*-?[0-9]\d*(\.\d{1,1000000})?\s*$/.test(this._input.value);
+    var value = this._input.getProperty('value');
+
+    //TODO:FIX
+    if(value == '-')return true;
+    return /^\s*-?[0-9]\d*(\.\d{1,1000000})?\s*$/.test(value);
 };
 
 CKNumberInput_Internal.prototype._formatDisplayOutput = function()
@@ -90,9 +89,8 @@ CKNumberInput_Internal.prototype._formatDisplayOutput = function()
 
     if(index>0)this._out = output.slice(0,index+this._valueDPlace);
 
-    this._input.value = (this._out);
+    this._input.setProperty('value',this._out);
 };
-
 
 CKNumberInput_Internal.prototype.getValue = function()
 {
@@ -117,7 +115,7 @@ CKNumberInput_Internal.prototype.stepDown = function()
     this._formatDisplayOutput();
 };
 
-CKNumberInput_Internal.prototype.getElement = function()
+CKNumberInput_Internal.prototype.getNode = function()
 {
     return this._input;
 };
