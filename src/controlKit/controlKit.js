@@ -43,11 +43,11 @@ function ControlKit(parentDomElementId, params)
 
     this._maxHeight = params.maxHeight || window.innerHeight;
 
-    var rootNode = this._node = new CKNode(CKNode.Type.DIV),
-        headNode = new CKNode(CKNode.Type.DIV),
-        lablNode = new CKNode(CKNode.Type.DIV),
-        wrapNode = new CKNode(CKNode.Type.DIV),
-        listNode = this._listNode = new CKNode(CKNode.Type.LIST);
+    var rootNode = this._node = new CKNode(CKNodeType.DIV),
+        headNode = new CKNode(CKNodeType.DIV),
+        lablNode = new CKNode(CKNodeType.SPAN),
+        wrapNode = new CKNode(CKNodeType.DIV),
+        listNode = this._listNode = new CKNode(CKNodeType.LIST);
 
     rootNode.setStyleClass(CKCSS.Kit);
     headNode.setStyleClass(CKCSS.Head);
@@ -63,9 +63,11 @@ function ControlKit(parentDomElementId, params)
     rootNode.addChild(headNode);
     rootNode.addChild(wrapNode);
 
+
+
     parentElement.appendChild(rootNode.getElement());
 
-    headNode.setEventListener(CKNode.Event.MOUSE_DOWN,function(){});
+    headNode.setEventListener(CKNodeEvent.MOUSE_DOWN,function(){});
 
     this._blocks = [];
 

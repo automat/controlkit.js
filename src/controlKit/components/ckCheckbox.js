@@ -12,10 +12,10 @@ function CKCheckbox(parent,object,value,label,params)
 
     this._lablNode.setProperty('innerHTML',label);
 
-    var input = this._input = new CKNode(CKNode.Type.INPUT_CHECKBOX);
+    var input = this._input = new CKNode(CKNodeType.INPUT_CHECKBOX);
 
     input.setProperty('checked',this._object[this._key]);
-    input.setEventListener(CKNode.Event.CHANGE,this._onInputChange.bind(this));
+    input.setEventListener(CKNodeEvent.CHANGE,this._onInputChange.bind(this));
 
     this._wrapNode.addChild(this._input);
 }

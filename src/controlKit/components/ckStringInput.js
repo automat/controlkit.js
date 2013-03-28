@@ -8,12 +8,12 @@ function CKStringInput(parent,object,value,label,params)
 
     this._lablNode.setProperty('innerHTML',label);
 
-    var input = this._input = new CKNode(CKNode.Type.INPUT_TEXT);
+    var input = this._input = new CKNode(CKNodeType.INPUT_TEXT);
 
     input.setProperty('value',this._object[this._key]);
 
-    input.setEventListener(CKNode.Event.KEY_UP, this._onInputKeyUp.bind(this));
-    input.setEventListener(CKNode.Event.CHANGE, this._onInputChange.bind(this));
+    input.setEventListener(CKNodeEvent.KEY_UP, this._onInputKeyUp.bind(this));
+    input.setEventListener(CKNodeEvent.CHANGE, this._onInputChange.bind(this));
 
 
     this._wrapNode.addChild(input);

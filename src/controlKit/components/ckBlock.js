@@ -6,13 +6,13 @@ function CKBlock(parent, label, params)
 
     params = params || {};
 
-    var rootNode = this._node = new CKNode(CKNode.Type.LIST_ITEM),
-        headNode = new CKNode(CKNode.Type.DIV),
-        lablNode = new CKNode(CKNode.Type.DIV),
-        indiNode = this._indiNode = new CKNode(CKNode.Type.DIV),
-        wrapNode = this._wrapNode = new CKNode(CKNode.Type.DIV),
-        contNode = new CKNode(CKNode.Type.DIV),
-        listNode = this._listNode = new CKNode(CKNode.Type.LIST);
+    var rootNode = this._node = new CKNode(CKNodeType.LIST_ITEM),
+        headNode = new CKNode(CKNodeType.DIV),
+        lablNode = new CKNode(CKNodeType.SPAN),
+        indiNode = this._indiNode = new CKNode(CKNodeType.DIV),
+        wrapNode = this._wrapNode = new CKNode(CKNodeType.DIV),
+        contNode = new CKNode(CKNodeType.DIV),
+        listNode = this._listNode = new CKNode(CKNodeType.LIST);
 
     rootNode.setStyleClass(CKCSS.Block);
     headNode.setStyleClass(CKCSS.Head);
@@ -33,7 +33,7 @@ function CKBlock(parent, label, params)
     this._hidden = false;
     this._components = [];
 
-    headNode.setEventListener(CKNode.Event.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
+    headNode.setEventListener(CKNodeEvent.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
 }
 
 

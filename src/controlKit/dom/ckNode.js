@@ -6,13 +6,12 @@ function CKNode()
 
     if(arguments.length == 1)
     {
-        var arg  = arguments[0],
-            type = CKNode.Type;
+        var arg  = arguments[0];
 
-        if(arg != type.INPUT_TEXT   &&
-           arg != type.INPUT_BUTTON &&
-           arg != type.INPUT_SELECT &&
-           arg != type.INPUT_CHECKBOX)
+        if(arg != CKNodeType.INPUT_TEXT   &&
+           arg != CKNodeType.INPUT_BUTTON &&
+           arg != CKNodeType.INPUT_SELECT &&
+           arg != CKNodeType.INPUT_CHECKBOX)
         {
             this._element = document.createElement(arg);
         }
@@ -23,34 +22,6 @@ function CKNode()
         }
     }
 }
-
-CKNode.Type =
-{
-    DIV            : 'div',
-    INPUT_TEXT     : 'text',
-    INPUT_BUTTON   : 'button',
-    INPUT_SELECT   : 'select',
-    INPUT_CHECKBOX : 'checkbox',
-    OPTION         : 'option',
-    LIST           : 'ul',
-    LIST_ITEM      : 'li',
-    SPAN           : 'span'
-};
-
-CKNode.Event =
-{
-    MOUSE_DOWN : 'onmousedown',
-    MOUSE_UP   : 'onmouseup',
-    MOUSE_MOVE : 'onmousemove',
-    MOUSE_OUT  : 'onmouseout',
-    KEY_DOWN   : 'onkeydown',
-    KEY_UP     : 'onkeyup',
-    CHANGE     : 'onchange',
-    FINISH     : 'onfinish',
-    ON_CLICK   : 'onclick'
-};
-
-
 
 CKNode.prototype =
 {
@@ -134,6 +105,8 @@ CKNode.prototype =
             offset += element.offsetLeft;
             element = element.offsetParent;
         }
+
+
 
         return offset;
     },

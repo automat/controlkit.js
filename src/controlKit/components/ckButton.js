@@ -4,10 +4,10 @@ function CKButton(parent,object,value,label,onPress)
 
     this._lablNode.setProperty('innerHTML','');
 
-    var inputBtn = this._inputBtn = new CKNode(CKNode.Type.INPUT_BUTTON);
+    var inputBtn = this._inputBtn = new CKNode(CKNodeType.INPUT_BUTTON);
 
     inputBtn.setProperty('value',label);
-    inputBtn.setEventListener(CKNode.Event.ON_CLICK,onPress);
+    inputBtn.setEventListener(CKNodeEvent.ON_CLICK,onPress);
 
     this._wrapNode.addChild(inputBtn);
 }

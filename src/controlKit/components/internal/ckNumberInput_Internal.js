@@ -7,13 +7,13 @@ function CKNumberInput_Internal(stepValue,decimalPlaces,onChange,onFinish)
     this._onChange  = onChange || function(){};
     this._onFinish  = onFinish || function(){};
 
-    var input = this._input = new CKNode(CKNode.Type.INPUT_TEXT);
+    var input = this._input = new CKNode(CKNodeType.INPUT_TEXT);
 
     input.setProperty('value',this._value);
 
-    input.setEventListener(CKNode.Event.KEY_DOWN,this._onInputKeyDown.bind(this));
-    input.setEventListener(CKNode.Event.KEY_UP,  this._onInputKeyUp.bind(this));
-    input.setEventListener(CKNode.Event.CHANGE,  this._onInputChange.bind(this));
+    input.setEventListener(CKNodeEvent.KEY_DOWN,this._onInputKeyDown.bind(this));
+    input.setEventListener(CKNodeEvent.KEY_UP,  this._onInputKeyUp.bind(this));
+    input.setEventListener(CKNodeEvent.CHANGE,  this._onInputChange.bind(this));
 }
 
 CKNumberInput_Internal.prototype._onInputKeyDown = function(e)

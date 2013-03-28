@@ -17,22 +17,22 @@ function CKRange(parent,object,value,label,params)
 
     this._lablNode.setProperty('innerHTML',label);
 
-    var lablMinNode = new CKNode(CKNode.Type.DIV);
+    var lablMinNode = new CKNode(CKNodeType.DIV);
     var inputMin    = this._inputMin = new CKNumberInput_Internal(this._step,
                                                                   this._dp,
                                                                   this._onInputMinChange.bind(this),
                                                                   this._onInputMinFinish.bind(this));
 
-    var lablMaxNode = new CKNode(CKNode.Type.DIV);
+    var lablMaxNode = new CKNode(CKNodeType.DIV);
     var inputMax    = this._inputMax = new CKNumberInput_Internal(this._step,
                                                                   this._dp,
                                                                   this._onInputMaxChange.bind(this),
                                                                   this._onInputMaxFinish.bind(this));
 
-    var wrapLablMin  = new CKNode(CKNode.Type.DIV).setStyleClass(CKCSS.Wrap),
-        wrapInputMin = new CKNode(CKNode.Type.DIV).setStyleClass(CKCSS.Wrap),
-        wrapLablMax  = new CKNode(CKNode.Type.DIV).setStyleClass(CKCSS.Wrap),
-        wrapInputMax = new CKNode(CKNode.Type.DIV).setStyleClass(CKCSS.Wrap);
+    var wrapLablMin  = new CKNode(CKNodeType.DIV).setStyleClass(CKCSS.Wrap),
+        wrapInputMin = new CKNode(CKNodeType.DIV).setStyleClass(CKCSS.Wrap),
+        wrapLablMax  = new CKNode(CKNodeType.DIV).setStyleClass(CKCSS.Wrap),
+        wrapInputMax = new CKNode(CKNodeType.DIV).setStyleClass(CKCSS.Wrap);
 
 
     lablMinNode.setStyleClass(CKCSS.Label);

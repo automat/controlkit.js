@@ -8,28 +8,28 @@ function CKSlider_Internal(parentNode,onChange,onFinish)
     this._onChange   = onChange || function(){};
     this._onFinish   = onFinish || function(){};
 
-    var wrapNode = new CKNode(CKNode.Type.DIV).setStyleClass(CKCSS.SliderWrap);
+    var wrapNode = new CKNode(CKNodeType.DIV).setStyleClass(CKCSS.SliderWrap);
     parentNode.addChild(wrapNode);
 
-    var slot   = this._slot   = {node:    new CKNode(CKNode.Type.DIV).setStyleClass(CKCSS.SliderSlot),
+    var slot   = this._slot   = {node:    new CKNode(CKNodeType.DIV).setStyleClass(CKCSS.SliderSlot),
                                  offsetX: 0,
                                  width:   0,
                                  padding: 3};
 
-    var handle = this._handle = {node    : new CKNode(CKNode.Type.DIV).setStyleClass(CKCSS.SliderHandle),
+    var handle = this._handle = {node    : new CKNode(CKNodeType.DIV).setStyleClass(CKCSS.SliderHandle),
                                  width   : 10,
                                  dragging: false};
 
     wrapNode.addChild(slot.node);
-    wrapNode.addChild(handle.node);
+    slot.node.addChild(handle.node);
 
     slot.offsetX = slot.node.getPositionGlobalX();
     slot.width   = slot.offsetX - slot.padding * 2;
 
     handle.node.setWidth(handle.width);
 
-    slot.node.setEventListener(CKNode.Event.MOUSE_DOWN,this._onSlotMouseDown.bind(this));
-    slot.node.setEventListener(CKNode.Event.MOUSE_UP,  this._onSlotMouseUp.bind(this));
+    slot.node.setEventListener(CKNodeEvent.MOUSE_DOWN,this._onSlotMouseDown.bind(this));
+    slot.node.setEventListener(CKNodeEvent.MOUSE_UP,  this._onSlotMouseUp.bind(this));
 
     var doconmousemove = document.onmousemove || function(){},
         doconmouseup   = document.onmouseup   || function(){};

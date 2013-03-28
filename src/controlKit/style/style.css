@@ -156,6 +156,9 @@
     font-weight: bold;
     text-shadow: 0 -1px #000;
     overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
 }
 
 .kit .head
@@ -257,7 +260,6 @@
     color:       #aeb5b8;
     text-shadow: 1px 1px #000;
     height: 100%;
-
 }
 
 .kit .content .wrap
@@ -308,18 +310,21 @@
     box-sizing:         border-box;
 
     width: 70%;
-    padding: 6px 0 0 0;
     float:right;
     height: 100%;
+    padding: 6px 0 0 0;
 }
 
 .kit .sliderWrap
 {
+    float: left;
     -webkit-box-sizing: border-box;
     -moz-box-sizing:    border-box;
     box-sizing:         border-box;
+    width: 75%;
+    padding: 0 6px 0 0;
 
-    padding: 0 4px 0 4px;
+    /*padding: 0 4px 0 4px;*/
 
     cursor: ew-resize;
 
@@ -380,7 +385,7 @@
     box-shadow:         0 1px #0f0f0f;
 }
 
-.kit .sliderWrap input[type='text']
+.kit .wrapSlider input[type='text']
 {
     width: 25%;
     text-align: center;

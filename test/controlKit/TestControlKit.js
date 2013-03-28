@@ -1,7 +1,13 @@
 
-var imports = ['controlKit/dom/ckNode.js',
+var imports = [
+
                'controlKit/dom/ckCSS.js',
                'controlKit/dom/ckMouse.js',
+
+               'controlKit/dom/ckNodeEvent.js',
+               'controlKit/dom/ckNodeType.js',
+               'controlKit/dom/ckNode.js',
+
                'controlKit/controlKit.js',
 
                'controlKit/components/internal/ckComponent_Internal.js',
@@ -32,7 +38,7 @@ function TestControlKit(parentDomElementId)
                   number:26.0,
                   range:[0,1],
                   bool:true,
-                  slideValue:0
+                  slideValue:0.5
                   };
 
     var control = new ControlKit(parentDomElementId);
