@@ -33,7 +33,7 @@ function CKBlock(parent, label, params)
     this._hidden = false;
     this._components = [];
 
-    headNode.setListener(CKNode.Event.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
+    headNode.setEventListener(CKNode.Event.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
 }
 
 
@@ -57,6 +57,8 @@ CKBlock.prototype =
     addStringInput : function(object,value,label,params){return this._addComponent(new CKStringInput(this,object,value,label,params));},
     addNumberInput : function(object,value,label,params){return this._addComponent(new CKNumberInput(this,object,value,label,params));},
     addRange       : function(object,value,label,params){return this._addComponent(new CKRange(      this,object,value,label,params));},
+
+    addSlider      : function(object,value,target,label,params){return this._addComponent(new CKSlider(this,object,value,target,label,params));},
 
     addCheckbox    : function(object,value,label,params){return this._addComponent(new CKCheckbox(   this,object,value,label,params));},
     addButton      : function(label,onPress)            {return this._addComponent(new CKButton(this,null,'',label,onPress));},

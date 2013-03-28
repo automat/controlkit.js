@@ -15,7 +15,7 @@ function CKCheckbox(parent,object,value,label,params)
     var input = this._input = new CKNode(CKNode.Type.INPUT_CHECKBOX);
 
     input.setProperty('checked',this._object[this._key]);
-    input.setListener(CKNode.Event.CHANGE,this._onInputChange.bind(this));
+    input.setEventListener(CKNode.Event.CHANGE,this._onInputChange.bind(this));
 
     this._wrapNode.addChild(this._input);
 }

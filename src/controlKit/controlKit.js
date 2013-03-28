@@ -65,11 +65,15 @@ function ControlKit(parentDomElementId, params)
 
     parentElement.appendChild(rootNode.getElement());
 
-    headNode.setListener(CKNode.Event.MOUSE_DOWN,function(){});
+    headNode.setEventListener(CKNode.Event.MOUSE_DOWN,function(){});
 
     this._blocks = [];
 
+    if(!ControlKit.getMouse())ControlKit._mouse = new CKMouse();
+
 }
+
+ControlKit.getMouse = function(){return ControlKit._mouse;};
 
 ControlKit.prototype =
 {
@@ -97,7 +101,4 @@ ControlKit.prototype =
             }
         }
     }
-
-
-
 };

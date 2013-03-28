@@ -12,8 +12,8 @@ function CKStringInput(parent,object,value,label,params)
 
     input.setProperty('value',this._object[this._key]);
 
-    input.setListener(CKNode.Event.KEY_UP, this._onInputKeyUp.bind(this));
-    input.setListener(CKNode.Event.CHANGE, this._onInputChange.bind(this));
+    input.setEventListener(CKNode.Event.KEY_UP, this._onInputKeyUp.bind(this));
+    input.setEventListener(CKNode.Event.CHANGE, this._onInputChange.bind(this));
 
 
     this._wrapNode.addChild(input);

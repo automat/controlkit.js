@@ -8,7 +8,7 @@ function CKComponent_Internal(parent,object,value)
     this._onFinish = function(){};
 
     var rootNode = this._node     = new CKNode(CKNode.Type.LIST_ITEM),
-        lablNode = this._lablNode = new CKNode(CKNode.Type.DIV),
+        lablNode = this._lablNode = new CKNode(CKNode.Type.SPAN),
         wrapNode = this._wrapNode = new CKNode(CKNode.Type.DIV);
 
     lablNode.setStyleClass(CKCSS.Label);

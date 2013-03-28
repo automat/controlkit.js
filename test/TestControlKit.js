@@ -1,16 +1,23 @@
 
 var imports = ['controlKit/dom/ckNode.js',
                'controlKit/dom/ckCSS.js',
+               'controlKit/dom/ckMouse.js',
                'controlKit/controlKit.js',
 
+               'controlKit/components/internal/ckComponent_Internal.js',
+               'controlKit/components/internal/ckNumberInput_Internal.js',
+               'controlKit/components/internal/ckSlider_Internal.js',
+
                'controlKit/components/ckBlock.js',
-               'controlKit/components/ckComponent_Internal.js',
+
                'controlKit/components/ckStringInput.js',
                'controlKit/components/ckButton.js',
-               'controlKit/components/ckNumberInput_Internal.js',
+
                'controlKit/components/ckNumberInput.js',
                'controlKit/components/ckRange.js',
-               'controlKit/components/ckCheckbox.js'
+               'controlKit/components/ckCheckbox.js',
+               'controlKit/components/ckSlider.js'
+
               ];
 var i = -1,string;
 while(++i < imports.length)
@@ -24,7 +31,9 @@ function TestControlKit(parentDomElementId)
     var object = {string:'lorem ipsum',
                   number:26.0,
                   range:[0,1],
-                  bool:true};
+                  bool:true,
+                  slideValue:0
+                  };
 
     var control = new ControlKit(parentDomElementId);
 
@@ -35,10 +44,12 @@ function TestControlKit(parentDomElementId)
           .addNumberInput(object,'number','Number Comp')
           .addButton('labba',function(){})
           .addRange(object,'range','Range Comp')
-          .addCheckbox(object,'bool','Bool Comp');
+          .addCheckbox(object,'bool','Bool Comp')
+          .addSlider(object,'range','slideValue','slider');
 
 
     var block2 = control.addBlock('Block 2');
+
 
 }
 

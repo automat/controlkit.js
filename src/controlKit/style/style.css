@@ -291,6 +291,103 @@
     text-shadow: 1px 1px #1a1a1a;
 }
 
+.kit .content .wrap .wrap input[type='text']
+{
+    padding: 0;
+    text-align: center;
+}
+
+/*-------------------------------------------------------------------------------------
+ * Slider
+ *-------------------------------------------------------------------------------------*/
+
+.kit .content .wrapSlider
+{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing:    border-box;
+    box-sizing:         border-box;
+
+    width: 70%;
+    padding: 6px 0 0 0;
+    float:right;
+    height: 100%;
+}
+
+.kit .sliderWrap
+{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing:    border-box;
+    box-sizing:         border-box;
+
+    padding: 0 4px 0 4px;
+
+    cursor: ew-resize;
+
+}
+
+.kit .sliderSlot
+{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    height: 25px;
+    width: 100%;
+    padding: 3px;
+
+    border:        none;
+    border-radius:         2px;
+    -moz-border-radius:    2px;
+    -webkit-border-radius: 2px;
+
+    background-color: #1e2224;
+
+    background-image: -webkit-linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 100%);
+    background-image: -moz-linear-gradient(   rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 100%);
+    background-image: -o-linear-gradient(     rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 100%);
+    background-image: linear-gradient(        rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 100%);
+
+    -moz-box-shadow:    inset 0 0 1px 3px rgba(0,0,0,0.05),
+                        inset 0 0 1px 1px #111314;
+    -webkit-box-shadow: inset 0 0 1px 3px rgba(0,0,0,0.05),
+                        inset 0 0 1px 1px #111314;
+    box-shadow:         inset 0 0 1px 3px rgba(0,0,0,0.05),
+                        inset 0 0 1px 1px #111314;
+
+    border-bottom: 1px solid #3b4447;
+
+}
+
+.kit .sliderHandle
+{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing:    border-box;
+    box-sizing:         border-box;
+
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: #b32435;
+    background-image: -webkit-linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%);
+    background-image: -moz-linear-gradient(   rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%);
+    background-image: -o-linear-gradient(     rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%);
+    background-image: linear-gradient(        rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%);
+
+    -moz-box-shadow:    0 1px #0f0f0f;
+    -webkit-box-shadow: 0 1px #0f0f0f;
+    box-shadow:         0 1px #0f0f0f;
+}
+
+.kit .sliderWrap input[type='text']
+{
+    width: 25%;
+    text-align: center;
+    padding: 0;
+    float: right;
+}
+
 /*-------------------------------------------------------------------------------------
  * Icons
  *-------------------------------------------------------------------------------------*/

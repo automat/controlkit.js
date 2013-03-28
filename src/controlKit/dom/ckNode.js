@@ -1,63 +1,41 @@
 
 
-function CKNode(type)
+function CKNode()
 {
+    this._element = null;
 
-    switch (type)
+    if(arguments.length == 1)
     {
-        case CKNode.Type.DIV :
-            this._element = document.createElement('div');
-            break;
+        var arg  = arguments[0],
+            type = CKNode.Type;
 
-        case CKNode.Type.INPUT_TEXT :
+        if(arg != type.INPUT_TEXT   &&
+           arg != type.INPUT_BUTTON &&
+           arg != type.INPUT_SELECT &&
+           arg != type.INPUT_CHECKBOX)
+        {
+            this._element = document.createElement(arg);
+        }
+        else
+        {
             this._element = document.createElement('input');
-            this._element.type = 'text';
-            break;
-
-        case CKNode.Type.INPUT_BUTTON :
-            this._element = document.createElement('input');
-            this._element.type = 'button';
-            break;
-
-        case CKNode.Type.INPUT_SELECT :
-            this._element = document.createElement('select');
-            break;
-
-        case CKNode.Type.INPUT_CHECKBOX :
-            this._element = document.createElement('input');
-            this._element.type = 'checkbox';
-            break;
-
-        case CKNode.Type.OPTION :
-            this._element = document.createElement('option');
-            break;
-
-        case CKNode.Type.LIST :
-            this._element = document.createElement('ul');
-            break;
-
-        case CKNode.Type.LIST_ITEM :
-            this._element = document.createElement('li');
-            break;
-
-        case null:
-            this._element = null;
-            break;
+            this._element.type = arg;
+        }
     }
 }
 
 CKNode.Type =
 {
-    DIV            : 0,
-    INPUT_TEXT     : 1,
-    INPUT_BUTTON   : 2,
-    INPUT_SELECT   : 3,
-    INPUT_CHECKBOX : 4,
-    OPTION         : 5,
-    LIST           : 6,
-    LIST_ITEM      : 7
+    DIV            : 'div',
+    INPUT_TEXT     : 'text',
+    INPUT_BUTTON   : 'button',
+    INPUT_SELECT   : 'select',
+    INPUT_CHECKBOX : 'checkbox',
+    OPTION         : 'option',
+    LIST           : 'ul',
+    LIST_ITEM      : 'li',
+    SPAN           : 'span'
 };
-
 
 CKNode.Event =
 {
@@ -176,7 +154,7 @@ CKNode.prototype =
 
 
 
-    setListener : function(type,func){this._element[type] = func; return this;},
+    setEventListener : function(event,func){this._element[event] = func; return this;},
 
     setStyleClass      : function(style)         {this._element.className = style; return this;},
     setStyleProperty   : function(property,value){this._element.style[property] = value; return this;},

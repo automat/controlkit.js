@@ -7,7 +7,7 @@ function CKButton(parent,object,value,label,onPress)
     var inputBtn = this._inputBtn = new CKNode(CKNode.Type.INPUT_BUTTON);
 
     inputBtn.setProperty('value',label);
-    inputBtn.setListener(CKNode.Event.ON_CLICK,onPress);
+    inputBtn.setEventListener(CKNode.Event.ON_CLICK,onPress);
 
     this._wrapNode.addChild(inputBtn);
 }
