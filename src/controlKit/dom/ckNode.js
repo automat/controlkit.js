@@ -2,9 +2,8 @@
 
 function CKNode(type)
 {
-    this._type = type;
 
-    switch (this._type)
+    switch (type)
     {
         case CKNode.Type.DIV :
             this._element = document.createElement('div');
@@ -40,11 +39,11 @@ function CKNode(type)
         case CKNode.Type.LIST_ITEM :
             this._element = document.createElement('li');
             break;
+
+        case null:
+            this._element = null;
+            break;
     }
-
-
-    this._parent   = null;
-    this._children = [];
 }
 
 CKNode.Type =
@@ -81,7 +80,6 @@ CKNode.prototype =
     {
         node._parent = this;
         this._element.appendChild(node.getElement());
-        this._children.push(node);
         return node;
     },
 
@@ -89,33 +87,27 @@ CKNode.prototype =
     {
         node._parent = this;
         this._element.insertBefore(node.getElement(),this._element.children[index]);
-        this._children.splice(index,0,node);
         return node;
     },
 
     removeChild : function(node)
     {
         if(!this.contains(node))return null;
-
         node._parent = null;
         this._element.removeChild(node.getElement());
-        this._children.splice(this._children.indexOf(node),1);
         return node;
     },
 
     removeChildAt : function(node,index)
     {
         if(!this.contains(node))return null;
-
         node._parent = null;
         this._element.removeChild(node.getElement());
-        this._children.splice(index,1);
         return node;
     },
 
     removeAllChildren : function()
     {
-        this._children = [];
         var element = this._element;
         while(element.hasChildNodes())element.removeChild(element.lastChild);
         return this;
@@ -191,20 +183,19 @@ CKNode.prototype =
     setStyleProperties : function(properties)    {for(var p in properties)this._element.style[p] = properties[p];return this;},
 
 
-    getChildAt     : function(index) {return this._children[index];},
-    getChildIndex  : function(node)  {return this._children.indexOf(node);},
-    getChildren    : function()      {return this._children;},
-    getNumChildren : function()      {return this._children.length;},
-    getFirstChild  : function()      {return this._children[0];},
-    getLastChild   : function()      {return this._children[this._children.length-1];},
-    contains       : function(node)  {return this._children.indexOf(node) != -1;},
+    getChildAt     : function(index) {return new CKNode().setElement(this._element.children[index]);},
+    getChildIndex  : function(node)  {return this._element.children.indexOf(node.getElement());},
+    getNumChildren : function()      {return this._element.children.length;},
+    getFirstChild  : function()      {return new CKNode().setElement(this._element.firstChild);},
+    getLastChild   : function()      {return new CKNode().setElement(this._element.lastChild);},
+    contains       : function(node)  {return this._element.children.indexOf(node.getElement()) != -1;},
 
     setProperty   : function(property, value){this._element[property] = value;return this;},
     setProperties : function(properties)     {for(var p in properties)this._element[p] = properties[p];return this;},
     getProperty   : function(property)       {return this._element[property];},
 
-    getElement : function(){ return this._element;},
-    getType    : function(){ return this._type; },
+    setElement : function(element){this._element = element;return this;},
+    getElement : function()       { return this._element;},
 
-    getParent  : function(){ return this._parent; }
+    getParent  : function(){ return new CKNode().setElement(this._element.parentNode); }
 };
