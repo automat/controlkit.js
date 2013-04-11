@@ -77,7 +77,7 @@ CKSlider_Internal.prototype =
 
     _update : function()
     {
-        var mx = ControlKit.getMouse().x,
+        var mx = CKMouse.getInstance().x,
             sx = this._slot.offsetX,
             sw = this._slot.width,
             px = (mx < sx) ? 0 : (mx > (sx + sw)) ? sw : (mx - sx);
