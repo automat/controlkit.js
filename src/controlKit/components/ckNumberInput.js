@@ -2,13 +2,27 @@ function CKNumberInput(parent,object,value,label,params)
 {
     CKComponent_Internal.apply(this,arguments);
 
-    params            = params || {};
-    this._onChange    = params.onChange    || this._onChange;
-    this._onFinish    = params.onFinish    || this._onFinish;
-    this._dp          = params.dp          || 2;
-    this._stepValue   = params.step        || 1;
+    /*---------------------------------------------------------------------------------*/
+
+    params          = params || {};
+    params.onChange = params.onChange || this._onChange;
+    params.onFinish = params.onFinish || this._onFinish;
+    params.dp       = params.dp       || 2;
+    params.step     = params.step     || 1;
+
+    /*---------------------------------------------------------------------------------*/
+
+    this._onChange    = params.onChange;
+    this._onFinish    = params.onFinish;
+    this._dp          = params.dp;
+    this._stepValue   = params.step;
 
     this._lablNode.setProperty('innerHTML',label);
+
+    if(this._stepValue)
+    {
+
+    }
 
     var input = this._input = new CKNumberInput_Internal(this._stepValue,
                                                          this._dp,

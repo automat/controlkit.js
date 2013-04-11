@@ -32,15 +32,20 @@
 
 function ControlKit(parentDomElementId, params)
 {
-    var parentElement = this._parentElement = document.getElementById(parentDomElementId);
+
+    /*---------------------------------------------------------------------------------*/
 
     params            = params || {};
+    params.align      = params.align      || 'left';
     params.position   = params.position   || [20,20];
     params.width      = params.width      ||  300;
     params.height     = params.height     ||  window.innerHeight;
     params.ratioLabel = params.ratioLabel ||  40;
     params.label      = params.label      || 'Controls';
 
+    /*---------------------------------------------------------------------------------*/
+
+    var parentElement = this._parentElement = document.getElementById(parentDomElementId);
     this._maxHeight = params.maxHeight || window.innerHeight;
 
     var rootNode = this._node = new CKNode(CKNodeType.DIV),
@@ -54,7 +59,11 @@ function ControlKit(parentDomElementId, params)
     lablNode.setStyleClass(CKCSS.Label);
     wrapNode.setStyleClass(CKCSS.Wrap);
 
-    rootNode.setPositionGlobal(params.position[0],params.position[1]);
+    var position = params.align == 'left'  ? params.position :
+                   params.align == 'right' ? [window.innerWidth - params.position[0]] :
+                   [0,0];
+
+    rootNode.setPositionGlobal(position[0],position[1]);
     rootNode.setWidth(params.width);
     lablNode.setProperty('innerHTML',params.label);
 
@@ -63,19 +72,23 @@ function ControlKit(parentDomElementId, params)
     rootNode.addChild(headNode);
     rootNode.addChild(wrapNode);
 
-
-
     parentElement.appendChild(rootNode.getElement());
 
     headNode.setEventListener(CKNodeEvent.MOUSE_DOWN,function(){});
 
+    /*---------------------------------------------------------------------------------*/
+
     this._blocks = [];
 
-    if(!ControlKit.getMouse())ControlKit._mouse = new CKMouse();
+    /*---------------------------------------------------------------------------------*/
+
+    if(!ControlKit.getMouse())  {ControlKit._mouse   = new CKMouse();}
+    if(!ControlKit.getOptions()){ControlKit._options = new CKOptions_Intenal();rootNode.addChild(ControlKit._options.getNode());}
 
 }
 
-ControlKit.getMouse = function(){return ControlKit._mouse;};
+ControlKit.getMouse   = function(){return ControlKit._mouse;};
+ControlKit.getOptions = function(){return ControlKit._options;};
 
 ControlKit.prototype =
 {

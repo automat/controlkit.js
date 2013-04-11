@@ -150,3 +150,5 @@ CKNode.prototype =
 
     getParent  : function(){ return new CKNode().setElement(this._element.parentNode); }
 };
+
+CKNode.getNodeById    = function(id){return new CKNode().setElement(document.getElementById(id));};

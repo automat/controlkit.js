@@ -7,6 +7,8 @@ CKCSS =
     Block        : 'block',
     Content      : 'content',
 
+    Button       : 'button',
+
     WrapSlider   : 'wrapSlider',
 
     SliderWrap   : 'sliderWrap',
@@ -16,5 +18,11 @@ CKCSS =
     ArrowBMin    : 'arrowBMin',
     ArrowBMax    : 'arrowBMax',
     ArrowSMin    : 'arrowSMin',
-    ArrowSMax    : 'arrowSMax'
+    ArrowSMax    : 'arrowSMax',
+
+    Select       : 'select',
+    SelectActive : 'select active',
+
+    Options         : 'options',
+    OptionsSelected : 'liSelected'
 };

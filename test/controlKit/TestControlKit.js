@@ -1,34 +1,38 @@
 
 var imports = [
 
-               'controlKit/dom/ckCSS.js',
-               'controlKit/dom/ckMouse.js',
+               'dom/ckCSS.js',
+               'dom/ckMouse.js',
 
-               'controlKit/dom/ckNodeEvent.js',
-               'controlKit/dom/ckNodeType.js',
-               'controlKit/dom/ckNode.js',
+               'dom/ckNodeEvent.js',
+               'dom/ckNodeType.js',
+               'dom/ckNode.js',
 
-               'controlKit/controlKit.js',
+               'components/internal/ckOptions_Internal.js',
 
-               'controlKit/components/internal/ckComponent_Internal.js',
-               'controlKit/components/internal/ckNumberInput_Internal.js',
-               'controlKit/components/internal/ckSlider_Internal.js',
+               'controlKit.js',
 
-               'controlKit/components/ckBlock.js',
+               'components/internal/ckComponent_Internal.js',
+               'components/internal/ckNumberInput_Internal.js',
+               'components/internal/ckSlider_Internal.js',
 
-               'controlKit/components/ckStringInput.js',
-               'controlKit/components/ckButton.js',
 
-               'controlKit/components/ckNumberInput.js',
-               'controlKit/components/ckRange.js',
-               'controlKit/components/ckCheckbox.js',
-               'controlKit/components/ckSlider.js'
+               'components/ckBlock.js',
+
+               'components/ckStringInput.js',
+               'components/ckButton.js',
+
+               'components/ckNumberInput.js',
+               'components/ckRange.js',
+               'components/ckCheckbox.js',
+               'components/ckSlider.js',
+               'components/ckSelect.js'
 
               ];
 var i = -1,string;
 while(++i < imports.length)
 {
-    string = '"' + '../src/' + imports[i] + '"';
+    string = '"' + '../../src/controlKit/' + imports[i] + '"';
     document.write('<script type="text/javascript" src=' + string + '></script>');
 }
 
@@ -38,23 +42,63 @@ function TestControlKit(parentDomElementId)
                   number:26.0,
                   range:[0,1],
                   bool:true,
-                  slideValue:0.5
+                  slideValue:0.5,
+                  selectOptions:['hello','bello','cello'],
+                  selectTarget:null
                   };
 
-    var control = new ControlKit(parentDomElementId);
+    var control0 = new ControlKit(parentDomElementId);
 
-    var block1 = control.addBlock('Block 1');
+    var block01 = control0.addBlock('Block 1');
 
-    block1.addStringInput(object,'string','String Comp')
+    block01.addStringInput(object,'string','String Comp')
           .addStringInput(object,'string','String Comp')
           .addNumberInput(object,'number','Number Comp')
           .addButton('labba',function(){})
           .addRange(object,'range','Range Comp')
           .addCheckbox(object,'bool','Bool Comp')
-          .addSlider(object,'range','slideValue','slider');
+          .addSlider(object,'range','slideValue','slider')
+          .addSelect(object,'selectOptions','selectTarget','Select Comp');
+
+    var block02 = control0.addBlock('Block 2');
+
+    block02.addStringInput(object,'string','String Comp')
+        .addStringInput(object,'string','String Comp')
+        .addNumberInput(object,'number','Number Comp')
+        .addButton('labba',function(){})
+        .addRange(object,'range','Range Comp')
+        .addCheckbox(object,'bool','Bool Comp')
+        .addSlider(object,'range','slideValue','slider')
+        .addSelect(object,'selectOptions','selectTarget','Select Comp');
 
 
-    var block2 = control.addBlock('Block 2');
+    var block2 = control0.addBlock('Block 2');
+
+    var control1 = new ControlKit(parentDomElementId,{position:[330,20]});
+
+    var block11 = control1.addBlock('Block 1');
+
+    block11.addStringInput(object,'string','String Comp')
+        .addStringInput(object,'string','String Comp')
+        .addNumberInput(object,'number','Number Comp')
+        .addButton('labba',function(){})
+        .addRange(object,'range','Range Comp')
+        .addCheckbox(object,'bool','Bool Comp')
+        .addSlider(object,'range','slideValue','slider')
+        .addSelect(object,'selectOptions','selectTarget','Select Comp');
+
+    var control2 = new ControlKit(parentDomElementId,{position:[640,20]});
+
+    var block21 = control2.addBlock('Block 1');
+
+    block21.addStringInput(object,'string','String Comp')
+        .addStringInput(object,'string','String Comp')
+        .addNumberInput(object,'number','Number Comp')
+        .addButton('labba',function(){})
+        .addRange(object,'range','Range Comp')
+        .addCheckbox(object,'bool','Bool Comp')
+        .addSlider(object,'range','slideValue','slider')
+        .addSelect(object,'selectOptions','selectTarget','Select Comp');
 
 
 }
