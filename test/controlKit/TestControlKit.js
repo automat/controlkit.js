@@ -8,6 +8,9 @@ var imports = [
                'dom/ckNodeType.js',
                'dom/ckNode.js',
 
+               'global/ckLayout.js',
+               'global/ckManager.js',
+
                'components/internal/ckOptions_Internal.js',
 
                'controlKit.js',
@@ -47,7 +50,9 @@ function TestControlKit(parentDomElementId)
                   selectTarget:null
                   };
 
-    var control0 = new ControlKit(parentDomElementId);
+    ControlKit.init(parentDomElementId);
+
+    var control0 = new ControlKit({label:'Basic Controls'});
 
     var block01 = control0.addBlock('Block 1');
 
@@ -63,7 +68,7 @@ function TestControlKit(parentDomElementId)
     var block02 = control0.addBlock('Block 2');
 
     block02.addStringInput(object,'string','String Comp')
-        .addStringInput(object,'string','String Comp')
+           .addStringInput(object,'string','String Comp')
         .addNumberInput(object,'number','Number Comp')
         .addButton('labba',function(){})
         .addRange(object,'range','Range Comp')
@@ -74,7 +79,7 @@ function TestControlKit(parentDomElementId)
 
     var block2 = control0.addBlock('Block 2');
 
-    var control1 = new ControlKit(parentDomElementId,{position:[330,20]});
+    var control1 = new ControlKit({width:200,position:[330,20]});
 
     var block11 = control1.addBlock('Block 1');
 
@@ -85,9 +90,17 @@ function TestControlKit(parentDomElementId)
         .addRange(object,'range','Range Comp')
         .addCheckbox(object,'bool','Bool Comp')
         .addSlider(object,'range','slideValue','slider')
+        .addSelect(object,'selectOptions','selectTarget','Select Comp')
+        .addStringInput(object,'string','String Comp')
+        .addStringInput(object,'string','String Comp')
+        .addNumberInput(object,'number','Number Comp')
+        .addButton('labba',function(){})
+        .addRange(object,'range','Range Comp')
+        .addCheckbox(object,'bool','Bool Comp')
+        .addSlider(object,'range','slideValue','slider')
         .addSelect(object,'selectOptions','selectTarget','Select Comp');
 
-    var control2 = new ControlKit(parentDomElementId,{position:[640,20]});
+    var control2 = new ControlKit({width:400,position:[540,20]});
 
     var block21 = control2.addBlock('Block 1');
 
@@ -99,6 +112,53 @@ function TestControlKit(parentDomElementId)
         .addCheckbox(object,'bool','Bool Comp')
         .addSlider(object,'range','slideValue','slider')
         .addSelect(object,'selectOptions','selectTarget','Select Comp');
+
+    var block2 = control0.addBlock('Block 2');
+
+    var control3 = new ControlKit({width:200,align:'right',position:[20,20]});
+
+    var block31 = control3.addBlock('Block 1');
+
+    block31.addStringInput(object,'string','String Comp')
+        .addStringInput(object,'string','String Comp')
+        .addNumberInput(object,'number','Number Comp')
+        .addButton('bum!bum!bum!',function(){})
+        .addRange(object,'range','Range Comp')
+        .addCheckbox(object,'bool','Bool Comp')
+        .addSlider(object,'range','slideValue','slider')
+        .addSelect(object,'selectOptions','selectTarget','Select Comp')
+        .addStringInput(object,'string','String Comp')
+        .addStringInput(object,'string','String Comp')
+        .addNumberInput(object,'number','Number Comp')
+        .addButton('labba',function(){})
+        .addRange(object,'range','Range Comp')
+        .addCheckbox(object,'bool','Bool Comp')
+        .addSlider(object,'range','slideValue','slider')
+        .addSelect(object,'selectOptions','selectTarget','Select Comp');
+
+
+
+    var control4 = new ControlKit({width:300,align:'right',position:[240,20]});
+
+    var block41 = control4.addBlock('Block 1');
+
+    block41.addStringInput(object,'string','String Comp')
+        .addStringInput(object,'string','String Comp')
+        .addNumberInput(object,'number','Number Comp')
+        .addButton('bum!bum!bum!',function(){})
+        .addRange(object,'range','Range Comp')
+        .addCheckbox(object,'bool','Bool Comp')
+        .addSlider(object,'range','slideValue','slider')
+        .addSelect(object,'selectOptions','selectTarget','Select Comp')
+        .addStringInput(object,'string','String Comp')
+        .addStringInput(object,'string','String Comp')
+        .addNumberInput(object,'number','Number Comp')
+        .addButton('labba',function(){})
+        .addRange(object,'range','Range Comp')
+        .addCheckbox(object,'bool','Bool Comp')
+        .addSlider(object,'range','slideValue','slider')
+        .addSelect(object,'selectOptions','selectTarget','Select Comp');
+
 
 
 }
