@@ -36,8 +36,8 @@ function CKNumberInput(parent,object,value,label,params)
 
 CKNumberInput.prototype = Object.create(CKComponent_Internal.prototype);
 
-CKNumberInput.prototype._onInputChange = function(){this._updateValue();this._onChange();};
-CKNumberInput.prototype._onInputFinish = function(){this._updateValue();this._onFinish();};
+CKNumberInput.prototype._onInputChange = function(){this._updateValue();this._onChange();this._parent.forceUpdate()};
+CKNumberInput.prototype._onInputFinish = function(){this._updateValue();this._onFinish();this._parent.forceUpdate()};
 
 CKNumberInput.prototype._updateValue = function()
 {
