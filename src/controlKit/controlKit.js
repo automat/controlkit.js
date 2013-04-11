@@ -30,22 +30,37 @@
  *
  */
 
-function ControlKit(parentDomElementId, params)
+
+function ControlKit(params)
 {
 
     /*---------------------------------------------------------------------------------*/
 
     params            = params || {};
-    params.align      = params.align      || 'left';
+    params.valign     = params.valign     || CKLayout.ALIGN_TOP;
+    params.align      = params.align      || CKLayout.ALIGN_LEFT;
     params.position   = params.position   || [20,20];
     params.width      = params.width      ||  300;
-    params.height     = params.height     ||  window.innerHeight;
-    params.ratioLabel = params.ratioLabel ||  40;
+    params.height     = params.height     ||  window.innerHeight - params.position[1];
+    params.ratio      = params.ratio      ||  40;
     params.label      = params.label      || 'Controls';
 
     /*---------------------------------------------------------------------------------*/
 
-    var parentElement = this._parentElement = document.getElementById(parentDomElementId);
+    //cache for manager
+    var properties = this.properties = {
+                                            valign   : params.valign,
+                                            align    : params.align,
+                                            position : params.position,
+                                            width    : params.width,
+                                            height   : params.height,
+                                            ratio    : params.ratio,
+                                            label    : params.label
+                                       };
+
+    /*---------------------------------------------------------------------------------*/
+
+
     this._maxHeight = params.maxHeight || window.innerHeight;
 
     var rootNode = this._node = new CKNode(CKNodeType.DIV),
@@ -59,8 +74,8 @@ function ControlKit(parentDomElementId, params)
     lablNode.setStyleClass(CKCSS.Label);
     wrapNode.setStyleClass(CKCSS.Wrap);
 
-    var position = params.align == 'left'  ? params.position :
-                   params.align == 'right' ? [window.innerWidth - params.position[0]] :
+    var position = properties.align == CKLayout.ALIGN_LEFT  ? properties.position :
+                   properties.align == CKLayout.ALIGN_RIGHT ? [window.innerWidth - properties.width - properties.position[0],properties.position[1]] :
                    [0,0];
 
     rootNode.setPositionGlobal(position[0],position[1]);
@@ -72,8 +87,6 @@ function ControlKit(parentDomElementId, params)
     rootNode.addChild(headNode);
     rootNode.addChild(wrapNode);
 
-    parentElement.appendChild(rootNode.getElement());
-
     headNode.setEventListener(CKNodeEvent.MOUSE_DOWN,function(){});
 
     /*---------------------------------------------------------------------------------*/
@@ -82,13 +95,10 @@ function ControlKit(parentDomElementId, params)
 
     /*---------------------------------------------------------------------------------*/
 
-    if(!ControlKit.getMouse())  {ControlKit._mouse   = new CKMouse();}
-    if(!ControlKit.getOptions()){ControlKit._options = new CKOptions_Intenal();rootNode.addChild(ControlKit._options.getNode());}
-
+     CKManager.getInstance().addKit(this);
 }
 
-ControlKit.getMouse   = function(){return ControlKit._mouse;};
-ControlKit.getOptions = function(){return ControlKit._options;};
+/*---------------------------------------------------------------------------------*/
 
 ControlKit.prototype =
 {
@@ -100,20 +110,17 @@ ControlKit.prototype =
         return block;
     },
 
-    forceUpdate : function()
-    {
-        var i = -1, j;
-        var blocks = this._blocks;
-        var components;
 
-        while(++i < blocks.length)
-        {
-            components = blocks[i].getComponents();
-            j = -1;
-            while(++j < components.length)
-            {
-                components[j].forceUpdate();
-            }
-        }
-    }
+
+    getBlocks   : function(){return this._blocks;},
+    forceUpdate : function(){CKManager.getInstance().forceKitsUpdate();},
+    getNode     : function(){return this._node;}
+
+
 };
+
+/*---------------------------------------------------------------------------------*/
+
+ControlKit.init = function(parentDomElementId){CKManager.init(parentDomElementId);};
+
+
