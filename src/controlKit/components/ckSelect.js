@@ -76,7 +76,7 @@ CKSelect.prototype._onSelectMouseDown = function()
 
     select.setStyleClass(active ? CKCSS.SelectActive : CKCSS.Select);
 
-    var options = ControlKit.getOptions();
+    //var options = ControlKit.getOptions();
 
     var obj    = this._object,
         vals   = this._values,
@@ -84,6 +84,7 @@ CKSelect.prototype._onSelectMouseDown = function()
         target = this._targetKey;
 
 
+    /*
     if(active)
     {
         if(!options.isBuild())options.build(vals,select.getProperty('value'),select,function(){},function(){});
@@ -92,6 +93,7 @@ CKSelect.prototype._onSelectMouseDown = function()
     {
         options.hide();
     }
+    */
 
     this._selectActive = !this._selectActive;
 
