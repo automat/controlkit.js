@@ -33,7 +33,8 @@ var imports = [
                'components/ckSlider.js',
                'components/ckSelect.js',
 
-               'components/ckFunctionPlotter.js'
+               'components/ckFunctionPlotter.js',
+               'components/ckPad.js'
 
               ];
 var i = -1,string;
@@ -52,7 +53,7 @@ function TestControlKit(parentDomElementId)
                   slideValue:0.5,
                   selectOptions:['hello','bello','cello'],
                   selectTarget:null,
-                  func:function(x){return Math.sin(x*Math.PI*2)*0.5;}
+                  func:function(x){return x;}
                   };
 
     ControlKit.init(parentDomElementId);
@@ -69,7 +70,8 @@ function TestControlKit(parentDomElementId)
           .addCheckbox(object,'bool','Bool Comp')
           .addSlider(object,'range','slideValue','slider')
           .addSelect(object,'selectOptions','selectTarget','Select Comp')
-          .addFunctionPlotter(object,'func','Function')
+          .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]})
+          .addPad(object,'')
 
 
 

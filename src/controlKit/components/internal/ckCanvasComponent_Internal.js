@@ -12,7 +12,7 @@ function CKCanvasComponent_Internal(parent,object,value,label)
 
     //TODO:FIX
     wrapNode.setHeight(wrapNode.getHeight() - 6);
-    node.setHeight(wrapNode.getHeight() + 12);
+    node.setHeight(    wrapNode.getHeight() + 12);
 
     this._lablNode.setProperty('innerHTML',label);
 }

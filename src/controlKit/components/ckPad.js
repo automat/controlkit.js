@@ -1,4 +1,4 @@
-function CKFunctionPlotter(parent,object,value,label,params)
+function CKPad(parent,object,value,label,params)
 {
     CKCanvasComponent_Internal.apply(this,arguments);
 
@@ -13,17 +13,13 @@ function CKFunctionPlotter(parent,object,value,label,params)
     this._gridRes      = params.gridRes;
     this._bounds       = params.bounds;
 
-
-    this._func = null;
-    this.setFunction(this._object[this._key]);
+    this.setFunction();
 }
 
-CKFunctionPlotter.prototype = Object.create(CKCanvasComponent_Internal.prototype);
+CKPad.prototype = Object.create(CKCanvasComponent_Internal.prototype);
 
-CKFunctionPlotter.prototype.setFunction = function(func)
+CKPad.prototype.setFunction = function()
 {
-    this._func = func;
-
     var c = this._canvas;
 
     c.background(0,0);
@@ -31,43 +27,10 @@ CKFunctionPlotter.prototype.setFunction = function(func)
     c.push();
     c.translateHalfFloat();
     this._drawGrid();
-    this._drawPlot();
     c.pop();
 };
 
-CKFunctionPlotter.prototype._drawPlot = function()
-{
-    var c = this._canvas;
-
-    var width  = Math.floor(c.width),
-        height = Math.floor(c.height);
-
-    var bounds = this._bounds,
-        minx = bounds[0],
-        maxx = bounds[1],
-        miny = bounds[2],
-        maxy = bounds[3];
-
-    var points = new Array(width * 2);
-    var i = 0, l = points.length;
-    var normval;
-    while(i<l)
-    {
-
-
-        i+=2;
-    }
-
-
-
-    c.setLineWidth(2);
-    c.translate(width*0.5,height*0.5);
-    c.stroke(255);
-    c.lineArray(points);
-
-};
-
-CKFunctionPlotter.prototype._drawGrid = function()
+CKPad.prototype._drawGrid = function()
 {
     var c = this._canvas;
 
