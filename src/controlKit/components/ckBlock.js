@@ -62,6 +62,7 @@ CKBlock.prototype =
     addSelect      : function(object,value,target,label,params){return this._addComponent(new CKSelect(     this,object,value,target,label,params));},
     addSlider      : function(object,value,target,label,params){return this._addComponent(new CKSlider(     this,object,value,target,label,params));},
 
+    addObject : function(obj){},
 
     _addComponent : function(component)
     {

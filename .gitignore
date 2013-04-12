@@ -2,3 +2,4 @@
 .buildtools
 src.BAK
 test.BAK
+test/componentTests/

@@ -4,32 +4,39 @@
 function CKManager(parentDomElementId)
 {
     var node = this._node = new CKNode(CKNodeType.DIV);
-    this._kits  = [];
+    this._kits   = [];
 
+    this._window = {width:window.innerWidth,height:window.innerHeight};
     node.addChild(CKOptions_Internal.getInstance().getNode());
 
     if(parentDomElementId){document.getElementById(parentDomElementId).appendChild(node.getElement());}
     else document.body.appendChild(node.getElement());
+
+    window.addEventListener("resize", this.onWindowResize.bind(this), false);
 }
 
 /*---------------------------------------------------------------------------------*/
 
 CKManager.prototype =
 {
+    onWindowResize : function()
+    {
+        this._window.width  = window.innerWidth;
+        this._window.height = window.innerHeight;
+
+        var kits = this._kits;
+        var i = -1;
+
+        while(++i < kits.length)this.setKitPosition(kits[i]);
+    },
+
     addKit :  function(kit)
     {
         this._kits.push(kit);
         this._node.addChild(kit.getNode());
     },
 
-    getKitPosition : function(kit)
-    {
-        var properties = kit.properties;
-        return properties.align == CKLayout.ALIGN_LEFT  ? properties.position :
-               properties.align == CKLayout.ALIGN_RIGHT ? [window.innerWidth - properties.width - properties.position[0],properties.position[1]] :
-               [0,0];
-
-    },
+    /*---------------------------------------------------------------------------------*/
 
     forceKitsUpdate : function()
     {
@@ -53,6 +60,41 @@ CKManager.prototype =
                 }
             }
         }
+    },
+
+    /*---------------------------------------------------------------------------------*/
+
+    setKitPosition : function(kit)
+    {
+        var attributes = kit.getAttributes(),
+            window     = this._window,
+            position   = attributes.align == CKLayout.ALIGN_LEFT  ? attributes.position :
+                         attributes.align == CKLayout.ALIGN_RIGHT ? [window.width - attributes.width - attributes.position[0],attributes.position[1]] :
+                         [0,0];
+
+        kit.getNode().setPositionGlobal(position[0],position[1]);
+    },
+
+    getKitPosition : function(kit)
+    {
+        var attributes = kit.getAttributes(),
+            window     = this._window;
+        return attributes.align == CKLayout.ALIGN_LEFT  ? attributes.position :
+               attributes.align == CKLayout.ALIGN_RIGHT ? [window.width - attributes.width - attributes.position[0],attributes.position[1]] :
+               [0,0];
+
+    },
+
+    /*---------------------------------------------------------------------------------*/
+
+    getWindow : function(){return this._window;},
+
+
+    /*---------------------------------------------------------------------------------*/
+
+    getRootNode : function()
+    {
+        return this._node;
     }
 
 };

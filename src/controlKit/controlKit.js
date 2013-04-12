@@ -34,6 +34,8 @@
 function ControlKit(params)
 {
 
+    var manager = CKManager.getInstance();
+
     /*---------------------------------------------------------------------------------*/
 
     params            = params || {};
@@ -41,14 +43,15 @@ function ControlKit(params)
     params.align      = params.align      || CKLayout.ALIGN_LEFT;
     params.position   = params.position   || [20,20];
     params.width      = params.width      ||  300;
-    params.height     = params.height     ||  window.innerHeight - params.position[1];
+    params.height     = params.height     ||  manager.getWindow().height - params.position[1];
     params.ratio      = params.ratio      ||  40;
     params.label      = params.label      || 'Controls';
 
     /*---------------------------------------------------------------------------------*/
 
-    //cache for manager
-    var properties = this.properties = {
+    //TODO:FIXME CLEANMEUP
+    //cache
+    var attributes = this._attributes = {
                                             valign   : params.valign,
                                             align    : params.align,
                                             position : params.position,
@@ -56,7 +59,7 @@ function ControlKit(params)
                                             height   : params.height,
                                             ratio    : params.ratio,
                                             label    : params.label
-                                       };
+                                        };
 
     /*---------------------------------------------------------------------------------*/
 
@@ -74,18 +77,13 @@ function ControlKit(params)
     lablNode.setStyleClass(CKCSS.Label);
     wrapNode.setStyleClass(CKCSS.Wrap);
 
-    var position = properties.align == CKLayout.ALIGN_LEFT  ? properties.position :
-                   properties.align == CKLayout.ALIGN_RIGHT ? [window.innerWidth - properties.width - properties.position[0],properties.position[1]] :
-                   [0,0];
+    /*---------------------------------------------------------------------------------*/
 
-    rootNode.setPositionGlobal(position[0],position[1]);
-    rootNode.setWidth(params.width);
-    lablNode.setProperty('innerHTML',params.label);
+    manager.setKitPosition(this);
+    rootNode.setWidth(attributes.width);
+    lablNode.setProperty('innerHTML',attributes.label);
 
-    headNode.addChild(lablNode);
-    wrapNode.addChild(listNode);
-    rootNode.addChild(headNode);
-    rootNode.addChild(wrapNode);
+    /*---------------------------------------------------------------------------------*/
 
     headNode.setEventListener(CKNodeEvent.MOUSE_DOWN,function(){});
 
@@ -95,7 +93,12 @@ function ControlKit(params)
 
     /*---------------------------------------------------------------------------------*/
 
-     CKManager.getInstance().addKit(this);
+    headNode.addChild(lablNode);
+    wrapNode.addChild(listNode);
+    rootNode.addChild(headNode);
+    rootNode.addChild(wrapNode);
+
+    manager.addKit(this);
 }
 
 /*---------------------------------------------------------------------------------*/
@@ -110,11 +113,10 @@ ControlKit.prototype =
         return block;
     },
 
-
-
-    getBlocks   : function(){return this._blocks;},
-    forceUpdate : function(){CKManager.getInstance().forceKitsUpdate();},
-    getNode     : function(){return this._node;}
+    getBlocks     : function(){return this._blocks;},
+    forceUpdate   : function(){CKManager.getInstance().forceKitsUpdate();},
+    getAttributes : function(){return this._attributes;},
+    getNode       : function(){return this._node;}
 
 
 };
