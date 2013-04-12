@@ -3,16 +3,13 @@
 
 function CKManager(parentDomElementId)
 {
-    this._kitRootNode = new CKNode(CKNodeType.DIV);
+    var node = this._node = new CKNode(CKNodeType.DIV);
     this._kits  = [];
 
-    CKMouse.init();
-    CKOptions_Internal.init();
+    node.addChild(CKOptions_Internal.getInstance().getNode());
 
-    this._kitRootNode.setStyleProperty('position','absolute');
-
-    this._kitRootNode.addChild(CKOptions_Internal.getInstance().getNode());
-    document.getElementById(parentDomElementId).appendChild(this._kitRootNode.getElement());
+    if(parentDomElementId){document.getElementById(parentDomElementId).appendChild(node.getElement());}
+    else document.body.appendChild(node.getElement());
 }
 
 /*---------------------------------------------------------------------------------*/
@@ -22,7 +19,7 @@ CKManager.prototype =
     addKit :  function(kit)
     {
         this._kits.push(kit);
-        this._kitRootNode.addChild(kit.getNode());
+        this._node.addChild(kit.getNode());
     },
 
     getKitPosition : function(kit)
@@ -63,5 +60,5 @@ CKManager.prototype =
 /*---------------------------------------------------------------------------------*/
 
 CKManager.init = function(parentDomElementId){if(!CKManager._instance)CKManager._instance = new CKManager(parentDomElementId);};
-CKManager.getInstance = function(){return CKManager._instance;};
+CKManager.getInstance = function(){if(!CKManager._instance)CKManager._instance = new CKManager();return CKManager._instance;};
 

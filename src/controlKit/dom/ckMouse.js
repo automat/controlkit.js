@@ -29,5 +29,4 @@ function CKMouse()
     }.bind(this);
 }
 
-CKMouse.init = function(){if(!CKMouse._instance)CKMouse._instance = new CKMouse();}
-CKMouse.getInstance = function(){return CKMouse._instance;};
+CKMouse.getInstance = function(){if(!CKMouse._instance)CKMouse._instance = new CKMouse();return CKMouse._instance;};

@@ -97,5 +97,4 @@ CKOptions_Internal.prototype =
     getSelected : function(){return this._selected;}
 };
 
-CKOptions_Internal.init = function(parentNode){if(!CKOptions_Internal._instance)CKOptions_Internal._instance = new CKOptions_Internal();};
-CKOptions_Internal.getInstance = function(){return CKOptions_Internal._instance;};
+CKOptions_Internal.getInstance = function(){if(!CKOptions_Internal._instance)CKOptions_Internal._instance = new CKOptions_Internal();return CKOptions_Internal._instance;};
