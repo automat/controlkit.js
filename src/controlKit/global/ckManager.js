@@ -3,14 +3,16 @@
 
 function CKManager(parentDomElementId)
 {
-    var node = this._node = new CKNode(CKNodeType.DIV);
-    this._kits   = [];
+    var node = this._node = parentDomElementId ?
+                            CKNode.getNodeById(parentDomElementId) :
+                            new CKNode(CKNodeType.DIV);
+    this._kits = [];
 
-    this._window = {width:window.innerWidth,height:window.innerHeight};
+    this._window = {width :window.innerWidth,
+                    height:window.innerHeight};
+
     node.addChild(CKOptions_Internal.getInstance().getNode());
-
-    if(parentDomElementId){document.getElementById(parentDomElementId).appendChild(node.getElement());}
-    else document.body.appendChild(node.getElement());
+    if(!parentDomElementId)document.body.appendChild(node.getElement());
 
     window.addEventListener("resize", this.onWindowResize.bind(this), false);
 }
