@@ -14,6 +14,8 @@ function CKBlock(parent, label, params)
         contNode = new CKNode(CKNodeType.DIV),
         listNode = this._listNode = new CKNode(CKNodeType.LIST);
 
+    this._parent.getList().addChild(rootNode);
+
     rootNode.setStyleClass(CKCSS.Block);
     headNode.setStyleClass(CKCSS.Head);
     lablNode.setStyleClass(CKCSS.Label);
@@ -62,11 +64,13 @@ CKBlock.prototype =
     addSelect      : function(object,value,target,label,params){return this._addComponent(new CKSelect(     this,object,value,target,label,params));},
     addSlider      : function(object,value,target,label,params){return this._addComponent(new CKSlider(     this,object,value,target,label,params));},
 
+
+    addFunctionPlotter : function(object,value,label,params){return this._addComponent(new CKFunctionPlotter(this,object,value,label,params));},
+
     addObject : function(obj){},
 
     _addComponent : function(component)
     {
-        this._listNode.addChild(component.getNode());
         this._components.push(component);
         var wrapNode = this._wrapNode;
         wrapNode.setHeight(wrapNode.getFirstChild().getHeight());
@@ -75,6 +79,7 @@ CKBlock.prototype =
 
     forceUpdate   : function(){this._parent.forceUpdate();},
     getComponents : function(){return this._components;},
-    getNode       : function(){return this._node;}
+    getNode       : function(){return this._node;},
+    getList       : function(){return this._listNode;}
 
 };

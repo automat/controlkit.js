@@ -24,5 +24,8 @@ CKCSS =
     SelectActive : 'select active',
 
     Options         : 'options',
-    OptionsSelected : 'liSelected'
+    OptionsSelected : 'liSelected',
+
+    CanvasListItem  : 'canvasLi',
+    CanvasWrap      : 'canvasWrap'
 };

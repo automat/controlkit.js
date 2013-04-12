@@ -18,6 +18,8 @@ var imports = [
                'components/internal/ckComponent_Internal.js',
                'components/internal/ckNumberInput_Internal.js',
                'components/internal/ckSlider_Internal.js',
+               'components/internal/ckCanvas_Internal.js',
+               'components/internal/ckCanvasComponent_Internal.js',
 
 
                'components/ckBlock.js',
@@ -29,7 +31,9 @@ var imports = [
                'components/ckRange.js',
                'components/ckCheckbox.js',
                'components/ckSlider.js',
-               'components/ckSelect.js'
+               'components/ckSelect.js',
+
+               'components/ckFunctionPlotter.js'
 
               ];
 var i = -1,string;
@@ -47,12 +51,13 @@ function TestControlKit(parentDomElementId)
                   bool:true,
                   slideValue:0.5,
                   selectOptions:['hello','bello','cello'],
-                  selectTarget:null
+                  selectTarget:null,
+                  func:function(x){return Math.sin(x*Math.PI*2)*0.5;}
                   };
 
     ControlKit.init(parentDomElementId);
 
-    var control0 = new ControlKit({label:'Basic Controls'});
+    var control0 = new ControlKit({label:'Basic Controls',width:300});
 
     var block01 = control0.addBlock('Block 1');
 
@@ -63,18 +68,8 @@ function TestControlKit(parentDomElementId)
           .addRange(object,'range','Range Comp')
           .addCheckbox(object,'bool','Bool Comp')
           .addSlider(object,'range','slideValue','slider')
-          .addSelect(object,'selectOptions','selectTarget','Select Comp');
-
-    var block02 = control0.addBlock('Block 2');
-
-    block02.addStringInput(object,'string','String Comp')
-           .addStringInput(object,'string','String Comp')
-        .addNumberInput(object,'number','Number Comp')
-        .addButton('labba',function(){})
-        .addRange(object,'range','Range Comp')
-        .addCheckbox(object,'bool','Bool Comp')
-        .addSlider(object,'range','slideValue','slider')
-        .addSelect(object,'selectOptions','selectTarget','Select Comp');
+          .addSelect(object,'selectOptions','selectTarget','Select Comp')
+          .addFunctionPlotter(object,'func','Function')
 
 
 

@@ -32,6 +32,8 @@ CKManager.prototype =
         while(++i < kits.length)this.setKitPosition(kits[i]);
     },
 
+    /*---------------------------------------------------------------------------------*/
+
     addKit :  function(kit)
     {
         this._kits.push(kit);
@@ -77,20 +79,9 @@ CKManager.prototype =
         kit.getNode().setPositionGlobal(position[0],position[1]);
     },
 
-    getKitPosition : function(kit)
-    {
-        var attributes = kit.getAttributes(),
-            window     = this._window;
-        return attributes.align == CKLayout.ALIGN_LEFT  ? attributes.position :
-               attributes.align == CKLayout.ALIGN_RIGHT ? [window.width - attributes.width - attributes.position[0],attributes.position[1]] :
-               [0,0];
-
-    },
-
     /*---------------------------------------------------------------------------------*/
 
     getWindow : function(){return this._window;},
-
 
     /*---------------------------------------------------------------------------------*/
 

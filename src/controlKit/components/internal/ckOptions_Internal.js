@@ -2,6 +2,8 @@ function CKOptions_Internal()
 {
     var node     = this._node     = new CKNode(CKNodeType.DIV);
     var listNode = this._listNode = new CKNode(CKNodeType.LIST);
+
+       // node.setStyleClass()
         listNode.setStyleClass(CKCSS.Options);
 
     this._hover    = false;

@@ -12,11 +12,15 @@ function CKComponent_Internal(parent,object,value)
         lablNode = this._lablNode = new CKNode(CKNodeType.SPAN),
         wrapNode = this._wrapNode = new CKNode(CKNodeType.DIV);
 
-    lablNode.setStyleClass(CKCSS.Label);
-    wrapNode.setStyleClass(CKCSS.Wrap);
+    this._parent.getList().addChild(rootNode);
 
     rootNode.addChild(lablNode);
     rootNode.addChild(wrapNode);
+
+    lablNode.setStyleClass(CKCSS.Label);
+    wrapNode.setStyleClass(CKCSS.Wrap);
+
+
 }
 
 CKComponent_Internal.prototype._applyValue  = function(){};

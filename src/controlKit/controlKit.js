@@ -108,7 +108,6 @@ ControlKit.prototype =
     addBlock : function(label,params)
     {
         var block = new CKBlock(this,label,params);
-        this._listNode.addChild(block.getNode());
         this._blocks.push(block);
         return block;
     },
@@ -116,7 +115,8 @@ ControlKit.prototype =
     getBlocks     : function(){return this._blocks;},
     forceUpdate   : function(){CKManager.getInstance().forceKitsUpdate();},
     getAttributes : function(){return this._attributes;},
-    getNode       : function(){return this._node;}
+    getNode       : function(){return this._node;},
+    getList       : function(){return this._listNode;}
 
 
 };

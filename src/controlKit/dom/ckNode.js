@@ -131,6 +131,7 @@ CKNode.prototype =
 
     setStyleClass      : function(style)         {this._element.className = style; return this;},
     setStyleProperty   : function(property,value){this._element.style[property] = value; return this;},
+    getStyleProperty   : function(property)      {return this._element.style[property];},
     setStyleProperties : function(properties)    {for(var p in properties)this._element.style[p] = properties[p];return this;},
 
 
@@ -144,6 +145,7 @@ CKNode.prototype =
     setProperty   : function(property, value){this._element[property] = value;return this;},
     setProperties : function(properties)     {for(var p in properties)this._element[p] = properties[p];return this;},
     getProperty   : function(property)       {return this._element[property];},
+
 
     setElement : function(element){this._element = element;return this;},
     getElement : function()       { return this._element;},
