@@ -20,10 +20,10 @@ _InternalCanvasOptions.EMPTY_STYLE = 'rgba(0,0,0,0)';
  *
  */
 
-CKCanvas_Internal.FONT_STYLE_NON_ITALIC = '';
-CKCanvas_Internal.FONT_STYLE_ITALIC = 'italic';
-CKCanvas_Internal.FONT_WEIGHT_REGULAR = 'normal';
-CKCanvas_Internal.FONT_WEIGHT_BOLD = 'bold';
+CKCanvas.FONT_STYLE_NON_ITALIC = '';
+CKCanvas.FONT_STYLE_ITALIC = 'italic';
+CKCanvas.FONT_WEIGHT_REGULAR = 'normal';
+CKCanvas.FONT_WEIGHT_BOLD = 'bold';
 
 /*
  *
@@ -31,15 +31,15 @@ CKCanvas_Internal.FONT_WEIGHT_BOLD = 'bold';
  *
  */
 
-CKCanvas_Internal.TEXT_BASELINE_BOTTOM = 'bottom';
-CKCanvas_Internal.TEXT_BASELINE_TOP = 'top';
-CKCanvas_Internal.TEXT_BASELINE_MIDDLE = 'middle';
+CKCanvas.TEXT_BASELINE_BOTTOM = 'bottom';
+CKCanvas.TEXT_BASELINE_TOP = 'top';
+CKCanvas.TEXT_BASELINE_MIDDLE = 'middle';
 
-CKCanvas_Internal.TEXT_ALIGN_START = 'start';
-CKCanvas_Internal.TEXT_ALIGN_END = 'end';
-CKCanvas_Internal.TEXT_ALIGN_LEFT = 'left';
-CKCanvas_Internal.TEXT_ALIGN_RIGHT = 'right';
-CKCanvas_Internal.TEXT_ALIGN_CENTER = 'center';
+CKCanvas.TEXT_ALIGN_START = 'start';
+CKCanvas.TEXT_ALIGN_END = 'end';
+CKCanvas.TEXT_ALIGN_LEFT = 'left';
+CKCanvas.TEXT_ALIGN_RIGHT = 'right';
+CKCanvas.TEXT_ALIGN_CENTER = 'center';
 
 /*
  *
@@ -47,7 +47,7 @@ CKCanvas_Internal.TEXT_ALIGN_CENTER = 'center';
  *
  */
 
-function CKCanvas_Internal(parentNode)
+function CKCanvas(parentNode)
 {
     this.parent = parentNode.getElement();
     this._size = {width: _InternalCanvasOptions.DEFAULT_WIDTH ,
@@ -67,12 +67,12 @@ function CKCanvas_Internal(parentNode)
 
 }
 
-CKCanvas_Internal.prototype.setPixelPerfect = function(bool)
+CKCanvas.prototype.setPixelPerfect = function(bool)
 {
     this._pixelPerfect = bool;
 };
 
-CKCanvas_Internal.prototype.setAntialias = function(bool)
+CKCanvas.prototype.setAntialias = function(bool)
 {
     this._antialias = bool;
 
@@ -87,7 +87,7 @@ CKCanvas_Internal.prototype.setAntialias = function(bool)
  *
  */
 
-CKCanvas_Internal.prototype.setFontStyle = function (style)
+CKCanvas.prototype.setFontStyle = function (style)
 {
     this._fontProperties.style = style;
     this._applyFontStyle();
@@ -101,7 +101,7 @@ CKCanvas_Internal.prototype.setFontStyle = function (style)
  */
 
 
-CKCanvas_Internal.prototype.setFontWeight = function (weight)
+CKCanvas.prototype.setFontWeight = function (weight)
 {
     this._fontProperties.weight = weight;
     this._applyFontStyle();
@@ -114,7 +114,7 @@ CKCanvas_Internal.prototype.setFontWeight = function (weight)
  *
  */
 
-CKCanvas_Internal.prototype.setFontSize = function (size)
+CKCanvas.prototype.setFontSize = function (size)
 {
     this._fontProperties.size = size;
     this._applyFontStyle();
@@ -127,7 +127,7 @@ CKCanvas_Internal.prototype.setFontSize = function (size)
  *
  */
 
-CKCanvas_Internal.prototype.setFontFamily = function (family)
+CKCanvas.prototype.setFontFamily = function (family)
 {
     this._fontProperties.family = family;
 
@@ -143,7 +143,7 @@ CKCanvas_Internal.prototype.setFontFamily = function (family)
  *
  */
 
-CKCanvas_Internal.prototype.setFontProperties = function (fontProperties)
+CKCanvas.prototype.setFontProperties = function (fontProperties)
 {
     for (var p in fontProperties)
     {
@@ -157,7 +157,7 @@ CKCanvas_Internal.prototype.setFontProperties = function (fontProperties)
  * Internal - Applies the font style
  */
 
-CKCanvas_Internal.prototype._applyFontStyle = function ()
+CKCanvas.prototype._applyFontStyle = function ()
 {
     this.context.font = this._fontProperties.weight + " " +
         this._fontProperties.size + "px " +
@@ -166,28 +166,28 @@ CKCanvas_Internal.prototype._applyFontStyle = function ()
 
 
 
-CKCanvas_Internal.prototype.setTextBaseLine = function (textBaseLine)
+CKCanvas.prototype.setTextBaseLine = function (textBaseLine)
 {
     this.context.textBaseline = textBaseLine;
 };
 
-CKCanvas_Internal.prototype.setTextAlign = function (textAlign)
+CKCanvas.prototype.setTextAlign = function (textAlign)
 {
     this.context.textAlign = textAlign;
 };
 
-CKCanvas_Internal.prototype.setTextLineHeight = function(lineHeight)
+CKCanvas.prototype.setTextLineHeight = function(lineHeight)
 {
     this._textProperties.lineHeight = lineHeight;
 
 };
 
-CKCanvas_Internal.prototype.text = function (string, x, y)
+CKCanvas.prototype.text = function (string, x, y)
 {
     this.context.fillText(string, Math.round(x) - 0.5, Math.round(y) - 0.5);
 };
 
-CKCanvas_Internal.prototype.textWrap = function(string,x,y,width,height)
+CKCanvas.prototype.textWrap = function(string,x,y,width,height)
 {
     var ctx = this.context;
     var lines   = this._wrapText(string,width - ctx.measureText('A').width);
@@ -200,7 +200,7 @@ CKCanvas_Internal.prototype.textWrap = function(string,x,y,width,height)
     return rHeight*0.5;
 };
 
-CKCanvas_Internal.prototype.textWrapWithBackgroundColor = function(string,x,y,width,height,textColor,backColor)
+CKCanvas.prototype.textWrapWithBackgroundColor = function(string,x,y,width,height,textColor,backColor)
 {
     var ctx = this.context;
     var lines   = this._wrapText(string,width - ctx.measureText('A').width);
@@ -222,23 +222,23 @@ CKCanvas_Internal.prototype.textWrapWithBackgroundColor = function(string,x,y,wi
 };
 
 
-CKCanvas_Internal.prototype.getTextWidth = function (string)
+CKCanvas.prototype.getTextWidth = function (string)
 {
     var metrics = this.context.measureText(string);
     return metrics.width;
 };
 
-CKCanvas_Internal.prototype.getTextHeight = function ()
+CKCanvas.prototype.getTextHeight = function ()
 {
     return this._fontProperties.size;
 };
 
-CKCanvas_Internal.prototype.getTextWidth = function (string)
+CKCanvas.prototype.getTextWidth = function (string)
 {
     return this.context.measureText(string).width;
 };
 
-CKCanvas_Internal.prototype._wrapText = function(text, maxWidth) {
+CKCanvas.prototype._wrapText = function(text, maxWidth) {
 
     var ctx = this.context;
 
@@ -273,7 +273,7 @@ CKCanvas_Internal.prototype._wrapText = function(text, maxWidth) {
 
 
 
-CKCanvas_Internal.prototype.getSize = function ()
+CKCanvas.prototype.getSize = function ()
 {
     return {width:this._size.width, height:this._size.height};
 };
@@ -286,7 +286,7 @@ CKCanvas_Internal.prototype.getSize = function ()
  *
  */
 
-CKCanvas_Internal.prototype.setSize = function (width, height)
+CKCanvas.prototype.setSize = function (width, height)
 {
     this._size.width = width;
     this._size.height = height;
@@ -319,12 +319,22 @@ CKCanvas_Internal.prototype.setSize = function (width, height)
  *
  */
 
-CKCanvas_Internal.prototype.getContext = function ()
+CKCanvas.prototype.getContext = function ()
 {
     return this.context;
 };
 
-CKCanvas_Internal.prototype.background = function()
+CKCanvas.prototype.getElement = function()
+{
+    return this._canvas;
+};
+
+CKCanvas.prototype.clear = function()
+{
+    this.context.clearRect(0,0,this.width,this.height);
+};
+
+CKCanvas.prototype.background = function()
 {
     this.context.fillStyle = color.apply(this,arguments);
     this.noStroke();
@@ -343,7 +353,7 @@ CKCanvas_Internal.prototype.background = function()
  *
  */
 
-CKCanvas_Internal.prototype.line = function (x0, y0, x1, y1)
+CKCanvas.prototype.line = function (x0, y0, x1, y1)
 {
 
     var ctx = this.context;
@@ -363,7 +373,7 @@ CKCanvas_Internal.prototype.line = function (x0, y0, x1, y1)
  *
  */
 
-CKCanvas_Internal.prototype.lineArray = function (array)
+CKCanvas.prototype.lineArray = function (array)
 {
     var ctx = this.context;
     var i = 2;
@@ -386,7 +396,7 @@ CKCanvas_Internal.prototype.lineArray = function (array)
  *
  */
 
-CKCanvas_Internal.prototype.polygon = function (array)
+CKCanvas.prototype.polygon = function (array)
 {
     var ctx = this.context;
     var i = 0;
@@ -412,7 +422,7 @@ CKCanvas_Internal.prototype.polygon = function (array)
  *
  */
 
-CKCanvas_Internal.prototype.circle = function (x, y, radius)
+CKCanvas.prototype.circle = function (x, y, radius)
 {
     var ctx = this.context;
 
@@ -435,7 +445,7 @@ CKCanvas_Internal.prototype.circle = function (x, y, radius)
  */
 
 
-CKCanvas_Internal.prototype.rect = function (x, y, width, height)
+CKCanvas.prototype.rect = function (x, y, width, height)
 {
     var ctx = this.context;
 
@@ -443,7 +453,7 @@ CKCanvas_Internal.prototype.rect = function (x, y, width, height)
     ctx.strokeRect(Math.round(x), Math.round(y), width, height);
 };
 
-CKCanvas_Internal.prototype.point = function (x, y)
+CKCanvas.prototype.point = function (x, y)
 {
     var ctx = this.context;
 
@@ -466,13 +476,13 @@ CKCanvas_Internal.prototype.point = function (x, y)
  *
  */
 
-CKCanvas_Internal.POINT_HALF_FLOAT = {x:0.5, y:0.5};
+CKCanvas.POINT_HALF_FLOAT = {x:0.5, y:0.5};
 
 /**
  * Pushes a new state
  */
 
-CKCanvas_Internal.prototype.push = function ()
+CKCanvas.prototype.push = function ()
 {
     this.context.save();
 };
@@ -482,47 +492,47 @@ CKCanvas_Internal.prototype.push = function ()
  *
  */
 
-CKCanvas_Internal.prototype.pop = function ()
+CKCanvas.prototype.pop = function ()
 {
     this.context.restore();
 };
 
-CKCanvas_Internal.prototype.translate = function (x, y)
+CKCanvas.prototype.translate = function (x, y)
 {
     this.context.translate(x, y);
 };
 
-CKCanvas_Internal.prototype.rotate = function(angle)
+CKCanvas.prototype.rotate = function(angle)
 {
     this.context.rotate(angle);
 };
 
-CKCanvas_Internal.prototype.translateHalfFloat = function()
+CKCanvas.prototype.translateHalfFloat = function()
 {
-    this.context.translate(CKCanvas_Internal.POINT_HALF_FLOAT.x,CKCanvas_Internal.POINT_HALF_FLOAT.y);
+    this.context.translate(CKCanvas.POINT_HALF_FLOAT.x,CKCanvas.POINT_HALF_FLOAT.y);
 };
 
-CKCanvas_Internal.prototype.scale = function (s)
+CKCanvas.prototype.scale = function (s)
 {
     this.context.scale(s);
 };
 
-CKCanvas_Internal.prototype.applyFill = function ()
+CKCanvas.prototype.applyFill = function ()
 {
     this.context.fill();
 };
 
-CKCanvas_Internal.prototype.fill = function ()
+CKCanvas.prototype.fill = function ()
 {
     this.context.fillStyle = color.apply(this,arguments) || this.context.fillStyle;
 };
 
-CKCanvas_Internal.prototype.noFill = function ()
+CKCanvas.prototype.noFill = function ()
 {
     this.context.fillStyle = _InternalCanvasOptions.EMPTY_STYLE;
 };
 
-CKCanvas_Internal.prototype.applyStroke = function ()
+CKCanvas.prototype.applyStroke = function ()
 {
     this.context.stroke();
 };
@@ -534,13 +544,13 @@ CKCanvas_Internal.prototype.applyStroke = function ()
  *
  */
 
-CKCanvas_Internal.prototype.stroke = function (strokeStyle)
+CKCanvas.prototype.stroke = function (strokeStyle)
 {
     this.context.strokeStyle = color.apply(this,arguments) || this.context.strokeStyle;
 };
 
 
-CKCanvas_Internal.prototype.setLineWidth = function(value)
+CKCanvas.prototype.setLineWidth = function(value)
 {
     this.context.lineWidth = value;
 };
@@ -549,7 +559,7 @@ CKCanvas_Internal.prototype.setLineWidth = function(value)
  * Sets stroke to empty
  */
 
-CKCanvas_Internal.prototype.noStroke = function ()
+CKCanvas.prototype.noStroke = function ()
 {
     this.context.strokeStyle = _InternalCanvasOptions.EMPTY_STYLE ;
 };
@@ -559,7 +569,7 @@ CKCanvas_Internal.prototype.noStroke = function ()
  *
  */
 
-CKCanvas_Internal.prototype.saveToPNG = function()
+CKCanvas.prototype.saveToPNG = function()
 {
     var canvas =
 

@@ -1,16 +1,26 @@
-function CKButton(parent,object,value,label,onPress)
+function CKButton(parent,label,onPress)
 {
-    CKComponent_Internal.apply(this,arguments);
+    this._enabled = true;
 
-    this._lablNode.setProperty('innerHTML','');
+    var rootNode = new CKNode(CKNodeType.LIST_ITEM),
+        wrapNode = new CKNode(CKNodeType.DIV),
+        input    = new CKNode(CKNodeType.INPUT_BUTTON);
 
-    var inputBtn = this._inputBtn = new CKNode(CKNodeType.INPUT_BUTTON);
+    parent.getList().addChild(rootNode);
+    rootNode.addChild(wrapNode);
+    wrapNode.addChild(input);
 
-    inputBtn.setStyleClass(CKCSS.Button);
-    inputBtn.setProperty('value',label);
-    inputBtn.setEventListener(CKNodeEvent.ON_CLICK,onPress);
+    wrapNode.setStyleClass(CKCSS.Wrap);
+    input.setStyleClass(CKCSS.Button);
 
-    this._wrapNode.addChild(inputBtn);
+    input.setProperty('value',label);
+    input.setEventListener(CKNodeEvent.ON_CLICK,onPress);
 }
 
-CKButton.prototype = Object.create(CKComponent_Internal.prototype);
+
+CKButton.prototype.enable      = function(){this._enabled = true;  };
+CKButton.prototype.disable     = function(){this._enabled = false; };
+CKButton.prototype.isEnabled   = function(){return this._enabled;};
+
+//TODO:FIXME!
+CKButton.prototype.forceUpdate = function(){};

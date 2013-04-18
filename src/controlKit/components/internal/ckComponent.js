@@ -1,4 +1,4 @@
-function CKComponent_Internal(parent,object,value)
+function CKComponent(parent,object,value,label)
 {
     this._parent   = parent;
     this._object   = object;
@@ -20,17 +20,17 @@ function CKComponent_Internal(parent,object,value)
     lablNode.setStyleClass(CKCSS.Label);
     wrapNode.setStyleClass(CKCSS.Wrap);
 
-
+    this._lablNode.setProperty('innerHTML',label || '');
 }
 
-CKComponent_Internal.prototype._applyValue  = function(){};
+//Override in Subclass
+CKComponent.prototype._applyValue  = function(){};
+CKComponent.prototype.forceUpdate  = function(){};
 
-CKComponent_Internal.prototype.forceUpdate = function(){};
+CKComponent.prototype.enable     = function(){this._enabled = true;  };
+CKComponent.prototype.disable    = function(){this._enabled = false; };
+CKComponent.prototype.isEnabled  = function(){return this._enabled;};
 
-CKComponent_Internal.prototype.enable     = function(){this._enabled = true;  };
-CKComponent_Internal.prototype.disable    = function(){this._enabled = false; };
-CKComponent_Internal.prototype.isEnabled  = function(){return this._enabled;};
+CKComponent.prototype.setValue    = function(value){this._object[this._key] = value;this.forceUpdate();};
 
-
-CKComponent_Internal.prototype.getNode     = function(){ return this._node; };
 

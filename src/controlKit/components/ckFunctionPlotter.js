@@ -1,6 +1,6 @@
 function CKFunctionPlotter(parent,object,value,label,params)
 {
-    CKCanvasComponent_Internal.apply(this,arguments);
+    CKCanvasComponent.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -18,7 +18,7 @@ function CKFunctionPlotter(parent,object,value,label,params)
     this.setFunction(this._object[this._key]);
 }
 
-CKFunctionPlotter.prototype = Object.create(CKCanvasComponent_Internal.prototype);
+CKFunctionPlotter.prototype = Object.create(CKCanvasComponent.prototype);
 
 CKFunctionPlotter.prototype.setFunction = function(func)
 {
@@ -29,9 +29,11 @@ CKFunctionPlotter.prototype.setFunction = function(func)
     c.background(0,0);
     c.noFill();
     c.push();
-    c.translateHalfFloat();
-    this._drawGrid();
-    this._drawPlot();
+    {
+        c.translateHalfFloat();
+        this._drawGrid();
+        this._drawPlot();
+    }
     c.pop();
 };
 
@@ -54,6 +56,10 @@ CKFunctionPlotter.prototype._drawPlot = function()
     while(i<l)
     {
 
+        normval =  i/l;
+        points[i]   = normval*width;
+        points[i+1] = this._func(normval)*height*0.5;
+
 
         i+=2;
     }
@@ -61,7 +67,7 @@ CKFunctionPlotter.prototype._drawPlot = function()
 
 
     c.setLineWidth(2);
-    c.translate(width*0.5,height*0.5);
+    c.translate(0,height*0.5);
     c.stroke(255);
     c.lineArray(points);
 

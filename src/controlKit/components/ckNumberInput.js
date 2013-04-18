@@ -1,6 +1,6 @@
 function CKNumberInput(parent,object,value,label,params)
 {
-    CKComponent_Internal.apply(this,arguments);
+    CKInteractiveComponent.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -17,8 +17,6 @@ function CKNumberInput(parent,object,value,label,params)
     this._dp          = params.dp;
     this._stepValue   = params.step;
 
-    this._lablNode.setProperty('innerHTML',label);
-
     if(this._stepValue)
     {
 
@@ -34,7 +32,7 @@ function CKNumberInput(parent,object,value,label,params)
     this._wrapNode.addChild(input.getNode());
 }
 
-CKNumberInput.prototype = Object.create(CKComponent_Internal.prototype);
+CKNumberInput.prototype = Object.create(CKInteractiveComponent.prototype);
 
 CKNumberInput.prototype._onInputChange = function(){this._updateValue();this._onChange();this._parent.forceUpdate()};
 CKNumberInput.prototype._onInputFinish = function(){this._updateValue();this._onFinish();this._parent.forceUpdate()};

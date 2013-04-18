@@ -1,4 +1,4 @@
-function CKOptions_Internal()
+function CKOptions()
 {
     var node     = this._node     = new CKNode(CKNodeType.DIV);
     var listNode = this._listNode = new CKNode(CKNodeType.LIST);
@@ -19,7 +19,7 @@ function CKOptions_Internal()
     this._doconmousedownAdded = false;
 }
 
-CKOptions_Internal.prototype =
+CKOptions.prototype =
 {
     build : function(entries,selected,element,callbackSelect,callbackOut)
     {
@@ -99,4 +99,4 @@ CKOptions_Internal.prototype =
     getSelected : function(){return this._selected;}
 };
 
-CKOptions_Internal.getInstance = function(){if(!CKOptions_Internal._instance)CKOptions_Internal._instance = new CKOptions_Internal();return CKOptions_Internal._instance;};
+CKOptions.getInstance = function(){if(!CKOptions._instance)CKOptions._instance = new CKOptions();return CKOptions._instance;};

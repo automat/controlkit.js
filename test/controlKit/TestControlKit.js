@@ -11,15 +11,16 @@ var imports = [
                'global/ckLayout.js',
                'global/ckManager.js',
 
-               'components/internal/ckOptions_Internal.js',
+               'components/internal/ckOptions.js',
 
                'controlKit.js',
 
-               'components/internal/ckComponent_Internal.js',
+               'components/internal/ckComponent.js',
+               'components/internal/ckInteractiveComponent.js',
                'components/internal/ckNumberInput_Internal.js',
                'components/internal/ckSlider_Internal.js',
-               'components/internal/ckCanvas_Internal.js',
-               'components/internal/ckCanvasComponent_Internal.js',
+               'components/internal/ckCanvas.js',
+               'components/internal/ckCanvasComponent.js',
 
 
                'components/ckBlock.js',
@@ -53,25 +54,44 @@ function TestControlKit(parentDomElementId)
                   slideValue:0.5,
                   selectOptions:['hello','bello','cello'],
                   selectTarget:null,
-                  func:function(x){return x;}
+                  func:function(x){return Math.sin(x*Math.PI*4)*0.5;},
+        func2:function(x){return x*x;},
+                  xyValue:[0.25,-0.35]
                   };
 
     ControlKit.init(parentDomElementId);
 
-    var control0 = new ControlKit({label:'Basic Controls',width:300});
+    var control0 = new ControlKit({label:'Basic Controls',width:250,position:[10,10]});
 
-    var block01 = control0.addBlock('Block 1');
+    /*
+    control0.addBlock('Block 1')
+            .addStringInput(object,'string','String Comp')
+            .addStringInput(object,'string','String Comp')
+            .addNumberInput(object,'number','Number Comp')
+            .addButton('BUMM',function(){})
+            .addRange(object,'range','Range Comp')
+            .addCheckbox(object,'bool','Bool Comp')
+            .addSlider(object,'range','slideValue','slider')
+            .addSelect(object,'selectOptions','selectTarget','Select Comp')
+            .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]});
+            */
 
-    block01.addStringInput(object,'string','String Comp')
-          .addStringInput(object,'string','String Comp')
-          .addNumberInput(object,'number','Number Comp')
-          .addButton('labba',function(){})
-          .addRange(object,'range','Range Comp')
-          .addCheckbox(object,'bool','Bool Comp')
-          .addSlider(object,'range','slideValue','slider')
-          .addSelect(object,'selectOptions','selectTarget','Select Comp')
-          .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]})
-          .addPad(object,'')
+    control0.addBlock('Block 1')
+            .addPad(object,'xyValue','Pad Comp')
+        .addStringInput(object,'xyValue')
+            .addPad(object,'xyValue','Pad Comp')
+            .addStringInput(object,'xyValue')
+        .addStringInput(object,'string','String Comp')
+        .addStringInput(object,'string','String Comp')
+        .addNumberInput(object,'number','Number Comp')
+        .addButton('BUMM',function(){})
+        .addRange(object,'range','Range Comp')
+        .addCheckbox(object,'bool','Bool Comp')
+        .addSlider(object,'range','slideValue','slider')
+        .addSelect(object,'selectOptions','selectTarget','Select Comp')
+        .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]});
+
+
 
 
 

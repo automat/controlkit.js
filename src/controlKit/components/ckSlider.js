@@ -1,6 +1,6 @@
 function CKSlider(parent,object,value,target,label,params)
 {
-    CKComponent_Internal.apply(this,arguments);
+    CKInteractiveComponent.apply(this,arguments);
 
     this._values    = this._object[this._key];
     this._targetKey = target;
@@ -16,7 +16,6 @@ function CKSlider(parent,object,value,target,label,params)
     this._onFinish = params.onFinish;
     this._dp       = params.dp;
 
-    this._lablNode.setProperty('innerHTML',label);
     this._wrapNode.setStyleClass(CKCSS.WrapSlider);
 
     var slider = this._slider = new CKSlider_Internal(this._wrapNode,
@@ -37,7 +36,7 @@ function CKSlider(parent,object,value,target,label,params)
     this._wrapNode.addChild(input.getNode());
 }
 
-CKSlider.prototype = Object.create(CKComponent_Internal.prototype);
+CKSlider.prototype = Object.create(CKInteractiveComponent.prototype);
 
 CKSlider.prototype._onSliderChange = function()
 {

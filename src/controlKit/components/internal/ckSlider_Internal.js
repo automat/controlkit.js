@@ -77,7 +77,7 @@ CKSlider_Internal.prototype =
 
     _update : function()
     {
-        var mx = CKMouse.getInstance().x,
+        var mx = CKMouse.getInstance().getX(),
             sx = this._slot.offsetX,
             sw = this._slot.width,
             px = (mx < sx) ? 0 : (mx > (sx + sw)) ? sw : (mx - sx);
@@ -105,9 +105,5 @@ CKSlider_Internal.prototype =
 
     },
 
-    getValue : function()
-    {
-        return this._value;
-
-    }
+    getValue : function(){return this._value;}
 };

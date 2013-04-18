@@ -1,7 +1,7 @@
 
 function CKCheckbox(parent,object,value,label,params)
 {
-    CKComponent_Internal.apply(this,arguments);
+    CKInteractiveComponent.apply(this,arguments);
 
     params = params || {};
     params.onChange = params.onChange || this._onChange;
@@ -9,8 +9,6 @@ function CKCheckbox(parent,object,value,label,params)
 
     this._onChange = params.onChange;
     this._onFinish = params.onFinish;
-
-    this._lablNode.setProperty('innerHTML',label);
 
     var input = this._input = new CKNode(CKNodeType.INPUT_CHECKBOX);
 
@@ -20,7 +18,7 @@ function CKCheckbox(parent,object,value,label,params)
     this._wrapNode.addChild(this._input);
 }
 
-CKCheckbox.prototype = Object.create(CKComponent_Internal.prototype);
+CKCheckbox.prototype = Object.create(CKInteractiveComponent.prototype);
 
 CKCheckbox.prototype._onInputChange = function()
 {

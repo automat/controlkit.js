@@ -1,12 +1,10 @@
 function CKStringInput(parent,object,value,label,params)
 {
-    CKComponent_Internal.apply(this,arguments);
+    CKInteractiveComponent.apply(this,arguments);
 
     params = params || {};
     this._onChange   = params.onChange || this._onChange;
     this._onFinish   = params.onFinish || this._onFinish;
-
-    this._lablNode.setProperty('innerHTML',label);
 
     var input = this._input = new CKNode(CKNodeType.INPUT_TEXT);
 
@@ -19,7 +17,7 @@ function CKStringInput(parent,object,value,label,params)
     this._wrapNode.addChild(input);
 }
 
-CKStringInput.prototype = Object.create(CKComponent_Internal.prototype);
+CKStringInput.prototype = Object.create(CKInteractiveComponent.prototype);
 
 CKStringInput.prototype._onInputKeyUp  = function(){this._applyValue();this._onChange();};
 CKStringInput.prototype._onInputChange = function(){this._applyValue();this._onFinish();};

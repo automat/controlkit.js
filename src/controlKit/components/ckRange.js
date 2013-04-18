@@ -1,6 +1,6 @@
 function CKRange(parent,object,value,label,params)
 {
-    CKComponent_Internal.apply(this,arguments);
+    CKInteractiveComponent.apply(this,arguments);
 
     this._values    = this._object[this._key];
 
@@ -14,8 +14,6 @@ function CKRange(parent,object,value,label,params)
     this._onChange  = params.onChange;
     this._onFinish  = params.onFinish;
     this._dp        = params.dp;
-
-    this._lablNode.setProperty('innerHTML',label);
 
     var lablMinNode = new CKNode(CKNodeType.DIV);
     var inputMin    = this._inputMin = new CKNumberInput_Internal(this._step,
@@ -55,7 +53,7 @@ function CKRange(parent,object,value,label,params)
     wrapNode.addChild(wrapInputMax);
 }
 
-CKRange.prototype = Object.create(CKComponent_Internal.prototype);
+CKRange.prototype = Object.create(CKInteractiveComponent.prototype);
 
 CKRange.prototype._onInputMinChange = function()
 {

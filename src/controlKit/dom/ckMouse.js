@@ -1,7 +1,6 @@
 function CKMouse()
 {
-    this.x = 0;
-    this.y = 0;
+    this._pos = [0,0];
 
     var doconmousemove = document.onmousemove || function(){};
 
@@ -23,10 +22,15 @@ function CKMouse()
             dx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
             dy = e.clientY + document.body.scrollTop  + document.documentElement.scrollTop;
         }
-        this.x = dx;
-        this.y = dy;
+        this._pos[0] = dx;
+        this._pos[1] = dy;
 
     }.bind(this);
 }
 
-CKMouse.getInstance = function(){if(!CKMouse._instance)CKMouse._instance = new CKMouse();return CKMouse._instance;};
+CKMouse.prototype.getPosition = function(){return this._pos;};
+CKMouse.prototype.getX        = function(){return this._pos[0];};
+CKMouse.prototype.getY        = function(){return this._pos[1];};
+
+CKMouse.init        = function(){if(!CKMouse._instance)CKMouse._instance = new CKMouse();};
+CKMouse.getInstance = function(){return CKMouse._instance;};

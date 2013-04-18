@@ -1,6 +1,6 @@
 
 
-
+//TODO:FIX!FIX!FIX!FIX ME!
 function CKManager(parentDomElementId)
 {
     var node = this._node = parentDomElementId ?
@@ -8,10 +8,13 @@ function CKManager(parentDomElementId)
                             new CKNode(CKNodeType.DIV);
     this._kits = [];
 
+
+    CKMouse.init();
+
     this._window = {width :window.innerWidth,
                     height:window.innerHeight};
 
-    node.addChild(CKOptions_Internal.getInstance().getNode());
+    node.addChild(CKOptions.getInstance().getNode());
     if(!parentDomElementId)document.body.appendChild(node.getElement());
 
     window.addEventListener("resize", this.onWindowResize.bind(this), false);

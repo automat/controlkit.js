@@ -1,6 +1,6 @@
 function CKSelect(parent,object,value,target,label,params)
 {
-    CKComponent_Internal.apply(this,arguments);
+    CKInteractiveComponent.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -12,8 +12,6 @@ function CKSelect(parent,object,value,target,label,params)
 
     this._onChange    = params.onChange;
     this._onFinish    = params.onFinish;
-
-    this._lablNode.setProperty('innerHTML',label);
 
     var select = this._select = new CKNode(CKNodeType.INPUT_BUTTON);
     this._selectActive = false;
@@ -67,7 +65,7 @@ function CKSelect(parent,object,value,target,label,params)
 
 }
 
-CKSelect.prototype = Object.create(CKComponent_Internal.prototype);
+CKSelect.prototype = Object.create(CKInteractiveComponent.prototype);
 
 CKSelect.prototype._onSelectMouseDown = function()
 {
