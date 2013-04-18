@@ -1,6 +1,6 @@
 function CKSelect(parent,object,value,target,label,params)
 {
-    CKInteractiveComponent.apply(this,arguments);
+    CKObjectComponent.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -65,7 +65,7 @@ function CKSelect(parent,object,value,target,label,params)
 
 }
 
-CKSelect.prototype = Object.create(CKInteractiveComponent.prototype);
+CKSelect.prototype = Object.create(CKObjectComponent.prototype);
 
 CKSelect.prototype._onSelectMouseDown = function()
 {

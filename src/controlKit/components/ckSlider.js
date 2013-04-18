@@ -1,6 +1,6 @@
 function CKSlider(parent,object,value,target,label,params)
 {
-    CKInteractiveComponent.apply(this,arguments);
+    CKObjectComponent.apply(this,arguments);
 
     this._values    = this._object[this._key];
     this._targetKey = target;
@@ -36,7 +36,7 @@ function CKSlider(parent,object,value,target,label,params)
     this._wrapNode.addChild(input.getNode());
 }
 
-CKSlider.prototype = Object.create(CKInteractiveComponent.prototype);
+CKSlider.prototype = Object.create(CKObjectComponent.prototype);
 
 CKSlider.prototype._onSliderChange = function()
 {

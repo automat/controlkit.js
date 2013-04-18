@@ -1,6 +1,6 @@
 function CKCanvasComponent(parent,object,value,label)
 {
-    CKComponent.apply(this,arguments);
+    CKObjectComponent.apply(this,arguments);
 
     var node     = this._node.setStyleClass(CKCSS.CanvasListItem);
     var wrapNode = this._wrapNode.setStyleClass(CKCSS.CanvasWrap);
@@ -17,4 +17,4 @@ function CKCanvasComponent(parent,object,value,label)
     node.setHeight(    wrapNode.getHeight() + 12);
 }
 
-CKCanvasComponent.prototype = Object.create(CKComponent.prototype);
+CKCanvasComponent.prototype = Object.create(CKObjectComponent.prototype);

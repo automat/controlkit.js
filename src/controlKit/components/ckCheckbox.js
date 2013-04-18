@@ -1,7 +1,7 @@
 
 function CKCheckbox(parent,object,value,label,params)
 {
-    CKInteractiveComponent.apply(this,arguments);
+    CKObjectComponent.apply(this,arguments);
 
     params = params || {};
     params.onChange = params.onChange || this._onChange;
@@ -18,7 +18,7 @@ function CKCheckbox(parent,object,value,label,params)
     this._wrapNode.addChild(this._input);
 }
 
-CKCheckbox.prototype = Object.create(CKInteractiveComponent.prototype);
+CKCheckbox.prototype = Object.create(CKObjectComponent.prototype);
 
 CKCheckbox.prototype._onInputChange = function()
 {

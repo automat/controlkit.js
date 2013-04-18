@@ -51,7 +51,8 @@ CKManager.prototype =
 
         var kits   = this._kits,
             blocks,
-            components;
+            components,
+            component;
 
         while(++i < kits.length)
         {
@@ -63,7 +64,9 @@ CKManager.prototype =
                 k=-1;
                 while(++k < components.length)
                 {
-                    components[k].forceUpdate();
+                    component = components[k];
+                    if(component instanceof  CKObjectComponent)component.forceUpdate();
+
                 }
             }
         }

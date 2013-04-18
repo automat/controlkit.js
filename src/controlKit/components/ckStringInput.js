@@ -1,6 +1,6 @@
 function CKStringInput(parent,object,value,label,params)
 {
-    CKInteractiveComponent.apply(this,arguments);
+    CKObjectComponent.apply(this,arguments);
 
     params = params || {};
     this._onChange   = params.onChange || this._onChange;
@@ -17,7 +17,7 @@ function CKStringInput(parent,object,value,label,params)
     this._wrapNode.addChild(input);
 }
 
-CKStringInput.prototype = Object.create(CKInteractiveComponent.prototype);
+CKStringInput.prototype = Object.create(CKObjectComponent.prototype);
 
 CKStringInput.prototype._onInputKeyUp  = function(){this._applyValue();this._onChange();};
 CKStringInput.prototype._onInputChange = function(){this._applyValue();this._onFinish();};

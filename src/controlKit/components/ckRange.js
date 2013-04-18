@@ -1,6 +1,6 @@
 function CKRange(parent,object,value,label,params)
 {
-    CKInteractiveComponent.apply(this,arguments);
+    CKObjectComponent.apply(this,arguments);
 
     this._values    = this._object[this._key];
 
@@ -53,7 +53,7 @@ function CKRange(parent,object,value,label,params)
     wrapNode.addChild(wrapInputMax);
 }
 
-CKRange.prototype = Object.create(CKInteractiveComponent.prototype);
+CKRange.prototype = Object.create(CKObjectComponent.prototype);
 
 CKRange.prototype._onInputMinChange = function()
 {

@@ -16,7 +16,7 @@ var imports = [
                'controlKit.js',
 
                'components/internal/ckComponent.js',
-               'components/internal/ckInteractiveComponent.js',
+               'components/internal/ckObjectComponent.js',
                'components/internal/ckNumberInput_Internal.js',
                'components/internal/ckSlider_Internal.js',
                'components/internal/ckCanvas.js',
