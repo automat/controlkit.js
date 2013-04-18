@@ -22,7 +22,7 @@ function CKNumberInput(parent,object,value,label,params)
 
     }
 
-    var input = this._input = new CKNumberInput_Internal(this._stepValue,
+    var input = this._textArea = new CKNumberInput_Internal(this._stepValue,
                                                          this._dp,
                                                          this._onInputChange.bind(this),
                                                          this._onInputFinish.bind(this));
@@ -39,10 +39,10 @@ CKNumberInput.prototype._onInputFinish = function(){this._updateValue();this._on
 
 CKNumberInput.prototype._updateValue = function()
 {
-    this._object[this._key] = this._input.getValue();
+    this._object[this._key] = this._textArea.getValue();
 };
 
 CKNumberInput.prototype.forceUpdate = function()
 {
-    this._input.setValue(this._object[this._key]);
+    this._textArea.setValue(this._object[this._key]);
 };

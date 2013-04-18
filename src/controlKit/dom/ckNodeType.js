@@ -9,5 +9,6 @@ var CKNodeType =
     OPTION         : 'option',
     LIST           : 'ul',
     LIST_ITEM      : 'li',
-    SPAN           : 'span'
+    SPAN           : 'span',
+    TEXTAREA       : 'textarea'
 };

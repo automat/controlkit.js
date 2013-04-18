@@ -7,7 +7,7 @@ function CKNumberInput_Internal(stepValue,decimalPlaces,onChange,onFinish)
     this._onChange  = onChange || function(){};
     this._onFinish  = onFinish || function(){};
 
-    var input = this._input = new CKNode(CKNodeType.INPUT_TEXT);
+    var input = this._textArea = new CKNode(CKNodeType.INPUT_TEXT);
 
     input.setProperty('value',this._value);
 
@@ -56,12 +56,12 @@ CKNumberInput_Internal.prototype._validateInput = function()
 {
     if(this._inputIsNumber())
     {
-        this._temp = this._value = Number(this._input.getProperty('value'));
+        this._temp = this._value = Number(this._textArea.getProperty('value'));
         return;
     }
 
     this._temp = this._value;
-    this._input.setProperty('value',this._value);
+    this._textArea.setProperty('value',this._value);
 };
 
 CKNumberInput_Internal.prototype._validateNumber = function()
@@ -72,7 +72,7 @@ CKNumberInput_Internal.prototype._validateNumber = function()
 
 CKNumberInput_Internal.prototype._inputIsNumber = function()
 {
-    var value = this._input.getProperty('value');
+    var value = this._textArea.getProperty('value');
 
     //TODO:FIX
     if(value == '-')return true;
@@ -89,7 +89,7 @@ CKNumberInput_Internal.prototype._formatDisplayOutput = function()
 
     if(index>0)this._out = output.slice(0,index+this._valueDPlace);
 
-    this._input.setProperty('value',this._out);
+    this._textArea.setProperty('value',this._out);
 };
 
 CKNumberInput_Internal.prototype.getValue = function()
@@ -117,5 +117,5 @@ CKNumberInput_Internal.prototype.stepDown = function()
 
 CKNumberInput_Internal.prototype.getNode = function()
 {
-    return this._input;
+    return this._textArea;
 };

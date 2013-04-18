@@ -16,7 +16,7 @@ function CKObjectComponent(parent,object,value,label)
 CKObjectComponent.prototype = Object.create(CKComponent.prototype);
 
 //Override in Subclass
-CKObjectComponent.prototype._applyValue  = function(){};
+CKObjectComponent.prototype.applyValue  = function(){};
 CKObjectComponent.prototype.forceUpdate  = function(){};
 
 CKObjectComponent.prototype.setValue    = function(value){this._object[this._key] = value;this.forceUpdate();};

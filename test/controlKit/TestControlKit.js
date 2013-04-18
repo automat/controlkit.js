@@ -35,7 +35,8 @@ var imports = [
                'components/ckSelect.js',
 
                'components/ckFunctionPlotter.js',
-               'components/ckPad.js'
+               'components/ckPad.js',
+               'components/ckOutput.js'
 
               ];
 var i = -1,string;
@@ -78,9 +79,9 @@ function TestControlKit(parentDomElementId)
 
     control0.addBlock('Block 1')
             .addPad(object,'xyValue','Pad Comp')
-        .addStringInput(object,'xyValue')
+            .addOutput(object,'xyValue')
             .addPad(object,'xyValue','Pad Comp')
-            .addStringInput(object,'xyValue')
+            .addOutput(object,'xyValue','',{wrap:true,height:40})
         .addStringInput(object,'string','String Comp')
         .addStringInput(object,'string','String Comp')
         .addNumberInput(object,'number','Number Comp')

@@ -67,7 +67,7 @@ CKBlock.prototype =
 
     addFunctionPlotter : function(object,value,label,params){return this._addComponent(new CKFunctionPlotter(this,object,value,label,params));},
     addPad             : function(object,value,label,params){return this._addComponent(new CKPad(            this,object,value,label,params));},
-
+    addOutput          : function(object,value,label,params){return this._addComponent(new CKOutput(         this,object,value,label,params));},
 
     addObject : function(obj){},
 

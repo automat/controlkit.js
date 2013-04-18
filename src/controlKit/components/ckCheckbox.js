@@ -10,12 +10,12 @@ function CKCheckbox(parent,object,value,label,params)
     this._onChange = params.onChange;
     this._onFinish = params.onFinish;
 
-    var input = this._input = new CKNode(CKNodeType.INPUT_CHECKBOX);
+    var input = this._textArea = new CKNode(CKNodeType.INPUT_CHECKBOX);
 
     input.setProperty('checked',this._object[this._key]);
     input.setEventListener(CKNodeEvent.CHANGE,this._onInputChange.bind(this));
 
-    this._wrapNode.addChild(this._input);
+    this._wrapNode.addChild(this._textArea);
 }
 
 CKCheckbox.prototype = Object.create(CKObjectComponent.prototype);
@@ -29,5 +29,5 @@ CKCheckbox.prototype._onInputChange = function()
 
 CKCheckbox.prototype.forceUpdate = function()
 {
-    this._input.setProperty('checked',this._object[this._key]);
+    this._textArea.setProperty('checked',this._object[this._key]);
 };

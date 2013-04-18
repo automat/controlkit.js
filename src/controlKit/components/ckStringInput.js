@@ -6,7 +6,7 @@ function CKStringInput(parent,object,value,label,params)
     this._onChange   = params.onChange || this._onChange;
     this._onFinish   = params.onFinish || this._onFinish;
 
-    var input = this._input = new CKNode(CKNodeType.INPUT_TEXT);
+    var input = this._textArea = new CKNode(CKNodeType.INPUT_TEXT);
 
     input.setProperty('value',this._object[this._key]);
 
@@ -25,12 +25,12 @@ CKStringInput.prototype._onInputChange = function(){this._applyValue();this._onF
 
 CKStringInput.prototype._applyValue = function()
 {
-    this._object[this._key] = this._input.getProperty('value');
+    this._object[this._key] = this._textArea.getProperty('value');
     this._parent.forceUpdate();
 };
 
 CKStringInput.prototype.forceUpdate = function()
 {
-    this._input.setProperty('value',this._object[this._key]);
+    this._textArea.setProperty('value',this._object[this._key]);
 };
 
