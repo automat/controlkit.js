@@ -4,34 +4,29 @@ function CKGroup(parent, label, params)
 {
     this._parent = parent;
 
-    /*---------------------------------------------------------------------------------*/
-
-    params      = params      || {};
-    params.hide = params.hide || false;
-
-    /*---------------------------------------------------------------------------------*/
+    params = params || {};
 
     var rootNode  = this._node = new CKNode(CKNodeType.LIST_ITEM),
         headNode  = new CKNode(CKNodeType.DIV),
         lablNode  = new CKNode(CKNodeType.SPAN),
         indiNode  = this._indiNode = new CKNode(CKNodeType.DIV),
         wrapNode  = this._wrapNode = new CKNode(CKNodeType.DIV),
-        listNode  = this._listNode = new CKNode(CKNodeType.LIST);
+        contNode  = this._contNode = new CKNode(CKNodeType.LIST);
 
     this._parent.getList().addChild(rootNode);
 
-    rootNode.setStyleClass(CKCSS.Group);
+    rootNode.setStyleClass(CKCSS.Block);
     headNode.setStyleClass(CKCSS.Head);
     lablNode.setStyleClass(CKCSS.Label);
     indiNode.setStyleClass(CKCSS.ArrowBMax);
     wrapNode.setStyleClass(CKCSS.Wrap);
-    listNode.setStyleClass(CKCSS.SubGroupList);
+    contNode.setStyleClass(CKCSS.SubGroupList);
 
     lablNode.setProperty('innerHTML',label);
 
     headNode.addChild(lablNode);
     headNode.addChild(indiNode);
-    wrapNode.addChild(listNode);
+    wrapNode.addChild(contNode);
     rootNode.addChild(headNode);
     rootNode.addChild(wrapNode);
 
@@ -100,17 +95,17 @@ CKGroup.prototype =
     getComponents : function(){return this._components;},
     getNode       : function(){return this._node;},
 
-    getGroupList  : function(){return this._listNode;},
+    getGroupList  : function(){return this._contNode;},
 
     getList       : function()
     {
         //if first element is subgroup
-        var listNode = this._listNode;
-        if(!listNode.hasChildren())listNode.addChild(new CKNode(CKNodeType.LIST));
+        var contNode = this._contNode;
+        if(!contNode.hasChildren())contNode.addChild(new CKNode(CKNodeType.LIST));
 
-        return listNode.getLastChild();
+        return contNode.getLastChild();
     },
 
-    _hasSubGroup  : function(){return this._listNode.hasChildNodes();}
+    _hasSubGroup  : function(){return this._contNode.hasChildNodes();}
 
 };

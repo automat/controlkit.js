@@ -219,10 +219,12 @@
 .kit .head .label{line-height: 42px;color:#65696b;}
 
 /*-------------------------------------------------------------------------------------
- * Group
+ * BLOCK
  *-------------------------------------------------------------------------------------*/
 
-.kit .group {}
+.kit .block{}
+
+
 
 .kit ul
 {
@@ -231,12 +233,12 @@
     list-style: none;
 }
 
-.kit .group .subgroups
+.kit .block .subgroups
 {
     padding: 10px;
 }
 
-.kit .group .subgroups ul
+.kit .block .subgroups ul
 {
     border-radius:         2px;
     -moz-border-radius:    2px;
@@ -247,19 +249,19 @@
     box-shadow: 0 1px  0 rgba(59, 68, 71,1.0);
 }
 
-.kit .group ul ul
+.kit .block ul ul
 {
     margin-bottom: 6px;
 }
 
-.kit .group ul:last-child
+.kit .block ul:last-child
 {
     margin-bottom: 0px;
 }
 
 
 
-.kit .group .head
+.kit .block .head
 {
     height: 44px;
 
@@ -272,9 +274,9 @@
     background-image: linear-gradient(#3c4a4f 0%, #383f47 100%);
 }
 
-.kit .group .head .label{line-height:44px;color:#fff;}
+.kit .block .head .label{line-height:44px;color:#fff;}
 
-.kit .group .head:hover,.head:active
+.kit .block .head:hover,.head:active
 {
     background-image: -webkit-linear-gradient(#3c4a4f 0%, #3c4a4f 100%);
     background-image: -moz-linear-gradient(#3c4a4f 0%, #3c4a4f 100%);
@@ -284,25 +286,23 @@
 
 .kit .head:hover,.head:active{background-image: none}
 
-.kit .group li:nth-child(odd)
+.kit .block li:nth-child(odd)
 {
     background-color: #292d30;
 }
-
-
 
 /*-------------------------------------------------------------------------------------
  * Component
  *-------------------------------------------------------------------------------------*/
 
-.kit .group li
+.kit .block li
 {
 
     height:   35px;
     padding:  0 10px 0 10px;
 }
 
-.kit .group .subgroups .label
+.kit .block .subgroups .label
 {
     width:   30%;
     padding: 10px 5px 0 0;
@@ -500,7 +500,7 @@
     cursor: pointer;
 }
 
-.kit .group .canvasLi
+.kit .block .canvasLi
 {
     padding:  0 10px 0 10px ;
 }

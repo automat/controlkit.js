@@ -4,7 +4,7 @@ CKCSS =
     Head         : 'head',
     Label        : 'label',
     Wrap         : 'wrap',
-    Group        : 'group',
+    Block        : 'block',
     SubGroupList      : 'subgroups',
 
     Button       : 'button',
@@ -30,5 +30,7 @@ CKCSS =
     CanvasWrap      : 'canvasWrap',
 
     WrapperPadding : 12,
-    MinHeight      : 25
+    MinHeight      : 25,
+
+    MinWidth : 100
 };
