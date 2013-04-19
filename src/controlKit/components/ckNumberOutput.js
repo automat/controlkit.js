@@ -22,6 +22,8 @@ function CKNumberOutput(parent,object,value,label,params)
 
     if( params.height)
     {
+        params.height = params.height  < CKCSS.MinHeight ?
+                        CKCSS.MinHeight : params.height;
         //TODO: FIXME!
         this._textArea.setHeight(params.height);
         this._wrapNode.setHeight(this._textArea.getHeight() + CKCSS.WrapperPadding -6);

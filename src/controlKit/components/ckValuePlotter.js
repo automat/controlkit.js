@@ -18,6 +18,9 @@ function CKValuePlotter(parent,object,value,label,params)
     var i = 0; while(i < this._points.length){this._points[i]=length-i;this._points[i+1]=0.0;i+=2;}
         i =-1; while(++i < length){this._buffer0[i] = this._buffer1[i] = 0.0;}
 
+    params.height = params.height  < CKCSS.MinHeight ?
+                    CKCSS.MinHeight : params.height;
+
     this._canvas.setSize(this._canvas.width,Math.floor(params.height));
     this._updateHeight();
 

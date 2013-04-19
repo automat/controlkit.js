@@ -29,5 +29,6 @@ CKCSS =
     CanvasListItem  : 'canvasLi',
     CanvasWrap      : 'canvasWrap',
 
-    WrapperPadding : 12
+    WrapperPadding : 12,
+    MinHeight      : 25
 };
