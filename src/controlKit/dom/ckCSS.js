@@ -4,7 +4,7 @@ CKCSS =
     Head         : 'head',
     Label        : 'label',
     Wrap         : 'wrap',
-    Block        : 'block',
+    Group        : 'group',
     SubGroupList      : 'subgroups',
 
     Button       : 'button',
