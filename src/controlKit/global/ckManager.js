@@ -94,8 +94,9 @@ CKManager.prototype =
                 while(++k < components.length)
                 {
                     component = components[k];
-                    if(component instanceof  CKValuePlotter ||
-                       component instanceof  CKStringOutput)
+                    if(component instanceof CKValuePlotter ||
+                       component instanceof CKStringOutput ||
+                       component instanceof CKNumberOutput)
                     {
                         component.update();
                     }

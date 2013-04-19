@@ -38,7 +38,8 @@ var imports = [
                'components/ckFunctionPlotter.js',
                'components/ckPad.js',
                'components/ckValuePlotter.js',
-               'components/ckStringOutput.js'
+               'components/ckStringOutput.js',
+               'components/ckNumberOutput.js'
 
 
               ];
@@ -74,13 +75,13 @@ function TestControlKit(parentDomElementId)
 
     control0.addBlock('Block 1')
             .addValuePlotter(object,'changeValue0','valuePlotter',{height:25})
-            .addOutput(object,'changeValue0')
+            .addNumberOutput(object,'changeValue0','',{dp:4})
             .addValuePlotter(object,'changeValue1','valuePlotter',{height:25})
-            .addOutput(object,'changeValue1')
+            .addNumberOutput(object,'changeValue1','',{dp:4})
             .addPad(object,'xyValue','Pad Comp')
-            .addOutput(object,'xyValue')
+            .addNumberOutput(object,'xyValue')
             .addPad(object,'xyValue','Pad Comp')
-            .addOutput(object,'xyValue','',{wrap:true,height:40})
+            .addNumberOutput(object,'xyValue','',{wrap:true,height:40,dp:4})
             .addStringInput(object,'string','String Comp')
             .addStringInput(object,'string','String Comp')
             .addNumberInput(object,'number','Number Comp')
