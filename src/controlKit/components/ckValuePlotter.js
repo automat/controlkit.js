@@ -64,11 +64,6 @@ CKValuePlotter.prototype._drawCurve = function()
     var canvas       = this._canvas,
         canvasHeight = this._canvas.height-2;
 
-    canvas.push();
-    canvas.translate(0,(Math.floor(canvasHeight)*0.5+0.5));
-    canvas.setLineWidth(this._lineWidth);
-    canvas.stroke(255);
-
     var i = 0;
 
     var length  = this._buffer0.length;
@@ -77,20 +72,26 @@ CKValuePlotter.prototype._drawCurve = function()
         buffer1 = this._buffer1,
         points  = this._points;
 
-   buffer0[length - 1] = value * (canvasHeight * 0.5) * -1;
+    buffer0[length - 1] = value * (canvasHeight * 0.5) * -1;
 
     while(++i < length)
     {
-        buffer1[i - 1] = buffer0[i];
-        points[i*2+1] = buffer0[i - 1] = buffer1[i - 1];
+        buffer1[i - 1 ] = buffer0[i];
+        points[ i*2+1 ] = buffer0[i - 1] = buffer1[i - 1];
     }
 
     points[1] = buffer0[0];
 
-
-
-    //var i=0;while(i<this._points.length){this._points[i+1]=value*(canvasHeight*0.5);i+=2;}
-    canvas.lineArray(this._points);
+    canvas.push();
+    {
+        canvas.translate(0,(Math.floor(canvasHeight)*0.5+0.5));
+        canvas.setLineWidth(this._lineWidth+3);
+        canvas.stroke(0);
+        canvas.lineArray(this._points);
+        canvas.setLineWidth(this._lineWidth+0.5);
+        canvas.stroke(255);
+        canvas.lineArray(this._points);
+    }
     canvas.pop();
 
 };

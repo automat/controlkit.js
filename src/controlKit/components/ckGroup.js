@@ -1,18 +1,17 @@
 
 
-function CKBlock(parent, label, params)
+function CKGroup(parent, label, params)
 {
     this._parent = parent;
 
     params = params || {};
 
-    var rootNode = this._node = new CKNode(CKNodeType.LIST_ITEM),
-        headNode = new CKNode(CKNodeType.DIV),
-        lablNode = new CKNode(CKNodeType.SPAN),
-        indiNode = this._indiNode = new CKNode(CKNodeType.DIV),
-        wrapNode = this._wrapNode = new CKNode(CKNodeType.DIV),
-        contNode = new CKNode(CKNodeType.DIV),
-        listNode = this._listNode = new CKNode(CKNodeType.LIST);
+    var rootNode  = this._node = new CKNode(CKNodeType.LIST_ITEM),
+        headNode  = new CKNode(CKNodeType.DIV),
+        lablNode  = new CKNode(CKNodeType.SPAN),
+        indiNode  = this._indiNode = new CKNode(CKNodeType.DIV),
+        wrapNode  = this._wrapNode = new CKNode(CKNodeType.DIV),
+        contNode  = this._contNode = new CKNode(CKNodeType.LIST);
 
     this._parent.getList().addChild(rootNode);
 
@@ -21,28 +20,31 @@ function CKBlock(parent, label, params)
     lablNode.setStyleClass(CKCSS.Label);
     indiNode.setStyleClass(CKCSS.ArrowBMax);
     wrapNode.setStyleClass(CKCSS.Wrap);
-    contNode.setStyleClass(CKCSS.Content);
+    contNode.setStyleClass(CKCSS.SubGroupList);
 
     lablNode.setProperty('innerHTML',label);
 
     headNode.addChild(lablNode);
     headNode.addChild(indiNode);
-    contNode.addChild(listNode);
     wrapNode.addChild(contNode);
     rootNode.addChild(headNode);
     rootNode.addChild(wrapNode);
 
     this._hidden = false;
     this._components = [];
+    this._subGroups  = [];
 
     headNode.setEventListener(CKNodeEvent.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
 }
 
 
 
-CKBlock.prototype =
+CKGroup.prototype =
 {
     _onHeadMouseDown  : function() { this._hidden = !this._hidden; this._updateVisibility();},
+
+    hide : function() { this._hidden = true;  this._updateVisibility();},
+    show : function() { this._hidden = false; this._updateVisibility();},
 
     _updateVisibility : function()
     {
@@ -54,7 +56,9 @@ CKBlock.prototype =
         this._indiNode.setStyleClass(hidden ? CKCSS.ArrowBMin : CKCSS.ArrowBMax);
     },
 
-    addSubBlock    : function(label,params){},
+    addSubGroup        : function(label,params)                    {this._subGroups.push(new CKSubGroup(this,label,params));
+                                                                    this._updateHeight();
+                                                                    return this;},
 
     addStringInput     : function(object,value,label,params)       {return this._addComponent(new CKStringInput(     this,object,value,label,params));},
     addNumberInput     : function(object,value,label,params)       {return this._addComponent(new CKNumberInput(     this,object,value,label,params));},
@@ -73,17 +77,35 @@ CKBlock.prototype =
 
     addObject : function(obj){},
 
+
     _addComponent : function(component)
     {
         this._components.push(component);
+        this._updateHeight();
+        return this;
+    },
+
+    _updateHeight : function()
+    {
         var wrapNode = this._wrapNode;
         wrapNode.setHeight(wrapNode.getFirstChild().getHeight());
-        return this;
     },
 
     forceUpdate   : function(){this._parent.forceUpdate();},
     getComponents : function(){return this._components;},
     getNode       : function(){return this._node;},
-    getList       : function(){return this._listNode;}
+
+    getGroupList  : function(){return this._contNode;},
+
+    getList       : function()
+    {
+        //if first element is subgroup
+        var contNode = this._contNode;
+        if(!contNode.hasChildren())contNode.addChild(new CKNode(CKNodeType.LIST));
+
+        return contNode.getLastChild();
+    },
+
+    _hasSubGroup  : function(){return this._contNode.hasChildNodes();}
 
 };

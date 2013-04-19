@@ -107,7 +107,7 @@ ControlKit.prototype =
 {
     addBlock : function(label,params)
     {
-        var block = new CKBlock(this,label,params);
+        var block = new CKGroup(this,label,params);
         this._blocks.push(block);
         return block;
     },

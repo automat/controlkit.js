@@ -5,7 +5,7 @@ CKCSS =
     Label        : 'label',
     Wrap         : 'wrap',
     Block        : 'block',
-    Content      : 'content',
+    SubGroupList      : 'subgroups',
 
     Button       : 'button',
 

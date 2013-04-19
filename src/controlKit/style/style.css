@@ -208,7 +208,7 @@
 
 .kit .head
 {
-    height:  50px;
+    height:  42px;
     padding: 0 20px 0 20px;
 
     background-color: #1f2325;
@@ -216,7 +216,7 @@
     border-bottom:    1px solid #111314;
 }
 
-.kit .head .label{line-height: 50px;color:#65696b;}
+.kit .head .label{line-height: 42px;color:#65696b;}
 
 /*-------------------------------------------------------------------------------------
  * BLOCK
@@ -224,10 +224,7 @@
 
 .kit .block{}
 
-.kit .block .content
-{
-    padding: 10px;
-}
+
 
 .kit ul
 {
@@ -236,7 +233,12 @@
     list-style: none;
 }
 
-.kit .block ul
+.kit .block .subgroups
+{
+    padding: 10px;
+}
+
+.kit .block .subgroups ul
 {
     border-radius:         2px;
     -moz-border-radius:    2px;
@@ -245,6 +247,16 @@
     border:  1px solid #1e2224;
 
     box-shadow: 0 1px  0 rgba(59, 68, 71,1.0);
+}
+
+.kit .block ul ul
+{
+    margin-bottom: 6px;
+}
+
+.kit .block ul:last-child
+{
+    margin-bottom: 0px;
 }
 
 
@@ -290,10 +302,10 @@
     padding:  0 10px 0 10px;
 }
 
-.kit .block .content .label
+.kit .block .subgroups .label
 {
     width:   30%;
-    padding: 10px 0 0 0;
+    padding: 10px 5px 0 0;
     float:   left;
 
     -webkit-box-sizing: border-box;
@@ -307,7 +319,7 @@
     height: 100%;
 }
 
-.kit .content .wrap
+.kit .subgroups .wrap
 {
     -webkit-box-sizing: border-box;
     -moz-box-sizing:    border-box;
@@ -319,14 +331,14 @@
     height: 100%;
 }
 
-.kit .content .wrap .wrap
+.kit .subgroups .wrap .wrap
 {
     width: 25%;
     padding: 0;
     float: left;
 }
 
-.kit .content .wrap .wrap .label
+.kit .subgroups .wrap .wrap .label
 {
     width: 100%;
     padding: 4px 0 0 0;
@@ -338,7 +350,7 @@
     text-shadow: 1px 1px #1a1a1a;
 }
 
-.kit .content .wrap .wrap input[type='text']
+.kit .subgroups .wrap .wrap input[type='text']
 {
     padding: 0;
     text-align: center;
@@ -348,7 +360,7 @@
  * Slider
  *-------------------------------------------------------------------------------------*/
 
-.kit .content .wrapSlider
+.kit .subgroups .wrapSlider
 {
     -webkit-box-sizing: border-box;
     -moz-box-sizing:    border-box;

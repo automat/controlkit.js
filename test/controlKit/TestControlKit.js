@@ -24,7 +24,8 @@ var imports = [
                'components/internal/ckPlotter.js',
 
 
-               'components/ckBlock.js',
+               'components/ckGroup.js',
+               'components/ckSubGroup.js',
 
                'components/ckStringInput.js',
                'components/ckButton.js',
@@ -73,7 +74,8 @@ function TestControlKit(parentDomElementId)
     var control0 = new ControlKit({label:'Basic Controls',width:280,position:[10,10]});
 
 
-    control0.addBlock('Block 1')
+    control0.addBlock('Group 1')
+        /*
             .addValuePlotter(object,'changeValue0','valuePlotter',{height:25})
             .addNumberOutput(object,'changeValue0','',{dp:4})
             .addValuePlotter(object,'changeValue1','valuePlotter',{height:25})
@@ -86,11 +88,35 @@ function TestControlKit(parentDomElementId)
             .addStringInput(object,'string','String Comp')
             .addNumberInput(object,'number','Number Comp')
             .addButton('BUMM',function(){})
+            */
+            .addSubGroup()
+            .addRange(object,'range','Range Comp')
+            .addSlider(object,'range','slideValue','slider')
+            .addSubGroup()
+            .addSelect(object,'selectOptions','selectTarget','Select Comp')
+            .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]})
+            .addSubGroup()
             .addRange(object,'range','Range Comp')
             .addCheckbox(object,'bool','Bool Comp')
-            .addSlider(object,'range','slideValue','slider')
-            .addSelect(object,'selectOptions','selectTarget','Select Comp')
-            .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]});
+            .addSubGroup()
+            .addPad(object,'xyValue','Pad Comp')
+            .addNumberOutput(object,'xyValue','',{wrap:true,height:40,dp:4})
+
+    var control1 = new ControlKit({label:'Basic Controls',width:180,position:[300,10]});
+
+
+    control1.addBlock('Value Track')
+        .addSubGroup()
+        .addValuePlotter(object,'changeValue0','valuePlotter',{height:100})
+        .addNumberOutput(object,'changeValue0','',{dp:4})
+        .addSubGroup()
+        .addValuePlotter(object,'changeValue1','valuePlotter',{height:100})
+        .addNumberOutput(object,'changeValue1','',{dp:4});
+    control1.addBlock('Group 1')
+        .addRange(object,'range','Range Comp')
+        .addCheckbox(object,'bool','Bool Comp')
+        .addSelect(object,'selectOptions','selectTarget','Select Comp')
+        .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]});
 
 
 

@@ -140,6 +140,7 @@ CKNode.prototype =
     getNumChildren : function()      {return this._element.children.length;},
     getFirstChild  : function()      {return new CKNode().setElement(this._element.firstChild);},
     getLastChild   : function()      {return new CKNode().setElement(this._element.lastChild);},
+    hasChildren    : function()      {return this._element.children.length != 0;},
     contains       : function(node)  {return this._element.children.indexOf(node.getElement()) != -1;},
 
     setProperty   : function(property, value){this._element[property] = value;return this;},

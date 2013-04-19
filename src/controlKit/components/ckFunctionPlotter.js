@@ -36,10 +36,10 @@ CKFunctionPlotter.prototype.setFunction = function(func)
 
 CKFunctionPlotter.prototype._drawPlot = function()
 {
-    var c = this._canvas;
+    var canvas = this._canvas;
 
-    var width  = Math.floor(c.width),
-        height = Math.floor(c.height);
+    var width  = Math.floor(canvas.width),
+        height = Math.floor(canvas.height);
 
     var bounds = this._bounds,
         minx = bounds[0],
@@ -60,10 +60,17 @@ CKFunctionPlotter.prototype._drawPlot = function()
 
         i+=2;
     }
-    c.setLineWidth(this._lineWidth);
-    c.translate(0,height*0.5);
-    c.stroke(255);
-    c.lineArray(points);
+    canvas.push();
+    {
+        canvas.translate(0,(Math.floor(height)*0.5+0.5));
+        canvas.setLineWidth(this._lineWidth+3);
+        canvas.stroke(0);
+        canvas.lineArray(points);
+        canvas.setLineWidth(this._lineWidth+0.5);
+        canvas.stroke(255);
+        canvas.lineArray(points);
+    }
+    canvas.pop();
 
 };
 
