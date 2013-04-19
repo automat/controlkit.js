@@ -1,24 +1,21 @@
 function CKFunctionPlotter(parent,object,value,label,params)
 {
-    CKCanvasComponent.apply(this,arguments);
+    CKPlotter.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
     params          = params          || {};
-    params.gridRes  = params.gridRes  || [10,10];
     params.bounds   = params.bounds   || [-1,1,-1,1];
 
     /*---------------------------------------------------------------------------------*/
 
-    this._gridRes      = params.gridRes;
     this._bounds       = params.bounds;
-
 
     this._func = null;
     this.setFunction(this._object[this._key]);
 }
 
-CKFunctionPlotter.prototype = Object.create(CKCanvasComponent.prototype);
+CKFunctionPlotter.prototype = Object.create(CKPlotter.prototype);
 
 CKFunctionPlotter.prototype.setFunction = function(func)
 {
@@ -63,9 +60,6 @@ CKFunctionPlotter.prototype._drawPlot = function()
 
         i+=2;
     }
-
-
-
     c.setLineWidth(2);
     c.translate(0,height*0.5);
     c.stroke(255);
@@ -73,43 +67,5 @@ CKFunctionPlotter.prototype._drawPlot = function()
 
 };
 
-CKFunctionPlotter.prototype._drawGrid = function()
-{
-    var c = this._canvas;
 
-    var gridResX     = this._gridRes[0],
-        gridResY     = this._gridRes[1],
-        canvasWidth  = c.width,
-        canvasHeight = c.height;
-
-
-    var spacingGridX = canvasWidth  / (gridResX),
-        spacingGridY = canvasHeight / gridResY;
-
-    var temp;
-    var i = -1;
-
-    c.stroke(26,29,31);
-
-    while(++i < gridResX)
-    {
-        temp = Math.round(spacingGridX + spacingGridX * i);
-        c.line(0,temp,canvasWidth,temp);
-    }
-    i = -1;
-    while(++i < gridResY)
-    {
-        temp = Math.round(spacingGridY + spacingGridY * i);
-        c.line(temp,0,temp,canvasHeight);
-    }
-
-    var midX = Math.round(canvasWidth  * 0.5),
-        midY = Math.round(canvasHeight * 0.5);
-
-    c.stroke(75,84,89);
-
-
-    c.line(0,midY,canvasWidth,midY);
-    c.line(midX,0,midX,canvasHeight);
-};
 

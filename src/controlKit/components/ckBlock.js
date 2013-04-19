@@ -56,18 +56,19 @@ CKBlock.prototype =
 
     addSubBlock    : function(label,params){},
 
-    addStringInput : function(object,value,label,params)       {return this._addComponent(new CKStringInput(this,object,value,label,params));},
-    addNumberInput : function(object,value,label,params)       {return this._addComponent(new CKNumberInput(this,object,value,label,params));},
-    addRange       : function(object,value,label,params)       {return this._addComponent(new CKRange(      this,object,value,label,params));},
-    addCheckbox    : function(object,value,label,params)       {return this._addComponent(new CKCheckbox(   this,object,value,label,params));},
-    addButton      : function(label,onPress)                   {return this._addComponent(new CKButton(     this,label,onPress));},
-    addSelect      : function(object,value,target,label,params){return this._addComponent(new CKSelect(     this,object,value,target,label,params));},
-    addSlider      : function(object,value,target,label,params){return this._addComponent(new CKSlider(     this,object,value,target,label,params));},
+    addStringInput     : function(object,value,label,params)       {return this._addComponent(new CKStringInput(     this,object,value,label,params));},
+    addNumberInput     : function(object,value,label,params)       {return this._addComponent(new CKNumberInput(     this,object,value,label,params));},
+    addRange           : function(object,value,label,params)       {return this._addComponent(new CKRange(           this,object,value,label,params));},
+    addCheckbox        : function(object,value,label,params)       {return this._addComponent(new CKCheckbox(        this,object,value,label,params));},
+    addButton          : function(label,onPress)                   {return this._addComponent(new CKButton(          this,label,onPress));},
+    addSelect          : function(object,value,target,label,params){return this._addComponent(new CKSelect(          this,object,value,target,label,params));},
+    addSlider          : function(object,value,target,label,params){return this._addComponent(new CKSlider(          this,object,value,target,label,params));},
 
 
-    addFunctionPlotter : function(object,value,label,params){return this._addComponent(new CKFunctionPlotter(this,object,value,label,params));},
-    addPad             : function(object,value,label,params){return this._addComponent(new CKPad(            this,object,value,label,params));},
-    addOutput          : function(object,value,label,params){return this._addComponent(new CKOutput(         this,object,value,label,params));},
+    addFunctionPlotter : function(object,value,label,params)       {return this._addComponent(new CKFunctionPlotter( this,object,value,label,params));},
+    addPad             : function(object,value,label,params)       {return this._addComponent(new CKPad(             this,object,value,label,params));},
+    addValuePlotter    : function(object,value,label,params)       {return this._addComponent(new CKValuePlotter(    this,object,value,label,params));},
+    addOutput          : function(object,value,label,params)       {return this._addComponent(new CKOutput(          this,object,value,label,params));},
 
     addObject : function(obj){},
 

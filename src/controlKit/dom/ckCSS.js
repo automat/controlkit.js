@@ -27,5 +27,7 @@ CKCSS =
     OptionsSelected : 'liSelected',
 
     CanvasListItem  : 'canvasLi',
-    CanvasWrap      : 'canvasWrap'
+    CanvasWrap      : 'canvasWrap',
+
+    WrapperPadding : 12
 };

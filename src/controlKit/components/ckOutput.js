@@ -12,25 +12,27 @@ function CKOutput(parent,object,value,label,params)
 
     this._wrap = params.wrap;
 
-    var textArea = this._textArea = new CKNode(CKNodeType.TEXTAREA);
-        textArea.setProperty('readOnly',true);
+    this._textArea = new CKNode(CKNodeType.TEXTAREA);
+    this._textArea.setProperty('readOnly',true);
 
-    this._wrapNode.addChild(textArea);
+    this._wrapNode.addChild(this._textArea);
 
     if( params.height)
     {
-        textArea.setHeight(params.height);
-        this._wrapNode.setHeight(textArea.getHeight()+6);
-        this._node.setHeight(    textArea.getHeight()+10);
+        this._textArea.setHeight(params.height);
+        this._wrapNode.setHeight(this._textArea.getHeight() + CKCSS.WrapperPadding);
+        this._node.setHeight(    this._textArea.getHeight() + CKCSS.WrapperPadding * 2);
     }
 
-    if(this._wrap)textArea.setStyleProperty('white-space','pre-wrap');
+    if(this._wrap)this._textArea.setStyleProperty('white-space','pre-wrap');
+
+    this._setValue();
 
 }
 
 CKOutput.prototype = Object.create(CKObjectComponent.prototype);
 
-CKOutput.prototype.forceUpdate = function()
+CKOutput.prototype._setValue = function()
 {
     var textArea = this._textArea;
 
@@ -42,21 +44,26 @@ CKOutput.prototype.forceUpdate = function()
     {
         var value = this._object[this._key];
 
-        if(typeof(value)        === 'object'   &&
-           typeof(value.length) === 'number'   &&
-           typeof(value.splice) === 'function' &&
-           !(value.propertyIsEnumerable('length')))
+        if(typeof(value)         === 'object'   &&
+            typeof(value.length) === 'number'   &&
+            typeof(value.splice) === 'function' &&
+            !(value.propertyIsEnumerable('length')))
         {
             textArea.setStyleProperty('white-space','nowrap');
-            textArea.setProperty('value',value.join("\n"));
-        }
-        else
-        {
-            textArea.setProperty('value',value.join("\n"));
         }
 
-
+        textArea.setProperty('value',value.join("\n"));
     }
+};
+
+CKOutput.prototype.forceUpdate = function()
+{
+    this._setValue();
+};
+
+CKOutput.prototype.update = function()
+{
+    this._setValue();
 };
 
 

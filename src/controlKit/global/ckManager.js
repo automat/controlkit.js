@@ -74,6 +74,39 @@ CKManager.prototype =
 
     /*---------------------------------------------------------------------------------*/
 
+    update : function()
+    {
+        var i = -1, j, k;
+
+        var kits   = this._kits,
+            blocks,
+            components,
+            component;
+
+        while(++i < kits.length)
+        {
+            blocks = kits[i].getBlocks();
+            j=-1;
+            while(++j < blocks.length)
+            {
+                components = blocks[j].getComponents();
+                k=-1;
+                while(++k < components.length)
+                {
+                    component = components[k];
+                    if(component instanceof  CKValuePlotter ||
+                       component instanceof  CKOutput)
+                    {
+                        component.update();
+                    }
+
+                }
+            }
+        }
+    },
+
+    /*---------------------------------------------------------------------------------*/
+
     setKitPosition : function(kit)
     {
         var attributes = kit.getAttributes(),

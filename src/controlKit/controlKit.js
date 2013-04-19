@@ -124,5 +124,6 @@ ControlKit.prototype =
 /*---------------------------------------------------------------------------------*/
 
 ControlKit.init = function(parentDomElementId){CKManager.init(parentDomElementId);};
+ControlKit.update = function(){CKManager.getInstance().update();};
 
 

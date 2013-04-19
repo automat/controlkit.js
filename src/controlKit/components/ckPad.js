@@ -1,13 +1,12 @@
 function CKPad(parent,object,value,label,params)
 {
-    CKCanvasComponent.apply(this,arguments);
+    CKPlotter.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
     params            = params            || {};
     params.onChange   = params.onChange   || null;
     params.onFinish   = params.onFinish   || null;
-    params.gridRes    = params.gridRes    || [10,10];
     params.bounds     = params.bounds     || [-1,1,-1,1];
     params.axisLabels = params.axisLabels || [null,null];
 
@@ -16,7 +15,6 @@ function CKPad(parent,object,value,label,params)
     this._onChange     = params.onChange || this._onChange;
     this._onFinish     = params.onFinish || this._onFinish;
 
-    this._gridRes      = params.gridRes;
     this._bounds       = params.bounds;
     this._axisLabels   = params.axisLabels;
     this._value        = this._object[this._key];
@@ -78,51 +76,7 @@ function CKPad(parent,object,value,label,params)
     this._drawValue(this._value);
 }
 
-CKPad.prototype = Object.create(CKCanvasComponent.prototype);
-
-CKPad.prototype._setListener = function()
-{
-    var canvas = this._canvas.getElement();
-
-    canvas.onmousedown = function()
-                        {
-                            this._dragging = true;
-                            this._drawValue(this._getMouseNormalized());
-                            this._applyValue()
-
-                        }.bind(this);
-
-    canvas.onmouseup   = function()
-                         {
-                             this._dragging = false;
-                         }.bind(this);
-
-    var doconmousemove = document.onmousemove || function(){},
-        doconmouseup   = document.onmouseup   || function(){};
-
-    document.onmousemove = function(e)
-    {
-        doconmousemove(e);
-        if(this._dragging)
-        {
-            this._drawValue(this._getMouseNormalized());
-            this._applyValue();
-            this._onChange();
-        }
-    }.bind(this);
-
-    document.onmouseup = function(e)
-    {
-        doconmouseup(e);
-        if(this._dragging)
-        {
-            this._dragging = false;
-            this._applyValue();
-            this._onFinish();
-        }
-
-    }.bind(this);
-};
+CKPad.prototype = Object.create(CKPlotter.prototype);
 
 CKPad.prototype._drawValue = function(value)
 {
@@ -139,38 +93,6 @@ CKPad.prototype._drawValue = function(value)
     canvas.pop();
 };
 
-CKPad.prototype._drawGrid = function()
-{
-    var c = this._canvas;
-
-    var gridResX     = this._gridRes[0],
-        gridResY     = this._gridRes[1],
-        canvasWidth  = c.width,
-        canvasHeight = c.height;
-
-
-    var spacingGridX = canvasWidth  / (gridResX),
-        spacingGridY = canvasHeight / gridResY;
-
-    var temp;
-    var i = -1;
-
-    c.stroke(26,29,31);
-
-    while(++i < gridResX)
-    {
-        temp = Math.round(spacingGridX + spacingGridX * i);
-        c.line(0,temp,canvasWidth,temp);
-    }
-    i = -1;
-    while(++i < gridResY)
-    {
-        temp = Math.round(spacingGridY + spacingGridY * i);
-        c.line(temp,0,temp,canvasHeight);
-    }
-
-
-};
 
 CKPad.prototype._drawPoint = function()
 {
