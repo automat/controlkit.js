@@ -38,7 +38,7 @@ var imports = [
                'components/ckFunctionPlotter.js',
                'components/ckPad.js',
                'components/ckValuePlotter.js',
-               'components/ckOutput.js'
+               'components/ckStringOutput.js'
 
 
               ];

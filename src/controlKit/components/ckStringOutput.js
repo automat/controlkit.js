@@ -1,4 +1,4 @@
-function CKOutput(parent,object,value,label,params)
+function CKStringOutput(parent,object,value,label,params)
 {
     CKObjectComponent.apply(this,arguments);
 
@@ -20,8 +20,8 @@ function CKOutput(parent,object,value,label,params)
     if( params.height)
     {
         this._textArea.setHeight(params.height);
-        this._wrapNode.setHeight(this._textArea.getHeight() + CKCSS.WrapperPadding);
-        this._node.setHeight(    this._textArea.getHeight() + CKCSS.WrapperPadding * 2);
+        this._wrapNode.setHeight(this._textArea.getHeight() + CKCSS.WrapperPadding );
+        this._node.setHeight(    this._textArea.getHeight() + CKCSS.WrapperPadding -2 );
     }
 
     if(this._wrap)this._textArea.setStyleProperty('white-space','pre-wrap');
@@ -30,9 +30,9 @@ function CKOutput(parent,object,value,label,params)
 
 }
 
-CKOutput.prototype = Object.create(CKObjectComponent.prototype);
+CKStringOutput.prototype = Object.create(CKObjectComponent.prototype);
 
-CKOutput.prototype._setValue = function()
+CKStringOutput.prototype._setValue = function()
 {
     var textArea = this._textArea;
 
@@ -56,12 +56,12 @@ CKOutput.prototype._setValue = function()
     }
 };
 
-CKOutput.prototype.forceUpdate = function()
+CKStringOutput.prototype.forceUpdate = function()
 {
     this._setValue();
 };
 
-CKOutput.prototype.update = function()
+CKStringOutput.prototype.update = function()
 {
     this._setValue();
 };

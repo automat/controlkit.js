@@ -43,6 +43,17 @@ CKValuePlotter.prototype._drawValue = function()
     canvas.pop();
 };
 
+CKValuePlotter.prototype._drawGrid = function()
+{
+    var canvas           = this._canvas,
+        canvasWidth      = canvas.width,
+        canvasHeightHalf = Math.floor(canvas.height * 0.5);
+
+    canvas.setLineWidth(1);
+    canvas.stroke(39,44,46);
+    canvas.line(0,canvasHeightHalf,canvasWidth,canvasHeightHalf);
+};
+
 CKValuePlotter.prototype._drawCurve = function()
 {
     var value = this._object[this._key];
@@ -52,7 +63,7 @@ CKValuePlotter.prototype._drawCurve = function()
 
     canvas.push();
     canvas.translate(0,(Math.floor(canvasHeight)*0.5+0.5));
-    canvas.setLineWidth(1);
+    canvas.setLineWidth(this._lineWidth);
     canvas.stroke(255);
 
     var i = 0;

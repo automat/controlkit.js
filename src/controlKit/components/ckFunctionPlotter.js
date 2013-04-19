@@ -60,7 +60,7 @@ CKFunctionPlotter.prototype._drawPlot = function()
 
         i+=2;
     }
-    c.setLineWidth(2);
+    c.setLineWidth(this._lineWidth);
     c.translate(0,height*0.5);
     c.stroke(255);
     c.lineArray(points);

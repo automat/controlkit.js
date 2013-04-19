@@ -6,10 +6,12 @@ function CKPlotter(parent,object,value,label,params)
 
     params            = params            || {};
     params.gridRes    = params.gridRes    || [10,10];
+    params.lineWidth  = params.lineWidth  || 1;
 
     /*---------------------------------------------------------------------------------*/
 
     this._gridRes      = params.gridRes;
+    this._lineWidth    = params.lineWidth;
 }
 
 CKPlotter.prototype = Object.create(CKCanvasComponent.prototype);
