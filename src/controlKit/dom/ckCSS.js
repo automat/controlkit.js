@@ -26,7 +26,7 @@ CKCSS =
     ArrowSMax    : 'arrowSMax',
 
     Select       : 'select',
-    SelectActive : 'select active',
+    SelectActive : 'selectActive',
 
     Options         : 'options',
     OptionsSelected : 'liSelected',
