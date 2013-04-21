@@ -3,14 +3,14 @@ function CKComponent(parent)
     this._parent   = parent;
     this._enabled  = true;
 
-    this._node     = new CKNode(CKNodeType.LIST_ITEM);
+    this._rootNode     = new CKNode(CKNodeType.LIST_ITEM);
     this._lablNode = new CKNode(CKNodeType.SPAN);
     this._wrapNode = new CKNode(CKNodeType.DIV);
 
-    this._parent.getList().addChild(this._node);
+    this._parent.getList().addChild(this._rootNode);
 
-    this._node.addChild(this._lablNode);
-    this._node.addChild(this._wrapNode);
+    this._rootNode.addChild(this._lablNode);
+    this._rootNode.addChild(this._wrapNode);
 
     this._lablNode.setStyleClass(CKCSS.Label);
     this._wrapNode.setStyleClass(CKCSS.Wrap);

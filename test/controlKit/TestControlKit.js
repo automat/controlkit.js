@@ -74,7 +74,7 @@ function TestControlKit(parentDomElementId)
     var control0   = controlKit.addPanel({width:280,position:[10,10]});
 
 
-    control0.addBlock('Group 1')
+    control0.addGroup()
         /*
             .addValuePlotter(object,'changeValue0','valuePlotter',{height:25})
             .addNumberOutput(object,'changeValue0','',{dp:4})
@@ -91,7 +91,9 @@ function TestControlKit(parentDomElementId)
             */
             .addSubGroup()
             .addRange(object,'range','Range Comp')
-            .addSlider(object,'range','slideValue','slider')
+            .addSlider(object,'range','slideValue','slider');
+
+    control0.addGroup({label:'Group'})
             .addSubGroup()
             .addSelect(object,'selectOptions','selectTarget','Select Comp')
             .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]})
@@ -105,14 +107,14 @@ function TestControlKit(parentDomElementId)
     var control1 = controlKit.addPanel({label:'Basic Controls',width:180,position:[300,10]});
 
 
-    control1.addBlock('Value Track')
+    control1.addGroup({label:'Group 1'})
         .addSubGroup()
         .addValuePlotter(object,'changeValue0','valuePlotter',{height:100})
         .addNumberOutput(object,'changeValue0','',{dp:4})
         .addSubGroup()
         .addValuePlotter(object,'changeValue1','valuePlotter',{height:100})
         .addNumberOutput(object,'changeValue1','',{dp:4});
-    control1.addBlock('Group 1')
+    control1.addGroup({label:'Group 1'})
         .addRange(object,'range','Range Comp')
         .addCheckbox(object,'bool','Bool Comp')
         .addSelect(object,'selectOptions','selectTarget','Select Comp')

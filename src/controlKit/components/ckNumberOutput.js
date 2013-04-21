@@ -27,7 +27,7 @@ function CKNumberOutput(parent,object,value,label,params)
         //TODO: FIXME!
         this._textArea.setHeight(params.height);
         this._wrapNode.setHeight(this._textArea.getHeight() + CKCSS.WrapperPadding -6);
-        this._node.setHeight(    this._textArea.getHeight() + CKCSS.WrapperPadding -3 );
+        this._rootNode.setHeight(    this._textArea.getHeight() + CKCSS.WrapperPadding -3 );
     }
 
     if(this._wrap)this._textArea.setStyleProperty('white-space','pre-wrap');

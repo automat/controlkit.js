@@ -25,7 +25,7 @@ function CKStringOutput(parent,object,value,label,params)
         //TODO: FIXME!
         this._textArea.setHeight(params.height);
         this._wrapNode.setHeight(this._textArea.getHeight() + CKCSS.WrapperPadding );
-        this._node.setHeight(    this._textArea.getHeight() + CKCSS.WrapperPadding -2 );
+        this._rootNode.setHeight(    this._textArea.getHeight() + CKCSS.WrapperPadding -2 );
     }
 
     if(this._wrap)this._textArea.setStyleProperty('white-space','pre-wrap');

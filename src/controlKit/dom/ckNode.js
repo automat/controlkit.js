@@ -151,6 +151,8 @@ CKNode.prototype =
     setElement : function(element){this._element = element;return this;},
     getElement : function()       { return this._element;},
 
+    getStyle   : function()       {return this._element.style;},
+
     getParent  : function(){ return new CKNode().setElement(this._element.parentNode); }
 };
 

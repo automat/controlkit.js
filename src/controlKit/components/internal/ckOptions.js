@@ -1,6 +1,6 @@
 function CKOptions()
 {
-    var node     = this._node     = new CKNode(CKNodeType.DIV);
+    var node     = this._rootNode     = new CKNode(CKNodeType.DIV);
     var listNode = this._listNode = new CKNode(CKNodeType.LIST);
 
        // node.setStyleClass()
@@ -78,7 +78,7 @@ CKOptions.prototype =
         }
     },
 
-    _getIndex : function(node){this._selected = this._node.getChildIndex(node);},
+    _getIndex : function(node){this._selected = this._rootNode.getChildIndex(node);},
 
     clear : function()
     {
@@ -91,12 +91,13 @@ CKOptions.prototype =
     _hide : function()
     {
         this._clear();
-        this._node.setProperty('visibility','hidden');
+        this._rootNode.setProperty('visibility','hidden');
     },
 
     isBuild     : function(){return this._build;},
-    getNode     : function(){return this._node; },
+    getNode     : function(){return this._rootNode; },
     getSelected : function(){return this._selected;}
 };
 
-CKOptions.getInstance = function(){if(!CKOptions._instance)CKOptions._instance = new CKOptions();return CKOptions._instance;};
+CKOptions.init        = function(){CKOptions._instance = new CKOptions();};
+CKOptions.getInstance = function(){return CKOptions._instance;};

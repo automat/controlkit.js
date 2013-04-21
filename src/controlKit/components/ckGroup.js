@@ -1,60 +1,79 @@
 
 
-function CKGroup(parent, label, params)
+function CKGroup(parent,params)
 {
     this._parent = parent;
 
-    params = params || {};
+    /*-------------------------------------------------------------------------------------*/
 
-    var rootNode  = this._node = new CKNode(CKNodeType.LIST_ITEM),
-        headNode  = new CKNode(CKNodeType.DIV),
-        lablNode  = new CKNode(CKNodeType.SPAN),
-        indiNode  = this._indiNode = new CKNode(CKNodeType.DIV),
+    params        = params || {};
+    params.label  = params.label || null;
+
+    /*-------------------------------------------------------------------------------------*/
+
+    var rootNode  = this._rootNode = new CKNode(CKNodeType.LIST_ITEM),
         wrapNode  = this._wrapNode = new CKNode(CKNodeType.DIV),
         contNode  = this._contNode = new CKNode(CKNodeType.LIST);
 
+    /*-------------------------------------------------------------------------------------*/
+
     this._parent.getList().addChild(rootNode);
 
-    rootNode.setStyleClass(CKCSS.Block);
-    headNode.setStyleClass(CKCSS.Head);
-    lablNode.setStyleClass(CKCSS.Label);
-    indiNode.setStyleClass(CKCSS.ArrowBMax);
+    /*-------------------------------------------------------------------------------------*/
+
+    rootNode.setStyleClass(CKCSS.GroupList);
     wrapNode.setStyleClass(CKCSS.Wrap);
     contNode.setStyleClass(CKCSS.SubGroupList);
 
-    lablNode.setProperty('innerHTML',label);
+    /*-------------------------------------------------------------------------------------*/
 
-    headNode.addChild(lablNode);
-    headNode.addChild(indiNode);
+    //Head
+
+    if(params.label)
+    {
+        var headNode  = new CKNode(CKNodeType.DIV),
+            lablNode  = new CKNode(CKNodeType.SPAN),
+            indiNode  = this._indiNode = new CKNode(CKNodeType.DIV);
+
+        headNode.setStyleClass(CKCSS.Head);
+        lablNode.setStyleClass(CKCSS.Label);
+        indiNode.setStyleClass(CKCSS.ArrowBMax);
+        lablNode.setProperty('innerHTML',params.label);
+
+        headNode.addChild(lablNode);
+        headNode.addChild(indiNode);
+
+        headNode.setEventListener(CKNodeEvent.MOUSE_DOWN,function()
+                                                         {
+                                                             this._hidden = !this._hidden;
+                                                             this._updateVisibility();
+                                                         }.bind(this));
+
+        rootNode.addChild(headNode);
+    }
+    else
+    {
+        //TODO: Add CSS Class
+        wrapNode.getStyle().borderTop = "1px solid #3b4447";
+    }
+
+    /*-------------------------------------------------------------------------------------*/
+
     wrapNode.addChild(contNode);
-    rootNode.addChild(headNode);
     rootNode.addChild(wrapNode);
+
+    /*-------------------------------------------------------------------------------------*/
 
     this._hidden = false;
     this._components = [];
     this._subGroups  = [];
-
-    headNode.setEventListener(CKNodeEvent.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
 }
 
 
 
 CKGroup.prototype =
 {
-    _onHeadMouseDown  : function() { this._hidden = !this._hidden; this._updateVisibility();},
-
-    hide : function() { this._hidden = true;  this._updateVisibility();},
-    show : function() { this._hidden = false; this._updateVisibility();},
-
-    _updateVisibility : function()
-    {
-        var hidden   = this._hidden,
-            wrapNode = this._wrapNode;
-
-        wrapNode.setHeight(hidden ? 0 : wrapNode.getFirstChild().getHeight());
-
-        this._indiNode.setStyleClass(hidden ? CKCSS.ArrowBMin : CKCSS.ArrowBMax);
-    },
+    /*-------------------------------------------------------------------------------------*/
 
     addSubGroup        : function(label,params)                    {this._subGroups.push(new CKSubGroup(this,label,params));
                                                                     this._updateHeight();
@@ -77,6 +96,7 @@ CKGroup.prototype =
 
     addObject : function(obj){},
 
+    /*-------------------------------------------------------------------------------------*/
 
     _addComponent : function(component)
     {
@@ -85,6 +105,8 @@ CKGroup.prototype =
         return this;
     },
 
+    /*-------------------------------------------------------------------------------------*/
+
     _updateHeight : function()
     {
         var wrapNode = this._wrapNode;
@@ -92,8 +114,27 @@ CKGroup.prototype =
     },
 
     forceUpdate   : function(){this._parent.forceUpdate();},
+
+    /*-------------------------------------------------------------------------------------*/
+
+    hide : function() { this._hidden = true;  this._updateVisibility();},
+    show : function() { this._hidden = false; this._updateVisibility();},
+
+    _updateVisibility : function()
+    {
+        var hidden   = this._hidden,
+            wrapNode = this._wrapNode;
+
+        wrapNode.setHeight(hidden ? 0 : wrapNode.getFirstChild().getHeight());
+
+        this._indiNode.setStyleClass(hidden ? CKCSS.ArrowBMin : CKCSS.ArrowBMax);
+    },
+
+    /*-------------------------------------------------------------------------------------*/
+
+
     getComponents : function(){return this._components;},
-    getNode       : function(){return this._node;},
+    getNode       : function(){return this._rootNode;},
 
     getGroupList  : function(){return this._contNode;},
 
@@ -104,8 +145,5 @@ CKGroup.prototype =
         if(!contNode.hasChildren())contNode.addChild(new CKNode(CKNodeType.LIST));
 
         return contNode.getLastChild();
-    },
-
-    _hasSubGroup  : function(){return this._contNode.hasChildNodes();}
-
+    }
 };

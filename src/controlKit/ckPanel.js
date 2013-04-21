@@ -31,7 +31,7 @@
  */
 
 
-function ControlPanel(controlKit,params)
+function CKPanel(controlKit,params)
 {
 
     /*---------------------------------------------------------------------------------*/
@@ -41,21 +41,21 @@ function ControlPanel(controlKit,params)
     params.align      = params.align      || CKLayout.ALIGN_LEFT;
     params.position   = params.position   || [20,20];
     params.width      = params.width      ||  300;
-    params.height     = params.height     ||  controlKit.getWindow().height - params.position[1];
+    params.maxHeight  = params.maxHeight  ||  controlKit.getWindow().height - params.position[1];
     params.ratio      = params.ratio      ||  40;
     params.label      = params.label      || 'Control Panel';
     params.fixed      = params.fixed      || true;
 
     /*---------------------------------------------------------------------------------*/
 
-    //TODO:FIXME CLEANMEUP
+    //TODO:FIXME CLEANMEUP REMOVEME
     //cache
     var attributes = this._attributes = {
                                             valign   : params.valign,
                                             align    : params.align,
                                             position : params.position,
                                             width    : params.width,
-                                            height   : params.height,
+                                            maxHeight   : params.maxHeight  ,
                                             ratio    : params.ratio,
                                             label    : params.label
                                         };
@@ -64,7 +64,7 @@ function ControlPanel(controlKit,params)
 
     this._maxHeight = params.maxHeight || window.innerHeight;
 
-    var rootNode = this._node = new CKNode(CKNodeType.DIV),
+    var rootNode = this._rootNode = new CKNode(CKNodeType.DIV),
         headNode = new CKNode(CKNodeType.DIV),
         lablNode = new CKNode(CKNodeType.SPAN),
         wrapNode = new CKNode(CKNodeType.DIV),
@@ -76,7 +76,7 @@ function ControlPanel(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    rootNode.setStyleClass(CKCSS.Kit);
+    rootNode.setStyleClass(CKCSS.Panel);
     headNode.setStyleClass(CKCSS.Head);
     lablNode.setStyleClass(CKCSS.Label);
     wrapNode.setStyleClass(CKCSS.Wrap);
@@ -89,11 +89,17 @@ function ControlPanel(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
+    if(params.fixed == false)
+    {
+        //headNode.getStyle().cursor =
+    }
+
+
     headNode.setEventListener(CKNodeEvent.MOUSE_DOWN,function(){});
 
     /*---------------------------------------------------------------------------------*/
 
-    this._blocks = [];
+    this._groups = [];
 
     /*---------------------------------------------------------------------------------*/
 
@@ -102,24 +108,26 @@ function ControlPanel(controlKit,params)
     rootNode.addChild(headNode);
     rootNode.addChild(wrapNode);
 
+    /*---------------------------------------------------------------------------------*/
+
 
 }
 
 /*---------------------------------------------------------------------------------*/
 
-ControlPanel.prototype =
+CKPanel.prototype =
 {
-    addBlock : function(label,params)
+    addGroup : function(params)
     {
-        var block = new CKGroup(this,label,params);
-        this._blocks.push(block);
-        return block;
+        var group = new CKGroup(this,params);
+        this._groups.push(group);
+        return group;
     },
 
-    getBlocks     : function(){return this._blocks;},
-    forceUpdate   : function(){ControlKit.getInstance().forcePanelsUpdate();},
+    getGroups     : function(){return this._groups;},
+    forceUpdate   : function(){ControlKit.getInstance().forcePanelUpdate();},
     getAttributes : function(){return this._attributes;},
-    getNode       : function(){return this._node;},
+    getNode       : function(){return this._rootNode;},
     getList       : function(){return this._listNode;}
 
 

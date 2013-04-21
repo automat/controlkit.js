@@ -30,26 +30,41 @@
  *
  */
 
-//TODO:FIX!FIX!FIX!FIX ME!
 function ControlKit(parentDomElementId)
 {
     if(!ControlKit._instance)
     {
-        var node = this._node = parentDomElementId ?
-            CKNode.getNodeById(parentDomElementId) :
-            new CKNode(CKNodeType.DIV);
+        var node = null;
 
+        if(!parentDomElementId)
+        {
+            node = new CKNode(CKNodeType.DIV);
+            document.body.addChild(node.getElement());
+        }
+        else
+        {
+            node = CKNode.getNodeById(parentDomElementId);
+        }
+
+        this._rootNode   = node;
         this._panels = [];
 
-        CKMouse.init();
+        /*---------------------------------------------------------------------------------*/
 
-        this._window = {width :window.innerWidth,
-                        height:window.innerHeight};
+        CKMouse.init();
+        CKOptions.init();
 
         node.addChild(CKOptions.getInstance().getNode());
-        if(!parentDomElementId)document.body.appendChild(node.getElement());
+
+        /*---------------------------------------------------------------------------------*/
+
+        this._window = {width :window.innerWidth,height:window.innerHeight};
+
+        /*---------------------------------------------------------------------------------*/
 
         window.addEventListener("resize", this.onWindowResize.bind(this), false);
+
+        /*---------------------------------------------------------------------------------*/
 
         ControlKit._instance = this;
     }
@@ -76,14 +91,14 @@ ControlKit.prototype =
 
     addPanel : function(params)
     {
-        var panel = new ControlPanel(this,params);
+        var panel = new CKPanel(this,params);
         this._panels.push(panel);
         return panel;
     },
 
     /*---------------------------------------------------------------------------------*/
 
-    forcePanelsUpdate : function()
+    forcePanelUpdate : function()
     {
         var i = -1, j, k;
 
@@ -94,7 +109,7 @@ ControlKit.prototype =
 
         while(++i < panels.length)
         {
-            groupList = panels[i].getBlocks();
+            groupList = panels[i].getGroups();
             j=-1;
             while(++j < groupList.length)
             {
@@ -123,7 +138,7 @@ ControlKit.prototype =
 
         while(++i < panels.length)
         {
-            groupList = panels[i].getBlocks();
+            groupList = panels[i].getGroups();
             j=-1;
             while(++j < groupList.length)
             {
@@ -163,7 +178,7 @@ ControlKit.prototype =
 
     /*---------------------------------------------------------------------------------*/
 
-    getRootNode : function(){return this._node;}
+    getRootNode : function(){return this._rootNode;}
 
 };
 

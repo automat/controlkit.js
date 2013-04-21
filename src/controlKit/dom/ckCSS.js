@@ -1,11 +1,16 @@
 CKCSS =
 {
-    Kit          : 'kit',
+    Panel        : 'panel',
     Head         : 'head',
     Label        : 'label',
     Wrap         : 'wrap',
-    Block        : 'block',
-    SubGroupList      : 'subgroups',
+
+    /*-------------------------------------------------------------------------------------*/
+
+    GroupList     : 'groupList',
+    SubGroupList  : 'subGroupList',
+
+    /*-------------------------------------------------------------------------------------*/
 
     Button       : 'button',
 
@@ -26,7 +31,7 @@ CKCSS =
     Options         : 'options',
     OptionsSelected : 'liSelected',
 
-    CanvasListItem  : 'canvasLi',
+    CanvasListItem  : 'canvasListItem',
     CanvasWrap      : 'canvasWrap',
 
     WrapperPadding : 12,
