@@ -33,6 +33,7 @@
 
 function CKPanel(controlKit,params)
 {
+    var parent = this._parent = controlKit;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -41,7 +42,7 @@ function CKPanel(controlKit,params)
     params.align      = params.align      || CKLayout.ALIGN_LEFT;
     params.position   = params.position   || [20,20];
     params.width      = params.width      ||  300;
-    params.maxHeight  = params.maxHeight  ||  controlKit.getWindow().height - params.position[1];
+    params.maxHeight  = params.maxHeight  ||  parent.getWindow().height - params.position[1];
     params.ratio      = params.ratio      ||  40;
     params.label      = params.label      || 'Control Panel';
     params.fixed      = params.fixed      || true;
@@ -125,7 +126,7 @@ CKPanel.prototype =
     },
 
     getGroups     : function(){return this._groups;},
-    forceUpdate   : function(){ControlKit.getInstance().forcePanelUpdate();},
+    forceUpdate   : function(){this._parent.forcePanelUpdate();},
     getAttributes : function(){return this._attributes;},
     getNode       : function(){return this._rootNode;},
     getList       : function(){return this._listNode;}
