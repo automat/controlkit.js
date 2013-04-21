@@ -30,100 +30,144 @@
  *
  */
 
-
-function ControlKit(params)
+//TODO:FIX!FIX!FIX!FIX ME!
+function ControlKit(parentDomElementId)
 {
+    if(!ControlKit._instance)
+    {
+        var node = this._node = parentDomElementId ?
+            CKNode.getNodeById(parentDomElementId) :
+            new CKNode(CKNodeType.DIV);
 
-    var manager = CKManager.getInstance();
+        this._panels = [];
 
-    /*---------------------------------------------------------------------------------*/
+        CKMouse.init();
 
-    params            = params || {};
-    params.valign     = params.valign     || CKLayout.ALIGN_TOP;
-    params.align      = params.align      || CKLayout.ALIGN_LEFT;
-    params.position   = params.position   || [20,20];
-    params.width      = params.width      ||  300;
-    params.height     = params.height     ||  manager.getWindow().height - params.position[1];
-    params.ratio      = params.ratio      ||  40;
-    params.label      = params.label      || 'Controls';
+        this._window = {width :window.innerWidth,
+                        height:window.innerHeight};
 
-    /*---------------------------------------------------------------------------------*/
+        node.addChild(CKOptions.getInstance().getNode());
+        if(!parentDomElementId)document.body.appendChild(node.getElement());
 
-    //TODO:FIXME CLEANMEUP
-    //cache
-    var attributes = this._attributes = {
-                                            valign   : params.valign,
-                                            align    : params.align,
-                                            position : params.position,
-                                            width    : params.width,
-                                            height   : params.height,
-                                            ratio    : params.ratio,
-                                            label    : params.label
-                                        };
+        window.addEventListener("resize", this.onWindowResize.bind(this), false);
 
-    /*---------------------------------------------------------------------------------*/
+        ControlKit._instance = this;
+    }
 
-
-    this._maxHeight = params.maxHeight || window.innerHeight;
-
-    var rootNode = this._node = new CKNode(CKNodeType.DIV),
-        headNode = new CKNode(CKNodeType.DIV),
-        lablNode = new CKNode(CKNodeType.SPAN),
-        wrapNode = new CKNode(CKNodeType.DIV),
-        listNode = this._listNode = new CKNode(CKNodeType.LIST);
-
-    rootNode.setStyleClass(CKCSS.Kit);
-    headNode.setStyleClass(CKCSS.Head);
-    lablNode.setStyleClass(CKCSS.Label);
-    wrapNode.setStyleClass(CKCSS.Wrap);
-
-    /*---------------------------------------------------------------------------------*/
-
-    manager.setKitPosition(this);
-    rootNode.setWidth(attributes.width);
-    lablNode.setProperty('innerHTML',attributes.label);
-
-    /*---------------------------------------------------------------------------------*/
-
-    headNode.setEventListener(CKNodeEvent.MOUSE_DOWN,function(){});
-
-    /*---------------------------------------------------------------------------------*/
-
-    this._blocks = [];
-
-    /*---------------------------------------------------------------------------------*/
-
-    headNode.addChild(lablNode);
-    wrapNode.addChild(listNode);
-    rootNode.addChild(headNode);
-    rootNode.addChild(wrapNode);
-
-    manager.addKit(this);
+    return ControlKit._instance;
 }
 
 /*---------------------------------------------------------------------------------*/
 
 ControlKit.prototype =
 {
-    addBlock : function(label,params)
+    onWindowResize : function()
     {
-        var block = new CKGroup(this,label,params);
-        this._blocks.push(block);
-        return block;
+        this._window.width  = window.innerWidth;
+        this._window.height = window.innerHeight;
+
+        var kits = this._panels;
+        var i = -1;
+
+        while(++i < kits.length)this.setPanelPosition(kits[i]);
     },
 
-    getBlocks     : function(){return this._blocks;},
-    forceUpdate   : function(){CKManager.getInstance().forceKitsUpdate();},
-    getAttributes : function(){return this._attributes;},
-    getNode       : function(){return this._node;},
-    getList       : function(){return this._listNode;}
+    /*---------------------------------------------------------------------------------*/
 
+    addPanel : function(params)
+    {
+        var panel = new ControlPanel(this,params);
+        this._panels.push(panel);
+        return panel;
+    },
+
+    /*---------------------------------------------------------------------------------*/
+
+    forcePanelsUpdate : function()
+    {
+        var i = -1, j, k;
+
+        var panels = this._panels,
+            groupList,
+            components,
+            component;
+
+        while(++i < panels.length)
+        {
+            groupList = panels[i].getBlocks();
+            j=-1;
+            while(++j < groupList.length)
+            {
+                components = groupList[j].getComponents();
+                k=-1;
+                while(++k < components.length)
+                {
+                    component = components[k];
+                    if(component instanceof  CKObjectComponent)component.forceUpdate();
+
+                }
+            }
+        }
+    },
+
+    /*---------------------------------------------------------------------------------*/
+
+    update : function()
+    {
+        var i = -1, j, k;
+
+        var panels   = this._panels,
+            groupList,
+            components,
+            component;
+
+        while(++i < panels.length)
+        {
+            groupList = panels[i].getBlocks();
+            j=-1;
+            while(++j < groupList.length)
+            {
+                components = groupList[j].getComponents();
+                k=-1;
+                while(++k < components.length)
+                {
+                    component = components[k];
+                    if(component instanceof CKValuePlotter ||
+                       component instanceof CKStringOutput ||
+                       component instanceof CKNumberOutput)
+                    {
+                        component.update();
+                    }
+
+                }
+            }
+        }
+    },
+
+    /*---------------------------------------------------------------------------------*/
+
+    setPanelPosition : function(panel)
+    {
+        var attributes = panel.getAttributes(),
+            window     = this._window,
+            position   = attributes.align == CKLayout.ALIGN_LEFT  ? attributes.position :
+                         attributes.align == CKLayout.ALIGN_RIGHT ? [window.width - attributes.width - attributes.position[0],attributes.position[1]] :
+                         [0,0];
+
+        panel.getNode().setPositionGlobal(position[0],position[1]);
+    },
+
+    /*---------------------------------------------------------------------------------*/
+
+    getWindow : function(){return this._window;},
+
+    /*---------------------------------------------------------------------------------*/
+
+    getRootNode : function(){return this._node;}
 
 };
 
 /*---------------------------------------------------------------------------------*/
 
-ControlKit.init = function(parentDomElementId){CKManager.init(parentDomElementId);};
-ControlKit.update = function(){CKManager.getInstance().update();};
-
+ControlKit.getInstance = function(){return ControlKit._instance;};
 

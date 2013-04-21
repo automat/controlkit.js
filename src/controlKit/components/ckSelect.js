@@ -74,7 +74,7 @@ CKSelect.prototype._onSelectMouseDown = function()
 
     select.setStyleClass(active ? CKCSS.SelectActive : CKCSS.Select);
 
-    //var options = ControlKit.getOptions();
+    //var options = ControlPanel.getOptions();
 
     var obj    = this._object,
         vals   = this._values,

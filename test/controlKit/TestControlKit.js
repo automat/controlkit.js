@@ -8,12 +8,12 @@ var imports = [
                'dom/ckNodeType.js',
                'dom/ckNode.js',
 
-               'global/ckLayout.js',
-               'global/ckManager.js',
+               'layout/ckLayout.js',
+               'controlKit.js',
 
                'components/internal/ckOptions.js',
 
-               'controlKit.js',
+               'ckPanel.js',
 
                'components/internal/ckComponent.js',
                'components/internal/ckObjectComponent.js',
@@ -69,9 +69,9 @@ function TestControlKit(parentDomElementId)
         changeValue1:0.0
                   };
 
-    ControlKit.init(parentDomElementId);
+    var controlKit = new ControlKit(parentDomElementId);
 
-    var control0 = new ControlKit({label:'Basic Controls',width:280,position:[10,10]});
+    var control0   = controlKit.addPanel({width:280,position:[10,10]});
 
 
     control0.addBlock('Group 1')
@@ -102,7 +102,7 @@ function TestControlKit(parentDomElementId)
             .addPad(object,'xyValue','Pad Comp')
             .addNumberOutput(object,'xyValue','',{wrap:true,height:40,dp:4})
 
-    var control1 = new ControlKit({label:'Basic Controls',width:180,position:[300,10]});
+    var control1 = controlKit.addPanel({label:'Basic Controls',width:180,position:[300,10]});
 
 
     control1.addBlock('Value Track')
@@ -127,7 +127,7 @@ function TestControlKit(parentDomElementId)
         t+=0.1;
         object.changeValue0 = sgn(Math.sin(t));
         object.changeValue1 = tri(Math.sin(t));
-        ControlKit.update();
+        controlKit.update();
     }
 
     function loop(){requestAnimationFrame(loop);updateObject();}loop();
