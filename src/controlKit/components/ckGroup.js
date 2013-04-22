@@ -13,7 +13,7 @@ function CKGroup(parent,params)
 
     var rootNode  = this._rootNode = new CKNode(CKNodeType.LIST_ITEM),
         wrapNode  = this._wrapNode = new CKNode(CKNodeType.DIV),
-        contNode  = this._contNode = new CKNode(CKNodeType.LIST);
+        listNode  = this._listNode = new CKNode(CKNodeType.LIST);
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -23,7 +23,7 @@ function CKGroup(parent,params)
 
     rootNode.setStyleClass(CKCSS.GroupList);
     wrapNode.setStyleClass(CKCSS.Wrap);
-    contNode.setStyleClass(CKCSS.SubGroupList);
+    listNode.setStyleClass(CKCSS.SubGroupList);
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -47,6 +47,8 @@ function CKGroup(parent,params)
                                                          {
                                                              this._hidden = !this._hidden;
                                                              this._updateVisibility();
+                                                             this._indiNode.setStyleClass(this._hidden ? CKCSS.ArrowBMin : CKCSS.ArrowBMax);
+
                                                          }.bind(this));
 
         rootNode.addChild(headNode);
@@ -59,7 +61,7 @@ function CKGroup(parent,params)
 
     /*-------------------------------------------------------------------------------------*/
 
-    wrapNode.addChild(contNode);
+    wrapNode.addChild(listNode);
     rootNode.addChild(wrapNode);
 
     /*-------------------------------------------------------------------------------------*/
@@ -126,8 +128,6 @@ CKGroup.prototype =
             wrapNode = this._wrapNode;
 
         wrapNode.setHeight(hidden ? 0 : wrapNode.getFirstChild().getHeight());
-
-        this._indiNode.setStyleClass(hidden ? CKCSS.ArrowBMin : CKCSS.ArrowBMax);
     },
 
     /*-------------------------------------------------------------------------------------*/
@@ -136,12 +136,12 @@ CKGroup.prototype =
     getComponents : function(){return this._components;},
     getNode       : function(){return this._rootNode;},
 
-    getGroupList  : function(){return this._contNode;},
+    getGroupList  : function(){return this._listNode;},
 
     getList       : function()
     {
         //if first element is subgroup
-        var contNode = this._contNode;
+        var contNode = this._listNode;
         if(!contNode.hasChildren())contNode.addChild(new CKNode(CKNodeType.LIST));
 
         return contNode.getLastChild();

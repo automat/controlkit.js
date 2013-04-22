@@ -49,21 +49,16 @@ function CKPanel(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    //TODO:FIXME CLEANMEUP REMOVEME
-    //cache
-    var attributes = this._attributes = {
-                                            valign   : params.valign,
-                                            align    : params.align,
-                                            position : params.position,
-                                            width    : params.width,
-                                            maxHeight   : params.maxHeight  ,
-                                            ratio    : params.ratio,
-                                            label    : params.label
-                                        };
+    this._valign    = params.valign;
+    this._align     = params.align;
+    this._position  = params.position;
+    this._width     = params.width;
+    this._maxHeight = params.maxHeight;
+    this._ratio     = params.ratio;
+    var   label     = params.label;
 
     /*---------------------------------------------------------------------------------*/
 
-    this._maxHeight = params.maxHeight || window.innerHeight;
 
     var rootNode = this._rootNode = new CKNode(CKNodeType.DIV),
         headNode = new CKNode(CKNodeType.DIV),
@@ -85,8 +80,8 @@ function CKPanel(controlKit,params)
     /*---------------------------------------------------------------------------------*/
 
     controlKit.setPanelPosition(this);
-    rootNode.setWidth(attributes.width);
-    lablNode.setProperty('innerHTML',attributes.label);
+    rootNode.setWidth(this._width);
+    lablNode.setProperty('innerHTML',label);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -127,9 +122,14 @@ CKPanel.prototype =
 
     getGroups     : function(){return this._groups;},
     forceUpdate   : function(){this._parent.forcePanelUpdate();},
-    getAttributes : function(){return this._attributes;},
     getNode       : function(){return this._rootNode;},
-    getList       : function(){return this._listNode;}
+    getList       : function(){return this._listNode;},
+
+    /*---------------------------------------------------------------------------------*/
+
+    getWidth      : function(){return this._width;},
+    getAlignment  : function(){return this._align;},
+    getPosition   : function(){return this._position;}
 
 
 };

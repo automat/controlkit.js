@@ -163,11 +163,13 @@ ControlKit.prototype =
 
     setPanelPosition : function(panel)
     {
-        var attributes = panel.getAttributes(),
-            window     = this._window,
-            position   = attributes.align == CKLayout.ALIGN_LEFT  ? attributes.position :
-                         attributes.align == CKLayout.ALIGN_RIGHT ? [window.width - attributes.width - attributes.position[0],attributes.position[1]] :
-                         [0,0];
+
+        var window        = this._window,
+            panelAlign    = panel.getAlignment(),
+            panelPosition = panel.getPosition(),
+            position      = panelAlign == CKLayout.ALIGN_LEFT   ? panelPosition :
+                            panelAlign == CKLayout.ALIGN_RIGHT  ? [window.width - panel.getWidth() - panelPosition[0],panelPosition[1]] :
+                            [0,0];
 
         panel.getNode().setPositionGlobal(position[0],position[1]);
     },

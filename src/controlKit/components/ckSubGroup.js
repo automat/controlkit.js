@@ -6,12 +6,22 @@ function CKSubGroup(parent,label,params)
     /*---------------------------------------------------------------------------------*/
 
     params = params || {};
+    params.label  = params.label || null;
 
     /*---------------------------------------------------------------------------------*/
 
-    var rootNode = this._rootNode = new CKNode(CKNodeType.LIST),
-        headNode = new CKNode(CKNodeType.DIV),
-        lablNode = new CKNode(CKNodeType.SPAN);
+    var rootNode = this._rootNode = new CKNode(CKNodeType.LIST);
+
+    /*-------------------------------------------------------------------------------------*/
+
+    if(params.label)
+    {
+        var headNode = new CKNode(CKNodeType.DIV),
+            lablNode = new CKNode(CKNodeType.SPAN);
+
+    }
+
+
 
 
     this._parent.getGroupList().addChild(rootNode);
