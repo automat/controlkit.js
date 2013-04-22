@@ -4,18 +4,20 @@ function CKValuePlotter(parent,object,value,label,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    params          = params        || {};
-    params.height   = params.height || this._canvas.height * 0.5;
+    params            = params            || {};
+    params.height     = params.height     || this._canvas.height * 0.5;
+    params.resolution = params.resolution || 1;
 
     /*---------------------------------------------------------------------------------*/
 
-    var length = this._canvas.width;
+    var resolution = params.resolution,
+        length     = Math.floor(this._canvas.width / resolution);
 
     this._points  = new Array(length * 2);
     this._buffer0 = new Array(length);
     this._buffer1 = new Array(length);
 
-    var i = 0; while(i < this._points.length){this._points[i]=length-i;this._points[i+1]=0.0;i+=2;}
+    var i = 0; while(i < this._points.length){this._points[i]=(length-i+1)*resolution;this._points[i+1]=0.0;i+=2;}
         i =-1; while(++i < length){this._buffer0[i] = this._buffer1[i] = 0.0;}
 
     params.height = params.height  < CKCSS.MinHeight ?
@@ -82,14 +84,16 @@ CKValuePlotter.prototype._drawCurve = function()
 
     points[1] = buffer0[0];
 
+    var strokeColor = this._lineColor;
+
     canvas.push();
     {
         canvas.translate(0,(Math.floor(canvasHeight)*0.5+0.5));
-        canvas.setLineWidth(this._lineWidth+3);
-        canvas.stroke(0);
-        canvas.lineArray(this._points);
+       // canvas.setLineWidth(this._lineWidth+3);
+       // canvas.stroke(0);
+       // canvas.lineArray(this._points);
         canvas.setLineWidth(this._lineWidth+0.5);
-        canvas.stroke(255);
+        canvas.stroke(strokeColor[0],strokeColor[1],strokeColor[2]);
         canvas.lineArray(this._points);
     }
     canvas.pop();
