@@ -25,17 +25,32 @@ CKCSS =
     ArrowSMin    : 'arrowSMin',
     ArrowSMax    : 'arrowSMax',
 
+    /*-------------------------------------------------------------------------------------*/
+
     Select       : 'select',
     SelectActive : 'selectActive',
 
-    Options         : 'options',
+    Options         : 'kitOptions',
     OptionsSelected : 'liSelected',
+
+    /*-------------------------------------------------------------------------------------*/
 
     CanvasListItem  : 'canvasListItem',
     CanvasWrap      : 'canvasWrap',
 
+    /*-------------------------------------------------------------------------------------*/
+
+    Picker : 'picker',
+    PalleteWrap : 'palleteWrap',
+    PaletteWrapInner :  'paletteWrapInner',
+
+
+    /*-------------------------------------------------------------------------------------*/
+
     WrapperPadding : 12,
     MinHeight      : 25,
 
-    MinWidth : 100
+    MinWidth : 100,
+
+    OptionsPadding : 2
 };

@@ -45,7 +45,7 @@ function CKPanel(controlKit,params)
     params.maxHeight  = params.maxHeight  ||  parent.getWindow().height - params.position[1];
     params.ratio      = params.ratio      ||  40;
     params.label      = params.label      || 'Control Panel';
-    params.fixed      = params.fixed      || true;
+    params.fixed      = params.fixed      || true;  //TODO:FIXME
 
     /*---------------------------------------------------------------------------------*/
 
@@ -85,9 +85,9 @@ function CKPanel(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    if(params.fixed == false)
+    if(params.fixed === false)
     {
-        //headNode.getStyle().cursor =
+
     }
 
 

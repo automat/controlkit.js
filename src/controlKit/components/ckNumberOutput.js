@@ -40,6 +40,8 @@ CKNumberOutput.prototype = Object.create(CKObjectComponent.prototype);
 
 CKNumberOutput.prototype._setValue = function()
 {
+    if(this._parent.isHidden())return;
+
     var value    = this._object[this._key],
         textArea = this._textArea,
         dp       = this._valueDPlace;

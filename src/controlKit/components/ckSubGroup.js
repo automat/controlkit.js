@@ -8,6 +8,9 @@ function CKSubGroup(parent,label,params)
     params = params || {};
     params.label  = params.label || null;
 
+
+
+
     /*---------------------------------------------------------------------------------*/
 
     var rootNode = this._rootNode = new CKNode(CKNodeType.LIST);
@@ -19,7 +22,11 @@ function CKSubGroup(parent,label,params)
         var headNode = new CKNode(CKNodeType.DIV),
             lablNode = new CKNode(CKNodeType.SPAN);
 
+       // rootNode.addChild(headNode);
+
     }
+
+    //var rootNode
 
 
 

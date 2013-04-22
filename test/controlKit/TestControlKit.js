@@ -13,6 +13,7 @@ var imports = [
 
                'components/internal/ckOptions.js',
 
+
                'ckPanel.js',
 
                'components/internal/ckComponent.js',
@@ -40,7 +41,9 @@ var imports = [
                'components/ckPad.js',
                'components/ckValuePlotter.js',
                'components/ckStringOutput.js',
-               'components/ckNumberOutput.js'
+               'components/ckNumberOutput.js',
+
+               'components/internal/ckPicker.js'
 
 
               ];
@@ -66,12 +69,17 @@ function TestControlKit(parentDomElementId)
         func2:function(x){return x*x;},
                   xyValue:[0.25,-0.35],
                   changeValue0:0.0,
-        changeValue1:0.0
+                  changeValue1:0.0,
+        changeValue2:0.0,
+        changeValue3:0.0,
+        changeValue4:0.0,
+        changeValue5:0.0,
+        changeValue6:0.0
                   };
 
     var controlKit = new ControlKit(parentDomElementId);
 
-    var control0   = controlKit.addPanel({width:280,position:[10,10]});
+    var control0   = controlKit.addPanel({width:280,position:[10,10],fixed:false});
 
 
     control0.addGroup()
@@ -120,15 +128,38 @@ function TestControlKit(parentDomElementId)
         .addSelect(object,'selectOptions','selectTarget','Select Comp')
         .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]});
 
+    var control2 = controlKit.addPanel({label:'YAY Panel',width:200,position:[490,10]});
+
+    control2.addGroup()
+        .addValuePlotter(object,'changeValue0','sgn',{height:45})
+        .addValuePlotter(object,'changeValue1','tri',{height:45})
+        .addValuePlotter(object,'changeValue2','randF',{height:45,lineWidth:2})
+        .addValuePlotter(object,'changeValue3','rect',{height:45,lineWidth:0.5})
+        .addValuePlotter(object,'changeValue4','randI',{height:45})
+        .addValuePlotter(object,'changeValue5','frac',{height:45})
+        .addValuePlotter(object,'changeValue6','sin',{height:45});
+
+
+
+
+
 
 
 
     var t = 0.0;
+    var sint;
     function updateObject()
     {
         t+=0.1;
-        object.changeValue0 = sgn(Math.sin(t));
-        object.changeValue1 = tri(Math.sin(t));
+        sint = Math.sin(t);
+        object.changeValue0 = sgn(sint);
+        object.changeValue1 = tri(sint);
+
+        object.changeValue2 = randomFloat(-1,1);
+        object.changeValue3 = rect(sint);
+        object.changeValue4 = randomInteger(-1,1);
+        object.changeValue5 = frac(sint);
+        object.changeValue6 = sint;
         controlKit.update();
     }
 

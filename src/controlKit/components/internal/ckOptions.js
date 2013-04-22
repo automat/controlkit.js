@@ -1,81 +1,80 @@
 function CKOptions()
 {
-    var node     = this._rootNode     = new CKNode(CKNodeType.DIV);
+    var node     = this._rootNode = new CKNode(CKNodeType.DIV);
     var listNode = this._listNode = new CKNode(CKNodeType.LIST);
 
-       // node.setStyleClass()
-        listNode.setStyleClass(CKCSS.Options);
+    node.setStyleClass(CKCSS.Options);
+    node.addChild(listNode);
 
-    this._hover    = false;
     this._selected = null;
     this._build    = false;
 
-    this._callbackOut   = null;
-    this._callbackSelect = null;
+    this._callbackOut    = function(){};
+    this._callbackSelect = function(){};
 
-    node.setEventListener(CKNodeEvent.MOUSE_OVER,function(){this._hover = true}.bind(this));
-    node.setEventListener(CKNodeEvent.MOUSE_OUT, function(){this._hover = false}.bind(this));
 
-    this._doconmousedownAdded = false;
+
+    var documentonmousedown = document.onmousedown || function(){};
+
+
+
 }
 
 CKOptions.prototype =
 {
+
     build : function(entries,selected,element,callbackSelect,callbackOut)
     {
-        this.clear();
+        this._listNode.removeAllChildren();
 
-        var node = this._node,
-            entryNode;
+        this._selected    = null;
+        this._build       = false;
+        this._callbackOut = function(){};
 
-        var getIndex = this._getIndex,
-            hide     = this._hide;
+        this._callbackSelect = callbackSelect;
+        this._callbackOut    = callbackOut;
 
-        var cSelect = this._callbackSelect = callbackSelect,
-            cOut    = this._callbackOut    = callbackOut;
+
+        var rootNode = this._rootNode,
+            listNode = this._listNode;
+
+        var entry,itemNode;
+
 
         var i = -1;
-        while(++i < entries.length)
+        while(++i<entries.length)
         {
-            entryNode = node.addChild(new CKNode(CKNodeType.LIST_ITEM));
-            entryNode.setProperty('innerHTML',entries[i]);
+            entry = entries[i];
 
-            if(entryNode.getProperty('innerHTML') == selected)
-            {
-                entryNode.setStyleClass(CKCSS.OptionsSelected);
-            }
+            itemNode = listNode.addChild(new CKNode(CKNodeType.LIST_ITEM));
+            itemNode.setProperty('innerHTML',entry);
+            if(entry == selected)itemNode.setStyleClass(CKCSS.OptionsSelected);
 
-            entryNode.setEventListener(CKNodeEvent.MOUSE_DOWN,function(){getIndex(this);hide();cSelect();});
+            itemNode.setEventListener(CKNodeEvent.MOUSE_DOWN,this._callbackSelect);
         }
+
 
         var elementPos    = element.getPositionGlobal(),
-            elemenWidth   = element.getWidth(),
+            elementWidth  = element.getWidth(),
             elementHeight = element.getHeight();
 
-        var nodeWidth  = node.getWidth(),
-            nodeHeight = node.getHeight();
+        var listWidth  = listNode.getWidth(),
+            listHeight = listNode.getHeight();
 
-        node.setWidth( nodeWidth < elemenWidth ? elemenWidth : nodeWidth);
-        node.setHeight(nodeHeight);
-        node.setProperty('visibility','visible');
-        node.setPosition(elementPos[0],elementPos[1]);
+        rootNode.setWidth( listWidth < elementWidth ? elementWidth : listWidth);
+        rootNode.setHeight(listHeight);
+        rootNode.setPositionGlobal(elementPos[0],elementPos[1]+elementHeight-CKCSS.OptionsPadding);
+        rootNode.setStyleProperty('visibility','visible');
 
-        this._build = true;
 
-        if(!this._doconmousedownAdded)
-        {
-            var doconmousedown = document.onmousedown || function(){};
 
-            document.onmousedown = function()
-            {
-                doconmousedown();
-                if(!this._hover)this._hide();
-                this._callbackOut();
+        //this._build = true;
 
-            }.bind(this);
 
-            this._doconmousedownAdded = true;
-        }
+
+
+
+
     },
 
     _getIndex : function(node){this._selected = this._rootNode.getChildIndex(node);},
@@ -83,15 +82,18 @@ CKOptions.prototype =
     clear : function()
     {
         this._listNode.removeAllChildren();
-        this._selected = null;
-        this._build    = false;
 
-    },
+        this._selected    = null;
+        this._build       = false;
+        this._callbackOut = function(){};
 
-    _hide : function()
-    {
-        this._clear();
-        this._rootNode.setProperty('visibility','hidden');
+        var node = this._rootNode;
+
+        node.setWidth(0);
+        node.setHeight(0);
+        node.setPositionGlobal(-1,-1);
+        node.setStyleProperty('visibility','hidden');
+
     },
 
     isBuild     : function(){return this._build;},

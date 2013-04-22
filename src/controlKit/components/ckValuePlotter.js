@@ -98,7 +98,7 @@ CKValuePlotter.prototype._drawCurve = function()
 
 CKValuePlotter.prototype.update = function()
 {
-
+    if(this._parent.isHidden())return;
     this._drawValue();
 };
 

@@ -52,8 +52,10 @@ function ControlKit(parentDomElementId)
         /*---------------------------------------------------------------------------------*/
 
         CKMouse.init();
+        CKPicker.init();
         CKOptions.init();
 
+        node.addChild(CKPicker.getInstance().getNode());
         node.addChild(CKOptions.getInstance().getNode());
 
         /*---------------------------------------------------------------------------------*/

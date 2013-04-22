@@ -38,6 +38,8 @@ CKStringOutput.prototype = Object.create(CKObjectComponent.prototype);
 
 CKStringOutput.prototype._setValue = function()
 {
+    if(this._parent.isHidden())return;
+
     var textArea = this._textArea;
 
     if(!this._wrap)

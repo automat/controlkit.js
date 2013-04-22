@@ -64,7 +64,7 @@ function CKGroup(parent,params)
     wrapNode.addChild(listNode);
     rootNode.addChild(wrapNode);
 
-    /*-------------------------------------------------------------------------------------*/
+    /*-------------------------------------_collapsed-----------------------------------------*/
 
     this._hidden = false;
     this._components = [];
@@ -117,7 +117,7 @@ CKGroup.prototype =
 
     forceUpdate   : function(){this._parent.forceUpdate();},
 
-    /*-------------------------------------------------------------------------------------*/
+    /*----------------------------------------------------------collapsed---------------------*/
 
     hide : function() { this._hidden = true;  this._updateVisibility();},
     show : function() { this._hidden = false; this._updateVisibility();},
@@ -138,12 +138,15 @@ CKGroup.prototype =
 
     getGroupList  : function(){return this._listNode;},
 
-    getList       : function()
-    {
-        //if first element is subgroup
-        var contNode = this._listNode;
-        if(!contNode.hasChildren())contNode.addChild(new CKNode(CKNodeType.LIST));
+    getList       : function(){
+        //if first element islisbgroup
+        var listNode = this._listNode;
+        if(!listNode.hasChildren())listNode.addChild(new CKNode(CKNodeType.LIST));
 
-        return contNode.getLastChild();
-    }
+        return listNode.getLastChild();
+    },
+
+    isHidden     :function(){return this._hidden;}
+
+
 };
