@@ -41,6 +41,10 @@
     -moz-box-sizing:    border-box;
     box-sizing:         border-box;
 
+    border-radius:         1px;
+    -moz-border-radius:    1px;
+    -webkit-border-radius: 1px;
+
  }
 
 .panel .wrap
@@ -196,19 +200,21 @@
 
 .panel .head
 {
-    height:  42px;
-    padding: 0 20px 0 20px;
+    height:  30px;
+    padding: 0 20px 0 10px;
 
     background-color: #1f2325;
     border-top:       1px solid #31383b;
     border-bottom:    1px solid #111314;
     cursor: pointer;
+
+
 }
 
 .panel .label
 {
     float: left;
-    font-size:   13px;
+    font-size:   11px;
     font-weight: bold;
     text-shadow: 0 -1px #000;
     overflow: hidden;
@@ -217,7 +223,7 @@
     cursor: default ;
 }
 
-.panel .head .label{line-height: 42px;color:#65696b;cursor: pointer;}
+.panel .head .label{line-height: 30px;color:#65696b;cursor: pointer;}
 
 /*-------------------------------------------------------------------------------------
  * Groups
@@ -232,6 +238,12 @@
 
 .panel .groupList {}
 
+.panel .groupList .head{padding: 0 20px 0 20px;}
+
+.panel .groupList .label
+{
+    font-size: 13px;
+}
 
 .panel .groupList .subGroupList
 {
