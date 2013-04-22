@@ -202,6 +202,7 @@
     background-color: #1f2325;
     border-top:       1px solid #31383b;
     border-bottom:    1px solid #111314;
+    cursor: pointer;
 }
 
 .panel .label
@@ -213,9 +214,11 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    cursor: default ;
+
 }
 
-.panel .head .label{line-height: 42px;color:#65696b;}
+.panel .head .label{line-height: 42px;color:#65696b;cursor: pointer;}
 
 /*-------------------------------------------------------------------------------------
  * Groups
