@@ -89,9 +89,9 @@ CKValuePlotter.prototype._drawCurve = function()
     canvas.push();
     {
         canvas.translate(0,(Math.floor(canvasHeight)*0.5+0.5));
-       // canvas.setLineWidth(this._lineWidth+3);
-       // canvas.stroke(0);
-       // canvas.lineArray(this._points);
+        //canvas.setLineWidth(this._lineWidth+3);
+        //canvas.stroke(0);
+        //canvas.lineArray(this._points);
         canvas.setLineWidth(this._lineWidth+0.5);
         canvas.stroke(strokeColor[0],strokeColor[1],strokeColor[2]);
         canvas.lineArray(this._points);

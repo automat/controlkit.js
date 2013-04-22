@@ -6,8 +6,9 @@ function CKGroup(parent,params)
 
     /*-------------------------------------------------------------------------------------*/
 
-    params        = params || {};
-    params.label  = params.label || null;
+    params           = params           || {};
+    params.label     = params.label     || null;
+    params.useLabels = params.useLabels || true;
 
     /*-------------------------------------------------------------------------------------*/
 

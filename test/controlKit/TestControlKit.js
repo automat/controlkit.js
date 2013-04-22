@@ -140,7 +140,7 @@ function TestControlKit(parentDomElementId)
         .addValuePlotter(object,'changeValue5','frac',{height:35})
         .addValuePlotter(object,'changeValue6','sin',{height:35});
 
-    var control3 = controlKit.addPanel({label:'Numbers',width:200,position:[700,10]});
+    var control3 = controlKit.addPanel({label:'Numbers',width:150,position:[700,10]});
 
     control3.addGroup()
         .addNumberOutput(object,'changeValue0','sgn')
@@ -154,17 +154,18 @@ function TestControlKit(parentDomElementId)
     var control4 = controlKit.addPanel({label:'Swing',width:200,position:[700,500]});
 
     control4.addGroup()
-        .addPad(object,'xyChangeValue','Freq Transform',{axisLabels:['SPEED','random']})
+        .addPad(object,'xyChangeValue','Freq Transform',{axisLabels:['SPEED','random'],showCross:false})
         .addNumberOutput(object,'xyChangeValue')
         .addButton('reset',function(){object.xyChangeValue = [0.1,0.1]});
 
-    var control5 = controlKit.addPanel({label:'YAY Panel Big',width:200,position:[490,405]})
+    var control5 = controlKit.addPanel({label:'YAY Panel Big',width:200,position:[490,405]});
 
     control5.addGroup()
         .addValuePlotter(object,'changeValue1','tri x1',{height:60,lineWidth:1,lineColor:[237, 20, 91]})
         .addValuePlotter(object,'changeValue1','tri x2',{height:60,lineWidth:2,lineColor:[237, 20, 91],resolution:2})
         .addValuePlotter(object,'changeValue1','tri x4',{height:60,lineWidth:4,lineColor:[237, 20, 91],resolution:4})
         .addValuePlotter(object,'changeValue1','tri x8',{height:60,lineWidth:8,lineColor:[237, 20, 91],resolution:8})
+        .addValuePlotter(object,'changeValue1','tri x16',{height:60,lineWidth:16,lineColor:[237, 20, 91],resolution:16});
 
 
 

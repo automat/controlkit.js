@@ -240,7 +240,6 @@
 
 .panel .groupList {}
 
-.panel .groupList .head{padding: 0 20px 0 20px;}
 
 .panel .groupList .label
 {
@@ -280,7 +279,9 @@
     height: 44px;
 
     border-top:    1px solid #566166;
-    border-bottom: 1px solid #111314;
+    border-bottom: 1px solid #1a1d1f;
+
+    padding: 0 20px 0 20px;
 
     background-image: -webkit-linear-gradient(#3c4a4f 0%, #383f47 100%);
     background-image: -moz-linear-gradient(#3c4a4f 0%, #383f47 100%);
@@ -732,6 +733,15 @@
     height: 250px;
 
     overflow: hidden;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select:   none;
+    -khtml-user-select:    none;
+    -moz-user-select:      none;
+    -ms-user-select:       none;
+    user-select:          none;
+
+
 }
 
 .picker .head

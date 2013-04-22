@@ -9,6 +9,7 @@ function CKPad(parent,object,value,label,params)
     params.onFinish   = params.onFinish   || null;
     params.bounds     = params.bounds     || [-1,1,-1,1];
     params.axisLabels = params.axisLabels || [null,null];
+    params.showCross  = params.showCross  || true;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -17,6 +18,7 @@ function CKPad(parent,object,value,label,params)
 
     this._bounds       = params.bounds;
     this._axisLabels   = params.axisLabels;
+    this._showCross    = params.showCross;
     this._value        = this._object[this._key];
 
     this._dragging     = false;
@@ -145,9 +147,12 @@ CKPad.prototype._drawPoint = function()
         canvas.noFill();
     }
 
-    canvas.stroke(75,84,89);
-    canvas.line(0,localY,canvasWidth,localY);
-    canvas.line(localX,0,localX,canvasHeight);
+    if(this._showCross)
+    {
+        canvas.stroke(75,84,89);
+        canvas.line(0,localY,canvasWidth,localY);
+        canvas.line(localX,0,localX,canvasHeight);
+    }
 
     canvas.noStroke();
     canvas.fill(0,0.05);
