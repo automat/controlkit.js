@@ -24,7 +24,7 @@ function CKSlider(parent,object,value,target,label,params)
 
     slider.setBoundMin(this._values[0]);
     slider.setBoundMax(this._values[1]);
-    slider.setInitialValue(this._object[this._targetKey]);
+    slider.setValue(this._object[this._targetKey]);
 
     var input  = this._textArea = new CKNumberInput_Internal(this._step,
                                                           this._dp,
@@ -70,6 +70,7 @@ CKSlider.prototype.forceUpdate = function()
 {
     this._slider.setBoundMin(this._values[0]);
     this._slider.setBoundMax(this._values[1]);
+    this._slider.setValue(this._object[this._targetKey]);
     this._applyValue();
 };
 

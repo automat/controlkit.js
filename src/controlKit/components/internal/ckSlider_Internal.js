@@ -17,14 +17,14 @@ function CKSlider_Internal(parentNode,onChange,onFinish)
                                  padding: 3};
 
     var handle = this._handle = {node    : new CKNode(CKNodeType.DIV).setStyleClass(CKCSS.SliderHandle),
-                                 width   : 10,
+                                 width   : 0,
                                  dragging: false};
 
     wrapNode.addChild(slot.node);
     slot.node.addChild(handle.node);
 
     slot.offsetX = slot.node.getPositionGlobalX();
-    slot.width   = slot.offsetX - slot.padding * 2;
+    slot.width   = Math.floor(slot.node.getWidth() - slot.padding * 2) ;
 
     handle.node.setWidth(handle.width);
 
@@ -83,8 +83,13 @@ CKSlider_Internal.prototype =
             px = (mx < sx) ? 0 : (mx > (sx + sw)) ? sw : (mx - sx);
 
         this._handle.node.setWidth(Math.round(px));
-        this._interpl = px / sw;
+        this._intrpl = px / sw;
         this._interpolateValue();
+    },
+
+    _updateHandle : function()
+    {
+        this._handle.node.setWidth(Math.round(this._intrpl*this._slot.width));
     },
 
     _interpolateValue : function()
@@ -95,15 +100,8 @@ CKSlider_Internal.prototype =
 
     setBoundMin : function(value){this._bounds[0] = value; this._interpolateValue();},
     setBoundMax : function(value){this._bounds[1] = value; this._interpolateValue();},
-    setValue    : function(value){this._intrpl    = value/this._bounds[1]; this._value  = value;},
+    setValue    : function(value){this._intrpl    = value/this._bounds[1]; this._updateHandle();this._value  = value;},
 
-    setInitialValue : function(value)
-    {
-        this._intrpl = value/this._bounds[1];
-        this._handle.node.setWidth(Math.round(this._intrpl*this._slot.width));
-        this._value = value;
-
-    },
 
     getValue : function(){return this._value;}
 };

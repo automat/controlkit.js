@@ -80,7 +80,7 @@ function TestControlKit(parentDomElementId)
 
     var controlKit = new ControlKit(parentDomElementId);
 
-    var control0   = controlKit.addPanel({width:280,position:[10,10],fixed:false});
+    var control0   = controlKit.addPanel({width:200,position:[10,10],fixed:false});
 
 
     control0.addGroup()
@@ -102,6 +102,13 @@ function TestControlKit(parentDomElementId)
             .addRange(object,'range','Range Comp')
             .addSlider(object,'range','slideValue','slider');
 
+
+    var control1 = controlKit.addPanel({width:200,position:[300,10]});
+
+    control1.addGroup().addSubGroup()
+            .addSlider(object,'range','slideValue','slider');
+
+    /*
     control0.addGroup({label:'Group'})
             .addSubGroup()
             .addSelect(object,'selectOptions','selectTarget','Select Comp')
@@ -193,13 +200,7 @@ function TestControlKit(parentDomElementId)
 
     function loop(){requestAnimationFrame(loop);updateObject();}loop();
 
-
-
-
-
-
-
-
+    */
 }
 
 /**
