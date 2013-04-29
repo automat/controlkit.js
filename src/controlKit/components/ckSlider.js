@@ -42,16 +42,18 @@ CKSlider.prototype._onSliderChange = function()
 {
     this._applyValue();
     this._updateValueField();
+    this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));
     this._onChange();
-    this._parent.forceUpdate();
+
 };
 
 CKSlider.prototype._onSliderFinish = function()
 {
     this._applyValue();
     this._updateValueField();
+    this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));
     this._onFinish();
-    this._parent.forceUpdate();
+
 };
 
 CKSlider.prototype._onInputChange = function()
@@ -66,8 +68,10 @@ CKSlider.prototype._applyValue = function()
     this._textArea.setValue(value);
 };
 
-CKSlider.prototype.forceUpdate = function()
+CKSlider.prototype.onValueUpdate = function(e)
 {
+    if(e.data.origin == this)return;
+
     this._slider.setBoundMin(this._values[0]);
     this._slider.setBoundMax(this._values[1]);
     this._slider.setValue(this._object[this._targetKey]);

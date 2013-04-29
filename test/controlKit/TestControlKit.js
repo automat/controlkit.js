@@ -1,6 +1,10 @@
 
 var imports = [
 
+               'event/ckEvent.js',
+               'event/ckEventDispatcher.js',
+               'event/ckEventType.js',
+
                'dom/ckCSS.js',
                'dom/ckMouse.js',
 

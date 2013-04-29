@@ -55,24 +55,37 @@ function CKRange(parent,object,value,label,params)
 
 CKRange.prototype = Object.create(CKObjectComponent.prototype);
 
+CKRange.prototype.__onChange = function()
+{
+    this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));
+    this._onChange();
+};
+
+CKRange.prototype.__onFinish = function()
+{
+    this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));
+    this._onFinish();
+};
+
+
 CKRange.prototype._onInputMinChange = function()
 {
-    this._updateValueMin();this._onChange();this._parent.forceUpdate();
+    this._updateValueMin();this.__onChange();
 };
 
 CKRange.prototype._onInputMinFinish = function()
 {
-    this._updateValueMin();this._onFinish();this._parent.forceUpdate();
+    this._updateValueMin();this.__onFinish();
 };
 
 CKRange.prototype._onInputMaxChange = function()
 {
-    this._updateValueMax();this._onChange();this._parent.forceUpdate();
+    this._updateValueMax();this.__onChange();
 };
 
 CKRange.prototype._onInputMaxFinish = function()
 {
-    this._updateValueMax();this._onFinish();this._parent.forceUpdate();
+    this._updateValueMax();this.__onFinish();
 };
 
 CKRange.prototype._updateValueMin = function()
@@ -97,8 +110,11 @@ CKRange.prototype._updateValueMax = function()
     this._values[1] = value;
 };
 
-CKRange.prototype.forceUpdate = function()
+CKRange.prototype.onValueUpdate = function(e)
 {
+    if(e.data.origin == this)return;
+
     this._inputMin.setValue(this._values[0]);
     this._inputMax.setValue(this._values[1]);
 };
+

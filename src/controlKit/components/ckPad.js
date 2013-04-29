@@ -196,11 +196,12 @@ CKPad.prototype._applyValue = function()
     objectValue[0] = value[0];
     objectValue[1] = value[1];
 
-    this._parent.forceUpdate();
+   this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));
 };
 
-CKPad.prototype.forceUpdate = function()
+CKPad.prototype.onValueUpdate = function(e)
 {
+    if(e.data.origin == this)return;
     this._drawValue(this._object[this._key]);
 };
 

@@ -1,5 +1,7 @@
 function CKComponent(parent)
 {
+    CKEventDispatcher.apply(this,arguments);
+
     this._parent   = parent;
     this._enabled  = true;
 
@@ -15,6 +17,8 @@ function CKComponent(parent)
     this._lablNode.setStyleClass(CKCSS.Label);
     this._wrapNode.setStyleClass(CKCSS.Wrap);
 }
+
+CKComponent.prototype = Object.create(CKEventDispatcher.prototype);
 
 CKComponent.prototype.enable     = function(){this._enabled = true;  };
 CKComponent.prototype.disable    = function(){this._enabled = false; };

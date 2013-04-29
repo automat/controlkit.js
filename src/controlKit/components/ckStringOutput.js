@@ -62,7 +62,7 @@ CKStringOutput.prototype._setValue = function()
     }
 };
 
-CKStringOutput.prototype.forceUpdate = function()
+CKStringOutput.prototype.onValueUpdate = function(e)
 {
     this._setValue();
 };

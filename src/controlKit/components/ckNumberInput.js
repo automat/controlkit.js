@@ -34,15 +34,17 @@ function CKNumberInput(parent,object,value,label,params)
 
 CKNumberInput.prototype = Object.create(CKObjectComponent.prototype);
 
-CKNumberInput.prototype._onInputChange = function(){this._updateValue();this._onChange();this._parent.forceUpdate()};
-CKNumberInput.prototype._onInputFinish = function(){this._updateValue();this._onFinish();this._parent.forceUpdate()};
+CKNumberInput.prototype._onInputChange = function(){this._updateValue();this._onChange();};
+CKNumberInput.prototype._onInputFinish = function(){this._updateValue();this._onFinish();};
 
 CKNumberInput.prototype._updateValue = function()
 {
     this._object[this._key] = this._textArea.getValue();
+    this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));
 };
 
-CKNumberInput.prototype.forceUpdate = function()
+CKNumberInput.prototype.onValueUpdate = function(e)
 {
+    if(e.data.origin == this)return;
     this._textArea.setValue(this._object[this._key]);
 };

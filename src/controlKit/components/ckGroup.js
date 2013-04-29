@@ -116,7 +116,6 @@ CKGroup.prototype =
         wrapNode.setHeight(wrapNode.getFirstChild().getHeight());
     },
 
-    forceUpdate   : function(){this._parent.forceUpdate();},
 
     /*----------------------------------------------------------collapsed---------------------*/
 

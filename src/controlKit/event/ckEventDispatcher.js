@@ -27,6 +27,9 @@ CKEventDispatcher.prototype =
         {
             obj    = listeners[i].obj;
             method = listeners[i].method;
+
+            if(!obj[method])throw obj + ' has no method ' + method;
+
             obj[method](event);
         }
     },
@@ -36,6 +39,7 @@ CKEventDispatcher.prototype =
         if(!this.hasEventListener(type))return;
 
         var listeners = this._listeners[type];
+
         var i = listeners.length;
         while(--i > -1)
         {

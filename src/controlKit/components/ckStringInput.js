@@ -26,11 +26,12 @@ CKStringInput.prototype._onInputChange = function(){this._applyValue();this._onF
 CKStringInput.prototype._applyValue = function()
 {
     this._object[this._key] = this._textArea.getProperty('value');
-    this._parent.forceUpdate();
+    this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));
 };
 
-CKStringInput.prototype.forceUpdate = function()
+CKStringInput.prototype.onValueUpdate = function(e)
 {
+    if(e.data.origin == this)return;
     this._textArea.setProperty('value',this._object[this._key]);
 };
 

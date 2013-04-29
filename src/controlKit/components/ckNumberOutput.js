@@ -85,7 +85,7 @@ CKNumberOutput.prototype._setValue = function()
 
 };
 
-CKNumberOutput.prototype.forceUpdate = function()
+CKNumberOutput.prototype.onValueUpdate = function(e)
 {
     this._setValue();
 };

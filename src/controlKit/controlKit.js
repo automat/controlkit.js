@@ -34,6 +34,8 @@ function ControlKit(parentDomElementId)
 {
     if(!ControlKit._instance)
     {
+        CKEventDispatcher.apply(this,arguments);
+
         var node = null;
 
         if(!parentDomElementId)
@@ -66,6 +68,7 @@ function ControlKit(parentDomElementId)
 
         window.addEventListener("resize", this.onWindowResize.bind(this), false);
 
+
         /*---------------------------------------------------------------------------------*/
 
         ControlKit._instance = this;
@@ -76,115 +79,91 @@ function ControlKit(parentDomElementId)
 
 /*---------------------------------------------------------------------------------*/
 
-ControlKit.prototype =
+ControlKit.prototype = Object.create(CKEventDispatcher.prototype);
+
+/*---------------------------------------------------------------------------------*/
+
+
+ControlKit.prototype.onWindowResize = function()
 {
-    onWindowResize : function()
-    {
-        this._window.width  = window.innerWidth;
-        this._window.height = window.innerHeight;
+    this._window.width = window.innerWidth;
+    this._window.height = window.innerHeight;
 
-        var kits = this._panels;
-        var i = -1;
+    var kits = this._panels;
+    var i = -1;
 
-        while(++i < kits.length)this.setPanelPosition(kits[i]);
-    },
-
-    /*---------------------------------------------------------------------------------*/
-
-    addPanel : function(params)
-    {
-        var panel = new CKPanel(this,params);
-        this._panels.push(panel);
-        return panel;
-    },
-
-    /*---------------------------------------------------------------------------------*/
-
-    forcePanelUpdate : function()
-    {
-        var i = -1, j, k;
-
-        var panels = this._panels,
-            groupList,
-            components,
-            component;
-
-        while(++i < panels.length)
-        {
-            groupList = panels[i].getGroups();
-            j=-1;
-            while(++j < groupList.length)
-            {
-                components = groupList[j].getComponents();
-                k=-1;
-                while(++k < components.length)
-                {
-                    component = components[k];
-                    if(component instanceof  CKObjectComponent)component.forceUpdate();
-
-                }
-            }
-        }
-    },
-
-    /*---------------------------------------------------------------------------------*/
-
-    update : function()
-    {
-        var i = -1, j, k;
-
-        var panels   = this._panels,
-            groupList,
-            components,
-            component;
-
-        while(++i < panels.length)
-        {
-            groupList = panels[i].getGroups();
-            j=-1;
-            while(++j < groupList.length)
-            {
-                components = groupList[j].getComponents();
-                k=-1;
-                while(++k < components.length)
-                {
-                    component = components[k];
-                    if(component instanceof CKValuePlotter ||
-                       component instanceof CKStringOutput ||
-                       component instanceof CKNumberOutput)
-                    {
-                        component.update();
-                    }
-
-                }
-            }
-        }
-    },
-
-    /*---------------------------------------------------------------------------------*/
-
-    setPanelPosition : function(panel)
-    {
-
-        var window        = this._window,
-            panelAlign    = panel.getAlignment(),
-            panelPosition = panel.getPosition(),
-            position      = panelAlign == CKLayout.ALIGN_LEFT   ? panelPosition :
-                            panelAlign == CKLayout.ALIGN_RIGHT  ? [window.width - panel.getWidth() - panelPosition[0],panelPosition[1]] :
-                            [0,0];
-
-        panel.getNode().setPositionGlobal(position[0],position[1]);
-    },
-
-    /*---------------------------------------------------------------------------------*/
-
-    getWindow : function(){return this._window;},
-
-    /*---------------------------------------------------------------------------------*/
-
-    getRootNode : function(){return this._rootNode;}
-
+    while (++i < kits.length)this.setPanelPosition(kits[i]);
 };
+
+ControlKit.prototype.onValueUpdated = function(e)
+{
+    this.dispatchEvent(new CKEvent(this,CKEventType.UPDATE_VALUE,{origin: e.sender}));
+};
+
+
+    /*---------------------------------------------------------------------------------*/
+
+ControlKit.prototype.addPanel = function(params)
+{
+    var panel = new CKPanel(this, params);
+    this._panels.push(panel);
+    return panel;
+};
+
+/*---------------------------------------------------------------------------------*/
+
+ControlKit.prototype.update = function()
+{
+    var i = -1, j, k;
+
+    var panels = this._panels,
+        groupList,
+        components,
+        component;
+
+    while (++i < panels.length) {
+        groupList = panels[i].getGroups();
+        j = -1;
+        while (++j < groupList.length) {
+            components = groupList[j].getComponents();
+            k = -1;
+            while (++k < components.length) {
+                component = components[k];
+                if (component instanceof CKValuePlotter ||
+                    component instanceof CKStringOutput ||
+                    component instanceof CKNumberOutput) {
+                    component.update();
+                }
+
+            }
+        }
+    }
+};
+
+    /*---------------------------------------------------------------------------------*/
+
+ControlKit.prototype.setPanelPosition = function(panel)
+{
+
+    var window = this._window,
+        panelAlign = panel.getAlignment(),
+        panelPosition = panel.getPosition(),
+        position = panelAlign == CKLayout.ALIGN_LEFT ? panelPosition :
+            panelAlign == CKLayout.ALIGN_RIGHT ? [window.width - panel.getWidth() - panelPosition[0], panelPosition[1]] :
+                [0, 0];
+
+    panel.getNode().setPositionGlobal(position[0], position[1]);
+};
+
+    /*---------------------------------------------------------------------------------*/
+
+ControlKit.prototype.getWindow = function(){return this._window;};
+
+    /*---------------------------------------------------------------------------------*/
+
+ControlKit.prototype.getRootNode = function(){return this._rootNode;};
+
+
 
 /*---------------------------------------------------------------------------------*/
 

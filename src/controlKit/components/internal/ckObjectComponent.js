@@ -11,14 +11,18 @@ function CKObjectComponent(parent,object,value,label)
     this._onFinish = function(){};
 
     this._lablNode.setProperty('innerHTML',label || '');
+
+    var cntrlKit = ControlKit.getInstance();
+
+    cntrlKit.addEventListener(CKEventType.UPDATE_VALUE,this,'onValueUpdate');
+    this.addEventListener(CKEventType.VALUE_UPDATED,cntrlKit,'onValueUpdated');
 }
 
 CKObjectComponent.prototype = Object.create(CKComponent.prototype);
 
 //Override in Subclass
-CKObjectComponent.prototype.applyValue   = function(){};
-CKObjectComponent.prototype.forceUpdate  = function(){};
-
-CKObjectComponent.prototype.setValue     = function(value){this._object[this._key] = value;this.forceUpdate();};
+CKObjectComponent.prototype.applyValue    = function(){};
+CKObjectComponent.prototype.onValueUpdate = function(e){};
+CKObjectComponent.prototype.setValue      = function(value){this._object[this._key] = value;};
 
 

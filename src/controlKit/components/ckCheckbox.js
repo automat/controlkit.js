@@ -23,11 +23,13 @@ CKCheckbox.prototype = Object.create(CKObjectComponent.prototype);
 CKCheckbox.prototype._onInputChange = function()
 {
     this._object[this._key] = !this._object[this._key];
+    this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));
     this._onChange();
-    this._parent.forceUpdate();
+
 };
 
-CKCheckbox.prototype.forceUpdate = function()
+CKCheckbox.prototype.onValueUpdate = function(e)
 {
+    if(e.data.origin == this)return;
     this._textArea.setProperty('checked',this._object[this._key]);
 };
