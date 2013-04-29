@@ -13,7 +13,6 @@ function CKObjectComponent(parent,object,value,label)
     this._lablNode.setProperty('innerHTML',label || '');
 
     var cntrlKit = ControlKit.getInstance();
-
     cntrlKit.addEventListener(CKEventType.UPDATE_VALUE,this,'onValueUpdate');
     this.addEventListener(CKEventType.VALUE_UPDATED,cntrlKit,'onValueUpdated');
 }

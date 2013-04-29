@@ -26,7 +26,7 @@ function CKSlider(parent,object,value,target,label,params)
     slider.setBoundMax(this._values[1]);
     slider.setValue(this._object[this._targetKey]);
 
-    var input  = this._textArea = new CKNumberInput_Internal(this._step,
+    var input  = this._input = new CKNumberInput_Internal(this._step,
                                                           this._dp,
                                                           this._onInputChange.bind(this),
                                                           this._onInputChange.bind(this));
@@ -58,27 +58,64 @@ CKSlider.prototype._onSliderFinish = function()
 
 CKSlider.prototype._onInputChange = function()
 {
-    //TODO:FIX
+    var input = this._input,
+        valueMin = this._values[0],
+        valueMax = this._values[1];
+
+    if(input.getValue() >= valueMax)input.setValue(valueMax);
+    if(input.getValue() <= valueMin)input.setValue(valueMin);
+
+    var value = input.getValue();
+
+    this._slider.setValue(value);
+    this._object[this._targetKey] = value;
+    this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));
+    this._onFinish();
 };
 
 CKSlider.prototype._applyValue = function()
 {
     var value = this._slider.getValue();
     this._object[this._targetKey] = value;
-    this._textArea.setValue(value);
+    this._input.setValue(value);
 };
 
+//TODO:FIX ME
 CKSlider.prototype.onValueUpdate = function(e)
 {
-    if(e.data.origin == this)return;
+    var origin = e.data.origin;
 
-    this._slider.setBoundMin(this._values[0]);
-    this._slider.setBoundMax(this._values[1]);
-    this._slider.setValue(this._object[this._targetKey]);
-    this._applyValue();
+    if(origin == this)return;
+
+    if(!(origin instanceof CKSlider))
+    {
+        //TODO: FIX ME!
+        if(origin instanceof CKRange)
+        {
+            this._slider.setBoundMin(this._values[0]);
+            this._slider.setBoundMax(this._values[1]);
+            this._slider.setValue(this._object[this._targetKey]);
+            //this._slider.updateInterpolatedValue();
+            this._applyValue();
+        }
+        else
+        {
+            this._slider.setBoundMin(this._values[0]);
+            this._slider.setBoundMax(this._values[1]);
+            this._slider.setValue(this._object[this._targetKey]);
+            this._applyValue();
+        }
+    }
+    else
+    {
+        this._slider.setValue(this._object[this._targetKey]);
+        this._applyValue();
+    }
 };
+
+
 
 CKSlider.prototype._updateValueField = function()
 {
-    this._textArea.setValue(this._slider.getValue());
+    this._input.setValue(this._slider.getValue());
 };

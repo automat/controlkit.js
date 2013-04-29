@@ -13,7 +13,7 @@ function CKCheckbox(parent,object,value,label,params)
     var input = this._textArea = new CKNode(CKNodeType.INPUT_CHECKBOX);
 
     input.setProperty('checked',this._object[this._key]);
-    input.setEventListener(CKNodeEvent.CHANGE,this._onInputChange.bind(this));
+    input.setEventListener(CKNodeEventType.CHANGE,this._onInputChange.bind(this));
 
     this._wrapNode.addChild(this._textArea);
 }

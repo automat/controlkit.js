@@ -91,7 +91,7 @@ function CKPanel(controlKit,params)
     }
 
 
-    headNode.setEventListener(CKNodeEvent.MOUSE_DOWN,function(){});
+    headNode.setEventListener(CKNodeEventType.MOUSE_DOWN,function(){});
 
     /*---------------------------------------------------------------------------------*/
 

@@ -1,4 +1,4 @@
-var CKNodeEvent =
+var CKNodeEventType =
 {
     MOUSE_DOWN : 'onmousedown',
     MOUSE_UP   : 'onmouseup',

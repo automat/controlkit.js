@@ -6,7 +6,7 @@ function CKButton(parent,label,onPress)
 
     input.setStyleClass(CKCSS.Button);
     input.setProperty('value',label);
-    input.setEventListener(CKNodeEvent.ON_CLICK,function(){onPress();}.bind(this));
+    input.setEventListener(CKNodeEventType.ON_CLICK,function(){onPress();this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));}.bind(this));
 
     this._wrapNode.addChild(input);
 }

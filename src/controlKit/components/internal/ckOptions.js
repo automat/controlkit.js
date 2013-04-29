@@ -6,16 +6,26 @@ function CKOptions()
     node.setStyleClass(CKCSS.Options);
     node.addChild(listNode);
 
-    this._selected = null;
-    this._build    = false;
+    this._selectedIndex = null;
+    this._selectHover   = false;
+    this._callbackOut = function(){};
 
-    this._callbackOut    = function(){};
-    this._callbackSelect = function(){};
+    var doconmousedown = document.onmousedown || function(e){},
+        doconmouseup   = document.onmouseup   || function(e){};
 
+    this._unfocusable = false;
 
+    document.onmousedown = function(e)
+    {
+        doconmousedown(e);
+        if(this._unfocusable)this._callbackOut();
+    }.bind(this);
 
-    var documentonmousedown = document.onmousedown || function(){};
-
+    document.onmouseup  = function(e)
+    {
+        doconmouseup(e);
+        this._unfocusable = true;
+    }.bind(this);
 
 
 }
@@ -25,24 +35,17 @@ CKOptions.prototype =
 
     build : function(entries,selected,element,callbackSelect,callbackOut)
     {
-        this._listNode.removeAllChildren();
-
-        this._selected    = null;
-        this._build       = false;
-        this._callbackOut = function(){};
-
-        this._callbackSelect = callbackSelect;
-        this._callbackOut    = callbackOut;
-
+        this._clearList();
 
         var rootNode = this._rootNode,
             listNode = this._listNode;
 
-        var entry,itemNode;
+        var self = this;
 
-
+        // build list
+        var itemNode,entry;
         var i = -1;
-        while(++i<entries.length)
+        while(++i < entries.length)
         {
             entry = entries[i];
 
@@ -50,9 +53,17 @@ CKOptions.prototype =
             itemNode.setProperty('innerHTML',entry);
             if(entry == selected)itemNode.setStyleClass(CKCSS.OptionsSelected);
 
-            itemNode.setEventListener(CKNodeEvent.MOUSE_DOWN,this._callbackSelect);
+            itemNode.setEventListener(CKNodeEventType.MOUSE_DOWN,
+                                      function()
+                                      {
+                                          self._selectedIndex = Array.prototype.indexOf.call(this.parentNode.children,this);
+                                          callbackSelect();
+
+                                      });
+
         }
 
+        //position, set width and show
 
         var elementPos    = element.getPositionGlobal(),
             elementWidth  = element.getWidth(),
@@ -67,30 +78,30 @@ CKOptions.prototype =
         rootNode.setStyleProperty('visibility','visible');
 
 
-
-        //this._build = true;
-
-
-
-
-
-
+        this._callbackOut = callbackOut;
+        this._unfocusable = false;
     },
 
-    _getIndex : function(node){this._selected = this._rootNode.getChildIndex(node);},
+
+    _clearList : function()
+    {
+        this._listNode.removeAllChildren();
+        this._selectedIndex  = null;
+        this._build          = false;
+
+        this._rootNode.setWidth(0);
+        this._rootNode.setHeight(0);
+    },
 
     clear : function()
     {
-        this._listNode.removeAllChildren();
+        this._clearList();
 
-        this._selected    = null;
-        this._build       = false;
+
         this._callbackOut = function(){};
 
-        var node = this._rootNode;
 
-        node.setWidth(0);
-        node.setHeight(0);
+        var node = this._rootNode;
         node.setPositionGlobal(-1,-1);
         node.setStyleProperty('visibility','hidden');
 
@@ -98,7 +109,7 @@ CKOptions.prototype =
 
     isBuild     : function(){return this._build;},
     getNode     : function(){return this._rootNode; },
-    getSelected : function(){return this._selected;}
+    getSelectedIndex : function(){return this._selectedIndex;}
 };
 
 CKOptions.init        = function(){CKOptions._instance = new CKOptions();};

@@ -11,9 +11,9 @@ function CKNumberInput_Internal(stepValue,decimalPlaces,onChange,onFinish)
 
     input.setProperty('value',this._value);
 
-    input.setEventListener(CKNodeEvent.KEY_DOWN,this._onInputKeyDown.bind(this));
-    input.setEventListener(CKNodeEvent.KEY_UP,  this._onInputKeyUp.bind(this));
-    input.setEventListener(CKNodeEvent.CHANGE,  this._onInputChange.bind(this));
+    input.setEventListener(CKNodeEventType.KEY_DOWN,this._onInputKeyDown.bind(this));
+    input.setEventListener(CKNodeEventType.KEY_UP,  this._onInputKeyUp.bind(this));
+    input.setEventListener(CKNodeEventType.CHANGE,  this._onInputChange.bind(this));
 }
 
 CKNumberInput_Internal.prototype._onInputKeyDown = function(e)

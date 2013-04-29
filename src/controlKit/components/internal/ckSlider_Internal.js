@@ -28,8 +28,8 @@ function CKSlider_Internal(parentNode,onChange,onFinish)
 
     handle.node.setWidth(handle.width);
 
-    slot.node.setEventListener(CKNodeEvent.MOUSE_DOWN,this._onSlotMouseDown.bind(this));
-    slot.node.setEventListener(CKNodeEvent.MOUSE_UP,  this._onSlotMouseUp.bind(this));
+    slot.node.setEventListener(CKNodeEventType.MOUSE_DOWN,this._onSlotMouseDown.bind(this));
+    slot.node.setEventListener(CKNodeEventType.MOUSE_UP,  this._onSlotMouseUp.bind(this));
 
     var doconmousemove = document.onmousemove || function(){},
         doconmouseup   = document.onmouseup   || function(){};

@@ -44,7 +44,7 @@ function CKGroup(parent,params)
         headNode.addChild(lablNode);
         headNode.addChild(indiNode);
 
-        headNode.setEventListener(CKNodeEvent.MOUSE_DOWN,function()
+        headNode.setEventListener(CKNodeEventType.MOUSE_DOWN,function()
                                                          {
                                                              this._hidden = !this._hidden;
                                                              this._updateVisibility();
