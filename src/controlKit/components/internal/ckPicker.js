@@ -45,7 +45,7 @@ function CKPicker()
 
 
     //for testing
-    node.setPositionGlobal(1000,100);
+    node.setPositionGlobal(300,200);
 }
 
 CKPicker.prototype =

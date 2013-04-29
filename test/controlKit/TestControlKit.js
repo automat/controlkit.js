@@ -8,7 +8,7 @@ var imports = [
                'dom/ckCSS.js',
                'dom/ckMouse.js',
 
-               'dom/ckNodeEvent.js',
+               'dom/ckNodeEventType.js',
                'dom/ckNodeType.js',
                'dom/ckNode.js',
 
@@ -87,7 +87,7 @@ function TestControlKit(parentDomElementId)
     var control0   = controlKit.addPanel({width:200,position:[10,10],fixed:false});
 
 
-    control0.addGroup()
+    control0.addGroup({label:'hello'})
         /*
             .addValuePlotter(object,'changeValue0','valuePlotter',{height:25})
             .addNumberOutput(object,'changeValue0','',{dp:4})

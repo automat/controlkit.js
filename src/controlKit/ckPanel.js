@@ -33,19 +33,26 @@
 
 function CKPanel(controlKit,params)
 {
+    CKEventDispatcher.apply(this,arguments);
+
     var parent = this._parent = controlKit;
 
     /*---------------------------------------------------------------------------------*/
 
     params            = params || {};
-    params.valign     = params.valign     || CKLayout.ALIGN_TOP;
-    params.align      = params.align      || CKLayout.ALIGN_LEFT;
-    params.position   = params.position   || [20,20];
-    params.width      = params.width      ||  300;
-    params.maxHeight  = params.maxHeight  ||  parent.getWindow().height - params.position[1];
-    params.ratio      = params.ratio      ||  40;
-    params.label      = params.label      || 'Control Panel';
-    params.fixed      = params.fixed      || true;  //TODO:FIXME
+    params.valign     = params.valign        || CKLayout.ALIGN_TOP;
+    params.align      = params.align         || CKLayout.ALIGN_LEFT;
+    params.position   = params.position      || [20,20];
+    params.width      = params.width         ||  300;
+    params.maxHeight  = params.maxHeight     ||  parent.getWindow().height - params.position[1];
+    params.ratio      = params.ratio         ||  40;
+    params.label      = params.label         || 'Control Panel';
+    params.fixed      = params.fixed === undefined ? true : params.fixed;
+
+
+   // params.fixed      = params.fixed  || true;  //TODO:FIXME
+
+    //console.log(params.fixed);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -85,13 +92,47 @@ function CKPanel(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    if(params.fixed === false)
+
+
+    if(!params.fixed)
     {
+        //console.log('movable');
+
+        this._headDragging = false;
+        this._mouseOffset  = [0,0];
+
+        headNode.setStyleProperty('cursor','pointer');
+
+        headNode.setEventListener(CKNodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
+
+        var doconmousemove = document.onmousemove || function(){},
+            doconmouseup   = document.onmouseup   || function(){};
+
+
+        document.onmousemove = function(e)
+        {
+            doconmousemove(e);
+            if(this._headDragging){this._updatePosition();}
+
+        }.bind(this);
+
+        document.onmouseup = function(e)
+        {
+            doconmouseup(e);
+            if(this._headDragging)
+            {
+                this.dispatchEvent(new CKEvent(this,CKEventType.PANEL_MOVE_END));
+                this._headDragging = false;
+            }
+
+        }.bind(this);
+
+
 
     }
 
 
-    headNode.setEventListener(CKNodeEventType.MOUSE_DOWN,function(){});
+
 
     /*---------------------------------------------------------------------------------*/
 
@@ -111,28 +152,53 @@ function CKPanel(controlKit,params)
 
 /*---------------------------------------------------------------------------------*/
 
-CKPanel.prototype =
-{
-    addGroup : function(params)
-    {
-        var group = new CKGroup(this,params);
-        this._groups.push(group);
-        return group;
-    },
+CKPanel.prototype = Object.create(CKEventDispatcher.prototype);
 
-    getGroups     : function(){return this._groups;},
-    forceUpdate   : function(){this._parent.forcePanelUpdate();},
-    getNode       : function(){return this._rootNode;},
-    getList       : function(){return this._listNode;},
+CKPanel.prototype.addGroup  = function(params)
+{
+    var group = new CKGroup(this,params);
+    this._groups.push(group);
+    return group;
+};
+
+CKPanel.prototype.getGroups     = function(){return this._groups;};
+CKPanel.prototype.forceUpdate   = function(){this._parent.forcePanelUpdate();};
+CKPanel.prototype.getNode       = function(){return this._rootNode;};
+CKPanel.prototype.getList       = function(){return this._listNode;};
 
     /*---------------------------------------------------------------------------------*/
 
-    getWidth      : function(){return this._width;},
-    getAlignment  : function(){return this._align;},
-    getPosition   : function(){return this._position;}
+CKPanel.prototype._onHeadMouseDown = function()
+{
+    var nodePos   = this._rootNode.getPositionGlobal(),
+        mousePos  = CKMouse.getInstance().getPosition(),
+        offsetPos = this._mouseOffset;
 
+    offsetPos[0] = mousePos[0] - nodePos[0];
+    offsetPos[1] = mousePos[1] - nodePos[1];
 
+    this._headDragging = true;
+
+    this.dispatchEvent(new CKEvent(this,CKEventType.PANEL_MOVE_BEGIN));
 };
+
+
+
+CKPanel.prototype._updatePosition = function()
+{
+    var mousePos  = CKMouse.getInstance().getPosition(),
+        offsetPos = this._mouseOffset;
+
+    this._rootNode.setPositionGlobal(mousePos[0]-offsetPos[0],mousePos[1]-offsetPos[1]);
+
+    this.dispatchEvent(new CKEvent(this,CKEventType.PANEL_MOVE));
+};
+
+/*---------------------------------------------------------------------------------*/
+
+CKPanel.prototype.getWidth      = function(){return this._width;};
+CKPanel.prototype.getAlignment  = function(){return this._align;};
+CKPanel.prototype.getPosition   = function(){return this._position;};
 
 /*---------------------------------------------------------------------------------*/
 
