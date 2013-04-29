@@ -68,7 +68,7 @@ function TestControlKit(parentDomElementId)
                   bool:true,
                   slideValue:0.5,
                   selectOptions:['hello','bello','cello'],
-                  selectTarget:null,
+                  selectTarget:'hello',
                   func:function(x){return Math.sin(x*Math.PI*4)*0.5;},
         func2:function(x){return x*x;},
                   xyValue:[0.25,-0.35],
@@ -104,7 +104,19 @@ function TestControlKit(parentDomElementId)
             */
             .addSubGroup()
             .addRange(object,'range','Range Comp')
-            .addSlider(object,'range','slideValue','slider');
+            .addSlider(object,'range','slideValue','slider')
+            .addSelect(object,'selectOptions','selectTarget','select')
+.addSelect(object,'selectOptions','selectTarget','select')
+.addSelect(object,'selectOptions','selectTarget','select');
+
+
+    var control1 = controlKit.addPanel({width:300,position:[240,10]});
+
+    control1.addGroup()
+            .addSelect(object,'selectOptions','selectTarget','select');
+
+
+    /*
 
 
     var control1 = controlKit.addPanel({width:200,position:[300,10]});
@@ -112,7 +124,7 @@ function TestControlKit(parentDomElementId)
     control1.addGroup().addSubGroup()
             .addSlider(object,'range','slideValue','slider');
 
-    /*
+
     control0.addGroup({label:'Group'})
             .addSubGroup()
             .addSelect(object,'selectOptions','selectTarget','Select Comp')
@@ -123,6 +135,7 @@ function TestControlKit(parentDomElementId)
             .addSubGroup()
             .addPad(object,'xyValue','Pad Comp')
             .addNumberOutput(object,'xyValue','',{wrap:true,height:40,dp:4});
+
 
     var control1 = controlKit.addPanel({label:'Basic Controls',width:180,position:[300,10]});
 
