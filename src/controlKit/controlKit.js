@@ -83,7 +83,6 @@ ControlKit.prototype = Object.create(CKEventDispatcher.prototype);
 
 /*---------------------------------------------------------------------------------*/
 
-
 ControlKit.prototype.onWindowResize = function()
 {
     this._window.width = window.innerWidth;
@@ -95,13 +94,21 @@ ControlKit.prototype.onWindowResize = function()
     while (++i < kits.length)this.setPanelPosition(kits[i]);
 };
 
+/*---------------------------------------------------------------------------------*/
+
+
 ControlKit.prototype.onValueUpdated = function(e)
 {
     this.dispatchEvent(new CKEvent(this,CKEventType.UPDATE_VALUE,{origin: e.sender}));
 };
 
+ControlKit.prototype.onSelectTriggered = function(e)
+{
+    this.dispatchEvent(new CKEvent(this,CKEventType.TRIGGER_SELECT,{origin: e.sender}));
+};
 
-    /*---------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------*/
 
 ControlKit.prototype.addPanel = function(params)
 {
