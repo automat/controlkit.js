@@ -27,14 +27,12 @@ CKNode.prototype =
 {
     addChild   : function(node)
     {
-        node._parent = this;
         this._element.appendChild(node.getElement());
         return node;
     },
 
     addChildAt : function(node,index)
     {
-        node._parent = this;
         this._element.insertBefore(node.getElement(),this._element.children[index]);
         return node;
     },
@@ -42,7 +40,6 @@ CKNode.prototype =
     removeChild : function(node)
     {
         if(!this.contains(node))return null;
-        node._parent = null;
         this._element.removeChild(node.getElement());
         return node;
     },
@@ -50,7 +47,6 @@ CKNode.prototype =
     removeChildAt : function(node,index)
     {
         if(!this.contains(node))return null;
-        node._parent = null;
         this._element.removeChild(node.getElement());
         return node;
     },
@@ -136,12 +132,14 @@ CKNode.prototype =
 
 
     getChildAt     : function(index) {return new CKNode().setElement(this._element.children[index]);},
-    getChildIndex  : function(node)  {return this._element.children.indexOf(node.getElement());},
+    getChildIndex  : function(node)  {return this._indexOf(this._element,node.getElement());},
     getNumChildren : function()      {return this._element.children.length;},
     getFirstChild  : function()      {return new CKNode().setElement(this._element.firstChild);},
     getLastChild   : function()      {return new CKNode().setElement(this._element.lastChild);},
     hasChildren    : function()      {return this._element.children.length != 0;},
-    contains       : function(node)  {return this._element.children.indexOf(node.getElement()) != -1;},
+    contains       : function(node)  {return this._indexOf(this._element,node.getElement()) != -1;},
+
+    _indexOf       : function(parentElement,element){return Array.prototype.indexOf.call(parentElement.children,element);},
 
     setProperty   : function(property, value){this._element[property] = value;return this;},
     setProperties : function(properties)     {for(var p in properties)this._element[p] = properties[p];return this;},
