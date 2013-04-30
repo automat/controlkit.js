@@ -24,7 +24,7 @@ function CKGroup(parent,params)
 
     /*-------------------------------------------------------------------------------------*/
 
-    rootNode.setStyleClass(CKCSS.GroupList);
+    rootNode.setStyleClass(CKCSS.Group);
     wrapNode.setStyleClass(CKCSS.Wrap);
     listNode.setStyleClass(CKCSS.SubGroupList);
 
@@ -137,7 +137,7 @@ CKGroup.prototype.show = function() { this._hidden = false; this._updateVisibili
 
 CKGroup.prototype._updateVisibility = function()
 {
-    var hidden = this._hidden,
+    var hidden   = this._hidden,
         wrapNode = this._wrapNode;
 
     wrapNode.setHeight(hidden ? 0 : wrapNode.getFirstChild().getHeight());

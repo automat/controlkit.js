@@ -1,6 +1,8 @@
 
 function CKSubGroup(parent,label,params)
 {
+    CKEventDispatcher.apply(this,arguments);
+
     this._parent = parent;
 
     /*---------------------------------------------------------------------------------*/
@@ -14,6 +16,8 @@ function CKSubGroup(parent,label,params)
     /*---------------------------------------------------------------------------------*/
 
     var rootNode = this._rootNode = new CKNode(CKNodeType.LIST);
+        rootNode.setStyleClass(CKCSS.SubGroup);
+    var listNode = this._listNode = new CKNode(CKNodeType.LIST);
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -34,3 +38,11 @@ function CKSubGroup(parent,label,params)
     this._parent.getGroupList().addChild(rootNode);
 
 }
+
+CKSubGroup.prototype = Object.create(CKEventDispatcher.prototype);
+
+CKSubGroup.prototype.getList = function()
+{
+
+};
+

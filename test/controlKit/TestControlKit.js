@@ -118,11 +118,14 @@ function TestControlKit(parentDomElementId)
     .addSelect(object,'selectOptions','selectTarget','select')
     .addSelect(object,'selectOptions','selectTarget','select');
 
+    control0.addGroup({label:'super'})
+            .addButton();
+
 
     var control1 = controlKit.addPanel({width:300,position:[240,10]});
 
     control1.addGroup()
-            .addSelect(object,'selectOptions','selectTarget','select');
+            //.addSelect(object,'selectOptions','selectTarget','select');
 
 
     /*

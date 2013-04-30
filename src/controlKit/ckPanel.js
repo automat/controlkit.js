@@ -83,6 +83,7 @@ function CKPanel(controlKit,params)
     headNode.setStyleClass(CKCSS.Head);
     lablNode.setStyleClass(CKCSS.Label);
     wrapNode.setStyleClass(CKCSS.Wrap);
+    listNode.setStyleClass(CKCSS.GroupList);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -107,6 +108,12 @@ function CKPanel(controlKit,params)
     }
 
 
+    //window.addEventListener(CKEventType.WINDOW_RESIZE,this._onWindowResize.bind(this),false);
+
+    this._cPosition = [0,0];
+
+
+
     /*---------------------------------------------------------------------------------*/
 
     this._groups = [];
@@ -119,6 +126,8 @@ function CKPanel(controlKit,params)
     rootNode.addChild(wrapNode);
 
     /*---------------------------------------------------------------------------------*/
+
+
 
 
 }
@@ -167,21 +176,9 @@ CKPanel.prototype._updatePosition = function()
     var currPositionX = mousePos[0]-offsetPos[0],
         currPositionY = mousePos[1]-offsetPos[1];
 
-    var node = this._rootNode,
-        ckWindow = ControlKit.getInstance().getWindow();
+    var position = this._constrainedPosition(currPositionX,currPositionY);
 
-    var maxX = ckWindow.width  - node.getWidth(),
-        maxY = ckWindow.height - this._headNode.getHeight();
-
-    currPositionX = (currPositionX < 0   ) ? 0 :
-                    (currPositionX > maxX) ? maxX :
-                     currPositionX;
-
-    currPositionY = (currPositionY < 0   ) ? 0 :
-                    (currPositionY > maxY) ? maxY :
-                     currPositionY;
-
-    node.setPositionGlobal(currPositionX,currPositionY);
+    this._rootNode.setPositionGlobal(position[0],position[1]);
 
     this.dispatchEvent(new CKEvent(this,CKEventType.PANEL_MOVE));
 };
@@ -199,7 +196,27 @@ CKPanel.prototype._onDocumentMouseUp = function()
     this._headDragging = false;
 };
 
+CKPanel.prototype._onWindowResize = function()
+{
+    var ckWindow = ControlKit.getInstance().getWindow();
+
+};
+
 /*---------------------------------------------------------------------------------*/
+
+CKPanel.prototype._constrainedPosition = function(x,y)
+{
+    var node = this._rootNode,
+        ckWindow = ControlKit.getInstance().getWindow();
+
+    var maxX = ckWindow.width  - node.getWidth(),
+        maxY = ckWindow.height - this._headNode.getHeight();
+
+    this._cPosition[0] = (x<0)?0:(x>maxX)?maxX:x;
+    this._cPosition[1] = (y<0)?0:(y>maxY)?maxY:y;
+
+    return this._cPosition;
+};
 
 CKPanel.prototype.getWidth      = function(){return this._width;};
 CKPanel.prototype.getAlignment  = function(){return this._align;};

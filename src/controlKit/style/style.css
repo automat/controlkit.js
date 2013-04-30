@@ -237,20 +237,23 @@
     list-style: none;
 }
 
+.panel .group {}
 .panel .groupList {}
 
 
-.panel .groupList .label
+.panel .group .label
 {
     font-size: 13px;
 }
 
-.panel .groupList .subGroupList
+.panel .group .subGroupList
 {
     padding: 10px;
 }
 
-.panel .groupList .subGroupList ul
+
+
+.panel .group .subGroupList .subGroup
 {
 
     margin-top: 6px;
@@ -264,7 +267,7 @@
     box-shadow: 0 1px  0 rgba(59, 68, 71,1.0);
 }
 
-.panel .subGroupList ul:first-child
+.panel .subGroupList .subGroup:first-child
 {
     margin-top: 0;
 }
@@ -273,7 +276,7 @@
 
 
 
-.panel .groupList .head
+.panel .group .head
 {
     height: 44px;
 
@@ -290,9 +293,9 @@
     cursor: pointer;
 }
 
-.panel .groupList .head .label{line-height:44px;color:#fff;}
+.panel .group .head .label{line-height:44px;color:#fff;}
 
-.panel .groupList .head:hover,.head:active
+.panel .group .head:hover,.head:active
 {
     background-image: -webkit-linear-gradient(#3c4a4f 0%, #3c4a4f 100%);
     background-image: -moz-linear-gradient(#3c4a4f 0%, #3c4a4f 100%);
@@ -302,7 +305,7 @@
 
 .panel .head:hover,.head:active{background-image: none}
 
-.panel .groupList li:nth-child(odd)
+.panel .group li:nth-child(odd)
 {
     background-color: #292d30;
 }
@@ -311,14 +314,14 @@
  * Component
  *-------------------------------------------------------------------------------------*/
 
-.panel .groupList li
+.panel .group li
 {
 
     height:   35px;
     padding:  0 10px 0 10px;
 }
 
-.panel .groupList .subGroupList .label
+.panel .group .subGroupList .label
 {
     width:   30%;
     padding: 10px 5px 0 0;
@@ -569,7 +572,7 @@
     cursor: pointer;
 }
 
-.panel .groupList .canvasListItem
+.panel .group .canvasListItem
 {
     padding:  0 10px 0 10px ;
 }
