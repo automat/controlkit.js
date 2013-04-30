@@ -10,28 +10,25 @@ function CKOptions()
     this._selectHover   = false;
     this._callbackOut = function(){};
 
-    var doconmousedown = document.onmousedown || function(e){},
-        doconmouseup   = document.onmouseup   || function(e){};
-
     this._unfocusable = false;
 
-    document.onmousedown = function(e)
-    {
-        doconmousedown(e);
-        if(this._unfocusable)this._callbackOut();
-    }.bind(this);
-
-    document.onmouseup  = function(e)
-    {
-        doconmouseup(e);
-        this._unfocusable = true;
-    }.bind(this);
-
-
+    document.addEventListener(CKDocumentEventType.MOUSE_DOWN,this._onDocumentMouseDown.bind(this));
+    document.addEventListener(CKDocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
 }
 
 CKOptions.prototype =
 {
+
+    _onDocumentMouseDown : function()
+    {
+        if(!this._unfocusable)return;
+        this._callbackOut();
+    },
+
+    _onDocumentMouseUp : function()
+    {
+        this._unfocusable = true;
+    },
 
     build : function(entries,selected,element,callbackSelect,callbackOut)
     {

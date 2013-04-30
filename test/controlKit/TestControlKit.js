@@ -6,7 +6,10 @@ var imports = [
                'event/ckEventType.js',
 
                'dom/ckCSS.js',
+
+               'dom/ckDocumentEventType.js',
                'dom/ckMouse.js',
+
 
                'dom/ckNodeEventType.js',
                'dom/ckNodeType.js',

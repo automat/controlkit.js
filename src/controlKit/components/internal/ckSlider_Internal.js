@@ -31,30 +31,26 @@ function CKSlider_Internal(parentNode,onChange,onFinish)
     slot.node.setEventListener(CKNodeEventType.MOUSE_DOWN,this._onSlotMouseDown.bind(this));
     slot.node.setEventListener(CKNodeEventType.MOUSE_UP,  this._onSlotMouseUp.bind(this));
 
-    var doconmousemove = document.onmousemove || function(){},
-        doconmouseup   = document.onmouseup   || function(){};
-
-    document.onmousemove = function(e)
-    {
-        doconmousemove(e);
-        if(handle.dragging)
-        {
-            this._update();
-            this._onChange();
-        }
-    }.bind(this);
-
-    document.onmouseup   = function(e)
-    {
-        doconmouseup(e);
-        if(handle.dragging)this._onFinish();
-        handle.dragging = false;
-
-    }.bind(this);
+    document.addEventListener(CKDocumentEventType.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
+    document.addEventListener(CKDocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
 }
 
 CKSlider_Internal.prototype =
 {
+    _onDocumentMouseMove : function(e)
+    {
+        if(!this._handle.dragging)return;
+
+        this._update();
+        this._onChange();
+    },
+
+    _onDocumentMouseUp : function(e)
+    {
+        if(this._handle.dragging)this._onFinish();
+        this._handle.dragging = false;
+    },
+
     _onSlotMouseDown : function()
     {
         this._focus = true;

@@ -104,28 +104,8 @@ function CKPanel(controlKit,params)
         headNode.setStyleProperty('cursor','pointer');
 
         headNode.setEventListener(CKNodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
-
-        var doconmousemove = document.onmousemove || function(){},
-            doconmouseup   = document.onmouseup   || function(){};
-
-
-        document.onmousemove = function(e)
-        {
-            doconmousemove(e);
-            if(this._headDragging){this._updatePosition();}
-
-        }.bind(this);
-
-        document.onmouseup = function(e)
-        {
-            doconmouseup(e);
-            if(this._headDragging)
-            {
-                this.dispatchEvent(new CKEvent(this,CKEventType.PANEL_MOVE_END));
-                this._headDragging = false;
-            }
-
-        }.bind(this);
+        document.addEventListener(CKDocumentEventType.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
+        document.addEventListener(CKDocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
 
 
 
@@ -182,8 +162,6 @@ CKPanel.prototype._onHeadMouseDown = function()
     this.dispatchEvent(new CKEvent(this,CKEventType.PANEL_MOVE_BEGIN));
 };
 
-
-
 CKPanel.prototype._updatePosition = function()
 {
     var mousePos  = CKMouse.getInstance().getPosition(),
@@ -192,6 +170,19 @@ CKPanel.prototype._updatePosition = function()
     this._rootNode.setPositionGlobal(mousePos[0]-offsetPos[0],mousePos[1]-offsetPos[1]);
 
     this.dispatchEvent(new CKEvent(this,CKEventType.PANEL_MOVE));
+};
+
+CKPanel.prototype._onDocumentMouseMove = function()
+{
+    if(!this._headDragging)return;
+    this._updatePosition();
+};
+
+CKPanel.prototype._onDocumentMouseUp = function()
+{
+    if(!this._headDragging)return;
+    this.dispatchEvent(new CKEvent(this,CKEventType.PANEL_MOVE_END));
+    this._headDragging = false;
 };
 
 /*---------------------------------------------------------------------------------*/

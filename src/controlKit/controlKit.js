@@ -66,8 +66,6 @@ function ControlKit(parentDomElementId)
 
         /*---------------------------------------------------------------------------------*/
 
-        document.addEventListener('mousemove')
-
         window.addEventListener("resize", this.onWindowResize.bind(this), false);
 
 
@@ -85,11 +83,6 @@ ControlKit.prototype = Object.create(CKEventDispatcher.prototype);
 
 /*---------------------------------------------------------------------------------*/
 
-ControlKit.prototype._onDocumentMouseMove = function(e)
-{
-    this.dispatchEvent(new CKEvent(this,CKNodeEventType.DOCUMENT_ON_MOUSE_MOVE,{mouse:e}));
-
-};
 
 ControlKit.prototype.onWindowResize = function()
 {
