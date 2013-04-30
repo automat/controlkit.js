@@ -92,8 +92,6 @@ function CKPanel(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-
-
     if(!params.fixed)
     {
         //console.log('movable');
@@ -106,12 +104,7 @@ function CKPanel(controlKit,params)
         headNode.setEventListener(CKNodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
         document.addEventListener(CKDocumentEventType.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
         document.addEventListener(CKDocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
-
-
-
     }
-
-
 
 
     /*---------------------------------------------------------------------------------*/
@@ -160,6 +153,7 @@ CKPanel.prototype._onHeadMouseDown = function()
     this._headDragging = true;
 
     this.dispatchEvent(new CKEvent(this,CKEventType.PANEL_MOVE_BEGIN));
+    this.dispatchEvent(new CKEvent(this,CKEventType.INDEX_ORDER_CHANGED));
 };
 
 CKPanel.prototype._updatePosition = function()

@@ -94,9 +94,7 @@ CKOptions.prototype =
     {
         this._clearList();
 
-
         this._callbackOut = function(){};
-
 
         var node = this._rootNode;
         node.setPositionGlobal(-1,-1);

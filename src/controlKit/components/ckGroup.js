@@ -2,6 +2,8 @@
 
 function CKGroup(parent,params)
 {
+    CKEventDispatcher.apply(this,arguments);
+
     this._parent = parent;
 
     /*-------------------------------------------------------------------------------------*/
@@ -70,83 +72,94 @@ function CKGroup(parent,params)
     this._hidden = false;
     this._components = [];
     this._subGroups  = [];
+
+    /*-------------------------------------------------------------------------------------*/
+
+    this._parent.addEventListener(CKEventType.PANEL_MOVE_BEGIN,this,'onPanelMoveBegin');
+    this._parent.addEventListener(CKEventType.PANEL_MOVE,      this,'onPanelMove');
+    this._parent.addEventListener(CKEventType.PANEL_MOVE_END,  this,'onPanelMoveEnd');
 }
 
+CKGroup.prototype = Object.create(CKEventDispatcher.prototype);
+
+/*-------------------------------------------------------------------------------------*/
+
+CKGroup.prototype.onPanelMoveBegin = function(){var eventType = CKEventType.PANEL_MOVE_BEGIN;if(!this.hasEventListener(eventType))return;this.dispatchEvent(new CKEvent(this,eventType));};
+CKGroup.prototype.onPanelMove      = function(){var eventType = CKEventType.PANEL_MOVE;      if(!this.hasEventListener(eventType))return;this.dispatchEvent(new CKEvent(this,eventType))};
+CKGroup.prototype.onPanelMoveEnd   = function(){var eventType = CKEventType.PANEL_MOVE_END;  if(!this.hasEventListener(eventType))return;this.dispatchEvent(new CKEvent(this,eventType))};
+
+/*-------------------------------------------------------------------------------------*/
 
 
-CKGroup.prototype =
+CKGroup.prototype.addSubGroup        = function(label,params)                    {this._subGroups.push(new CKSubGroup(this,label,params));
+                                                                                  this._updateHeight();
+                                                                                  return this;};
+
+CKGroup.prototype.addStringInput     = function(object,value,label,params)       {return this._addComponent(new CKStringInput(     this,object,value,label,params));};
+CKGroup.prototype.addNumberInput     = function(object,value,label,params)       {return this._addComponent(new CKNumberInput(     this,object,value,label,params));};
+CKGroup.prototype.addRange           = function(object,value,label,params)       {return this._addComponent(new CKRange(           this,object,value,label,params));};
+CKGroup.prototype.addCheckbox        = function(object,value,label,params)       {return this._addComponent(new CKCheckbox(        this,object,value,label,params));};
+CKGroup.prototype.addButton          = function(label,onPress)                   {return this._addComponent(new CKButton(          this,label,onPress));};
+CKGroup.prototype.addSelect          = function(object,value,target,label,params){return this._addComponent(new CKSelect(          this,object,value,target,label,params));};
+CKGroup.prototype.addSlider          = function(object,value,target,label,params){return this._addComponent(new CKSlider(          this,object,value,target,label,params));};
+
+
+CKGroup.prototype.addFunctionPlotter = function(object,value,label,params)       {return this._addComponent(new CKFunctionPlotter( this,object,value,label,params));};;
+CKGroup.prototype.addPad             = function(object,value,label,params)       {return this._addComponent(new CKPad(             this,object,value,label,params));};
+CKGroup.prototype.addValuePlotter    = function(object,value,label,params)       {return this._addComponent(new CKValuePlotter(    this,object,value,label,params));};
+CKGroup.prototype.addNumberOutput    = function(object,value,label,params)       {return this._addComponent(new CKNumberOutput(    this,object,value,label,params));};
+CKGroup.prototype.addStringOutput    = function(object,value,label,params)       {return this._addComponent(new CKStringOutput(    this,object,value,label,params));};
+
+CKGroup.prototype.addObject = function(obj){};
+
+/*-------------------------------------------------------------------------------------*/
+
+CKGroup.prototype._addComponent = function(component)
 {
-    /*-------------------------------------------------------------------------------------*/
-
-    addSubGroup        : function(label,params)                    {this._subGroups.push(new CKSubGroup(this,label,params));
-                                                                    this._updateHeight();
-                                                                    return this;},
-
-    addStringInput     : function(object,value,label,params)       {return this._addComponent(new CKStringInput(     this,object,value,label,params));},
-    addNumberInput     : function(object,value,label,params)       {return this._addComponent(new CKNumberInput(     this,object,value,label,params));},
-    addRange           : function(object,value,label,params)       {return this._addComponent(new CKRange(           this,object,value,label,params));},
-    addCheckbox        : function(object,value,label,params)       {return this._addComponent(new CKCheckbox(        this,object,value,label,params));},
-    addButton          : function(label,onPress)                   {return this._addComponent(new CKButton(          this,label,onPress));},
-    addSelect          : function(object,value,target,label,params){return this._addComponent(new CKSelect(          this,object,value,target,label,params));},
-    addSlider          : function(object,value,target,label,params){return this._addComponent(new CKSlider(          this,object,value,target,label,params));},
-
-
-    addFunctionPlotter : function(object,value,label,params)       {return this._addComponent(new CKFunctionPlotter( this,object,value,label,params));},
-    addPad             : function(object,value,label,params)       {return this._addComponent(new CKPad(             this,object,value,label,params));},
-    addValuePlotter    : function(object,value,label,params)       {return this._addComponent(new CKValuePlotter(    this,object,value,label,params));},
-    addNumberOutput    : function(object,value,label,params)       {return this._addComponent(new CKNumberOutput(    this,object,value,label,params));},
-    addStringOutput    : function(object,value,label,params)       {return this._addComponent(new CKStringOutput(    this,object,value,label,params));},
-
-    addObject : function(obj){},
-
-    /*-------------------------------------------------------------------------------------*/
-
-    _addComponent : function(component)
-    {
-        this._components.push(component);
-        this._updateHeight();
-        return this;
-    },
-
-    /*-------------------------------------------------------------------------------------*/
-
-    _updateHeight : function()
-    {
-        var wrapNode = this._wrapNode;
-        wrapNode.setHeight(wrapNode.getFirstChild().getHeight());
-    },
-
-
-    /*----------------------------------------------------------collapsed---------------------*/
-
-    hide : function() { this._hidden = true;  this._updateVisibility();},
-    show : function() { this._hidden = false; this._updateVisibility();},
-
-    _updateVisibility : function()
-    {
-        var hidden   = this._hidden,
-            wrapNode = this._wrapNode;
-
-        wrapNode.setHeight(hidden ? 0 : wrapNode.getFirstChild().getHeight());
-    },
-
-    /*-------------------------------------------------------------------------------------*/
-
-
-    getComponents : function(){return this._components;},
-    getNode       : function(){return this._rootNode;},
-
-    getGroupList  : function(){return this._listNode;},
-
-    getList       : function(){
-        //if first element islisbgroup
-        var listNode = this._listNode;
-        if(!listNode.hasChildren())listNode.addChild(new CKNode(CKNodeType.LIST));
-
-        return listNode.getLastChild();
-    },
-
-    isHidden     :function(){return this._hidden;}
-
-
+    this._components.push(component);
+    this._updateHeight();
+    return this;
 };
+
+/*-------------------------------------------------------------------------------------*/
+
+CKGroup.prototype._updateHeight = function()
+{
+    var wrapNode = this._wrapNode;
+    wrapNode.setHeight(wrapNode.getFirstChild().getHeight());
+};
+
+
+/*----------------------------------------------------------collapsed---------------------*/
+
+CKGroup.prototype.hide = function() { this._hidden = true;  this._updateVisibility();};
+CKGroup.prototype.show = function() { this._hidden = false; this._updateVisibility();};
+
+CKGroup.prototype._updateVisibility = function()
+{
+    var hidden = this._hidden,
+        wrapNode = this._wrapNode;
+
+    wrapNode.setHeight(hidden ? 0 : wrapNode.getFirstChild().getHeight());
+};
+
+/*-------------------------------------------------------------------------------------*/
+
+
+CKGroup.prototype.getComponents = function(){return this._components;};
+CKGroup.prototype.getNode       = function(){return this._rootNode;};
+
+CKGroup.prototype.getGroupList  = function(){return this._listNode;};
+
+CKGroup.prototype.getList       = function()
+{
+    //if first element islisbgroup
+    var listNode = this._listNode;
+    if (!listNode.hasChildren())listNode.addChild(new CKNode(CKNodeType.LIST));
+
+    return listNode.getLastChild();
+};
+
+CKGroup.prototype.isHidden     = function(){return this._hidden;};
+
+

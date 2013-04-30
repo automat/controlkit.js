@@ -118,6 +118,11 @@ ControlKit.prototype.addPanel = function(params)
     return panel;
 };
 
+ControlKit.prototype.onPanelMoveBegin = function(e)
+{
+
+};
+
 /*---------------------------------------------------------------------------------*/
 
 ControlKit.prototype.update = function()

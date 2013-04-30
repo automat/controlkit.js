@@ -34,6 +34,8 @@ function CKSlider(parent,object,value,target,label,params)
     input.setValue(this._object[this._targetKey]);
 
     this._wrapNode.addChild(input.getNode());
+
+    this._parent.addEventListener(CKEventType.PANEL_MOVE_END,this,'onPanelMoveEnd');
 }
 
 CKSlider.prototype = Object.create(CKObjectComponent.prototype);
@@ -118,4 +120,10 @@ CKSlider.prototype.onValueUpdate = function(e)
 CKSlider.prototype._updateValueField = function()
 {
     this._input.setValue(this._slider.getValue());
+};
+
+CKSlider.prototype.onPanelMoveEnd = function()
+{
+    console.log('Update my offset, PLEAAASE')
+
 };
