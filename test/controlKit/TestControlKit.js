@@ -110,7 +110,13 @@ function TestControlKit(parentDomElementId)
             .addSlider(object,'range','slideValue','slider')
             .addSelect(object,'selectOptions','selectTarget','select')
 .addSelect(object,'selectOptions','selectTarget','select')
-.addSelect(object,'selectOptions','selectTarget','select');
+.addSelect(object,'selectOptions','selectTarget','select')
+.addSubGroup()
+    .addRange(object,'range','Range Comp')
+    .addSlider(object,'range','slideValue','slider')
+    .addSelect(object,'selectOptions','selectTarget','select')
+    .addSelect(object,'selectOptions','selectTarget','select')
+    .addSelect(object,'selectOptions','selectTarget','select');
 
 
     var control1 = controlKit.addPanel({width:300,position:[240,10]});

@@ -68,7 +68,7 @@ function CKPanel(controlKit,params)
 
 
     var rootNode = this._rootNode = new CKNode(CKNodeType.DIV),
-        headNode = new CKNode(CKNodeType.DIV),
+        headNode = this._headNode = new CKNode(CKNodeType.DIV),
         lablNode = new CKNode(CKNodeType.SPAN),
         wrapNode = new CKNode(CKNodeType.DIV),
         listNode = this._listNode = new CKNode(CKNodeType.LIST);
@@ -153,7 +153,7 @@ CKPanel.prototype._onHeadMouseDown = function()
     this._headDragging = true;
 
     this.dispatchEvent(new CKEvent(this,CKEventType.PANEL_MOVE_BEGIN));
-    this.dispatchEvent(new CKEvent(this,CKEventType.INDEX_ORDER_CHANGED));
+    this.dispatchEvent(new CKEvent(this,CKEventType.INDEX_ORDER_CHANGED),{origin:this});
 };
 
 CKPanel.prototype._updatePosition = function()
@@ -161,7 +161,23 @@ CKPanel.prototype._updatePosition = function()
     var mousePos  = CKMouse.getInstance().getPosition(),
         offsetPos = this._mouseOffset;
 
-    this._rootNode.setPositionGlobal(mousePos[0]-offsetPos[0],mousePos[1]-offsetPos[1]);
+    var currPositionX = mousePos[0]-offsetPos[0],
+        currPositionY = mousePos[1]-offsetPos[1];
+
+    var node = this._rootNode;
+
+    var maxX = window.innerWidth  - node.getWidth(),
+        maxY = window.innerHeight - this._headNode.getHeight();
+
+    currPositionX = (currPositionX < 0   ) ? 0 :
+                    (currPositionX > maxX) ? maxX :
+                     currPositionX;
+
+    currPositionY = (currPositionY < 0   ) ? 0 :
+                    (currPositionY > maxY) ? maxY :
+                     currPositionY;
+
+    node.setPositionGlobal(currPositionX,currPositionY);
 
     this.dispatchEvent(new CKEvent(this,CKEventType.PANEL_MOVE));
 };
