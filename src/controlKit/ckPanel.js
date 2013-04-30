@@ -139,7 +139,10 @@ CKPanel.prototype.forceUpdate   = function(){this._parent.forcePanelUpdate();};
 CKPanel.prototype.getNode       = function(){return this._rootNode;};
 CKPanel.prototype.getList       = function(){return this._listNode;};
 
-    /*---------------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------------*
+* Panel dragging
+*----------------------------------------------------------------------------------*/
 
 CKPanel.prototype._onHeadMouseDown = function()
 {
@@ -164,10 +167,11 @@ CKPanel.prototype._updatePosition = function()
     var currPositionX = mousePos[0]-offsetPos[0],
         currPositionY = mousePos[1]-offsetPos[1];
 
-    var node = this._rootNode;
+    var node = this._rootNode,
+        ckWindow = ControlKit.getInstance().getWindow();
 
-    var maxX = window.innerWidth  - node.getWidth(),
-        maxY = window.innerHeight - this._headNode.getHeight();
+    var maxX = ckWindow.width  - node.getWidth(),
+        maxY = ckWindow.height - this._headNode.getHeight();
 
     currPositionX = (currPositionX < 0   ) ? 0 :
                     (currPositionX > maxX) ? maxX :
