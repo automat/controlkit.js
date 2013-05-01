@@ -87,7 +87,7 @@ function TestControlKit(parentDomElementId)
 
     var controlKit = new ControlKit(parentDomElementId);
 
-    var control0   = controlKit.addPanel({width:200,position:[10,10],fixed:false});
+    var control0   = controlKit.addPanel({width:250,position:[10,10],fixed:false});
 
 
     control0.addGroup()
@@ -225,7 +225,7 @@ function TestControlKit(parentDomElementId)
 
     function loop(){requestAnimationFrame(loop);updateObject();}loop();
 
-    
+
 }
 
 /**

@@ -144,7 +144,6 @@ CKPanel.prototype.addGroup  = function(params)
 };
 
 CKPanel.prototype.getGroups     = function(){return this._groups;};
-CKPanel.prototype.forceUpdate   = function(){this._parent.forcePanelUpdate();};
 CKPanel.prototype.getNode       = function(){return this._rootNode;};
 CKPanel.prototype.getList       = function(){return this._listNode;};
 
@@ -204,6 +203,13 @@ CKPanel.prototype._onWindowResize = function()
 
 /*---------------------------------------------------------------------------------*/
 
+CKPanel.prototype._setPosition = function(x,y)
+{
+
+    this._rootNode.setPositionGlobal(x,y);
+
+};
+
 CKPanel.prototype._constrainedPosition = function(x,y)
 {
     var node = this._rootNode,
@@ -216,6 +222,11 @@ CKPanel.prototype._constrainedPosition = function(x,y)
     this._cPosition[1] = (y<0)?0:(y>maxY)?maxY:y;
 
     return this._cPosition;
+};
+
+CKPanel.prototype._constrainedHeight = function(height)
+{
+
 };
 
 CKPanel.prototype.getWidth      = function(){return this._width;};
