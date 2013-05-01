@@ -154,12 +154,12 @@ CKGroup.prototype._updateVisibility = function()
     if(this._hidden)
     {
         this._wrapNode.setHeight(0);
-        this._indiNode.setStyleClass(CKCSS.ArrowBMin);
+        if(this._indiNode)this._indiNode.setStyleClass(CKCSS.ArrowBMin);
     }
     else
     {
         this._wrapNode.setHeight(this._wrapNode.getFirstChild().getHeight());
-        this._indiNode.setStyleClass(CKCSS.ArrowBMax);
+        if(this._indiNode)this._indiNode.setStyleClass(CKCSS.ArrowBMax);
     }
 };
 
