@@ -7,6 +7,10 @@ CKCSS =
 
     /*-------------------------------------------------------------------------------------*/
 
+    HeadInactive : 'headInactive',
+
+    /*-------------------------------------------------------------------------------------*/
+
     GroupList : 'groupList',
     Group     : 'group',
     SubGroupList  : 'subGroupList',
@@ -25,6 +29,8 @@ CKCSS =
 
     ArrowBMin    : 'arrowBMin',
     ArrowBMax    : 'arrowBMax',
+    ArrowBSubMin : 'arrowBSubMin',
+    ArrowBSubMax : 'arrowBSubMax',
     ArrowSMin    : 'arrowSMin',
     ArrowSMax    : 'arrowSMax',
 

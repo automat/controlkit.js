@@ -10,6 +10,9 @@ var CKEventType =
     PANEL_MOVE         : 'panelMove',
     PANEL_MOVE_END     : 'panelMoveEnd',
 
+    SUBGROUP_HIDDEN    : 'subgroupHidden',
+    SUBGROUP_SHOWN     : 'subgroupShown',
+
     INDEX_ORDER_CHANGED : 'indexOrderChanged',
     CHANGE_INDEX_ORDER  : 'changeIndexOrder'
 };

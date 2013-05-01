@@ -46,13 +46,7 @@ function CKGroup(parent,params)
         headNode.addChild(lablNode);
         headNode.addChild(indiNode);
 
-        headNode.setEventListener(CKNodeEventType.MOUSE_DOWN,function()
-                                                         {
-                                                             this._hidden = !this._hidden;
-                                                             this._updateVisibility();
-                                                             this._indiNode.setStyleClass(this._hidden ? CKCSS.ArrowBMin : CKCSS.ArrowBMax);
-
-                                                         }.bind(this));
+        headNode.setEventListener(CKNodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
 
         rootNode.addChild(headNode);
     }
@@ -98,6 +92,17 @@ CKGroup.prototype.onPanelMove      = function(){var eventType = CKEventType.PANE
 CKGroup.prototype.onPanelMoveEnd   = function(){var eventType = CKEventType.PANEL_MOVE_END;  if(!this.hasEventListener(eventType))return;this.dispatchEvent(new CKEvent(this,eventType))};
 
 /*-------------------------------------------------------------------------------------*/
+
+CKGroup.prototype.onSubGroupShown  = function(){this._updateVisibility();};
+CKGroup.prototype.onSubGroupHidden = function(){this._updateVisibility();};
+
+/*-------------------------------------------------------------------------------------*/
+
+
+CKGroup.prototype._onHeadMouseDown   = function(){this._hidden = !this._hidden;this._updateVisibility();this._indiNode.setStyleClass(this._hidden ? CKCSS.ArrowBMin : CKCSS.ArrowBMax);};
+
+/*-------------------------------------------------------------------------------------*/
+
 
 CKGroup.prototype.addStringInput     = function(object,value,label,params)       {return this._addComponent(new CKStringInput(     this,object,value,label,params));};
 CKGroup.prototype.addNumberInput     = function(object,value,label,params)       {return this._addComponent(new CKNumberInput(     this,object,value,label,params));};
@@ -154,14 +159,13 @@ CKGroup.prototype._updateVisibility = function()
 //TODO: FIX
 CKGroup.prototype.addSubGroup        = function(label,params)
 {
-    var sub = this._subGroups;
 
     if(!this._subGroupsInit)
     {
-        sub[sub.length-1].set(label,params);
+        this.getActiveSubGroup().set(label,params);
         this._subGroupsInit = true;
     }
-    else sub.push(new CKSubGroup(this,label,params));
+    else this._subGroups.push(new CKSubGroup(this,label,params));
 
     this._updateHeight();
     return this;
@@ -173,10 +177,10 @@ CKGroup.prototype.addSubGroup        = function(label,params)
 
 CKGroup.prototype.getComponents = function(){return this._components;};
 CKGroup.prototype.getNode       = function(){return this._rootNode;};
-//get ul for subgroup
-CKGroup.prototype.getSubGroupList = function(){return this._listNode;};
-//get ul of last subgroup
-CKGroup.prototype.getList      = function(){return this._subGroups[this._subGroups.length-1].getList();};
+
+CKGroup.prototype.getList           = function(){return this._listNode;};
+CKGroup.prototype.getActiveSubGroup = function(){return this._subGroups[this._subGroups.length-1];};
+
 CKGroup.prototype.isHidden     = function(){return this._hidden;};
 
 

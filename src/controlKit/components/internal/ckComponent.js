@@ -5,17 +5,20 @@ function CKComponent(parent)
     this._parent   = parent;
     this._enabled  = true;
 
-    this._rootNode     = new CKNode(CKNodeType.LIST_ITEM);
-    this._lablNode = new CKNode(CKNodeType.SPAN);
-    this._wrapNode = new CKNode(CKNodeType.DIV);
+    var rootNode    = this._rootNode = new CKNode(CKNodeType.LIST_ITEM),
+        lablNode    = this._lablNode = new CKNode(CKNodeType.SPAN),
+        wrapNode    = this._wrapNode = new CKNode(CKNodeType.DIV),
+        targetGroup = this._parent.getActiveSubGroup();
 
-    this._parent.getList().addChild(this._rootNode);
+    targetGroup.addComponentRoot(rootNode);
+    if(targetGroup.hasLabel() && targetGroup.getList().getNumChildren() == 1)
+    rootNode.setStyleProperty('border-top','1px solid #303639');
 
-    this._rootNode.addChild(this._lablNode);
-    this._rootNode.addChild(this._wrapNode);
+    rootNode.addChild(lablNode);
+    rootNode.addChild(wrapNode);
 
-    this._lablNode.setStyleClass(CKCSS.Label);
-    this._wrapNode.setStyleClass(CKCSS.Wrap);
+    lablNode.setStyleClass(CKCSS.Label);
+    wrapNode.setStyleClass(CKCSS.Wrap);
 }
 
 CKComponent.prototype = Object.create(CKEventDispatcher.prototype);
