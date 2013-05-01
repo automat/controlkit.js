@@ -57,7 +57,7 @@ function ControlKit(parentDomElementId)
         CKPicker.init();
         CKOptions.init();
 
-        node.addChild(CKPicker.getInstance().getNode());
+        //node.addChild(CKPicker.getInstance().getNode());
         node.addChild(CKOptions.getInstance().getNode());
 
         /*---------------------------------------------------------------------------------*/

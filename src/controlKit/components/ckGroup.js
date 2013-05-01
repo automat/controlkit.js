@@ -78,6 +78,15 @@ function CKGroup(parent,params)
     this._parent.addEventListener(CKEventType.PANEL_MOVE_BEGIN,this,'onPanelMoveBegin');
     this._parent.addEventListener(CKEventType.PANEL_MOVE,      this,'onPanelMove');
     this._parent.addEventListener(CKEventType.PANEL_MOVE_END,  this,'onPanelMoveEnd');
+
+    /*-------------------------------------------------------------------------------------*/
+    //add first subgroup
+    //TODO: FIX
+
+    this._subGroupsInit = false;
+    this._subGroups.push(new CKSubGroup(this,'',null));
+
+    /*-------------------------------------------------------------------------------------*/
 }
 
 CKGroup.prototype = Object.create(CKEventDispatcher.prototype);
@@ -90,11 +99,6 @@ CKGroup.prototype.onPanelMoveEnd   = function(){var eventType = CKEventType.PANE
 
 /*-------------------------------------------------------------------------------------*/
 
-
-CKGroup.prototype.addSubGroup        = function(label,params)                    {this._subGroups.push(new CKSubGroup(this,label,params));
-                                                                                  this._updateHeight();
-                                                                                  return this;};
-
 CKGroup.prototype.addStringInput     = function(object,value,label,params)       {return this._addComponent(new CKStringInput(     this,object,value,label,params));};
 CKGroup.prototype.addNumberInput     = function(object,value,label,params)       {return this._addComponent(new CKNumberInput(     this,object,value,label,params));};
 CKGroup.prototype.addRange           = function(object,value,label,params)       {return this._addComponent(new CKRange(           this,object,value,label,params));};
@@ -104,12 +108,15 @@ CKGroup.prototype.addSelect          = function(object,value,target,label,params
 CKGroup.prototype.addSlider          = function(object,value,target,label,params){return this._addComponent(new CKSlider(          this,object,value,target,label,params));};
 
 
-CKGroup.prototype.addFunctionPlotter = function(object,value,label,params)       {return this._addComponent(new CKFunctionPlotter( this,object,value,label,params));};;
+CKGroup.prototype.addFunctionPlotter = function(object,value,label,params)       {return this._addComponent(new CKFunctionPlotter( this,object,value,label,params));};
 CKGroup.prototype.addPad             = function(object,value,label,params)       {return this._addComponent(new CKPad(             this,object,value,label,params));};
 CKGroup.prototype.addValuePlotter    = function(object,value,label,params)       {return this._addComponent(new CKValuePlotter(    this,object,value,label,params));};
 CKGroup.prototype.addNumberOutput    = function(object,value,label,params)       {return this._addComponent(new CKNumberOutput(    this,object,value,label,params));};
 CKGroup.prototype.addStringOutput    = function(object,value,label,params)       {return this._addComponent(new CKStringOutput(    this,object,value,label,params));};
 
+/*-------------------------------------------------------------------------------------*/
+
+// Generate components from Object
 CKGroup.prototype.addObject = function(obj){};
 
 /*-------------------------------------------------------------------------------------*/
@@ -129,7 +136,6 @@ CKGroup.prototype._updateHeight = function()
     wrapNode.setHeight(wrapNode.getFirstChild().getHeight());
 };
 
-
 /*----------------------------------------------------------collapsed---------------------*/
 
 CKGroup.prototype.hide = function() { this._hidden = true;  this._updateVisibility();};
@@ -145,21 +151,32 @@ CKGroup.prototype._updateVisibility = function()
 
 /*-------------------------------------------------------------------------------------*/
 
+//TODO: FIX
+CKGroup.prototype.addSubGroup        = function(label,params)
+{
+    var sub = this._subGroups;
+
+    if(!this._subGroupsInit)
+    {
+        sub[sub.length-1].set(label,params);
+        this._subGroupsInit = true;
+    }
+    else sub.push(new CKSubGroup(this,label,params));
+
+    this._updateHeight();
+    return this;
+};
+
+/*-------------------------------------------------------------------------------------*/
+
+
 
 CKGroup.prototype.getComponents = function(){return this._components;};
 CKGroup.prototype.getNode       = function(){return this._rootNode;};
-
-CKGroup.prototype.getGroupList  = function(){return this._listNode;};
-
-CKGroup.prototype.getList       = function()
-{
-    //if first element islisbgroup
-    var listNode = this._listNode;
-    if (!listNode.hasChildren())listNode.addChild(new CKNode(CKNodeType.LIST));
-
-    return listNode.getLastChild();
-};
-
+//get ul for subgroup
+CKGroup.prototype.getSubGroupList = function(){return this._listNode;};
+//get ul of last subgroup
+CKGroup.prototype.getList      = function(){return this._subGroups[this._subGroups.length-1].getList();};
 CKGroup.prototype.isHidden     = function(){return this._hidden;};
 
 

@@ -7,35 +7,27 @@ function CKSubGroup(parent,label,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    params = params || {};
-    params.label  = params.label || null;
-
-
-
+    var rootNode = this._rootNode = new CKNode(CKNodeType.LIST_ITEM),
+        wrapNode = this._wrapNode = new CKNode(CKNodeType.DIV),
+        listNode = this._listNode = new CKNode(CKNodeType.LIST);
 
     /*---------------------------------------------------------------------------------*/
 
-    var rootNode = this._rootNode = new CKNode(CKNodeType.LIST);
-        rootNode.setStyleClass(CKCSS.SubGroup);
-    var listNode = this._listNode = new CKNode(CKNodeType.LIST);
+    this._parent.getSubGroupList().addChild(rootNode);
+
+    /*---------------------------------------------------------------------------------*/
+
+    rootNode.setStyleClass(CKCSS.SubGroup);
+    wrapNode.setStyleClass(CKCSS.Wrap);
 
     /*-------------------------------------------------------------------------------------*/
 
-    if(params.label)
-    {
-        var headNode = new CKNode(CKNodeType.DIV),
-            lablNode = new CKNode(CKNodeType.SPAN);
+    this.set(label,params);
 
-       // rootNode.addChild(headNode);
+    /*-------------------------------------------------------------------------------------*/
 
-    }
-
-    //var rootNode
-
-
-
-
-    this._parent.getGroupList().addChild(rootNode);
+    wrapNode.addChild(listNode);
+    rootNode.addChild(wrapNode);
 
 }
 
@@ -43,6 +35,26 @@ CKSubGroup.prototype = Object.create(CKEventDispatcher.prototype);
 
 CKSubGroup.prototype.getList = function()
 {
+    return this._listNode;
+};
+
+CKSubGroup.prototype.set = function(label,params)
+{
+    /*-------------------------------------------------------------------------------------*/
+
+    params        = params || {};
+
+    /*-------------------------------------------------------------------------------------*/
+
+    if(label && label.length!=0 )
+    {
+        var headNode = this._headNode = new CKNode(CKNodeType.DIV),
+            lablNode = new CKNode(CKNodeType.SPAN);
+
+            headNode.addChild(lablNode);
+            this._rootNode.addChild(headNode);
+
+    }
 
 };
 

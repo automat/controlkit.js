@@ -255,7 +255,7 @@
 
 .panel .group .subGroupList .subGroup
 {
-
+    padding: 0;
     margin-top: 6px;
 
     border-radius:         2px;
@@ -263,14 +263,21 @@
     -webkit-border-radius: 2px;
 
     border:  1px solid #1e2224;
-
     box-shadow: 0 1px  0 rgba(59, 68, 71,1.0);
+    height: auto;
+}
+
+.panel .subGroup ul
+{
+    overflow-y: hidden;
 }
 
 .panel .subGroupList .subGroup:first-child
 {
     margin-top: 0;
 }
+
+
 
 
 
@@ -305,7 +312,7 @@
 
 .panel .head:hover,.head:active{background-image: none}
 
-.panel .group li:nth-child(odd)
+.panel .subGroup li:nth-child(odd)
 {
     background-color: #292d30;
 }
@@ -338,7 +345,7 @@
     height: 100%;
 }
 
-.panel .subGroupList .wrap
+.panel .subGroupList .wrap .wrap
 {
     -webkit-box-sizing: border-box;
     -moz-box-sizing:    border-box;
@@ -350,14 +357,16 @@
     height: 100%;
 }
 
-.panel .subGroupList .wrap .wrap
+.panel .subGroupList .wrap .wrap .wrap
 {
     width: 25%;
     padding: 0;
     float: left;
 }
 
-.panel .subGroupList .wrap .wrap .label
+
+
+.panel .subGroupList .wrap .wrap .wrap .label
 {
     width: 100%;
     padding: 4px 0 0 0;
@@ -369,7 +378,7 @@
     text-shadow: 1px 1px #1a1a1a;
 }
 
-.panel .subGroupList .wrap .wrap input[type='text']
+.panel .subGroupList .wrap .wrap .wrap input[type='text']
 {
     padding: 0;
     text-align: center;

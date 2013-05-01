@@ -90,45 +90,35 @@ function TestControlKit(parentDomElementId)
     var control0   = controlKit.addPanel({width:200,position:[10,10],fixed:false});
 
 
-    control0.addGroup({label:'hello'})
-        /*
-            .addValuePlotter(object,'changeValue0','valuePlotter',{height:25})
-            .addNumberOutput(object,'changeValue0','',{dp:4})
-            .addValuePlotter(object,'changeValue1','valuePlotter',{height:25})
-            .addNumberOutput(object,'changeValue1','',{dp:4})
-            .addPad(object,'xyValue','Pad Comp')
-            .addNumberOutput(object,'xyValue')
-            .addPad(object,'xyValue','Pad Comp')
-            .addNumberOutput(object,'xyValue','',{wrap:true,height:40,dp:4})
-            .addStringInput(object,'string','String Comp')
-            .addStringInput(object,'string','String Comp')
-            .addNumberInput(object,'number','Number Comp')
-            .addButton('BUMM',function(){})
-            */
+    control0.addGroup()
             .addSubGroup()
-            .addRange(object,'range','Range Comp')
+            .addRange( object,'range','Range Comp')
             .addSlider(object,'range','slideValue','slider')
             .addSelect(object,'selectOptions','selectTarget','select')
-.addSelect(object,'selectOptions','selectTarget','select')
-.addSelect(object,'selectOptions','selectTarget','select')
+
+
 .addSubGroup()
     .addRange(object,'range','Range Comp')
     .addSlider(object,'range','slideValue','slider')
     .addSelect(object,'selectOptions','selectTarget','select')
-    .addSelect(object,'selectOptions','selectTarget','select')
-    .addSelect(object,'selectOptions','selectTarget','select');
+
+
+
 
     control0.addGroup({label:'super'})
             .addButton();
 
 
+
+
     var control1 = controlKit.addPanel({width:300,position:[240,10]});
 
     control1.addGroup()
-            //.addSelect(object,'selectOptions','selectTarget','select');
+            .addSelect(object,'selectOptions','selectTarget','select');
 
 
-    /*
+
+
 
 
     var control1 = controlKit.addPanel({width:200,position:[300,10]});
@@ -229,7 +219,7 @@ function TestControlKit(parentDomElementId)
 
     function loop(){requestAnimationFrame(loop);updateObject();}loop();
 
-    */
+
 }
 
 /**
