@@ -11,6 +11,7 @@ function CKGroup(parent,params)
     params           = params           || {};
     params.label     = params.label     || null;
     params.useLabels = params.useLabels || true;
+    params.show      = params.show === undefined ? true : params.show;
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -49,6 +50,8 @@ function CKGroup(parent,params)
         headNode.setEventListener(CKNodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
 
         rootNode.addChild(headNode);
+
+        if(!params.show)this.hide();
     }
     else
     {
@@ -99,7 +102,7 @@ CKGroup.prototype.onSubGroupHidden = function(){this._updateVisibility();};
 /*-------------------------------------------------------------------------------------*/
 
 
-CKGroup.prototype._onHeadMouseDown   = function(){this._hidden = !this._hidden;this._updateVisibility();this._indiNode.setStyleClass(this._hidden ? CKCSS.ArrowBMin : CKCSS.ArrowBMax);};
+CKGroup.prototype._onHeadMouseDown   = function(){this._hidden = !this._hidden;this._updateVisibility();};
 
 /*-------------------------------------------------------------------------------------*/
 
@@ -148,10 +151,16 @@ CKGroup.prototype.show = function() { this._hidden = false; this._updateVisibili
 
 CKGroup.prototype._updateVisibility = function()
 {
-    var hidden   = this._hidden,
-        wrapNode = this._wrapNode;
-
-    wrapNode.setHeight(hidden ? 0 : wrapNode.getFirstChild().getHeight());
+    if(this._hidden)
+    {
+        this._wrapNode.setHeight(0);
+        this._indiNode.setStyleClass(CKCSS.ArrowBMin);
+    }
+    else
+    {
+        this._wrapNode.setHeight(this._wrapNode.getFirstChild().getHeight());
+        this._indiNode.setStyleClass(CKCSS.ArrowBMax);
+    }
 };
 
 /*-------------------------------------------------------------------------------------*/

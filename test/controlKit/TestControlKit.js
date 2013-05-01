@@ -97,7 +97,7 @@ function TestControlKit(parentDomElementId)
             .addSelect(object,'selectOptions','selectTarget','select')
 
 
-.addSubGroup('grain')
+.addSubGroup('grain',{show:false})
     .addRange(object,'range','Range Comp')
     .addSlider(object,'range','slideValue','slider')
     .addSelect(object,'selectOptions','selectTarget','select');
@@ -106,7 +106,13 @@ function TestControlKit(parentDomElementId)
 
 
     control0.addGroup({label:'Group'})
-            .addButton('body go!');
+            .addSubGroup('functions')
+            .addButton('body go!')
+        .addSelect(object,'selectOptions','selectTarget','Select Comp')
+        .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]})
+        .addSubGroup()
+        .addRange(object,'range','Range Comp')
+        .addCheckbox(object,'bool','Bool Comp')
 
 
 
@@ -118,7 +124,7 @@ function TestControlKit(parentDomElementId)
             */
 
 
-    /*
+
 
 
     var control1 = controlKit.addPanel({width:200,position:[300,10]});
@@ -219,7 +225,7 @@ function TestControlKit(parentDomElementId)
 
     function loop(){requestAnimationFrame(loop);updateObject();}loop();
 
-    */
+    
 }
 
 /**

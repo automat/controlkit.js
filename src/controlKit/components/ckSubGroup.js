@@ -41,6 +41,7 @@ CKSubGroup.prototype.set = function(label,params)
     /*-------------------------------------------------------------------------------------*/
 
     params        = params || {};
+    params.show   = params.show === undefined ? true : params.show;
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -65,6 +66,8 @@ CKSubGroup.prototype.set = function(label,params)
         this.addEventListener(CKEventType.SUBGROUP_SHOWN, this._parent,'onSubGroupShown');
 
         this._rootNode.addChildAt(headNode,0);
+
+        if(!params.show)this.hide();
     }
 };
 
@@ -72,7 +75,7 @@ CKSubGroup.prototype.set = function(label,params)
 
 CKSubGroup.prototype._onHeadMouseDown = function()
 {
-    this._hidden = !this._hidden;this._updateVisibility();this._indiNode.setStyleClass(this._hidden ? CKCSS.ArrowBSubMin : CKCSS.ArrowBSubMax);
+    this._hidden = !this._hidden;this._updateVisibility();
     this.dispatchEvent(new CKEvent(this,this._hidden ? CKEventType.SUBGROUP_HIDDEN : CKEventType.SUBGROUP_SHOWN));
 };
 
@@ -81,11 +84,18 @@ CKSubGroup.prototype.show = function() { this._hidden = false; this._updateVisib
 
 CKSubGroup.prototype._updateVisibility = function()
 {
-    var hidden   = this._hidden,
-        wrapNode = this._wrapNode;
-
-    wrapNode.setHeight(hidden ? 0 : wrapNode.getFirstChild().getHeight());
-    this._headNode.setStyleClass(hidden ? CKCSS.HeadInactive : CKCSS.Head);
+    if(this._hidden)
+    {
+        this._wrapNode.setHeight(0);
+        this._headNode.setStyleClass(CKCSS.HeadInactive);
+        this._indiNode.setStyleClass(CKCSS.ArrowBSubMin);
+    }
+    else
+    {
+        this._wrapNode.setHeight(this._wrapNode.getFirstChild().getHeight());
+        this._headNode.setStyleClass(CKCSS.Head);
+        this._indiNode.setStyleClass(CKCSS.ArrowBSubMax);
+    }
 };
 
 /*-------------------------------------------------------------------------------------*/
