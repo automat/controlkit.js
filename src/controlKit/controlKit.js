@@ -63,21 +63,14 @@ function ControlKit(parentDomElementId)
         /*---------------------------------------------------------------------------------*/
 
         this._window = {width :window.innerWidth,height:window.innerHeight};
-
-        /*---------------------------------------------------------------------------------*/
-
         window.addEventListener("resize", this.onWindowResize.bind(this), false);
 
-
-        /*---------------------------------------------------------------------------------*/
 
         ControlKit._instance = this;
     }
 
     return ControlKit._instance;
 }
-
-/*---------------------------------------------------------------------------------*/
 
 ControlKit.prototype = Object.create(CKEventDispatcher.prototype);
 
@@ -88,11 +81,6 @@ ControlKit.prototype.onWindowResize = function()
 {
     this._window.width = window.innerWidth;
     this._window.height = window.innerHeight;
-
-    var kits = this._panels;
-    var i = -1;
-
-    while (++i < kits.length)this.setPanelPosition(kits[i]);
 };
 
 /*---------------------------------------------------------------------------------*/
@@ -107,7 +95,6 @@ ControlKit.prototype.onSelectTriggered = function(e)
 {
     this.dispatchEvent(new CKEvent(this,CKEventType.TRIGGER_SELECT,{origin: e.sender}));
 };
-
 
 /*---------------------------------------------------------------------------------*/
 
@@ -153,32 +140,9 @@ ControlKit.prototype.update = function()
     }
 };
 
-    /*---------------------------------------------------------------------------------*/
-
-ControlKit.prototype.setPanelPosition = function(panel)
-{
-
-    var window = this._window,
-        panelAlign = panel.getAlignment(),
-        panelPosition = panel.getPosition(),
-        position = panelAlign == CKLayout.ALIGN_LEFT ? panelPosition :
-            panelAlign == CKLayout.ALIGN_RIGHT ? [window.width - panel.getWidth() - panelPosition[0], panelPosition[1]] :
-                [0, 0];
-
-    panel.getNode().setPositionGlobal(position[0], position[1]);
-};
-
-    /*---------------------------------------------------------------------------------*/
-
-ControlKit.prototype.getWindow = function(){return this._window;};
-
-    /*---------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------*/
 
 ControlKit.prototype.getRootNode = function(){return this._rootNode;};
-
-
-
-/*---------------------------------------------------------------------------------*/
 
 ControlKit.getInstance = function(){return ControlKit._instance;};
 

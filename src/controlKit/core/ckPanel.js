@@ -40,32 +40,28 @@ function CKPanel(controlKit,params)
     /*---------------------------------------------------------------------------------*/
 
     params            = params || {};
-    params.valign     = params.valign        || CKLayout.ALIGN_TOP;
-    params.align      = params.align         || CKLayout.ALIGN_LEFT;
-    params.position   = params.position      || [20,20];
-    params.width      = params.width         ||  300;
-    params.maxHeight  = params.maxHeight     ||  parent.getWindow().height - params.position[1];
-    params.ratio      = params.ratio         ||  40;
-    params.label      = params.label         || 'Control Panel';
-    params.fixed      = params.fixed === undefined ? true : params.fixed;
+    params.valign     = params.valign        || CKDefault.VALIGN;
+    params.align      = params.align         || CKDefault.ALIGN;
+    params.position   = params.position      || CKDefault.POSITION;
+    params.width      = params.width         || CKDefault.WIDTH;
+    params.maxHeight  = params.maxHeight     || window.innerHeight;
+    params.ratio      = params.ratio         || CKDefault.RATIO;
+    params.label      = params.label         || CKDefault.LABEL;
 
-
-   // params.fixed      = params.fixed  || true;  //TODO:FIXME
-
-    //console.log(params.fixed);
+    params.fixed      = params.fixed === undefined ?
+                        CKDefault.FIXED :
+                        params.fixed;
 
     /*---------------------------------------------------------------------------------*/
 
     this._valign    = params.valign;
     this._align     = params.align;
-    this._position  = params.position;
-    this._width     = params.width;
     this._maxHeight = params.maxHeight;
     this._ratio     = params.ratio;
     var   label     = params.label;
+    this._width     = Math.max(CKDefault.WIDTH_MIN,Math.min(params.width,CKDefault.WIDTH_MAX));
 
     /*---------------------------------------------------------------------------------*/
-
 
     var rootNode = this._rootNode = new CKNode(CKNodeType.DIV),
         headNode = this._headNode = new CKNode(CKNodeType.DIV),
@@ -87,7 +83,7 @@ function CKPanel(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    controlKit.setPanelPosition(this);
+
     rootNode.setWidth(this._width);
     lablNode.setProperty('innerHTML',label);
 
@@ -95,8 +91,6 @@ function CKPanel(controlKit,params)
 
     if(!params.fixed)
     {
-        //console.log('movable');
-
         this._headDragging = false;
         this._mouseOffset  = [0,0];
 
@@ -107,17 +101,6 @@ function CKPanel(controlKit,params)
         document.addEventListener(CKDocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
     }
 
-
-    //window.addEventListener(CKEventType.WINDOW_RESIZE,this._onWindowResize.bind(this),false);
-
-    this._cPosition = [0,0];
-
-
-
-    /*---------------------------------------------------------------------------------*/
-
-    this._groups = [];
-
     /*---------------------------------------------------------------------------------*/
 
     headNode.addChild(lablNode);
@@ -127,9 +110,15 @@ function CKPanel(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
+    this._position = params.position;
+    this._setPosition(params.position[0],params.position[1]);
+
+    this._groups = [];
+
+    /*---------------------------------------------------------------------------------*/
 
 
-
+    window.addEventListener('resize',this._onWindowResize.bind(this));
 }
 
 /*---------------------------------------------------------------------------------*/
@@ -175,9 +164,7 @@ CKPanel.prototype._updatePosition = function()
     var currPositionX = mousePos[0]-offsetPos[0],
         currPositionY = mousePos[1]-offsetPos[1];
 
-    var position = this._constrainedPosition(currPositionX,currPositionY);
-
-    this._rootNode.setPositionGlobal(position[0],position[1]);
+    this._setPosition(currPositionX,currPositionY);
 
     this.dispatchEvent(new CKEvent(this,CKEventType.PANEL_MOVE));
 };
@@ -197,34 +184,27 @@ CKPanel.prototype._onDocumentMouseUp = function()
 
 CKPanel.prototype._onWindowResize = function()
 {
-    var ckWindow = ControlKit.getInstance().getWindow();
-
+    this._setPosition(this._position[0],this._position[1]);
 };
 
 /*---------------------------------------------------------------------------------*/
 
 CKPanel.prototype._setPosition = function(x,y)
 {
+    var node     = this._rootNode,
+        head     = this._headNode,
+        position = this._position;
 
-    this._rootNode.setPositionGlobal(x,y);
+    var maxX = window.innerWidth  - node.getWidth(),
+        maxY = window.innerHeight - head.getHeight();
 
+    position[0] = Math.max(0,Math.min(x,maxX));
+    position[1] = Math.max(0,Math.min(y,maxY));
+
+    node.setPositionGlobal(position[0],position[1]);
 };
 
-CKPanel.prototype._constrainedPosition = function(x,y)
-{
-    var node = this._rootNode,
-        ckWindow = ControlKit.getInstance().getWindow();
-
-    var maxX = ckWindow.width  - node.getWidth(),
-        maxY = ckWindow.height - this._headNode.getHeight();
-
-    this._cPosition[0] = (x<0)?0:(x>maxX)?maxX:x;
-    this._cPosition[1] = (y<0)?0:(y>maxY)?maxY:y;
-
-    return this._cPosition;
-};
-
-CKPanel.prototype._constrainedHeight = function(height)
+CKPanel.prototype._setHeight = function(height)
 {
 
 };
