@@ -25,6 +25,7 @@ var imports = [
                'core/group/ckGroup.js',
                'core/group/ckSubGroup.js',
 
+               'core/ckDefaults.js',
                'core/ckPanel.js',
 
                'component/internal/ckOptions.js',
@@ -95,7 +96,7 @@ function TestControlKit(parentDomElementId)
 
     var controlKit = new ControlKit(parentDomElementId);
 
-    var control0   = controlKit.addPanel({width:250,position:[10,10],fixed:false});
+    var control0   = controlKit.addPanel({width:100,position:[10,10],fixed:false});
 
 
     control0.addGroup()
