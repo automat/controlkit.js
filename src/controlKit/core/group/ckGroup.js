@@ -2,9 +2,7 @@
 
 function CKGroup(parent,params)
 {
-    CKEventDispatcher.apply(this,arguments);
-
-    this._parent = parent;
+    CKAbstractGroup.apply(this,arguments);
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -15,19 +13,9 @@ function CKGroup(parent,params)
 
     /*-------------------------------------------------------------------------------------*/
 
-    var rootNode  = this._rootNode = new CKNode(CKNodeType.LIST_ITEM),
-        wrapNode  = this._wrapNode = new CKNode(CKNodeType.DIV),
-        listNode  = this._listNode = new CKNode(CKNodeType.LIST);
-
-    /*-------------------------------------------------------------------------------------*/
-
-    this._parent.getList().addChild(rootNode);
-
-    /*-------------------------------------------------------------------------------------*/
-
-    rootNode.setStyleClass(CKCSS.Group);
-    wrapNode.setStyleClass(CKCSS.Wrap);
-    listNode.setStyleClass(CKCSS.SubGroupList);
+    this._rootNode.setStyleClass(CKCSS.Group);
+    this._wrapNode.setStyleClass(CKCSS.Wrap);
+    this._listNode.setStyleClass(CKCSS.SubGroupList);
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -49,24 +37,23 @@ function CKGroup(parent,params)
 
         headNode.setEventListener(CKNodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
 
-        rootNode.addChild(headNode);
+        this._rootNode.addChild(headNode);
 
         if(!params.show)this.hide();
     }
     else
     {
         //TODO: Add CSS Class
-        wrapNode.getStyle().borderTop = "1px solid #3b4447";
+        this._wrapNode.getStyle().borderTop = "1px solid #3b4447";
     }
 
     /*-------------------------------------------------------------------------------------*/
 
-    wrapNode.addChild(listNode);
-    rootNode.addChild(wrapNode);
+    this._wrapNode.addChild(this._listNode);
+    this._rootNode.addChild(this._wrapNode);
 
     /*-------------------------------------_collapsed-----------------------------------------*/
 
-    this._hidden = false;
     this._components = [];
     this._subGroups  = [];
 
@@ -86,7 +73,7 @@ function CKGroup(parent,params)
     /*-------------------------------------------------------------------------------------*/
 }
 
-CKGroup.prototype = Object.create(CKEventDispatcher.prototype);
+CKGroup.prototype = Object.create(CKAbstractGroup.prototype);
 
 /*-------------------------------------------------------------------------------------*/
 
@@ -146,9 +133,6 @@ CKGroup.prototype._updateHeight = function()
 
 /*----------------------------------------------------------collapsed---------------------*/
 
-CKGroup.prototype.hide = function() { this._hidden = true;  this._updateVisibility();};
-CKGroup.prototype.show = function() { this._hidden = false; this._updateVisibility();};
-
 CKGroup.prototype._updateVisibility = function()
 {
     var wrapNode = this._wrapNode,
@@ -187,9 +171,7 @@ CKGroup.prototype.addSubGroup  = function(label,params)
 
 CKGroup.prototype.getComponents = function(){return this._components;};
 
-CKGroup.prototype.getList           = function(){return this._listNode;};
 CKGroup.prototype.getActiveSubGroup = function(){return this._subGroups[this._subGroups.length-1];};
 
-CKGroup.prototype.isHidden     = function(){return this._hidden;};
 
 

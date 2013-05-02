@@ -1,38 +1,24 @@
 
 function CKSubGroup(parent,label,params)
 {
-    CKEventDispatcher.apply(this,arguments);
-
-    this._parent = parent;
+    CKAbstractGroup.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
-    var rootNode = this._rootNode = new CKNode(CKNodeType.LIST_ITEM),
-        wrapNode = this._wrapNode = new CKNode(CKNodeType.DIV),
-        listNode = this._listNode = new CKNode(CKNodeType.LIST);
+    this._rootNode.setStyleClass(CKCSS.SubGroup);
+    this._wrapNode.setStyleClass(CKCSS.Wrap);
 
-    /*---------------------------------------------------------------------------------*/
-
-    this._parent.getList().addChild(rootNode);
-
-    /*---------------------------------------------------------------------------------*/
-
-    rootNode.setStyleClass(CKCSS.SubGroup);
-    wrapNode.setStyleClass(CKCSS.Wrap);
-
-    wrapNode.addChild(listNode);
-    rootNode.addChild(wrapNode);
+    this._wrapNode.addChild(this._listNode);
+    this._rootNode.addChild(this._wrapNode);
 
     /*-------------------------------------------------------------------------------------*/
-
-    this._hidden = false;
 
     this.set(label,params);
 
     /*-------------------------------------------------------------------------------------*/
 }
 
-CKSubGroup.prototype = Object.create(CKEventDispatcher.prototype);
+CKSubGroup.prototype = Object.create(CKAbstractGroup.prototype);
 
 /*-------------------------------------------------------------------------------------*/
 
@@ -79,9 +65,6 @@ CKSubGroup.prototype._onHeadMouseDown = function()
     this.dispatchEvent(new CKEvent(this,this._hidden ? CKEventType.SUBGROUP_HIDDEN : CKEventType.SUBGROUP_SHOWN));
 };
 
-CKSubGroup.prototype.hide = function() { this._hidden = true;  this._updateVisibility();};
-CKSubGroup.prototype.show = function() { this._hidden = false; this._updateVisibility();};
-
 CKSubGroup.prototype._updateVisibility = function()
 {
     if(this._hidden)
@@ -102,5 +85,4 @@ CKSubGroup.prototype._updateVisibility = function()
 
 CKSubGroup.prototype.hasLabel         = function()    {return this._headNode != null;};
 CKSubGroup.prototype.addComponentRoot = function(node){this._listNode.addChild(node);};
-CKSubGroup.prototype.getList          = function()    {return this._listNode;};
 
