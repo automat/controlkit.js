@@ -1,4 +1,4 @@
-function CKAbstractGroup(parent,params)
+function CKAbstractGroup(parent)
 {
     CKEventDispatcher.apply(this,arguments);
 
