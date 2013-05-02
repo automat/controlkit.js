@@ -31,6 +31,7 @@ var imports = [
                'component/internal/ckNumberInput_Internal.js',
                'component/internal/ckSlider_Internal.js',
                'component/internal/ckPlotter.js',
+               'component/internal/ckPresetBtn.js',
 
                'component/ckStringInput.js',
                'component/ckNumberInput.js',
@@ -71,7 +72,9 @@ while(++i < imports.length)
 function TestControlKit(parentDomElementId)
 {
     var object = {string:'lorem ipsum',
+                  stringPresets:['hy','well','bummm'],
                   number:26.0,
+                  numberPresets:[10.0,20.0,345.0,12.0],
                   range:[0,1],
                   bool:true,
                   slideValue:0.5,
@@ -97,6 +100,10 @@ function TestControlKit(parentDomElementId)
 
     control0.addGroup()
             .addSubGroup('noise')
+            .addNumberInput(object,'number','Input Comp',{presets:'numberPresets'})
+            .addNumberInput(object,'number','Input Comp')
+            .addStringInput(object,'string','Input Comp',{presets:'stringPresets'})
+            .addStringInput(object,'string','Input Comp')
             .addRange( object,'range','Range Comp')
             .addSlider(object,'range','slideValue','slider')
             .addSelect(object,'selectOptions','selectTarget','select')
@@ -112,9 +119,10 @@ function TestControlKit(parentDomElementId)
 
     control0.addGroup({label:'Group'})
             .addSubGroup('functions')
-            .addButton('body go!')
+
         .addSelect(object,'selectOptions','selectTarget','Select Comp')
         .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]})
+        .addButton('body go!')
         .addSubGroup()
         .addRange(object,'range','Range Comp')
         .addCheckbox(object,'bool','Bool Comp')
@@ -131,7 +139,7 @@ function TestControlKit(parentDomElementId)
 
 
 
-
+/*
     var control1 = controlKit.addPanel({width:200,position:[300,10]});
 
     control1.addGroup().addSubGroup()
@@ -233,7 +241,7 @@ function TestControlKit(parentDomElementId)
 
     function loop(){requestAnimationFrame(loop);updateObject();}loop();
 
-
+    */
 }
 
 /**

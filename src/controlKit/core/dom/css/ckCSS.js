@@ -44,6 +44,13 @@ CKCSS =
 
     /*-------------------------------------------------------------------------------------*/
 
+    PresetBtn        : 'presetBtn',
+    PresetBtnActive  : 'presetBtnActive',
+    InputWPresetWrap : 'inputWPresetWrap',
+
+    /*-------------------------------------------------------------------------------------*/
+
+
     CanvasListItem  : 'canvasListItem',
     CanvasWrap      : 'canvasWrap',
 
