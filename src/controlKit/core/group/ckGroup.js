@@ -124,7 +124,7 @@ CKGroup.prototype.addStringOutput    = function(object,value,label,params)      
 
 /*-------------------------------------------------------------------------------------*/
 
-// Generate components from Object
+// Generate component from Object
 CKGroup.prototype.addObject = function(obj){};
 
 /*-------------------------------------------------------------------------------------*/
@@ -151,22 +151,25 @@ CKGroup.prototype.show = function() { this._hidden = false; this._updateVisibili
 
 CKGroup.prototype._updateVisibility = function()
 {
+    var wrapNode = this._wrapNode,
+        inidNode = this._indiNode;
+
     if(this._hidden)
     {
-        this._wrapNode.setHeight(0);
-        if(this._indiNode)this._indiNode.setStyleClass(CKCSS.ArrowBMin);
+        wrapNode.setHeight(0);
+        if(inidNode)inidNode.setStyleClass(CKCSS.ArrowBMin);
     }
     else
     {
-        this._wrapNode.setHeight(this._wrapNode.getFirstChild().getHeight());
-        if(this._indiNode)this._indiNode.setStyleClass(CKCSS.ArrowBMax);
+        wrapNode.setHeight(wrapNode.getFirstChild().getHeight());
+        if(inidNode)inidNode.setStyleClass(CKCSS.ArrowBMax);
     }
 };
 
 /*-------------------------------------------------------------------------------------*/
 
 //TODO: FIX
-CKGroup.prototype.addSubGroup        = function(label,params)
+CKGroup.prototype.addSubGroup  = function(label,params)
 {
 
     if(!this._subGroupsInit)
@@ -182,10 +185,7 @@ CKGroup.prototype.addSubGroup        = function(label,params)
 
 /*-------------------------------------------------------------------------------------*/
 
-
-
 CKGroup.prototype.getComponents = function(){return this._components;};
-CKGroup.prototype.getNode       = function(){return this._rootNode;};
 
 CKGroup.prototype.getList           = function(){return this._listNode;};
 CKGroup.prototype.getActiveSubGroup = function(){return this._subGroups[this._subGroups.length-1];};

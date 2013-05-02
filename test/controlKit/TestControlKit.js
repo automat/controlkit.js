@@ -1,56 +1,61 @@
 
 var imports = [
 
-               'event/ckEvent.js',
-               'event/ckEventDispatcher.js',
-               'event/ckEventType.js',
+               'core/event/ckEvent.js',
+               'core/event/ckEventDispatcher.js',
+               'core/event/ckEventType.js',
 
-               'dom/ckCSS.js',
+               'core/dom/css/ckCSS.js',
 
-               'dom/ckDocumentEventType.js',
-               'dom/ckMouse.js',
+               'core/dom/event/ckDocumentEventType.js',
+               'core/dom/ckMouse.js',
+
+               'core/dom/event/ckNodeEventType.js',
+               'core/dom/ckNodeType.js',
+               'core/dom/ckNode.js',
+
+               'core/layout/ckLayout.js',
+
+               'core/component/ckComponent.js',
+               'core/component/ckObjectComponent.js',
+               'core/component/ckCanvas.js',
+               'core/component/ckCanvasComponent.js',
+
+               'core/group/ckAbstractGroup.js',
+               'core/group/ckGroup.js',
+               'core/group/ckSubGroup.js',
+
+               'core/ckPanel.js',
+
+               'component/internal/ckOptions.js',
+               'component/internal/ckNumberInput_Internal.js',
+               'component/internal/ckSlider_Internal.js',
+               'component/internal/ckPlotter.js',
+
+               'component/ckStringInput.js',
+               'component/ckNumberInput.js',
+
+               'component/ckButton.js',
+
+               'component/ckRange.js',
+               'component/ckCheckbox.js',
+               'component/ckSlider.js',
+               'component/ckSelect.js',
+
+               'component/ckFunctionPlotter.js',
+               'component/ckPad.js',
+               'component/ckValuePlotter.js',
+               'component/ckStringOutput.js',
+               'component/ckNumberOutput.js',
+
+               'component/internal/ckPicker.js',
 
 
-               'dom/ckNodeEventType.js',
-               'dom/ckNodeType.js',
-               'dom/ckNode.js',
 
-               'layout/ckLayout.js',
                'controlKit.js',
 
-               'components/internal/ckOptions.js',
 
 
-               'ckPanel.js',
-
-               'components/internal/ckComponent.js',
-               'components/internal/ckObjectComponent.js',
-               'components/internal/ckNumberInput_Internal.js',
-               'components/internal/ckSlider_Internal.js',
-               'components/internal/ckCanvas.js',
-               'components/internal/ckCanvasComponent.js',
-               'components/internal/ckPlotter.js',
-
-
-               'components/ckGroup.js',
-               'components/ckSubGroup.js',
-
-               'components/ckStringInput.js',
-               'components/ckButton.js',
-
-               'components/ckNumberInput.js',
-               'components/ckRange.js',
-               'components/ckCheckbox.js',
-               'components/ckSlider.js',
-               'components/ckSelect.js',
-
-               'components/ckFunctionPlotter.js',
-               'components/ckPad.js',
-               'components/ckValuePlotter.js',
-               'components/ckStringOutput.js',
-               'components/ckNumberOutput.js',
-
-               'components/internal/ckPicker.js'
 
 
               ];
@@ -161,18 +166,21 @@ function TestControlKit(parentDomElementId)
         .addSelect(object,'selectOptions','selectTarget','Select Comp')
         .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]});
 
-    var control2 = controlKit.addPanel({label:'YAY Panel',width:200,position:[490,10]});
+    var control2 = controlKit.addPanel({label:'YAY Panel',width:200,position:[700,10]});
 
     control2.addGroup()
+        .addSubGroup('values 1')
         .addValuePlotter(object,'changeValue0','sgn',{height:35})
         .addValuePlotter(object,'changeValue1','tri',{height:35})
+        .addSubGroup('values 2')
         .addValuePlotter(object,'changeValue2','randF',{height:35,lineWidth:2,lineColor:[237, 20, 91]})
         .addValuePlotter(object,'changeValue3','rect',{height:35,lineWidth:0.5})
+        .addSubGroup('values 3')
         .addValuePlotter(object,'changeValue4','randI',{height:35,lineWidth:2,lineColor:[237, 20, 91]})
         .addValuePlotter(object,'changeValue5','frac',{height:35})
         .addValuePlotter(object,'changeValue6','sin',{height:35});
 
-    var control3 = controlKit.addPanel({label:'Numbers',width:150,position:[700,10]});
+    var control3 = controlKit.addPanel({label:'Numbers',width:150,position:[490,10]});
 
     control3.addGroup()
         .addNumberOutput(object,'changeValue0','sgn')
@@ -183,7 +191,7 @@ function TestControlKit(parentDomElementId)
         .addNumberOutput(object,'changeValue5','frac')
         .addNumberOutput(object,'changeValue6','sin');
 
-    var control4 = controlKit.addPanel({label:'Swing',width:200,position:[700,500]});
+    var control4 = controlKit.addPanel({label:'Swing',width:200,position:[700,510]});
 
     control4.addGroup()
         .addPad(object,'xyChangeValue','Freq Transform',{axisLabels:['SPEED','random'],showCross:false})
