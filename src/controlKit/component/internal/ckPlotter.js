@@ -14,7 +14,7 @@ ControlKit.Plotter = function(parent,object,value,label,params)
     this._gridRes   = params.gridRes;
     this._lineWidth = params.lineWidth;
     this._lineColor = params.lineColor;
-}
+};
 
 ControlKit.Plotter.prototype = Object.create(ControlKit.CanvasComponent.prototype);
 

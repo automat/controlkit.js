@@ -16,7 +16,7 @@ ControlKit.CanvasComponent = function(parent,object,value,label)
     this._canvasNode = ControlKit.Node.getNodeByElement(this._canvas.getElement());
 
     this._updateHeight();
-}
+};
 
 ControlKit.CanvasComponent.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 

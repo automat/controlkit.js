@@ -13,7 +13,7 @@ ControlKit.PresetBtn = function(parentNode)
     btnNode.addChild(indiNode);
     parentNode.addChild(btnNode);
 
-}
+};
 
 ControlKit.PresetBtn.prototype =
 {

@@ -2,9 +2,13 @@ ControlKit.Checkbox = function(parent,object,value,label,params)
 {
     ControlKit.ObjectComponent.apply(this,arguments);
 
+    /*---------------------------------------------------------------------------------*/
+
     params = params || {};
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
+
+    /*---------------------------------------------------------------------------------*/
 
     this._onChange = params.onChange;
     this._onFinish = params.onFinish;
@@ -15,7 +19,7 @@ ControlKit.Checkbox = function(parent,object,value,label,params)
     input.setEventListener(ControlKit.NodeEventType.CHANGE,this._onInputChange.bind(this));
 
     this._wrapNode.addChild(this._textArea);
-}
+};
 
 ControlKit.Checkbox.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 

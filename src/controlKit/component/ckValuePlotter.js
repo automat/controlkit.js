@@ -27,9 +27,7 @@ ControlKit.ValuePlotter = function(parent,object,value,label,params)
     this._updateHeight();
 
     this._drawValue();
-
-
-}
+};
 
 ControlKit.ValuePlotter.prototype = Object.create(ControlKit.Plotter.prototype);
 

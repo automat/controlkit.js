@@ -1,4 +1,3 @@
-
 ControlKit.NodeType =
 {
     DIV            : 'div',

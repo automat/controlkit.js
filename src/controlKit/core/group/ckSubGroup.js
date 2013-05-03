@@ -15,7 +15,7 @@ ControlKit.SubGroup = function(parent,label,params)
     this.set(label,params);
 
     /*-------------------------------------------------------------------------------------*/
-}
+};
 
 ControlKit.SubGroup.prototype = Object.create(ControlKit.AbstractGroup.prototype);
 

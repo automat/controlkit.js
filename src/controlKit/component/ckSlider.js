@@ -41,7 +41,7 @@ ControlKit.Slider = function(parent,object,value,target,label,params)
     this._wrapNode.addChild(input.getNode());
 
     this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,this,'onPanelMoveEnd');
-}
+};
 
 ControlKit.Slider.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 

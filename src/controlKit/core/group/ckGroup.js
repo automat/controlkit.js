@@ -1,5 +1,3 @@
-
-
 ControlKit.Group = function(parent,params)
 {
     ControlKit.AbstractGroup.apply(this,arguments);
@@ -71,7 +69,7 @@ ControlKit.Group = function(parent,params)
     this._subGroups.push(new ControlKit.SubGroup(this,'',null));
 
     /*-------------------------------------------------------------------------------------*/
-}
+};
 
 ControlKit.Group.prototype = Object.create(ControlKit.AbstractGroup.prototype);
 

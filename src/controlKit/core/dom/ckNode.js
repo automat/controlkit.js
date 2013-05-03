@@ -1,5 +1,3 @@
-
-
 ControlKit.Node = function()
 {
     this._element = null;
@@ -21,7 +19,7 @@ ControlKit.Node = function()
             this._element.type = arg;
         }
     }
-}
+};
 
 ControlKit.Node.prototype =
 {

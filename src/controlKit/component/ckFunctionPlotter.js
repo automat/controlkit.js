@@ -13,7 +13,7 @@ ControlKit.FunctionPlotter = function(parent,object,value,label,params)
 
     this._func = null;
     this.setFunction(this._object[this._key]);
-}
+};
 
 ControlKit.FunctionPlotter.prototype = Object.create(ControlKit.Plotter.prototype);
 

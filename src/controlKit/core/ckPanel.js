@@ -122,7 +122,7 @@ ControlKit.Panel = function(controlKit,params)
 
 
     window.addEventListener('resize',this._onWindowResize.bind(this));
-}
+};
 
 /*---------------------------------------------------------------------------------*/
 

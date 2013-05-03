@@ -6,7 +6,12 @@ ControlKit.Button = function(parent,label,onPress)
 
     input.setStyleClass(ControlKit.CSS.Button);
     input.setProperty('value',label);
-    input.setEventListener(ControlKit.NodeEventType.ON_CLICK,function(){onPress();this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));}.bind(this));
+    input.setEventListener(ControlKit.NodeEventType.ON_CLICK,
+                           function()
+                           {
+                               onPress();
+                               this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));
+                           }.bind(this));
 
     this._wrapNode.addChild(input);
 };

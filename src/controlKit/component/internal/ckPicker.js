@@ -46,7 +46,7 @@ ControlKit.Picker = function()
 
     //for testing
     node.setPositionGlobal(300,200);
-}
+};
 
 ControlKit.Picker.prototype =
 {

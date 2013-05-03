@@ -62,7 +62,7 @@ ControlKit.NumberInput = function(parent,object,value,label,params)
     }
 
     input.setValue(this._object[this._key]);
-}
+};
 
 ControlKit.NumberInput.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 

@@ -32,7 +32,7 @@ ControlKit.StringOutput = function(parent,object,value,label,params)
 
     this._setValue();
 
-}
+};
 
 ControlKit.StringOutput.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 

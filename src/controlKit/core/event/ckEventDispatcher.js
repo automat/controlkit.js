@@ -1,8 +1,7 @@
 ControlKit.EventDispatcher = function()
 {
     this._listeners = [];
-}
-
+};
 
 ControlKit.EventDispatcher.prototype =
 {

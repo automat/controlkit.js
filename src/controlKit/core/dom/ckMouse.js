@@ -2,7 +2,7 @@ ControlKit.Mouse = function()
 {
     this._pos = [0,0];
     document.addEventListener(ControlKit.DocumentEventType.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
-}
+};
 
 ControlKit.Mouse.prototype._onDocumentMouseMove = function(e)
 {

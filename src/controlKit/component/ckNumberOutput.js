@@ -33,8 +33,7 @@ ControlKit.NumberOutput = function(parent,object,value,label,params)
     if(this._wrap)this._textArea.setStyleProperty('white-space','pre-wrap');
 
     this._setValue();
-
-}
+};
 
 ControlKit.NumberOutput.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 

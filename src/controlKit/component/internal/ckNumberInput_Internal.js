@@ -4,17 +4,21 @@ ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onChange,onFi
     this._valueStep    = stepValue || 1.0;
     this._valueDPlace  = decimalPlaces + 1;
 
+    /*---------------------------------------------------------------------------------*/
+
     this._onChange  = onChange || function(){};
     this._onFinish  = onFinish || function(){};
 
-    var input = this._textArea = new ControlKit.Node(ControlKit.NodeType.INPUT_TEXT);
+    /*---------------------------------------------------------------------------------*/
+
+    var input = this._input = new ControlKit.Node(ControlKit.NodeType.INPUT_TEXT);
 
     input.setProperty('value',this._value);
 
     input.setEventListener(ControlKit.NodeEventType.KEY_DOWN,this._onInputKeyDown.bind(this));
     input.setEventListener(ControlKit.NodeEventType.KEY_UP,  this._onInputKeyUp.bind(this));
     input.setEventListener(ControlKit.NodeEventType.CHANGE,  this._onInputChange.bind(this));
-}
+};
 
 ControlKit.NumberInput_Internal.prototype._onInputKeyDown = function(e)
 {
@@ -56,12 +60,12 @@ ControlKit.NumberInput_Internal.prototype._validateInput = function()
 {
     if(this._inputIsNumber())
     {
-        this._temp = this._value = Number(this._textArea.getProperty('value'));
+        this._temp = this._value = Number(this._input.getProperty('value'));
         return;
     }
 
     this._temp = this._value;
-    this._textArea.setProperty('value',this._value);
+    this._input.setProperty('value',this._value);
 };
 
 ControlKit.NumberInput_Internal.prototype._validateNumber = function()
@@ -72,7 +76,7 @@ ControlKit.NumberInput_Internal.prototype._validateNumber = function()
 
 ControlKit.NumberInput_Internal.prototype._inputIsNumber = function()
 {
-    var value = this._textArea.getProperty('value');
+    var value = this._input.getProperty('value');
 
     //TODO:FIX
     if(value == '-')return true;
@@ -89,7 +93,7 @@ ControlKit.NumberInput_Internal.prototype._formatDisplayOutput = function()
 
     if(index>0)this._out = output.slice(0,index+this._valueDPlace);
 
-    this._textArea.setProperty('value',this._out);
+    this._input.setProperty('value',this._out);
 };
 
 ControlKit.NumberInput_Internal.prototype.getValue = function()
@@ -117,5 +121,5 @@ ControlKit.NumberInput_Internal.prototype.stepDown = function()
 
 ControlKit.NumberInput_Internal.prototype.getNode = function()
 {
-    return this._textArea;
+    return this._input;
 };

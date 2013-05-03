@@ -19,11 +19,11 @@ ControlKit.Canvas = function(parentNode)
 {
     this.parent = parentNode.getElement();
     this._size = {width: ControlKit._InternalCanvasOptions.DEFAULT_WIDTH ,
-        height:ControlKit._InternalCanvasOptions.DEFAULT_HEIGHT};
+                  height:ControlKit._InternalCanvasOptions.DEFAULT_HEIGHT};
     this._canvas = document.createElement('canvas');
     this._antialias    = true;
     this.setSize(ControlKit._InternalCanvasOptions.DEFAULT_WIDTH,
-        ControlKit._InternalCanvasOptions.DEFAULT_HEIGHT);
+                 ControlKit._InternalCanvasOptions.DEFAULT_HEIGHT);
     this.parent.appendChild(this._canvas);
     this.context = this._canvas.getContext('2d');
 
@@ -33,7 +33,7 @@ ControlKit.Canvas = function(parentNode)
 
     this._pixelPerfect = true;
 
-}
+};
 
 /*
  *

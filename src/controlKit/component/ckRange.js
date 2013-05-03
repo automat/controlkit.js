@@ -4,11 +4,15 @@ ControlKit.Range = function(parent,object,value,label,params)
 
     this._values    = this._object[this._key];
 
+    /*---------------------------------------------------------------------------------*/
+
     params          = params          || {};
     params.step     = params.step     || 1;
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
     params.dp       = params.dp   || 2;
+
+    /*---------------------------------------------------------------------------------*/
 
     this._step      = params.step;
     this._onChange  = params.onChange;
@@ -51,7 +55,7 @@ ControlKit.Range = function(parent,object,value,label,params)
     wrapNode.addChild(wrapInputMin);
     wrapNode.addChild(wrapLablMax);
     wrapNode.addChild(wrapInputMax);
-}
+};
 
 ControlKit.Range.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 

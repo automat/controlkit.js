@@ -48,7 +48,7 @@ ControlKit.Select = function(parent,object,value,target,label,params)
 
     this.addEventListener(ControlKit.EventType.SELECT_TRIGGERED,cntrlKit,'onSelectTriggered');
 
-}
+};
 
 ControlKit.Select.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 

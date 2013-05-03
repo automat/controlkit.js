@@ -19,7 +19,7 @@ ControlKit.Component = function(parent)
 
     lablNode.setStyleClass(ControlKit.CSS.Label);
     wrapNode.setStyleClass(ControlKit.CSS.Wrap);
-}
+};
 
 ControlKit.Component.prototype = Object.create(ControlKit.EventDispatcher.prototype);
 

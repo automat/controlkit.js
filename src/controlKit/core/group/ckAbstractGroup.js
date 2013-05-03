@@ -17,8 +17,7 @@ ControlKit.AbstractGroup = function(parent)
     /*---------------------------------------------------------------------------------*/
 
     this._hidden = false;
-
-}
+};
 
 ControlKit.AbstractGroup.prototype = Object.create(ControlKit.EventDispatcher.prototype);
 

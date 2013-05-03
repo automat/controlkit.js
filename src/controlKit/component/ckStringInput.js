@@ -61,7 +61,7 @@ ControlKit.StringInput = function(parent,object,value,label,params)
     input.setEventListener(ControlKit.NodeEventType.KEY_UP, this._onInputKeyUp.bind(this));
     input.setEventListener(ControlKit.NodeEventType.CHANGE, this._onInputChange.bind(this));
 
-}
+};
 
 ControlKit.StringInput.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 

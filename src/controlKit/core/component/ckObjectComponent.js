@@ -15,7 +15,7 @@ ControlKit.ObjectComponent = function(parent,object,value,label)
     var cntrlKit = ControlKit.getKitInstance();
     cntrlKit.addEventListener(ControlKit.EventType.UPDATE_VALUE,this,'onValueUpdate');
     this.addEventListener(ControlKit.EventType.VALUE_UPDATED,cntrlKit,'onValueUpdated');
-}
+};
 
 ControlKit.ObjectComponent.prototype = Object.create(ControlKit.Component.prototype);
 

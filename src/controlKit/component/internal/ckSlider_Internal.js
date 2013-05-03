@@ -5,8 +5,12 @@ ControlKit.Slider_Internal = function(parentNode,onChange,onFinish)
     this._interpl  = 0;
     this._focus    = false;
 
+    /*---------------------------------------------------------------------------------*/
+
     this._onChange   = onChange || function(){};
     this._onFinish   = onFinish || function(){};
+
+    /*---------------------------------------------------------------------------------*/
 
     var wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.SliderWrap);
     parentNode.addChild(wrapNode);
