@@ -30,6 +30,6 @@
  *
  */
 
-var ControlKit = {};
+var ControlKit = ControlKit || {};
 
 
