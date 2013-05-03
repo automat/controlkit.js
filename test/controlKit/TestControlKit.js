@@ -245,7 +245,13 @@ function TestControlKit(parentDomElementId)
             .addValuePlotter(object,'changeValue1','tri x8',{height:60,lineWidth:8,lineColor:[237, 20, 91],resolution:8})
             .addValuePlotter(object,'changeValue1','tri x16',{height:60,lineWidth:16,lineColor:[237, 20, 91],resolution:16});
 
+    control5 = controlKit.addPanel({label:'YAY Panel Big',width:100,position:[690,405],fixed:false});
 
+    control5.addGroup()
+        .addPad(object,'xyValue','pad')
+.addPad(object,'xyValue','pad')
+.addPad(object,'xyValue','pad')
+.addPad(object,'xyValue','pad');
 
 
 

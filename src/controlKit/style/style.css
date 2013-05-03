@@ -209,11 +209,14 @@
     height:  30px;
     padding: 0 20px 0 10px;
 
-    background-color: #1f2325;
+    background-color: #1a1d1f;
     border-top:       1px solid #31383b;
     border-bottom:    1px solid #111314;
+}
 
-
+.panel .head:hover
+{
+    background-color: #15181a;
 }
 
 .panel .label
