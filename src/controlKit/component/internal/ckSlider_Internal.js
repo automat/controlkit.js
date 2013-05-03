@@ -94,6 +94,8 @@ CKSlider_Internal.prototype =
         this._value = this._bounds[0]*(1.0-intrpl)+this._bounds[1]*intrpl;
     },
 
+    resetOffset : function(){this._slot.offsetX = this._slot.node.getPositionGlobalX();},
+
     setBoundMin : function(value){this._bounds[0] = value;this._interpolateValue();this._updateHandle();},
     setBoundMax : function(value){this._bounds[1] = value; this._interpolateValue();this._updateHandle();},
     setValue    : function(value){this._intrpl    = value/this._bounds[1]; this._updateHandle();this._value  = value;},

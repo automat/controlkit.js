@@ -54,7 +54,7 @@ var imports = [
 
 
 
-               'controlKit.js',
+               'controlKit.js'
 
 
 
@@ -96,7 +96,7 @@ function TestControlKit(parentDomElementId)
 
     var controlKit = new ControlKit(parentDomElementId);
 
-    var control0   = controlKit.addPanel({width:100,position:[10,10],fixed:false});
+    var control0   = controlKit.addPanel({width:200,position:[0,0],fixed:false});
 
 
     control0.addGroup()
@@ -109,6 +109,7 @@ function TestControlKit(parentDomElementId)
             .addSlider(object,'range','slideValue','slider')
             .addSelect(object,'selectOptions','selectTarget','select')
 
+        /*
 
 .addSubGroup('grain',{show:false})
     .addRange(object,'range','Range Comp')
@@ -130,52 +131,22 @@ function TestControlKit(parentDomElementId)
 
 
 
-    /*
-    var control1 = controlKit.addPanel({width:300,position:[240,10]});
+
+    var control1 = controlKit.addPanel({width:250,position:[205,0]});
 
     control1.addGroup()
-            .addSelect(object,'selectOptions','selectTarget','select');
-            */
+        .addSubGroup('subgroup 1')
+            .addSelect(object,'selectOptions','selectTarget','select')
+    .addSelect(object,'selectOptions','selectTarget','Select Comp')
+    .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]})
+        .addSubGroup('subgroup 2')
+    .addRange(object,'range','Range Comp')
+    .addCheckbox(object,'bool','Bool Comp')
+        .addSubGroup('subgroup 3')
+    .addPad(object,'xyValue','Pad Comp')
+    .addNumberOutput(object,'xyValue','',{wrap:true,height:40,dp:4});
 
-
-
-
-/*
-    var control1 = controlKit.addPanel({width:200,position:[300,10]});
-
-    control1.addGroup().addSubGroup()
-            .addSlider(object,'range','slideValue','slider');
-
-
-    control0.addGroup({label:'Group'})
-            .addSubGroup()
-            .addSelect(object,'selectOptions','selectTarget','Select Comp')
-            .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]})
-            .addSubGroup()
-            .addRange(object,'range','Range Comp')
-            .addCheckbox(object,'bool','Bool Comp')
-            .addSubGroup()
-            .addPad(object,'xyValue','Pad Comp')
-            .addNumberOutput(object,'xyValue','',{wrap:true,height:40,dp:4});
-
-
-    var control1 = controlKit.addPanel({label:'Basic Controls',width:180,position:[300,10]});
-
-
-    control1.addGroup({label:'Group 1'})
-        .addSubGroup()
-        .addValuePlotter(object,'changeValue0','valuePlotter',{height:100})
-        .addNumberOutput(object,'changeValue0','',{dp:4})
-        .addSubGroup()
-        .addValuePlotter(object,'changeValue1','valuePlotter',{height:100})
-        .addNumberOutput(object,'changeValue1','',{dp:4});
-    control1.addGroup({label:'Group 1'})
-        .addRange(object,'range','Range Comp')
-        .addCheckbox(object,'bool','Bool Comp')
-        .addSelect(object,'selectOptions','selectTarget','Select Comp')
-        .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]});
-
-    var control2 = controlKit.addPanel({label:'YAY Panel',width:200,position:[700,10]});
+    var control2 = controlKit.addPanel({label:'YAY Panel',width:200,position:[460,0]});
 
     control2.addGroup()
         .addSubGroup('values 1')
@@ -189,60 +160,113 @@ function TestControlKit(parentDomElementId)
         .addValuePlotter(object,'changeValue5','frac',{height:35})
         .addValuePlotter(object,'changeValue6','sin',{height:35});
 
-    var control3 = controlKit.addPanel({label:'Numbers',width:150,position:[490,10]});
-
-    control3.addGroup()
-        .addNumberOutput(object,'changeValue0','sgn')
-        .addNumberOutput(object,'changeValue1','tri')
-        .addNumberOutput(object,'changeValue2','randF')
-        .addNumberOutput(object,'changeValue3','rect')
-        .addNumberOutput(object,'changeValue4','randI')
-        .addNumberOutput(object,'changeValue5','frac')
-        .addNumberOutput(object,'changeValue6','sin');
-
-    var control4 = controlKit.addPanel({label:'Swing',width:200,position:[700,510]});
-
-    control4.addGroup()
-        .addPad(object,'xyChangeValue','Freq Transform',{axisLabels:['SPEED','random'],showCross:false})
-        .addNumberOutput(object,'xyChangeValue')
-        .addButton('reset',function(){object.xyChangeValue = [0.1,0.1]});
-
-    var control5 = controlKit.addPanel({label:'YAY Panel Big',width:200,position:[490,405]});
-
-    control5.addGroup()
-        .addValuePlotter(object,'changeValue1','tri x1',{height:60,lineWidth:1,lineColor:[237, 20, 91]})
-        .addValuePlotter(object,'changeValue1','tri x2',{height:60,lineWidth:2,lineColor:[237, 20, 91],resolution:2})
-        .addValuePlotter(object,'changeValue1','tri x4',{height:60,lineWidth:4,lineColor:[237, 20, 91],resolution:4})
-        .addValuePlotter(object,'changeValue1','tri x8',{height:60,lineWidth:8,lineColor:[237, 20, 91],resolution:8})
-        .addValuePlotter(object,'changeValue1','tri x16',{height:60,lineWidth:16,lineColor:[237, 20, 91],resolution:16});
+        */
 
 
 
+    /*
+        var control1 = controlKit.addPanel({width:200,position:[300,10]});
+
+        control1.addGroup().addSubGroup()
+                .addSlider(object,'range','slideValue','slider');
+
+
+        control0.addGroup({label:'Group'})
+                .addSubGroup()
+                .addSelect(object,'selectOptions','selectTarget','Select Comp')
+                .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]})
+                .addSubGroup()
+                .addRange(object,'range','Range Comp')
+                .addCheckbox(object,'bool','Bool Comp')
+                .addSubGroup()
+                .addPad(object,'xyValue','Pad Comp')
+                .addNumberOutput(object,'xyValue','',{wrap:true,height:40,dp:4});
+
+
+        var control1 = controlKit.addPanel({label:'Basic Controls',width:180,position:[300,10]});
+
+
+        control1.addGroup({label:'Group 1'})
+            .addSubGroup()
+            .addValuePlotter(object,'changeValue0','valuePlotter',{height:100})
+            .addNumberOutput(object,'changeValue0','',{dp:4})
+            .addSubGroup()
+            .addValuePlotter(object,'changeValue1','valuePlotter',{height:100})
+            .addNumberOutput(object,'changeValue1','',{dp:4});
+        control1.addGroup({label:'Group 1'})
+            .addRange(object,'range','Range Comp')
+            .addCheckbox(object,'bool','Bool Comp')
+            .addSelect(object,'selectOptions','selectTarget','Select Comp')
+            .addFunctionPlotter(object,'func','Function',{bounds:[-1,1,-1,1]});
+
+        var control2 = controlKit.addPanel({label:'YAY Panel',width:200,position:[700,10]});
+
+        control2.addGroup()
+            .addSubGroup('values 1')
+            .addValuePlotter(object,'changeValue0','sgn',{height:35})
+            .addValuePlotter(object,'changeValue1','tri',{height:35})
+            .addSubGroup('values 2')
+            .addValuePlotter(object,'changeValue2','randF',{height:35,lineWidth:2,lineColor:[237, 20, 91]})
+            .addValuePlotter(object,'changeValue3','rect',{height:35,lineWidth:0.5})
+            .addSubGroup('values 3')
+            .addValuePlotter(object,'changeValue4','randI',{height:35,lineWidth:2,lineColor:[237, 20, 91]})
+            .addValuePlotter(object,'changeValue5','frac',{height:35})
+            .addValuePlotter(object,'changeValue6','sin',{height:35});
+
+        var control3 = controlKit.addPanel({label:'Numbers',width:150,position:[490,10]});
+
+        control3.addGroup()
+            .addNumberOutput(object,'changeValue0','sgn')
+            .addNumberOutput(object,'changeValue1','tri')
+            .addNumberOutput(object,'changeValue2','randF')
+            .addNumberOutput(object,'changeValue3','rect')
+            .addNumberOutput(object,'changeValue4','randI')
+            .addNumberOutput(object,'changeValue5','frac')
+            .addNumberOutput(object,'changeValue6','sin');
+
+        var control4 = controlKit.addPanel({label:'Swing',width:200,position:[700,510]});
+
+        control4.addGroup()
+            .addPad(object,'xyChangeValue','Freq Transform',{axisLabels:['SPEED','random'],showCross:false})
+            .addNumberOutput(object,'xyChangeValue')
+            .addButton('reset',function(){object.xyChangeValue = [0.1,0.1]});
+
+        var control5 = controlKit.addPanel({label:'YAY Panel Big',width:200,position:[490,405]});
+
+        control5.addGroup()
+            .addValuePlotter(object,'changeValue1','tri x1',{height:60,lineWidth:1,lineColor:[237, 20, 91]})
+            .addValuePlotter(object,'changeValue1','tri x2',{height:60,lineWidth:2,lineColor:[237, 20, 91],resolution:2})
+            .addValuePlotter(object,'changeValue1','tri x4',{height:60,lineWidth:4,lineColor:[237, 20, 91],resolution:4})
+            .addValuePlotter(object,'changeValue1','tri x8',{height:60,lineWidth:8,lineColor:[237, 20, 91],resolution:8})
+            .addValuePlotter(object,'changeValue1','tri x16',{height:60,lineWidth:16,lineColor:[237, 20, 91],resolution:16});
+
+        */
 
 
 
 
-    var t = 0.0;
-    var sint;
-    function updateObject()
-    {
-        t+=object.xyChangeValue[0];
-        t+=randomFloat(-1,1)*object.xyChangeValue[1];
-        sint = Math.sin(t);
-        object.changeValue0 = sgn(sint);
-        object.changeValue1 = tri(sint);
 
-        object.changeValue2 = randomFloat(-1,1);
-        object.changeValue3 = rect(sint);
-        object.changeValue4 = randomInteger(-1,1);
-        object.changeValue5 = frac(sint);
-        object.changeValue6 = sint;
-        controlKit.update();
-    }
+        var t = 0.0;
+        var sint;
+        function updateObject()
+        {
+            t+=object.xyChangeValue[0];
+            t+=randomFloat(-1,1)*object.xyChangeValue[1];
+            sint = Math.sin(t);
+            object.changeValue0 = sgn(sint);
+            object.changeValue1 = tri(sint);
 
-    function loop(){requestAnimationFrame(loop);updateObject();}loop();
+            object.changeValue2 = randomFloat(-1,1);
+            object.changeValue3 = rect(sint);
+            object.changeValue4 = randomInteger(-1,1);
+            object.changeValue5 = frac(sint);
+            object.changeValue6 = sint;
+            controlKit.update();
+        }
 
-    */
+        function loop(){requestAnimationFrame(loop);updateObject();}loop();
+
+
 }
 
 /**

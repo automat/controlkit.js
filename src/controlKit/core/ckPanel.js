@@ -60,6 +60,8 @@ function CKPanel(controlKit,params)
     this._ratio     = params.ratio;
     var   label     = params.label;
     this._width     = Math.max(CKDefault.WIDTH_MIN,Math.min(params.width,CKDefault.WIDTH_MAX));
+    this._fixed     = params.fixed;
+
 
     /*---------------------------------------------------------------------------------*/
 
@@ -89,7 +91,7 @@ function CKPanel(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    if(!params.fixed)
+    if(!this._fixed)
     {
         this._headDragging = false;
         this._mouseOffset  = [0,0];
@@ -100,6 +102,7 @@ function CKPanel(controlKit,params)
         document.addEventListener(CKDocumentEventType.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
         document.addEventListener(CKDocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
     }
+
 
     /*---------------------------------------------------------------------------------*/
 

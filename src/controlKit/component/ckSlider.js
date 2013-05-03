@@ -124,6 +124,5 @@ CKSlider.prototype._updateValueField = function()
 
 CKSlider.prototype.onPanelMoveEnd = function()
 {
-    console.log('Update my offset, PLEAAASE')
-
+    this._slider.resetOffset();
 };
