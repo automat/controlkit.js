@@ -49,7 +49,7 @@ function CKStringInput(parent,object,value,label,params)
             options.build(presets,input.getProperty('value'),input,
                 function(){input.setProperty('value',presets[options.getSelectedIndex()]);
                            self._updateValue();},
-                onPresetDeactivate);
+                onPresetDeactivate,20);
         };
 
         presetBtn.setCallbackActive(onPresetActivate);

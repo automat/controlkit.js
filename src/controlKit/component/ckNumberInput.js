@@ -54,7 +54,7 @@ function CKNumberInput(parent,object,value,label,params)
             options.build(presets,input.getValue(),input.getNode(),
                           function(){input.setValue(presets[options.getSelectedIndex()]);
                                      self._updateValue();},
-                          onPresetDeactivate);
+                          onPresetDeactivate,20);
         };
 
         presetBtn.setCallbackActive(onPresetActivate);

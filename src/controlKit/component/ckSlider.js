@@ -5,11 +5,16 @@ function CKSlider(parent,object,value,target,label,params)
     this._values    = this._object[this._key];
     this._targetKey = target;
 
+    /*---------------------------------------------------------------------------------*/
+
     params          = params          || {};
     params.step     = params.step     || 1;
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
     params.dp       = params.dp       || 2;
+
+    /*---------------------------------------------------------------------------------*/
+
 
     this._step     = params.step;
     this._onChange = params.onChange;
@@ -117,12 +122,5 @@ CKSlider.prototype.onValueUpdate = function(e)
 
 
 
-CKSlider.prototype._updateValueField = function()
-{
-    this._input.setValue(this._slider.getValue());
-};
-
-CKSlider.prototype.onPanelMoveEnd = function()
-{
-    this._slider.resetOffset();
-};
+CKSlider.prototype._updateValueField = function(){this._input.setValue(this._slider.getValue());};
+CKSlider.prototype.onPanelMoveEnd    = function(){this._slider.resetOffset();};

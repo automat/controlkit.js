@@ -30,40 +30,51 @@ CKOptions.prototype =
         this._unfocusable = true;
     },
 
-    build : function(entries,selected,element,callbackSelect,callbackOut)
+    build : function(entries,selected,element,callbackSelect,callbackOut,paddingRight)
     {
         this._clearList();
 
         var rootNode = this._rootNode,
             listNode = this._listNode;
 
+        paddingRight = paddingRight || 0;
+
         var self = this;
 
-        // build list
-        var itemNode,entry;
-        var i = -1;
-        while(++i < entries.length)
+        if(!this._entriesAreColors(entries))
         {
-            entry = entries[i];
+            // build list
+            var itemNode,entry;
+            var i = -1;
+            while(++i < entries.length)
+            {
+                entry = entries[i];
 
-            itemNode = listNode.addChild(new CKNode(CKNodeType.LIST_ITEM));
-            itemNode.setProperty('innerHTML',entry);
-            if(entry == selected)itemNode.setStyleClass(CKCSS.OptionsSelected);
+                itemNode = listNode.addChild(new CKNode(CKNodeType.LIST_ITEM));
+                itemNode.setProperty('innerHTML',entry);
+                if(entry == selected)itemNode.setStyleClass(CKCSS.OptionsSelected);
 
-            itemNode.setEventListener(CKNodeEventType.MOUSE_DOWN,
-                                      function()
-                                      {
-                                          self._selectedIndex = Array.prototype.indexOf.call(this.parentNode.children,this);
-                                          callbackSelect();
+                itemNode.setEventListener(CKNodeEventType.MOUSE_DOWN,
+                    function()
+                    {
+                        self._selectedIndex = Array.prototype.indexOf.call(this.parentNode.children,this);
+                        callbackSelect();
 
-                                      });
+                    });
+
+            }
+        }
+        else
+        {
 
         }
+
+
 
         //position, set width and show
 
         var elementPos    = element.getPositionGlobal(),
-            elementWidth  = element.getWidth(),
+            elementWidth  = element.getWidth() - paddingRight,
             elementHeight = element.getHeight();
 
         var listWidth  = listNode.getWidth(),
@@ -77,6 +88,11 @@ CKOptions.prototype =
 
         this._callbackOut = callbackOut;
         this._unfocusable = false;
+    },
+
+    _entriesAreColors : function(entries)
+    {
+        return false;
     },
 
 
