@@ -1,6 +1,6 @@
-ControlKit.CKSelect = function(parent,object,value,target,label,params)
+ControlKit.Select = function(parent,object,value,target,label,params)
 {
-    ControlKit.CKObjectComponent.apply(this,arguments);
+    ControlKit.ObjectComponent.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -13,8 +13,8 @@ ControlKit.CKSelect = function(parent,object,value,target,label,params)
     this._onChange    = params.onChange;
     this._onFinish    = params.onFinish;
 
-    var select = this._select = new ControlKit.CKNode(ControlKit.CKNodeType.INPUT_BUTTON);
-    select.setStyleClass(ControlKit.CKCSS.Select);
+    var select = this._select = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
+    select.setStyleClass(ControlKit.CSS.Select);
 
     this._wrapNode.addChild(select);
 
@@ -39,20 +39,20 @@ ControlKit.CKSelect = function(parent,object,value,target,label,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    select.setEventListener(ControlKit.CKNodeEventType.MOUSE_DOWN,this._onSelectMouseDown.bind(this));
+    select.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onSelectMouseDown.bind(this));
 
     /*---------------------------------------------------------------------------------*/
 
     var cntrlKit = ControlKit.getKitInstance();
-    cntrlKit.addEventListener(ControlKit.CKEventType.TRIGGER_SELECT,this,'onSelectTrigger');
+    cntrlKit.addEventListener(ControlKit.EventType.TRIGGER_SELECT,this,'onSelectTrigger');
 
-    this.addEventListener(ControlKit.CKEventType.SELECT_TRIGGERED,cntrlKit,'onSelectTriggered');
+    this.addEventListener(ControlKit.EventType.SELECT_TRIGGERED,cntrlKit,'onSelectTriggered');
 
 }
 
-ControlKit.CKSelect.prototype = Object.create(ControlKit.CKObjectComponent.prototype);
+ControlKit.Select.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 
-ControlKit.CKSelect.prototype.onSelectTrigger = function(e)
+ControlKit.Select.prototype.onSelectTrigger = function(e)
 {
 
     if(e.data.origin == this)
@@ -60,7 +60,7 @@ ControlKit.CKSelect.prototype.onSelectTrigger = function(e)
         this._active = !this._active;
         this._updateVisibility();
 
-        var options = ControlKit.CKOptions.getInstance();
+        var options = ControlKit.Options.getInstance();
 
         if(this._active)
         {
@@ -72,7 +72,7 @@ ControlKit.CKSelect.prototype.onSelectTrigger = function(e)
                               this._selected = this._object[this._targetKey]  = this._values[options.getSelectedIndex()];
                               this._select.setProperty('value',this._selected);
 
-                              this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.VALUE_UPDATED));
+                              this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));
 
                               this._active = false;
                               this._updateVisibility();
@@ -108,19 +108,19 @@ ControlKit.CKSelect.prototype.onSelectTrigger = function(e)
 
 
 
-ControlKit.CKSelect.prototype._onSelectMouseDown = function()
+ControlKit.Select.prototype._onSelectMouseDown = function()
 {
-    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.SELECT_TRIGGERED));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SELECT_TRIGGERED));
 };
 
 
-ControlKit.CKSelect.prototype._updateVisibility = function()
+ControlKit.Select.prototype._updateVisibility = function()
 {
-    this._select.setStyleClass(this._active ? ControlKit.CKCSS.SelectActive : ControlKit.CKCSS.Select);
+    this._select.setStyleClass(this._active ? ControlKit.CSS.SelectActive : ControlKit.CSS.Select);
 };
 
 
-ControlKit.CKSelect.prototype.onValueUpdate = function(e)
+ControlKit.Select.prototype.onValueUpdate = function(e)
 {
     this._selected = this._object[this._targetKey];
     this._select.setProperty('value',this._selected.toString());

@@ -30,7 +30,7 @@ var imports = [
                'core/group/ckGroup.js',
                'core/group/ckSubGroup.js',
 
-               'core/ckDefaults.js',
+               'core/ckDefault.js',
                'core/ckPanel.js',
 
                'component/internal/ckOptions.js',
@@ -169,7 +169,7 @@ function TestControlKit(parentDomElementId)
 
 
 
-    /*
+
         var control1 = controlKit.addPanel({width:200,position:[300,10]});
 
         control1.addGroup().addSubGroup()
@@ -244,8 +244,7 @@ function TestControlKit(parentDomElementId)
             .addValuePlotter(object,'changeValue1','tri x4',{height:60,lineWidth:4,lineColor:[237, 20, 91],resolution:4})
             .addValuePlotter(object,'changeValue1','tri x8',{height:60,lineWidth:8,lineColor:[237, 20, 91],resolution:8})
             .addValuePlotter(object,'changeValue1','tri x16',{height:60,lineWidth:16,lineColor:[237, 20, 91],resolution:16});
-
-        */
+        
 
 
 

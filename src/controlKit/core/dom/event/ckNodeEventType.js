@@ -1,4 +1,4 @@
-ControlKit.CKNodeEventType =
+ControlKit.NodeEventType =
 {
     MOUSE_DOWN : 'onmousedown',
     MOUSE_UP   : 'onmouseup',

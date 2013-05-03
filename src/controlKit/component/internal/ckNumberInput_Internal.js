@@ -1,4 +1,4 @@
-ControlKit.CKNumberInput_Internal = function(stepValue,decimalPlaces,onChange,onFinish)
+ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onChange,onFinish)
 {
     this._value        = this._temp  = 0;
     this._valueStep    = stepValue || 1.0;
@@ -7,16 +7,16 @@ ControlKit.CKNumberInput_Internal = function(stepValue,decimalPlaces,onChange,on
     this._onChange  = onChange || function(){};
     this._onFinish  = onFinish || function(){};
 
-    var input = this._textArea = new ControlKit.CKNode(ControlKit.CKNodeType.INPUT_TEXT);
+    var input = this._textArea = new ControlKit.Node(ControlKit.NodeType.INPUT_TEXT);
 
     input.setProperty('value',this._value);
 
-    input.setEventListener(ControlKit.CKNodeEventType.KEY_DOWN,this._onInputKeyDown.bind(this));
-    input.setEventListener(ControlKit.CKNodeEventType.KEY_UP,  this._onInputKeyUp.bind(this));
-    input.setEventListener(ControlKit.CKNodeEventType.CHANGE,  this._onInputChange.bind(this));
+    input.setEventListener(ControlKit.NodeEventType.KEY_DOWN,this._onInputKeyDown.bind(this));
+    input.setEventListener(ControlKit.NodeEventType.KEY_UP,  this._onInputKeyUp.bind(this));
+    input.setEventListener(ControlKit.NodeEventType.CHANGE,  this._onInputChange.bind(this));
 }
 
-ControlKit.CKNumberInput_Internal.prototype._onInputKeyDown = function(e)
+ControlKit.NumberInput_Internal.prototype._onInputKeyDown = function(e)
 {
     var mult    = e.shiftKey ? 10 : 1,
         keyCode = e.keyCode;
@@ -32,7 +32,7 @@ ControlKit.CKNumberInput_Internal.prototype._onInputKeyDown = function(e)
     }
 };
 
-ControlKit.CKNumberInput_Internal.prototype._onInputKeyUp = function(e)
+ControlKit.NumberInput_Internal.prototype._onInputKeyUp = function(e)
 {
     var keyCode = e.keyCode;
 
@@ -45,14 +45,14 @@ ControlKit.CKNumberInput_Internal.prototype._onInputKeyUp = function(e)
     this._onChange();
 };
 
-ControlKit.CKNumberInput_Internal.prototype._onInputChange = function(e)
+ControlKit.NumberInput_Internal.prototype._onInputChange = function(e)
 {
     this._validateInput();
     this._formatDisplayOutput();
     this._onFinish();
 };
 
-ControlKit.CKNumberInput_Internal.prototype._validateInput = function()
+ControlKit.NumberInput_Internal.prototype._validateInput = function()
 {
     if(this._inputIsNumber())
     {
@@ -64,13 +64,13 @@ ControlKit.CKNumberInput_Internal.prototype._validateInput = function()
     this._textArea.setProperty('value',this._value);
 };
 
-ControlKit.CKNumberInput_Internal.prototype._validateNumber = function()
+ControlKit.NumberInput_Internal.prototype._validateNumber = function()
 {
     if(this._inputIsNumber())return;
     this._temp = this._value;
 };
 
-ControlKit.CKNumberInput_Internal.prototype._inputIsNumber = function()
+ControlKit.NumberInput_Internal.prototype._inputIsNumber = function()
 {
     var value = this._textArea.getProperty('value');
 
@@ -79,7 +79,7 @@ ControlKit.CKNumberInput_Internal.prototype._inputIsNumber = function()
     return /^\s*-?[0-9]\d*(\.\d{1,1000000})?\s*$/.test(value);
 };
 
-ControlKit.CKNumberInput_Internal.prototype._formatDisplayOutput = function()
+ControlKit.NumberInput_Internal.prototype._formatDisplayOutput = function()
 {
     this._temp   = this._value;
     this._out    = this._temp.toString();
@@ -92,30 +92,30 @@ ControlKit.CKNumberInput_Internal.prototype._formatDisplayOutput = function()
     this._textArea.setProperty('value',this._out);
 };
 
-ControlKit.CKNumberInput_Internal.prototype.getValue = function()
+ControlKit.NumberInput_Internal.prototype.getValue = function()
 {
     return this._value;
 };
 
-ControlKit.CKNumberInput_Internal.prototype.setValue = function(n)
+ControlKit.NumberInput_Internal.prototype.setValue = function(n)
 {
     this._value = this._temp = n;
     this._formatDisplayOutput();
 };
 
-ControlKit.CKNumberInput_Internal.prototype.stepUp = function()
+ControlKit.NumberInput_Internal.prototype.stepUp = function()
 {
     this._value = this._temp  = this._value + (this._valueStep);
     this._formatDisplayOutput();
 };
 
-ControlKit.CKNumberInput_Internal.prototype.stepDown = function()
+ControlKit.NumberInput_Internal.prototype.stepDown = function()
 {
     this._value = this._temp  = this._value - (this._valueStep);
     this._formatDisplayOutput();
 };
 
-ControlKit.CKNumberInput_Internal.prototype.getNode = function()
+ControlKit.NumberInput_Internal.prototype.getNode = function()
 {
     return this._textArea;
 };

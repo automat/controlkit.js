@@ -15,7 +15,7 @@ ControlKit._InternalCanvasOptions.DEFAULT_WIDTH  = 300;
 ControlKit._InternalCanvasOptions.DEFAULT_HEIGHT = 300;
 ControlKit._InternalCanvasOptions.EMPTY_STYLE = 'rgba(0,0,0,0)';
 
-ControlKit.CKCanvas = function(parentNode)
+ControlKit.Canvas = function(parentNode)
 {
     this.parent = parentNode.getElement();
     this._size = {width: ControlKit._InternalCanvasOptions.DEFAULT_WIDTH ,
@@ -41,10 +41,10 @@ ControlKit.CKCanvas = function(parentNode)
  *
  */
 
-ControlKit.CKCanvas.FONT_STYLE_NON_ITALIC = '';
-ControlKit.CKCanvas.FONT_STYLE_ITALIC = 'italic';
-ControlKit.CKCanvas.FONT_WEIGHT_REGULAR = 'normal';
-ControlKit.CKCanvas.FONT_WEIGHT_BOLD = 'bold';
+ControlKit.Canvas.FONT_STYLE_NON_ITALIC = '';
+ControlKit.Canvas.FONT_STYLE_ITALIC = 'italic';
+ControlKit.Canvas.FONT_WEIGHT_REGULAR = 'normal';
+ControlKit.Canvas.FONT_WEIGHT_BOLD = 'bold';
 
 /*
  *
@@ -52,15 +52,15 @@ ControlKit.CKCanvas.FONT_WEIGHT_BOLD = 'bold';
  *
  */
 
-ControlKit.CKCanvas.TEXT_BASELINE_BOTTOM = 'bottom';
-ControlKit.CKCanvas.TEXT_BASELINE_TOP = 'top';
-ControlKit.CKCanvas.TEXT_BASELINE_MIDDLE = 'middle';
+ControlKit.Canvas.TEXT_BASELINE_BOTTOM = 'bottom';
+ControlKit.Canvas.TEXT_BASELINE_TOP = 'top';
+ControlKit.Canvas.TEXT_BASELINE_MIDDLE = 'middle';
 
-ControlKit.CKCanvas.TEXT_ALIGN_START = 'start';
-ControlKit.CKCanvas.TEXT_ALIGN_END = 'end';
-ControlKit.CKCanvas.TEXT_ALIGN_LEFT = 'left';
-ControlKit.CKCanvas.TEXT_ALIGN_RIGHT = 'right';
-ControlKit.CKCanvas.TEXT_ALIGN_CENTER = 'center';
+ControlKit.Canvas.TEXT_ALIGN_START = 'start';
+ControlKit.Canvas.TEXT_ALIGN_END = 'end';
+ControlKit.Canvas.TEXT_ALIGN_LEFT = 'left';
+ControlKit.Canvas.TEXT_ALIGN_RIGHT = 'right';
+ControlKit.Canvas.TEXT_ALIGN_CENTER = 'center';
 
 /*
  *
@@ -68,12 +68,12 @@ ControlKit.CKCanvas.TEXT_ALIGN_CENTER = 'center';
  *
  */
 
-ControlKit.CKCanvas.prototype.setPixelPerfect = function(bool)
+ControlKit.Canvas.prototype.setPixelPerfect = function(bool)
 {
     this._pixelPerfect = bool;
 };
 
-ControlKit.CKCanvas.prototype.setAntialias = function(bool)
+ControlKit.Canvas.prototype.setAntialias = function(bool)
 {
     this._antialias = bool;
 
@@ -88,7 +88,7 @@ ControlKit.CKCanvas.prototype.setAntialias = function(bool)
  *
  */
 
-ControlKit.CKCanvas.prototype.setFontStyle = function (style)
+ControlKit.Canvas.prototype.setFontStyle = function (style)
 {
     this._fontProperties.style = style;
     this._applyFontStyle();
@@ -102,7 +102,7 @@ ControlKit.CKCanvas.prototype.setFontStyle = function (style)
  */
 
 
-ControlKit.CKCanvas.prototype.setFontWeight = function (weight)
+ControlKit.Canvas.prototype.setFontWeight = function (weight)
 {
     this._fontProperties.weight = weight;
     this._applyFontStyle();
@@ -115,7 +115,7 @@ ControlKit.CKCanvas.prototype.setFontWeight = function (weight)
  *
  */
 
-ControlKit.CKCanvas.prototype.setFontSize = function (size)
+ControlKit.Canvas.prototype.setFontSize = function (size)
 {
     this._fontProperties.size = size;
     this._applyFontStyle();
@@ -128,7 +128,7 @@ ControlKit.CKCanvas.prototype.setFontSize = function (size)
  *
  */
 
-ControlKit.CKCanvas.prototype.setFontFamily = function (family)
+ControlKit.Canvas.prototype.setFontFamily = function (family)
 {
     this._fontProperties.family = family;
 
@@ -144,7 +144,7 @@ ControlKit.CKCanvas.prototype.setFontFamily = function (family)
  *
  */
 
-ControlKit.CKCanvas.prototype.setFontProperties = function (fontProperties)
+ControlKit.Canvas.prototype.setFontProperties = function (fontProperties)
 {
     for (var p in fontProperties)
     {
@@ -158,7 +158,7 @@ ControlKit.CKCanvas.prototype.setFontProperties = function (fontProperties)
  * Internal - Applies the font style
  */
 
-ControlKit.CKCanvas.prototype._applyFontStyle = function ()
+ControlKit.Canvas.prototype._applyFontStyle = function ()
 {
     this.context.font = this._fontProperties.weight + " " +
         this._fontProperties.size + "px " +
@@ -167,28 +167,28 @@ ControlKit.CKCanvas.prototype._applyFontStyle = function ()
 
 
 
-ControlKit.CKCanvas.prototype.setTextBaseLine = function (textBaseLine)
+ControlKit.Canvas.prototype.setTextBaseLine = function (textBaseLine)
 {
     this.context.textBaseline = textBaseLine;
 };
 
-ControlKit.CKCanvas.prototype.setTextAlign = function (textAlign)
+ControlKit.Canvas.prototype.setTextAlign = function (textAlign)
 {
     this.context.textAlign = textAlign;
 };
 
-ControlKit.CKCanvas.prototype.setTextLineHeight = function(lineHeight)
+ControlKit.Canvas.prototype.setTextLineHeight = function(lineHeight)
 {
     this._textProperties.lineHeight = lineHeight;
 
 };
 
-ControlKit.CKCanvas.prototype.text = function (string, x, y)
+ControlKit.Canvas.prototype.text = function (string, x, y)
 {
     this.context.fillText(string, Math.round(x) - 0.5, Math.round(y) - 0.5);
 };
 
-ControlKit.CKCanvas.prototype.textWrap = function(string,x,y,width,height)
+ControlKit.Canvas.prototype.textWrap = function(string,x,y,width,height)
 {
     var ctx = this.context;
     var lines   = this._wrapText(string,width - ctx.measureText('A').width);
@@ -201,7 +201,7 @@ ControlKit.CKCanvas.prototype.textWrap = function(string,x,y,width,height)
     return rHeight*0.5;
 };
 
-ControlKit.CKCanvas.prototype.textWrapWithBackgroundColor = function(string,x,y,width,height,textColor,backColor)
+ControlKit.Canvas.prototype.textWrapWithBackgroundColor = function(string,x,y,width,height,textColor,backColor)
 {
     var ctx = this.context;
     var lines   = this._wrapText(string,width - ctx.measureText('A').width);
@@ -223,23 +223,23 @@ ControlKit.CKCanvas.prototype.textWrapWithBackgroundColor = function(string,x,y,
 };
 
 
-ControlKit.CKCanvas.prototype.getTextWidth = function (string)
+ControlKit.Canvas.prototype.getTextWidth = function (string)
 {
     var metrics = this.context.measureText(string);
     return metrics.width;
 };
 
-ControlKit.CKCanvas.prototype.getTextHeight = function ()
+ControlKit.Canvas.prototype.getTextHeight = function ()
 {
     return this._fontProperties.size;
 };
 
-ControlKit.CKCanvas.prototype.getTextWidth = function (string)
+ControlKit.Canvas.prototype.getTextWidth = function (string)
 {
     return this.context.measureText(string).width;
 };
 
-ControlKit.CKCanvas.prototype._wrapText = function(text, maxWidth) {
+ControlKit.Canvas.prototype._wrapText = function(text, maxWidth) {
 
     var ctx = this.context;
 
@@ -274,7 +274,7 @@ ControlKit.CKCanvas.prototype._wrapText = function(text, maxWidth) {
 
 
 
-ControlKit.CKCanvas.prototype.getSize = function ()
+ControlKit.Canvas.prototype.getSize = function ()
 {
     return {width:this._size.width, height:this._size.height};
 };
@@ -287,7 +287,7 @@ ControlKit.CKCanvas.prototype.getSize = function ()
  *
  */
 
-ControlKit.CKCanvas.prototype.setSize = function (width, height)
+ControlKit.Canvas.prototype.setSize = function (width, height)
 {
     this._size.width = width;
     this._size.height = height;
@@ -320,22 +320,22 @@ ControlKit.CKCanvas.prototype.setSize = function (width, height)
  *
  */
 
-ControlKit.CKCanvas.prototype.getContext = function ()
+ControlKit.Canvas.prototype.getContext = function ()
 {
     return this.context;
 };
 
-ControlKit.CKCanvas.prototype.getElement = function()
+ControlKit.Canvas.prototype.getElement = function()
 {
     return this._canvas;
 };
 
-ControlKit.CKCanvas.prototype.clear = function()
+ControlKit.Canvas.prototype.clear = function()
 {
     this.context.clearRect(0,0,this.width,this.height);
 };
 
-ControlKit.CKCanvas.prototype.background = function()
+ControlKit.Canvas.prototype.background = function()
 {
     this.context.fillStyle = ControlKit.color.apply(this,arguments);
     this.noStroke();
@@ -354,7 +354,7 @@ ControlKit.CKCanvas.prototype.background = function()
  *
  */
 
-ControlKit.CKCanvas.prototype.line = function (x0, y0, x1, y1)
+ControlKit.Canvas.prototype.line = function (x0, y0, x1, y1)
 {
 
     var ctx = this.context;
@@ -374,7 +374,7 @@ ControlKit.CKCanvas.prototype.line = function (x0, y0, x1, y1)
  *
  */
 
-ControlKit.CKCanvas.prototype.lineArray = function (array)
+ControlKit.Canvas.prototype.lineArray = function (array)
 {
     var ctx = this.context;
     var i = 2;
@@ -397,7 +397,7 @@ ControlKit.CKCanvas.prototype.lineArray = function (array)
  *
  */
 
-ControlKit.CKCanvas.prototype.polygon = function (array)
+ControlKit.Canvas.prototype.polygon = function (array)
 {
     var ctx = this.context;
     var i = 0;
@@ -423,7 +423,7 @@ ControlKit.CKCanvas.prototype.polygon = function (array)
  *
  */
 
-ControlKit.CKCanvas.prototype.circle = function (x, y, radius)
+ControlKit.Canvas.prototype.circle = function (x, y, radius)
 {
     var ctx = this.context;
 
@@ -446,7 +446,7 @@ ControlKit.CKCanvas.prototype.circle = function (x, y, radius)
  */
 
 
-ControlKit.CKCanvas.prototype.rect = function (x, y, width, height)
+ControlKit.Canvas.prototype.rect = function (x, y, width, height)
 {
     var ctx = this.context;
 
@@ -454,7 +454,7 @@ ControlKit.CKCanvas.prototype.rect = function (x, y, width, height)
     ctx.strokeRect(Math.round(x), Math.round(y), width, height);
 };
 
-ControlKit.CKCanvas.prototype.point = function (x, y)
+ControlKit.Canvas.prototype.point = function (x, y)
 {
     var ctx = this.context;
 
@@ -477,13 +477,13 @@ ControlKit.CKCanvas.prototype.point = function (x, y)
  *
  */
 
-ControlKit.CKCanvas.POINT_HALF_FLOAT = {x:0.5, y:0.5};
+ControlKit.Canvas.POINT_HALF_FLOAT = {x:0.5, y:0.5};
 
 /**
  * Pushes a new state
  */
 
-ControlKit.CKCanvas.prototype.push = function ()
+ControlKit.Canvas.prototype.push = function ()
 {
     this.context.save();
 };
@@ -493,47 +493,47 @@ ControlKit.CKCanvas.prototype.push = function ()
  *
  */
 
-ControlKit.CKCanvas.prototype.pop = function ()
+ControlKit.Canvas.prototype.pop = function ()
 {
     this.context.restore();
 };
 
-ControlKit.CKCanvas.prototype.translate = function (x, y)
+ControlKit.Canvas.prototype.translate = function (x, y)
 {
     this.context.translate(x, y);
 };
 
-ControlKit.CKCanvas.prototype.rotate = function(angle)
+ControlKit.Canvas.prototype.rotate = function(angle)
 {
     this.context.rotate(angle);
 };
 
-ControlKit.CKCanvas.prototype.translateHalfFloat = function()
+ControlKit.Canvas.prototype.translateHalfFloat = function()
 {
-    this.context.translate(ControlKit.CKCanvas.POINT_HALF_FLOAT.x,ControlKit.CKCanvas.POINT_HALF_FLOAT.y);
+    this.context.translate(ControlKit.Canvas.POINT_HALF_FLOAT.x,ControlKit.Canvas.POINT_HALF_FLOAT.y);
 };
 
-ControlKit.CKCanvas.prototype.scale = function (s)
+ControlKit.Canvas.prototype.scale = function (s)
 {
     this.context.scale(s);
 };
 
-ControlKit.CKCanvas.prototype.applyFill = function ()
+ControlKit.Canvas.prototype.applyFill = function ()
 {
     this.context.fill();
 };
 
-ControlKit.CKCanvas.prototype.fill = function ()
+ControlKit.Canvas.prototype.fill = function ()
 {
     this.context.fillStyle = ControlKit.color.apply(this,arguments) || this.context.fillStyle;
 };
 
-ControlKit.CKCanvas.prototype.noFill = function ()
+ControlKit.Canvas.prototype.noFill = function ()
 {
     this.context.fillStyle = ControlKit._InternalCanvasOptions.EMPTY_STYLE;
 };
 
-ControlKit.CKCanvas.prototype.applyStroke = function ()
+ControlKit.Canvas.prototype.applyStroke = function ()
 {
     this.context.stroke();
 };
@@ -545,13 +545,13 @@ ControlKit.CKCanvas.prototype.applyStroke = function ()
  *
  */
 
-ControlKit.CKCanvas.prototype.stroke = function (strokeStyle)
+ControlKit.Canvas.prototype.stroke = function (strokeStyle)
 {
     this.context.strokeStyle = ControlKit.color.apply(this,arguments) || this.context.strokeStyle;
 };
 
 
-ControlKit.CKCanvas.prototype.setLineWidth = function(value)
+ControlKit.Canvas.prototype.setLineWidth = function(value)
 {
     this.context.lineWidth = value;
 };
@@ -560,7 +560,7 @@ ControlKit.CKCanvas.prototype.setLineWidth = function(value)
  * Sets stroke to empty
  */
 
-ControlKit.CKCanvas.prototype.noStroke = function ()
+ControlKit.Canvas.prototype.noStroke = function ()
 {
     this.context.strokeStyle = ControlKit._InternalCanvasOptions.EMPTY_STYLE ;
 };
@@ -570,7 +570,7 @@ ControlKit.CKCanvas.prototype.noStroke = function ()
  *
  */
 
-ControlKit.CKCanvas.prototype.saveToPNG = function()
+ControlKit.Canvas.prototype.saveToPNG = function()
 {
     var canvas =
 

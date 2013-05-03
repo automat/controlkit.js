@@ -1,10 +1,10 @@
-ControlKit.CKEventDispatcher = function()
+ControlKit.EventDispatcher = function()
 {
     this._listeners = [];
 }
 
 
-ControlKit.CKEventDispatcher.prototype =
+ControlKit.EventDispatcher.prototype =
 {
     addEventListener : function(eventType,listener,callbackMethod)
     {

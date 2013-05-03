@@ -1,6 +1,6 @@
-ControlKit.CKStringOutput = function(parent,object,value,label,params)
+ControlKit.StringOutput = function(parent,object,value,label,params)
 {
-    ControlKit.CKObjectComponent.apply(this,arguments);
+    ControlKit.ObjectComponent.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -12,20 +12,20 @@ ControlKit.CKStringOutput = function(parent,object,value,label,params)
 
     this._wrap = params.wrap;
 
-    this._textArea = new ControlKit.CKNode(ControlKit.CKNodeType.TEXTAREA);
+    this._textArea = new ControlKit.Node(ControlKit.NodeType.TEXTAREA);
     this._textArea.setProperty('readOnly',true);
 
     this._wrapNode.addChild(this._textArea);
 
     if( params.height)
     {
-        params.height = params.height  < ControlKit.CKCSS.MinHeight ?
-                        ControlKit.CKCSS.MinHeight : params.height;
+        params.height = params.height  < ControlKit.CSS.MinHeight ?
+                        ControlKit.CSS.MinHeight : params.height;
 
         //TODO: FIXME!
         this._textArea.setHeight(params.height);
-        this._wrapNode.setHeight(this._textArea.getHeight() + ControlKit.CKCSS.WrapperPadding );
-        this._rootNode.setHeight(    this._textArea.getHeight() + ControlKit.CKCSS.WrapperPadding -2 );
+        this._wrapNode.setHeight(this._textArea.getHeight() + ControlKit.CSS.WrapperPadding );
+        this._rootNode.setHeight(    this._textArea.getHeight() + ControlKit.CSS.WrapperPadding -2 );
     }
 
     if(this._wrap)this._textArea.setStyleProperty('white-space','pre-wrap');
@@ -34,9 +34,9 @@ ControlKit.CKStringOutput = function(parent,object,value,label,params)
 
 }
 
-ControlKit.CKStringOutput.prototype = Object.create(ControlKit.CKObjectComponent.prototype);
+ControlKit.StringOutput.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 
-ControlKit.CKStringOutput.prototype._setValue = function()
+ControlKit.StringOutput.prototype._setValue = function()
 {
     if(this._parent.isHidden())return;
 
@@ -62,12 +62,12 @@ ControlKit.CKStringOutput.prototype._setValue = function()
     }
 };
 
-ControlKit.CKStringOutput.prototype.onValueUpdate = function(e)
+ControlKit.StringOutput.prototype.onValueUpdate = function(e)
 {
     this._setValue();
 };
 
-ControlKit.CKStringOutput.prototype.update = function()
+ControlKit.StringOutput.prototype.update = function()
 {
     this._setValue();
 };

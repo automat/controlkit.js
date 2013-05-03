@@ -1,4 +1,4 @@
-ControlKit.CKDocumentEventType =
+ControlKit.DocumentEventType =
 {
     MOUSE_MOVE : 'mousemove',
     MOUSE_UP   : 'mouseup',

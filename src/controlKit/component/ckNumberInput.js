@@ -1,6 +1,6 @@
-ControlKit.CKNumberInput = function(parent,object,value,label,params)
+ControlKit.NumberInput = function(parent,object,value,label,params)
 {
-    ControlKit.CKObjectComponent.apply(this,arguments);
+    ControlKit.ObjectComponent.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -20,7 +20,7 @@ ControlKit.CKNumberInput = function(parent,object,value,label,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    var input = this._input = new ControlKit.CKNumberInput_Internal(params.step,
+    var input = this._input = new ControlKit.NumberInput_Internal(params.step,
                                                                     params.dp,
                                                                     this._onInputChange.bind(this),
                                                                     this._onInputFinish.bind(this));
@@ -33,8 +33,8 @@ ControlKit.CKNumberInput = function(parent,object,value,label,params)
     }
     else
     {
-        var inputWrap = new ControlKit.CKNode(ControlKit.CKNodeType.DIV);
-            inputWrap.setStyleClass(ControlKit.CKCSS.InputWPresetWrap);
+        var inputWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
+            inputWrap.setStyleClass(ControlKit.CSS.InputWPresetWrap);
 
         wrapNode.addChild(inputWrap);
         inputWrap.addChild(input.getNode());
@@ -43,8 +43,8 @@ ControlKit.CKNumberInput = function(parent,object,value,label,params)
             obj     = this._object,
             key     = this._key;
 
-        var options   = ControlKit.CKOptions.getInstance();
-        var presetBtn = this._presetBtn = new ControlKit.CKPresetBtn(this._wrapNode);
+        var options   = ControlKit.Options.getInstance();
+        var presetBtn = this._presetBtn = new ControlKit.PresetBtn(this._wrapNode);
 
         var onPresetDeactivate = function(){options.clear();presetBtn.deactivate();};
 
@@ -64,18 +64,18 @@ ControlKit.CKNumberInput = function(parent,object,value,label,params)
     input.setValue(this._object[this._key]);
 }
 
-ControlKit.CKNumberInput.prototype = Object.create(ControlKit.CKObjectComponent.prototype);
+ControlKit.NumberInput.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 
-ControlKit.CKNumberInput.prototype._onInputChange = function(){this._updateValue();this._onChange();};
-ControlKit.CKNumberInput.prototype._onInputFinish = function(){this._updateValue();this._onFinish();};
+ControlKit.NumberInput.prototype._onInputChange = function(){this._updateValue();this._onChange();};
+ControlKit.NumberInput.prototype._onInputFinish = function(){this._updateValue();this._onFinish();};
 
-ControlKit.CKNumberInput.prototype._updateValue = function()
+ControlKit.NumberInput.prototype._updateValue = function()
 {
     this._object[this._key] = this._input.getValue();
-    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.VALUE_UPDATED));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));
 };
 
-ControlKit.CKNumberInput.prototype.onValueUpdate = function(e)
+ControlKit.NumberInput.prototype.onValueUpdate = function(e)
 {
     if(e.data.origin == this)return;
     this._input.setValue(this._object[this._key]);

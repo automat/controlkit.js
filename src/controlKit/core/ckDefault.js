@@ -1,4 +1,4 @@
-ControlKit.CKDefault =
+ControlKit.Default =
 {
     POSITION  : [20,20],
     WIDTH     : 300,
@@ -7,8 +7,8 @@ ControlKit.CKDefault =
     RATIO     : 40,
     LABEL     : 'Control Panel',
 
-    VALIGN : ControlKit.CKLayout.ALIGN_TOP,
-    ALIGN  : ControlKit.CKLayout.ALIGN_LEFT,
+    VALIGN : ControlKit.Layout.ALIGN_TOP,
+    ALIGN  : ControlKit.Layout.ALIGN_LEFT,
 
     FIXED : true
 };

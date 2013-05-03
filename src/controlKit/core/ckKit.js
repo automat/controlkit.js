@@ -1,17 +1,17 @@
 ControlKit.Kit = function(parentDomElementId)
 {
-    ControlKit.CKEventDispatcher.apply(this,arguments);
+    ControlKit.EventDispatcher.apply(this,arguments);
 
     var node = null;
 
     if(!parentDomElementId)
     {
-        node = new ControlKit.CKNode(ControlKit.CKNodeType.DIV);
+        node = new ControlKit.Node(ControlKit.NodeType.DIV);
         document.body.addChild(node.getElement());
     }
     else
     {
-        node = ControlKit.CKNode.getNodeById(parentDomElementId);
+        node = ControlKit.Node.getNodeById(parentDomElementId);
     }
 
     this._rootNode   = node;
@@ -19,12 +19,12 @@ ControlKit.Kit = function(parentDomElementId)
 
     /*---------------------------------------------------------------------------------*/
 
-    ControlKit.CKMouse.init();
-    ControlKit.CKPicker.init();
-    ControlKit.CKOptions.init();
+    ControlKit.Mouse.init();
+    ControlKit.Picker.init();
+    ControlKit.Options.init();
 
-    //node.addChild(CKPicker.getInstance().getNode());
-    node.addChild(ControlKit.CKOptions.getInstance().getNode());
+    //node.addChild(Picker.getInstance().getNode());
+    node.addChild(ControlKit.Options.getInstance().getNode());
 
     /*---------------------------------------------------------------------------------*/
 
@@ -36,7 +36,7 @@ ControlKit.Kit = function(parentDomElementId)
 
 };
 
-ControlKit.Kit.prototype = Object.create(ControlKit.CKEventDispatcher.prototype);
+ControlKit.Kit.prototype = Object.create(ControlKit.EventDispatcher.prototype);
 
 ControlKit.Kit.prototype.onWindowResize = function()
 {
@@ -49,19 +49,19 @@ ControlKit.Kit.prototype.onWindowResize = function()
 
 ControlKit.Kit.prototype.onValueUpdated = function(e)
 {
-    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.UPDATE_VALUE,{origin: e.sender}));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.UPDATE_VALUE,{origin: e.sender}));
 };
 
 ControlKit.Kit.prototype.onSelectTriggered = function(e)
 {
-    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.TRIGGER_SELECT,{origin: e.sender}));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.TRIGGER_SELECT,{origin: e.sender}));
 };
 
 /*---------------------------------------------------------------------------------*/
 
 ControlKit.Kit.prototype.addPanel = function(params)
 {
-    var panel = new ControlKit.CKPanel(this, params);
+    var panel = new ControlKit.Panel(this, params);
     this._panels.push(panel);
     return panel;
 };
@@ -90,9 +90,9 @@ ControlKit.Kit.prototype.update = function()
             k = -1;
             while (++k < components.length) {
                 component = components[k];
-                if (component instanceof ControlKit.CKValuePlotter ||
-                    component instanceof ControlKit.CKStringOutput ||
-                    component instanceof ControlKit.CKNumberOutput) {
+                if (component instanceof ControlKit.ValuePlotter ||
+                    component instanceof ControlKit.StringOutput ||
+                    component instanceof ControlKit.NumberOutput) {
                     component.update();
                 }
 

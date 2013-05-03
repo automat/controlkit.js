@@ -1,11 +1,11 @@
-ControlKit.CKSubGroup = function(parent,label,params)
+ControlKit.SubGroup = function(parent,label,params)
 {
-    ControlKit.CKAbstractGroup.apply(this,arguments);
+    ControlKit.AbstractGroup.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
-    this._rootNode.setStyleClass(ControlKit.CKCSS.SubGroup);
-    this._wrapNode.setStyleClass(ControlKit.CKCSS.Wrap);
+    this._rootNode.setStyleClass(ControlKit.CSS.SubGroup);
+    this._wrapNode.setStyleClass(ControlKit.CSS.Wrap);
 
     this._wrapNode.addChild(this._listNode);
     this._rootNode.addChild(this._wrapNode);
@@ -17,11 +17,11 @@ ControlKit.CKSubGroup = function(parent,label,params)
     /*-------------------------------------------------------------------------------------*/
 }
 
-ControlKit.CKSubGroup.prototype = Object.create(ControlKit.CKAbstractGroup.prototype);
+ControlKit.SubGroup.prototype = Object.create(ControlKit.AbstractGroup.prototype);
 
 /*-------------------------------------------------------------------------------------*/
 
-ControlKit.CKSubGroup.prototype.set = function(label,params)
+ControlKit.SubGroup.prototype.set = function(label,params)
 {
     /*-------------------------------------------------------------------------------------*/
 
@@ -32,23 +32,23 @@ ControlKit.CKSubGroup.prototype.set = function(label,params)
 
     if(label && label.length!=0 )
     {
-        var headNode = this._headNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV),
-            lablNode =                  new ControlKit.CKNode(ControlKit.CKNodeType.SPAN),
-            indiNode = this._indiNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV);
+        var headNode = this._headNode = new ControlKit.Node(ControlKit.NodeType.DIV),
+            lablNode =                  new ControlKit.Node(ControlKit.NodeType.SPAN),
+            indiNode = this._indiNode = new ControlKit.Node(ControlKit.NodeType.DIV);
 
-        headNode.setStyleClass(ControlKit.CKCSS.Head);
-        lablNode.setStyleClass(ControlKit.CKCSS.Label);
-        indiNode.setStyleClass(ControlKit.CKCSS.ArrowBSubMax);
+        headNode.setStyleClass(ControlKit.CSS.Head);
+        lablNode.setStyleClass(ControlKit.CSS.Label);
+        indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
 
         lablNode.setProperty('innerHTML',label);
 
         headNode.addChild(lablNode);
         headNode.addChild(indiNode);
 
-        headNode.setEventListener(ControlKit.CKNodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
+        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
 
-        this.addEventListener(ControlKit.CKEventType.SUBGROUP_HIDDEN,this._parent,'onSubGroupHidden');
-        this.addEventListener(ControlKit.CKEventType.SUBGROUP_SHOWN, this._parent,'onSubGroupShown');
+        this.addEventListener(ControlKit.EventType.SUBGROUP_HIDDEN,this._parent,'onSubGroupHidden');
+        this.addEventListener(ControlKit.EventType.SUBGROUP_SHOWN, this._parent,'onSubGroupShown');
 
         this._rootNode.addChildAt(headNode,0);
 
@@ -58,30 +58,30 @@ ControlKit.CKSubGroup.prototype.set = function(label,params)
 
 /*-------------------------------------------------------------------------------------*/
 
-ControlKit.CKSubGroup.prototype._onHeadMouseDown = function()
+ControlKit.SubGroup.prototype._onHeadMouseDown = function()
 {
     this._hidden = !this._hidden;this._updateVisibility();
-    this.dispatchEvent(new ControlKit.CKEvent(this,this._hidden ? ControlKit.CKEventType.SUBGROUP_HIDDEN : ControlKit.CKEventType.SUBGROUP_SHOWN));
+    this.dispatchEvent(new ControlKit.Event(this,this._hidden ? ControlKit.EventType.SUBGROUP_HIDDEN : ControlKit.EventType.SUBGROUP_SHOWN));
 };
 
-ControlKit.CKSubGroup.prototype._updateVisibility = function()
+ControlKit.SubGroup.prototype._updateVisibility = function()
 {
     if(this._hidden)
     {
         this._wrapNode.setHeight(0);
-        this._headNode.setStyleClass(ControlKit.CKCSS.HeadInactive);
-        this._indiNode.setStyleClass(ControlKit.CKCSS.ArrowBSubMin);
+        this._headNode.setStyleClass(ControlKit.CSS.HeadInactive);
+        this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMin);
     }
     else
     {
         this._wrapNode.setHeight(this._wrapNode.getFirstChild().getHeight());
-        this._headNode.setStyleClass(ControlKit.CKCSS.Head);
-        this._indiNode.setStyleClass(ControlKit.CKCSS.ArrowBSubMax);
+        this._headNode.setStyleClass(ControlKit.CSS.Head);
+        this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
     }
 };
 
 /*-------------------------------------------------------------------------------------*/
 
-ControlKit.CKSubGroup.prototype.hasLabel         = function()    {return this._headNode != null;};
-ControlKit.CKSubGroup.prototype.addComponentRoot = function(node){this._listNode.addChild(node);};
+ControlKit.SubGroup.prototype.hasLabel         = function()    {return this._headNode != null;};
+ControlKit.SubGroup.prototype.addComponentRoot = function(node){this._listNode.addChild(node);};
 

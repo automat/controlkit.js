@@ -1,21 +1,21 @@
-ControlKit.CKPresetBtn = function(parentNode)
+ControlKit.PresetBtn = function(parentNode)
 {
-    var btnNode  = this._btnNode  = new ControlKit.CKNode(ControlKit.CKNodeType.INPUT_BUTTON);
-    var indiNode = this._indiNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV);
+    var btnNode  = this._btnNode  = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
+    var indiNode = this._indiNode = new ControlKit.Node(ControlKit.NodeType.DIV);
 
     this._callbackA = function(){};
     this._callbackI = function(){};
     this._active   = false;
 
-    btnNode.setStyleClass(ControlKit.CKCSS.PresetBtn);
-    btnNode.setEventListener(ControlKit.CKNodeEventType.MOUSE_DOWN,this._onMouseDown.bind(this));
+    btnNode.setStyleClass(ControlKit.CSS.PresetBtn);
+    btnNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMouseDown.bind(this));
 
     btnNode.addChild(indiNode);
     parentNode.addChild(btnNode);
 
 }
 
-ControlKit.CKPresetBtn.prototype =
+ControlKit.PresetBtn.prototype =
 {
     _onMouseDown : function()
     {
@@ -23,12 +23,12 @@ ControlKit.CKPresetBtn.prototype =
 
         if(active)
         {
-            this._btnNode.setStyleClass(ControlKit.CKCSS.PresetBtnActive);
+            this._btnNode.setStyleClass(ControlKit.CSS.PresetBtnActive);
             this._callbackA();
         }
         else
         {
-            this._btnNode.setStyleClass(ControlKit.CKCSS.PresetBtn);
+            this._btnNode.setStyleClass(ControlKit.CSS.PresetBtn);
             this._callbackI();
         }
     },
@@ -36,7 +36,7 @@ ControlKit.CKPresetBtn.prototype =
     setCallbackActive   : function(func){this._callbackA = func;},
     setCallbackInactive : function(func){this._callbackI = func;},
 
-    deactivate : function(){this._active = false;this._btnNode.setStyleClass(ControlKit.CKCSS.PresetBtn);}
+    deactivate : function(){this._active = false;this._btnNode.setStyleClass(ControlKit.CSS.PresetBtn);}
 };
 
 

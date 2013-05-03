@@ -1,6 +1,6 @@
-ControlKit.CKStringInput = function(parent,object,value,label,params)
+ControlKit.StringInput = function(parent,object,value,label,params)
 {
-    ControlKit.CKObjectComponent.apply(this,arguments);
+    ControlKit.ObjectComponent.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -18,7 +18,7 @@ ControlKit.CKStringInput = function(parent,object,value,label,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    var input = this._input = new ControlKit.CKNode(ControlKit.CKNodeType.INPUT_TEXT);
+    var input = this._input = new ControlKit.Node(ControlKit.NodeType.INPUT_TEXT);
 
     var wrapNode = this._wrapNode;
 
@@ -28,8 +28,8 @@ ControlKit.CKStringInput = function(parent,object,value,label,params)
     }
     else
     {
-        var inputWrap = new ControlKit.CKNode(ControlKit.CKNodeType.DIV);
-        inputWrap.setStyleClass(ControlKit.CKCSS.InputWPresetWrap);
+        var inputWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
+        inputWrap.setStyleClass(ControlKit.CSS.InputWPresetWrap);
 
         wrapNode.addChild(inputWrap);
         inputWrap.addChild(input);
@@ -38,8 +38,8 @@ ControlKit.CKStringInput = function(parent,object,value,label,params)
             obj     = this._object,
             key     = this._key;
 
-        var options   = ControlKit.CKOptions.getInstance();
-        var presetBtn = this._presetBtn = new ControlKit.CKPresetBtn(this._wrapNode);
+        var options   = ControlKit.Options.getInstance();
+        var presetBtn = this._presetBtn = new ControlKit.PresetBtn(this._wrapNode);
 
         var onPresetDeactivate = function(){options.clear();presetBtn.deactivate();};
 
@@ -58,24 +58,24 @@ ControlKit.CKStringInput = function(parent,object,value,label,params)
 
     input.setProperty('value',this._object[this._key]);
 
-    input.setEventListener(ControlKit.CKNodeEventType.KEY_UP, this._onInputKeyUp.bind(this));
-    input.setEventListener(ControlKit.CKNodeEventType.CHANGE, this._onInputChange.bind(this));
+    input.setEventListener(ControlKit.NodeEventType.KEY_UP, this._onInputKeyUp.bind(this));
+    input.setEventListener(ControlKit.NodeEventType.CHANGE, this._onInputChange.bind(this));
 
 }
 
-ControlKit.CKStringInput.prototype = Object.create(ControlKit.CKObjectComponent.prototype);
+ControlKit.StringInput.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 
-ControlKit.CKStringInput.prototype._onInputKeyUp  = function(){this._updateValue();this._onChange();};
-ControlKit.CKStringInput.prototype._onInputChange = function(){this._updateValue();this._onFinish();};
+ControlKit.StringInput.prototype._onInputKeyUp  = function(){this._updateValue();this._onChange();};
+ControlKit.StringInput.prototype._onInputChange = function(){this._updateValue();this._onFinish();};
 
 
-ControlKit.CKStringInput.prototype._updateValue = function()
+ControlKit.StringInput.prototype._updateValue = function()
 {
     this._object[this._key] = this._input.getProperty('value');
-    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.VALUE_UPDATED));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));
 };
 
-ControlKit.CKStringInput.prototype.onValueUpdate = function(e)
+ControlKit.StringInput.prototype.onValueUpdate = function(e)
 {
     if(e.data.origin == this)return;
     this._input.setProperty('value',this._object[this._key]);

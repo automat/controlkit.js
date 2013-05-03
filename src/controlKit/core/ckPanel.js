@@ -31,25 +31,25 @@
  */
 
 
-ControlKit.CKPanel = function(controlKit,params)
+ControlKit.Panel = function(controlKit,params)
 {
-    ControlKit.CKEventDispatcher.apply(this,arguments);
+    ControlKit.EventDispatcher.apply(this,arguments);
 
     var parent = this._parent = controlKit;
 
     /*---------------------------------------------------------------------------------*/
 
     params            = params || {};
-    params.valign     = params.valign        || ControlKit.CKDefault.VALIGN;
-    params.align      = params.align         || ControlKit.CKDefault.ALIGN;
-    params.position   = params.position      || ControlKit.CKDefault.POSITION;
-    params.width      = params.width         || ControlKit.CKDefault.WIDTH;
+    params.valign     = params.valign        || ControlKit.Default.VALIGN;
+    params.align      = params.align         || ControlKit.Default.ALIGN;
+    params.position   = params.position      || ControlKit.Default.POSITION;
+    params.width      = params.width         || ControlKit.Default.WIDTH;
     params.maxHeight  = params.maxHeight     || window.innerHeight;
-    params.ratio      = params.ratio         || ControlKit.CKDefault.RATIO;
-    params.label      = params.label         || ControlKit.CKDefault.LABEL;
+    params.ratio      = params.ratio         || ControlKit.Default.RATIO;
+    params.label      = params.label         || ControlKit.Default.LABEL;
 
     params.fixed      = params.fixed === undefined ?
-                        ControlKit.CKDefault.FIXED :
+                        ControlKit.Default.FIXED :
                         params.fixed;
 
     /*---------------------------------------------------------------------------------*/
@@ -59,17 +59,17 @@ ControlKit.CKPanel = function(controlKit,params)
     this._maxHeight = params.maxHeight;
     this._ratio     = params.ratio;
     var   label     = params.label;
-    this._width     = Math.max(ControlKit.CKDefault.WIDTH_MIN,Math.min(params.width,ControlKit.CKDefault.WIDTH_MAX));
+    this._width     = Math.max(ControlKit.Default.WIDTH_MIN,Math.min(params.width,ControlKit.Default.WIDTH_MAX));
     this._fixed     = params.fixed;
 
 
     /*---------------------------------------------------------------------------------*/
 
-    var rootNode = this._rootNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV),
-        headNode = this._headNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV),
-        lablNode = new ControlKit.CKNode(ControlKit.CKNodeType.SPAN),
-        wrapNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV),
-        listNode = this._listNode = new ControlKit.CKNode(ControlKit.CKNodeType.LIST);
+    var rootNode = this._rootNode = new ControlKit.Node(ControlKit.NodeType.DIV),
+        headNode = this._headNode = new ControlKit.Node(ControlKit.NodeType.DIV),
+        lablNode = new ControlKit.Node(ControlKit.NodeType.SPAN),
+        wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV),
+        listNode = this._listNode = new ControlKit.Node(ControlKit.NodeType.LIST);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -77,11 +77,11 @@ ControlKit.CKPanel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    rootNode.setStyleClass(ControlKit.CKCSS.Panel);
-    headNode.setStyleClass(ControlKit.CKCSS.Head);
-    lablNode.setStyleClass(ControlKit.CKCSS.Label);
-    wrapNode.setStyleClass(ControlKit.CKCSS.Wrap);
-    listNode.setStyleClass(ControlKit.CKCSS.GroupList);
+    rootNode.setStyleClass(ControlKit.CSS.Panel);
+    headNode.setStyleClass(ControlKit.CSS.Head);
+    lablNode.setStyleClass(ControlKit.CSS.Label);
+    wrapNode.setStyleClass(ControlKit.CSS.Wrap);
+    listNode.setStyleClass(ControlKit.CSS.GroupList);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -98,9 +98,9 @@ ControlKit.CKPanel = function(controlKit,params)
 
         headNode.setStyleProperty('cursor','pointer');
 
-        headNode.setEventListener(ControlKit.CKNodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
-        document.addEventListener(ControlKit.CKDocumentEventType.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
-        document.addEventListener(ControlKit.CKDocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
+        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
+        document.addEventListener(ControlKit.DocumentEventType.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
+        document.addEventListener(ControlKit.DocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
     }
 
 
@@ -126,28 +126,28 @@ ControlKit.CKPanel = function(controlKit,params)
 
 /*---------------------------------------------------------------------------------*/
 
-ControlKit.CKPanel.prototype = Object.create(ControlKit.CKEventDispatcher.prototype);
+ControlKit.Panel.prototype = Object.create(ControlKit.EventDispatcher.prototype);
 
-ControlKit.CKPanel.prototype.addGroup  = function(params)
+ControlKit.Panel.prototype.addGroup  = function(params)
 {
-    var group = new ControlKit.CKGroup(this,params);
+    var group = new ControlKit.Group(this,params);
     this._groups.push(group);
     return group;
 };
 
-ControlKit.CKPanel.prototype.getGroups     = function(){return this._groups;};
-ControlKit.CKPanel.prototype.getNode       = function(){return this._rootNode;};
-ControlKit.CKPanel.prototype.getList       = function(){return this._listNode;};
+ControlKit.Panel.prototype.getGroups     = function(){return this._groups;};
+ControlKit.Panel.prototype.getNode       = function(){return this._rootNode;};
+ControlKit.Panel.prototype.getList       = function(){return this._listNode;};
 
 
 /*---------------------------------------------------------------------------------*
 * Panel dragging
 *----------------------------------------------------------------------------------*/
 
-ControlKit.CKPanel.prototype._onHeadMouseDown = function()
+ControlKit.Panel.prototype._onHeadMouseDown = function()
 {
     var nodePos   = this._rootNode.getPositionGlobal(),
-        mousePos  = ControlKit.CKMouse.getInstance().getPosition(),
+        mousePos  = ControlKit.Mouse.getInstance().getPosition(),
         offsetPos = this._mouseOffset;
 
     offsetPos[0] = mousePos[0] - nodePos[0];
@@ -155,13 +155,13 @@ ControlKit.CKPanel.prototype._onHeadMouseDown = function()
 
     this._headDragging = true;
 
-    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.PANEL_MOVE_BEGIN));
-    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.INDEX_ORDER_CHANGED),{origin:this});
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_BEGIN));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.INDEX_ORDER_CHANGED),{origin:this});
 };
 
-ControlKit.CKPanel.prototype._updatePosition = function()
+ControlKit.Panel.prototype._updatePosition = function()
 {
-    var mousePos  = ControlKit.CKMouse.getInstance().getPosition(),
+    var mousePos  = ControlKit.Mouse.getInstance().getPosition(),
         offsetPos = this._mouseOffset;
 
     var currPositionX = mousePos[0]-offsetPos[0],
@@ -169,30 +169,30 @@ ControlKit.CKPanel.prototype._updatePosition = function()
 
     this._setPosition(currPositionX,currPositionY);
 
-    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.PANEL_MOVE));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE));
 };
 
-ControlKit.CKPanel.prototype._onDocumentMouseMove = function()
+ControlKit.Panel.prototype._onDocumentMouseMove = function()
 {
     if(!this._headDragging)return;
     this._updatePosition();
 };
 
-ControlKit.CKPanel.prototype._onDocumentMouseUp = function()
+ControlKit.Panel.prototype._onDocumentMouseUp = function()
 {
     if(!this._headDragging)return;
-    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.PANEL_MOVE_END));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END));
     this._headDragging = false;
 };
 
-ControlKit.CKPanel.prototype._onWindowResize = function()
+ControlKit.Panel.prototype._onWindowResize = function()
 {
     this._setPosition(this._position[0],this._position[1]);
 };
 
 /*---------------------------------------------------------------------------------*/
 
-ControlKit.CKPanel.prototype._setPosition = function(x,y)
+ControlKit.Panel.prototype._setPosition = function(x,y)
 {
     var node     = this._rootNode,
         head     = this._headNode,
@@ -207,14 +207,14 @@ ControlKit.CKPanel.prototype._setPosition = function(x,y)
     node.setPositionGlobal(position[0],position[1]);
 };
 
-ControlKit.CKPanel.prototype._setHeight = function(height)
+ControlKit.Panel.prototype._setHeight = function(height)
 {
 
 };
 
-ControlKit.CKPanel.prototype.getWidth      = function(){return this._width;};
-ControlKit.CKPanel.prototype.getAlignment  = function(){return this._align;};
-ControlKit.CKPanel.prototype.getPosition   = function(){return this._position;};
+ControlKit.Panel.prototype.getWidth      = function(){return this._width;};
+ControlKit.Panel.prototype.getAlignment  = function(){return this._align;};
+ControlKit.Panel.prototype.getPosition   = function(){return this._position;};
 
 /*---------------------------------------------------------------------------------*/
 

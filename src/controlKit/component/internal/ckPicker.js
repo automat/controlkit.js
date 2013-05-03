@@ -1,30 +1,30 @@
-ControlKit.CKPicker = function()
+ControlKit.Picker = function()
 {
-    var node = this._rootNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV),
-        head = new ControlKit.CKNode(ControlKit.CKNodeType.DIV),
-        labl = new ControlKit.CKNode(ControlKit.CKNodeType.Label),
-        wrap = new ControlKit.CKNode(ControlKit.CKNodeType.DIV);
+    var node = this._rootNode = new ControlKit.Node(ControlKit.NodeType.DIV),
+        head = new ControlKit.Node(ControlKit.NodeType.DIV),
+        labl = new ControlKit.Node(ControlKit.NodeType.Label),
+        wrap = new ControlKit.Node(ControlKit.NodeType.DIV);
 
-        node.setStyleClass(ControlKit.CKCSS.Picker);
-        head.setStyleClass(ControlKit.CKCSS.Head);
-        wrap.setStyleClass(ControlKit.CKCSS.Wrap);
+        node.setStyleClass(ControlKit.CSS.Picker);
+        head.setStyleClass(ControlKit.CSS.Head);
+        wrap.setStyleClass(ControlKit.CSS.Wrap);
 
-        var paletteWrap = new ControlKit.CKNode(ControlKit.CKNodeType.DIV);
-        paletteWrap.setStyleClass(ControlKit.CKCSS.PalleteWrap);
+        var paletteWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
+        paletteWrap.setStyleClass(ControlKit.CSS.PalleteWrap);
 
-    var paletteWrapInner = new ControlKit.CKNode(ControlKit.CKNodeType.DIV);
-        paletteWrapInner.setStyleClass(ControlKit.CKCSS.PaletteWrapInner);
+    var paletteWrapInner = new ControlKit.Node(ControlKit.NodeType.DIV);
+        paletteWrapInner.setStyleClass(ControlKit.CSS.PaletteWrapInner);
 
-    var sliderWrapInner  = new ControlKit.CKNode(ControlKit.CKNodeType.DIV);
-        sliderWrapInner.setStyleClass(ControlKit.CKCSS.PaletteWrapInner);
+    var sliderWrapInner  = new ControlKit.Node(ControlKit.NodeType.DIV);
+        sliderWrapInner.setStyleClass(ControlKit.CSS.PaletteWrapInner);
 
 
-    var paletteCanvas = this._paletteCanvas = new ControlKit.CKCanvas(paletteWrapInner);
+    var paletteCanvas = this._paletteCanvas = new ControlKit.Canvas(paletteWrapInner);
     paletteCanvas.setAntialias(false);
     paletteCanvas.setSize(154,154);
 
 
-    var sliderCanvas  = this._sliderCanvas  = new ControlKit.CKCanvas(sliderWrapInner);
+    var sliderCanvas  = this._sliderCanvas  = new ControlKit.Canvas(sliderWrapInner);
     sliderCanvas.setAntialias(false);
     sliderCanvas.setSize(24,154);
 
@@ -48,7 +48,7 @@ ControlKit.CKPicker = function()
     node.setPositionGlobal(300,200);
 }
 
-ControlKit.CKPicker.prototype =
+ControlKit.Picker.prototype =
 {
     getNode : function(){return this._rootNode;},
 
@@ -88,5 +88,5 @@ ControlKit.CKPicker.prototype =
 
 
 
-ControlKit.CKPicker.init        = function(){ControlKit.CKPicker._instance = new ControlKit.CKPicker();};
-ControlKit.CKPicker.getInstance = function(){return ControlKit.CKPicker._instance;};
+ControlKit.Picker.init        = function(){ControlKit.Picker._instance = new ControlKit.Picker();};
+ControlKit.Picker.getInstance = function(){return ControlKit.Picker._instance;};

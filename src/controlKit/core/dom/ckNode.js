@@ -1,6 +1,6 @@
 
 
-ControlKit.CKNode = function()
+ControlKit.Node = function()
 {
     this._element = null;
 
@@ -8,10 +8,10 @@ ControlKit.CKNode = function()
     {
         var arg  = arguments[0];
 
-        if(arg != ControlKit.CKNodeType.INPUT_TEXT   &&
-           arg != ControlKit.CKNodeType.INPUT_BUTTON &&
-           arg != ControlKit.CKNodeType.INPUT_SELECT &&
-           arg != ControlKit.CKNodeType.INPUT_CHECKBOX)
+        if(arg != ControlKit.NodeType.INPUT_TEXT   &&
+           arg != ControlKit.NodeType.INPUT_BUTTON &&
+           arg != ControlKit.NodeType.INPUT_SELECT &&
+           arg != ControlKit.NodeType.INPUT_CHECKBOX)
         {
             this._element = document.createElement(arg);
         }
@@ -23,7 +23,7 @@ ControlKit.CKNode = function()
     }
 }
 
-ControlKit.CKNode.prototype =
+ControlKit.Node.prototype =
 {
     addChild   : function(node)
     {
@@ -131,11 +131,11 @@ ControlKit.CKNode.prototype =
     setStyleProperties : function(properties)    {for(var p in properties)this._element.style[p] = properties[p];return this;},
 
 
-    getChildAt     : function(index) {return new ControlKit.CKNode().setElement(this._element.children[index]);},
+    getChildAt     : function(index) {return new ControlKit.Node().setElement(this._element.children[index]);},
     getChildIndex  : function(node)  {return this._indexOf(this._element,node.getElement());},
     getNumChildren : function()      {return this._element.children.length;},
-    getFirstChild  : function()      {return new ControlKit.CKNode().setElement(this._element.firstChild);},
-    getLastChild   : function()      {return new ControlKit.CKNode().setElement(this._element.lastChild);},
+    getFirstChild  : function()      {return new ControlKit.Node().setElement(this._element.firstChild);},
+    getLastChild   : function()      {return new ControlKit.Node().setElement(this._element.lastChild);},
     hasChildren    : function()      {return this._element.children.length != 0;},
     contains       : function(node)  {return this._indexOf(this._element,node.getElement()) != -1;},
 
@@ -151,9 +151,9 @@ ControlKit.CKNode.prototype =
 
     getStyle   : function()       {return this._element.style;},
 
-    getParent  : function(){ return new ControlKit.CKNode().setElement(this._element.parentNode); }
+    getParent  : function(){ return new ControlKit.Node().setElement(this._element.parentNode); }
 };
 
-ControlKit.CKNode.getNodeByElement = function(element){return new ControlKit.CKNode().setElement(element);};
-ControlKit.CKNode.getNodeById      = function(id)     {return new ControlKit.CKNode().setElement(document.getElementById(id));};
+ControlKit.Node.getNodeByElement = function(element){return new ControlKit.Node().setElement(element);};
+ControlKit.Node.getNodeById      = function(id)     {return new ControlKit.Node().setElement(document.getElementById(id));};
 

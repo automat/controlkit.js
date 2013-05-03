@@ -1,6 +1,6 @@
-ControlKit.CKCheckbox = function(parent,object,value,label,params)
+ControlKit.Checkbox = function(parent,object,value,label,params)
 {
-    ControlKit.CKObjectComponent.apply(this,arguments);
+    ControlKit.ObjectComponent.apply(this,arguments);
 
     params = params || {};
     params.onChange = params.onChange || this._onChange;
@@ -9,25 +9,25 @@ ControlKit.CKCheckbox = function(parent,object,value,label,params)
     this._onChange = params.onChange;
     this._onFinish = params.onFinish;
 
-    var input = this._textArea = new ControlKit.CKNode(ControlKit.CKNodeType.INPUT_CHECKBOX);
+    var input = this._textArea = new ControlKit.Node(ControlKit.NodeType.INPUT_CHECKBOX);
 
     input.setProperty('checked',this._object[this._key]);
-    input.setEventListener(ControlKit.CKNodeEventType.CHANGE,this._onInputChange.bind(this));
+    input.setEventListener(ControlKit.NodeEventType.CHANGE,this._onInputChange.bind(this));
 
     this._wrapNode.addChild(this._textArea);
 }
 
-ControlKit.CKCheckbox.prototype = Object.create(ControlKit.CKObjectComponent.prototype);
+ControlKit.Checkbox.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 
-ControlKit.CKCheckbox.prototype._onInputChange = function()
+ControlKit.Checkbox.prototype._onInputChange = function()
 {
     this._object[this._key] = !this._object[this._key];
-    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.VALUE_UPDATED));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));
     this._onChange();
 
 };
 
-ControlKit.CKCheckbox.prototype.onValueUpdate = function(e)
+ControlKit.Checkbox.prototype.onValueUpdate = function(e)
 {
     if(e.data.origin == this)return;
     this._textArea.setProperty('checked',this._object[this._key]);

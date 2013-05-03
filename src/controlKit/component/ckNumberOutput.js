@@ -1,7 +1,7 @@
 
-ControlKit.CKNumberOutput = function(parent,object,value,label,params)
+ControlKit.NumberOutput = function(parent,object,value,label,params)
 {
-    ControlKit.CKObjectComponent.apply(this,arguments);
+    ControlKit.ObjectComponent.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -15,19 +15,19 @@ ControlKit.CKNumberOutput = function(parent,object,value,label,params)
     this._wrap        = params.wrap;
     this._valueDPlace = params.dp + 1;
 
-    this._textArea = new ControlKit.CKNode(ControlKit.CKNodeType.TEXTAREA);
+    this._textArea = new ControlKit.Node(ControlKit.NodeType.TEXTAREA);
     this._textArea.setProperty('readOnly',true);
 
     this._wrapNode.addChild(this._textArea);
 
     if( params.height)
     {
-        params.height = params.height  < ControlKit.CKCSS.MinHeight ?
-                        ControlKit.CKCSS.MinHeight : params.height;
+        params.height = params.height  < ControlKit.CSS.MinHeight ?
+                        ControlKit.CSS.MinHeight : params.height;
         //TODO: FIXME!
         this._textArea.setHeight(params.height);
-        this._wrapNode.setHeight(this._textArea.getHeight() + ControlKit.CKCSS.WrapperPadding -6);
-        this._rootNode.setHeight(    this._textArea.getHeight() + ControlKit.CKCSS.WrapperPadding -3 );
+        this._wrapNode.setHeight(this._textArea.getHeight() + ControlKit.CSS.WrapperPadding -6);
+        this._rootNode.setHeight(    this._textArea.getHeight() + ControlKit.CSS.WrapperPadding -3 );
     }
 
     if(this._wrap)this._textArea.setStyleProperty('white-space','pre-wrap');
@@ -36,9 +36,9 @@ ControlKit.CKNumberOutput = function(parent,object,value,label,params)
 
 }
 
-ControlKit.CKNumberOutput.prototype = Object.create(ControlKit.CKObjectComponent.prototype);
+ControlKit.NumberOutput.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 
-ControlKit.CKNumberOutput.prototype._setValue = function()
+ControlKit.NumberOutput.prototype._setValue = function()
 {
     if(this._parent.isHidden())return;
 
@@ -85,12 +85,12 @@ ControlKit.CKNumberOutput.prototype._setValue = function()
 
 };
 
-ControlKit.CKNumberOutput.prototype.onValueUpdate = function(e)
+ControlKit.NumberOutput.prototype.onValueUpdate = function(e)
 {
     this._setValue();
 };
 
-ControlKit.CKNumberOutput.prototype.update = function()
+ControlKit.NumberOutput.prototype.update = function()
 {
     this._setValue();
 };

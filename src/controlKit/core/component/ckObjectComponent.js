@@ -1,8 +1,8 @@
 
 //Object bound component
-ControlKit.CKObjectComponent = function(parent,object,value,label)
+ControlKit.ObjectComponent = function(parent,object,value,label)
 {
-    ControlKit.CKComponent.apply(this,arguments);
+    ControlKit.Component.apply(this,arguments);
 
     this._object   = object;
     this._key      = value;
@@ -13,15 +13,15 @@ ControlKit.CKObjectComponent = function(parent,object,value,label)
     this._lablNode.setProperty('innerHTML',label || '');
 
     var cntrlKit = ControlKit.getKitInstance();
-    cntrlKit.addEventListener(ControlKit.CKEventType.UPDATE_VALUE,this,'onValueUpdate');
-    this.addEventListener(ControlKit.CKEventType.VALUE_UPDATED,cntrlKit,'onValueUpdated');
+    cntrlKit.addEventListener(ControlKit.EventType.UPDATE_VALUE,this,'onValueUpdate');
+    this.addEventListener(ControlKit.EventType.VALUE_UPDATED,cntrlKit,'onValueUpdated');
 }
 
-ControlKit.CKObjectComponent.prototype = Object.create(ControlKit.CKComponent.prototype);
+ControlKit.ObjectComponent.prototype = Object.create(ControlKit.Component.prototype);
 
 //Override in Subclass
-ControlKit.CKObjectComponent.prototype.applyValue    = function(){};
-ControlKit.CKObjectComponent.prototype.onValueUpdate = function(e){};
-ControlKit.CKObjectComponent.prototype.setValue      = function(value){this._object[this._key] = value;};
+ControlKit.ObjectComponent.prototype.applyValue    = function(){};
+ControlKit.ObjectComponent.prototype.onValueUpdate = function(e){};
+ControlKit.ObjectComponent.prototype.setValue      = function(value){this._object[this._key] = value;};
 
 

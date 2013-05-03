@@ -1,9 +1,9 @@
-ControlKit.CKOptions = function()
+ControlKit.Options = function()
 {
-    var node     = this._rootNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV);
-    var listNode = this._listNode = new ControlKit.CKNode(ControlKit.CKNodeType.LIST);
+    var node     = this._rootNode = new ControlKit.Node(ControlKit.NodeType.DIV);
+    var listNode = this._listNode = new ControlKit.Node(ControlKit.NodeType.LIST);
 
-    node.setStyleClass(ControlKit.CKCSS.Options);
+    node.setStyleClass(ControlKit.CSS.Options);
     node.addChild(listNode);
 
     this._selectedIndex = null;
@@ -12,11 +12,11 @@ ControlKit.CKOptions = function()
 
     this._unfocusable = false;
 
-    document.addEventListener(ControlKit.CKDocumentEventType.MOUSE_DOWN,this._onDocumentMouseDown.bind(this));
-    document.addEventListener(ControlKit.CKDocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
+    document.addEventListener(ControlKit.DocumentEventType.MOUSE_DOWN,this._onDocumentMouseDown.bind(this));
+    document.addEventListener(ControlKit.DocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
 };
 
-ControlKit.CKOptions.prototype =
+ControlKit.Options.prototype =
 {
 
     _onDocumentMouseDown : function()
@@ -48,11 +48,11 @@ ControlKit.CKOptions.prototype =
         {
             entry = entries[i];
 
-            itemNode = listNode.addChild(new ControlKit.CKNode(ControlKit.CKNodeType.LIST_ITEM));
+            itemNode = listNode.addChild(new ControlKit.Node(ControlKit.NodeType.LIST_ITEM));
             itemNode.setProperty('innerHTML',entry);
-            if(entry == selected)itemNode.setStyleClass(ControlKit.CKCSS.OptionsSelected);
+            if(entry == selected)itemNode.setStyleClass(ControlKit.CSS.OptionsSelected);
 
-            itemNode.setEventListener(ControlKit.CKNodeEventType.MOUSE_DOWN,
+            itemNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,
                 function()
                 {
                     self._selectedIndex = Array.prototype.indexOf.call(this.parentNode.children,this);
@@ -73,7 +73,7 @@ ControlKit.CKOptions.prototype =
 
         rootNode.setWidth( listWidth < elementWidth ? elementWidth : listWidth);
         rootNode.setHeight(listHeight);
-        rootNode.setPositionGlobal(elementPos[0],elementPos[1]+elementHeight-ControlKit.CKCSS.OptionsPadding);
+        rootNode.setPositionGlobal(elementPos[0],elementPos[1]+elementHeight-ControlKit.CSS.OptionsPadding);
         rootNode.setStyleProperty('visibility','visible');
 
 
@@ -114,5 +114,5 @@ ControlKit.CKOptions.prototype =
     getSelectedIndex : function(){return this._selectedIndex;}
 };
 
-ControlKit.CKOptions.init        = function(){ControlKit.CKOptions._instance = new ControlKit.CKOptions();};
-ControlKit.CKOptions.getInstance = function(){return ControlKit.CKOptions._instance;};
+ControlKit.Options.init        = function(){ControlKit.Options._instance = new ControlKit.Options();};
+ControlKit.Options.getInstance = function(){return ControlKit.Options._instance;};
