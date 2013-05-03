@@ -1,6 +1,6 @@
-function CKSlider(parent,object,value,target,label,params)
+ControlKit.CKSlider = function(parent,object,value,target,label,params)
 {
-    CKObjectComponent.apply(this,arguments);
+    ControlKit.CKObjectComponent.apply(this,arguments);
 
     this._values    = this._object[this._key];
     this._targetKey = target;
@@ -21,9 +21,9 @@ function CKSlider(parent,object,value,target,label,params)
     this._onFinish = params.onFinish;
     this._dp       = params.dp;
 
-    this._wrapNode.setStyleClass(CKCSS.WrapSlider);
+    this._wrapNode.setStyleClass(ControlKit.CKCSS.WrapSlider);
 
-    var slider = this._slider = new CKSlider_Internal(this._wrapNode,
+    var slider = this._slider = new ControlKit.CKSlider_Internal(this._wrapNode,
                                                       this._onSliderChange.bind(this),
                                                       this._onSliderFinish.bind(this));
 
@@ -31,7 +31,7 @@ function CKSlider(parent,object,value,target,label,params)
     slider.setBoundMax(this._values[1]);
     slider.setValue(this._object[this._targetKey]);
 
-    var input  = this._input = new CKNumberInput_Internal(this._step,
+    var input  = this._input = new ControlKit.CKNumberInput_Internal(this._step,
                                                           this._dp,
                                                           this._onInputChange.bind(this),
                                                           this._onInputChange.bind(this));
@@ -40,30 +40,30 @@ function CKSlider(parent,object,value,target,label,params)
 
     this._wrapNode.addChild(input.getNode());
 
-    this._parent.addEventListener(CKEventType.PANEL_MOVE_END,this,'onPanelMoveEnd');
+    this._parent.addEventListener(ControlKit.CKEventType.PANEL_MOVE_END,this,'onPanelMoveEnd');
 }
 
-CKSlider.prototype = Object.create(CKObjectComponent.prototype);
+ControlKit.CKSlider.prototype = Object.create(ControlKit.CKObjectComponent.prototype);
 
-CKSlider.prototype._onSliderChange = function()
+ControlKit.CKSlider.prototype._onSliderChange = function()
 {
     this._applyValue();
     this._updateValueField();
-    this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));
+    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.VALUE_UPDATED));
     this._onChange();
 
 };
 
-CKSlider.prototype._onSliderFinish = function()
+ControlKit.CKSlider.prototype._onSliderFinish = function()
 {
     this._applyValue();
     this._updateValueField();
-    this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));
+    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.VALUE_UPDATED));
     this._onFinish();
 
 };
 
-CKSlider.prototype._onInputChange = function()
+ControlKit.CKSlider.prototype._onInputChange = function()
 {
     var input = this._input,
         valueMin = this._values[0],
@@ -76,11 +76,11 @@ CKSlider.prototype._onInputChange = function()
 
     this._slider.setValue(value);
     this._object[this._targetKey] = value;
-    this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));
+    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.VALUE_UPDATED));
     this._onFinish();
 };
 
-CKSlider.prototype._applyValue = function()
+ControlKit.CKSlider.prototype._applyValue = function()
 {
     var value = this._slider.getValue();
     this._object[this._targetKey] = value;
@@ -88,16 +88,16 @@ CKSlider.prototype._applyValue = function()
 };
 
 //TODO:FIX ME
-CKSlider.prototype.onValueUpdate = function(e)
+ControlKit.CKSlider.prototype.onValueUpdate = function(e)
 {
     var origin = e.data.origin;
 
     if(origin == this)return;
 
-    if(!(origin instanceof CKSlider))
+    if(!(origin instanceof ControlKit.CKSlider))
     {
         //TODO: FIX ME!
-        if(origin instanceof CKRange)
+        if(origin instanceof ControlKit.CKRange)
         {
             this._slider.setBoundMin(this._values[0]);
             this._slider.setBoundMax(this._values[1]);
@@ -122,5 +122,5 @@ CKSlider.prototype.onValueUpdate = function(e)
 
 
 
-CKSlider.prototype._updateValueField = function(){this._input.setValue(this._slider.getValue());};
-CKSlider.prototype.onPanelMoveEnd    = function(){this._slider.resetOffset();};
+ControlKit.CKSlider.prototype._updateValueField = function(){this._input.setValue(this._slider.getValue());};
+ControlKit.CKSlider.prototype.onPanelMoveEnd    = function(){this._slider.resetOffset();};

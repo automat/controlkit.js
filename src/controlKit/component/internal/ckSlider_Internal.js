@@ -1,4 +1,4 @@
-function CKSlider_Internal(parentNode,onChange,onFinish)
+ControlKit.CKSlider_Internal = function(parentNode,onChange,onFinish)
 {
     this._bounds   = [0,1];
     this._value    = 0;
@@ -8,15 +8,15 @@ function CKSlider_Internal(parentNode,onChange,onFinish)
     this._onChange   = onChange || function(){};
     this._onFinish   = onFinish || function(){};
 
-    var wrapNode = new CKNode(CKNodeType.DIV).setStyleClass(CKCSS.SliderWrap);
+    var wrapNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV).setStyleClass(ControlKit.CKCSS.SliderWrap);
     parentNode.addChild(wrapNode);
 
-    var slot   = this._slot   = {node:    new CKNode(CKNodeType.DIV).setStyleClass(CKCSS.SliderSlot),
+    var slot   = this._slot   = {node:    new ControlKit.CKNode(ControlKit.CKNodeType.DIV).setStyleClass(ControlKit.CKCSS.SliderSlot),
                                  offsetX: 0,
                                  width:   0,
                                  padding: 3};
 
-    var handle = this._handle = {node    : new CKNode(CKNodeType.DIV).setStyleClass(CKCSS.SliderHandle),
+    var handle = this._handle = {node    : new ControlKit.CKNode(ControlKit.CKNodeType.DIV).setStyleClass(ControlKit.CKCSS.SliderHandle),
                                  width   : 0,
                                  dragging: false};
 
@@ -28,14 +28,14 @@ function CKSlider_Internal(parentNode,onChange,onFinish)
 
     handle.node.setWidth(handle.width);
 
-    slot.node.setEventListener(CKNodeEventType.MOUSE_DOWN,this._onSlotMouseDown.bind(this));
-    slot.node.setEventListener(CKNodeEventType.MOUSE_UP,  this._onSlotMouseUp.bind(this));
+    slot.node.setEventListener(ControlKit.CKNodeEventType.MOUSE_DOWN,this._onSlotMouseDown.bind(this));
+    slot.node.setEventListener(ControlKit.CKNodeEventType.MOUSE_UP,  this._onSlotMouseUp.bind(this));
 
-    document.addEventListener(CKDocumentEventType.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
-    document.addEventListener(CKDocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
+    document.addEventListener(ControlKit.CKDocumentEventType.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
+    document.addEventListener(ControlKit.CKDocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
 }
 
-CKSlider_Internal.prototype =
+ControlKit.CKSlider_Internal.prototype =
 {
     _onDocumentMouseMove : function(e)
     {
@@ -73,7 +73,7 @@ CKSlider_Internal.prototype =
 
     _update : function()
     {
-        var mx = CKMouse.getInstance().getX(),
+        var mx = ControlKit.CKMouse.getInstance().getX(),
             sx = this._slot.offsetX,
             sw = this._slot.width,
             px = (mx < sx) ? 0 : (mx > (sx + sw)) ? sw : (mx - sx);

@@ -1,9 +1,14 @@
 
 var imports = [
 
+    'controlKit.js',
+
+
                'core/event/ckEvent.js',
                'core/event/ckEventDispatcher.js',
                'core/event/ckEventType.js',
+
+    'core/ckKit.js',
 
                'core/dom/css/ckCSS.js',
 
@@ -50,11 +55,11 @@ var imports = [
                'component/ckStringOutput.js',
                'component/ckNumberOutput.js',
 
-               'component/internal/ckPicker.js',
+               'component/internal/ckPicker.js'
 
 
 
-               'controlKit.js'
+
 
 
 
@@ -94,9 +99,9 @@ function TestControlKit(parentDomElementId)
                  xyChangeValue:[0.1,0.1]
                   };
 
-    var controlKit = new ControlKit(parentDomElementId);
+    var controlKit = new ControlKit.Kit(parentDomElementId);
 
-    var control0   = controlKit.addPanel({width:200,position:[0,0],fixed:false});
+    var control0   = controlKit.addPanel({width:300,position:[0,0],fixed:false});
 
 
     control0.addGroup()
@@ -109,7 +114,7 @@ function TestControlKit(parentDomElementId)
             .addSlider(object,'range','slideValue','slider')
             .addSelect(object,'selectOptions','selectTarget','select')
 
-        /*
+
 
 .addSubGroup('grain',{show:false})
     .addRange(object,'range','Range Comp')
@@ -160,7 +165,7 @@ function TestControlKit(parentDomElementId)
         .addValuePlotter(object,'changeValue5','frac',{height:35})
         .addValuePlotter(object,'changeValue6','sin',{height:35});
 
-        */
+
 
 
 

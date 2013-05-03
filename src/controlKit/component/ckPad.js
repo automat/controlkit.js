@@ -1,6 +1,6 @@
-function CKPad(parent,object,value,label,params)
+ControlKit.CKPad = function(parent,object,value,label,params)
 {
-    CKPlotter.apply(this,arguments);
+    ControlKit.CKPlotter.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -78,9 +78,9 @@ function CKPad(parent,object,value,label,params)
     this._drawValue(this._value);
 }
 
-CKPad.prototype = Object.create(CKPlotter.prototype);
+ControlKit.CKPad.prototype = Object.create(ControlKit.CKPlotter.prototype);
 
-CKPad.prototype._drawValue = function(value)
+ControlKit.CKPad.prototype._drawValue = function(value)
 {
     this._value = value;
 
@@ -96,7 +96,7 @@ CKPad.prototype._drawValue = function(value)
 };
 
 
-CKPad.prototype._drawPoint = function()
+ControlKit.CKPad.prototype._drawPoint = function()
 {
     var canvas       = this._canvas,
         canvasWidth  = canvas.width  - 1,
@@ -175,10 +175,10 @@ CKPad.prototype._drawPoint = function()
     canvas.circle(localX,localY,3);
 };
 
-CKPad.prototype._getMouseNormalized = function()
+ControlKit.CKPad.prototype._getMouseNormalized = function()
 {
     var offset       = this._canvasNode.getPositionGlobal(),
-        mouse        = CKMouse.getInstance().getPosition();
+        mouse        = ControlKit.CKMouse.getInstance().getPosition();
 
     var canvas       = this._canvas,
         canvasWidth  = canvas.width  - 1,
@@ -188,7 +188,7 @@ CKPad.prototype._getMouseNormalized = function()
             ( 1 - Math.max(0,Math.min(mouse[1]-offset[1],canvasHeight)) / canvasHeight * 2)];
 };
 
-CKPad.prototype._applyValue = function()
+ControlKit.CKPad.prototype._applyValue = function()
 {
     var objectValue = this._object[this._key],
         value       = this._value;
@@ -196,10 +196,10 @@ CKPad.prototype._applyValue = function()
     objectValue[0] = value[0];
     objectValue[1] = value[1];
 
-   this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));
+   this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.VALUE_UPDATED));
 };
 
-CKPad.prototype.onValueUpdate = function(e)
+ControlKit.CKPad.prototype.onValueUpdate = function(e)
 {
     if(e.data.origin == this)return;
     this._drawValue(this._object[this._key]);

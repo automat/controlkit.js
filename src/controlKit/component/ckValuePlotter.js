@@ -1,6 +1,6 @@
-function CKValuePlotter(parent,object,value,label,params)
+ControlKit.CKValuePlotter = function(parent,object,value,label,params)
 {
-    CKPlotter.apply(this,arguments);
+    ControlKit.CKPlotter.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -20,8 +20,8 @@ function CKValuePlotter(parent,object,value,label,params)
     var i = 0; while(i < this._points.length){this._points[i]=(length-i+1)*resolution;this._points[i+1]=0.0;i+=2;}
         i =-1; while(++i < length){this._buffer0[i] = this._buffer1[i] = 0.0;}
 
-    params.height = params.height  < CKCSS.MinHeight ?
-                    CKCSS.MinHeight : params.height;
+    params.height = params.height  < ControlKit.CKCSS.MinHeight ?
+        ControlKit.CKCSS.MinHeight : params.height;
 
     this._canvas.setSize(this._canvas.width,Math.floor(params.height));
     this._updateHeight();
@@ -31,9 +31,9 @@ function CKValuePlotter(parent,object,value,label,params)
 
 }
 
-CKValuePlotter.prototype = Object.create(CKPlotter.prototype);
+ControlKit.CKValuePlotter.prototype = Object.create(ControlKit.CKPlotter.prototype);
 
-CKValuePlotter.prototype._drawValue = function()
+ControlKit.CKValuePlotter.prototype._drawValue = function()
 {
     var canvas = this._canvas;
 
@@ -48,7 +48,7 @@ CKValuePlotter.prototype._drawValue = function()
     canvas.pop();
 };
 
-CKValuePlotter.prototype._drawGrid = function()
+ControlKit.CKValuePlotter.prototype._drawGrid = function()
 {
     var canvas           = this._canvas,
         canvasWidth      = canvas.width,
@@ -59,7 +59,7 @@ CKValuePlotter.prototype._drawGrid = function()
     canvas.line(0,canvasHeightHalf,canvasWidth,canvasHeightHalf);
 };
 
-CKValuePlotter.prototype._drawCurve = function()
+ControlKit.CKValuePlotter.prototype._drawCurve = function()
 {
     var value = this._object[this._key];
 
@@ -100,7 +100,7 @@ CKValuePlotter.prototype._drawCurve = function()
 
 };
 
-CKValuePlotter.prototype.update = function()
+ControlKit.CKValuePlotter.prototype.update = function()
 {
     if(this._parent.isHidden())return;
     this._drawValue();

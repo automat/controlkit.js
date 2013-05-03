@@ -1,6 +1,6 @@
-function CKRange(parent,object,value,label,params)
+ControlKit.CKRange = function(parent,object,value,label,params)
 {
-    CKObjectComponent.apply(this,arguments);
+    ControlKit.CKObjectComponent.apply(this,arguments);
 
     this._values    = this._object[this._key];
 
@@ -15,27 +15,27 @@ function CKRange(parent,object,value,label,params)
     this._onFinish  = params.onFinish;
     this._dp        = params.dp;
 
-    var lablMinNode = new CKNode(CKNodeType.DIV);
-    var inputMin    = this._inputMin = new CKNumberInput_Internal(this._step,
+    var lablMinNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV);
+    var inputMin    = this._inputMin = new ControlKit.CKNumberInput_Internal(this._step,
                                                                   this._dp,
                                                                   this._onInputMinChange.bind(this),
                                                                   this._onInputMinFinish.bind(this));
 
-    var lablMaxNode = new CKNode(CKNodeType.DIV);
-    var inputMax    = this._inputMax = new CKNumberInput_Internal(this._step,
+    var lablMaxNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV);
+    var inputMax    = this._inputMax = new ControlKit.CKNumberInput_Internal(this._step,
                                                                   this._dp,
                                                                   this._onInputMaxChange.bind(this),
                                                                   this._onInputMaxFinish.bind(this));
 
-    var wrapLablMin  = new CKNode(CKNodeType.DIV).setStyleClass(CKCSS.Wrap),
-        wrapInputMin = new CKNode(CKNodeType.DIV).setStyleClass(CKCSS.Wrap),
-        wrapLablMax  = new CKNode(CKNodeType.DIV).setStyleClass(CKCSS.Wrap),
-        wrapInputMax = new CKNode(CKNodeType.DIV).setStyleClass(CKCSS.Wrap);
+    var wrapLablMin  = new ControlKit.CKNode(ControlKit.CKNodeType.DIV).setStyleClass(ControlKit.CKCSS.Wrap),
+        wrapInputMin = new ControlKit.CKNode(ControlKit.CKNodeType.DIV).setStyleClass(ControlKit.CKCSS.Wrap),
+        wrapLablMax  = new ControlKit.CKNode(ControlKit.CKNodeType.DIV).setStyleClass(ControlKit.CKCSS.Wrap),
+        wrapInputMax = new ControlKit.CKNode(ControlKit.CKNodeType.DIV).setStyleClass(ControlKit.CKCSS.Wrap);
 
 
-    lablMinNode.setStyleClass(CKCSS.Label);
+    lablMinNode.setStyleClass(ControlKit.CKCSS.Label);
     lablMinNode.setProperty('innerHTML','MIN');
-    lablMaxNode.setStyleClass(CKCSS.Label);
+    lablMaxNode.setStyleClass(ControlKit.CKCSS.Label);
     lablMaxNode.setProperty('innerHTML','MAX');
     inputMin.setValue(this._values[0]);
     inputMax.setValue(this._values[1]);
@@ -53,42 +53,42 @@ function CKRange(parent,object,value,label,params)
     wrapNode.addChild(wrapInputMax);
 }
 
-CKRange.prototype = Object.create(CKObjectComponent.prototype);
+ControlKit.CKRange.prototype = Object.create(ControlKit.CKObjectComponent.prototype);
 
-CKRange.prototype.__onChange = function()
+ControlKit.CKRange.prototype.__onChange = function()
 {
-    this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));
+    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.VALUE_UPDATED));
     this._onChange();
 };
 
-CKRange.prototype.__onFinish = function()
+ControlKit.CKRange.prototype.__onFinish = function()
 {
-    this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));
+    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.VALUE_UPDATED));
     this._onFinish();
 };
 
 
-CKRange.prototype._onInputMinChange = function()
+ControlKit.CKRange.prototype._onInputMinChange = function()
 {
     this._updateValueMin();this.__onChange();
 };
 
-CKRange.prototype._onInputMinFinish = function()
+ControlKit.CKRange.prototype._onInputMinFinish = function()
 {
     this._updateValueMin();this.__onFinish();
 };
 
-CKRange.prototype._onInputMaxChange = function()
+ControlKit.CKRange.prototype._onInputMaxChange = function()
 {
     this._updateValueMax();this.__onChange();
 };
 
-CKRange.prototype._onInputMaxFinish = function()
+ControlKit.CKRange.prototype._onInputMaxFinish = function()
 {
     this._updateValueMax();this.__onFinish();
 };
 
-CKRange.prototype._updateValueMin = function()
+ControlKit.CKRange.prototype._updateValueMin = function()
 {
     var value = this._inputMin.getValue();
     if(value >= this._inputMax.getValue())
@@ -99,7 +99,7 @@ CKRange.prototype._updateValueMin = function()
     this._values[0] = value;
 };
 
-CKRange.prototype._updateValueMax = function()
+ControlKit.CKRange.prototype._updateValueMax = function()
 {
     var value = this._inputMax.getValue();
     if(value <= this._inputMin.getValue())
@@ -110,7 +110,7 @@ CKRange.prototype._updateValueMax = function()
     this._values[1] = value;
 };
 
-CKRange.prototype.onValueUpdate = function(e)
+ControlKit.CKRange.prototype.onValueUpdate = function(e)
 {
     if(e.data.origin == this)return;
 

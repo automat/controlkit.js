@@ -1,5 +1,5 @@
 
-var CKNodeType =
+ControlKit.CKNodeType =
 {
     DIV            : 'div',
     INPUT_TEXT     : 'text',

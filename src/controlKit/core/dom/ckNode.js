@@ -1,6 +1,6 @@
 
 
-function CKNode()
+ControlKit.CKNode = function()
 {
     this._element = null;
 
@@ -8,10 +8,10 @@ function CKNode()
     {
         var arg  = arguments[0];
 
-        if(arg != CKNodeType.INPUT_TEXT   &&
-           arg != CKNodeType.INPUT_BUTTON &&
-           arg != CKNodeType.INPUT_SELECT &&
-           arg != CKNodeType.INPUT_CHECKBOX)
+        if(arg != ControlKit.CKNodeType.INPUT_TEXT   &&
+           arg != ControlKit.CKNodeType.INPUT_BUTTON &&
+           arg != ControlKit.CKNodeType.INPUT_SELECT &&
+           arg != ControlKit.CKNodeType.INPUT_CHECKBOX)
         {
             this._element = document.createElement(arg);
         }
@@ -23,7 +23,7 @@ function CKNode()
     }
 }
 
-CKNode.prototype =
+ControlKit.CKNode.prototype =
 {
     addChild   : function(node)
     {
@@ -131,11 +131,11 @@ CKNode.prototype =
     setStyleProperties : function(properties)    {for(var p in properties)this._element.style[p] = properties[p];return this;},
 
 
-    getChildAt     : function(index) {return new CKNode().setElement(this._element.children[index]);},
+    getChildAt     : function(index) {return new ControlKit.CKNode().setElement(this._element.children[index]);},
     getChildIndex  : function(node)  {return this._indexOf(this._element,node.getElement());},
     getNumChildren : function()      {return this._element.children.length;},
-    getFirstChild  : function()      {return new CKNode().setElement(this._element.firstChild);},
-    getLastChild   : function()      {return new CKNode().setElement(this._element.lastChild);},
+    getFirstChild  : function()      {return new ControlKit.CKNode().setElement(this._element.firstChild);},
+    getLastChild   : function()      {return new ControlKit.CKNode().setElement(this._element.lastChild);},
     hasChildren    : function()      {return this._element.children.length != 0;},
     contains       : function(node)  {return this._indexOf(this._element,node.getElement()) != -1;},
 
@@ -151,9 +151,9 @@ CKNode.prototype =
 
     getStyle   : function()       {return this._element.style;},
 
-    getParent  : function(){ return new CKNode().setElement(this._element.parentNode); }
+    getParent  : function(){ return new ControlKit.CKNode().setElement(this._element.parentNode); }
 };
 
-CKNode.getNodeByElement = function(element){return new CKNode().setElement(element);};
-CKNode.getNodeById      = function(id)     {return new CKNode().setElement(document.getElementById(id));};
+ControlKit.CKNode.getNodeByElement = function(element){return new ControlKit.CKNode().setElement(element);};
+ControlKit.CKNode.getNodeById      = function(id)     {return new ControlKit.CKNode().setElement(document.getElementById(id));};
 

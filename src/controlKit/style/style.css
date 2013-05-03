@@ -496,6 +496,7 @@
 
 .panel .inputWPresetWrap
 {
+    width: 100%;
     float: left;
 }
 

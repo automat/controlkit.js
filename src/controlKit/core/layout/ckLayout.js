@@ -1,4 +1,4 @@
-var CKLayout =
+ControlKit.CKLayout =
 {
     ALIGN_LEFT   : 'left',
     ALIGN_RIGHT  : 'right',

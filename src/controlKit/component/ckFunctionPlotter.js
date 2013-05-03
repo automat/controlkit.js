@@ -1,6 +1,6 @@
-function CKFunctionPlotter(parent,object,value,label,params)
+ControlKit.CKFunctionPlotter = function(parent,object,value,label,params)
 {
-    CKPlotter.apply(this,arguments);
+    ControlKit.CKPlotter.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -15,9 +15,9 @@ function CKFunctionPlotter(parent,object,value,label,params)
     this.setFunction(this._object[this._key]);
 }
 
-CKFunctionPlotter.prototype = Object.create(CKPlotter.prototype);
+ControlKit.CKFunctionPlotter.prototype = Object.create(ControlKit.CKPlotter.prototype);
 
-CKFunctionPlotter.prototype.setFunction = function(func)
+ControlKit.CKFunctionPlotter.prototype.setFunction = function(func)
 {
     this._func = func;
 
@@ -34,7 +34,7 @@ CKFunctionPlotter.prototype.setFunction = function(func)
     c.pop();
 };
 
-CKFunctionPlotter.prototype._drawPlot = function()
+ControlKit.CKFunctionPlotter.prototype._drawPlot = function()
 {
     var canvas = this._canvas;
 

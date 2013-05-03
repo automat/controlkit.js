@@ -1,4 +1,4 @@
-CKCSS =
+ControlKit.CKCSS =
 {
     Panel        : 'panel',
     Head         : 'head',

@@ -1,13 +1,13 @@
-function CKComponent(parent)
+ControlKit.CKComponent = function(parent)
 {
-    CKEventDispatcher.apply(this,arguments);
+    ControlKit.CKEventDispatcher.apply(this,arguments);
 
     this._parent   = parent;
     this._enabled  = true;
 
-    var rootNode    = this._rootNode = new CKNode(CKNodeType.LIST_ITEM),
-        lablNode    = this._lablNode = new CKNode(CKNodeType.SPAN),
-        wrapNode    = this._wrapNode = new CKNode(CKNodeType.DIV),
+    var rootNode    = this._rootNode = new ControlKit.CKNode(ControlKit.CKNodeType.LIST_ITEM),
+        lablNode    = this._lablNode = new ControlKit.CKNode(ControlKit.CKNodeType.SPAN),
+        wrapNode    = this._wrapNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV),
         targetGroup = this._parent.getActiveSubGroup();
 
     targetGroup.addComponentRoot(rootNode);
@@ -17,12 +17,12 @@ function CKComponent(parent)
     rootNode.addChild(lablNode);
     rootNode.addChild(wrapNode);
 
-    lablNode.setStyleClass(CKCSS.Label);
-    wrapNode.setStyleClass(CKCSS.Wrap);
+    lablNode.setStyleClass(ControlKit.CKCSS.Label);
+    wrapNode.setStyleClass(ControlKit.CKCSS.Wrap);
 }
 
-CKComponent.prototype = Object.create(CKEventDispatcher.prototype);
+ControlKit.CKComponent.prototype = Object.create(ControlKit.CKEventDispatcher.prototype);
 
-CKComponent.prototype.enable     = function(){this._enabled = true;  };
-CKComponent.prototype.disable    = function(){this._enabled = false; };
-CKComponent.prototype.isEnabled  = function(){return this._enabled;};
+ControlKit.CKComponent.prototype.enable     = function(){this._enabled = true;  };
+ControlKit.CKComponent.prototype.disable    = function(){this._enabled = false; };
+ControlKit.CKComponent.prototype.isEnabled  = function(){return this._enabled;};

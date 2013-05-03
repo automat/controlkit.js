@@ -1,6 +1,6 @@
-function CKStringOutput(parent,object,value,label,params)
+ControlKit.CKStringOutput = function(parent,object,value,label,params)
 {
-    CKObjectComponent.apply(this,arguments);
+    ControlKit.CKObjectComponent.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -12,20 +12,20 @@ function CKStringOutput(parent,object,value,label,params)
 
     this._wrap = params.wrap;
 
-    this._textArea = new CKNode(CKNodeType.TEXTAREA);
+    this._textArea = new ControlKit.CKNode(ControlKit.CKNodeType.TEXTAREA);
     this._textArea.setProperty('readOnly',true);
 
     this._wrapNode.addChild(this._textArea);
 
     if( params.height)
     {
-        params.height = params.height  < CKCSS.MinHeight ?
-                        CKCSS.MinHeight : params.height;
+        params.height = params.height  < ControlKit.CKCSS.MinHeight ?
+                        ControlKit.CKCSS.MinHeight : params.height;
 
         //TODO: FIXME!
         this._textArea.setHeight(params.height);
-        this._wrapNode.setHeight(this._textArea.getHeight() + CKCSS.WrapperPadding );
-        this._rootNode.setHeight(    this._textArea.getHeight() + CKCSS.WrapperPadding -2 );
+        this._wrapNode.setHeight(this._textArea.getHeight() + ControlKit.CKCSS.WrapperPadding );
+        this._rootNode.setHeight(    this._textArea.getHeight() + ControlKit.CKCSS.WrapperPadding -2 );
     }
 
     if(this._wrap)this._textArea.setStyleProperty('white-space','pre-wrap');
@@ -34,9 +34,9 @@ function CKStringOutput(parent,object,value,label,params)
 
 }
 
-CKStringOutput.prototype = Object.create(CKObjectComponent.prototype);
+ControlKit.CKStringOutput.prototype = Object.create(ControlKit.CKObjectComponent.prototype);
 
-CKStringOutput.prototype._setValue = function()
+ControlKit.CKStringOutput.prototype._setValue = function()
 {
     if(this._parent.isHidden())return;
 
@@ -62,12 +62,12 @@ CKStringOutput.prototype._setValue = function()
     }
 };
 
-CKStringOutput.prototype.onValueUpdate = function(e)
+ControlKit.CKStringOutput.prototype.onValueUpdate = function(e)
 {
     this._setValue();
 };
 
-CKStringOutput.prototype.update = function()
+ControlKit.CKStringOutput.prototype.update = function()
 {
     this._setValue();
 };

@@ -1,4 +1,4 @@
-var CKEventType =
+ControlKit.CKEventType =
 {
     VALUE_UPDATED      : 'valueUpdated',
     UPDATE_VALUE       : 'updateValue',

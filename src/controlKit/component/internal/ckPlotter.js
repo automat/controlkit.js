@@ -1,6 +1,6 @@
-function CKPlotter(parent,object,value,label,params)
+ControlKit.CKPlotter = function(parent,object,value,label,params)
 {
-    CKCanvasComponent.apply(this,arguments);
+    ControlKit.CKCanvasComponent.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -16,9 +16,9 @@ function CKPlotter(parent,object,value,label,params)
     this._lineColor = params.lineColor;
 }
 
-CKPlotter.prototype = Object.create(CKCanvasComponent.prototype);
+ControlKit.CKPlotter.prototype = Object.create(ControlKit.CKCanvasComponent.prototype);
 
-CKPlotter.prototype._drawGrid = function()
+ControlKit.CKPlotter.prototype._drawGrid = function()
 {
     var c = this._canvas;
 

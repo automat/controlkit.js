@@ -1,14 +1,14 @@
-function CKAbstractGroup(parent)
+ControlKit.CKAbstractGroup = function(parent)
 {
-    CKEventDispatcher.apply(this,arguments);
+    ControlKit.CKEventDispatcher.apply(this,arguments);
 
     this._parent = parent;
 
     /*---------------------------------------------------------------------------------*/
 
-    var rootNode = this._rootNode = new CKNode(CKNodeType.LIST_ITEM),
-        wrapNode = this._wrapNode = new CKNode(CKNodeType.DIV),
-        listNode = this._listNode = new CKNode(CKNodeType.LIST);
+    var rootNode = this._rootNode = new ControlKit.CKNode(ControlKit.CKNodeType.LIST_ITEM),
+        wrapNode = this._wrapNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV),
+        listNode = this._listNode = new ControlKit.CKNode(ControlKit.CKNodeType.LIST);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -20,13 +20,13 @@ function CKAbstractGroup(parent)
 
 }
 
-CKAbstractGroup.prototype = Object.create(CKEventDispatcher.prototype);
+ControlKit.CKAbstractGroup.prototype = Object.create(ControlKit.CKEventDispatcher.prototype);
 
-CKAbstractGroup.prototype._onHeadMouseDown  = function(){};
-CKAbstractGroup.prototype._updateVisibility = function(){};
+ControlKit.CKAbstractGroup.prototype._onHeadMouseDown  = function(){};
+ControlKit.CKAbstractGroup.prototype._updateVisibility = function(){};
 
-CKAbstractGroup.prototype.hide     = function() { this._hidden = true;  this._updateVisibility();};
-CKAbstractGroup.prototype.show     = function() { this._hidden = false; this._updateVisibility();};
-CKAbstractGroup.prototype.isHidden = function(){return this._hidden;};
+ControlKit.CKAbstractGroup.prototype.hide     = function() { this._hidden = true;  this._updateVisibility();};
+ControlKit.CKAbstractGroup.prototype.show     = function() { this._hidden = false; this._updateVisibility();};
+ControlKit.CKAbstractGroup.prototype.isHidden = function(){return this._hidden;};
 
-CKAbstractGroup.prototype.getList      = function(){return this._listNode;};
+ControlKit.CKAbstractGroup.prototype.getList      = function(){return this._listNode;};

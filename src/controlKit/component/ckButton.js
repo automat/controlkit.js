@@ -1,14 +1,14 @@
-function CKButton(parent,label,onPress)
+ControlKit.CKButton = function(parent,label,onPress)
 {
-    CKComponent.apply(this,arguments);
+    ControlKit.CKComponent.apply(this,arguments);
 
-    var input = this._textArea = new CKNode(CKNodeType.INPUT_BUTTON);
+    var input = this._textArea = new ControlKit.CKNode(ControlKit.CKNodeType.INPUT_BUTTON);
 
-    input.setStyleClass(CKCSS.Button);
+    input.setStyleClass(ControlKit.CKCSS.Button);
     input.setProperty('value',label);
-    input.setEventListener(CKNodeEventType.ON_CLICK,function(){onPress();this.dispatchEvent(new CKEvent(this,CKEventType.VALUE_UPDATED));}.bind(this));
+    input.setEventListener(ControlKit.CKNodeEventType.ON_CLICK,function(){onPress();this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.VALUE_UPDATED));}.bind(this));
 
     this._wrapNode.addChild(input);
-}
+};
 
-CKButton.prototype = Object.create(CKComponent.prototype);
+ControlKit.CKButton.prototype = Object.create(ControlKit.CKComponent.prototype);

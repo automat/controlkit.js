@@ -31,25 +31,25 @@
  */
 
 
-function CKPanel(controlKit,params)
+ControlKit.CKPanel = function(controlKit,params)
 {
-    CKEventDispatcher.apply(this,arguments);
+    ControlKit.CKEventDispatcher.apply(this,arguments);
 
     var parent = this._parent = controlKit;
 
     /*---------------------------------------------------------------------------------*/
 
     params            = params || {};
-    params.valign     = params.valign        || CKDefault.VALIGN;
-    params.align      = params.align         || CKDefault.ALIGN;
-    params.position   = params.position      || CKDefault.POSITION;
-    params.width      = params.width         || CKDefault.WIDTH;
+    params.valign     = params.valign        || ControlKit.CKDefault.VALIGN;
+    params.align      = params.align         || ControlKit.CKDefault.ALIGN;
+    params.position   = params.position      || ControlKit.CKDefault.POSITION;
+    params.width      = params.width         || ControlKit.CKDefault.WIDTH;
     params.maxHeight  = params.maxHeight     || window.innerHeight;
-    params.ratio      = params.ratio         || CKDefault.RATIO;
-    params.label      = params.label         || CKDefault.LABEL;
+    params.ratio      = params.ratio         || ControlKit.CKDefault.RATIO;
+    params.label      = params.label         || ControlKit.CKDefault.LABEL;
 
     params.fixed      = params.fixed === undefined ?
-                        CKDefault.FIXED :
+                        ControlKit.CKDefault.FIXED :
                         params.fixed;
 
     /*---------------------------------------------------------------------------------*/
@@ -59,17 +59,17 @@ function CKPanel(controlKit,params)
     this._maxHeight = params.maxHeight;
     this._ratio     = params.ratio;
     var   label     = params.label;
-    this._width     = Math.max(CKDefault.WIDTH_MIN,Math.min(params.width,CKDefault.WIDTH_MAX));
+    this._width     = Math.max(ControlKit.CKDefault.WIDTH_MIN,Math.min(params.width,ControlKit.CKDefault.WIDTH_MAX));
     this._fixed     = params.fixed;
 
 
     /*---------------------------------------------------------------------------------*/
 
-    var rootNode = this._rootNode = new CKNode(CKNodeType.DIV),
-        headNode = this._headNode = new CKNode(CKNodeType.DIV),
-        lablNode = new CKNode(CKNodeType.SPAN),
-        wrapNode = new CKNode(CKNodeType.DIV),
-        listNode = this._listNode = new CKNode(CKNodeType.LIST);
+    var rootNode = this._rootNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV),
+        headNode = this._headNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV),
+        lablNode = new ControlKit.CKNode(ControlKit.CKNodeType.SPAN),
+        wrapNode = new ControlKit.CKNode(ControlKit.CKNodeType.DIV),
+        listNode = this._listNode = new ControlKit.CKNode(ControlKit.CKNodeType.LIST);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -77,11 +77,11 @@ function CKPanel(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    rootNode.setStyleClass(CKCSS.Panel);
-    headNode.setStyleClass(CKCSS.Head);
-    lablNode.setStyleClass(CKCSS.Label);
-    wrapNode.setStyleClass(CKCSS.Wrap);
-    listNode.setStyleClass(CKCSS.GroupList);
+    rootNode.setStyleClass(ControlKit.CKCSS.Panel);
+    headNode.setStyleClass(ControlKit.CKCSS.Head);
+    lablNode.setStyleClass(ControlKit.CKCSS.Label);
+    wrapNode.setStyleClass(ControlKit.CKCSS.Wrap);
+    listNode.setStyleClass(ControlKit.CKCSS.GroupList);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -98,9 +98,9 @@ function CKPanel(controlKit,params)
 
         headNode.setStyleProperty('cursor','pointer');
 
-        headNode.setEventListener(CKNodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
-        document.addEventListener(CKDocumentEventType.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
-        document.addEventListener(CKDocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
+        headNode.setEventListener(ControlKit.CKNodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
+        document.addEventListener(ControlKit.CKDocumentEventType.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
+        document.addEventListener(ControlKit.CKDocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
     }
 
 
@@ -126,28 +126,28 @@ function CKPanel(controlKit,params)
 
 /*---------------------------------------------------------------------------------*/
 
-CKPanel.prototype = Object.create(CKEventDispatcher.prototype);
+ControlKit.CKPanel.prototype = Object.create(ControlKit.CKEventDispatcher.prototype);
 
-CKPanel.prototype.addGroup  = function(params)
+ControlKit.CKPanel.prototype.addGroup  = function(params)
 {
-    var group = new CKGroup(this,params);
+    var group = new ControlKit.CKGroup(this,params);
     this._groups.push(group);
     return group;
 };
 
-CKPanel.prototype.getGroups     = function(){return this._groups;};
-CKPanel.prototype.getNode       = function(){return this._rootNode;};
-CKPanel.prototype.getList       = function(){return this._listNode;};
+ControlKit.CKPanel.prototype.getGroups     = function(){return this._groups;};
+ControlKit.CKPanel.prototype.getNode       = function(){return this._rootNode;};
+ControlKit.CKPanel.prototype.getList       = function(){return this._listNode;};
 
 
 /*---------------------------------------------------------------------------------*
 * Panel dragging
 *----------------------------------------------------------------------------------*/
 
-CKPanel.prototype._onHeadMouseDown = function()
+ControlKit.CKPanel.prototype._onHeadMouseDown = function()
 {
     var nodePos   = this._rootNode.getPositionGlobal(),
-        mousePos  = CKMouse.getInstance().getPosition(),
+        mousePos  = ControlKit.CKMouse.getInstance().getPosition(),
         offsetPos = this._mouseOffset;
 
     offsetPos[0] = mousePos[0] - nodePos[0];
@@ -155,13 +155,13 @@ CKPanel.prototype._onHeadMouseDown = function()
 
     this._headDragging = true;
 
-    this.dispatchEvent(new CKEvent(this,CKEventType.PANEL_MOVE_BEGIN));
-    this.dispatchEvent(new CKEvent(this,CKEventType.INDEX_ORDER_CHANGED),{origin:this});
+    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.PANEL_MOVE_BEGIN));
+    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.INDEX_ORDER_CHANGED),{origin:this});
 };
 
-CKPanel.prototype._updatePosition = function()
+ControlKit.CKPanel.prototype._updatePosition = function()
 {
-    var mousePos  = CKMouse.getInstance().getPosition(),
+    var mousePos  = ControlKit.CKMouse.getInstance().getPosition(),
         offsetPos = this._mouseOffset;
 
     var currPositionX = mousePos[0]-offsetPos[0],
@@ -169,30 +169,30 @@ CKPanel.prototype._updatePosition = function()
 
     this._setPosition(currPositionX,currPositionY);
 
-    this.dispatchEvent(new CKEvent(this,CKEventType.PANEL_MOVE));
+    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.PANEL_MOVE));
 };
 
-CKPanel.prototype._onDocumentMouseMove = function()
+ControlKit.CKPanel.prototype._onDocumentMouseMove = function()
 {
     if(!this._headDragging)return;
     this._updatePosition();
 };
 
-CKPanel.prototype._onDocumentMouseUp = function()
+ControlKit.CKPanel.prototype._onDocumentMouseUp = function()
 {
     if(!this._headDragging)return;
-    this.dispatchEvent(new CKEvent(this,CKEventType.PANEL_MOVE_END));
+    this.dispatchEvent(new ControlKit.CKEvent(this,ControlKit.CKEventType.PANEL_MOVE_END));
     this._headDragging = false;
 };
 
-CKPanel.prototype._onWindowResize = function()
+ControlKit.CKPanel.prototype._onWindowResize = function()
 {
     this._setPosition(this._position[0],this._position[1]);
 };
 
 /*---------------------------------------------------------------------------------*/
 
-CKPanel.prototype._setPosition = function(x,y)
+ControlKit.CKPanel.prototype._setPosition = function(x,y)
 {
     var node     = this._rootNode,
         head     = this._headNode,
@@ -207,14 +207,14 @@ CKPanel.prototype._setPosition = function(x,y)
     node.setPositionGlobal(position[0],position[1]);
 };
 
-CKPanel.prototype._setHeight = function(height)
+ControlKit.CKPanel.prototype._setHeight = function(height)
 {
 
 };
 
-CKPanel.prototype.getWidth      = function(){return this._width;};
-CKPanel.prototype.getAlignment  = function(){return this._align;};
-CKPanel.prototype.getPosition   = function(){return this._position;};
+ControlKit.CKPanel.prototype.getWidth      = function(){return this._width;};
+ControlKit.CKPanel.prototype.getAlignment  = function(){return this._align;};
+ControlKit.CKPanel.prototype.getPosition   = function(){return this._position;};
 
 /*---------------------------------------------------------------------------------*/
 
