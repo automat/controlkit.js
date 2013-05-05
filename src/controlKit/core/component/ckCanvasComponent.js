@@ -23,6 +23,6 @@ ControlKit.CanvasComponent.prototype = Object.create(ControlKit.ObjectComponent.
 ControlKit.CanvasComponent.prototype._updateHeight = function()
 {
     this._wrapNode.setHeight(this._canvas.height);
-    this._rootNode.setHeight(    this._canvas.height + ControlKit.CSS.WrapperPadding);
+    this._rootNode.setHeight(    this._canvas.height + ControlKit.Constant.PADDING_WRAPPER);
 };
 

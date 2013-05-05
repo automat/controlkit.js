@@ -73,7 +73,7 @@ ControlKit.Options.prototype =
 
         rootNode.setWidth( listWidth < elementWidth ? elementWidth : listWidth);
         rootNode.setHeight(listHeight);
-        rootNode.setPositionGlobal(elementPos[0],elementPos[1]+elementHeight-ControlKit.CSS.OptionsPadding);
+        rootNode.setPositionGlobal(elementPos[0],elementPos[1]+elementHeight-ControlKit.Constant.PADDING_OPTIONS);
         rootNode.setStyleProperty('visibility','visible');
 
 

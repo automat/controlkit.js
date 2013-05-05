@@ -1,14 +1,15 @@
 
 var imports = [
 
-    'controlKit.js',
+               'controlKit.js',
 
 
                'core/event/ckEvent.js',
                'core/event/ckEventDispatcher.js',
                'core/event/ckEventType.js',
 
-    'core/ckKit.js',
+                'core/ckConstant.js',
+                'core/ckKit.js',
 
                'core/dom/css/ckCSS.js',
 

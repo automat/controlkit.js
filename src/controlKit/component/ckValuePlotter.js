@@ -20,8 +20,8 @@ ControlKit.ValuePlotter = function(parent,object,value,label,params)
     var i = 0; while(i < this._points.length){this._points[i]=(length-i+1)*resolution;this._points[i+1]=0.0;i+=2;}
         i =-1; while(++i < length){this._buffer0[i] = this._buffer1[i] = 0.0;}
 
-    params.height = params.height  < ControlKit.CSS.MinHeight ?
-        ControlKit.CSS.MinHeight : params.height;
+    params.height = params.height  < ControlKit.Constant.MIN_HEIGHT ?
+                    ControlKit.Constant.MIN_HEIGHT : params.height;
 
     this._canvas.setSize(this._canvas.width,Math.floor(params.height));
     this._updateHeight();

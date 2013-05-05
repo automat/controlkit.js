@@ -22,12 +22,12 @@ ControlKit.NumberOutput = function(parent,object,value,label,params)
 
     if( params.height)
     {
-        params.height = params.height  < ControlKit.CSS.MinHeight ?
-                        ControlKit.CSS.MinHeight : params.height;
+        params.height = params.height  < ControlKit.Constant.MIN_HEIGHT ?
+                        ControlKit.Constant.MIN_HEIGHT : params.height;
         //TODO: FIXME!
         this._textArea.setHeight(params.height);
-        this._wrapNode.setHeight(this._textArea.getHeight() + ControlKit.CSS.WrapperPadding -6);
-        this._rootNode.setHeight(    this._textArea.getHeight() + ControlKit.CSS.WrapperPadding -3 );
+        this._wrapNode.setHeight(this._textArea.getHeight() + ControlKit.Constant.PADDING_WRAPPER -6);
+        this._rootNode.setHeight(this._textArea.getHeight() + ControlKit.Constant.PADDING_WRAPPER -3 );
     }
 
     if(this._wrap)this._textArea.setStyleProperty('white-space','pre-wrap');

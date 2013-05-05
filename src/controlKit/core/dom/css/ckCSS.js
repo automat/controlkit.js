@@ -62,11 +62,4 @@ ControlKit.CSS =
 
 
     /*-------------------------------------------------------------------------------------*/
-
-    WrapperPadding : 12,
-    MinHeight      : 25,
-
-    MinWidth : 100,
-
-    OptionsPadding : 2
 };
