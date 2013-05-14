@@ -14,6 +14,7 @@ ControlKit.Kit = function(parentDomElementId)
         node = ControlKit.Node.getNodeById(parentDomElementId);
     }
 
+
     this._rootNode   = node;
     this._panels = [];
 
