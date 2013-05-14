@@ -54,7 +54,7 @@ ControlKit.NumberInput = function(parent,object,value,label,params)
             options.build(presets,input.getValue(),input.getNode(),
                           function(){input.setValue(presets[options.getSelectedIndex()]);
                                      self._updateValue();},
-                          onPresetDeactivate,20);
+                          onPresetDeactivate,ControlKit.Constant.PADDING_PRESET);
         };
 
         presetBtn.setCallbackActive(onPresetActivate);
@@ -72,7 +72,7 @@ ControlKit.NumberInput.prototype._onInputFinish = function(){this._updateValue()
 ControlKit.NumberInput.prototype._updateValue = function()
 {
     this._object[this._key] = this._input.getValue();
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
 };
 
 ControlKit.NumberInput.prototype.onValueUpdate = function(e)
