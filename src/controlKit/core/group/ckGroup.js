@@ -47,6 +47,8 @@ ControlKit.Group = function(parent,params)
 
     /*-------------------------------------------------------------------------------------*/
 
+    /*-------------------------------------------------------------------------------------*/
+
     this._wrapNode.addChild(this._listNode);
     this._rootNode.addChild(this._wrapNode);
 
