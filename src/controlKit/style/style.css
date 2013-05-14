@@ -57,6 +57,8 @@
     overflow: hidden;
 }
 
+
+
 /*-------------------------------------------------------------------------------------
  * Inputs
  *-------------------------------------------------------------------------------------*/
@@ -210,7 +212,7 @@
     padding: 0 20px 0 10px;
 
     background-color: #1a1d1f;
-    border-top:       1px solid #31383b;
+    border-top:       1px solid #202426;
     border-bottom:    1px solid #111314;
 }
 
@@ -531,6 +533,7 @@
     height: 100%;
 }
 
+
 .panel .subGroupList .wrap .wrap
 {
     -webkit-box-sizing: border-box;
@@ -819,6 +822,86 @@
 
 }
 
+/*-------------------------------------------------------------------------------------
+ * ScrollBar
+ *-------------------------------------------------------------------------------------*/
+
+.panel .scrollBar
+{
+    box-sizing: content-box;
+    width: 17px;
+    height: 100%;
+    float: right;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    background: #212628;
+    border-left: 1px solid #1e2224;
+    top:0;
+
+}
+
+
+.panel .scrollBar .btnUp
+{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing:    border-box;
+    box-sizing:         border-box;
+
+    margin: 0;
+    padding: 0;
+    border: none;
+    width: 100%;
+    height: 18px;
+
+    background-image: -moz-linear-gradient(#3c4a4f 0%, #383f47 100%);
+    background-image: -o-linear-gradient(#3c4a4f 0%, #383f47 100%);
+    background-image: linear-gradient(#3a4145 0%, #363c40 100%);
+
+    position: absolute;
+
+    border-top:    1px solid #434b50;
+    border-bottom: 1px solid #1e2224;
+
+    top:0;
+
+
+}
+
+.panel .scrollBar .btnDown
+{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing:    border-box;
+    box-sizing:         border-box;
+
+    margin: 0;
+    padding: 0;
+    border: none;
+    width: 100%;
+    height: 17px;
+
+    background-image: -moz-linear-gradient(#3c4a4f 0%, #383f47 100%);
+    background-image: -o-linear-gradient(#3c4a4f 0%, #383f47 100%);
+    background-image: linear-gradient(#3a4145 0%, #363c40 100%);
+
+    position: absolute;
+
+    border-top:    1px solid #434b50;
+
+    bottom: 0;
+
+}
+
+.panel .scrollBar .track
+{
+    margin-top:18px;
+
+}
+
+.panel .scrollWrap
+{
+
+}
 
 /*-------------------------------------------------------------------------------------
  * Options
