@@ -4,6 +4,8 @@ ControlKit.Button = function(parent,label,onPress)
 
     var input = this._textArea = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
 
+    onPress = onPress  || function(){};
+
     input.setStyleClass(ControlKit.CSS.Button);
     input.setProperty('value',label);
     input.setEventListener(ControlKit.NodeEventType.ON_CLICK,
