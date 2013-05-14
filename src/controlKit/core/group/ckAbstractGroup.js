@@ -1,8 +1,11 @@
-ControlKit.AbstractGroup = function(parent)
+ControlKit.AbstractGroup = function(parent,params)
 {
     ControlKit.EventDispatcher.apply(this,arguments);
 
     this._parent = parent;
+
+    params           = params           || {};
+    params.maxHeight = params.maxHeight || null;
 
     /*---------------------------------------------------------------------------------*/
 
