@@ -27,7 +27,7 @@ ControlKit.NumberOutput = function(parent,object,value,label,params)
         //TODO: FIXME!
         this._textArea.setHeight(params.height);
         this._wrapNode.setHeight(this._textArea.getHeight() + ControlKit.Constant.PADDING_WRAPPER -6);
-        this._rootNode.setHeight(this._textArea.getHeight() + ControlKit.Constant.PADDING_WRAPPER -3 );
+        this._rootNode.setHeight(this._textArea.getHeight() + ControlKit.Constant.PADDING_WRAPPER -3);
     }
 
     if(this._wrap)this._textArea.setStyleProperty('white-space','pre-wrap');
@@ -48,7 +48,7 @@ ControlKit.NumberOutput.prototype._setValue = function()
     var index,
         out;
 
-    if(typeof(value)         === 'object'   &&
+    if(typeof(value)        === 'object'   &&
        typeof(value.length) === 'number'   &&
        typeof(value.splice) === 'function' &&
        !(value.propertyIsEnumerable('length')))
