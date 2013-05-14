@@ -1,5 +1,9 @@
 ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onChange,onFinish)
 {
+    ControlKit.EventDispatcher.apply(this,null);
+
+    /*---------------------------------------------------------------------------------*/
+
     this._value        = this._temp  = 0;
     this._valueStep    = stepValue || 1.0;
     this._valueDPlace  = decimalPlaces + 1;
@@ -15,10 +19,51 @@ ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onChange,onFi
 
     input.setProperty('value',this._value);
 
-    input.setEventListener(ControlKit.NodeEventType.KEY_DOWN,this._onInputKeyDown.bind(this));
-    input.setEventListener(ControlKit.NodeEventType.KEY_UP,  this._onInputKeyUp.bind(this));
-    input.setEventListener(ControlKit.NodeEventType.CHANGE,  this._onInputChange.bind(this));
+    /*---------------------------------------------------------------------------------*/
+
+    input.setEventListener(ControlKit.NodeEventType.KEY_DOWN, this._onInputKeyDown.bind(this));
+    input.setEventListener(ControlKit.NodeEventType.KEY_UP,   this._onInputKeyUp.bind(this));
+    input.setEventListener(ControlKit.NodeEventType.CHANGE,   this._onInputChange.bind(this));
+
+    //TODO: Move to input
+    //prevent chrome drag scroll
+
+    this._inputDragging = false;
+    input.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onInputDragStart.bind(this));
 };
+
+ControlKit.NumberInput_Internal.prototype = Object.create(ControlKit.EventDispatcher);
+
+
+ControlKit.NumberInput_Internal.prototype._onInputDragStart = function(e)
+{
+    this._inputDragging = true;
+
+    document.addEventListener(ControlKit.DocumentEventType.MOUSE_MOVE,this._onInputDrag.bind(this));
+    document.addEventListener(ControlKit.DocumentEventType.MOUSE_UP,  this._onInputDragEnd.bind(this));
+
+    console.log('drag_start');
+
+};
+
+ControlKit.NumberInput_Internal.prototype._onInputDrag = function(e)
+{
+    console.log('drag');
+
+};
+
+ControlKit.NumberInput_Internal.prototype._onInputDragEnd = function(e)
+{
+    this._inputDragging = false;
+
+    console.log(document.removeEventListener(ControlKit.DocumentEventType.MOUSE_MOVE,this._onInputDrag.bind(this)));
+    document.removeEventListener(ControlKit.DocumentEventType.MOUSE_UP,  this._onInputDragEnd.bind(this));
+
+    console.log('drag_end');
+
+};
+
+
 
 ControlKit.NumberInput_Internal.prototype._onInputKeyDown = function(e)
 {
