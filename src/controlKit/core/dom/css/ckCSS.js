@@ -60,6 +60,11 @@ ControlKit.CSS =
     PalleteWrap : 'palleteWrap',
     PaletteWrapInner :  'paletteWrapInner',
 
-
     /*-------------------------------------------------------------------------------------*/
+
+    ScrollBar        : 'scrollBar',
+    ScrollWrap       : 'scrollWrap',
+    ScrollbarBtnUp   : 'btnUp',
+    ScrollbarBtnDown : 'btnDown',
+    ScrollbarTrack   : 'track'
 };
