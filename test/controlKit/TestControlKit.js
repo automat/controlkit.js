@@ -27,6 +27,7 @@ var imports = [
                'core/component/ckCanvas.js',
                'core/component/ckCanvasComponent.js',
 
+               'core/layout/ckScrollBar.js',
                'core/group/ckAbstractGroup.js',
                'core/group/ckGroup.js',
                'core/group/ckSubGroup.js',
@@ -88,25 +89,25 @@ function TestControlKit(parentDomElementId)
                   selectOptions:['hello','bello','cello'],
                   selectTarget:'hello',
                   func:function(x){return Math.sin(x*Math.PI*4)*0.5;},
-        func2:function(x){return x*x;},
+                  func2:function(x){return x*x;},
                   xyValue:[0.25,-0.35],
                   changeValue0:0.0,
                   changeValue1:0.0,
-        changeValue2:0.0,
-        changeValue3:0.0,
-        changeValue4:0.0,
-        changeValue5:0.0,
-        changeValue6:0.0,
-                 xyChangeValue:[0.1,0.1]
+                  changeValue2:0.0,
+                  changeValue3:0.0,
+                  changeValue4:0.0,
+                  changeValue5:0.0,
+                  changeValue6:0.0,
+                    xyChangeValue:[0.1,0.1]
                   };
 
     var controlKit = new ControlKit.Kit(parentDomElementId);
 
-    var control0   = controlKit.addPanel({width:300,position:[0,0],fixed:false});
+    var control0   = controlKit.addPanel({width:250,position:[400,20],fixed:false});
 
 
     control0.addGroup()
-            .addSubGroup('noise')
+            .addSubGroup('noise',{maxHeight:200})
             .addNumberInput(object,'number','Input Comp',{presets:'numberPresets'})
             .addNumberInput(object,'number','Input Comp')
             .addStringInput(object,'string','Input Comp',{presets:'stringPresets'})
@@ -117,8 +118,11 @@ function TestControlKit(parentDomElementId)
 
 
 
-.addSubGroup('grain',{show:false})
+.addSubGroup('grain',{show:false,maxHeight:150})
     .addRange(object,'range','Range Comp')
+    .addSlider(object,'range','slideValue','slider')
+    .addSelect(object,'selectOptions','selectTarget','select')
+.addRange(object,'range','Range Comp')
     .addSlider(object,'range','slideValue','slider')
     .addSelect(object,'selectOptions','selectTarget','select');
 
@@ -133,9 +137,11 @@ function TestControlKit(parentDomElementId)
         .addButton('body go!')
         .addSubGroup()
         .addRange(object,'range','Range Comp')
-        .addCheckbox(object,'bool','Bool Comp')
+        .addCheckbox(object,'bool','Bool Comp');
 
 
+
+    /*
 
 
     var control1 = controlKit.addPanel({width:250,position:[205,0]});
@@ -276,6 +282,8 @@ function TestControlKit(parentDomElementId)
         }
 
         function loop(){requestAnimationFrame(loop);updateObject();}loop();
+
+    */
 
 
 }
