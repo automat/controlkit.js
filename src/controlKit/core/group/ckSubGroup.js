@@ -12,6 +12,8 @@ ControlKit.SubGroup = function(parent,label,params)
 
     /*-------------------------------------------------------------------------------------*/
 
+    this._maxHeight = null;
+
     this.set(label,params);
 
     /*-------------------------------------------------------------------------------------*/
@@ -25,8 +27,9 @@ ControlKit.SubGroup.prototype.set = function(label,params)
 {
     /*-------------------------------------------------------------------------------------*/
 
-    params        = params || {};
-    params.show   = params.show === undefined ? true : params.show;
+    params           = params || {};
+    params.show      = params.show === undefined ? true : params.show;
+    params.maxHeight = params.maxHeight || null;
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -54,6 +57,23 @@ ControlKit.SubGroup.prototype.set = function(label,params)
 
         if(!params.show)this.hide();
     }
+
+    /*-------------------------------------------------------------------------------------*/
+
+    this._scrollV    = 0;
+
+    if(params.maxHeight)
+    {
+        var maxHeight = this._maxHeight = params.maxHeight,
+            rootNode  = this._rootNode,
+            wrapNode  = this._wrapNode;
+
+        if(!this._hidden)wrapNode.setHeight(maxHeight);
+
+
+        this._scrollbar  = new ControlKit.ScrollBar(wrapNode,this._listNode,maxHeight);
+
+    }
 };
 
 /*-------------------------------------------------------------------------------------*/
@@ -61,7 +81,7 @@ ControlKit.SubGroup.prototype.set = function(label,params)
 ControlKit.SubGroup.prototype._onHeadMouseDown = function()
 {
     this._hidden = !this._hidden;this._updateVisibility();
-    this.dispatchEvent(new ControlKit.Event(this,this._hidden ? ControlKit.EventType.SUBGROUP_HIDDEN : ControlKit.EventType.SUBGROUP_SHOWN));
+    this.dispatchEvent(new ControlKit.Event(this,this._hidden ? ControlKit.EventType.SUBGROUP_HIDDEN : ControlKit.EventType.SUBGROUP_SHOWN,null));
 };
 
 ControlKit.SubGroup.prototype._updateVisibility = function()
@@ -74,7 +94,9 @@ ControlKit.SubGroup.prototype._updateVisibility = function()
     }
     else
     {
-        this._wrapNode.setHeight(this._wrapNode.getFirstChild().getHeight());
+        var maxHeight = this._maxHeight;
+
+        this._wrapNode.setHeight(maxHeight ? maxHeight : this._wrapNode.getFirstChild().getHeight());
         this._headNode.setStyleClass(ControlKit.CSS.Head);
         this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
     }
