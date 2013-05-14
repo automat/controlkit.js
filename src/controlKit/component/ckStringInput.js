@@ -47,9 +47,9 @@ ControlKit.StringInput = function(parent,object,value,label,params)
         var onPresetActivate = function()
         {
             options.build(presets,input.getProperty('value'),input,
-                function(){input.setProperty('value',presets[options.getSelectedIndex()]);
-                           self._updateValue();},
-                onPresetDeactivate,20);
+                          function(){input.setProperty('value',presets[options.getSelectedIndex()]);
+                                     self._updateValue();},
+                          onPresetDeactivate,ControlKit.Constant.PADDING_PRESET);
         };
 
         presetBtn.setCallbackActive(onPresetActivate);
@@ -60,6 +60,12 @@ ControlKit.StringInput = function(parent,object,value,label,params)
 
     input.setEventListener(ControlKit.NodeEventType.KEY_UP, this._onInputKeyUp.bind(this));
     input.setEventListener(ControlKit.NodeEventType.CHANGE, this._onInputChange.bind(this));
+
+
+
+
+
+    //input.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onInputMouseDown.bind(this));
 
 };
 
@@ -79,5 +85,50 @@ ControlKit.StringInput.prototype.onValueUpdate = function(e)
 {
     if(e.data.origin == this)return;
     this._input.setProperty('value',this._object[this._key]);
+};
+
+ControlKit.StringInput.prototype._onInputMouseDown = function(e)
+{
+    var input = this._input,
+        body  = document.body;
+
+    var eventMouseMove = ControlKit.DocumentEventType.MOUSE_MOVE,
+        eventMouseUp   = ControlKit.DocumentEventType.MOUSE_UP,
+        eventMouseOut  = ControlKit.DocumentEventType.MOUSE_OUT;
+
+
+
+    /*
+    var disablePointer = function()
+    {
+        input.setStyleProperty('pointerEvents','none');
+        input.setStyleProperty('display',      'none');
+
+        setTimeout(function(){input.setStyleProperty('display','');},0);
+
+        body.removeEventListener(eventMouseMove,disablePointer);
+    };
+
+    var enablePointer = function()
+    {
+        if(input.getStyleProperty('pointerEvents') === 'none')
+        {
+            input.setStyleProperty('pointerEvents','');
+        }
+        else
+        {
+            body.removeEventListener(eventMouseMove,disablePointer);
+        }
+
+        body.removeEventListener(eventMouseUp, enablePointer);
+        body.removeEventListener(eventMouseOut,enablePointer);
+
+    };
+
+
+    body.addEventListener(eventMouseMove,disablePointer);
+    body.addEventListener(eventMouseUp,  enablePointer);
+    body.addEventListener(eventMouseOut, enablePointer);
+     */
 };
 
