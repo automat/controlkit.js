@@ -4,20 +4,51 @@ ControlKit.Group = function(parent,params)
 
     /*-------------------------------------------------------------------------------------*/
 
+    this._rootNode.setStyleClass(ControlKit.CSS.Group);
+    this._wrapNode.setStyleClass(ControlKit.CSS.Wrap);
+    this._listNode.setStyleClass(ControlKit.CSS.SubGroupList);
+
+    this._wrapNode.addChild(this._listNode);
+    this._rootNode.addChild(this._wrapNode);
+
+    /*-------------------------------------------------------------------------------------*/
+
+    this.set(params);
+
+    /*-------------------------------------_collapsed-----------------------------------------*/
+
+    this._components = [];
+    this._subGroups  = [];
+
+    /*-------------------------------------------------------------------------------------*/
+    //add first subgroup
+    //TODO: FIX
+
+    this._subGroupsInit = false;
+    this._subGroups.push(new ControlKit.SubGroup(this,'',null));
+
+    /*-------------------------------------------------------------------------------------*/
+
+    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_BEGIN,this,'onPanelMoveBegin');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE,      this,'onPanelMove');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,  this,'onPanelMoveEnd');
+
+};
+
+ControlKit.Group.prototype = Object.create(ControlKit.AbstractGroup.prototype);
+
+/*-------------------------------------------------------------------------------------*/
+
+ControlKit.Group.prototype.set = function(params)
+{
+    /*-------------------------------------------------------------------------------------*/
+
     params           = params           || {};
     params.label     = params.label     || null;
     params.useLabels = params.useLabels || true;
     params.show      = params.show === undefined ? true : params.show;
 
     /*-------------------------------------------------------------------------------------*/
-
-    this._rootNode.setStyleClass(ControlKit.CSS.Group);
-    this._wrapNode.setStyleClass(ControlKit.CSS.Wrap);
-    this._listNode.setStyleClass(ControlKit.CSS.SubGroupList);
-
-    /*-------------------------------------------------------------------------------------*/
-
-    //Head
 
     if(params.label)
     {
@@ -44,36 +75,7 @@ ControlKit.Group = function(parent,params)
         //TODO: Add CSS Class
         this._wrapNode.getStyle().borderTop = "1px solid #3b4447";
     }
-
-    /*-------------------------------------------------------------------------------------*/
-
-    /*-------------------------------------------------------------------------------------*/
-
-    this._wrapNode.addChild(this._listNode);
-    this._rootNode.addChild(this._wrapNode);
-
-    /*-------------------------------------_collapsed-----------------------------------------*/
-
-    this._components = [];
-    this._subGroups  = [];
-
-    /*-------------------------------------------------------------------------------------*/
-
-    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_BEGIN,this,'onPanelMoveBegin');
-    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE,      this,'onPanelMove');
-    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,  this,'onPanelMoveEnd');
-
-    /*-------------------------------------------------------------------------------------*/
-    //add first subgroup
-    //TODO: FIX
-
-    this._subGroupsInit = false;
-    this._subGroups.push(new ControlKit.SubGroup(this,'',null));
-
-    /*-------------------------------------------------------------------------------------*/
 };
-
-ControlKit.Group.prototype = Object.create(ControlKit.AbstractGroup.prototype);
 
 /*-------------------------------------------------------------------------------------*/
 

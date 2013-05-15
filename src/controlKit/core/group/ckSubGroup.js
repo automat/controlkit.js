@@ -12,11 +12,7 @@ ControlKit.SubGroup = function(parent,label,params)
 
     /*-------------------------------------------------------------------------------------*/
 
-    this._maxHeight = null;
-
     this.set(label,params);
-
-    /*-------------------------------------------------------------------------------------*/
 };
 
 ControlKit.SubGroup.prototype = Object.create(ControlKit.AbstractGroup.prototype);
@@ -59,8 +55,6 @@ ControlKit.SubGroup.prototype.set = function(label,params)
     }
 
     /*-------------------------------------------------------------------------------------*/
-
-    this._scrollV    = 0;
 
     if(params.maxHeight)
     {
