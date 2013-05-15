@@ -1,41 +1,19 @@
 
 ControlKit.NumberOutput = function(parent,object,value,label,params)
 {
-    ControlKit.ObjectComponent.apply(this,arguments);
+    ControlKit.Output.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
     params            = params        || {};
-    params.height     = params.height || null;
-    params.wrap       = params.wrap   || false;
     params.dp         = params.dp     || 2;
 
     /*---------------------------------------------------------------------------------*/
 
-    this._wrap        = params.wrap;
     this._valueDPlace = params.dp + 1;
-
-    this._textArea = new ControlKit.Node(ControlKit.NodeType.TEXTAREA);
-    this._textArea.setProperty('readOnly',true);
-
-    this._wrapNode.addChild(this._textArea);
-
-    if( params.height)
-    {
-        params.height = params.height  < ControlKit.Constant.MIN_HEIGHT ?
-                        ControlKit.Constant.MIN_HEIGHT : params.height;
-        //TODO: FIXME!
-        this._textArea.setHeight(params.height);
-        this._wrapNode.setHeight(this._textArea.getHeight() + ControlKit.Constant.PADDING_WRAPPER -6);
-        this._rootNode.setHeight(this._textArea.getHeight() + ControlKit.Constant.PADDING_WRAPPER -3);
-    }
-
-    if(this._wrap)this._textArea.setStyleProperty('white-space','pre-wrap');
-
-    this._setValue();
 };
 
-ControlKit.NumberOutput.prototype = Object.create(ControlKit.ObjectComponent.prototype);
+ControlKit.NumberOutput.prototype = Object.create(ControlKit.Output.prototype);
 
 ControlKit.NumberOutput.prototype._setValue = function()
 {
@@ -83,15 +61,4 @@ ControlKit.NumberOutput.prototype._setValue = function()
     }
 
 };
-
-ControlKit.NumberOutput.prototype.onValueUpdate = function(e)
-{
-    this._setValue();
-};
-
-ControlKit.NumberOutput.prototype.update = function()
-{
-    this._setValue();
-};
-
 
