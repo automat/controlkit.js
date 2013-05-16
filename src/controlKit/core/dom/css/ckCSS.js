@@ -66,5 +66,6 @@ ControlKit.CSS =
     ScrollWrap       : 'scrollWrap',
     ScrollbarBtnUp   : 'btnUp',
     ScrollbarBtnDown : 'btnDown',
-    ScrollbarTrack   : 'track'
+    ScrollbarTrack   : 'track',
+    ScrollbarThumb   : 'thumb'
 };
