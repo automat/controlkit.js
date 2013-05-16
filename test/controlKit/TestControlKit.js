@@ -106,15 +106,20 @@ function TestControlKit(parentDomElementId)
 
     var control0   = controlKit.addPanel({width:250,position:[400,20],fixed:false}),
         group00    = control0.addGroup()
-                             .addSubGroup('',{maxHeight:435})
+                             .addSubGroup({label:'hello',maxHeight:200})
                              .addNumberOutput(object,'changeValue0', 'changeValue0')
                              .addNumberOutput(object,'changeValue1', 'changeValue1')
-                             .addStringOutput(object,'selectOptions','val',{height:60,wrap:true});
+                             .addStringOutput(object,'selectOptions','val',{height:60,wrap:true})
+            .addNumberOutput(object,'changeValue1', 'changeValue1')
+            .addStringInput(object,'string','Input Comp')
+            .addRange( object,'range','Range Comp')
+            .addSlider(object,'range','slideValue','slider')
+            .addSelect(object,'selectOptions','selectTarget','select')
 
 
 
     control0.addGroup({label:'level',maxHeight:200})
-            .addSubGroup('noise',{maxHeight:200})
+            .addSubGroup({label:'noise',maxHeight:200})
             .addNumberInput(object,'number','Input Comp',{presets:'numberPresets'})
             .addNumberInput(object,'number','Input Comp')
             .addStringInput(object,'string','Input Comp',{presets:'stringPresets'})
@@ -128,7 +133,7 @@ function TestControlKit(parentDomElementId)
 
 
 
-.addSubGroup('grain',{show:false,maxHeight:150})
+.addSubGroup({label:'grain',show:false,maxHeight:150})
     .addRange(object,'range','Range Comp')
     .addSlider(object,'range','slideValue','slider')
     .addSelect(object,'selectOptions','selectTarget','select')

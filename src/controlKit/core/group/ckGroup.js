@@ -158,15 +158,15 @@ ControlKit.Group.prototype._updateVisibility = function()
 /*-------------------------------------------------------------------------------------*/
 
 //TODO: FIX
-ControlKit.Group.prototype.addSubGroup  = function(label,params)
+ControlKit.Group.prototype.addSubGroup  = function(params)
 {
 
     if(!this._subGroupsInit)
     {
-        this.getSubGroup().set(label,params);
+        this.getSubGroup().set(params);
         this._subGroupsInit = true;
     }
-    else this._subGroups.push(new ControlKit.SubGroup(this,label,params));
+    else this._subGroups.push(new ControlKit.SubGroup(this,params));
 
     this._updateHeight();
     return this;

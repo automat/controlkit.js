@@ -1,4 +1,4 @@
-ControlKit.SubGroup = function(parent,label,params)
+ControlKit.SubGroup = function(parent,params)
 {
     ControlKit.AbstractGroup.apply(this,arguments);
 
@@ -12,24 +12,25 @@ ControlKit.SubGroup = function(parent,label,params)
 
     /*-------------------------------------------------------------------------------------*/
 
-    this.set(label,params);
+    this.set(params);
 };
 
 ControlKit.SubGroup.prototype = Object.create(ControlKit.AbstractGroup.prototype);
 
 /*-------------------------------------------------------------------------------------*/
 
-ControlKit.SubGroup.prototype.set = function(label,params)
+ControlKit.SubGroup.prototype.set = function(params)
 {
     /*-------------------------------------------------------------------------------------*/
 
     params           = params || {};
     params.show      = params.show === undefined ? true : params.show;
+    params.label     = params.label     || null;
     params.maxHeight = params.maxHeight || null;
 
     /*-------------------------------------------------------------------------------------*/
 
-    if(label && label.length!=0 )
+    if(params.label && params.label.length!=0 )
     {
         var headNode = this._headNode = new ControlKit.Node(ControlKit.NodeType.DIV),
             lablNode =                  new ControlKit.Node(ControlKit.NodeType.SPAN),
@@ -39,7 +40,7 @@ ControlKit.SubGroup.prototype.set = function(label,params)
         lablNode.setStyleClass(ControlKit.CSS.Label);
         indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
 
-        lablNode.setProperty('innerHTML',label);
+        lablNode.setProperty('innerHTML',params.label);
 
         headNode.addChild(lablNode);
         headNode.addChild(indiNode);
