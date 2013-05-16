@@ -64,7 +64,7 @@ ControlKit.Node.prototype =
 
     setPosition  : function(x,y){ return this.setPosition(x).setPosition(y);},
     setPositionX : function(x)  {this._element.style.marginLeft = x + 'px';return this;},
-    setPositionY : function(y)  {this._element.style.marinTop   = y + 'px';return this;},
+    setPositionY : function(y)  {this._element.style.marginTop  = y + 'px';return this;},
 
     setPositionGlobal  : function(x,y){return this.setPositionGlobalX(x).setPositionGlobalY(y);},
     setPositionGlobalX : function(x)  {this._element.style.left = x + 'px';return this;},
@@ -100,8 +100,6 @@ ControlKit.Node.prototype =
             element = element.offsetParent;
         }
 
-
-
         return offset;
     },
 
@@ -118,8 +116,6 @@ ControlKit.Node.prototype =
 
         return offset;
     },
-
-
 
     setEventListener : function(event,func){this._element[event] = func; return this;},
 
