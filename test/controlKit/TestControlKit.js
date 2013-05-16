@@ -40,6 +40,7 @@ var imports = [
                'component/internal/ckSlider_Internal.js',
                'component/internal/ckPlotter.js',
                'component/internal/ckPresetBtn.js',
+               'component/internal/ckOutput.js',
 
                'component/ckStringInput.js',
                'component/ckNumberInput.js',
@@ -103,18 +104,26 @@ function TestControlKit(parentDomElementId)
 
     var controlKit = new ControlKit.Kit(parentDomElementId);
 
-    var control0   = controlKit.addPanel({width:250,position:[400,20],fixed:false});
+    var control0   = controlKit.addPanel({width:250,position:[400,20],fixed:false}),
+        group00    = control0.addGroup()
+                             .addNumberOutput(object,'changeValue0', 'changeValue0')
+                             .addNumberOutput(object,'changeValue1', 'changeValue1')
+                             .addStringOutput(object,'selectOptions','val',{height:60,wrap:true});
 
 
-    control0.addGroup()
+
+    control0.addGroup({label:'level',maxHeight:200})
             .addSubGroup('noise',{maxHeight:200})
             .addNumberInput(object,'number','Input Comp',{presets:'numberPresets'})
             .addNumberInput(object,'number','Input Comp')
             .addStringInput(object,'string','Input Comp',{presets:'stringPresets'})
+            .addNumberOutput(object,'changeValue1', 'changeValue1')
             .addStringInput(object,'string','Input Comp')
             .addRange( object,'range','Range Comp')
             .addSlider(object,'range','slideValue','slider')
             .addSelect(object,'selectOptions','selectTarget','select')
+
+
 
 
 
@@ -126,6 +135,7 @@ function TestControlKit(parentDomElementId)
     .addSlider(object,'range','slideValue','slider')
     .addSelect(object,'selectOptions','selectTarget','select');
 
+    /*
 
 
 
@@ -138,6 +148,8 @@ function TestControlKit(parentDomElementId)
         .addSubGroup()
         .addRange(object,'range','Range Comp')
         .addCheckbox(object,'bool','Bool Comp');
+        */
+
 
 
 
@@ -261,7 +273,7 @@ function TestControlKit(parentDomElementId)
 .addPad(object,'xyValue','pad');
 
 
-
+     */
 
         var t = 0.0;
         var sint;
@@ -283,7 +295,7 @@ function TestControlKit(parentDomElementId)
 
         function loop(){requestAnimationFrame(loop);updateObject();}loop();
 
-    */
+
 
 
 }
