@@ -8,12 +8,10 @@ ControlKit.Group = function(parent,params)
     this._wrapNode.setStyleClass(ControlKit.CSS.Wrap);
     this._listNode.setStyleClass(ControlKit.CSS.SubGroupList);
 
+    this.set(params);
+
     this._wrapNode.addChild(this._listNode);
     this._rootNode.addChild(this._wrapNode);
-
-    /*-------------------------------------------------------------------------------------*/
-
-    this.set(params);
 
     /*-------------------------------------_collapsed-----------------------------------------*/
 
@@ -75,6 +73,10 @@ ControlKit.Group.prototype.set = function(params)
         //TODO: Add CSS Class
         this._wrapNode.getStyle().borderTop = "1px solid #3b4447";
     }
+
+    /*-------------------------------------------------------------------------------------*/
+
+    //TODO: Add maxheight
 };
 
 /*-------------------------------------------------------------------------------------*/
@@ -96,20 +98,20 @@ ControlKit.Group.prototype._onHeadMouseDown   = function(){this._hidden = !this.
 /*-------------------------------------------------------------------------------------*/
 
 
-ControlKit.Group.prototype.addStringInput     = function(object,value,label,params)       {return this._addComponent(new ControlKit.StringInput(     this,object,value,label,params));};
-ControlKit.Group.prototype.addNumberInput     = function(object,value,label,params)       {return this._addComponent(new ControlKit.NumberInput(     this,object,value,label,params));};
-ControlKit.Group.prototype.addRange           = function(object,value,label,params)       {return this._addComponent(new ControlKit.Range(           this,object,value,label,params));};
-ControlKit.Group.prototype.addCheckbox        = function(object,value,label,params)       {return this._addComponent(new ControlKit.Checkbox(        this,object,value,label,params));};
-ControlKit.Group.prototype.addButton          = function(label,onPress)                   {return this._addComponent(new ControlKit.Button(          this,label,onPress));};
-ControlKit.Group.prototype.addSelect          = function(object,value,target,label,params){return this._addComponent(new ControlKit.Select(          this,object,value,target,label,params));};
-ControlKit.Group.prototype.addSlider          = function(object,value,target,label,params){return this._addComponent(new ControlKit.Slider(          this,object,value,target,label,params));};
+ControlKit.Group.prototype.addStringInput     = function(object,value,label,params)       {return this._addComponent(new ControlKit.StringInput(     this.getSubGroup(),object,value,label,params));};
+ControlKit.Group.prototype.addNumberInput     = function(object,value,label,params)       {return this._addComponent(new ControlKit.NumberInput(     this.getSubGroup(),object,value,label,params));};
+ControlKit.Group.prototype.addRange           = function(object,value,label,params)       {return this._addComponent(new ControlKit.Range(           this.getSubGroup(),object,value,label,params));};
+ControlKit.Group.prototype.addCheckbox        = function(object,value,label,params)       {return this._addComponent(new ControlKit.Checkbox(        this.getSubGroup(),object,value,label,params));};
+ControlKit.Group.prototype.addButton          = function(label,onPress)                   {return this._addComponent(new ControlKit.Button(          this.getSubGroup(),label,onPress));};
+ControlKit.Group.prototype.addSelect          = function(object,value,target,label,params){return this._addComponent(new ControlKit.Select(          this.getSubGroup(),object,value,target,label,params));};
+ControlKit.Group.prototype.addSlider          = function(object,value,target,label,params){return this._addComponent(new ControlKit.Slider(          this.getSubGroup(),object,value,target,label,params));};
 
 
-ControlKit.Group.prototype.addFunctionPlotter = function(object,value,label,params)       {return this._addComponent(new ControlKit.FunctionPlotter( this,object,value,label,params));};
-ControlKit.Group.prototype.addPad             = function(object,value,label,params)       {return this._addComponent(new ControlKit.Pad(             this,object,value,label,params));};
-ControlKit.Group.prototype.addValuePlotter    = function(object,value,label,params)       {return this._addComponent(new ControlKit.ValuePlotter(    this,object,value,label,params));};
-ControlKit.Group.prototype.addNumberOutput    = function(object,value,label,params)       {return this._addComponent(new ControlKit.NumberOutput(    this,object,value,label,params));};
-ControlKit.Group.prototype.addStringOutput    = function(object,value,label,params)       {return this._addComponent(new ControlKit.StringOutput(    this,object,value,label,params));};
+ControlKit.Group.prototype.addFunctionPlotter = function(object,value,label,params)       {return this._addComponent(new ControlKit.FunctionPlotter( this.getSubGroup(),object,value,label,params));};
+ControlKit.Group.prototype.addPad             = function(object,value,label,params)       {return this._addComponent(new ControlKit.Pad(             this.getSubGroup(),object,value,label,params));};
+ControlKit.Group.prototype.addValuePlotter    = function(object,value,label,params)       {return this._addComponent(new ControlKit.ValuePlotter(    this.getSubGroup(),object,value,label,params));};
+ControlKit.Group.prototype.addNumberOutput    = function(object,value,label,params)       {return this._addComponent(new ControlKit.NumberOutput(    this.getSubGroup(),object,value,label,params));};
+ControlKit.Group.prototype.addStringOutput    = function(object,value,label,params)       {return this._addComponent(new ControlKit.StringOutput(    this.getSubGroup(),object,value,label,params));};
 
 /*-------------------------------------------------------------------------------------*/
 
@@ -131,6 +133,7 @@ ControlKit.Group.prototype._updateHeight = function()
 {
     var wrapNode = this._wrapNode;
     wrapNode.setHeight(wrapNode.getFirstChild().getHeight());
+    this.getSubGroup().update();
 };
 
 /*----------------------------------------------------------collapsed---------------------*/
@@ -160,7 +163,7 @@ ControlKit.Group.prototype.addSubGroup  = function(label,params)
 
     if(!this._subGroupsInit)
     {
-        this.getActiveSubGroup().set(label,params);
+        this.getSubGroup().set(label,params);
         this._subGroupsInit = true;
     }
     else this._subGroups.push(new ControlKit.SubGroup(this,label,params));
@@ -169,11 +172,13 @@ ControlKit.Group.prototype.addSubGroup  = function(label,params)
     return this;
 };
 
+ControlKit.Group.prototype.getSubGroup = function(){return this._subGroups[this._subGroups.length-1];};
+
 /*-------------------------------------------------------------------------------------*/
 
 ControlKit.Group.prototype.getComponents = function(){return this._components;};
 
-ControlKit.Group.prototype.getActiveSubGroup = function(){return this._subGroups[this._subGroups.length-1];};
+
 
 
 

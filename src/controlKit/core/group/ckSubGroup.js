@@ -64,7 +64,6 @@ ControlKit.SubGroup.prototype.set = function(label,params)
 
         if(!this._hidden)wrapNode.setHeight(maxHeight);
 
-
         this._scrollbar  = new ControlKit.ScrollBar(wrapNode,this._listNode,maxHeight);
 
     }
@@ -94,6 +93,12 @@ ControlKit.SubGroup.prototype._updateVisibility = function()
         this._headNode.setStyleClass(ControlKit.CSS.Head);
         this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
     }
+};
+
+ControlKit.SubGroup.prototype.update = function()
+{
+    if(!this._maxHeight)return;
+    this._scrollbar.update();
 };
 
 /*-------------------------------------------------------------------------------------*/

@@ -1,27 +1,23 @@
 
-ControlKit.ScrollBar = function(parentNode,targetNode,targetHeight)
+ControlKit.ScrollBar = function(parent,target)
 {
-    var wrap  = this._wrapNode    = new ControlKit.Node(ControlKit.NodeType.DIV);
-    var node  = this._rootNode    = new ControlKit.Node(ControlKit.NodeType.DIV);
 
-    var btnSU = this._btnStepUp   = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON),
-        btnSD = this._btnStepDown = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
+    this._parent = parent;
+    this._target = target;
 
-    var track = this._track = new ControlKit.ScrollTrack();
-    var thumb = this._thumb = new ControlKit.ScrollThumb();
 
+    var wrap   = this._wrapNode   = new ControlKit.Node(ControlKit.NodeType.DIV),
+        node   = this._rootNode   = new ControlKit.Node(ControlKit.NodeType.DIV),
+        track  = this._track      = new ControlKit.ScrollTrack(this);
 
     /*---------------------------------------------------------------------------------*/
 
+    var parentNode = parent.getNode(),
+        targetNode = target.getNode();
+
     parentNode.removeChild(targetNode);
     wrap.addChild(targetNode);
-
-
-    track.getNode().addChild(thumb.getNode());
-
-    node.addChild(btnSU);
     node.addChild(track.getNode());
-    node.addChild(btnSD);
 
     parentNode.addChild(wrap);
     parentNode.addChildAt(node,0);
@@ -31,73 +27,144 @@ ControlKit.ScrollBar = function(parentNode,targetNode,targetHeight)
     wrap.setStyleClass(ControlKit.CSS.ScrollWrap);
     node.setStyleClass(ControlKit.CSS.ScrollBar);
 
-    btnSU.setStyleClass(ControlKit.CSS.ScrollbarBtnUp);
-    btnSD.setStyleClass(ControlKit.CSS.ScrollbarBtnDown);
-
-
-
-
     /*---------------------------------------------------------------------------------*/
-
 
     this._scrollUnit = 0;
 
-};
-
-ControlKit.ScrollBar.prototype =
-{
-    onTargetHeightChanged : function(e){},
-
-    _updateHeight : function(){},
-
-    _updateThumb  : function(){},
-
-    _scroll : function(){},
-
-    updateRatio : function(){},
-
-    _update : function(){},
-
-    _setPosition : function(y){}
-
-
-
-
 
 
 };
 
-ControlKit.ScrollThumb = function()
-{
-    this._node = new ControlKit.Node(ControlKit.NodeType.DIV);
 
-    this._dragging = false;
-    this._top      = 0;
-    this._middle   = 0;
-    this._height   = 0;
+ControlKit.ScrollBar.prototype.update = function()
+{
+    this._track.update();
+};
+
+ControlKit.ScrollBar.prototype.getScrollTarget     = function(){return this._wrapNode;};
+ControlKit.ScrollBar.prototype.getScrollTargetWrap = function(){return this._parent;};
+
+/*---------------------------------------------------------------------------------*/
+
+ControlKit.ScrollThumb = function(parent)
+{
+    this._parent = parent;
+
+    var node = this._node = new ControlKit.Node(ControlKit.NodeType.DIV);
+    this._parent.getNode().addChild(node);
+
+    node.setStyleClass(ControlKit.CSS.ScrollbarThumb);
+    node.setPositionGlobalY( ControlKit.Constant.SCROLLBAR_TRACK_PADDING);
+    node.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onDragStart.bind(this));
 };
 
 ControlKit.ScrollThumb.prototype =
 {
+    _onDragStart : function()
+    {
+        var eventMouseMove = ControlKit.DocumentEventType.MOUSE_MOVE,
+            eventMouseUp   = ControlKit.DocumentEventType.MOUSE_UP;
+
+        var node       = this._node,
+            parentNode = this._parent.getNode();
+
+        var mouse       = ControlKit.Mouse.getInstance(),
+            mouseOffset = mouse.getY() - node.getPositionGlobalY();
+
+        var self = this;
+
+        var onDrag = function()
+        {
+            self.scroll(mouse.getY() - parentNode.getPositionGlobalY() - mouseOffset);
+            console.log('drag');
+        };
+
+        var onDragEnd = function()
+        {
+            document.removeEventListener(eventMouseMove, onDrag,    false);
+            document.removeEventListener(eventMouseUp,   onDragEnd, false);
+
+            console.log('drag_end');
+        };
+
+        document.addEventListener(eventMouseMove, onDrag,    false);
+        document.addEventListener(eventMouseUp,   onDragEnd, false);
+
+
+        console.log('drag_start');
+    },
+
+    update : function()
+    {
+        /*
+        var track = this._parent;
+
+        var target           = track.getParent().getScrollTarget(),
+            targetWrap       = track.getParent().getScrollTargetWrap(),
+            targetHeight     = target.getHeight(),
+            targetWrapHeight = targetWrap.getHeight() ? targetWrap.getMaxHeight() :
+                               targetWrap.getHeight();
+                               */
+
+        //console.log(targetHeight + ' ' + targetWrapHeight);
+
+        //var padding = ControlKit.Constant.SCROLLBAR_TRACK_PADDING;
+
+        /*
+        var interpolation = bar.getScrollTarget().getHeight() /
+                            bar.getScrollTargetWrap().getHeight();
+                            */
+
+
+
+    },
+
+    scroll  : function(y)
+    {
+        var node = this._node;
+
+        node.setPositionGlobalY(y);
+
+        /*
+        var trackNode = this._parent.getNode(),
+            thumbNode = this._node;
+
+        var trackOffset  = trackNode.getPositionGlobalY(),
+            trackPadding = ControlKit.Constant.SCROLLBAR_TRACK_PADDING;
+
+        var min = trackOffset + trackPadding,
+            max = trackOffset + trackNode.getHeight() - trackPadding - thumbNode.getHeight();
+
+        thumbNode.setPositionGlobalY(Math.round((y < min) ? trackPadding :
+                                                (y > max) ? max - trackOffset :
+                                                (y - trackOffset)));
+                                                */
+
+
+
+
+    },
+
     getNode : function(){return this._node;}
 };
 
-ControlKit.ScrollTrack = function()
+/*---------------------------------------------------------------------------------*/
+
+ControlKit.ScrollTrack = function(parent)
 {
-    var node = this._node = new ControlKit.Node(ControlKit.NodeType.DIV);
-    node.setStyleClass(ControlKit.CSS.ScrollbarTrack);
+    this._parent = parent;
 
-    this.offset = 0;
-    this.height = 0;
-    this.scrollHeight = 0;
+    this._node  = new ControlKit.Node(ControlKit.NodeType.DIV);
+    this._thumb = new ControlKit.ScrollThumb(this);
 
+    this._node.setStyleClass(ControlKit.CSS.ScrollbarTrack);
+    this._node.addChild(this._thumb.getNode());
 };
 
 ControlKit.ScrollTrack.prototype =
 {
-    getNode : function()      {return this._node;},
-    setHeight:function(height){this._height = height;this._node.setHeight(this);},
-    getHeight:function()      {return this._height;}
-
+    update   : function(){this._thumb.update();},
+    getNode  : function(){return this._node;},
+    getParent: function(){return this._parent;}
 };
 
