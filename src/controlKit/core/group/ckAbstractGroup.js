@@ -14,7 +14,7 @@ ControlKit.AbstractGroup = function(parent,params)
 
     this._parent.getList().addChild(rootNode);
 
-    /*---------------------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------------------z*/
 
     this._scrollV   = 0;
     this._maxHeight = null;

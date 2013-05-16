@@ -106,6 +106,7 @@ function TestControlKit(parentDomElementId)
 
     var control0   = controlKit.addPanel({width:250,position:[400,20],fixed:false}),
         group00    = control0.addGroup()
+                             .addSubGroup('',{maxHeight:35})
                              .addNumberOutput(object,'changeValue0', 'changeValue0')
                              .addNumberOutput(object,'changeValue1', 'changeValue1')
                              .addStringOutput(object,'selectOptions','val',{height:60,wrap:true});
