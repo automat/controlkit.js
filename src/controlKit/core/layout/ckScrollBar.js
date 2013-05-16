@@ -34,16 +34,16 @@ ControlKit.ScrollBar = function(parentNode,targetNode,wrapHeight)
     thumb.setPositionY(ControlKit.Constant.SCROLLBAR_TRACK_PADDING);
     thumb.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onThumbDragStart.bind(this));
 
-    this._valid = false;
+    this._valid  = false;
+    this._hidden = false;
 };
-
-
-
 
 ControlKit.ScrollBar.prototype =
 {
     update : function()
     {
+        if(this._hidden)return;
+
         var wrapHeight   = this._wrapHeight,
             target       = this._targetNode,
             targetHeight = target.getHeight();
@@ -97,7 +97,7 @@ ControlKit.ScrollBar.prototype =
 
     _onThumbDragStart : function()
     {
-        if(!this._valid)return;
+        if(!this._valid || this._hidden)return;
 
         var eventMouseMove = ControlKit.DocumentEventType.MOUSE_MOVE,
             eventMouseUp   = ControlKit.DocumentEventType.MOUSE_UP;
@@ -120,9 +120,14 @@ ControlKit.ScrollBar.prototype =
         self._scrollThumb(mouse.getY());
         document.addEventListener(eventMouseMove, onDrag,    false);
         document.addEventListener(eventMouseUp,   onDragEnd, false);
+    },
+
+    show : function(){this._hidden = false;this._updateVisibily();},
+    hide : function(){this._hidden = true; this._updateVisibily();},
+
+    _updateVisibily : function()
+    {
+        this._rootNode.setStyleProperty('display',this._hidden ? 'none' : 'block');
     }
-
-
-
 };
 
