@@ -25,45 +25,45 @@ ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onChange,onFi
     input.setEventListener(ControlKit.NodeEventType.KEY_UP,   this._onInputKeyUp.bind(this));
     input.setEventListener(ControlKit.NodeEventType.CHANGE,   this._onInputChange.bind(this));
 
-    //TODO: Move to input
-    //prevent chrome drag scroll
+    /*---------------------------------------------------------------------------------*/
 
-    this._inputDragging = false;
+    //prevent chrome drag scroll TODO:Move to Input
     input.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onInputDragStart.bind(this));
 };
 
-ControlKit.NumberInput_Internal.prototype = Object.create(ControlKit.EventDispatcher);
+ControlKit.NumberInput_Internal.prototype = Object.create(ControlKit.EventDispatcher.prototype);
 
 
-ControlKit.NumberInput_Internal.prototype._onInputDragStart = function(e)
+ControlKit.NumberInput_Internal.prototype._onInputDragStart = function()
 {
-    this._inputDragging = true;
+    var eventMouseMove = ControlKit.DocumentEventType.MOUSE_MOVE,
+        eventMouseUp   = ControlKit.DocumentEventType.MOUSE_UP;
 
-    document.addEventListener(ControlKit.DocumentEventType.MOUSE_MOVE,this._onInputDrag.bind(this));
-    document.addEventListener(ControlKit.DocumentEventType.MOUSE_UP,  this._onInputDragEnd.bind(this));
+    var eventDragStart = ControlKit.EventType.INPUT_SELECTDRAG_START,
+        eventDrag      = ControlKit.EventType.INPUT_SELECTDRAG,
+        eventDragEnd   = ControlKit.EventType.INPUT_SELECTDRAG_END;
 
-    console.log('drag_start');
+    var self = this;
 
+    var onDrag = function()
+    {
+        self.dispatchEvent(new ControlKit.Event(self,eventDrag,null));
+    };
+
+    var onDragEnd = function()
+    {
+        document.removeEventListener(eventMouseMove, onDrag,    false);
+        document.removeEventListener(eventMouseUp,   onDragEnd, false);
+
+        self.dispatchEvent(new ControlKit.Event(self,eventDragEnd,null));
+    };
+
+
+    document.addEventListener(eventMouseMove,onDrag,   false);
+    document.addEventListener(eventMouseUp,  onDragEnd,false);
+
+    this.dispatchEvent(new ControlKit.Event(this,eventDragStart,null));
 };
-
-ControlKit.NumberInput_Internal.prototype._onInputDrag = function(e)
-{
-    console.log('drag');
-
-};
-
-ControlKit.NumberInput_Internal.prototype._onInputDragEnd = function(e)
-{
-    this._inputDragging = false;
-
-    console.log(document.removeEventListener(ControlKit.DocumentEventType.MOUSE_MOVE,this._onInputDrag.bind(this)));
-    document.removeEventListener(ControlKit.DocumentEventType.MOUSE_UP,  this._onInputDragEnd.bind(this));
-
-    console.log('drag_end');
-
-};
-
-
 
 ControlKit.NumberInput_Internal.prototype._onInputKeyDown = function(e)
 {

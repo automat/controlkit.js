@@ -61,12 +61,14 @@ ControlKit.StringInput = function(parent,object,value,label,params)
     input.setEventListener(ControlKit.NodeEventType.KEY_UP, this._onInputKeyUp.bind(this));
     input.setEventListener(ControlKit.NodeEventType.CHANGE, this._onInputChange.bind(this));
 
+    /*---------------------------------------------------------------------------------*/
 
+    //prevent chrome drag scroll TODO:Move to Input
+    input.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onInputDragStart.bind(this));
 
-
-
-    //input.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onInputMouseDown.bind(this));
-
+    this.addEventListener( ControlKit.EventType.INPUT_SELECTDRAG_START,this._parent,'onSelectDragStart');
+    this.addEventListener( ControlKit.EventType.INPUT_SELECTDRAG,      this._parent,'onSelectDrag');
+    this.addEventListener( ControlKit.EventType.INPUT_SELECTDRAG_END,  this._parent,'onSelectDragEnd');
 };
 
 ControlKit.StringInput.prototype = Object.create(ControlKit.ObjectComponent.prototype);
@@ -78,7 +80,7 @@ ControlKit.StringInput.prototype._onInputChange = function(){this._updateValue()
 ControlKit.StringInput.prototype._updateValue = function()
 {
     this._object[this._key] = this._input.getProperty('value');
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
 };
 
 ControlKit.StringInput.prototype.onValueUpdate = function(e)
@@ -87,48 +89,34 @@ ControlKit.StringInput.prototype.onValueUpdate = function(e)
     this._input.setProperty('value',this._object[this._key]);
 };
 
-ControlKit.StringInput.prototype._onInputMouseDown = function(e)
+ControlKit.StringInput.prototype._onInputDragStart = function()
 {
-    var input = this._input,
-        body  = document.body;
-
     var eventMouseMove = ControlKit.DocumentEventType.MOUSE_MOVE,
-        eventMouseUp   = ControlKit.DocumentEventType.MOUSE_UP,
-        eventMouseOut  = ControlKit.DocumentEventType.MOUSE_OUT;
+        eventMouseUp   = ControlKit.DocumentEventType.MOUSE_UP;
 
+    var eventDragStart = ControlKit.EventType.INPUT_SELECTDRAG_START,
+        eventDrag      = ControlKit.EventType.INPUT_SELECTDRAG,
+        eventDragEnd   = ControlKit.EventType.INPUT_SELECTDRAG_END;
 
+    var self = this;
 
-    /*
-    var disablePointer = function()
+    var onDrag = function()
     {
-        input.setStyleProperty('pointerEvents','none');
-        input.setStyleProperty('display',      'none');
-
-        setTimeout(function(){input.setStyleProperty('display','');},0);
-
-        body.removeEventListener(eventMouseMove,disablePointer);
+        self.dispatchEvent(new ControlKit.Event(self,eventDrag,null));
     };
 
-    var enablePointer = function()
+    var onDragEnd = function()
     {
-        if(input.getStyleProperty('pointerEvents') === 'none')
-        {
-            input.setStyleProperty('pointerEvents','');
-        }
-        else
-        {
-            body.removeEventListener(eventMouseMove,disablePointer);
-        }
+        document.removeEventListener(eventMouseMove, onDrag,    false);
+        document.removeEventListener(eventMouseUp,   onDragEnd, false);
 
-        body.removeEventListener(eventMouseUp, enablePointer);
-        body.removeEventListener(eventMouseOut,enablePointer);
-
+        self.dispatchEvent(new ControlKit.Event(self,eventDragEnd,null));
     };
 
 
-    body.addEventListener(eventMouseMove,disablePointer);
-    body.addEventListener(eventMouseUp,  enablePointer);
-    body.addEventListener(eventMouseOut, enablePointer);
-     */
+    document.addEventListener(eventMouseMove,onDrag,   false);
+    document.addEventListener(eventMouseUp,  onDragEnd,false);
+
+    this.dispatchEvent(new ControlKit.Event(this,eventDragStart,null));
 };
 
