@@ -7,11 +7,10 @@ ControlKit.Component = function(parent)
 
     var rootNode    = this._rootNode = new ControlKit.Node(ControlKit.NodeType.LIST_ITEM),
         lablNode    = this._lablNode = new ControlKit.Node(ControlKit.NodeType.SPAN),
-        wrapNode    = this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV),
-        targetGroup = this._parent.getActiveSubGroup();
+        wrapNode    = this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV);
 
-    targetGroup.addComponentRoot(rootNode);
-    if(targetGroup.hasLabel() && targetGroup.getList().getNumChildren() == 1)
+    parent.addComponentRoot(rootNode);
+    if(parent.hasLabel() && parent.getList().getNumChildren() == 1)
     rootNode.setStyleProperty('border-top','1px solid #303639');
 
     rootNode.addChild(lablNode);
