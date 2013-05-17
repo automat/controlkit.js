@@ -1,5 +1,7 @@
 ControlKit.CSS =
 {
+    ControlKit   : 'controlKit',
+
     Panel        : 'panel',
     Head         : 'head',
     Label        : 'label',
@@ -39,7 +41,7 @@ ControlKit.CSS =
     Select       : 'select',
     SelectActive : 'selectActive',
 
-    Options         : 'kitOptions',
+    Options         : 'options',
     OptionsSelected : 'liSelected',
 
     /*-------------------------------------------------------------------------------------*/

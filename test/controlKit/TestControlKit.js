@@ -108,7 +108,7 @@ function TestControlKit(parentDomElementId)
         group00    = control0.addGroup({maxHeight:200})
                              .addSubGroup()
             .addValuePlotter(object,'changeValue2','randF',{height:35,lineWidth:2,lineColor:[237, 20, 91]})
-        .addValuePlotter(object,'changeValue3','rect',{height:100,lineWidth:0.5})
+        .addValuePlotter(object,'changeValue3','rect',{height:35,lineWidth:2})
                              .addNumberOutput(object,'changeValue0', 'changeValue0')
                              .addNumberOutput(object,'changeValue1', 'changeValue1')
                              .addStringOutput(object,'selectOptions','val',{height:60,wrap:true})
@@ -163,7 +163,7 @@ function TestControlKit(parentDomElementId)
 
 
 
-    /*
+
 
 
     var control1 = controlKit.addPanel({width:250,position:[205,0]});
@@ -283,7 +283,7 @@ function TestControlKit(parentDomElementId)
 .addPad(object,'xyValue','pad');
 
 
-     */
+
 
         var t = 0.0;
         var sint;

@@ -66,7 +66,6 @@ ControlKit.Panel = function(controlKit,params)
         document.addEventListener(ControlKit.DocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
     }
 
-
     /*---------------------------------------------------------------------------------*/
 
     headNode.addChild(lablNode);
@@ -78,14 +77,12 @@ ControlKit.Panel = function(controlKit,params)
 
     this._position = params.position;
 
-
     if(align == 'left')this._setPosition(params.position[0],params.position[1]);
     else               this._setPosition(window.innerWidth - params.position[0] - width,params.position[1]);
 
     this._groups = [];
 
     /*---------------------------------------------------------------------------------*/
-
 
     window.addEventListener('resize',this._onWindowResize.bind(this));
 };

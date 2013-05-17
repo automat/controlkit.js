@@ -14,6 +14,9 @@ ControlKit.Kit = function(parentDomElementId)
         node = ControlKit.Node.getNodeById(parentDomElementId);
     }
 
+    node.setStyleClass(ControlKit.CSS.ControlKit);
+
+    /*---------------------------------------------------------------------------------*/
 
     this._rootNode   = node;
     this._panels = [];
@@ -24,26 +27,16 @@ ControlKit.Kit = function(parentDomElementId)
     ControlKit.Picker.init();
     ControlKit.Options.init();
 
-    //node.addChild(Picker.getInstance().getNode());
+    node.addChild(ControlKit.Picker.getInstance().getNode());
     node.addChild(ControlKit.Options.getInstance().getNode());
 
     /*---------------------------------------------------------------------------------*/
 
-    this._window = {width :window.innerWidth,height:window.innerHeight};
-    window.addEventListener("resize", this.onWindowResize.bind(this), false);
-
-
-    ControlKit._kitInstance = this;
+    ControlKit.Kit._instance = this;
 
 };
 
 ControlKit.Kit.prototype = Object.create(ControlKit.EventDispatcher.prototype);
-
-ControlKit.Kit.prototype.onWindowResize = function()
-{
-    this._window.width = window.innerWidth;
-    this._window.height = window.innerHeight;
-};
 
 /*---------------------------------------------------------------------------------*/
 
@@ -106,4 +99,4 @@ ControlKit.Kit.prototype.update = function()
 
 ControlKit.Kit.prototype.getRootNode = function(){return this._rootNode;};
 
-ControlKit.getKitInstance = function(){return ControlKit._kitInstance;};
+ControlKit.getKitInstance = function(){return ControlKit.Kit._instance;};

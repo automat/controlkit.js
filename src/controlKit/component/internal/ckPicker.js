@@ -1,15 +1,20 @@
 ControlKit.Picker = function()
 {
+    /*---------------------------------------------------------------------------------*/
+
     var node = this._rootNode = new ControlKit.Node(ControlKit.NodeType.DIV),
         head = new ControlKit.Node(ControlKit.NodeType.DIV),
-        labl = new ControlKit.Node(ControlKit.NodeType.Label),
+        labl = new ControlKit.Node(ControlKit.NodeType.DIV),
         wrap = new ControlKit.Node(ControlKit.NodeType.DIV);
 
         node.setStyleClass(ControlKit.CSS.Picker);
         head.setStyleClass(ControlKit.CSS.Head);
+        labl.setStyleClass(ControlKit.CSS.Label);
         wrap.setStyleClass(ControlKit.CSS.Wrap);
 
-        var paletteWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
+    /*---------------------------------------------------------------------------------*/
+
+    var paletteWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
         paletteWrap.setStyleClass(ControlKit.CSS.PalleteWrap);
 
     var paletteWrapInner = new ControlKit.Node(ControlKit.NodeType.DIV);
@@ -18,20 +23,22 @@ ControlKit.Picker = function()
     var sliderWrapInner  = new ControlKit.Node(ControlKit.NodeType.DIV);
         sliderWrapInner.setStyleClass(ControlKit.CSS.PaletteWrapInner);
 
+    /*---------------------------------------------------------------------------------*/
 
     var paletteCanvas = this._paletteCanvas = new ControlKit.Canvas(paletteWrapInner);
-    paletteCanvas.setAntialias(false);
-    paletteCanvas.setSize(154,154);
+        paletteCanvas.setAntialias(false);
+        paletteCanvas.setSize(154,154);
 
 
     var sliderCanvas  = this._sliderCanvas  = new ControlKit.Canvas(sliderWrapInner);
-    sliderCanvas.setAntialias(false);
-    sliderCanvas.setSize(24,154);
+        sliderCanvas.setAntialias(false);
+        sliderCanvas.setSize(24,154);
 
+    /*---------------------------------------------------------------------------------*/
 
+    labl.setProperty('innerHTML','Color Picker');
 
-    head.setProperty('innerHTML','Color Picker');
-
+    head.addChild(labl);
     node.addChild(head);
     node.addChild(wrap);
 
@@ -39,10 +46,10 @@ ControlKit.Picker = function()
     paletteWrap.addChild(paletteWrapInner);
     paletteWrap.addChild(sliderWrapInner);
 
+    /*---------------------------------------------------------------------------------*/
+
     this._drawPalette();
     this._drawSlider();
-
-
 
     //for testing
     node.setPositionGlobal(300,200);
