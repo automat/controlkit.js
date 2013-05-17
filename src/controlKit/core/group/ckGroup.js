@@ -12,7 +12,7 @@ ControlKit.Group = function(parent,params)
         wrapNode = this._wrapNode.setStyleClass(ControlKit.CSS.Wrap),
         listNode = this._listNode.setStyleClass(ControlKit.CSS.SubGroupList);
 
-    //TODO: FIX ORDER!!!
+    //TODO: FIX ORDER!!!*_*
     wrapNode.addChild(listNode);
     this.set(params);
     rootNode.addChild(wrapNode);
@@ -218,8 +218,7 @@ ControlKit.Group.prototype._updateVisibility = function()
     }
     else
     {
-        wrapNode.setHeight(this._maxHeight ? wrapNode.getChildAt(1).getHeight() :
-                                             wrapNode.getFirstChild().getHeight());
+        wrapNode.setHeight(this._maxHeight ||  wrapNode.getFirstChild().getHeight());
 
         if(inidNode)inidNode.setStyleClass(ControlKit.CSS.ArrowBMax);
 
