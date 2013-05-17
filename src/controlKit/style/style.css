@@ -836,11 +836,10 @@
     margin: 0;
     position: relative;
     background: #212628;
-    border-left: 1px solid #1e2224;
 
-    background-image: -moz-linear-gradient(left,rgba(26, 29, 31,0.5) 0%, rgba(26, 29, 31,0.0) 50%));
-    background-image: -o-linear-gradient(left,  rgba(26, 29, 31,0.5) 0%, rgba(26, 29, 31,0.0) 50%));
-    background-image: linear-gradient(to right, rgba(26, 29, 31,0.5) 0%, rgba(26, 29, 31,0.0) 50%);
+    background-image: -moz-linear-gradient(left,rgba(26, 29, 31,0.8) 0%, rgba(26, 29, 31,0.0) 100%));
+    background-image: -o-linear-gradient(left,  rgba(26, 29, 31,0.8) 0%, rgba(26, 29, 31,0.0) 100%));
+    background-image: linear-gradient(to right, rgba(26, 29, 31,0.8) 0%, rgba(26, 29, 31,0.0) 100%);
 
     top:0;
 }

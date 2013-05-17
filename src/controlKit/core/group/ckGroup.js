@@ -24,8 +24,6 @@ ControlKit.Group = function(parent,params)
     this._subGroups  = [];
 
     /*-------------------------------------------------------------------------------------*/
-    //add first subgroup
-    //TODO: FIX
 
     this._subGroupsInit = false;
     this._subGroups.push(new ControlKit.SubGroup(this,'',null));
@@ -76,6 +74,7 @@ ControlKit.Group.prototype.set = function(params)
     {
         //TODO: Add CSS Class
         if(!params.maxHeight)this._wrapNode.getStyle().borderTop = "1px solid #3b4447";
+
     }
 
     /*-------------------------------------------------------------------------------------*/
@@ -95,17 +94,18 @@ ControlKit.Group.prototype._setBuffer = function(params)
 {
     if(!params.maxHeight)return;
 
-    var rootNode = this._rootNode;
+    var rootNode = this._rootNode,
+        style    = ControlKit.CSS.ScrollBuffer;
 
     if(!params.label)
     {
         var bufferTop = this._scrollBufferTop = new ControlKit.Node(ControlKit.NodeType.DIV);
-            bufferTop.setStyleClass(ControlKit.CSS.ScrollBuffer);
+            bufferTop.setStyleClass(style);
             rootNode.addChildAt(bufferTop,0);
     }
 
     var bufferBottom = this._scrollBufferBottom = new ControlKit.Node(ControlKit.NodeType.DIV);
-        bufferBottom.setStyleClass(ControlKit.CSS.ScrollBuffer);
+        bufferBottom.setStyleClass(style);
         rootNode.addChild(bufferBottom);
 };
 
@@ -218,6 +218,9 @@ ControlKit.Group.prototype._updateVisibility = function()
     }
     else
     {
+
+        //TODO Fix maxheight wrapheight
+
         wrapNode.setHeight(this._maxHeight ||  wrapNode.getFirstChild().getHeight());
 
         if(inidNode)inidNode.setStyleClass(ControlKit.CSS.ArrowBMax);
@@ -235,7 +238,6 @@ ControlKit.Group.prototype._updateVisibility = function()
 
 /*-------------------------------------------------------------------------------------*/
 
-//TODO: FIX
 ControlKit.Group.prototype.addSubGroup  = function(params)
 {
 

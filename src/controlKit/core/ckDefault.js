@@ -1,6 +1,6 @@
 ControlKit.Default =
 {
-    POSITION  : [20,20],
+    POSITION  : [0,0],
     WIDTH     : 300,
     WIDTH_MIN : 150,
     WIDTH_MAX : 600,
@@ -8,7 +8,7 @@ ControlKit.Default =
     LABEL     : 'Control Panel',
 
     VALIGN : ControlKit.Layout.ALIGN_TOP,
-    ALIGN  : ControlKit.Layout.ALIGN_LEFT,
+    ALIGN  : ControlKit.Layout.ALIGN_RIGHT,
 
     FIXED : true
 };

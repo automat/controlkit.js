@@ -56,21 +56,6 @@ ControlKit.AbstractGroup.prototype.onComponentAdded = function()
     this._scrollbar._update();
 };
 
-ControlKit.AbstractGroup.prototype.scrollTo = function(y)
-{
-    return;
-    var maxHeight = this._maxHeight;
-    if(!maxHeight)return;
-
-    var list     = this._listNode,
-        listWrap = list.getParent(),
-        maxV     = list.getHeight() - maxHeight;
-
-    this._scrollV = Math.max(0,Math.min(y,maxV));
-    listWrap.setPositionY(this._scrollV);
-
-};
-
 /*---------------------------------------------------------------------------------*/
 
 ControlKit.AbstractGroup.prototype.getList      = function(){return this._listNode;};
