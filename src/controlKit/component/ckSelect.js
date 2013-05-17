@@ -14,7 +14,7 @@ ControlKit.Select = function(parent,object,value,target,label,params)
     this._onFinish    = params.onFinish;
 
     var select = this._select = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
-    select.setStyleClass(ControlKit.CSS.Select);
+        select.setStyleClass(ControlKit.CSS.Select);
 
     this._wrapNode.addChild(select);
 
@@ -72,7 +72,7 @@ ControlKit.Select.prototype.onSelectTrigger = function(e)
                               this._selected = this._object[this._targetKey]  = this._values[options.getSelectedIndex()];
                               this._select.setProperty('value',this._selected);
 
-                              this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));
+                              this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
 
                               this._active = false;
                               this._updateVisibility();
@@ -110,7 +110,7 @@ ControlKit.Select.prototype.onSelectTrigger = function(e)
 
 ControlKit.Select.prototype._onSelectMouseDown = function()
 {
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SELECT_TRIGGERED));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SELECT_TRIGGERED,null));
 };
 
 

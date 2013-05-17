@@ -76,7 +76,7 @@ ControlKit.Pad = function(parent,object,value,label,params)
 
 
     this._drawValue(this._value);
-}
+};
 
 ControlKit.Pad.prototype = Object.create(ControlKit.Plotter.prototype);
 
@@ -101,7 +101,7 @@ ControlKit.Pad.prototype._drawPoint = function()
     var canvas       = this._canvas,
         canvasWidth  = canvas.width  - 1,
         canvasHeight = canvas.height - 1,
-        canvasMidX   = canvas.width * 0.5,
+        canvasMidX   = canvas.width  * 0.5,
         canvasMidY   = canvas.height * 0.5;
 
     var axisLabels   = this._axisLabels;

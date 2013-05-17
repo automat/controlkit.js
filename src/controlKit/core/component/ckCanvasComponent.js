@@ -3,17 +3,16 @@ ControlKit.CanvasComponent = function(parent,object,value,label)
     ControlKit.ObjectComponent.apply(this,arguments);
 
     this._rootNode.setStyleClass(ControlKit.CSS.CanvasListItem);
-    this._wrapNode.setStyleClass(ControlKit.CSS.CanvasWrap);
+    var wrapNode = this._wrapNode.setStyleClass(ControlKit.CSS.CanvasWrap);
 
-    this._canvas = new ControlKit.Canvas(this._wrapNode);
-    this._canvas.setAntialias(false);
-    this._canvas.setSize(this._wrapNode.getWidth(),
-                         this._wrapNode.getWidth());
+    var canvas = this._canvas = new ControlKit.Canvas(wrapNode);
+        canvas.setAntialias(false);
+        canvas.setSize(wrapNode.getWidth(),wrapNode.getWidth());
 
-    this._canvas.setFontFamily('Arial');
-    this._canvas.setFontSize(10);
+    canvas.setFontFamily('Arial');
+    canvas.setFontSize(10);
 
-    this._canvasNode = ControlKit.Node.getNodeByElement(this._canvas.getElement());
+    this._canvasNode = ControlKit.Node.getNodeByElement(canvas.getElement());
 
     this._updateHeight();
 };
@@ -22,7 +21,9 @@ ControlKit.CanvasComponent.prototype = Object.create(ControlKit.ObjectComponent.
 
 ControlKit.CanvasComponent.prototype._updateHeight = function()
 {
-    this._wrapNode.setHeight(this._canvas.height);
-    this._rootNode.setHeight(    this._canvas.height + ControlKit.Constant.PADDING_WRAPPER);
+    var canvasHeight = this._canvas.height;
+
+    this._wrapNode.setHeight(canvasHeight);
+    this._rootNode.setHeight(canvasHeight + ControlKit.Constant.PADDING_WRAPPER);
 };
 

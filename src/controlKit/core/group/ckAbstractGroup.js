@@ -44,9 +44,11 @@ ControlKit.AbstractGroup.prototype.getMaxHeight = function() {return this._maxHe
 
 /*---------------------------------------------------------------------------------*/
 
+/*
 ControlKit.AbstractGroup.prototype.onSelectDragStart = function(e){this.scrollTo(this._scrollV);};
 ControlKit.AbstractGroup.prototype.onSelectDrag      = function(e){this.scrollTo(this._scrollV);};
 ControlKit.AbstractGroup.prototype.onSelectDragEnd   = function(e){this.scrollTo(this._scrollV);};
+*/
 
 /*---------------------------------------------------------------------------------*/
 

@@ -13,17 +13,21 @@ ControlKit.ValuePlotter = function(parent,object,value,label,params)
     var resolution = params.resolution,
         length     = Math.floor(this._canvas.width / resolution);
 
-    this._points  = new Array(length * 2);
-    this._buffer0 = new Array(length);
-    this._buffer1 = new Array(length);
+    var points  = this._points  = new Array(length * 2),
+        buffer0 = this._buffer0 = new Array(length),
+        buffer1 = this._buffer1 = new Array(length);
 
-    var i = 0; while(i < this._points.length){this._points[i]=(length-i+1)*resolution;this._points[i+1]=0.0;i+=2;}
-        i =-1; while(++i < length){this._buffer0[i] = this._buffer1[i] = 0.0;}
+    var pointsLength = points.length;
+
+    var i = 0; while(i < pointsLength){points[i]=(length-i+1)*resolution;points[i+1]=0.0;i+=2;}
+        i =-1; while(++i < length    ){buffer0[i] = buffer1[i] = 0.0;}
 
     params.height = params.height  < ControlKit.Constant.MIN_HEIGHT ?
                     ControlKit.Constant.MIN_HEIGHT : params.height;
 
-    this._canvas.setSize(this._canvas.width,Math.floor(params.height));
+    var canvas = this._canvas;
+    canvas.setSize(canvas.width,Math.floor(params.height));
+
     this._updateHeight();
 
     this._drawValue();

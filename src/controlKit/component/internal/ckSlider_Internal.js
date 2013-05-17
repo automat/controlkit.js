@@ -37,7 +37,7 @@ ControlKit.Slider_Internal = function(parentNode,onChange,onFinish)
 
     document.addEventListener(ControlKit.DocumentEventType.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
     document.addEventListener(ControlKit.DocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
-}
+};
 
 ControlKit.Slider_Internal.prototype =
 {

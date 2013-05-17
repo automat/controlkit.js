@@ -15,7 +15,6 @@ ControlKit.Slider = function(parent,object,value,target,label,params)
 
     /*---------------------------------------------------------------------------------*/
 
-
     this._step     = params.step;
     this._onChange = params.onChange;
     this._onFinish = params.onFinish;
@@ -94,28 +93,30 @@ ControlKit.Slider.prototype.onValueUpdate = function(e)
 
     if(origin == this)return;
 
+    var slider = this._slider;
+
     if(!(origin instanceof ControlKit.Slider))
     {
         //TODO: FIX ME!
         if(origin instanceof ControlKit.Range)
         {
-            this._slider.setBoundMin(this._values[0]);
-            this._slider.setBoundMax(this._values[1]);
-            this._slider.setValue(this._object[this._targetKey]);
+            slider.setBoundMin(this._values[0]);
+            slider.setBoundMax(this._values[1]);
+            slider.setValue(this._object[this._targetKey]);
             //this._slider.updateInterpolatedValue();
             this._applyValue();
         }
         else
         {
-            this._slider.setBoundMin(this._values[0]);
-            this._slider.setBoundMax(this._values[1]);
-            this._slider.setValue(this._object[this._targetKey]);
+            slider.setBoundMin(this._values[0]);
+            slider.setBoundMax(this._values[1]);
+            slider.setValue(this._object[this._targetKey]);
             this._applyValue();
         }
     }
     else
     {
-        this._slider.setValue(this._object[this._targetKey]);
+        slider.setValue(this._object[this._targetKey]);
         this._applyValue();
     }
 };

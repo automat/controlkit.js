@@ -104,7 +104,7 @@ function TestControlKit(parentDomElementId)
 
     var controlKit = new ControlKit.Kit(parentDomElementId);
 
-    var control0   = controlKit.addPanel({width:250,align:'right',fixed:true}),
+    var control0   = controlKit.addPanel({width:250,align:'left',fixed:false,position:[20,20]}),
         group00    = control0.addGroup({maxHeight:200})
                              .addSubGroup()
             .addValuePlotter(object,'changeValue2','randF',{height:35,lineWidth:2,lineColor:[237, 20, 91]})
