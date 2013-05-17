@@ -4,14 +4,19 @@ ControlKit.Group = function(parent,params)
 
     /*-------------------------------------------------------------------------------------*/
 
-    this._rootNode.setStyleClass(ControlKit.CSS.Group);
-    this._wrapNode.setStyleClass(ControlKit.CSS.Wrap);
-    this._listNode.setStyleClass(ControlKit.CSS.SubGroupList);
+    params = params || {};
 
+    /*-------------------------------------------------------------------------------------*/
+
+    var rootNode = this._rootNode.setStyleClass(ControlKit.CSS.Group),
+        wrapNode = this._wrapNode.setStyleClass(ControlKit.CSS.Wrap),
+        listNode = this._listNode.setStyleClass(ControlKit.CSS.SubGroupList);
+
+    //TODO: FIX ORDER!!!
+    wrapNode.addChild(listNode);
     this.set(params);
-
-    this._wrapNode.addChild(this._listNode);
-    this._rootNode.addChild(this._wrapNode);
+    rootNode.addChild(wrapNode);
+    this._setBuffer(params);
 
     /*-------------------------------------_collapsed-----------------------------------------*/
 
@@ -41,7 +46,6 @@ ControlKit.Group.prototype.set = function(params)
 {
     /*-------------------------------------------------------------------------------------*/
 
-    params           = params           || {};
     params.label     = params.label     || null;
     params.useLabels = params.useLabels || true;
     params.show      = params.show === undefined ? true : params.show;
@@ -71,32 +75,84 @@ ControlKit.Group.prototype.set = function(params)
     else
     {
         //TODO: Add CSS Class
-        this._wrapNode.getStyle().borderTop = "1px solid #3b4447";
+        if(!params.maxHeight)this._wrapNode.getStyle().borderTop = "1px solid #3b4447";
     }
 
     /*-------------------------------------------------------------------------------------*/
 
-    //TODO: Add maxheight
+    if(params.maxHeight)
+    {
+        var maxHeight = this._maxHeight = params.maxHeight,
+            wrapNode  = this._wrapNode;
+
+        if(!this._hidden)wrapNode.setHeight(maxHeight);
+        this._scrollbar  = new ControlKit.ScrollBar(wrapNode,this._listNode,maxHeight);
+    }
+};
+
+//TODO: Rethink
+ControlKit.Group.prototype._setBuffer = function(params)
+{
+    if(!params.maxHeight)return;
+
+    var rootNode = this._rootNode;
+
+    if(!params.label)
+    {
+        var bufferTop = this._scrollBufferTop = new ControlKit.Node(ControlKit.NodeType.DIV);
+            bufferTop.setStyleClass(ControlKit.CSS.ScrollBuffer);
+            rootNode.addChildAt(bufferTop,0);
+    }
+
+    var bufferBottom = this._scrollBufferBottom = new ControlKit.Node(ControlKit.NodeType.DIV);
+        bufferBottom.setStyleClass(ControlKit.CSS.ScrollBuffer);
+        rootNode.addChild(bufferBottom);
 };
 
 /*-------------------------------------------------------------------------------------*/
 
-ControlKit.Group.prototype.onPanelMoveBegin = function(){var eventType = ControlKit.EventType.PANEL_MOVE_BEGIN;if(!this.hasEventListener(eventType))return;this.dispatchEvent(new ControlKit.Event(this,eventType));};
-ControlKit.Group.prototype.onPanelMove      = function(){var eventType = ControlKit.EventType.PANEL_MOVE;      if(!this.hasEventListener(eventType))return;this.dispatchEvent(new ControlKit.Event(this,eventType))};
-ControlKit.Group.prototype.onPanelMoveEnd   = function(){var eventType = ControlKit.EventType.PANEL_MOVE_END;  if(!this.hasEventListener(eventType))return;this.dispatchEvent(new ControlKit.Event(this,eventType))};
+ControlKit.Group.prototype.onPanelMoveBegin = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_BEGIN,null));};
+ControlKit.Group.prototype.onPanelMove      = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE,      null))};
+ControlKit.Group.prototype.onPanelMoveEnd   = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,  null))};
 
 /*-------------------------------------------------------------------------------------*/
 
-ControlKit.Group.prototype.onSubGroupShown  = function(){this._updateVisibility();};
-ControlKit.Group.prototype.onSubGroupHidden = function(){this._updateVisibility();};
+
+ControlKit.Group.prototype.onSubGroupTrigger = function(){if(!this._maxHeight)return;this._updateScrollBar();};
+
+ControlKit.Group.prototype._updateScrollBar = function()
+{
+    var scrollbar = this._scrollbar,
+        wrapNode  = this._wrapNode;
+
+    var bufferTop    = this._scrollBufferTop,
+        bufferBottom = this._scrollBufferBottom;
+
+    scrollbar.update();
+
+    if(!scrollbar.isValid())
+    {
+        scrollbar.hide();
+        wrapNode.setHeight(wrapNode.getChildAt(1).getHeight());
+
+        if(bufferTop   )bufferTop.setStyleProperty(   'display','none');
+        if(bufferBottom)bufferBottom.setStyleProperty('display','none');
+    }
+    else
+    {
+        scrollbar.show();
+        wrapNode.setHeight(this._maxHeight);
+
+        if(bufferTop   )bufferTop.setStyleProperty(   'display','block');
+        if(bufferBottom)bufferBottom.setStyleProperty('display','block');
+    }
+};
 
 /*-------------------------------------------------------------------------------------*/
-
 
 ControlKit.Group.prototype._onHeadMouseDown   = function(){this._hidden = !this._hidden;this._updateVisibility();};
 
 /*-------------------------------------------------------------------------------------*/
-
 
 ControlKit.Group.prototype.addStringInput     = function(object,value,label,params)       {return this._addComponent(new ControlKit.StringInput(     this.getSubGroup(),object,value,label,params));};
 ControlKit.Group.prototype.addNumberInput     = function(object,value,label,params)       {return this._addComponent(new ControlKit.NumberInput(     this.getSubGroup(),object,value,label,params));};
@@ -105,7 +161,6 @@ ControlKit.Group.prototype.addCheckbox        = function(object,value,label,para
 ControlKit.Group.prototype.addButton          = function(label,onPress)                   {return this._addComponent(new ControlKit.Button(          this.getSubGroup(),label,onPress));};
 ControlKit.Group.prototype.addSelect          = function(object,value,target,label,params){return this._addComponent(new ControlKit.Select(          this.getSubGroup(),object,value,target,label,params));};
 ControlKit.Group.prototype.addSlider          = function(object,value,target,label,params){return this._addComponent(new ControlKit.Slider(          this.getSubGroup(),object,value,target,label,params));};
-
 
 ControlKit.Group.prototype.addFunctionPlotter = function(object,value,label,params)       {return this._addComponent(new ControlKit.FunctionPlotter( this.getSubGroup(),object,value,label,params));};
 ControlKit.Group.prototype.addPad             = function(object,value,label,params)       {return this._addComponent(new ControlKit.Pad(             this.getSubGroup(),object,value,label,params));};
@@ -134,6 +189,8 @@ ControlKit.Group.prototype._updateHeight = function()
     var wrapNode = this._wrapNode;
     wrapNode.setHeight(wrapNode.getFirstChild().getHeight());
     this.getSubGroup().update();
+
+    if(this._maxHeight)this._scrollbar.update();
 };
 
 /*----------------------------------------------------------collapsed---------------------*/
@@ -143,15 +200,37 @@ ControlKit.Group.prototype._updateVisibility = function()
     var wrapNode = this._wrapNode,
         inidNode = this._indiNode;
 
+    var bufferTop    = this._scrollBufferTop,
+        bufferBottom = this._scrollBufferBottom;
+
+    var scrollbar    = this._scrollbar;
+
     if(this._hidden)
     {
         wrapNode.setHeight(0);
         if(inidNode)inidNode.setStyleClass(ControlKit.CSS.ArrowBMin);
+
+        if(scrollbar)
+        {
+            if(bufferTop   )bufferTop.setStyleProperty(   'display','none');
+            if(bufferBottom)bufferBottom.setStyleProperty('display','none');
+        }
     }
     else
     {
-        wrapNode.setHeight(wrapNode.getFirstChild().getHeight());
+        wrapNode.setHeight(this._maxHeight ? wrapNode.getChildAt(1).getHeight() :
+                                             wrapNode.getFirstChild().getHeight());
+
         if(inidNode)inidNode.setStyleClass(ControlKit.CSS.ArrowBMax);
+
+        if(scrollbar)
+        {
+            if(scrollbar.isValid())
+            {
+                if(bufferTop   )bufferTop.setStyleProperty(   'display','block');
+                if(bufferBottom)bufferBottom.setStyleProperty('display','block');
+            }
+        }
     }
 };
 

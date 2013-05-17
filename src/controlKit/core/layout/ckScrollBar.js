@@ -31,10 +31,14 @@ ControlKit.ScrollBar = function(parentNode,targetNode,wrapHeight)
     this._scrollHeight = 0;
     this._scrollUnit   = 0;
 
+    this._scrollMin    = 0;
+    this._scrollMax    = 1;
+    this._scrollPos    = 0;
+
     thumb.setPositionY(ControlKit.Constant.SCROLLBAR_TRACK_PADDING);
     thumb.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onThumbDragStart.bind(this));
 
-    this._valid  = false;
+    this._isValid  = false;
     this._hidden = false;
 };
 
@@ -42,21 +46,22 @@ ControlKit.ScrollBar.prototype =
 {
     update : function()
     {
-        if(this._hidden)return;
+        var target  = this._targetNode,
+            thumb   = this._thumbNode;
 
-        var wrapHeight   = this._wrapHeight,
-            target       = this._targetNode,
-            targetHeight = target.getHeight();
+        var padding = ControlKit.Constant.SCROLLBAR_TRACK_PADDING;
 
-        var padding     = ControlKit.Constant.SCROLLBAR_TRACK_PADDING,
-            trackHeight = wrapHeight - padding * 2,
-            thumb        = this._thumbNode;
+        var targetWrapHeight = this._wrapHeight,
+            targetHeight     = target.getHeight(),
+            trackHeight      = targetWrapHeight - padding * 2;
 
         thumb.setHeight(trackHeight);
 
-        var ratio = wrapHeight / targetHeight;
+        var ratio = targetWrapHeight / targetHeight;
 
-        if(ratio > 1.0 || ratio == Infinity)return;
+        this._isValid = false;
+
+        if(ratio > 1.0)return;
 
         var thumbHeight = trackHeight * ratio;
 
@@ -65,7 +70,7 @@ ControlKit.ScrollBar.prototype =
 
         thumb.setHeight(thumbHeight);
 
-        this._valid = true;
+        this._isValid = true;
     },
 
     _scrollThumb : function(y)
@@ -83,12 +88,12 @@ ControlKit.ScrollBar.prototype =
         var scrollHeight = this._scrollHeight,
             scrollUnit   = this._scrollUnit;
 
-        var min = trackCenter - scrollHeight * 0.5,
-            max = trackCenter + scrollHeight * 0.5;
+        var min = this._scrollMin = trackCenter - scrollHeight * 0.5,
+            max = this._scrollMax = trackCenter + scrollHeight * 0.5;
 
-        var pos      =  Math.max(min,Math.min(y - trackTop,max));
+        var pos       = Math.max(min,Math.min(y - trackTop,max));
 
-        var thumbPos  = pos - thumbHeight * 0.5,
+        var thumbPos  = this._scrollPos =  pos - thumbHeight * 0.5,
             targetPos = -(pos - min) / (max - min) * scrollUnit;
 
         thumb.setPositionY(thumbPos);
@@ -97,7 +102,7 @@ ControlKit.ScrollBar.prototype =
 
     _onThumbDragStart : function()
     {
-        if(!this._valid || this._hidden)return;
+        if(!this._isValid || this._hidden)return;
 
         var eventMouseMove = ControlKit.DocumentEventType.MOUSE_MOVE,
             eventMouseUp   = ControlKit.DocumentEventType.MOUSE_UP;
@@ -127,7 +132,19 @@ ControlKit.ScrollBar.prototype =
 
     _updateVisibily : function()
     {
-        this._rootNode.setStyleProperty('display',this._hidden ? 'none' : 'block');
-    }
+        if(this._hidden)
+        {
+            this._rootNode.setStyleProperty('display','none');
+            this._targetNode.setPositionY(0);
+            this._thumbNode.setPositionY(ControlKit.Constant.SCROLLBAR_TRACK_PADDING);
+        }
+        else
+        {
+            this._rootNode.setStyleProperty('display','block');
+        }
+    },
+
+    isValid : function(){return this._isValid;}
+
 };
 

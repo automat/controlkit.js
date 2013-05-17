@@ -10,8 +10,7 @@ ControlKit.EventType =
     PANEL_MOVE             : 'panelMove',
     PANEL_MOVE_END         : 'panelMoveEnd',
 
-    SUBGROUP_HIDDEN        : 'subgroupHidden',
-    SUBGROUP_SHOWN         : 'subgroupShown',
+    SUBGROUP_TRIGGER       : 'subGroupTrigger',
 
     INDEX_ORDER_CHANGED    : 'indexOrderChanged',
     CHANGE_INDEX_ORDER     : 'changeIndexOrder',

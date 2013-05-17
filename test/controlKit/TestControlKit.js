@@ -105,8 +105,10 @@ function TestControlKit(parentDomElementId)
     var controlKit = new ControlKit.Kit(parentDomElementId);
 
     var control0   = controlKit.addPanel({width:250,position:[400,20],fixed:false}),
-        group00    = control0.addGroup()
-                             .addSubGroup({label:'hello',maxHeight:200})
+        group00    = control0.addGroup({maxHeight:200})
+                             .addSubGroup()
+            .addValuePlotter(object,'changeValue2','randF',{height:35,lineWidth:2,lineColor:[237, 20, 91]})
+        .addValuePlotter(object,'changeValue3','rect',{height:35,lineWidth:0.5})
                              .addNumberOutput(object,'changeValue0', 'changeValue0')
                              .addNumberOutput(object,'changeValue1', 'changeValue1')
                              .addStringOutput(object,'selectOptions','val',{height:60,wrap:true})
@@ -141,11 +143,12 @@ function TestControlKit(parentDomElementId)
     .addSlider(object,'range','slideValue','slider')
     .addSelect(object,'selectOptions','selectTarget','select');
 
-    /*
 
 
 
-    control0.addGroup({label:'Group'})
+
+
+    control0.addGroup()
             .addSubGroup('functions')
 
         .addSelect(object,'selectOptions','selectTarget','Select Comp')
@@ -154,7 +157,8 @@ function TestControlKit(parentDomElementId)
         .addSubGroup()
         .addRange(object,'range','Range Comp')
         .addCheckbox(object,'bool','Bool Comp');
-        */
+
+
 
 
 

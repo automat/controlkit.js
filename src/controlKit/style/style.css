@@ -837,66 +837,20 @@
     position: relative;
     background: #212628;
     border-left: 1px solid #1e2224;
-    top:0;
 
-}
-
-
-.panel .scrollBar .btnUp
-{
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing:    border-box;
-    box-sizing:         border-box;
-
-    margin: 0;
-    padding: 0;
-    border: none;
-    width: 100%;
-    height: 18px;
-
-    background-image: -moz-linear-gradient(#3c4a4f 0%, #383f47 100%);
-    background-image: -o-linear-gradient(#3c4a4f 0%, #383f47 100%);
-    background-image: linear-gradient(#3a4145 0%, #363c40 100%);
-
-    position: absolute;
-
-    border-top:    1px solid #434b50;
-    border-bottom: 1px solid #1e2224;
+    background-image: -moz-linear-gradient(left,rgba(26, 29, 31,0.5) 0%, rgba(26, 29, 31,0.0) 50%));
+    background-image: -o-linear-gradient(left,  rgba(26, 29, 31,0.5) 0%, rgba(26, 29, 31,0.0) 50%));
+    background-image: linear-gradient(to right, rgba(26, 29, 31,0.5) 0%, rgba(26, 29, 31,0.0) 50%);
 
     top:0;
-
-
 }
 
-.panel .scrollBar .btnDown
-{
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing:    border-box;
-    box-sizing:         border-box;
 
-    margin: 0;
-    padding: 0;
-    border: none;
-    width: 100%;
-    height: 17px;
-
-    background-image: -moz-linear-gradient(#3c4a4f 0%, #383f47 100%);
-    background-image: -o-linear-gradient(#3c4a4f 0%, #383f47 100%);
-    background-image: linear-gradient(#3a4145 0%, #363c40 100%);
-
-    position: absolute;
-
-    border-top:    1px solid #434b50;
-
-    bottom: 0;
-
-}
 
 .panel .scrollBar .track
 {
     /*margin-top:18px;*/
     padding: 0 2px 0 2px;
-
 }
 
 .panel .scrollBar .thumb
@@ -910,10 +864,6 @@
 
     background: #3b484e;
     position: absolute;
-
-    /*-moz-box-shadow:    inset  0 0 0 1px #15181a,inset  -1px 2px #566166;
-    box-shadow: inset  0 0 0 1px #15181a,inset  -1px 2px #566166;
-    */
 
     background-image: -moz-linear-gradient(#3c4a4f 0%, #383f47 100%);
     background-image: -o-linear-gradient(#3c4a4f 0%,   #383f47 100%);
@@ -932,10 +882,16 @@
 .panel .scrollWrap
 {
     position: relative;
-    margin-top:0;
     overflow: hidden;
+}
 
+.panel .scrollBuffer
+{
+    width: 100%;
+    height: 8px;
 
+    border-top:1px solid #3b4447;
+    border-bottom: 1px solid #1e2224;
 }
 
 /*-------------------------------------------------------------------------------------

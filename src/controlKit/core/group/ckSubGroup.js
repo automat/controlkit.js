@@ -47,8 +47,8 @@ ControlKit.SubGroup.prototype.set = function(params)
 
         headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
 
-        this.addEventListener(ControlKit.EventType.SUBGROUP_HIDDEN,this._parent,'onSubGroupHidden');
-        this.addEventListener(ControlKit.EventType.SUBGROUP_SHOWN, this._parent,'onSubGroupShown');
+        this.addEventListener(ControlKit.EventType.SUBGROUP_TRIGGER,this._parent,'onSubGroupTrigger');
+
 
         this._rootNode.addChildAt(headNode,0);
 
@@ -75,7 +75,7 @@ ControlKit.SubGroup.prototype.set = function(params)
 ControlKit.SubGroup.prototype._onHeadMouseDown = function()
 {
     this._hidden = !this._hidden;this._updateVisibility();
-    this.dispatchEvent(new ControlKit.Event(this,this._hidden ? ControlKit.EventType.SUBGROUP_HIDDEN : ControlKit.EventType.SUBGROUP_SHOWN,null));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_TRIGGER,null));
 };
 
 ControlKit.SubGroup.prototype._updateVisibility = function()
