@@ -109,7 +109,10 @@ ControlKit.Panel.prototype.getList       = function(){return this._listNode;};
 
 ControlKit.Panel.prototype._onHeadMouseDown = function()
 {
-    var nodePos   = this._rootNode.getPositionGlobal(),
+    var parentNode = this._parent.getRootNode(),
+        node       = this._rootNode;
+
+    var nodePos   = node.getPositionGlobal(),
         mousePos  = ControlKit.Mouse.getInstance().getPosition(),
         offsetPos = this._mouseOffset;
 
@@ -118,8 +121,10 @@ ControlKit.Panel.prototype._onHeadMouseDown = function()
 
     this._headDragging = true;
 
+    parentNode.removeChild(node);
+    parentNode.addChild(   node);
+
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_BEGIN,null));
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.INDEX_ORDER_CHANGED,{origin:this}));
 };
 
 ControlKit.Panel.prototype._updatePosition = function()
@@ -144,8 +149,8 @@ ControlKit.Panel.prototype._onDocumentMouseMove = function()
 ControlKit.Panel.prototype._onDocumentMouseUp = function()
 {
     if(!this._headDragging)return;
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,null));
     this._headDragging = false;
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,null));
 };
 
 ControlKit.Panel.prototype._onWindowResize = function()
