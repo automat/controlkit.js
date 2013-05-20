@@ -93,6 +93,9 @@ ControlKit.Kit.prototype.update = function()
 
 /*---------------------------------------------------------------------------------*/
 
+ControlKit.Kit.prototype.onHistoryStatePush = function(){};
+ControlKit.Kit.prototype.onHistoryStatePop  = function(){};
+
 ControlKit.Kit.prototype.getRootNode = function(){return this._rootNode;};
 
 ControlKit.getKitInstance = function(){return ControlKit.Kit._instance;};

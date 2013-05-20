@@ -140,12 +140,9 @@ ControlKit.Panel.prototype._onMenuHideMouseDown = function(){this._hidden=!this.
 
 ControlKit.Panel.prototype._updateVisibility = function()
 {
-    var hidden   = this._hidden;
-
     var rootNode = this._rootNode,
         headNode = this._headNode,
         menuHide = this._menuHide;
-
 
     if(this._hidden)
     {
