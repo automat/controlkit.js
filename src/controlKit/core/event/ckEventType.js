@@ -10,6 +10,9 @@ ControlKit.EventType =
     PANEL_MOVE             : 'panelMove',
     PANEL_MOVE_END         : 'panelMoveEnd',
 
+    PANEL_SHOW             : 'panelShow',
+    PANEL_HIDE             : 'panelHide',
+
     SUBGROUP_TRIGGER       : 'subGroupTrigger',
 
     INDEX_ORDER_CHANGED    : 'indexOrderChanged',

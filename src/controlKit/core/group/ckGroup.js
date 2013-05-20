@@ -30,9 +30,11 @@ ControlKit.Group = function(parent,params)
 
     /*-------------------------------------------------------------------------------------*/
 
-    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_BEGIN,this,'onPanelMoveBegin');
-    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE,      this,'onPanelMove');
-    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,  this,'onPanelMoveEnd');
+    parent.addEventListener(ControlKit.EventType.PANEL_MOVE_BEGIN,this,'onPanelMoveBegin');
+    parent.addEventListener(ControlKit.EventType.PANEL_MOVE,      this,'onPanelMove');
+    parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,  this,'onPanelMoveEnd');
+    parent.addEventListener(ControlKit.EventType.PANEL_HIDE,      this,'onPanelHide');
+    parent.addEventListener(ControlKit.EventType.PANEL_SHOW,      this,'onPanelShow');
 
 };
 
@@ -53,16 +55,20 @@ ControlKit.Group.prototype.set = function(params)
     if(params.label)
     {
         var headNode  = new ControlKit.Node(ControlKit.NodeType.DIV),
+            lablWrap  = new ControlKit.Node(ControlKit.NodeType.DIV),
             lablNode  = new ControlKit.Node(ControlKit.NodeType.SPAN),
             indiNode  = this._indiNode = new ControlKit.Node(ControlKit.NodeType.DIV);
 
         headNode.setStyleClass(ControlKit.CSS.Head);
+        lablWrap.setStyleClass(ControlKit.CSS.Wrap);
         lablNode.setStyleClass(ControlKit.CSS.Label);
         indiNode.setStyleClass(ControlKit.CSS.ArrowBMax);
         lablNode.setProperty('innerHTML',params.label);
 
-        headNode.addChild(lablNode);
+
         headNode.addChild(indiNode);
+        lablWrap.addChild(lablNode);
+        headNode.addChild(lablWrap);
 
         headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
 
@@ -115,8 +121,10 @@ ControlKit.Group.prototype.onPanelMoveBegin = function(){this.dispatchEvent(new 
 ControlKit.Group.prototype.onPanelMove      = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE,      null))};
 ControlKit.Group.prototype.onPanelMoveEnd   = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,  null))};
 
-/*-------------------------------------------------------------------------------------*/
+ControlKit.Group.prototype.onPanelHide      = function(){console.log('parent panel hidden');};
+ControlKit.Group.prototype.onPanelShow      = function(){console.log('parent panel shown' );};
 
+/*-------------------------------------------------------------------------------------*/
 
 ControlKit.Group.prototype.onSubGroupTrigger = function(){if(!this._maxHeight)return;this._updateScrollBar();};
 

@@ -33,17 +33,21 @@ ControlKit.SubGroup.prototype.set = function(params)
     if(params.label && params.label.length!=0 )
     {
         var headNode = this._headNode = new ControlKit.Node(ControlKit.NodeType.DIV),
+            lablWrap =                  new ControlKit.Node(ControlKit.NodeType.DIV),
             lablNode =                  new ControlKit.Node(ControlKit.NodeType.SPAN),
             indiNode = this._indiNode = new ControlKit.Node(ControlKit.NodeType.DIV);
 
         headNode.setStyleClass(ControlKit.CSS.Head);
+        lablWrap.setStyleClass(ControlKit.CSS.Wrap);
         lablNode.setStyleClass(ControlKit.CSS.Label);
         indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
 
         lablNode.setProperty('innerHTML',params.label);
 
-        headNode.addChild(lablNode);
+
         headNode.addChild(indiNode);
+        lablWrap.addChild(lablNode);
+        headNode.addChild(lablWrap);
 
         headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
 

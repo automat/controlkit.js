@@ -5,7 +5,13 @@ ControlKit.CSS =
     Panel        : 'panel',
     Head         : 'head',
     Label        : 'label',
+    Menu         : 'menu',
     Wrap         : 'wrap',
+
+    MenuBtnClose : 'btnClose',
+    MenuBtnHide  : 'btnHide',
+    MenuBtnShow  : 'btnShow',
+    MenuBtnUndo  : 'btnUndo',
 
     /*-------------------------------------------------------------------------------------*/
 

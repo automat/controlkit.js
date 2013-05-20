@@ -9,6 +9,7 @@ ControlKit.NodeEventType =
     KEY_UP       : 'onkeyup',
     CHANGE       : 'onchange',
     FINISH       : 'onfinish',
+    DBL_CLICK    : 'ondblclick',
     ON_CLICK     : 'onclick',
     SELECT_START : 'onselectstart',
     DRAG_START   : 'ondragstart',

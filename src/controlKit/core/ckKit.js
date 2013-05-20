@@ -23,11 +23,12 @@ ControlKit.Kit = function(parentDomElementId)
 
     /*---------------------------------------------------------------------------------*/
 
+    ControlKit.History.init();
     ControlKit.Mouse.init();
     ControlKit.Picker.init();
     ControlKit.Options.init();
 
-    node.addChild(ControlKit.Picker.getInstance().getNode());
+    //node.addChild(ControlKit.Picker.getInstance().getNode());
     node.addChild(ControlKit.Options.getInstance().getNode());
 
     /*---------------------------------------------------------------------------------*/

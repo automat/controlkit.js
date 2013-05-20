@@ -9,6 +9,7 @@ var imports = [
                'core/event/ckEventType.js',
 
                 'core/ckConstant.js',
+                'core/ckHistory.js',
                 'core/ckKit.js',
 
                'core/dom/css/ckCSS.js',
@@ -104,7 +105,7 @@ function TestControlKit(parentDomElementId)
 
     var controlKit = new ControlKit.Kit(parentDomElementId);
 
-    var control0   = controlKit.addPanel({width:250,align:'left',fixed:false,position:[20,20]}),
+    var control0   = controlKit.addPanel({width:200,align:'left',fixed:false,position:[20,20]}),
         group00    = control0.addGroup({maxHeight:200})
                              .addSubGroup()
             .addValuePlotter(object,'changeValue2','randF',{height:35,lineWidth:2,lineColor:[237, 20, 91]})
@@ -166,7 +167,7 @@ function TestControlKit(parentDomElementId)
 
 
 
-    var control1 = controlKit.addPanel({width:250,position:[205,0]});
+    var control1 = controlKit.addPanel({width:250,position:[205,0],fixed:false});
 
     control1.addGroup()
         .addSubGroup('subgroup 1')
@@ -180,6 +181,8 @@ function TestControlKit(parentDomElementId)
     .addPad(object,'xyValue','Pad Comp')
     .addNumberOutput(object,'xyValue','',{wrap:true,height:40,dp:4});
 
+
+    /*
     var control2 = controlKit.addPanel({label:'YAY Panel',width:200,position:[460,0]});
 
     control2.addGroup()
@@ -281,6 +284,10 @@ function TestControlKit(parentDomElementId)
 .addPad(object,'xyValue','pad')
 .addPad(object,'xyValue','pad')
 .addPad(object,'xyValue','pad');
+
+*/
+
+
 
 
 

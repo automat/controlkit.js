@@ -29,11 +29,17 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    var rootNode = this._rootNode = new ControlKit.Node(ControlKit.NodeType.DIV),
-        headNode = this._headNode = new ControlKit.Node(ControlKit.NodeType.DIV),
-        lablNode =                  new ControlKit.Node(ControlKit.NodeType.SPAN),
-        wrapNode = this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV),
-        listNode = this._listNode = new ControlKit.Node(ControlKit.NodeType.LIST);
+    var rootNode  = this._rootNode = new ControlKit.Node(ControlKit.NodeType.DIV),
+        headNode  = this._headNode = new ControlKit.Node(ControlKit.NodeType.DIV),
+        lablWrap  =                  new ControlKit.Node(ControlKit.NodeType.DIV),
+        lablNode  =                  new ControlKit.Node(ControlKit.NodeType.SPAN),
+        menuNode  = this._menuNode = new ControlKit.Node(ControlKit.NodeType.DIV),
+        wrapNode  = this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV),
+        listNode  = this._listNode = new ControlKit.Node(ControlKit.NodeType.LIST);
+
+    var menuClose =                  new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON),
+        menuHide  = this._menuHide = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON),
+        menuUndo  = this._menuUndo = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -43,9 +49,19 @@ ControlKit.Panel = function(controlKit,params)
 
     rootNode.setStyleClass(ControlKit.CSS.Panel);
     headNode.setStyleClass(ControlKit.CSS.Head);
+    lablWrap.setStyleClass(ControlKit.CSS.Wrap);
     lablNode.setStyleClass(ControlKit.CSS.Label);
+    menuNode.setStyleClass(ControlKit.CSS.Menu);
     wrapNode.setStyleClass(ControlKit.CSS.Wrap);
     listNode.setStyleClass(ControlKit.CSS.GroupList);
+
+    /*---------------------------------------------------------------------------------*/
+
+    menuClose.setStyleClass(ControlKit.CSS.MenuBtnClose);
+    menuHide.setStyleClass( ControlKit.CSS.MenuBtnHide);
+    menuUndo.setStyleClass( ControlKit.CSS.MenuBtnUndo);
+
+    menuUndo.setProperty('value',ControlKit.History.getInstance().getNumStates());
 
     /*---------------------------------------------------------------------------------*/
 
@@ -66,12 +82,30 @@ ControlKit.Panel = function(controlKit,params)
         document.addEventListener(ControlKit.DocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
     }
 
+    headNode.setEventListener(ControlKit.NodeEventType.MOUSE_OVER, this._onHeadMouseOver.bind(this));
+    headNode.setEventListener(ControlKit.NodeEventType.MOUSE_OUT,  this._onHeadMouseOut.bind(this));
+    headNode.setEventListener(ControlKit.NodeEventType.DBL_CLICK,  this._onHeadDblClick.bind(this));
+
     /*---------------------------------------------------------------------------------*/
 
-    headNode.addChild(lablNode);
+    menuNode.addChild(menuUndo);
+    menuNode.addChild(menuHide);
+    menuNode.addChild(menuClose);
+
+    /*---------------------------------------------------------------------------------*/
+
+    headNode.addChild(menuNode);
+    lablWrap.addChild(lablNode);
+    headNode.addChild(lablWrap);
     wrapNode.addChild(listNode);
     rootNode.addChild(headNode);
     rootNode.addChild(wrapNode);
+
+    /*---------------------------------------------------------------------------------*/
+
+    this._hidden = false;
+
+    menuHide.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMenuHideMouseDown.bind(this));
 
     /*---------------------------------------------------------------------------------*/
 
@@ -102,6 +136,35 @@ ControlKit.Panel.prototype.getGroups     = function(){return this._groups;};
 ControlKit.Panel.prototype.getNode       = function(){return this._rootNode;};
 ControlKit.Panel.prototype.getList       = function(){return this._listNode;};
 
+ControlKit.Panel.prototype._onMenuHideMouseDown = function(){this._hidden=!this._hidden;this._updateVisibility();};
+
+ControlKit.Panel.prototype._updateVisibility = function()
+{
+    var hidden   = this._hidden;
+
+    var rootNode = this._rootNode,
+        headNode = this._headNode,
+        menuHide = this._menuHide;
+
+
+    if(this._hidden)
+    {
+        rootNode.setHeight(headNode.getHeight());
+        menuHide.setStyleClass(ControlKit.CSS.MenuBtnShow);
+        this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_HIDE,null));
+    }
+    else
+    {
+        rootNode.setHeight(headNode.getHeight() +  this._wrapNode.getHeight());
+        rootNode.setStyleProperty('height','auto');
+        menuHide.setStyleClass(ControlKit.CSS.MenuBtnHide);
+        this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_SHOW,null));
+    }
+};
+
+ControlKit.Panel.prototype._onHeadMouseOver = function(){this._menuUndo.setStyleProperty('display','inline')};
+ControlKit.Panel.prototype._onHeadMouseOut  = function(){this._menuUndo.setStyleProperty('display','none')};
+ControlKit.Panel.prototype._onHeadDblClick  = ControlKit.Panel.prototype._onMenuHideMouseDown;
 
 /*---------------------------------------------------------------------------------*
 * Panel dragging
