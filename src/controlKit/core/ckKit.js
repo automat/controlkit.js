@@ -23,7 +23,10 @@ ControlKit.Kit = function(parentDomElementId)
 
     /*---------------------------------------------------------------------------------*/
 
-    ControlKit.History.init();
+    var history = ControlKit.History.init();
+        history.addEventListener(this,'onHistoryStatePush');
+        history.addEventListener(this,'onHistoryStatePop');
+
     ControlKit.Mouse.init();
     ControlKit.Picker.init();
     ControlKit.Options.init();

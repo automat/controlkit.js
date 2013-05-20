@@ -106,6 +106,7 @@ ControlKit.Panel = function(controlKit,params)
     this._hidden = false;
 
     menuHide.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMenuHideMouseDown.bind(this));
+    menuUndo.setStyleProperty('display','none');
 
     /*---------------------------------------------------------------------------------*/
 

@@ -2,9 +2,6 @@ ControlKit.History = function()
 {
     ControlKit.EventDispatcher.apply(this,arguments);
     this._states = [];
-
-    this.addEventListener(ControlKit.Kit.getInstance(),'onHistoryStatePush');
-    this.addEventListener(ControlKit.Kit.getInstance(),'onHistoryStatePop');
 };
 
 ControlKit.History.prototype = Object.create(ControlKit.EventDispatcher.prototype);
@@ -34,5 +31,5 @@ ControlKit.History.prototype.getNumStates = function(){return this._states.lengt
 /*---------------------------------------------------------------------------------*/
 
 ControlKit.History._instance   = null;
-ControlKit.History.init        = function(){ControlKit.History._instance = new ControlKit.History();};
+ControlKit.History.init        = function(){ControlKit.History._instance = new ControlKit.History();return ControlKit.History._instance;};
 ControlKit.History.getInstance = function(){return ControlKit.History._instance;};
