@@ -35,6 +35,7 @@ ControlKit.Group = function(parent,params)
     parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,  this,'onPanelMoveEnd');
     parent.addEventListener(ControlKit.EventType.PANEL_HIDE,      this,'onPanelHide');
     parent.addEventListener(ControlKit.EventType.PANEL_SHOW,      this,'onPanelShow');
+
 };
 
 ControlKit.Group.prototype = Object.create(ControlKit.AbstractGroup.prototype);

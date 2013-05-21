@@ -21,7 +21,7 @@ ControlKit.Select = function(parent,object,value,target,label,params)
     /*---------------------------------------------------------------------------------*/
 
     this._targetKey = target;
-    this._values  = this._object[this._key];
+    this._values    = this._object[this._key];
     this._selected  = null;
 
     var targetObj = this._object[this._targetKey];
@@ -43,10 +43,9 @@ ControlKit.Select = function(parent,object,value,target,label,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    var cntrlKit = ControlKit.getKitInstance();
-    cntrlKit.addEventListener(ControlKit.EventType.TRIGGER_SELECT,this,'onSelectTrigger');
-
-    this.addEventListener(ControlKit.EventType.SELECT_TRIGGERED,cntrlKit,'onSelectTriggered');
+    var kit = ControlKit.getKitInstance();
+    kit.addEventListener(ControlKit.EventType.TRIGGER_SELECT,   this,'onSelectTrigger');
+    this.addEventListener(ControlKit.EventType.SELECT_TRIGGERED,kit, 'onSelectTriggered');
 
 };
 
@@ -69,10 +68,7 @@ ControlKit.Select.prototype.onSelectTrigger = function(e)
                           this._select,
                           function()
                           {
-                              this._selected = this._object[this._targetKey]  = this._values[options.getSelectedIndex()];
-                              this._select.setProperty('value',this._selected);
-
-                              this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
+                              this.applyValue();
 
                               this._active = false;
                               this._updateVisibility();
@@ -105,14 +101,22 @@ ControlKit.Select.prototype.onSelectTrigger = function(e)
 };
 
 
+ControlKit.Select.prototype.applyValue = function()
+{
+    this.pushHistoryState();
 
+    this._selected = this._object[this._targetKey]  = this._values[ControlKit.Options.getInstance().getSelectedIndex()];
+    this._select.setProperty('value',this._selected);
 
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
+};
+
+ControlKit.Select.prototype.pushHistoryState = function(){var obj = this._object,key = this._targetKey;ControlKit.History.getInstance().pushState(obj,key,obj[key]);};
 
 ControlKit.Select.prototype._onSelectMouseDown = function()
 {
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SELECT_TRIGGERED,null));
 };
-
 
 ControlKit.Select.prototype._updateVisibility = function()
 {

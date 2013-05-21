@@ -105,6 +105,20 @@ function TestControlKit(parentDomElementId)
 
     var controlKit = new ControlKit.Kit(parentDomElementId);
 
+
+    var panel0  = controlKit.addPanel({width:200,align:'left',fixed:false,position:[20,20]}),
+        group00 = panel0.addGroup({maxHeight:200})
+                        .addSubGroup()
+                        .addNumberInput(object,'number')
+.addNumberInput(object,'number')
+.addNumberInput(object,'number')
+.addNumberInput(object,'number')
+.addNumberInput(object,'number')
+            .addNumberInput(object,'number')
+            .addNumberInput(object,'number')
+
+
+    /*
     var control0   = controlKit.addPanel({width:200,align:'left',fixed:false,position:[20,20]}),
         group00    = control0.addGroup({maxHeight:200})
                              .addSubGroup()

@@ -23,7 +23,8 @@ ControlKit.NumberInput = function(parent,object,value,label,params)
     var input = this._input = new ControlKit.NumberInput_Internal(params.step,
                                                                     params.dp,
                                                                     this._onInputChange.bind(this),
-                                                                    this._onInputFinish.bind(this));
+                                                                    this._onInputFinish.bind(this),
+                                                                    this.pushHistoryState.bind(this));
 
     var wrapNode = this._wrapNode;
 
@@ -71,11 +72,10 @@ ControlKit.NumberInput.prototype._onInputFinish = function(){this.applyValue();t
 
 ControlKit.NumberInput.prototype.applyValue = function()
 {
-    this.pushHistoryState();
-
     this._object[this._key] = this._input.getValue();
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
 };
+
 
 ControlKit.NumberInput.prototype.onValueUpdate = function(e)
 {

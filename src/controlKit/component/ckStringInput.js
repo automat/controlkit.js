@@ -34,9 +34,7 @@ ControlKit.StringInput = function(parent,object,value,label,params)
         wrapNode.addChild(inputWrap);
         inputWrap.addChild(input);
 
-        var presets = this._presets   = this._object[this._presetsKey],
-            obj     = this._object,
-            key     = this._key;
+        var presets = this._presets   = this._object[this._presetsKey];
 
         var options   = ControlKit.Options.getInstance();
         var presetBtn = this._presetBtn = new ControlKit.PresetBtn(this._wrapNode);
@@ -46,9 +44,15 @@ ControlKit.StringInput = function(parent,object,value,label,params)
         var self = this;
         var onPresetActivate = function()
         {
-            options.build(presets,input.getProperty('value'),input,
-                          function(){input.setProperty('value',presets[options.getSelectedIndex()]);
-                                     self.applyValue();},
+            options.build(presets,
+                          input.getProperty('value'),
+                          input,
+                          function()
+                          {
+                              input.setProperty('value',presets[options.getSelectedIndex()]);
+                              self.pushHistoryState();
+                              self.applyValue();
+                          },
                           onPresetDeactivate,ControlKit.Constant.PADDING_PRESET);
         };
 
@@ -62,26 +66,40 @@ ControlKit.StringInput = function(parent,object,value,label,params)
     input.setEventListener(ControlKit.NodeEventType.CHANGE, this._onInputChange.bind(this));
 
     /*---------------------------------------------------------------------------------*/
-
-    //prevent chrome drag scroll TODO:Move to Input
-    //input.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onInputDragStart.bind(this));
-
-    /*
-    this.addEventListener( ControlKit.EventType.INPUT_SELECTDRAG_START,this._parent,'onSelectDragStart');
-    this.addEventListener( ControlKit.EventType.INPUT_SELECTDRAG,      this._parent,'onSelectDrag');
-    this.addEventListener( ControlKit.EventType.INPUT_SELECTDRAG_END,  this._parent,'onSelectDragEnd');
-    */
 };
 
 ControlKit.StringInput.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 
-ControlKit.StringInput.prototype._onInputKeyUp  = function(){this.applyValue();this._onChange();};
-ControlKit.StringInput.prototype._onInputChange = function(){this.applyValue();this._onFinish();};
+ControlKit.StringInput.prototype._onInputKeyUp  = function(e)
+{
+    if(this._keyIsChar(e.keyCode))this.pushHistoryState();
+    this.applyValue();
+    this._onChange();
+};
+
+ControlKit.StringInput.prototype._onInputChange = function(e)
+{
+    if(this._keyIsChar(e.keyCode))this.pushHistoryState();
+    this.applyValue();
+    this._onFinish();
+};
+
+//TODO: Finish check
+ControlKit.StringInput.prototype._keyIsChar = function(keyCode)
+{
+    return keyCode != 17 &&
+           keyCode != 18 &&
+           keyCode != 20 &&
+           keyCode != 37 &&
+           keyCode != 38 &&
+           keyCode != 39 &&
+           keyCode != 40 &&
+           keyCode != 16;
+};
 
 
 ControlKit.StringInput.prototype.applyValue = function()
 {
-    this.pushHistoryState();
     this._object[this._key] = this._input.getProperty('value');
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
 };
@@ -92,34 +110,4 @@ ControlKit.StringInput.prototype.onValueUpdate = function(e)
     this._input.setProperty('value',this._object[this._key]);
 };
 
-ControlKit.StringInput.prototype._onInputDragStart = function()
-{
-    var eventMouseMove = ControlKit.DocumentEventType.MOUSE_MOVE,
-        eventMouseUp   = ControlKit.DocumentEventType.MOUSE_UP;
-
-    var eventDragStart = ControlKit.EventType.INPUT_SELECTDRAG_START,
-        eventDrag      = ControlKit.EventType.INPUT_SELECTDRAG,
-        eventDragEnd   = ControlKit.EventType.INPUT_SELECTDRAG_END;
-
-    var self = this;
-
-    var onDrag = function()
-    {
-        self.dispatchEvent(new ControlKit.Event(self,eventDrag,null));
-    };
-
-    var onDragEnd = function()
-    {
-        document.removeEventListener(eventMouseMove, onDrag,    false);
-        document.removeEventListener(eventMouseUp,   onDragEnd, false);
-
-        self.dispatchEvent(new ControlKit.Event(self,eventDragEnd,null));
-    };
-
-
-    document.addEventListener(eventMouseMove,onDrag,   false);
-    document.addEventListener(eventMouseUp,  onDragEnd,false);
-
-    this.dispatchEvent(new ControlKit.Event(this,eventDragStart,null));
-};
 

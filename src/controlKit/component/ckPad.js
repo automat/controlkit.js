@@ -37,13 +37,15 @@ ControlKit.Pad = function(parent,object,value,label,params)
     {
         this._dragging = true;
         this._drawValue(this._getMouseNormalized());
-        this._applyValue()
+        this.applyValue()
 
     }.bind(this);
 
     canvas.onmouseup   = function()
     {
+        this.pushHistoryState();
         this._dragging = false;
+
     }.bind(this);
 
     var doconmousemove = document.onmousemove || function(){},
@@ -55,7 +57,7 @@ ControlKit.Pad = function(parent,object,value,label,params)
         if(this._dragging)
         {
             this._drawValue(this._getMouseNormalized());
-            this._applyValue();
+            this.applyValue();
             this._onChange();
         }
     }.bind(this);
@@ -65,8 +67,9 @@ ControlKit.Pad = function(parent,object,value,label,params)
         doconmouseup(e);
         if(this._dragging)
         {
+            this.pushHistoryState();
             this._dragging = false;
-            this._applyValue();
+            this.applyValue();
             this._onFinish();
         }
 
@@ -127,7 +130,7 @@ ControlKit.Pad.prototype._drawPoint = function()
         {
             var stringX = axisLabels[0].toUpperCase();
             canvas.text(stringX,Math.floor(canvasMidX*0.5-canvas.getTextWidth(stringX)*0.5),
-                Math.floor(canvasMidY)+12);
+                        Math.floor(canvasMidY)+12);
         }
 
         if(axisLabels[1])
@@ -188,7 +191,7 @@ ControlKit.Pad.prototype._getMouseNormalized = function()
             ( 1 - Math.max(0,Math.min(mouse[1]-offset[1],canvasHeight)) / canvasHeight * 2)];
 };
 
-ControlKit.Pad.prototype._applyValue = function()
+ControlKit.Pad.prototype.applyValue = function()
 {
     var objectValue = this._object[this._key],
         value       = this._value;
@@ -196,7 +199,7 @@ ControlKit.Pad.prototype._applyValue = function()
     objectValue[0] = value[0];
     objectValue[1] = value[1];
 
-   this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));
+   this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
 };
 
 ControlKit.Pad.prototype.onValueUpdate = function(e)

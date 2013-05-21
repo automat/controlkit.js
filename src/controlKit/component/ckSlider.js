@@ -46,20 +46,20 @@ ControlKit.Slider.prototype = Object.create(ControlKit.ObjectComponent.prototype
 
 ControlKit.Slider.prototype._onSliderChange = function()
 {
-    this._applyValue();
+    this.applyValue();
     this._updateValueField();
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
     this._onChange();
 
 };
 
 ControlKit.Slider.prototype._onSliderFinish = function()
 {
-    this._applyValue();
+    this.pushHistoryState();
+    this.applyValue();
     this._updateValueField();
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
     this._onFinish();
-
 };
 
 ControlKit.Slider.prototype._onInputChange = function()
@@ -79,7 +79,7 @@ ControlKit.Slider.prototype._onInputChange = function()
     this._onFinish();
 };
 
-ControlKit.Slider.prototype._applyValue = function()
+ControlKit.Slider.prototype.applyValue = function()
 {
     var value = this._slider.getValue();
     this._object[this._targetKey] = value;
@@ -104,20 +104,20 @@ ControlKit.Slider.prototype.onValueUpdate = function(e)
             slider.setBoundMax(this._values[1]);
             slider.setValue(this._object[this._targetKey]);
             //this._slider.updateInterpolatedValue();
-            this._applyValue();
+            this.applyValue();
         }
         else
         {
             slider.setBoundMin(this._values[0]);
             slider.setBoundMax(this._values[1]);
             slider.setValue(this._object[this._targetKey]);
-            this._applyValue();
+            this.applyValue();
         }
     }
     else
     {
         slider.setValue(this._object[this._targetKey]);
-        this._applyValue();
+        this.applyValue();
     }
 };
 

@@ -23,13 +23,15 @@ ControlKit.Range = function(parent,object,value,label,params)
     var inputMin    = this._inputMin = new ControlKit.NumberInput_Internal(this._step,
                                                                   this._dp,
                                                                   this._onInputMinChange.bind(this),
-                                                                  this._onInputMinFinish.bind(this));
+                                                                  this._onInputMinFinish.bind(this),
+                                                                  this.pushHistoryState.bind(this));                                                                  ;
 
     var lablMaxNode = new ControlKit.Node(ControlKit.NodeType.DIV);
     var inputMax    = this._inputMax = new ControlKit.NumberInput_Internal(this._step,
                                                                   this._dp,
                                                                   this._onInputMaxChange.bind(this),
-                                                                  this._onInputMaxFinish.bind(this));
+                                                                  this._onInputMaxFinish.bind(this),
+                                                                  this.pushHistoryState.bind(this));
 
     var wrapLablMin  = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.Wrap),
         wrapInputMin = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.Wrap),
@@ -73,7 +75,7 @@ ControlKit.Range.prototype.__onFinish = function()
 
 ControlKit.Range.prototype._onInputMinChange = function()
 {
-    this.pushHistoryState();this._updateValueMin();this.__onChange();
+    this._updateValueMin();this.__onChange();
 };
 
 ControlKit.Range.prototype._onInputMinFinish = function()
@@ -83,7 +85,7 @@ ControlKit.Range.prototype._onInputMinFinish = function()
 
 ControlKit.Range.prototype._onInputMaxChange = function()
 {
-    this.pushHistoryState();this._updateValueMax();this.__onChange();
+    this._updateValueMax();this.__onChange();
 };
 
 ControlKit.Range.prototype._onInputMaxFinish = function()
@@ -116,8 +118,22 @@ ControlKit.Range.prototype._updateValueMax = function()
 ControlKit.Range.prototype.onValueUpdate = function(e)
 {
     if(e.data.origin == this)return;
+    console.log('hey');
 
     this._inputMin.setValue(this._values[0]);
     this._inputMax.setValue(this._values[1]);
 };
+
+/*
+ControlKit.Range.prototype.pushHistoryState = function(){};
+
+ControlKit.Range.prototype.pushHistoryStateMin = function()
+{
+    var obj = this._object,
+        key = this._key;
+
+    obj[key][0] =
+
+};
+*/
 
