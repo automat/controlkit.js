@@ -48,7 +48,7 @@ ControlKit.StringInput = function(parent,object,value,label,params)
         {
             options.build(presets,input.getProperty('value'),input,
                           function(){input.setProperty('value',presets[options.getSelectedIndex()]);
-                                     self._updateValue();},
+                                     self.applyValue();},
                           onPresetDeactivate,ControlKit.Constant.PADDING_PRESET);
         };
 
@@ -64,21 +64,24 @@ ControlKit.StringInput = function(parent,object,value,label,params)
     /*---------------------------------------------------------------------------------*/
 
     //prevent chrome drag scroll TODO:Move to Input
-    input.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onInputDragStart.bind(this));
+    //input.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onInputDragStart.bind(this));
 
+    /*
     this.addEventListener( ControlKit.EventType.INPUT_SELECTDRAG_START,this._parent,'onSelectDragStart');
     this.addEventListener( ControlKit.EventType.INPUT_SELECTDRAG,      this._parent,'onSelectDrag');
     this.addEventListener( ControlKit.EventType.INPUT_SELECTDRAG_END,  this._parent,'onSelectDragEnd');
+    */
 };
 
 ControlKit.StringInput.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 
-ControlKit.StringInput.prototype._onInputKeyUp  = function(){this._updateValue();this._onChange();};
-ControlKit.StringInput.prototype._onInputChange = function(){this._updateValue();this._onFinish();};
+ControlKit.StringInput.prototype._onInputKeyUp  = function(){this.applyValue();this._onChange();};
+ControlKit.StringInput.prototype._onInputChange = function(){this.applyValue();this._onFinish();};
 
 
-ControlKit.StringInput.prototype._updateValue = function()
+ControlKit.StringInput.prototype.applyValue = function()
 {
+    this.pushHistoryState();
     this._object[this._key] = this._input.getProperty('value');
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
 };

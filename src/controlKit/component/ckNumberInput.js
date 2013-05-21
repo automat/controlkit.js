@@ -53,7 +53,7 @@ ControlKit.NumberInput = function(parent,object,value,label,params)
         {
             options.build(presets,input.getValue(),input.getNode(),
                           function(){input.setValue(presets[options.getSelectedIndex()]);
-                                     self._updateValue();},
+                                     self.applyValue();},
                           onPresetDeactivate,ControlKit.Constant.PADDING_PRESET);
         };
 
@@ -66,11 +66,13 @@ ControlKit.NumberInput = function(parent,object,value,label,params)
 
 ControlKit.NumberInput.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 
-ControlKit.NumberInput.prototype._onInputChange = function(){this._updateValue();this._onChange();};
-ControlKit.NumberInput.prototype._onInputFinish = function(){this._updateValue();this._onFinish();};
+ControlKit.NumberInput.prototype._onInputChange = function(){this.applyValue();this._onChange();};
+ControlKit.NumberInput.prototype._onInputFinish = function(){this.applyValue();this._onFinish();};
 
-ControlKit.NumberInput.prototype._updateValue = function()
+ControlKit.NumberInput.prototype.applyValue = function()
 {
+    this.pushHistoryState();
+
     this._object[this._key] = this._input.getValue();
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
 };

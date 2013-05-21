@@ -61,20 +61,19 @@ ControlKit.Range.prototype = Object.create(ControlKit.ObjectComponent.prototype)
 
 ControlKit.Range.prototype.__onChange = function()
 {
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
     this._onChange();
 };
 
 ControlKit.Range.prototype.__onFinish = function()
 {
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
     this._onFinish();
 };
 
-
 ControlKit.Range.prototype._onInputMinChange = function()
 {
-    this._updateValueMin();this.__onChange();
+    this.pushHistoryState();this._updateValueMin();this.__onChange();
 };
 
 ControlKit.Range.prototype._onInputMinFinish = function()
@@ -84,7 +83,7 @@ ControlKit.Range.prototype._onInputMinFinish = function()
 
 ControlKit.Range.prototype._onInputMaxChange = function()
 {
-    this._updateValueMax();this.__onChange();
+    this.pushHistoryState();this._updateValueMax();this.__onChange();
 };
 
 ControlKit.Range.prototype._onInputMaxFinish = function()

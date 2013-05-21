@@ -24,15 +24,16 @@ ControlKit.Kit = function(parentDomElementId)
     /*---------------------------------------------------------------------------------*/
 
     var history = ControlKit.History.init();
-        history.addEventListener(this,'onHistoryStatePush');
-        history.addEventListener(this,'onHistoryStatePop');
+        history.addEventListener(ControlKit.EventType.HISTORY_STATE_PUSH,this,'onHistoryStatePush');
+        history.addEventListener(ControlKit.EventType.HISTORY_STATE_POP ,this,'onHistoryStatePop');
 
     ControlKit.Mouse.init();
-    ControlKit.Picker.init();
-    ControlKit.Options.init();
+
+    var picker  = ControlKit.Picker.init();
+    var options = ControlKit.Options.init();
 
     //node.addChild(ControlKit.Picker.getInstance().getNode());
-    node.addChild(ControlKit.Options.getInstance().getNode());
+    node.addChild(options.getNode());
 
     /*---------------------------------------------------------------------------------*/
 
@@ -96,8 +97,18 @@ ControlKit.Kit.prototype.update = function()
 
 /*---------------------------------------------------------------------------------*/
 
-ControlKit.Kit.prototype.onHistoryStatePush = function(){};
-ControlKit.Kit.prototype.onHistoryStatePop  = function(){};
+ControlKit.Kit.prototype.onHistoryStatePush = function()
+{
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.UPDATE_MENU,null));
+};
+
+ControlKit.Kit.prototype.onHistoryStatePop  = function()
+{
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.UPDATE_VALUE,{origin: null}));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.UPDATE_MENU,null));
+};
+
+/*---------------------------------------------------------------------------------*/
 
 ControlKit.Kit.prototype.getRootNode = function(){return this._rootNode;};
 

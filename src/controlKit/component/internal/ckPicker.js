@@ -95,5 +95,5 @@ ControlKit.Picker.prototype =
 
 
 
-ControlKit.Picker.init        = function(){ControlKit.Picker._instance = new ControlKit.Picker();};
+ControlKit.Picker.init        = function(){return ControlKit.Picker._instance = new ControlKit.Picker();};
 ControlKit.Picker.getInstance = function(){return ControlKit.Picker._instance;};

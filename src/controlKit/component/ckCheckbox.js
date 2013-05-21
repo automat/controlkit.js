@@ -23,12 +23,20 @@ ControlKit.Checkbox = function(parent,object,value,label,params)
 
 ControlKit.Checkbox.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 
+ControlKit.Checkbox.prototype.applyValue = function()
+{
+    this.pushHistoryState();
+
+    var obj = this._object,key = this._key;
+    obj[key] = !obj[key];
+
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
+};
+
 ControlKit.Checkbox.prototype._onInputChange = function()
 {
-    this._object[this._key] = !this._object[this._key];
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));
+    this.applyValue();
     this._onChange();
-
 };
 
 ControlKit.Checkbox.prototype.onValueUpdate = function(e)

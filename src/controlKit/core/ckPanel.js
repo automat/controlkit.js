@@ -84,7 +84,6 @@ ControlKit.Panel = function(controlKit,params)
 
     headNode.setEventListener(ControlKit.NodeEventType.MOUSE_OVER, this._onHeadMouseOver.bind(this));
     headNode.setEventListener(ControlKit.NodeEventType.MOUSE_OUT,  this._onHeadMouseOut.bind(this));
-    headNode.setEventListener(ControlKit.NodeEventType.DBL_CLICK,  this._onHeadDblClick.bind(this));
 
     /*---------------------------------------------------------------------------------*/
 
@@ -107,6 +106,10 @@ ControlKit.Panel = function(controlKit,params)
 
     menuHide.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMenuHideMouseDown.bind(this));
     menuUndo.setStyleProperty('display','none');
+    menuUndo.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMenuUndoTrigger.bind(this));
+
+    parent.addEventListener(ControlKit.EventType.UPDATE_MENU,this,'onUpdateMenu');
+
 
     /*---------------------------------------------------------------------------------*/
 
@@ -120,6 +123,9 @@ ControlKit.Panel = function(controlKit,params)
     /*---------------------------------------------------------------------------------*/
 
     window.addEventListener('resize',this._onWindowResize.bind(this));
+
+
+
 };
 
 /*---------------------------------------------------------------------------------*/
@@ -160,9 +166,11 @@ ControlKit.Panel.prototype._updateVisibility = function()
     }
 };
 
-ControlKit.Panel.prototype._onHeadMouseOver = function(){this._menuUndo.setStyleProperty('display','inline')};
-ControlKit.Panel.prototype._onHeadMouseOut  = function(){this._menuUndo.setStyleProperty('display','none')};
-ControlKit.Panel.prototype._onHeadDblClick  = ControlKit.Panel.prototype._onMenuHideMouseDown;
+ControlKit.Panel.prototype._onHeadMouseOver   = function(){this._menuUndo.setStyleProperty('display','inline')};
+ControlKit.Panel.prototype._onHeadMouseOut    = function(){this._menuUndo.setStyleProperty('display','none')};
+ControlKit.Panel.prototype.onUpdateMenu       = function(){this._menuUndo.setProperty('value',ControlKit.History.getInstance().getNumStates());};
+
+ControlKit.Panel.prototype._onMenuUndoTrigger = function(){ControlKit.History.getInstance().popState();};
 
 /*---------------------------------------------------------------------------------*
 * Panel dragging

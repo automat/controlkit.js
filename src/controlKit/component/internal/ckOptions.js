@@ -114,5 +114,5 @@ ControlKit.Options.prototype =
     getSelectedIndex : function(){return this._selectedIndex;}
 };
 
-ControlKit.Options.init        = function(){ControlKit.Options._instance = new ControlKit.Options();};
+ControlKit.Options.init        = function(){return ControlKit.Options._instance = new ControlKit.Options();};
 ControlKit.Options.getInstance = function(){return ControlKit.Options._instance;};

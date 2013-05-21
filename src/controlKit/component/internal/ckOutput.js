@@ -37,11 +37,11 @@ ControlKit.Output = function(parent,object,value,label,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    textArea.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onInputDragStart.bind(this));
+    //textArea.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onInputDragStart.bind(this));
 
-    this.addEventListener( ControlKit.EventType.INPUT_SELECTDRAG_START,this._parent,'onSelectDragStart');
-    this.addEventListener( ControlKit.EventType.INPUT_SELECTDRAG,      this._parent,'onSelectDrag');
-    this.addEventListener( ControlKit.EventType.INPUT_SELECTDRAG_END,  this._parent,'onSelectDragEnd');
+    //this.addEventListener( ControlKit.EventType.INPUT_SELECTDRAG_START,this._parent,'onSelectDragStart');
+    //this.addEventListener( ControlKit.EventType.INPUT_SELECTDRAG,      this._parent,'onSelectDrag');
+    //this.addEventListener( ControlKit.EventType.INPUT_SELECTDRAG_END,  this._parent,'onSelectDragEnd');
 
     /*---------------------------------------------------------------------------------*/
 
