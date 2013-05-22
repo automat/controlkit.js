@@ -109,14 +109,11 @@ function TestControlKit(parentDomElementId)
     var panel0  = controlKit.addPanel({width:200,align:'left',fixed:false,position:[20,20]}),
         group00 = panel0.addGroup({maxHeight:200})
                         .addSubGroup()
-                        .addNumberInput(object,'number')
-.addNumberInput(object,'number')
-.addNumberInput(object,'number')
-.addNumberInput(object,'number')
-.addNumberInput(object,'number')
-            .addNumberInput(object,'number')
-            .addNumberInput(object,'number')
-
+                        .addNumberInput(object,'number','Num')
+.addNumberInput(object,'number','Num')
+.addNumberInput(object,'number','Num')
+            .addRange(object,'range')
+            .addSlider(object,'range','slideValue','Slider');
 
     /*
     var control0   = controlKit.addPanel({width:200,align:'left',fixed:false,position:[20,20]}),

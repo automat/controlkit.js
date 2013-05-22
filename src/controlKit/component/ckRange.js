@@ -23,15 +23,13 @@ ControlKit.Range = function(parent,object,value,label,params)
     var inputMin    = this._inputMin = new ControlKit.NumberInput_Internal(this._step,
                                                                   this._dp,
                                                                   this._onInputMinChange.bind(this),
-                                                                  this._onInputMinFinish.bind(this),
-                                                                  this.pushHistoryState.bind(this));                                                                  ;
+                                                                  this._onInputMinFinish.bind(this));
 
     var lablMaxNode = new ControlKit.Node(ControlKit.NodeType.DIV);
     var inputMax    = this._inputMax = new ControlKit.NumberInput_Internal(this._step,
                                                                   this._dp,
                                                                   this._onInputMaxChange.bind(this),
-                                                                  this._onInputMaxFinish.bind(this),
-                                                                  this.pushHistoryState.bind(this));
+                                                                  this._onInputMaxFinish.bind(this));
 
     var wrapLablMin  = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.Wrap),
         wrapInputMin = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.Wrap),
@@ -63,12 +61,14 @@ ControlKit.Range.prototype = Object.create(ControlKit.ObjectComponent.prototype)
 
 ControlKit.Range.prototype.__onChange = function()
 {
+    this.pushHistoryState();
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
     this._onChange();
 };
 
 ControlKit.Range.prototype.__onFinish = function()
 {
+    this.pushHistoryState();
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
     this._onFinish();
 };

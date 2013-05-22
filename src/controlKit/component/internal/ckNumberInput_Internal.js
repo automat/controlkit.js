@@ -1,4 +1,4 @@
-ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onChange,onFinish,onValidNumber)
+ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onChange,onFinish)
 {
     ControlKit.EventDispatcher.apply(this,null);
 
@@ -12,14 +12,9 @@ ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onChange,onFi
 
     this._onChange     = onChange     || function(){};
     this._onFinish     = onFinish     || function(){};
-
-    //FIXME
-    this._onValidNumber = onValidNumber || function(){};
-
     /*---------------------------------------------------------------------------------*/
 
     var input = this._input = new ControlKit.Node(ControlKit.NodeType.INPUT_TEXT);
-
     input.setProperty('value',this._value);
 
     /*---------------------------------------------------------------------------------*/
@@ -45,7 +40,7 @@ ControlKit.NumberInput_Internal.prototype._onInputKeyDown = function(e)
         this._value   += (step * multiplier);
 
         this._onChange();
-        this._formatDisplayOutput();
+        this._format();
     }
 };
 
@@ -58,63 +53,52 @@ ControlKit.NumberInput_Internal.prototype._onInputKeyUp = function(e)
         keyCode == 8  || keyCode == 39  ||
         keyCode == 37)   return;
 
-    this._validateInput();
-    this._onChange();
+    this._validate();
+    this._format();
 };
 
 ControlKit.NumberInput_Internal.prototype._onInputChange = function(e)
 {
-    this._validateInput();
-    this._formatDisplayOutput();
+    this._validate();
+    this._format();
     this._onFinish();
 };
 
-ControlKit.NumberInput_Internal.prototype._validateInput = function()
+ControlKit.NumberInput_Internal.prototype._validate = function()
 {
     if(this.inputIsNumber())
     {
-        this._onValidNumber();
-        this._value = Number(this._input.getProperty('value'));
+        var input = this._getInput();
+        if(input != '-')this._value = Number(input);
+        this._onChange();
         return;
     }
 
-    this._input.setProperty('value',this._value);
+    this._setOutput(this._value);
 };
-
-
 
 ControlKit.NumberInput_Internal.prototype.inputIsNumber = function()
 {
-    var value = this._input.getProperty('value');
+    var value = this._getInput();
 
     //TODO:FIX
     if(value == '-')return true;
     return /^\s*-?[0-9]\d*(\.\d{1,1000000})?\s*$/.test(value);
 };
 
-ControlKit.NumberInput_Internal.prototype._formatDisplayOutput = function()
+ControlKit.NumberInput_Internal.prototype._format = function()
 {
-    var valueString = this._value.toString();
+    var string = this._value.toString(),
+        index  = string.indexOf('.');
 
-    var index  = valueString.indexOf('.');
+    if(index>0)string = string.slice(0,index+this._valueDPlace);
 
-    if(index>0)valueString = valueString.slice(0,index+this._valueDPlace);
-
-    this._input.setProperty('value',valueString);
+    this._setOutput(string);
 };
 
-ControlKit.NumberInput_Internal.prototype.getValue = function()
-{
-    return this._value;
-};
-
-ControlKit.NumberInput_Internal.prototype.setValue = function(n)
-{
-    this._value = n;
-    this._formatDisplayOutput();
-};
-
-ControlKit.NumberInput_Internal.prototype.getNode = function()
-{
-    return this._input;
+ControlKit.NumberInput_Internal.prototype._setOutput = function(n){this._input.setProperty('value',n);};
+ControlKit.NumberInput_Internal.prototype._getInput  = function() {return this._input.getProperty('value')};
+ControlKit.NumberInput_Internal.prototype.getValue   = function() {return this._value;};
+ControlKit.NumberInput_Internal.prototype.setValue   = function(n){this._value = n;this._format();};
+ControlKit.NumberInput_Internal.prototype.getNode    = function() {return this._input;
 };
