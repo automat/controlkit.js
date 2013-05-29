@@ -48,7 +48,7 @@ ControlKit.Group.prototype.set = function(params)
 
     params.label     = params.label     || null;
     params.useLabels = params.useLabels || true;
-    params.show      = params.show === undefined ? true : params.show;
+    params.enable      = params.enable === undefined ? true : params.enable;
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -65,22 +65,20 @@ ControlKit.Group.prototype.set = function(params)
         indiNode.setStyleClass(ControlKit.CSS.ArrowBMax);
         lablNode.setProperty('innerHTML',params.label);
 
-
         headNode.addChild(indiNode);
         lablWrap.addChild(lablNode);
         headNode.addChild(lablWrap);
 
-        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
+        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadDragStart.bind(this));
 
         this._rootNode.addChild(headNode);
 
-        if(!params.show)this.hide();
+        if(!params.enable)this.disable();
     }
     else
     {
         //TODO: Add CSS Class
         if(!params.maxHeight)this._wrapNode.getStyle().borderTop = "1px solid #3b4447";
-
     }
 
     /*-------------------------------------------------------------------------------------*/
@@ -90,7 +88,7 @@ ControlKit.Group.prototype.set = function(params)
         var maxHeight = this._maxHeight = params.maxHeight,
             wrapNode  = this._wrapNode;
 
-        if(!this._hidden)wrapNode.setHeight(maxHeight);
+        if(this.isEnabled())wrapNode.setHeight(maxHeight);
         this._scrollbar  = new ControlKit.ScrollBar(wrapNode,this._listNode,maxHeight);
     }
 };
@@ -121,12 +119,12 @@ ControlKit.Group.prototype.onPanelMoveBegin = function(){this.dispatchEvent(new 
 ControlKit.Group.prototype.onPanelMove      = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE,      null))};
 ControlKit.Group.prototype.onPanelMoveEnd   = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,  null))};
 
-ControlKit.Group.prototype.onPanelHide      = function(){console.log('parent panel hidden');};
-ControlKit.Group.prototype.onPanelShow      = function(){console.log('parent panel shown' );};
+ControlKit.Group.prototype.onPanelHide      = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_DISABLE,null));};
+ControlKit.Group.prototype.onPanelShow      = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_ENABLE, null));};
 
 /*-------------------------------------------------------------------------------------*/
 
-ControlKit.Group.prototype.onSubGroupTrigger = function(){if(!this._maxHeight)return;this._updateScrollBar();};
+ControlKit.Group.prototype.onSubGroupTrigger = function(){this._updateHeight();if(!this._maxHeight)return;this._updateScrollBar();};
 
 ControlKit.Group.prototype._updateScrollBar = function()
 {
@@ -140,7 +138,7 @@ ControlKit.Group.prototype._updateScrollBar = function()
 
     if(!scrollbar.isValid())
     {
-        scrollbar.hide();
+        scrollbar.disable();
         wrapNode.setHeight(wrapNode.getChildAt(1).getHeight());
 
         if(bufferTop   )bufferTop.setStyleProperty(   'display','none');
@@ -148,7 +146,7 @@ ControlKit.Group.prototype._updateScrollBar = function()
     }
     else
     {
-        scrollbar.show();
+        scrollbar.enable();
         wrapNode.setHeight(this._maxHeight);
 
         if(bufferTop   )bufferTop.setStyleProperty(   'display','block');
@@ -158,7 +156,7 @@ ControlKit.Group.prototype._updateScrollBar = function()
 
 /*-------------------------------------------------------------------------------------*/
 
-ControlKit.Group.prototype._onHeadMouseDown   = function(){this._hidden = !this._hidden;this._updateVisibility();};
+ControlKit.Group.prototype._onHeadDragStart   = function(){this._disabled = !this._disabled;this._updateAppearance();};
 
 /*-------------------------------------------------------------------------------------*/
 
@@ -176,13 +174,10 @@ ControlKit.Group.prototype.addValuePlotter    = function(object,value,label,para
 ControlKit.Group.prototype.addNumberOutput    = function(object,value,label,params)       {return this._addComponent(new ControlKit.NumberOutput(    this.getSubGroup(),object,value,label,params));};
 ControlKit.Group.prototype.addStringOutput    = function(object,value,label,params)       {return this._addComponent(new ControlKit.StringOutput(    this.getSubGroup(),object,value,label,params));};
 
-/*-------------------------------------------------------------------------------------*/
-
-// Generate component from Object
-ControlKit.Group.prototype.addObject = function(obj){};
 
 /*-------------------------------------------------------------------------------------*/
 
+//TODO: Move to subroup
 ControlKit.Group.prototype._addComponent = function(component)
 {
     this._components.push(component);
@@ -195,7 +190,8 @@ ControlKit.Group.prototype._addComponent = function(component)
 ControlKit.Group.prototype._updateHeight = function()
 {
     var wrapNode = this._wrapNode;
-    wrapNode.setHeight(wrapNode.getFirstChild().getHeight());
+        wrapNode.setHeight(wrapNode.getFirstChild().getHeight());
+
     this.getSubGroup().update();
 
     if(this._maxHeight)this._scrollbar.update();
@@ -203,7 +199,7 @@ ControlKit.Group.prototype._updateHeight = function()
 
 /*----------------------------------------------------------collapsed---------------------*/
 
-ControlKit.Group.prototype._updateVisibility = function()
+ControlKit.Group.prototype._updateAppearance = function()
 {
     var wrapNode = this._wrapNode,
         inidNode = this._indiNode;
@@ -213,7 +209,7 @@ ControlKit.Group.prototype._updateVisibility = function()
 
     var scrollbar    = this._scrollbar;
 
-    if(this._hidden)
+    if(this.isDisabled())
     {
         wrapNode.setHeight(0);
         if(inidNode)inidNode.setStyleClass(ControlKit.CSS.ArrowBMin);
@@ -226,10 +222,19 @@ ControlKit.Group.prototype._updateVisibility = function()
     }
     else
     {
+        var maxHeight = this._maxHeight,
+            listHeight;
 
-        //TODO Fix maxheight wrapheight
-
-        wrapNode.setHeight(this._maxHeight ||  wrapNode.getFirstChild().getHeight());
+        if(maxHeight)
+        {
+            listHeight = wrapNode.getChildAt(1).getHeight();
+            wrapNode.setHeight(listHeight < maxHeight ? listHeight : maxHeight);
+        }
+        else
+        {
+            listHeight = wrapNode.getFirstChild().getHeight();
+            wrapNode.setHeight(listHeight);
+        }
 
         if(inidNode)inidNode.setStyleClass(ControlKit.CSS.ArrowBMax);
 
@@ -248,7 +253,6 @@ ControlKit.Group.prototype._updateVisibility = function()
 
 ControlKit.Group.prototype.addSubGroup  = function(params)
 {
-
     if(!this._subGroupsInit)
     {
         this.getSubGroup().set(params);
@@ -260,7 +264,7 @@ ControlKit.Group.prototype.addSubGroup  = function(params)
     return this;
 };
 
-ControlKit.Group.prototype.getSubGroup = function(){return this._subGroups[this._subGroups.length-1];};
+ControlKit.Group.prototype.getSubGroup = function(){var subGroups = this._subGroups;return subGroups[subGroups.length-1];};
 
 /*-------------------------------------------------------------------------------------*/
 
