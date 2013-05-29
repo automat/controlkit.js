@@ -6,14 +6,14 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    params            = params || {};
-    params.valign     = params.valign        || ControlKit.Default.VALIGN;
-    params.align      = params.align         || ControlKit.Default.ALIGN;
-    params.position   = params.position      || ControlKit.Default.POSITION;
-    params.width      = params.width         || ControlKit.Default.WIDTH;
-    params.maxHeight  = params.maxHeight     || window.innerHeight;
-    params.ratio      = params.ratio         || ControlKit.Default.RATIO;
-    params.label      = params.label         || ControlKit.Default.LABEL;
+    params            = params           || {};
+    params.valign     = params.valign    || ControlKit.Default.VALIGN;
+    params.align      = params.align     || ControlKit.Default.ALIGN;
+    params.position   = params.position  || ControlKit.Default.POSITION;
+    params.width      = params.width     || ControlKit.Default.WIDTH;
+    params.maxHeight  = params.maxHeight || window.innerHeight;
+    params.ratio      = params.ratio     || ControlKit.Default.RATIO;
+    params.label      = params.label     || ControlKit.Default.LABEL;
 
     params.fixed      = params.fixed === undefined ?
                         ControlKit.Default.FIXED :
@@ -72,14 +72,12 @@ ControlKit.Panel = function(controlKit,params)
 
     if(!fixed)
     {
-        this._headDragging = false;
+        this._dragging = false;
         this._mouseOffset  = [0,0];
 
         headNode.setStyleProperty('cursor','pointer');
 
-        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,    this._onHeadMouseDown.bind(this));
-        document.addEventListener(ControlKit.DocumentEventType.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
-        document.addEventListener(ControlKit.DocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
+        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,    this._onHeadDragStart.bind(this));
     }
 
     headNode.setEventListener(ControlKit.NodeEventType.MOUSE_OVER, this._onHeadMouseOver.bind(this));
@@ -102,7 +100,7 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    this._hidden = false;
+    this._disabled = false;
 
     menuHide.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMenuHideMouseDown.bind(this));
     menuUndo.setStyleProperty('display','none');
@@ -123,14 +121,14 @@ ControlKit.Panel = function(controlKit,params)
     /*---------------------------------------------------------------------------------*/
 
     window.addEventListener('resize',this._onWindowResize.bind(this));
-
-
-
 };
+
+ControlKit.Panel.prototype = Object.create(ControlKit.EventDispatcher.prototype);
 
 /*---------------------------------------------------------------------------------*/
 
-ControlKit.Panel.prototype = Object.create(ControlKit.EventDispatcher.prototype);
+ControlKit.Panel.prototype.isEnabled  = function(){return !this._disabled;};
+ControlKit.Panel.prototype.isDisabled = function(){return this._disabled;};
 
 ControlKit.Panel.prototype.addGroup  = function(params)
 {
@@ -139,22 +137,24 @@ ControlKit.Panel.prototype.addGroup  = function(params)
     return group;
 };
 
-ControlKit.Panel.prototype.getGroups     = function(){return this._groups;};
-ControlKit.Panel.prototype.getNode       = function(){return this._rootNode;};
-ControlKit.Panel.prototype.getList       = function(){return this._listNode;};
+ControlKit.Panel.prototype._onMenuHideMouseDown = function(){this._disabled=!this._disabled;this._updateAppearance();};
 
-ControlKit.Panel.prototype._onMenuHideMouseDown = function(){this._hidden=!this._hidden;this._updateVisibility();};
-
-ControlKit.Panel.prototype._updateVisibility = function()
+ControlKit.Panel.prototype._updateAppearance = function()
 {
     var rootNode = this._rootNode,
         headNode = this._headNode,
         menuHide = this._menuHide;
 
-    if(this._hidden)
+    if(this._disabled)
     {
+        headNode.getStyle().borderBottom = 'none';
+
         rootNode.setHeight(headNode.getHeight());
         menuHide.setStyleClass(ControlKit.CSS.MenuBtnShow);
+
+        //TODO:Add inactive state
+
+
         this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_HIDE,null));
     }
     else
@@ -162,6 +162,7 @@ ControlKit.Panel.prototype._updateVisibility = function()
         rootNode.setHeight(headNode.getHeight() +  this._wrapNode.getHeight());
         rootNode.setStyleProperty('height','auto');
         menuHide.setStyleClass(ControlKit.CSS.MenuBtnHide);
+        headNode.setStyleClass(ControlKit.CSS.Head);
         this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_SHOW,null));
     }
 };
@@ -176,7 +177,7 @@ ControlKit.Panel.prototype._onMenuUndoTrigger = function(){ControlKit.History.ge
 * Panel dragging
 *----------------------------------------------------------------------------------*/
 
-ControlKit.Panel.prototype._onHeadMouseDown = function()
+ControlKit.Panel.prototype._onHeadDragStart = function()
 {
     var parentNode = this._parent.getRootNode(),
         node       = this._rootNode;
@@ -188,12 +189,27 @@ ControlKit.Panel.prototype._onHeadMouseDown = function()
     offsetPos[0] = mousePos[0] - nodePos[0];
     offsetPos[1] = mousePos[1] - nodePos[1];
 
-    this._headDragging = true;
+    var eventMouseMove = ControlKit.DocumentEventType.MOUSE_MOVE,
+        eventMouseUp   = ControlKit.DocumentEventType.MOUSE_UP;
+
+    var self = this;
+
+    var onDrag    = function()
+                    {
+                        self._updatePosition();
+                    },
+
+        onDragEnd = function()
+                    {
+                        document.removeEventListener(eventMouseMove, onDrag,    false);
+                        document.removeEventListener(eventMouseUp,   onDragEnd, false);
+                    };
 
     parentNode.removeChild(node);
     parentNode.addChild(   node);
 
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_BEGIN,null));
+    document.addEventListener(eventMouseMove, onDrag,    false);
+    document.addEventListener(eventMouseUp,   onDragEnd, false);
 };
 
 ControlKit.Panel.prototype._updatePosition = function()
@@ -201,30 +217,17 @@ ControlKit.Panel.prototype._updatePosition = function()
     var mousePos  = ControlKit.Mouse.getInstance().getPosition(),
         offsetPos = this._mouseOffset;
 
-    var currPositionX = mousePos[0]-offsetPos[0],
-        currPositionY = mousePos[1]-offsetPos[1];
+    var currPositionX = mousePos[0] - offsetPos[0],
+        currPositionY = mousePos[1] - offsetPos[1];
 
     this._setPosition(currPositionX,currPositionY);
 
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE,null));
 };
 
-ControlKit.Panel.prototype._onDocumentMouseMove = function()
-{
-    if(!this._headDragging)return;
-    this._updatePosition();
-};
-
-ControlKit.Panel.prototype._onDocumentMouseUp = function()
-{
-    if(!this._headDragging)return;
-    this._headDragging = false;
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,null));
-};
-
 ControlKit.Panel.prototype._onWindowResize = function()
 {
-    this._setPosition(this._position[0],this._position[1]);
+    var position = this._position;this._setPosition(position[0],position[1]);
 };
 
 /*---------------------------------------------------------------------------------*/
@@ -286,6 +289,10 @@ ControlKit.Panel.prototype.getAlignment  = function(){return this._align;};
 ControlKit.Panel.prototype.getPosition   = function(){return this._position;};
 
 /*---------------------------------------------------------------------------------*/
+ControlKit.Panel.prototype.getGroups     = function(){return this._groups;};
+ControlKit.Panel.prototype.getNode       = function(){return this._rootNode;};
+ControlKit.Panel.prototype.getList       = function(){return this._listNode;};
+
 
 
 
