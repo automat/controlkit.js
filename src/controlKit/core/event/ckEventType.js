@@ -15,6 +15,12 @@ ControlKit.EventType =
 
     SUBGROUP_TRIGGER       : 'subGroupTrigger',
 
+    COMPONENTS_ENABLE      : 'enableCompo',
+    COMPONENTS_DISABLE     : 'disableComps',
+
+    SUBGROUP_ENABLE        : 'enableSubGroup',
+    SUBGROUP_DISABLE       : 'disableSubGroup',
+
     INDEX_ORDER_CHANGED    : 'indexOrderChanged',
     CHANGE_INDEX_ORDER     : 'changeIndexOrder',
 
@@ -26,11 +32,8 @@ ControlKit.EventType =
     INPUT_SELECTDRAG       : 'inputSelectDrag',
     INPUT_SELECTDRAG_END   : 'inputSelectDragEnd',
 
-    HISTORY_STATE_PUSH : 'historyStatePush',
-    HISTORY_STATE_POP  : 'historyStatePop',
+    HISTORY_STATE_PUSH     : 'historyStatePush',
+    HISTORY_STATE_POP      : 'historyStatePop',
 
-    UPDATE_MENU        : 'updateMenu'
-
-
-
+    UPDATE_MENU            : 'updateMenu'
 };
