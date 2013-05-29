@@ -2,7 +2,7 @@ ControlKit.Slider = function(parent,object,value,target,label,params)
 {
     ControlKit.ObjectComponent.apply(this,arguments);
 
-    this._values    = this._object[this._key];
+    this._values  = this._object[this._key];
     this._targetKey = target;
 
     /*---------------------------------------------------------------------------------*/
@@ -20,24 +20,36 @@ ControlKit.Slider = function(parent,object,value,target,label,params)
     this._onFinish = params.onFinish;
     this._dp       = params.dp;
 
-    this._wrapNode.setStyleClass(ControlKit.CSS.WrapSlider);
+    var values    = this._values,
+        obj       = this._object,
+        targetKey = this._targetKey;
 
-    var slider = this._slider = new ControlKit.Slider_Internal(this._wrapNode,
-                                                      this._onSliderChange.bind(this),
-                                                      this._onSliderFinish.bind(this));
+    var wrapNode  = this._wrapNode;
 
-    slider.setBoundMin(this._values[0]);
-    slider.setBoundMax(this._values[1]);
-    slider.setValue(this._object[this._targetKey]);
+    /*---------------------------------------------------------------------------------*/
+
+    wrapNode.setStyleClass(ControlKit.CSS.WrapSlider);
+
+    var slider = this._slider = new ControlKit.Slider_Internal(wrapNode,
+                                                               this._onSliderChange.bind(this),
+                                                               this._onSliderFinish.bind(this));
+
+    slider.setBoundMin(values[0]);
+    slider.setBoundMax(values[1]);
+    slider.setValue(obj[targetKey]);
+
+    /*---------------------------------------------------------------------------------*/
 
     var input  = this._input = new ControlKit.NumberInput_Internal(this._step,
-                                                          this._dp,
-                                                          this._onInputChange.bind(this),
-                                                          this._onInputChange.bind(this));
+                                                                   this._dp,
+                                                                   this._onInputChange.bind(this),
+                                                                   this._onInputChange.bind(this));
 
-    input.setValue(this._object[this._targetKey]);
+    input.setValue(obj[targetKey]);
 
-    this._wrapNode.addChild(input.getNode());
+    wrapNode.addChild(input.getNode());
+
+    /*---------------------------------------------------------------------------------*/
 
     this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,this,'onPanelMoveEnd');
 };
@@ -50,7 +62,6 @@ ControlKit.Slider.prototype._onSliderChange = function()
     this._updateValueField();
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
     this._onChange();
-
 };
 
 ControlKit.Slider.prototype._onSliderFinish = function()
@@ -75,7 +86,7 @@ ControlKit.Slider.prototype._onInputChange = function()
 
     this._slider.setValue(value);
     this._object[this._targetKey] = value;
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
     this._onFinish();
 };
 
@@ -120,7 +131,6 @@ ControlKit.Slider.prototype.onValueUpdate = function(e)
         this.applyValue();
     }
 };
-
 
 
 ControlKit.Slider.prototype._updateValueField = function(){this._input.setValue(this._slider.getValue());};

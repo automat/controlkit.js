@@ -57,7 +57,7 @@ ControlKit.Select.prototype.onSelectTrigger = function(e)
     if(e.data.origin == this)
     {
         this._active = !this._active;
-        this._updateVisibility();
+        this._updateAppearance();
 
         var options = ControlKit.Options.getInstance();
 
@@ -71,7 +71,7 @@ ControlKit.Select.prototype.onSelectTrigger = function(e)
                               this.applyValue();
 
                               this._active = false;
-                              this._updateVisibility();
+                              this._updateAppearance();
 
                               options.clear();
 
@@ -79,7 +79,7 @@ ControlKit.Select.prototype.onSelectTrigger = function(e)
                           function()
                           {
                               this._active = false;
-                              this._updateVisibility();
+                              this._updateAppearance();
 
                               options.clear();
 
@@ -96,7 +96,7 @@ ControlKit.Select.prototype.onSelectTrigger = function(e)
 
 
     this._active = false;
-    this._updateVisibility();
+    this._updateAppearance();
 
 };
 
@@ -118,7 +118,7 @@ ControlKit.Select.prototype._onSelectMouseDown = function()
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SELECT_TRIGGERED,null));
 };
 
-ControlKit.Select.prototype._updateVisibility = function()
+ControlKit.Select.prototype._updateAppearance = function()
 {
     this._select.setStyleClass(this._active ? ControlKit.CSS.SelectActive : ControlKit.CSS.Select);
 };
