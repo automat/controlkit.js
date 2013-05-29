@@ -62,7 +62,7 @@ ControlKit.Options.prototype =
 
         }
 
-        //position, set width and show
+        //position, set width and enable
 
         var elementPos    = element.getPositionGlobal(),
             elementWidth  = element.getWidth() - paddingRight,
