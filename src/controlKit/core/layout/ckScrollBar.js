@@ -39,7 +39,7 @@ ControlKit.ScrollBar = function(parentNode,targetNode,wrapHeight)
     thumb.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onThumbDragStart.bind(this));
 
     this._isValid  = false;
-    this._hidden = false;
+    this._disabled = false;
 };
 
 ControlKit.ScrollBar.prototype =
@@ -102,7 +102,7 @@ ControlKit.ScrollBar.prototype =
 
     _onThumbDragStart : function()
     {
-        if(!this._isValid || this._hidden)return;
+        if(!this._isValid || this._disabled)return;
 
         var eventMouseMove = ControlKit.DocumentEventType.MOUSE_MOVE,
             eventMouseUp   = ControlKit.DocumentEventType.MOUSE_UP;
@@ -119,20 +119,19 @@ ControlKit.ScrollBar.prototype =
         {
             document.removeEventListener(eventMouseMove, onDrag,    false);
             document.removeEventListener(eventMouseUp,   onDragEnd, false);
-
         };
 
-        self._scrollThumb(mouse.getY());
+        this._scrollThumb(mouse.getY());
         document.addEventListener(eventMouseMove, onDrag,    false);
         document.addEventListener(eventMouseUp,   onDragEnd, false);
     },
 
-    show : function(){this._hidden = false;this._updateVisibily();},
-    hide : function(){this._hidden = true; this._updateVisibily();},
+    enable  : function(){this._disabled = false;this._updateAppearance();},
+    disable : function(){this._disabled = true; this._updateAppearance();},
 
-    _updateVisibily : function()
+    _updateAppearance : function()
     {
-        if(this._hidden)
+        if(this._disabled)
         {
             this._rootNode.setStyleProperty('display','none');
             this._targetNode.setPositionY(0);

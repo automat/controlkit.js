@@ -17,7 +17,7 @@ ControlKit.NumberOutput.prototype = Object.create(ControlKit.Output.prototype);
 
 ControlKit.NumberOutput.prototype._setValue = function()
 {
-    if(this._parent.isHidden())return;
+    if(this._parent.isDisabled())return;
 
     var value    = this._object[this._key],
         textArea = this._textArea,
@@ -61,4 +61,3 @@ ControlKit.NumberOutput.prototype._setValue = function()
     }
 
 };
-

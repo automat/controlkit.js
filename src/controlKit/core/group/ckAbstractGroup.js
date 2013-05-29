@@ -16,13 +16,10 @@ ControlKit.AbstractGroup = function(parent,params)
 
     /*---------------------------------------------------------------------------------z*/
 
-    this._scrollV   = 0;
     this._maxHeight = null;
-    this._hidden    = false;
+    this._disabled  = false;
 
     /*---------------------------------------------------------------------------------*/
-
-
 };
 
 ControlKit.AbstractGroup.prototype = Object.create(ControlKit.EventDispatcher.prototype);
@@ -32,15 +29,19 @@ ControlKit.AbstractGroup.prototype.set = function(label,params){};
 
 /*---------------------------------------------------------------------------------*/
 
-ControlKit.AbstractGroup.prototype._onHeadMouseDown  = function(){};
-ControlKit.AbstractGroup.prototype._updateVisibility = function(){};
+ControlKit.AbstractGroup.prototype._onHeadDragStart  = function(){};
+ControlKit.AbstractGroup.prototype._updateAppearance = function(){};
 
 /*---------------------------------------------------------------------------------*/
 
-ControlKit.AbstractGroup.prototype.hide         = function() {this._hidden = true;  this._updateVisibility();};
-ControlKit.AbstractGroup.prototype.show         = function() {this._hidden = false; this._updateVisibility();};
-ControlKit.AbstractGroup.prototype.isHidden     = function() {return this._hidden;};
+ControlKit.AbstractGroup.prototype.disable         = function() {this._disabled = false; this._updateAppearance();};
+ControlKit.AbstractGroup.prototype.enable         = function() {this._disabled = true;  this._updateAppearance();};
+ControlKit.AbstractGroup.prototype.isDisabled   = function() {return this._disabled;};
+ControlKit.AbstractGroup.prototype.isEnabled    = function() {return !this._disabled;};
+
+
 ControlKit.AbstractGroup.prototype.getMaxHeight = function() {return this._maxHeight;};
+
 
 /*---------------------------------------------------------------------------------*/
 

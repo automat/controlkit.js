@@ -19,14 +19,14 @@ ControlKit.ValuePlotter = function(parent,object,value,label,params)
 
     var pointsLength = points.length;
 
-    var i = 0; while(i < pointsLength){points[i]=(length-i+1)*resolution;points[i+1]=0.0;i+=2;}
-        i =-1; while(++i < length    ){buffer0[i] = buffer1[i] = 0.0;}
+    var i = 0; while(i   < pointsLength){points[i]  = (length-i+1)*resolution;points[i+1]=0.0;i+=2;}
+        i =-1; while(++i < length    )  {buffer0[i] =  buffer1[i] = 0.0;}
 
     params.height = params.height  < ControlKit.Constant.MIN_HEIGHT ?
                     ControlKit.Constant.MIN_HEIGHT : params.height;
 
     var canvas = this._canvas;
-    canvas.setSize(canvas.width,Math.floor(params.height));
+        canvas.setSize(canvas.width,Math.floor(params.height));
 
     this._updateHeight();
 
@@ -104,7 +104,7 @@ ControlKit.ValuePlotter.prototype._drawCurve = function()
 
 ControlKit.ValuePlotter.prototype.update = function()
 {
-    if(this._parent.isHidden())return;
+    if(this._parent.isDisabled())return;
     this._drawValue();
 };
 

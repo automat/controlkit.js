@@ -13,7 +13,8 @@ ControlKit.ObjectComponent = function(parent,object,value,label)
     this._lablNode.setProperty('innerHTML',label || '');
 
     var kit = ControlKit.getKitInstance();
-    kit.addEventListener( ControlKit.EventType.UPDATE_VALUE, this,'onValueUpdate');
+        kit.addEventListener( ControlKit.EventType.UPDATE_VALUE, this,'onValueUpdate');
+
     this.addEventListener(ControlKit.EventType.VALUE_UPDATED,kit, 'onValueUpdated');
 };
 
@@ -24,5 +25,3 @@ ControlKit.ObjectComponent.prototype.applyValue       = function(){};
 ControlKit.ObjectComponent.prototype.pushHistoryState = function(){var obj = this._object,key = this._key;ControlKit.History.getInstance().pushState(obj,key,obj[key]);};
 ControlKit.ObjectComponent.prototype.onValueUpdate    = function(e){};
 ControlKit.ObjectComponent.prototype.setValue         = function(value){this._object[this._key] = value;};
-
-
