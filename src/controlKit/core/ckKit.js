@@ -27,10 +27,9 @@ ControlKit.Kit = function(parentDomElementId)
         history.addEventListener(ControlKit.EventType.HISTORY_STATE_PUSH,this,'onHistoryStatePush');
         history.addEventListener(ControlKit.EventType.HISTORY_STATE_POP ,this,'onHistoryStatePop');
 
-    ControlKit.Mouse.init();
-
-    var picker  = ControlKit.Picker.init();
-    var options = ControlKit.Options.init();
+    var mouse   = ControlKit.Mouse.init(),
+        picker  = ControlKit.Picker.init(),
+        options = ControlKit.Options.init();
 
     //node.addChild(ControlKit.Picker.getInstance().getNode());
     node.addChild(options.getNode());
@@ -72,24 +71,37 @@ ControlKit.Kit.prototype.update = function()
     var i = -1, j, k;
 
     var panels = this._panels,
-        groupList,
+        panel,
+        groups,
         components,
         component;
 
-    while (++i < panels.length) {
-        groupList = panels[i].getGroups();
+    while (++i < panels.length)
+    {
+        panel = panels[i];
+
+        if(panel.isDisabled())continue;
+
+        groups = panel.getGroups();
+
         j = -1;
-        while (++j < groupList.length) {
-            components = groupList[j].getComponents();
+        while (++j < groups.length)
+        {
+            components = groups[j].getComponents();
+
             k = -1;
-            while (++k < components.length) {
+            while (++k < components.length)
+            {
                 component = components[k];
+
+                if(component.isDisabled())continue;
+
                 if (component instanceof ControlKit.ValuePlotter ||
                     component instanceof ControlKit.StringOutput ||
-                    component instanceof ControlKit.NumberOutput) {
+                    component instanceof ControlKit.NumberOutput)
+                {
                     component.update();
                 }
-
             }
         }
     }
@@ -105,7 +117,7 @@ ControlKit.Kit.prototype.onHistoryStatePush = function()
 ControlKit.Kit.prototype.onHistoryStatePop  = function()
 {
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.UPDATE_VALUE,{origin: null}));
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.UPDATE_MENU,null));
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.UPDATE_MENU, null));
 };
 
 /*---------------------------------------------------------------------------------*/
