@@ -220,6 +220,15 @@
     border-bottom:    1px solid #111314;
 }
 
+.controlKit .panel .panelHeadInactive
+{
+    height:  30px;
+    padding: 0 10px 0 10px;
+
+    background-color: #1a1d1f;
+    border-top:       1px solid #202426;
+}
+
 .controlKit .panel .label
 {
     float: left;
@@ -234,6 +243,10 @@
 }
 
 
+
+
+
+
 .controlKit .panel .head .label{line-height: 30px;color:#65696b;cursor: pointer;}
 
 /*-------------------------------------------------------------------------------------
@@ -243,7 +256,7 @@
 .controlKit .panel .menu
 {
     float:  right;
-    padding-top: 1px;
+    padding: 5px 0 0 0;
 
 }
 
@@ -280,10 +293,6 @@
     cursor: pointer;
 }
 
-.controlKit .panel .menu input[type='button']:active
-{
-    background-color: #060708;
-}
 
 .controlKit .panel .menu .btnHide
 {
@@ -330,7 +339,7 @@
 
     padding: 0 6px 1px 0;
     width: 38px;
-    vertical-align: bottom;
+    vertical-align: top;
     text-align: end;
 }
 
@@ -963,9 +972,9 @@
     position: relative;
     background: #212628;
 
-    background-image: -moz-linear-gradient(left,rgba(26, 29, 31,0.8) 0%, rgba(26, 29, 31,0.0) 100%));
-    background-image: -o-linear-gradient(left,  rgba(26, 29, 31,0.8) 0%, rgba(26, 29, 31,0.0) 100%));
-    background-image: linear-gradient(to right, rgba(26, 29, 31,0.8) 0%, rgba(26, 29, 31,0.0) 100%);
+    background-image: -moz-linear-gradient(left,rgba(26, 29, 31,1.0) 0%, rgba(26, 29, 31,0.0) 100%));
+    background-image: -o-linear-gradient(left,  rgba(26, 29, 31,1.0) 0%, rgba(26, 29, 31,0.0) 100%));
+    background-image: linear-gradient(to right, rgba(26, 29, 31,1.0) 0%, rgba(26, 29, 31,0.0) 100%);
 
     top:0;
 }
