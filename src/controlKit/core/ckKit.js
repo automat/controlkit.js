@@ -1,4 +1,4 @@
-ControlKit.Kit = function(parentDomElementId)
+ControlKit.Kit = function(parentDomElementId,params)
 {
     ControlKit.EventDispatcher.apply(this,arguments);
 
@@ -7,19 +7,27 @@ ControlKit.Kit = function(parentDomElementId)
     if(!parentDomElementId)
     {
         node = new ControlKit.Node(ControlKit.NodeType.DIV);
-        document.body.addChild(node.getElement());
+        document.body.appendChild(node.getElement());
     }
     else
     {
         node = ControlKit.Node.getNodeById(parentDomElementId);
     }
 
-    node.setStyleClass(ControlKit.CSS.ControlKit);
+    node.setProperty('id',ControlKit.CSS.ControlKit);
 
     /*---------------------------------------------------------------------------------*/
 
-    this._rootNode   = node;
+    params         = params         || {};
+    params.trigger = params.trigger || false;
+
+
+    /*---------------------------------------------------------------------------------*/
+
+    this._rootNode = node;
     this._panels = [];
+
+    this._disabled = false;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -31,8 +39,18 @@ ControlKit.Kit = function(parentDomElementId)
         picker  = ControlKit.Picker.init(),
         options = ControlKit.Options.init();
 
-    //node.addChild(ControlKit.Picker.getInstance().getNode());
+    if(params.trigger)
+    {
+        var trigger = new ControlKit.Node(ControlKit.NodeType.DIV);
+        trigger.setProperty('id',ControlKit.CSS.Trigger);
+        trigger.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onTriggerDown.bind(this));
+
+        document.body.appendChild(trigger.getElement());
+    }
+
+   // node.addChild(ControlKit.Picker.getInstance().getNode());
     node.addChild(options.getNode());
+
 
     /*---------------------------------------------------------------------------------*/
 
@@ -44,6 +62,11 @@ ControlKit.Kit.prototype = Object.create(ControlKit.EventDispatcher.prototype);
 
 /*---------------------------------------------------------------------------------*/
 
+ControlKit.Kit.prototype._onTriggerDown = function()
+{
+    var disabled = this._disabled = !this._disabled;
+    this._rootNode.setStyleProperty('visibility',disabled ? 'hidden' : 'visible');
+};
 
 ControlKit.Kit.prototype.onValueUpdated = function(e)
 {
@@ -68,6 +91,8 @@ ControlKit.Kit.prototype.addPanel = function(params)
 
 ControlKit.Kit.prototype.update = function()
 {
+    if(this._disabled)return;
+
     var i = -1, j, k;
 
     var panels = this._panels,
@@ -106,6 +131,12 @@ ControlKit.Kit.prototype.update = function()
         }
     }
 };
+
+ControlKit.Kit.prototype.enable  = function(){this._disabled = false;};
+ControlKit.Kit.prototype.disable = function(){this._disabled = true;};
+
+ControlKit.Kit.prototype.disableAllPanels = function(){var i=-1,p=this._panels;while(++i<p.length)p[i].enable();};
+ControlKit.Kit.prototype.enableAllPanels  = function(){var i=-1,p=this._panels;while(++i<p.length)p[i].disable();};
 
 /*---------------------------------------------------------------------------------*/
 

@@ -27,6 +27,8 @@ ControlKit.Panel = function(controlKit,params)
                                       Math.min(params.width,ControlKit.Default.WIDTH_MAX));
     var fixed     = this._fixed     = params.fixed;
 
+    var label     = this._label     = params.label;
+
     /*---------------------------------------------------------------------------------*/
 
     var rootNode  = this._rootNode = new ControlKit.Node(ControlKit.NodeType.DIV),
@@ -66,7 +68,7 @@ ControlKit.Panel = function(controlKit,params)
     /*---------------------------------------------------------------------------------*/
 
     rootNode.setWidth(width);
-    lablNode.setProperty('innerHTML',params.label);
+    lablNode.setProperty('innerHTML',label);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -74,9 +76,6 @@ ControlKit.Panel = function(controlKit,params)
     {
         this._dragging = false;
         this._mouseOffset  = [0,0];
-
-        headNode.setStyleProperty('cursor','pointer');
-
         headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,    this._onHeadDragStart.bind(this));
     }
 
@@ -106,6 +105,8 @@ ControlKit.Panel = function(controlKit,params)
     menuUndo.setStyleProperty('display','none');
     menuUndo.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMenuUndoTrigger.bind(this));
 
+    menuClose.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this.disable.bind(this));
+
     parent.addEventListener(ControlKit.EventType.UPDATE_MENU,this,'onUpdateMenu');
 
 
@@ -130,6 +131,7 @@ ControlKit.Panel.prototype = Object.create(ControlKit.EventDispatcher.prototype)
 ControlKit.Panel.prototype.isEnabled  = function(){return !this._disabled;};
 ControlKit.Panel.prototype.isDisabled = function(){return this._disabled;};
 
+
 ControlKit.Panel.prototype.addGroup  = function(params)
 {
     var group = new ControlKit.Group(this,params);
@@ -153,8 +155,6 @@ ControlKit.Panel.prototype._updateAppearance = function()
         menuHide.setStyleClass(ControlKit.CSS.MenuBtnShow);
 
         //TODO:Add inactive state
-
-
         this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_HIDE,null));
     }
     else
@@ -259,6 +259,20 @@ ControlKit.Panel.prototype._setPosition = function(x,y)
     node.setPositionGlobal(position[0],position[1]);
 };
 
+ControlKit.Panel.prototype.enable  = function()
+{
+    this._rootNode.setStyleProperty('display','block');
+    this._disabled = false;
+    this._updateAppearance();
+};
+
+ControlKit.Panel.prototype.disable = function()
+{
+    this._rootNode.setStyleProperty('display','none');
+    this._disabled = true;
+    this._updateAppearance();
+};
+
 /*
 ControlKit.Panel.prototype._constrainHeight = function()
 {
@@ -295,6 +309,8 @@ ControlKit.Panel.prototype.getPosition   = function(){return this._position;};
 ControlKit.Panel.prototype.getGroups     = function(){return this._groups;};
 ControlKit.Panel.prototype.getNode       = function(){return this._rootNode;};
 ControlKit.Panel.prototype.getList       = function(){return this._listNode;};
+
+ControlKit.Panel.prototype.getLabel      = function(){return this._label;};
 
 
 

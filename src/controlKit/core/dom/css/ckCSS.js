@@ -77,5 +77,9 @@ ControlKit.CSS =
     ScrollbarBtnDown : 'btnDown',
     ScrollbarTrack   : 'track',
     ScrollbarThumb   : 'thumb',
-    ScrollBuffer     : 'scrollBuffer'
+    ScrollBuffer     : 'scrollBuffer',
+
+    /*-------------------------------------------------------------------------------------*/
+
+    Trigger : 'controlKitTrigger'
 };

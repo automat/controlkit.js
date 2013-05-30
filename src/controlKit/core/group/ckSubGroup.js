@@ -56,7 +56,8 @@ ControlKit.SubGroup.prototype.set = function(params)
         lablWrap.addChild(lablNode);
         headNode.addChild(lablWrap);
 
-        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadDragStart.bind(this));
+        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
+        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_UP,  this._onHeadMouseUp.bind(this));
 
         this.addEventListener(ControlKit.EventType.SUBGROUP_TRIGGER,parent,'onSubGroupTrigger');
 
@@ -83,11 +84,27 @@ ControlKit.SubGroup.prototype.set = function(params)
 
 /*-------------------------------------------------------------------------------------*/
 
-ControlKit.SubGroup.prototype._onHeadDragStart = function()
+//FIXME
+
+ControlKit.SubGroup.prototype._onHeadMouseDown = function()
 {
-    this._disabled = !this._disabled;this._updateAppearance();
+    this._disabled = !this._disabled;
+    this._trigger();
+};
+
+ControlKit.SubGroup.prototype._onHeadMouseUp   = function()
+{
+    this._updateAppearance();
+    this._trigger();
+};
+
+ControlKit.SubGroup.prototype._trigger = function()
+{
+    this._updateAppearance();
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_TRIGGER,null));
 };
+
+/*-------------------------------------------------------------------------------------*/
 
 ControlKit.SubGroup.prototype._updateAppearance = function()
 {
@@ -113,23 +130,21 @@ ControlKit.SubGroup.prototype.update = function()
     this._scrollbar.update();
 };
 
-ControlKit.SubGroup.prototype.onEnable  = function(){if(this.isDisabled())return;this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.COMPONENTS_ENABLE, null));};
-ControlKit.SubGroup.prototype.onDisable = function(){if(this.isDisabled())return;this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.COMPONENTS_DISABLE,null));};
-
 /*-------------------------------------------------------------------------------------*/
 
+ControlKit.SubGroup.prototype.onEnable          = function(){if(this.isDisabled())return;this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.COMPONENTS_ENABLE, null));};
+ControlKit.SubGroup.prototype.onDisable         = function(){if(this.isDisabled())return;this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.COMPONENTS_DISABLE,null));};
 //bubble
 ControlKit.SubGroup.prototype.onGroupSizeChange = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE,null));};
 ControlKit.SubGroup.prototype.onGroupSizeUpdate = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_UPDATE,null));};
 
+ControlKit.SubGroup.prototype.onPanelMoveEnd    = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,   null));};
 /*-------------------------------------------------------------------------------------*/
 
 ControlKit.SubGroup.prototype.hasLabel         = function()    {return this._headNode != null;};
 ControlKit.SubGroup.prototype.addComponentRoot = function(node){this._listNode.addChild(node);};
 
-/*-------------------------------------------------------------------------------------*/
 
-ControlKit.SubGroup.prototype.onPanelMoveEnd    = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,   null));};
 
 
 

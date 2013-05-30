@@ -7,13 +7,14 @@ ControlKit.Options = function()
     node.addChild(listNode);
 
     this._selectedIndex = null;
-    this._selectHover   = false;
     this._callbackOut = function(){};
 
     this._unfocusable = false;
 
     document.addEventListener(ControlKit.DocumentEventType.MOUSE_DOWN,this._onDocumentMouseDown.bind(this));
     document.addEventListener(ControlKit.DocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
+
+    this.clear();
 };
 
 ControlKit.Options.prototype =

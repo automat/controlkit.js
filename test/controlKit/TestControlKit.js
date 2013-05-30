@@ -1,6 +1,7 @@
 
 var imports = [
 
+               //'style/style.js',
                'controlKit.js',
 
 
@@ -119,7 +120,7 @@ function TestControlKit(parentDomElementId)
             .addSelect(object, 'selectOptions','selectTarget');
 
 
-    /*
+
     var control0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [20, 20]}),
         group00 = control0.addGroup({maxHeight: 200})
             .addSubGroup()
@@ -195,6 +196,7 @@ function TestControlKit(parentDomElementId)
         .addValuePlotter(object, 'changeValue4', 'randI', {height: 35, lineWidth: 2, lineColor: [237, 20, 91]})
         .addValuePlotter(object, 'changeValue5', 'frac', {height: 35})
         .addValuePlotter(object, 'changeValue6', 'sin', {height: 35});
+
 
 
     var control1 = controlKit.addPanel({width: 200, position: [300, 10], fixed: false});
@@ -282,13 +284,6 @@ function TestControlKit(parentDomElementId)
         .addPad(object, 'xyValue', 'pad')
         .addPad(object, 'xyValue', 'pad')
         .addPad(object, 'xyValue', 'pad');
-
-        */
-
-
-
-
-
 
 
 
