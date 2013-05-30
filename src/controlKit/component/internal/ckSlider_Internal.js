@@ -1,4 +1,4 @@
-ControlKit.Slider_Internal = function(parentNode,onChange,onFinish)
+ControlKit.Slider_Internal = function(parentNode,onBegin,onChange,onFinish)
 {
     this._bounds   = [0,1];
     this._value    = 0;
@@ -7,6 +7,7 @@ ControlKit.Slider_Internal = function(parentNode,onChange,onFinish)
 
     /*---------------------------------------------------------------------------------*/
 
+    this._onBegin    = onBegin  || function(){};
     this._onChange   = onChange || function(){};
     this._onFinish   = onFinish || function(){};
 
@@ -57,6 +58,7 @@ ControlKit.Slider_Internal.prototype =
 
     _onSlotMouseDown : function()
     {
+        this._onBegin();
         this._focus = true;
         this._handle.dragging = true;
         this._handle.node.getElement().focus();
@@ -98,7 +100,9 @@ ControlKit.Slider_Internal.prototype =
         this._value = this._bounds[0]*(1.0-intrpl)+this._bounds[1]*intrpl;
     },
 
-    resetOffset : function(){this._slot.offsetX = this._slot.node.getPositionGlobalX();},
+    resetOffset : function(){var slot = this._slot;
+                                 slot.offsetX = slot.node.getPositionGlobalX();
+                                 slot.width   = Math.floor(slot.node.getWidth() - slot.padding * 2)},
 
     setBoundMin : function(value){this._bounds[0] = value;this._interpolateValue();this._updateHandle();},
     setBoundMax : function(value){this._bounds[1] = value; this._interpolateValue();this._updateHandle();},

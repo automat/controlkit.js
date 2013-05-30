@@ -203,6 +203,7 @@ ControlKit.Panel.prototype._onHeadDragStart = function()
                     {
                         document.removeEventListener(eventMouseMove, onDrag,    false);
                         document.removeEventListener(eventMouseUp,   onDragEnd, false);
+                        self.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,null));
                     };
 
     parentNode.removeChild(node);
@@ -210,6 +211,8 @@ ControlKit.Panel.prototype._onHeadDragStart = function()
 
     document.addEventListener(eventMouseMove, onDrag,    false);
     document.addEventListener(eventMouseUp,   onDragEnd, false);
+
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_BEGIN,null));
 };
 
 ControlKit.Panel.prototype._updatePosition = function()
