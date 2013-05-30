@@ -15,6 +15,10 @@ ControlKit.SubGroup = function(parent,params)
     this._components = [];
 
     this.set(params);
+
+    parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,   this,  'onPanelMoveEnd');
+    parent.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE,this,  'onGroupSizeChange');
+    this.addEventListener(  ControlKit.EventType.GROUP_SIZE_UPDATE,parent,'onGroupSizeUpdate');
 };
 
 ControlKit.SubGroup.prototype = Object.create(ControlKit.AbstractGroup.prototype);
@@ -26,7 +30,7 @@ ControlKit.SubGroup.prototype.set = function(params)
     /*-------------------------------------------------------------------------------------*/
 
     params           = params || {};
-    params.enable      = params.enable === undefined ? true : params.enable;
+    params.enable    = params.enable === undefined ? true : params.enable;
     params.label     = params.label     || null;
     params.maxHeight = params.maxHeight || null;
 
@@ -73,7 +77,6 @@ ControlKit.SubGroup.prototype.set = function(params)
         this._scrollbar  = new ControlKit.ScrollBar(wrapNode,this._listNode,maxHeight);
     }
 
-
     parent.addEventListener(ControlKit.EventType.SUBGROUP_ENABLE,  this, 'onEnable');
     parent.addEventListener(ControlKit.EventType.SUBGROUP_DISABLE, this, 'onDisable');
 };
@@ -115,7 +118,18 @@ ControlKit.SubGroup.prototype.onDisable = function(){if(this.isDisabled())return
 
 /*-------------------------------------------------------------------------------------*/
 
+//bubble
+ControlKit.SubGroup.prototype.onGroupSizeChange = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE,null));};
+ControlKit.SubGroup.prototype.onGroupSizeUpdate = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_UPDATE,null));};
+
+/*-------------------------------------------------------------------------------------*/
+
 ControlKit.SubGroup.prototype.hasLabel         = function()    {return this._headNode != null;};
 ControlKit.SubGroup.prototype.addComponentRoot = function(node){this._listNode.addChild(node);};
+
+/*-------------------------------------------------------------------------------------*/
+
+ControlKit.SubGroup.prototype.onPanelMoveEnd    = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,   null));};
+
 
 

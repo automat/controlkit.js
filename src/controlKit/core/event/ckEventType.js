@@ -35,5 +35,8 @@ ControlKit.EventType =
     HISTORY_STATE_PUSH     : 'historyStatePush',
     HISTORY_STATE_POP      : 'historyStatePop',
 
+    GROUP_SIZE_CHANGE     : 'groupSizeChange',
+    GROUP_SIZE_UPDATE     : 'groupSizeUpdate',
+
     UPDATE_MENU            : 'updateMenu'
 };

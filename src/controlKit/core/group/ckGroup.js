@@ -124,7 +124,13 @@ ControlKit.Group.prototype.onPanelShow      = function(){this.dispatchEvent(new 
 
 /*-------------------------------------------------------------------------------------*/
 
-ControlKit.Group.prototype.onSubGroupTrigger = function(){this._updateHeight();if(!this._maxHeight)return;this._updateScrollBar();};
+ControlKit.Group.prototype.onSubGroupTrigger = function()
+{
+    this._updateHeight();
+    if(!this._maxHeight)return;
+    this._updateScrollBar();
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE,null));
+};
 
 ControlKit.Group.prototype._updateScrollBar = function()
 {
@@ -152,6 +158,7 @@ ControlKit.Group.prototype._updateScrollBar = function()
         if(bufferTop   )bufferTop.setStyleProperty(   'display','block');
         if(bufferBottom)bufferBottom.setStyleProperty('display','block');
     }
+
 };
 
 /*-------------------------------------------------------------------------------------*/
@@ -248,6 +255,8 @@ ControlKit.Group.prototype._updateAppearance = function()
         }
     }
 };
+
+ControlKit.Group.prototype.onGroupSizeUpdate = function(){this._updateAppearance();this._scrollbar.update();};
 
 /*-------------------------------------------------------------------------------------*/
 
