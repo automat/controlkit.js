@@ -57,9 +57,7 @@ ControlKit.Options.prototype =
                 {
                     self._selectedIndex = Array.prototype.indexOf.call(this.parentNode.children,this);
                     callbackSelect();
-
                 });
-
         }
 
         //position, set width and enable
@@ -76,7 +74,6 @@ ControlKit.Options.prototype =
         rootNode.setPositionGlobal(elementPos[0],elementPos[1]+elementHeight-ControlKit.Constant.PADDING_OPTIONS);
         rootNode.setStyleProperty('visibility','visible');
 
-
         this._callbackOut = callbackOut;
         this._unfocusable = false;
     },
@@ -86,26 +83,18 @@ ControlKit.Options.prototype =
         return false;
     },
 
-
     _clearList : function()
     {
         this._listNode.removeAllChildren();
         this._selectedIndex  = null;
         this._build          = false;
-
-        this._rootNode.setWidth(0);
-        this._rootNode.setHeight(0);
     },
 
     clear : function()
     {
         this._clearList();
-
         this._callbackOut = function(){};
-
-        var node = this._rootNode;
-        node.setPositionGlobal(-1,-1);
-        node.setStyleProperty('visibility','hidden');
+        this._rootNode.setStyleProperty('visibility','hidden');
 
     },
 

@@ -19,6 +19,33 @@ ControlKit.History.prototype.pushState = function(object,key,value)
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.HISTORY_STATE_PUSH,null));
 };
 
+ControlKit.History.prototype.getState = function(object,key)
+{
+    var states    = this._states,
+        statesLen = states.length;
+
+    if(statesLen == 0)return null;
+
+    var state,value;
+
+    var i = -1;
+    while(++i < statesLen)
+    {
+        state = states[i];
+
+        if(state.object === object)
+        {
+            if(state.key === key)
+            {
+               value = state.value;
+               break;
+            }
+        }
+    }
+
+    return value;
+};
+
 ControlKit.History.prototype.popState  = function()
 {
     var states = this._states;
@@ -29,7 +56,6 @@ ControlKit.History.prototype.popState  = function()
 
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.HISTORY_STATE_POP,null));
 };
-
 
 ControlKit.History.prototype.getNumStates = function(){return this._states.length;};
 

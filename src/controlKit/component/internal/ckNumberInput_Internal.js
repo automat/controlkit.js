@@ -1,4 +1,4 @@
-ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onChange,onFinish)
+ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onBegin,onChange,onFinish)
 {
     ControlKit.EventDispatcher.apply(this,null);
 
@@ -10,8 +10,10 @@ ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onChange,onFi
 
     /*---------------------------------------------------------------------------------*/
 
-    this._onChange     = onChange     || function(){};
-    this._onFinish     = onFinish     || function(){};
+    this._onBegin      = onBegin  || function(){};
+    this._onChange     = onChange || function(){};
+    this._onFinish     = onFinish || function(){};
+
     /*---------------------------------------------------------------------------------*/
 
     var input = this._input = new ControlKit.Node(ControlKit.NodeType.INPUT_TEXT);
@@ -39,6 +41,7 @@ ControlKit.NumberInput_Internal.prototype._onInputKeyDown = function(e)
         var multiplier = keyCode == 38 ? 1.0 : -1.0;
         this._value   += (step * multiplier);
 
+        this._onBegin();
         this._onChange();
         this._format();
     }

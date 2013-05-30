@@ -83,6 +83,7 @@ ControlKit.Pad.prototype = Object.create(ControlKit.Plotter.prototype);
 
 /*---------------------------------------------------------------------------------*/
 
+ControlKit.Pad.prototype._redraw = function(){this._drawValue(this._object[this._key]);};
 
 ControlKit.Pad.prototype._drawValue = function(value)
 {
@@ -122,8 +123,6 @@ ControlKit.Pad.prototype._drawPoint = function()
     canvas.line(canvasMidX,0,canvasMidX,canvasHeight);
     canvas.noStroke();
 
-
-    //TODO:FIX
     if(!(!axisLabels[0] && !axisLabels[1]))
     {
         canvas.fill(64,72,77);
@@ -144,7 +143,6 @@ ControlKit.Pad.prototype._drawPoint = function()
                                  Math.floor(canvasMidY*0.5-canvas.getTextWidth(stringY)*0.5));
                 canvas.rotate(Math.PI*0.5);
                 canvas.text(stringY,0,0);
-
             }
             canvas.pop();
         }
@@ -203,7 +201,3 @@ ControlKit.Pad.prototype.onValueUpdate = function(e)
     if(e.data.origin == this)return;
     this._drawValue(this._object[this._key]);
 };
-
-
-
-

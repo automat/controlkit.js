@@ -2,8 +2,6 @@ ControlKit.Range = function(parent,object,value,label,params)
 {
     ControlKit.ObjectComponent.apply(this,arguments);
 
-    var values = this._values = this._object[this._key];
-
     /*---------------------------------------------------------------------------------*/
 
     params          = params          || {};
@@ -23,13 +21,17 @@ ControlKit.Range = function(parent,object,value,label,params)
 
     /*---------------------------------------------------------------------------------*/
 
+    //FIXME: history push pop
+
     var lablMinNode = new ControlKit.Node(ControlKit.NodeType.DIV);
     var inputMin    = this._inputMin = new ControlKit.NumberInput_Internal(step,dp,
+                                                                           this.pushHistoryState.bind(this),
                                                                            this._onInputMinChange.bind(this),
                                                                            this._onInputMinFinish.bind(this));
 
     var lablMaxNode = new ControlKit.Node(ControlKit.NodeType.DIV);
     var inputMax    = this._inputMax = new ControlKit.NumberInput_Internal(step,dp,
+                                                                           this.pushHistoryState.bind(this),
                                                                            this._onInputMaxChange.bind(this),
                                                                            this._onInputMaxFinish.bind(this));
 
@@ -45,6 +47,8 @@ ControlKit.Range = function(parent,object,value,label,params)
         lablMaxNode.setStyleClass(ControlKit.CSS.Label).setProperty('innerHTML','MAX');
 
     /*---------------------------------------------------------------------------------*/
+
+    var values = this._object[this._key];
 
     inputMin.setValue(values[0]);
     inputMax.setValue(values[1]);
@@ -84,21 +88,21 @@ ControlKit.Range.prototype._onInputFinish = function()
 
 ControlKit.Range.prototype._updateValueMin = function()
 {
-    var values     = this._values;
+
+    var values     = this._object[this._key];
 
     var inputMin   = this._inputMin,
         inputValue = inputMin.getValue();
 
     if(inputValue >= this._inputMax.getValue()){inputMin.setValue(values[0]);return;}
-    this.pushHistoryState();
     values[0] = inputValue;
+
 };
 
 ControlKit.Range.prototype._updateValueMax = function()
 {
-    this.pushHistoryState();
 
-    var values     = this._values;
+    var values     = this._object[this._key];
 
     var inputMax   = this._inputMax,
         inputValue = inputMax.getValue();
@@ -113,13 +117,12 @@ ControlKit.Range.prototype.onValueUpdate = function(e)
 {
     if(e.data.origin == this)return;
 
-    console.log(this._values);
+    var values = this._object[this._key];
 
-    console.log('hey');
-
-    this._inputMin.setValue(this._values[0]);
-    this._inputMax.setValue(this._values[1]);
+    this._inputMin.setValue(values[0]);
+    this._inputMax.setValue(values[1]);
 };
+
 
 
 ControlKit.Range.prototype._onInputMinChange = function(){this._updateValueMin();this._onInputChange();};

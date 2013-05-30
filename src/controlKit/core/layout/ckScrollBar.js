@@ -113,13 +113,16 @@ ControlKit.ScrollBar.prototype =
 
         this._scrollOffset = mouse.getY() - this._thumbNode.getPositionGlobalY();
 
-        var onDrag = function(){self._scrollThumb(mouse.getY());};
+        var onDrag    = function()
+            {
+                self._scrollThumb(mouse.getY());
+            },
 
-        var onDragEnd = function()
-        {
-            document.removeEventListener(eventMouseMove, onDrag,    false);
-            document.removeEventListener(eventMouseUp,   onDragEnd, false);
-        };
+            onDragEnd = function()
+            {
+                document.removeEventListener(eventMouseMove, onDrag,    false);
+                document.removeEventListener(eventMouseUp,   onDragEnd, false);
+            };
 
         this._scrollThumb(mouse.getY());
         document.addEventListener(eventMouseMove, onDrag,    false);
@@ -144,6 +147,4 @@ ControlKit.ScrollBar.prototype =
     },
 
     isValid : function(){return this._isValid;}
-
 };
-

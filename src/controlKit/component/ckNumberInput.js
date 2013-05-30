@@ -22,6 +22,7 @@ ControlKit.NumberInput = function(parent,object,value,label,params)
 
     var input = this._input = new ControlKit.NumberInput_Internal(params.step,
                                                                   params.dp,
+                                                                  null,
                                                                   this._onInputChange.bind(this),
                                                                   this._onInputFinish.bind(this));
 

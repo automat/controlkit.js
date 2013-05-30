@@ -35,6 +35,8 @@ ControlKit.ValuePlotter = function(parent,object,value,label,params)
 
 ControlKit.ValuePlotter.prototype = Object.create(ControlKit.Plotter.prototype);
 
+ControlKit.ValuePlotter.prototype._redraw = function(){this._drawValue();};
+
 ControlKit.ValuePlotter.prototype._drawValue = function()
 {
     var canvas = this._canvas;

@@ -31,8 +31,9 @@ ControlKit.Slider = function(parent,object,value,target,label,params)
     wrapNode.setStyleClass(ControlKit.CSS.WrapSlider);
 
     var slider = this._slider = new ControlKit.Slider_Internal(wrapNode,
-                                                               this._onSliderChange.bind(this),
-                                                               this._onSliderFinish.bind(this));
+                                                               this._onSliderBegin.bind(this),
+                                                               this._onSliderMove.bind(this),
+                                                               this._onSliderEnd.bind(this));
 
     slider.setBoundMin(values[0]);
     slider.setBoundMax(values[1]);
@@ -42,6 +43,7 @@ ControlKit.Slider = function(parent,object,value,target,label,params)
 
     var input  = this._input = new ControlKit.NumberInput_Internal(this._step,
                                                                    this._dp,
+                                                                   null,
                                                                    this._onInputChange.bind(this),
                                                                    this._onInputChange.bind(this));
 
@@ -51,12 +53,17 @@ ControlKit.Slider = function(parent,object,value,target,label,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,this,'onPanelMoveEnd');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,    this, 'onPanelMoveEnd');
+    this._parent.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE, this, 'onGroupWidthChange');
 };
 
 ControlKit.Slider.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 
-ControlKit.Slider.prototype._onSliderChange = function()
+ControlKit.Slider.prototype.pushHistoryState = function(){var obj = this._object,key = this._targetKey;ControlKit.History.getInstance().pushState(obj,key,obj[key]);};
+
+ControlKit.Slider.prototype._onSliderBegin  = function(){this.pushHistoryState();};
+
+ControlKit.Slider.prototype._onSliderMove = function()
 {
     this.applyValue();
     this._updateValueField();
@@ -64,9 +71,8 @@ ControlKit.Slider.prototype._onSliderChange = function()
     this._onChange();
 };
 
-ControlKit.Slider.prototype._onSliderFinish = function()
+ControlKit.Slider.prototype._onSliderEnd = function()
 {
-    this.pushHistoryState();
     this.applyValue();
     this._updateValueField();
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
@@ -108,19 +114,21 @@ ControlKit.Slider.prototype.onValueUpdate = function(e)
 
     if(!(origin instanceof ControlKit.Slider))
     {
+        var values = this._values;
+
         //TODO: FIX ME!
         if(origin instanceof ControlKit.Range)
         {
-            slider.setBoundMin(this._values[0]);
-            slider.setBoundMax(this._values[1]);
+            slider.setBoundMin(values[0]);
+            slider.setBoundMax(values[1]);
             slider.setValue(this._object[this._targetKey]);
             //this._slider.updateInterpolatedValue();
             this.applyValue();
         }
         else
         {
-            slider.setBoundMin(this._values[0]);
-            slider.setBoundMax(this._values[1]);
+            slider.setBoundMin(values[0]);
+            slider.setBoundMax(values[1]);
             slider.setValue(this._object[this._targetKey]);
             this.applyValue();
         }
@@ -133,5 +141,7 @@ ControlKit.Slider.prototype.onValueUpdate = function(e)
 };
 
 
-ControlKit.Slider.prototype._updateValueField = function(){this._input.setValue(this._slider.getValue());};
-ControlKit.Slider.prototype.onPanelMoveEnd    = function(){this._slider.resetOffset();};
+ControlKit.Slider.prototype._updateValueField  = function(){this._input.setValue(this._slider.getValue());};
+
+ControlKit.Slider.prototype.onPanelMoveEnd     =
+ControlKit.Slider.prototype.onGroupWidthChange = function(){this._slider.resetOffset();};
