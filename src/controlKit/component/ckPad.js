@@ -19,7 +19,6 @@ ControlKit.Pad = function(parent,object,value,label,params)
     this._bounds       = params.bounds;
     this._axisLabels   = params.axisLabels;
     this._showCross    = params.showCross;
-    this._value        = this._object[this._key];
 
     this._dragging     = false;
 
@@ -36,6 +35,7 @@ ControlKit.Pad = function(parent,object,value,label,params)
     canvas.onmousedown = function()
     {
         this._dragging = true;
+        this.pushHistoryState();
         this._drawValue(this._getMouseNormalized());
         this.applyValue()
 
@@ -43,7 +43,6 @@ ControlKit.Pad = function(parent,object,value,label,params)
 
     canvas.onmouseup   = function()
     {
-        this.pushHistoryState();
         this._dragging = false;
 
     }.bind(this);
@@ -77,15 +76,17 @@ ControlKit.Pad = function(parent,object,value,label,params)
 
     /*---------------------------------------------------------------------------------*/
 
-
-    this._drawValue(this._value);
+    this._drawValue(this._object[this._key]);
 };
 
 ControlKit.Pad.prototype = Object.create(ControlKit.Plotter.prototype);
 
+/*---------------------------------------------------------------------------------*/
+
+
 ControlKit.Pad.prototype._drawValue = function(value)
 {
-    this._value = value;
+    this._object[this._key] = value;
 
     var canvas = this._canvas;
 
@@ -109,16 +110,17 @@ ControlKit.Pad.prototype._drawPoint = function()
 
     var axisLabels   = this._axisLabels;
 
-    var localX = ( 0.5 +  this._value[0] * 0.5 ) * canvasWidth,
-        localY = ( 0.5 + -this._value[1] * 0.5 ) * canvasHeight;
+    var value = this._object[this._key];
+
+    var localX = ( 0.5 +  value[0] * 0.5 ) * canvasWidth,
+        localY = ( 0.5 + -value[1] * 0.5 ) * canvasHeight;
 
     canvas.stroke(39,44,46);
     canvas.line(0,canvasMidY,canvasWidth,canvasMidY);
     canvas.line(canvasMidX,0,canvasMidX,canvasHeight);
-
-    canvas.stroke(39,44,46);
     canvas.line(0,canvasMidY,canvasWidth,canvasMidY);
     canvas.line(canvasMidX,0,canvasMidX,canvasHeight);
+    canvas.noStroke();
 
 
     //TODO:FIX
@@ -130,7 +132,7 @@ ControlKit.Pad.prototype._drawPoint = function()
         {
             var stringX = axisLabels[0].toUpperCase();
             canvas.text(stringX,Math.floor(canvasMidX*0.5-canvas.getTextWidth(stringX)*0.5),
-                        Math.floor(canvasMidY)+12);
+                                Math.floor(canvasMidY)+12);
         }
 
         if(axisLabels[1])
@@ -139,7 +141,7 @@ ControlKit.Pad.prototype._drawPoint = function()
             canvas.push();
             {
                 canvas.translate(Math.floor(canvasMidX)+5,
-                    Math.floor(canvasMidY*0.5-canvas.getTextWidth(stringY)*0.5));
+                                 Math.floor(canvasMidY*0.5-canvas.getTextWidth(stringY)*0.5));
                 canvas.rotate(Math.PI*0.5);
                 canvas.text(stringY,0,0);
 
@@ -193,12 +195,6 @@ ControlKit.Pad.prototype._getMouseNormalized = function()
 
 ControlKit.Pad.prototype.applyValue = function()
 {
-    var objectValue = this._object[this._key],
-        value       = this._value;
-
-    objectValue[0] = value[0];
-    objectValue[1] = value[1];
-
    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
 };
 
