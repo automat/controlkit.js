@@ -8,7 +8,7 @@ ControlKit.Range = function(parent,object,value,label,params)
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
 
-    params.step     = params.step     || 1;
+    params.step     = params.step || 1.0;
     params.dp       = params.dp   || 2;
 
     /*---------------------------------------------------------------------------------*/
@@ -16,8 +16,8 @@ ControlKit.Range = function(parent,object,value,label,params)
     this._onChange  = params.onChange;
     this._onFinish  = params.onFinish;
 
-    var step = this._step = params.step;
-    var dp   = this._dp   = params.dp;
+    var step = this._step = params.step,
+        dp   = this._dp   = params.dp;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -88,7 +88,6 @@ ControlKit.Range.prototype._onInputFinish = function()
 
 ControlKit.Range.prototype._updateValueMin = function()
 {
-
     var values     = this._object[this._key];
 
     var inputMin   = this._inputMin,
@@ -101,7 +100,6 @@ ControlKit.Range.prototype._updateValueMin = function()
 
 ControlKit.Range.prototype._updateValueMax = function()
 {
-
     var values     = this._object[this._key];
 
     var inputMax   = this._inputMax,
@@ -117,12 +115,18 @@ ControlKit.Range.prototype.onValueUpdate = function(e)
 {
     if(e.data.origin == this)return;
 
+    if(e.data.origin == null)
+    {
+        //console.log('undo: ' + ControlKit.History.getInstance().getState(this._object,this._key));
+    }
+
+    //console.log(ControlKit.History.getInstance().getState(this._object,this._key));
+
     var values = this._object[this._key];
 
-    this._inputMin.setValue(values[0]);
-    this._inputMax.setValue(values[1]);
+    this._inputMin.setValue(this._object[this._key][0]);
+    this._inputMax.setValue(this._object[this._key][1]);
 };
-
 
 
 ControlKit.Range.prototype._onInputMinChange = function(){this._updateValueMin();this._onInputChange();};
