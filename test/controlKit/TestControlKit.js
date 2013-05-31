@@ -108,19 +108,21 @@ function TestControlKit(parentDomElementId)
 
 
     var panel0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [20, 20]}),
-        group00 = panel0.addGroup({maxHeight:200})
-            .addSubGroup({label:'helllo'})
+        group00 = panel0.addGroup(/*{maxHeight:200}*/)
+            //.addSubGroup({label:'helllo'})
             .addRange(object, 'range','range')
-            .addPad(object,'xyChangeValue','Pad')
-            .addNumberInput(object, 'number', 'Num')
-            .addNumberInput(object, 'number', 'Num')
-            .addNumberInput(object, 'number', 'Num')
+            //.addPad(object,'xyChangeValue','Pad')
+           // .addNumberInput(object, 'number', 'Num')
+           // .addNumberInput(object, 'number', 'Num')
+           // .addNumberInput(object, 'number', 'Num')
             .addRange(object, 'range')
             .addSlider(object, 'range', 'slideValue', 'Slider')
             .addSelect(object, 'selectOptions','selectTarget');
 
 
 
+
+    /*
     var control0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [20, 20]}),
         group00 = control0.addGroup({maxHeight: 200})
             .addSubGroup()
@@ -284,6 +286,8 @@ function TestControlKit(parentDomElementId)
         .addPad(object, 'xyValue', 'pad')
         .addPad(object, 'xyValue', 'pad')
         .addPad(object, 'xyValue', 'pad');
+
+        */
 
 
 
