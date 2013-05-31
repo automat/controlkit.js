@@ -40,8 +40,11 @@ ControlKit.Panel = function(controlKit,params)
         listNode  = this._listNode = new ControlKit.Node(ControlKit.NodeType.LIST);
 
     var menuClose =                  new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON),
-        menuHide  = this._menuHide = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON),
-        menuUndo  = this._menuUndo = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
+        menuHide  = this._menuHide = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
+
+
+
+
 
     /*---------------------------------------------------------------------------------*/
 
@@ -61,9 +64,8 @@ ControlKit.Panel = function(controlKit,params)
 
     menuClose.setStyleClass(ControlKit.CSS.MenuBtnClose);
     menuHide.setStyleClass( ControlKit.CSS.MenuBtnHide);
-    menuUndo.setStyleClass( ControlKit.CSS.MenuBtnUndo);
 
-    menuUndo.setProperty('value',ControlKit.History.getInstance().getNumStates());
+
 
     /*---------------------------------------------------------------------------------*/
 
@@ -79,12 +81,20 @@ ControlKit.Panel = function(controlKit,params)
         headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,    this._onHeadDragStart.bind(this));
     }
 
-    headNode.setEventListener(ControlKit.NodeEventType.MOUSE_OVER, this._onHeadMouseOver.bind(this));
-    headNode.setEventListener(ControlKit.NodeEventType.MOUSE_OUT,  this._onHeadMouseOut.bind(this));
-
     /*---------------------------------------------------------------------------------*/
 
-    menuNode.addChild(menuUndo);
+    if(!ControlKit.History.getInstance().isDisabled())
+    {
+        var menuUndo = this._menuUndo = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
+            menuUndo.setStyleClass( ControlKit.CSS.MenuBtnUndo);
+            menuUndo.setProperty('value',ControlKit.History.getInstance().getNumStates());
+            menuNode.addChild(menuUndo);
+            menuUndo.setStyleProperty('display','none');
+            menuUndo.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMenuUndoTrigger.bind(this));
+            headNode.setEventListener(ControlKit.NodeEventType.MOUSE_OVER, this._onHeadMouseOver.bind(this));
+            headNode.setEventListener(ControlKit.NodeEventType.MOUSE_OUT,  this._onHeadMouseOut.bind(this));
+    }
+
     menuNode.addChild(menuHide);
     menuNode.addChild(menuClose);
 
@@ -102,9 +112,6 @@ ControlKit.Panel = function(controlKit,params)
     this._disabled = false;
 
     menuHide.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMenuHideMouseDown.bind(this));
-    menuUndo.setStyleProperty('display','none');
-    menuUndo.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMenuUndoTrigger.bind(this));
-
     menuClose.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this.disable.bind(this));
 
     parent.addEventListener(ControlKit.EventType.UPDATE_MENU,this,'onUpdateMenu');
