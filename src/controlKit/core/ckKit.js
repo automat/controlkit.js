@@ -20,12 +20,12 @@ ControlKit.Kit = function(parentDomElementId,params)
 
     params         = params         || {};
     params.trigger = params.trigger || false;
-
+    params.history = params.history || false;
 
     /*---------------------------------------------------------------------------------*/
 
     this._rootNode = node;
-    this._panels = [];
+    this._panels   = [];
 
     this._disabled = false;
 
@@ -34,6 +34,8 @@ ControlKit.Kit = function(parentDomElementId,params)
     var history = ControlKit.History.init();
         history.addEventListener(ControlKit.EventType.HISTORY_STATE_PUSH,this,'onHistoryStatePush');
         history.addEventListener(ControlKit.EventType.HISTORY_STATE_POP ,this,'onHistoryStatePop');
+
+    if(!params.history)history.disable();
 
     var mouse   = ControlKit.Mouse.init(),
         picker  = ControlKit.Picker.init(),
