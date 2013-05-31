@@ -78,20 +78,20 @@ ControlKit.Group.prototype.set = function(params)
 
     /*-------------------------------------------------------------------------------------*/
 
-    if(params.maxHeight)
+    if(params.height)
     {
-        var maxHeight = this._maxHeight = params.maxHeight,
-            wrapNode  = this._wrapNode;
+        var height   = this._height = params.height,
+            wrapNode = this._wrapNode;
 
-        if(this.isEnabled())wrapNode.setHeight(maxHeight);
-        this._scrollbar  = new ControlKit.ScrollBar(wrapNode,this._listNode,maxHeight);
+        if(this.isEnabled())wrapNode.setHeight(height);
+        this._scrollbar  = new ControlKit.ScrollBar(wrapNode,this._listNode,height);
     }
 };
 
 //TODO: Rethink
 ControlKit.Group.prototype._setBuffer = function(params)
 {
-    if(!params.maxHeight)return;
+    if(!params.height)return;
 
     var rootNode = this._rootNode,
         style    = ControlKit.CSS.ScrollBuffer;
@@ -122,7 +122,7 @@ ControlKit.Group.prototype.onPanelShow      = function(){this.dispatchEvent(new 
 ControlKit.Group.prototype.onSubGroupTrigger = function()
 {
     this._updateHeight();
-    if(!this._maxHeight)return;
+    if(!this._height)return;
     this._updateScrollBar();
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE,null));
 };
@@ -148,7 +148,7 @@ ControlKit.Group.prototype._updateScrollBar = function()
     else
     {
         scrollbar.enable();
-        wrapNode.setHeight(this._maxHeight);
+        wrapNode.setHeight(this._height);
 
         if(bufferTop   )bufferTop.setStyleProperty(   'display','block');
         if(bufferBottom)bufferBottom.setStyleProperty('display','block');
@@ -196,7 +196,7 @@ ControlKit.Group.prototype._updateHeight = function()
 
     this.getSubGroup().update();
 
-    if(this._maxHeight)this._scrollbar.update();
+    if(this._height)this._scrollbar.update();
 };
 
 /*----------------------------------------------------------collapsed---------------------*/
@@ -224,7 +224,7 @@ ControlKit.Group.prototype._updateAppearance = function()
     }
     else
     {
-        var maxHeight = this._maxHeight,
+        var maxHeight = this._height,
             listHeight;
 
         if(maxHeight)

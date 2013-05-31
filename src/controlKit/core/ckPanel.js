@@ -22,7 +22,7 @@ ControlKit.Panel = function(controlKit,params)
     /*---------------------------------------------------------------------------------*/
 
     var align     = this._align     = params.align;
-    var maxHeight = this._maxHeight = params.maxHeight;
+    var maxHeight = this._height = params.maxHeight;
     var width     = this._width     = Math.max(ControlKit.Default.WIDTH_MIN,
                                       Math.min(params.width,ControlKit.Default.WIDTH_MAX));
     var fixed     = this._fixed     = params.fixed;

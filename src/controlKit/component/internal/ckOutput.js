@@ -21,14 +21,31 @@ ControlKit.Output = function(parent,object,value,label,params)
 
     /*---------------------------------------------------------------------------------*/
 
+
+    //TODO: fix
     if(params.height)
     {
         if(params.height != 'auto')
         {
-            textArea.setHeight(Math.max(params.height,ControlKit.Constant.MIN_HEIGHT));
-            wrapNode.setHeight(textArea.getHeight() + ControlKit.Constant.PADDING_WRAPPER - 6);
-            rootNode.setHeight(textArea.getHeight() + ControlKit.Constant.PADDING_WRAPPER - 3);
+            var textAreaWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
+                textAreaWrap.setStyleClass(ControlKit.CSS.TextAreaWrap);
+            wrapNode.addChild(textAreaWrap);
+            textAreaWrap.addChild(textArea);
+
+            var height  = this._height = params.height,
+                padding = 6;
+
+            textArea.setHeight(Math.max(height  ,ControlKit.Constant.MIN_HEIGHT));
+            wrapNode.setHeight(textArea.getHeight() +6 );
+            rootNode.setHeight(wrapNode.getHeight() +4);
+
+            this._scrollbar = new ControlKit.ScrollBar(textAreaWrap,textArea,height);
+
+
+
         }
+
+
 
         //TODO: Add auto height
     }

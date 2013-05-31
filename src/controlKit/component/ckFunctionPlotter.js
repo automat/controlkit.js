@@ -13,9 +13,22 @@ ControlKit.FunctionPlotter = function(parent,object,value,label,params)
 
     this._func = null;
     this.setFunction(this._object[this._key]);
+
+    var canvas = this._canvas;
+        canvas.setFontWeight('normal');
+        canvas.setFontFamily('Arial');
+        canvas.setFontSize(10);
+
+    var kit = ControlKit.getKitInstance();
+        kit.addEventListener(ControlKit.EventType.UPDATE_VALUE,this,'onValueUpdate');
 };
 
 ControlKit.FunctionPlotter.prototype = Object.create(ControlKit.Plotter.prototype);
+
+ControlKit.FunctionPlotter.prototype.onValueUpdate = function()
+{
+    this.setFunction(this._object[this._key]);
+};
 
 ControlKit.FunctionPlotter.prototype.setFunction = function(func)
 {
@@ -23,16 +36,56 @@ ControlKit.FunctionPlotter.prototype.setFunction = function(func)
 
     var c = this._canvas;
 
+    c.clear();
     c.background(0,0);
     c.noFill();
     c.push();
     {
         c.translateHalfFloat();
         this._drawGrid();
+        this._drawAxes();
+        this._drawBoundsPanel();
         this._drawPlot();
     }
     c.pop();
 };
+
+ControlKit.FunctionPlotter.prototype._drawAxes = function()
+{
+    var canvas           = this._canvas,
+        canvasWidth      = canvas.width,
+        canvasHeight     = canvas.height,
+        canvasWidthHalf  = canvasWidth * 0.5,
+        canvasHeightHalf = canvasHeight * 0.5;
+
+    canvas.setLineWidth(1);
+    canvas.stroke(39,44,46);
+    canvas.line(0,canvasHeightHalf,canvasWidth,canvasHeightHalf);
+    canvas.line(canvasWidthHalf,0,canvasWidthHalf,canvasHeight);
+
+
+
+
+};
+
+ControlKit.FunctionPlotter.prototype._drawBoundsPanel = function()
+{
+    var canvas           = this._canvas,
+        canvasWidth      = canvas.width;
+
+    var panelSize = 50,
+        panelX    = 8,
+        panelY    = 16;
+
+    canvas.noStroke();
+
+    var bounds = this._bounds;
+
+    canvas.fill(100);
+    canvas.text('x=['+bounds[0] + ' ,' +bounds[1] + ']\ny=['+bounds[2] + ' ,' +bounds[3] + ']' ,panelX,panelY);
+
+}
+
 
 ControlKit.FunctionPlotter.prototype._drawPlot = function()
 {
@@ -52,14 +105,14 @@ ControlKit.FunctionPlotter.prototype._drawPlot = function()
     var normval;
     while(i<l)
     {
-
         normval =  i/l;
         points[i]   = normval*width;
         points[i+1] = this._func(normval)*height*0.5;
-
-
         i+=2;
     }
+
+
+
     canvas.push();
     {
         canvas.translate(0,(Math.floor(height)*0.5+0.5));

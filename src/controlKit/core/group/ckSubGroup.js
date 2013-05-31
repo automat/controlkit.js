@@ -32,7 +32,7 @@ ControlKit.SubGroup.prototype.set = function(params)
     params           = params || {};
     params.enable    = params.enable === undefined ? true : params.enable;
     params.label     = params.label     || null;
-    params.maxHeight = params.maxHeight || null;
+    params.height    = params.height || null;
 
     var parent = this._parent;
 
@@ -70,12 +70,12 @@ ControlKit.SubGroup.prototype.set = function(params)
 
     if(params.maxHeight)
     {
-        var maxHeight = this._maxHeight = params.maxHeight,
-            wrapNode  = this._wrapNode;
+        var height   = this._height = params.height,
+            wrapNode = this._wrapNode;
 
-        if(!this._disabled)wrapNode.setHeight(maxHeight);
+        if(!this._disabled)wrapNode.setHeight(height);
 
-        this._scrollbar  = new ControlKit.ScrollBar(wrapNode,this._listNode,maxHeight);
+        this._scrollbar  = new ControlKit.ScrollBar(wrapNode,this._listNode,height);
     }
 
     parent.addEventListener(ControlKit.EventType.SUBGROUP_ENABLE,  this, 'onEnable');
@@ -107,9 +107,9 @@ ControlKit.SubGroup.prototype._updateAppearance = function()
     }
     else
     {
-        var maxHeight = this._maxHeight;
+        var height = this._height;
 
-        this._wrapNode.setHeight(maxHeight ? maxHeight : this._wrapNode.getFirstChild().getHeight());
+        this._wrapNode.setHeight(height ? height : this._wrapNode.getFirstChild().getHeight());
         this._headNode.setStyleClass(ControlKit.CSS.Head);
         this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
     }
@@ -117,7 +117,7 @@ ControlKit.SubGroup.prototype._updateAppearance = function()
 
 ControlKit.SubGroup.prototype.update = function()
 {
-    if(!this._maxHeight)return;
+    if(!this._height)return;
     this._scrollbar.update();
 };
 

@@ -26,6 +26,9 @@ ControlKit.CSS =
     SubGroup      : 'subGroup',
 
 
+    TextAreaWrap : 'textAreaWrap',
+
+
     /*-------------------------------------------------------------------------------------*/
 
     Button       : 'button',

@@ -1573,7 +1573,7 @@ ControlKit.AbstractGroup = function(parent,params)
 
     /*---------------------------------------------------------------------------------z*/
 
-    this._maxHeight = null;
+    this._height = null;
     this._disabled  = false;
 
     /*---------------------------------------------------------------------------------*/
@@ -1597,7 +1597,7 @@ ControlKit.AbstractGroup.prototype.isDisabled   = function() {return this._disab
 ControlKit.AbstractGroup.prototype.isEnabled    = function() {return !this._disabled;};
 
 
-ControlKit.AbstractGroup.prototype.getMaxHeight = function() {return this._maxHeight;};
+ControlKit.AbstractGroup.prototype.getMaxHeight = function() {return this._height;};
 
 
 /*---------------------------------------------------------------------------------*/
@@ -1612,7 +1612,7 @@ ControlKit.AbstractGroup.prototype.getMaxHeight = function() {return this._maxHe
 
 ControlKit.AbstractGroup.prototype.onComponentAdded = function()
 {
-    if(!this._maxHeight)return;
+    if(!this._height)return;
     this._scrollbar._update();
 };
 
@@ -1707,7 +1707,7 @@ ControlKit.Group.prototype.set = function(params)
 
     if(params.maxHeight)
     {
-        var maxHeight = this._maxHeight = params.maxHeight,
+        var maxHeight = this._height = params.maxHeight,
             wrapNode  = this._wrapNode;
 
         if(this.isEnabled())wrapNode.setHeight(maxHeight);
@@ -1749,7 +1749,7 @@ ControlKit.Group.prototype.onPanelShow      = function(){this.dispatchEvent(new 
 ControlKit.Group.prototype.onSubGroupTrigger = function()
 {
     this._updateHeight();
-    if(!this._maxHeight)return;
+    if(!this._height)return;
     this._updateScrollBar();
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE,null));
 };
@@ -1775,7 +1775,7 @@ ControlKit.Group.prototype._updateScrollBar = function()
     else
     {
         scrollbar.enable();
-        wrapNode.setHeight(this._maxHeight);
+        wrapNode.setHeight(this._height);
 
         if(bufferTop   )bufferTop.setStyleProperty(   'display','block');
         if(bufferBottom)bufferBottom.setStyleProperty('display','block');
@@ -1823,7 +1823,7 @@ ControlKit.Group.prototype._updateHeight = function()
 
     this.getSubGroup().update();
 
-    if(this._maxHeight)this._scrollbar.update();
+    if(this._height)this._scrollbar.update();
 };
 
 /*----------------------------------------------------------collapsed---------------------*/
@@ -1851,7 +1851,7 @@ ControlKit.Group.prototype._updateAppearance = function()
     }
     else
     {
-        var maxHeight = this._maxHeight,
+        var maxHeight = this._height,
             listHeight;
 
         if(maxHeight)
@@ -1972,7 +1972,7 @@ ControlKit.SubGroup.prototype.set = function(params)
 
     if(params.maxHeight)
     {
-        var maxHeight = this._maxHeight = params.maxHeight,
+        var maxHeight = this._height = params.maxHeight,
             wrapNode  = this._wrapNode;
 
         if(!this._disabled)wrapNode.setHeight(maxHeight);
@@ -2002,7 +2002,7 @@ ControlKit.SubGroup.prototype._updateAppearance = function()
     }
     else
     {
-        var maxHeight = this._maxHeight;
+        var maxHeight = this._height;
 
         this._wrapNode.setHeight(maxHeight ? maxHeight : this._wrapNode.getFirstChild().getHeight());
         this._headNode.setStyleClass(ControlKit.CSS.Head);
@@ -2012,7 +2012,7 @@ ControlKit.SubGroup.prototype._updateAppearance = function()
 
 ControlKit.SubGroup.prototype.update = function()
 {
-    if(!this._maxHeight)return;
+    if(!this._height)return;
     this._scrollbar.update();
 };
 
@@ -2074,7 +2074,7 @@ ControlKit.Panel = function(controlKit,params)
     /*---------------------------------------------------------------------------------*/
 
     var align     = this._align     = params.align;
-    var maxHeight = this._maxHeight = params.maxHeight;
+    var maxHeight = this._height = params.maxHeight;
     var width     = this._width     = Math.max(ControlKit.Default.WIDTH_MIN,
         Math.min(params.width,ControlKit.Default.WIDTH_MAX));
     var fixed     = this._fixed     = params.fixed;

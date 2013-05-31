@@ -1,4 +1,4 @@
-ControlKit.Slider = function(parent,object,value,target,label,params)
+ControlKit.Slider = function(parent,object,value,label,target,params)
 {
     ControlKit.ObjectComponent.apply(this,arguments);
 
@@ -12,6 +12,8 @@ ControlKit.Slider = function(parent,object,value,target,label,params)
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
     params.dp       = params.dp       || 2;
+
+    console.log(label);
 
     /*---------------------------------------------------------------------------------*/
 

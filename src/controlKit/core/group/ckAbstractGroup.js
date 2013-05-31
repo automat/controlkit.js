@@ -16,7 +16,7 @@ ControlKit.AbstractGroup = function(parent,params)
 
     /*---------------------------------------------------------------------------------z*/
 
-    this._maxHeight = null;
+    this._height = null;
     this._disabled  = false;
 
     /*---------------------------------------------------------------------------------*/
@@ -40,7 +40,7 @@ ControlKit.AbstractGroup.prototype.isDisabled   = function() {return this._disab
 ControlKit.AbstractGroup.prototype.isEnabled    = function() {return !this._disabled;};
 
 
-ControlKit.AbstractGroup.prototype.getMaxHeight = function() {return this._maxHeight;};
+ControlKit.AbstractGroup.prototype.getMaxHeight = function() {return this._height;};
 
 
 /*---------------------------------------------------------------------------------*/
@@ -55,7 +55,7 @@ ControlKit.AbstractGroup.prototype.onSelectDragEnd   = function(e){this.scrollTo
 
 ControlKit.AbstractGroup.prototype.onComponentAdded = function()
 {
-    if(!this._maxHeight)return;
+    if(!this._height)return;
     this._scrollbar._update();
 };
 

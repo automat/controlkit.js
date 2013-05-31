@@ -88,11 +88,15 @@ function TestControlKit(parentDomElementId)
                   numberPresets:[10.0,20.0,345.0,12.0],
                   range:[0,1],
                   bool:true,
-                  slideValue:0.5,
+                  slideValue:0.01,
                   selectOptions:['hello','bello','cello'],
                   selectTarget:'hello',
-                  func:function(x){return Math.sin(x*Math.PI*4)*0.5;},
+                  func:function(x){return Math.sin(x);},
                   func2:function(x){return x*x;},
+                  funcs:[function(x){return Math.sin(x*x*Math.PI);},
+                         function(x){return x*x}],
+                  funcTarget : null,
+
                   xyValue:[0.25,-0.35],
                   changeValue0:0.0,
                   changeValue1:0.0,
@@ -101,30 +105,33 @@ function TestControlKit(parentDomElementId)
                   changeValue4:0.0,
                   changeValue5:0.0,
                   changeValue6:0.0,
-                    xyChangeValue:[0.1,0.1]
+                    xyChangeValue:[0.1,0.1],
+                  output:''
                   };
 
-    var controlKit = new ControlKit.Kit(parentDomElementId);
+    object.funcTarget = object.funcs[0];
+
+    var controlKit = new ControlKit.Kit(parentDomElementId,{trigger:true});
 
 
-    var panel0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [20, 20]}),
-        group00 = panel0.addGroup(/*{maxHeight:200}*/)
-            //.addSubGroup({label:'helllo'})
-            .addRange(object, 'range','range')
-            //.addPad(object,'xyChangeValue','Pad')
-           // .addNumberInput(object, 'number', 'Num')
-           // .addNumberInput(object, 'number', 'Num')
-           // .addNumberInput(object, 'number', 'Num')
-            .addRange(object, 'range')
-            .addSlider(object, 'range', 'slideValue', 'Slider')
-            .addSelect(object, 'selectOptions','selectTarget');
+    var panel0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [20, 20]});
+    var group01 = panel0.addGroup()
+                        .addSubGroup({label:'Function Select'})
+
+                        .addFunctionPlotter(object,'funcTarget','graph')
+        .addStringOutput(object,'funcTarget',null)
+        .addSelect(object, 'funcs','funcTarget','select')
+        .addSubGroup({label:'Function Plot'})
+        .addValuePlotter(object,'changeValue0','f(x)',{lineColor: [237, 20, 91]})
+        .addRange(object, 'range','T add')
+        .addSlider(object, 'range', 'T Speed','slideValue')
 
 
 
+/*
 
-    /*
     var control0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [20, 20]}),
-        group00 = control0.addGroup({maxHeight: 200})
+        group00 = control0.addGroup({height: 200})
             .addSubGroup()
             .addValuePlotter(object, 'changeValue2', 'randF', {height: 35, lineWidth: 2, lineColor: [237, 20, 91]})
             .addValuePlotter(object, 'changeValue3', 'rect', {height: 35, lineWidth: 2})
@@ -138,8 +145,8 @@ function TestControlKit(parentDomElementId)
             .addSelect(object, 'selectOptions', 'selectTarget', 'select')
 
 
-    control0.addGroup({label: 'level', maxHeight: 200})
-        .addSubGroup({label: 'noise', maxHeight: 200})
+    control0.addGroup({label: 'level', height: 200})
+        .addSubGroup({label: 'noise', height: 200})
         .addNumberInput(object, 'number', 'Input Comp', {presets: 'numberPresets'})
         .addNumberInput(object, 'number', 'Input Comp')
         .addStringInput(object, 'string', 'Input Comp', {presets: 'stringPresets'})
@@ -150,7 +157,7 @@ function TestControlKit(parentDomElementId)
         .addSelect(object, 'selectOptions', 'selectTarget', 'select')
 
 
-        .addSubGroup({label: 'grain', show: false, maxHeight: 150})
+        .addSubGroup({label: 'grain', show: false, height: 150})
         .addRange(object, 'range', 'Range Comp')
         .addSlider(object, 'range', 'slideValue', 'slider')
         .addSelect(object, 'selectOptions', 'selectTarget', 'select')
@@ -291,14 +298,23 @@ function TestControlKit(parentDomElementId)
 
 
 
+
+
         var t = 0.0;
         var sint;
         function updateObject()
         {
+            object.output = randomString(2000);
+
+            t+=object.slideValue;
+
+            object.changeValue0 = object.funcTarget(t);//sgn(sint);
+
+            /*
             t+=object.xyChangeValue[0];
             t+=randomFloat(-1,1)*object.xyChangeValue[1];
             sint = Math.sin(t);
-            object.changeValue0 = sgn(sint);
+
             object.changeValue1 = tri(sint);
 
             object.changeValue2 = randomFloat(-1,1);
@@ -307,9 +323,22 @@ function TestControlKit(parentDomElementId)
             object.changeValue5 = frac(sint);
             object.changeValue6 = sint;
             controlKit.update();
+            */
+
+            controlKit.update();
         }
 
         function loop(){requestAnimationFrame(loop);updateObject();}loop();
+
+    function randomString(len, charSet) {
+        charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var randomString = '';
+        for (var i = 0; i < len; i++) {
+            var randomPoz = Math.floor(Math.random() * charSet.length);
+            randomString += charSet.substring(randomPoz,randomPoz+1);
+        }
+        return randomString;
+    }
 
 
 

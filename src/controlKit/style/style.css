@@ -12,7 +12,7 @@
 
 #controlKit{}
 
-#controlKitTrigger {width: 100px;height:100px;position:absolute;top:0;right:0}
+#controlKitTrigger {width: 20px;height:20px;position:absolute;top:0;right:0}
 
 #controlKit .panel
 {
@@ -112,6 +112,38 @@
     padding-right: 25px;
 }
 
+#controlKit .panel .textAreaWrap
+{
+    width: 100%;
+    padding: 0;
+    float: left;
+    height:100%;
+
+
+    border-radius:         2px;
+    -moz-border-radius:    2px;
+    -webkit-border-radius: 2px;
+    border-bottom-color: #fff;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+
+    -moz-box-shadow:    inset 0 0 1px 2px rgba(0,0,0,0.0125),
+                        inset 0 0 1px 1px #111314;
+    box-shadow:         inset 0 0 1px 2px rgba(0,0,0,0.0125),
+                        inset 0 0 1px 1px #111314;
+
+    background-image: -webkit-linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,0.125) 100%);
+    background-image: -moz-linear-gradient(   rgba(0,0,0,0) 0%, rgba(0,0,0,0.125) 100%);
+    background-image: -o-linear-gradient(     rgba(0,0,0,0) 0%, rgba(0,0,0,0.125) 100%);
+    background-image: linear-gradient(        rgba(0,0,0,0) 0%, rgba(0,0,0,0.125) 100%);
+
+    background-color: #1a1d1f;
+
+    overflow:hidden;
+
+
+}
+
 #controlKit .panel textarea
 {
     -webkit-box-sizing: border-box;
@@ -141,8 +173,6 @@
 
     -moz-box-shadow:    inset 0 0 1px 2px rgba(0,0,0,0.0125),
     inset 0 0 1px 1px #111314;
-    -webkit-box-shadow: inset 0 0 1px 2px rgba(0,0,0,0.0125),
-    inset 0 0 1px 1px #111314;
     box-shadow:         inset 0 0 1px 2px rgba(0,0,0,0.0125),
     inset 0 0 1px 1px #111314;
 
@@ -153,7 +183,18 @@
 
     resize: none;
 
+    vertical-align: top
+}
 
+#controlKit .panel .textAreaWrap textarea
+{
+    border: none;
+    border-radius: 0;
+    -moz-box-shadow:  none;
+    box-shadow:       none;
+
+
+    background:none;
 }
 
 #controlKit .panel .button
@@ -668,7 +709,7 @@
     text-shadow: 1px 1px #000;
     height: 100%;
 
-    text-transform: capitalize;
+
 }
 
 
@@ -843,6 +884,7 @@
     margin: -2px 0 0 0;
 
     padding-left: 10px;
+    padding-right: 20px;
     font-family: arial,sans-serif;
     font-size:   11px;
     text-align:  left;
@@ -863,6 +905,12 @@
     border-bottom: 1px solid #3b4447;
 
     cursor: pointer;
+
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+
+
 }
 
 #controlKit .panel .selectActive
@@ -877,6 +925,7 @@
     margin: -2px 0 0 0;
 
     padding-left: 10px;
+    padding-right: 20px;
     font-family: arial,sans-serif;
     font-size:   11px;
     text-align:  left;
@@ -897,6 +946,10 @@
     border-bottom: 1px solid #3b4447;
 
     cursor: pointer;
+
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
 }
 
 #controlKit .panel .select:hover, .select.active
@@ -990,8 +1043,20 @@
 
 #controlKit .panel .scrollBar .track
 {
-    /*margin-top:18px;*/
     padding: 0 3px 0 2px;
+}
+
+#controlKit .panel .textAreaWrap .scrollBar
+{
+
+    border: 1px solid #101213;
+
+    border-bottom-right-radius: 2px;
+    border-top-right-radius:    2px;
+    border-left: none;
+
+
+
 }
 
 #controlKit .panel .scrollBar .thumb
@@ -1086,8 +1151,12 @@
     margin: 0;
     height: 28px;
     line-height: 28px;
-    padding: 0 10px 0 10px;
+    padding: 0 20px 0 10px;
     width: 100%;
+
+    overflow:hidden;
+    white-space: normal;
+    text-overflow:ellipsis;
 }
 
 #controlKit .options li:hover
