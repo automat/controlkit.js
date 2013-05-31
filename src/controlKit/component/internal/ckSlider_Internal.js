@@ -104,9 +104,46 @@ ControlKit.Slider_Internal.prototype =
                                  slot.offsetX = slot.node.getPositionGlobalX();
                                  slot.width   = Math.floor(slot.node.getWidth() - slot.padding * 2)},
 
-    setBoundMin : function(value){this._bounds[0] = value;this._interpolateValue();this._updateHandle();},
-    setBoundMax : function(value){this._bounds[1] = value; this._interpolateValue();this._updateHandle();},
-    setValue    : function(value){this._intrpl    = value/this._bounds[1]; this._updateHandle();this._value  = value;},
+    setBoundMin : function(value)
+    {
+        var bounds = this._bounds;
+        if(value >= bounds[1])return;
+
+        bounds[0] = value;
+        this._interpolateValueRelative();
+        this._updateHandle();
+    },
+
+    setBoundMax : function(value)
+    {
+        var bounds = this._bounds;
+        if(value <= bounds[0])return;
+
+        bounds[1] = value;
+        this._interpolateValueRelative();
+        this._updateHandle();
+    },
+
+    _interpolateValueRelative : function()
+    {
+        var boundsMin  = this._bounds[0],
+            boundsMax  = this._bounds[1],
+            prevIntrpl = Math.abs((this._value - boundsMin) / (boundsMin - boundsMax));
+
+        this._value  = boundsMin*(1.0-prevIntrpl) + boundsMax*prevIntrpl;
+        this._intrpl = Math.abs((this._value - boundsMin) / (boundsMin - boundsMax));
+    },
+
+    setValue    : function(value)
+    {
+        var boundsMin = this._bounds[0],
+            boundsMax = this._bounds[1];
+
+        if(value < boundsMin || value > boundsMax)return;
+        this._intrpl = Math.abs((value-boundsMin) / (boundsMin - boundsMax));
+        this._updateHandle();
+        this._value  = value;
+    },
 
 
     getValue : function(){return this._value;}

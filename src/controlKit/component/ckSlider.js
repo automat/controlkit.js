@@ -121,7 +121,9 @@ ControlKit.Slider.prototype.onValueUpdate = function(e)
         {
             slider.setBoundMin(values[0]);
             slider.setBoundMax(values[1]);
-            slider.setValue(this._object[this._targetKey]);
+
+
+            //slider.setValue(this._object[this._targetKey]);
             //this._slider.updateInterpolatedValue();
             this.applyValue();
         }
