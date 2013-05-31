@@ -10,8 +10,6 @@ ControlKit.Component = function(parent)
         wrapNode    = this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV);
 
     parent.addComponentRoot(rootNode);
-    if(parent.hasLabel() && parent.getList().getNumChildren() == 1)
-    rootNode.setStyleProperty('border-top','1px solid #303639');
 
     rootNode.addChild(lablNode);
     rootNode.addChild(wrapNode);

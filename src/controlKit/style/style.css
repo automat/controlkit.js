@@ -374,7 +374,10 @@
 
 #controlKit .panel .group .subGroupList
 {
+
     padding: 10px;
+    border-top: 1px solid #3b4447;
+    border-bottom: 1px solid #1e2224;
 }
 
 
@@ -664,6 +667,8 @@
     color:       #aeb5b8;
     text-shadow: 1px 1px #000;
     height: 100%;
+
+    text-transform: capitalize;
 }
 
 

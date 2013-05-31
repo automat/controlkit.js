@@ -48,7 +48,7 @@ ControlKit.Group.prototype.set = function(params)
 
     params.label     = params.label     || null;
     params.useLabels = params.useLabels || true;
-    params.enable      = params.enable === undefined ? true : params.enable;
+    params.enable    = params.enable === undefined ? true : params.enable;
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -74,11 +74,6 @@ ControlKit.Group.prototype.set = function(params)
         this._rootNode.addChild(headNode);
 
         if(!params.enable)this.disable();
-    }
-    else
-    {
-        //TODO: Add CSS Class
-        if(!params.maxHeight)this._wrapNode.getStyle().borderTop = "1px solid #3b4447";
     }
 
     /*-------------------------------------------------------------------------------------*/
@@ -278,6 +273,7 @@ ControlKit.Group.prototype.getSubGroup = function(){var subGroups = this._subGro
 /*-------------------------------------------------------------------------------------*/
 
 ControlKit.Group.prototype.getComponents = function(){return this._components;};
+
 
 
 

@@ -86,19 +86,10 @@ ControlKit.SubGroup.prototype.set = function(params)
 
 //FIXME
 
-ControlKit.SubGroup.prototype._onHeadMouseDown = function()
-{
-    this._disabled = !this._disabled;
-    this._trigger();
-};
+ControlKit.SubGroup.prototype._onHeadMouseDown = function(){this._disabled = !this._disabled;this._onTrigger();};
+ControlKit.SubGroup.prototype._onHeadMouseUp   = function(){this._onTrigger();};
 
-ControlKit.SubGroup.prototype._onHeadMouseUp   = function()
-{
-    this._updateAppearance();
-    this._trigger();
-};
-
-ControlKit.SubGroup.prototype._trigger = function()
+ControlKit.SubGroup.prototype._onTrigger = function()
 {
     this._updateAppearance();
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_TRIGGER,null));
@@ -137,12 +128,14 @@ ControlKit.SubGroup.prototype.onDisable         = function(){if(this.isDisabled(
 //bubble
 ControlKit.SubGroup.prototype.onGroupSizeChange = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE,null));};
 ControlKit.SubGroup.prototype.onGroupSizeUpdate = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_UPDATE,null));};
-
 ControlKit.SubGroup.prototype.onPanelMoveEnd    = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,   null));};
+
 /*-------------------------------------------------------------------------------------*/
 
 ControlKit.SubGroup.prototype.hasLabel         = function()    {return this._headNode != null;};
 ControlKit.SubGroup.prototype.addComponentRoot = function(node){this._listNode.addChild(node);};
+
+
 
 
 
