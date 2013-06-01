@@ -3,5 +3,7 @@
 src.BAK
 test.BAK
 src.BAK1
+src/controlKit/style/_mixins.css
+src/controlKit/style/_presets.css
 test/componentTests/
 test/mathTest/
