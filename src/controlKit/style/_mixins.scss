@@ -1,0 +1,61 @@
+
+
+@mixin box-shadow($h, $v, $blur, $spread, $color, $inset:"") {
+
+  $temp : $h $v $blur $spread $color #{$inset};
+
+  -webkit-box-shadow:$temp;
+  -moz-box-shadow:   $temp;
+  box-shadow:        $temp;
+}
+
+@mixin box-shadow-arg($arg)
+{
+  -webkit-box-shadow:$arg;
+  -moz-box-shadow:   $arg;
+  box-shadow:        $arg;
+}
+
+@mixin box-shadow-mult2($h0, $v0, $blur0, $spread0, $color0, $inset0,
+$h1, $v1, $blur1, $spread1, $color1, $inset1)
+{
+  $temp : $h0 $v0 $blur0 $spread0 $color0 #{$inset0},
+  $h1 $v1 $blur1 $spread1 $color1 #{$inset1};
+
+  -webkit-box-shadow:$temp;
+  -moz-box-shadow:   $temp;
+  box-shadow:        $temp;
+}
+
+@mixin linear-gradient($color0,$color1,$start,$end)
+{
+  background-image:-webkit-linear-gradient($color0 $start, $color1 $end);
+  background-image:-moz-linear-gradient(   $color0 $start, $color1 $end);
+  background-image:-o-linear-gradient(     $color0 $start, $color1 $end);
+  background-image:linear-gradient(        $color0 $start, $color1 $end);
+}
+
+@mixin user-select
+{
+  -webkit-touch-callout: none;
+  -webkit-user-select:   none;
+  -khtml-user-select:    none;
+  -moz-user-select:      none;
+  -ms-user-select:       none;
+  user-select:          none;
+}
+
+@mixin box-sizing($type)
+{
+  -webkit-box-sizing: $type;
+  -moz-box-sizing:    $type;
+  box-sizing:         $type;
+}
+
+@mixin border-radius($radius)
+{
+  border-radius:         $radius;
+  -moz-border-radius:    $radius;
+  -webkit-border-radius: $radius;
+
+}

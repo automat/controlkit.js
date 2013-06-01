@@ -1,0 +1,333 @@
+@import "_mixins";
+@import "_presets";
+
+
+#controlKit
+{
+  .panel
+  {
+    position: absolute;
+    left:     0;
+    top:      0;
+    z-index:  1;
+
+    margin:   0;
+    padding:  0;
+
+    width:    300px;
+
+    background-color: $panelColorBg;
+
+    @include
+    box-shadow(0, 0, 1px, 1px, $panelShadowColor);
+
+    font-family: $fontFamily;
+
+    @include
+    user-select;
+
+    @include
+    box-sizing(border-box);
+    @include
+    border-radius($borderRadiusPanel);
+
+    overflow:hidden;
+
+    /*-------------------------------------------------------------------------------------
+     * Inputs
+     *-------------------------------------------------------------------------------------*/
+
+    input[type='text'],textarea
+    {
+      @include
+      box-sizing(border-box);
+
+      height:       $inputHeight;
+      width:        100%;
+      padding-left: 8px;
+
+      background-color: $inputColorBg;
+
+      font:
+      {
+        family: $inputFontFamily;
+        size:   $inputFontSize;
+      }
+
+      color:       $inputFontColor;
+      text-shadow: $fontShadowDefault;
+
+      border: none;
+      @include
+      border-radius($inputBorderRadius);
+
+      @include
+      linear-gradient($inputGradientStartColor, $inputGradientEndColor,
+        0%,100%);
+      @include
+      box-shadow(0,0,1px,2px,rgba(0,0,0,0.0125),inset);
+      border-bottom: $borderBottomDrop;
+    }
+
+    textarea
+    {
+      padding: 5px 8px 2px 8px;
+      overflow: hidden;
+      resize:none;
+      vertical-align: top;
+    }
+
+    .button
+    {
+      @include
+      box-sizing(border-box);
+
+      width: 100%;
+      height: $buttonHeight;
+      margin: -2px 0 0 0;
+
+      border: none;
+      @include
+      border-radius($borderRadiusDefault);
+
+      background-color: $buttonBgColor;
+      @include
+      linear-gradient($buttonGradientStartColor,
+                      $buttonGradientEndColor,
+                      $buttonGradientStart,
+                      $buttonGradientEnd);
+
+      font:
+      {
+        family: $buttonFontFamily;
+        size:   $buttonFontSize;
+        weight: $buttonFontWeight;
+      };
+
+      color: #fff;
+      text-shadow: 0 -1px #000;
+      text-transform: uppercase;
+
+      @include
+      box-shadow-mult2(0,0,0,1px,#131313,inset,
+                       -1px,2px,0,0,#2a333d,inset);
+
+      border-bottom: $borderBottomDrop;
+
+      cursor: pointer;
+
+      &:hover
+      {
+        background-image: none;
+        background-color: #3c494e;
+      }
+
+      &:active
+      {
+        @include
+        linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0),0%,100%);
+      }
+    }
+
+    /*-------------------------------------------------------------------------------------
+     * Head & Label
+     *-------------------------------------------------------------------------------------*/
+
+    .label
+      {
+      float: left;
+      font-size:   11px;
+      font-weight: bold;
+      text-shadow: 0 -1px #000;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      cursor: default ;
+      width: 100%;
+    }
+
+    .head, .panelHeadInactive
+    {
+      height: 38px;
+      padding: 0 10px 0 10px;
+
+      background-color: #1a1d1f;
+    }
+
+    .head
+    {
+      border:{top:    1px solid #202426;
+              bottom: 1px solid #111314};
+
+      .label
+      {
+        line-height: 30px;
+        color:#65696b;
+        cursor: pointer;
+      }
+    }
+
+    .panelHeadInactive
+    {
+      border-top:       1px solid #202426;
+    }
+
+    /*-------------------------------------------------------------------------------------
+     * Menu
+     *-------------------------------------------------------------------------------------*/
+
+    .menu
+    {
+      float: right;
+      padding: 5px 0 0 0;
+
+      input[type='button']
+      {
+        @include
+        box-sizing(border-box);
+
+        height: 20px;
+        margin-left: 4px;
+        border: none;
+
+        @include
+        border-radius(2px);
+
+        background-color: #2B3033;
+
+        font:
+        {
+          family: $fontFamily;
+          size: 10px;
+          weight: bold;
+        }
+
+        color: #aaaaaa;
+
+        text-shadow:  0 -1px #000;
+        text-transform: uppercase;
+
+        @include
+        box-shadow-mult2(0,0,0,1px,#131313,inset,
+                         -1px,2px,0,0,#212527,inset);
+
+        border-bottom: 1px solid #24292b;
+
+        cursor: pointer;
+      }
+
+      @mixin btnMenuBackground($img,$imgHover)
+      {
+        background: $img,50% 50% no-repeat,linear-gradient(rgb(43, 48, 51) 0%,rgb(31, 35, 37) 100%);
+        &:hover{background: $imgHover,50% 50% no-repeat,#2B3033;
+        }
+      }
+
+      .btnHide,.btnShow,.btnClose{width: 20px;}
+
+      .btnHide  {@include btnMenuBackground($imageBtnHide, $imageBtnHideHover);}
+      .btnShow  {@include btnMenuBackground($imageBtnShow, $imageBtnShowHover);}
+      .btnClose {@include btnMenuBackground($imageBtnClose,$imageBtnCloseHover);}
+
+      .btnUndo
+      {
+        background: $imageBtnUndo,20% 50% no-repeat,linear-gradient(rgb(43, 48, 51) 0%,rgb(31, 35, 37) 100%);
+        padding: 0 6px 1px 0;
+        width: 38px;
+        vertical-align: top;
+        text-align: end;
+        &:hover{background: $imageBtnUndoHover,20% 50% no-repeat,#2B3033;
+        }
+      }
+    }
+
+    /*-------------------------------------------------------------------------------------
+     * Groups
+     *-------------------------------------------------------------------------------------*/
+
+     ul
+     {
+       margin:     0;
+       padding:    0;
+       list-style: none;
+     }
+
+
+
+
+
+
+
+
+
+
+    /*-------------------------------------------------------------------------------------
+     * Wraps
+     *-------------------------------------------------------------------------------------*/
+
+
+    .wrap
+      {
+      width:    auto;
+      height:   auto;
+      margin:   0;
+      padding:  0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .inputWPresetWrap
+    {
+      width: 100%;
+      float: left;
+
+      input[type='text']
+      {
+        padding-right: 25px;
+      }
+    }
+
+    .textAreaWrap
+    {
+      width: 100%;
+      padding: 0;
+      float: left;
+      height:100%;
+
+      @include
+      border-radius($borderRadiusDefault);
+      border:{color:fff;style:solid;width:1px;}
+
+      @include
+      box-shadow-mult2(0,0,1px,2px, $inputColorInsetTop,inset,
+                       0,0,1px,1px,#111314,inset);
+      @include
+      linear-gradient($inputGradientStartColor, $inputGradientEndColor,
+                      0%,100%);
+
+      background-color: #1a1d1f;
+      overflow: hidden;
+
+      textarea
+      {
+        border: none;
+        @include
+        border-radius(0);
+        @include
+        box-shadow-arg(none);
+        background: none;
+      }
+    }
+
+
+
+
+
+  }
+
+}
+
+#controlKitTrigger
+{
+
+}
