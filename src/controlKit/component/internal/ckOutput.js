@@ -40,12 +40,7 @@ ControlKit.Output = function(parent,object,value,params)
             rootNode.setHeight(wrapNode.getHeight() +4);
 
             this._scrollbar = new ControlKit.ScrollBar(textAreaWrap,textArea,height);
-
-
-
         }
-
-
 
         //TODO: Add auto height
     }

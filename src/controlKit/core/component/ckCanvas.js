@@ -1,29 +1,13 @@
-//
-//
-// .
-//
-//  Created by henryk Wollik on 30.10.12.
-//  Copyright (c) 2012 henryk Wollik. All rights reserved.
-//
-//
-
-
-//TODO: MOVE TO CANVAS INTERNAL
-ControlKit._InternalCanvasOptions = {};
-
-ControlKit._InternalCanvasOptions.DEFAULT_WIDTH  = 300;
-ControlKit._InternalCanvasOptions.DEFAULT_HEIGHT = 300;
-ControlKit._InternalCanvasOptions.EMPTY_STYLE = 'rgba(0,0,0,0)';
-
 ControlKit.Canvas = function(parentNode)
 {
     this.parent = parentNode.getElement();
-    this._size = {width: ControlKit._InternalCanvasOptions.DEFAULT_WIDTH ,
-                  height:ControlKit._InternalCanvasOptions.DEFAULT_HEIGHT};
+    this._size = {width: ControlKit.Canvas.Constant.DEFAULT_WIDTH ,
+                  height:ControlKit.Canvas.Constant.DEFAULT_HEIGHT};
     this._canvas = document.createElement('canvas');
+    this._node   = ControlKit.Node.getNodeByElement(this._canvas)
     this._antialias    = true;
-    this.setSize(ControlKit._InternalCanvasOptions.DEFAULT_WIDTH,
-                 ControlKit._InternalCanvasOptions.DEFAULT_HEIGHT);
+    this.setSize(ControlKit.Canvas.Constant.DEFAULT_WIDTH,
+                 ControlKit.Canvas.Constant.DEFAULT_HEIGHT);
     this.parent.appendChild(this._canvas);
     this.context = this._canvas.getContext('2d');
 
@@ -32,7 +16,13 @@ ControlKit.Canvas = function(parentNode)
     this._applyFontStyle();
 
     this._pixelPerfect = true;
+};
 
+ControlKit.Canvas.Constant =
+{
+    DEFAULT_WIDTH  : 300,
+    DEFAULT_HEIGHT : 300,
+    EMPTY_STYLE    : 'rgba(0,0,0,0)'
 };
 
 /*
@@ -530,7 +520,7 @@ ControlKit.Canvas.prototype.fill = function ()
 
 ControlKit.Canvas.prototype.noFill = function ()
 {
-    this.context.fillStyle = ControlKit._InternalCanvasOptions.EMPTY_STYLE;
+    this.context.fillStyle = ControlKit.Canvas.Constant.EMPTY_STYLE;
 };
 
 ControlKit.Canvas.prototype.applyStroke = function ()
@@ -562,7 +552,7 @@ ControlKit.Canvas.prototype.setLineWidth = function(value)
 
 ControlKit.Canvas.prototype.noStroke = function ()
 {
-    this.context.strokeStyle = ControlKit._InternalCanvasOptions.EMPTY_STYLE ;
+    this.context.strokeStyle = ControlKit.Canvas.Constant.EMPTY_STYLE ;
 };
 
 /**
@@ -606,3 +596,6 @@ ControlKit.color = function()
 
     return s + '(' + r + ',' + g + ',' + b + ',' + a + ')';
 }
+
+
+ControlKit.Canvas.prototype.getNode = function(){return this._node;};
