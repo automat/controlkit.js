@@ -1,27 +1,42 @@
-ControlKit.Component = function(parent)
+ControlKit.Component = function(parent,label)
 {
     ControlKit.EventDispatcher.apply(this,arguments);
+
+    /*---------------------------------------------------------------------------------*/
 
     this._parent   = parent;
     this._disabled = false;
 
-    var rootNode    = this._rootNode = new ControlKit.Node(ControlKit.NodeType.LIST_ITEM),
-        lablNode    = this._lablNode = new ControlKit.Node(ControlKit.NodeType.SPAN),
-        wrapNode    = this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV);
+    /*---------------------------------------------------------------------------------*/
 
-    parent.addComponentRoot(rootNode);
+    var rootNode = this._rootNode = new ControlKit.Node(ControlKit.NodeType.LIST_ITEM),
+        wrapNode = this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV);
 
-    rootNode.addChild(lablNode);
-    rootNode.addChild(wrapNode);
+        wrapNode.setStyleClass(ControlKit.CSS.Wrap);
+        rootNode.addChild(wrapNode);
 
-    lablNode.setStyleClass(ControlKit.CSS.Label);
-    wrapNode.setStyleClass(ControlKit.CSS.Wrap);
+    if(label)
+    {
+        if(label.length != 0 && label != 'none')
+        {
+            var lablNode = this._lablNode = new ControlKit.Node(ControlKit.NodeType.SPAN);
+                lablNode.setStyleClass(ControlKit.CSS.Label);
+                lablNode.setProperty('innerHTML',label);
+                rootNode.addChild(lablNode);
+        }
+    }
 
-    parent.addEventListener(ControlKit.EventType.COMPONENTS_ENABLE, this,'onEnable');
-    parent.addEventListener(ControlKit.EventType.COMPONENTS_DISABLE,this,'onDisable');
+    /*---------------------------------------------------------------------------------*/
+
+    this._parent.addEventListener(ControlKit.EventType.COMPONENTS_ENABLE, this,'onEnable');
+    this._parent.addEventListener(ControlKit.EventType.COMPONENTS_DISABLE,this,'onDisable');
+    this._parent.addComponentNode(rootNode);
+
 };
 
 ControlKit.Component.prototype = Object.create(ControlKit.EventDispatcher.prototype);
+
+/*---------------------------------------------------------------------------------*/
 
 ControlKit.Component.prototype.enable     = function(){this._disabled = false;};
 ControlKit.Component.prototype.disable    = function(){this._disabled = true; };

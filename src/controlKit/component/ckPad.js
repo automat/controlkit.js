@@ -1,4 +1,4 @@
-ControlKit.Pad = function(parent,object,value,label,params)
+ControlKit.Pad = function(parent,object,value,params)
 {
     ControlKit.Plotter.apply(this,arguments);
 

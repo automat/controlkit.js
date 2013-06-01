@@ -1,16 +1,19 @@
-
-//Object bound component
-ControlKit.ObjectComponent = function(parent,object,value,label)
+ControlKit.ObjectComponent = function(parent,object,value,params)
 {
-    ControlKit.Component.apply(this,arguments);
+    /*-------------------------------------------------------------------------------------*/
+
+    params       = params || {};
+    params.label = params.label || value;
+
+    /*-------------------------------------------------------------------------------------*/
+
+    ControlKit.Component.apply(this,[parent,params.label]);
 
     this._object   = object;
     this._key      = value;
 
     this._onChange = function(){};
     this._onFinish = function(){};
-
-    this._lablNode.setProperty('innerHTML',label || '');
 
     var kit = ControlKit.getKitInstance();
         kit.addEventListener( ControlKit.EventType.UPDATE_VALUE, this,'onValueUpdate');

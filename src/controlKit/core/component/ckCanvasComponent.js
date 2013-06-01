@@ -1,23 +1,25 @@
-ControlKit.CanvasComponent = function(parent,object,value,label)
+ControlKit.CanvasComponent = function(parent,object,value,params)
 {
     ControlKit.ObjectComponent.apply(this,arguments);
 
     this._rootNode.setStyleClass(ControlKit.CSS.CanvasListItem);
-    var wrapNode = this._wrapNode.setStyleClass(ControlKit.CSS.CanvasWrap);
+
+    var wrapNode  = this._wrapNode.setStyleClass(ControlKit.CSS.CanvasWrap),
+        wrapWidth = wrapNode.getWidth();
 
     var canvas = this._canvas = new ControlKit.Canvas(wrapNode);
-        canvas.setAntialias(false);
-        canvas.setSize(wrapNode.getWidth(),wrapNode.getWidth());
+        canvas.setSize(wrapWidth,wrapWidth);
 
-    canvas.setFontFamily('Arial');
-    canvas.setFontSize(10);
+        canvas.setAntialias( ControlKit.Constant.CANVAS_ANTIALIAS);
+        canvas.setFontFamily(ControlKit.Constant.CANVAS_FONT_FAMILY);
+        canvas.setFontSize(  ControlKit.Constant.CANVAS_FONT_SIZE);
 
     this._canvasNode = ControlKit.Node.getNodeByElement(canvas.getElement());
 
     this._updateHeight();
 
-    parent.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE,this,  'onGroupSizeChange');
-    this.addEventListener(  ControlKit.EventType.GROUP_SIZE_UPDATE,parent,'onGroupSizeUpdate');
+    this._parent.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE,this,  'onGroupSizeChange');
+    this.addEventListener(  ControlKit.EventType.GROUP_SIZE_UPDATE,this._parent,'onGroupSizeUpdate');
 };
 
 ControlKit.CanvasComponent.prototype = Object.create(ControlKit.ObjectComponent.prototype);
@@ -35,6 +37,7 @@ ControlKit.CanvasComponent.prototype._redraw = function(){};
 ControlKit.CanvasComponent.prototype.onGroupSizeChange = function()
 {
     var wrapNodeWidth = this._wrapNode.getWidth();
+
     this._canvas.setSize(wrapNodeWidth,wrapNodeWidth);
     this._updateHeight();
     this._redraw();

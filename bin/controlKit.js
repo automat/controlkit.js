@@ -697,7 +697,7 @@ ControlKit.Component = function(parent)
         lablNode    = this._lablNode = new ControlKit.Node(ControlKit.NodeType.SPAN),
         wrapNode    = this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV);
 
-    parent.addComponentRoot(rootNode);
+    parent.addComponentNode(rootNode);
     if(parent.hasLabel() && parent.getList().getNumChildren() == 1)
         rootNode.setStyleProperty('border-top','1px solid #303639');
 
@@ -2028,7 +2028,7 @@ ControlKit.SubGroup.prototype.onGroupSizeUpdate = function(){this.dispatchEvent(
 /*-------------------------------------------------------------------------------------*/
 
 ControlKit.SubGroup.prototype.hasLabel         = function()    {return this._headNode != null;};
-ControlKit.SubGroup.prototype.addComponentRoot = function(node){this._listNode.addChild(node);};
+ControlKit.SubGroup.prototype.addComponentNode = function(node){this._listNode.addChild(node);};
 
 /*-------------------------------------------------------------------------------------*/
 

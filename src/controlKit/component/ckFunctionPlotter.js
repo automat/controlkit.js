@@ -1,4 +1,4 @@
-ControlKit.FunctionPlotter = function(parent,object,value,label,params)
+ControlKit.FunctionPlotter = function(parent,object,value,params)
 {
     ControlKit.Plotter.apply(this,arguments);
 

@@ -1,6 +1,6 @@
-ControlKit.Select = function(parent,object,value,target,label,params)
+ControlKit.Select = function(parent,object,value,target,params)
 {
-    ControlKit.ObjectComponent.apply(this,arguments);
+    ControlKit.ObjectComponent.apply(this,[parent,object,value,params]);
 
     /*---------------------------------------------------------------------------------*/
 

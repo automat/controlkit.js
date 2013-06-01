@@ -1,4 +1,4 @@
-ControlKit.Output = function(parent,object,value,label,params)
+ControlKit.Output = function(parent,object,value,params)
 {
     ControlKit.ObjectComponent.apply(this,arguments);
 
@@ -16,8 +16,8 @@ ControlKit.Output = function(parent,object,value,label,params)
         wrapNode = this._wrapNode,
         rootNode = this._rootNode;
 
-    textArea.setProperty('readOnly',true);
-    wrapNode.addChild(textArea);
+        textArea.setProperty('readOnly',true);
+        wrapNode.addChild(textArea);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -51,7 +51,6 @@ ControlKit.Output = function(parent,object,value,label,params)
     }
 
     if(params.wrap)textArea.setStyleProperty('white-space','pre-wrap');
-
 
     /*---------------------------------------------------------------------------------*/
 

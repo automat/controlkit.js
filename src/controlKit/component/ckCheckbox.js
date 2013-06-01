@@ -1,4 +1,4 @@
-ControlKit.Checkbox = function(parent,object,value,label,params)
+ControlKit.Checkbox = function(parent,object,value,params)
 {
     ControlKit.ObjectComponent.apply(this,arguments);
 

@@ -1,6 +1,6 @@
 ControlKit.Button = function(parent,label,onPress)
 {
-    ControlKit.Component.apply(this,arguments);
+    ControlKit.Component.apply(this,[parent,label]);
 
     var input = this._textArea = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
 

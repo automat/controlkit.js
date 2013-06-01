@@ -4,83 +4,69 @@ ControlKit.SubGroup = function(parent,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    this._rootNode.setStyleClass(ControlKit.CSS.SubGroup);
-    this._wrapNode.setStyleClass(ControlKit.CSS.Wrap);
+    params           = params        || {};
+    params.label     = params.label  || null;
+    params.enable    = params.enable === undefined ? true : params.enable;
 
-    this._wrapNode.addChild(this._listNode);
-    this._rootNode.addChild(this._wrapNode);
+    /*---------------------------------------------------------------------------------*/
+
+    var rootNode = this._rootNode,
+        wrapNode = this._wrapNode,
+        listNode = this._listNode;
+
+        rootNode.setStyleClass(ControlKit.CSS.SubGroup);
+        wrapNode.setStyleClass(ControlKit.CSS.Wrap);
+
+        wrapNode.addChild(listNode);
+        rootNode.addChild(wrapNode);
 
     /*-------------------------------------------------------------------------------------*/
 
-    this._components = [];
+    var label = params.label;
 
-    this.set(params);
+    if(label)
+    {
+        if(label.length != 0 && label != 'none')
+        {
+            var headNode = this._headNode = new ControlKit.Node(ControlKit.NodeType.DIV),
+                lablWrap =                  new ControlKit.Node(ControlKit.NodeType.DIV),
+                lablNode =                  new ControlKit.Node(ControlKit.NodeType.SPAN),
+                indiNode = this._indiNode = new ControlKit.Node(ControlKit.NodeType.DIV);
 
-    parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,   this,  'onPanelMoveEnd');
-    parent.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE,this,  'onGroupSizeChange');
-    this.addEventListener(  ControlKit.EventType.GROUP_SIZE_UPDATE,parent,'onGroupSizeUpdate');
+                headNode.setStyleClass(ControlKit.CSS.Head);
+                lablWrap.setStyleClass(ControlKit.CSS.Wrap);
+                lablNode.setStyleClass(ControlKit.CSS.Label);
+                indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
+                lablNode.setProperty('innerHTML',label);
+
+                headNode.addChild(indiNode);
+                lablWrap.addChild(lablNode);
+                headNode.addChild(lablWrap);
+
+            headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
+            headNode.setEventListener(ControlKit.NodeEventType.MOUSE_UP,  this._onHeadMouseUp.bind(this));
+
+            rootNode.addChildAt(headNode,0);
+
+            if(!params.enable)this.disable();
+
+            this.addEventListener(ControlKit.EventType.SUBGROUP_TRIGGER,this._parent,'onSubGroupTrigger');
+        }
+    }
+
+    if(this.hasMaxHeight())this.setScrollBar();
+
+    /*-------------------------------------------------------------------------------------*/
+
+    this._parent.addEventListener(ControlKit.EventType.SUBGROUP_ENABLE,  this, 'onEnable');
+    this._parent.addEventListener(ControlKit.EventType.SUBGROUP_DISABLE, this, 'onDisable');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,   this, 'onPanelMoveEnd');
+    this._parent.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE,this, 'onGroupSizeChange');
+
+    this.addEventListener(ControlKit.EventType.GROUP_SIZE_UPDATE,this._parent,'onGroupSizeUpdate');
 };
 
 ControlKit.SubGroup.prototype = Object.create(ControlKit.AbstractGroup.prototype);
-
-/*-------------------------------------------------------------------------------------*/
-
-ControlKit.SubGroup.prototype.set = function(params)
-{
-    /*-------------------------------------------------------------------------------------*/
-
-    params           = params || {};
-    params.enable    = params.enable === undefined ? true : params.enable;
-    params.label     = params.label     || null;
-    params.height    = params.height || null;
-
-    var parent = this._parent;
-
-    /*-------------------------------------------------------------------------------------*/
-
-    if(params.label && params.label.length!=0 )
-    {
-        var headNode = this._headNode = new ControlKit.Node(ControlKit.NodeType.DIV),
-            lablWrap =                  new ControlKit.Node(ControlKit.NodeType.DIV),
-            lablNode =                  new ControlKit.Node(ControlKit.NodeType.SPAN),
-            indiNode = this._indiNode = new ControlKit.Node(ControlKit.NodeType.DIV);
-
-        headNode.setStyleClass(ControlKit.CSS.Head);
-        lablWrap.setStyleClass(ControlKit.CSS.Wrap);
-        lablNode.setStyleClass(ControlKit.CSS.Label);
-        indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
-
-        lablNode.setProperty('innerHTML',params.label);
-
-        headNode.addChild(indiNode);
-        lablWrap.addChild(lablNode);
-        headNode.addChild(lablWrap);
-
-        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
-        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_UP,  this._onHeadMouseUp.bind(this));
-
-        this.addEventListener(ControlKit.EventType.SUBGROUP_TRIGGER,parent,'onSubGroupTrigger');
-
-        this._rootNode.addChildAt(headNode,0);
-
-        if(!params.enable)this.disable();
-    }
-
-    /*-------------------------------------------------------------------------------------*/
-
-    if(params.maxHeight)
-    {
-        var height   = this._height = params.height,
-            wrapNode = this._wrapNode;
-
-        if(!this._disabled)wrapNode.setHeight(height);
-
-        this._scrollbar  = new ControlKit.ScrollBar(wrapNode,this._listNode,height);
-    }
-
-    parent.addEventListener(ControlKit.EventType.SUBGROUP_ENABLE,  this, 'onEnable');
-    parent.addEventListener(ControlKit.EventType.SUBGROUP_DISABLE, this, 'onDisable');
-};
 
 /*-------------------------------------------------------------------------------------*/
 
@@ -107,19 +93,17 @@ ControlKit.SubGroup.prototype._updateAppearance = function()
     }
     else
     {
-        var height = this._height;
+        var height   = this.hasMaxHeight() ?
+                       this.getMaxHeight() :
+                       this._wrapNode.getFirstChild().getHeight();
 
-        this._wrapNode.setHeight(height ? height : this._wrapNode.getFirstChild().getHeight());
+        this._wrapNode.setHeight(height);
         this._headNode.setStyleClass(ControlKit.CSS.Head);
         this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
     }
 };
 
-ControlKit.SubGroup.prototype.update = function()
-{
-    if(!this._height)return;
-    this._scrollbar.update();
-};
+ControlKit.SubGroup.prototype.update = function(){if(this.hasMaxHeight())this._scrollBar.update();};
 
 /*-------------------------------------------------------------------------------------*/
 
@@ -133,7 +117,7 @@ ControlKit.SubGroup.prototype.onPanelMoveEnd    = function(){this.dispatchEvent(
 /*-------------------------------------------------------------------------------------*/
 
 ControlKit.SubGroup.prototype.hasLabel         = function()    {return this._headNode != null;};
-ControlKit.SubGroup.prototype.addComponentRoot = function(node){this._listNode.addChild(node);};
+ControlKit.SubGroup.prototype.addComponentNode = function(node){this._listNode.addChild(node);};
 
 
 

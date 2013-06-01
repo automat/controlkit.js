@@ -1,4 +1,4 @@
-ControlKit.StringInput = function(parent,object,value,label,params)
+ControlKit.StringInput = function(parent,object,value,params)
 {
     ControlKit.ObjectComponent.apply(this,arguments);
 

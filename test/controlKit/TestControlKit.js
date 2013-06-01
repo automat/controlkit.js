@@ -116,34 +116,40 @@ function TestControlKit(parentDomElementId)
 
     var panel0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [20, 20]});
     var group01 = panel0.addGroup()
-                        .addSubGroup({label:'Function Select'})
+        .addSubGroup({label: 'Function Select'})
 
-                        .addFunctionPlotter(object,'funcTarget','graph')
-        .addStringOutput(object,'funcTarget',null)
-        .addSelect(object, 'funcs','funcTarget','select')
-        .addSubGroup({label:'Function Plot'})
-        .addValuePlotter(object,'changeValue0','f(x)',{lineColor: [237, 20, 91]})
-        .addRange(object, 'range','T add')
-        .addSlider(object, 'range', 'T Speed','slideValue')
+        .addFunctionPlotter(object, 'funcTarget', {label: 'Graph'})
+        .addStringOutput(object, 'funcTarget')
+        .addSelect(object, 'funcs', 'funcTarget')
+        .addSubGroup({label: 'Function Plot'})
+        .addValuePlotter(object, 'changeValue0', {lineColor: [237, 20, 91]})
+        .addRange(object, 'range')
+        .addSlider(object, 'range', 'slideValue');
 
 
 
-/*
+
 
     var control0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [20, 20]}),
-        group00 = control0.addGroup({height: 200})
+        group00 = control0.addGroup({label:'label',height:100})
             .addSubGroup()
-            .addValuePlotter(object, 'changeValue2', 'randF', {height: 35, lineWidth: 2, lineColor: [237, 20, 91]})
-            .addValuePlotter(object, 'changeValue3', 'rect', {height: 35, lineWidth: 2})
-            .addNumberOutput(object, 'changeValue0', 'changeValue0')
-            .addNumberOutput(object, 'changeValue1', 'changeValue1')
-            .addStringOutput(object, 'selectOptions', 'val', {height: 60, wrap: true})
-            .addNumberOutput(object, 'changeValue1', 'changeValue1')
-            .addStringInput(object, 'string', 'Input Comp')
-            .addRange(object, 'range', 'Range Comp')
-            .addSlider(object, 'range', 'slideValue', 'slider')
-            .addSelect(object, 'selectOptions', 'selectTarget', 'select')
+            .addValuePlotter(object, 'changeValue2', {height: 35, lineWidth: 2, lineColor: [237, 20, 91]})
+            .addValuePlotter(object, 'changeValue3', {height: 35, lineWidth: 2})
+            .addNumberOutput(object, 'changeValue0')
+            control0.addGroup({height:150})
+            .addSubGroup({label:'label',height:150})
+            .addNumberOutput(object, 'changeValue1')
+            .addStringOutput(object, 'selectOptions', {height: 60, wrap: true})
+            .addNumberOutput(object, 'changeValue1')
+            .addStringInput(object, 'string')
+            .addRange(object, 'range')
+            .addSelect(object, 'selectOptions', 'selectTarget')
+                .addSubGroup({label:'hello'})
+                .addStringInput(object, 'string'  )
 
+
+
+    /*
 
     control0.addGroup({label: 'level', height: 200})
         .addSubGroup({label: 'noise', height: 200})
@@ -153,16 +159,16 @@ function TestControlKit(parentDomElementId)
         .addNumberOutput(object, 'changeValue1', 'changeValue1')
         .addStringInput(object, 'string', 'Input Comp')
         .addRange(object, 'range', 'Range Comp')
-        .addSlider(object, 'range', 'slideValue', 'slider')
+      //  .addSlider(object, 'range', 'slideValue', 'slider')
         .addSelect(object, 'selectOptions', 'selectTarget', 'select')
 
 
         .addSubGroup({label: 'grain', show: false, height: 150})
         .addRange(object, 'range', 'Range Comp')
-        .addSlider(object, 'range', 'slideValue', 'slider')
+        //.addSlider(object, 'range', 'slideValue', 'slider')
         .addSelect(object, 'selectOptions', 'selectTarget', 'select')
         .addRange(object, 'range', 'Range Comp')
-        .addSlider(object, 'range', 'slideValue', 'slider')
+   //     .addSlider(object, 'range', 'slideValue', 'slider')
         .addSelect(object, 'selectOptions', 'selectTarget', 'select');
 
 
@@ -208,12 +214,6 @@ function TestControlKit(parentDomElementId)
 
 
 
-    var control1 = controlKit.addPanel({width: 200, position: [300, 10], fixed: false});
-
-    control1.addGroup().addSubGroup()
-        .addSlider(object, 'range', 'slideValue', 'slider');
-
-
     control0.addGroup({label: 'Group'})
         .addSubGroup()
         .addSelect(object, 'selectOptions', 'selectTarget', 'Select Comp')
@@ -237,6 +237,7 @@ function TestControlKit(parentDomElementId)
         .addValuePlotter(object, 'changeValue1', 'valuePlotter', {height: 100})
         .addNumberOutput(object, 'changeValue1', '', {dp: 4});
     control1.addGroup({label: 'Group 1'})
+        .addSubGroup()
         .addRange(object, 'range', 'Range Comp')
         .addCheckbox(object, 'bool', 'Bool Comp')
         .addSelect(object, 'selectOptions', 'selectTarget', 'Select Comp')
@@ -259,6 +260,7 @@ function TestControlKit(parentDomElementId)
     var control3 = controlKit.addPanel({label: 'Numbers', width: 150, position: [490, 10], fixed: false});
 
     control3.addGroup()
+        .addSubGroup()
         .addNumberOutput(object, 'changeValue0', 'sgn')
         .addNumberOutput(object, 'changeValue1', 'tri')
         .addNumberOutput(object, 'changeValue2', 'randF')
@@ -270,6 +272,7 @@ function TestControlKit(parentDomElementId)
     var control4 = controlKit.addPanel({label: 'Swing', width: 200, position: [700, 510], fixed: false});
 
     control4.addGroup()
+        .addSubGroup()
         .addPad(object, 'xyChangeValue', 'Freq Transform', {axisLabels: ['SPEED', 'random'], showCross: false})
         .addNumberOutput(object, 'xyChangeValue')
         .addButton('reset', function ()
@@ -280,6 +283,7 @@ function TestControlKit(parentDomElementId)
     var control5 = controlKit.addPanel({label: 'YAY Panel Big', width: 200, position: [490, 405], fixed: false});
 
     control5.addGroup()
+        .addSubGroup()
         .addValuePlotter(object, 'changeValue1', 'tri x1', {height: 60, lineWidth: 1, lineColor: [237, 20, 91]})
         .addValuePlotter(object, 'changeValue1', 'tri x2', {height: 60, lineWidth: 2, lineColor: [237, 20, 91], resolution: 2})
         .addValuePlotter(object, 'changeValue1', 'tri x4', {height: 60, lineWidth: 4, lineColor: [237, 20, 91], resolution: 4})
@@ -289,12 +293,15 @@ function TestControlKit(parentDomElementId)
     control5 = controlKit.addPanel({label: 'YAY Panel Big', width: 100, position: [690, 405], fixed: false});
 
     control5.addGroup()
+        .addSubGroup()
         .addPad(object, 'xyValue', 'pad')
         .addPad(object, 'xyValue', 'pad')
         .addPad(object, 'xyValue', 'pad')
         .addPad(object, 'xyValue', 'pad');
 
-        */
+    */
+
+
 
 
 
@@ -309,6 +316,15 @@ function TestControlKit(parentDomElementId)
             t+=object.slideValue;
 
             object.changeValue0 = object.funcTarget(t);//sgn(sint);
+            sint = Math.sin(t);
+
+            object.changeValue1 = tri(sint);
+
+            object.changeValue2 = randomFloat(-1,1);
+            object.changeValue3 = rect(sint);
+            object.changeValue4 = randomInteger(-1,1);
+            object.changeValue5 = frac(sint);
+            object.changeValue6 = sint;
 
             /*
             t+=object.xyChangeValue[0];

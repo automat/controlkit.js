@@ -1,4 +1,4 @@
-ControlKit.Plotter = function(parent,object,value,label,params)
+ControlKit.Plotter = function(parent,object,value,params)
 {
     ControlKit.CanvasComponent.apply(this,arguments);
 

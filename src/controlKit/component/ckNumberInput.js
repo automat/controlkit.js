@@ -1,4 +1,4 @@
-ControlKit.NumberInput = function(parent,object,value,label,params)
+ControlKit.NumberInput = function(parent,object,value,params)
 {
     ControlKit.ObjectComponent.apply(this,arguments);
 

@@ -4,109 +4,86 @@ ControlKit.Group = function(parent,params)
 
     /*-------------------------------------------------------------------------------------*/
 
-    params = params || {};
-
-    /*-------------------------------------------------------------------------------------*/
-
-    var rootNode = this._rootNode.setStyleClass(ControlKit.CSS.Group),
-        wrapNode = this._wrapNode.setStyleClass(ControlKit.CSS.Wrap),
-        listNode = this._listNode.setStyleClass(ControlKit.CSS.SubGroupList);
-
-    //TODO: FIX ORDER!!!*_*
-    wrapNode.addChild(listNode);
-    this.set(params);
-    rootNode.addChild(wrapNode);
-    this._setBuffer(params);
-
-    /*-------------------------------------_collapsed-----------------------------------------*/
-
-    this._components = [];
-    this._subGroups  = [];
-
-    /*-------------------------------------------------------------------------------------*/
-
-    this._subGroupsInit = false;
-    this._subGroups.push(new ControlKit.SubGroup(this,'',null));
-
-    /*-------------------------------------------------------------------------------------*/
-
-    parent.addEventListener(ControlKit.EventType.PANEL_MOVE_BEGIN,this,'onPanelMoveBegin');
-    parent.addEventListener(ControlKit.EventType.PANEL_MOVE,      this,'onPanelMove');
-    parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,  this,'onPanelMoveEnd');
-    parent.addEventListener(ControlKit.EventType.PANEL_HIDE,      this,'onPanelHide');
-    parent.addEventListener(ControlKit.EventType.PANEL_SHOW,      this,'onPanelShow');
-
-};
-
-ControlKit.Group.prototype = Object.create(ControlKit.AbstractGroup.prototype);
-
-/*-------------------------------------------------------------------------------------*/
-
-ControlKit.Group.prototype.set = function(params)
-{
-    /*-------------------------------------------------------------------------------------*/
-
+    params           = params || {};
     params.label     = params.label     || null;
     params.useLabels = params.useLabels || true;
     params.enable    = params.enable === undefined ? true : params.enable;
 
     /*-------------------------------------------------------------------------------------*/
 
-    if(params.label)
+    this._components = [];
+    this._subGroups  = [];
+
+    /*-------------------------------------------------------------------------------------*/
+
+    var rootNode = this._rootNode,
+        wrapNode = this._wrapNode,
+        listNode = this._listNode;
+
+        rootNode.setStyleClass(ControlKit.CSS.Group);
+        wrapNode.setStyleClass(ControlKit.CSS.Wrap);
+        listNode.setStyleClass(ControlKit.CSS.SubGroupList);
+
+        wrapNode.addChild(listNode);
+
+    /*-------------------------------------------------------------------------------------*/
+
+    var label = params.label;
+
+    if(label)
     {
         var headNode  = new ControlKit.Node(ControlKit.NodeType.DIV),
             lablWrap  = new ControlKit.Node(ControlKit.NodeType.DIV),
             lablNode  = new ControlKit.Node(ControlKit.NodeType.SPAN),
             indiNode  = this._indiNode = new ControlKit.Node(ControlKit.NodeType.DIV);
 
-        headNode.setStyleClass(ControlKit.CSS.Head);
-        lablWrap.setStyleClass(ControlKit.CSS.Wrap);
-        lablNode.setStyleClass(ControlKit.CSS.Label);
-        indiNode.setStyleClass(ControlKit.CSS.ArrowBMax);
-        lablNode.setProperty('innerHTML',params.label);
+            headNode.setStyleClass(ControlKit.CSS.Head);
+            lablWrap.setStyleClass(ControlKit.CSS.Wrap);
+            lablNode.setStyleClass(ControlKit.CSS.Label);
+            indiNode.setStyleClass(ControlKit.CSS.ArrowBMax);
+            lablNode.setProperty('innerHTML',label);
 
-        headNode.addChild(indiNode);
-        lablWrap.addChild(lablNode);
-        headNode.addChild(lablWrap);
+            headNode.addChild(indiNode);
+            lablWrap.addChild(lablNode);
+            headNode.addChild(lablWrap);
 
         headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadDragStart.bind(this));
 
-        this._rootNode.addChild(headNode);
+        rootNode.addChild(headNode);
 
         if(!params.enable)this.disable();
     }
 
+    if(this.hasMaxHeight())this.setScrollBar();
+
+    rootNode.addChild(wrapNode);
+
+    if(this.hasMaxHeight())
+    {
+        if(!label)
+        {
+            var bufferTop = this._scrollBufferTop = new ControlKit.Node(ControlKit.NodeType.DIV);
+                bufferTop.setStyleClass(ControlKit.CSS.ScrollBuffer);
+
+            rootNode.addChildAt(bufferTop,0);
+        }
+
+        var bufferBottom = this._scrollBufferBottom = new ControlKit.Node(ControlKit.NodeType.DIV);
+            bufferBottom.setStyleClass(ControlKit.CSS.ScrollBuffer);
+
+        rootNode.addChild(bufferBottom);
+    }
+
     /*-------------------------------------------------------------------------------------*/
 
-    if(params.height)
-    {
-        var height   = this._height = params.height,
-            wrapNode = this._wrapNode;
-
-        if(this.isEnabled())wrapNode.setHeight(height);
-        this._scrollbar  = new ControlKit.ScrollBar(wrapNode,this._listNode,height);
-    }
+    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_BEGIN,this,'onPanelMoveBegin');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE,      this,'onPanelMove');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,  this,'onPanelMoveEnd');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_HIDE,      this,'onPanelHide');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_SHOW,      this,'onPanelShow');
 };
 
-//TODO: Rethink
-ControlKit.Group.prototype._setBuffer = function(params)
-{
-    if(!params.height)return;
-
-    var rootNode = this._rootNode,
-        style    = ControlKit.CSS.ScrollBuffer;
-
-    if(!params.label)
-    {
-        var bufferTop = this._scrollBufferTop = new ControlKit.Node(ControlKit.NodeType.DIV);
-            bufferTop.setStyleClass(style);
-            rootNode.addChildAt(bufferTop,0);
-    }
-
-    var bufferBottom = this._scrollBufferBottom = new ControlKit.Node(ControlKit.NodeType.DIV);
-        bufferBottom.setStyleClass(style);
-        rootNode.addChild(bufferBottom);
-};
+ControlKit.Group.prototype = Object.create(ControlKit.AbstractGroup.prototype);
 
 /*-------------------------------------------------------------------------------------*/
 
@@ -122,24 +99,20 @@ ControlKit.Group.prototype.onPanelShow      = function(){this.dispatchEvent(new 
 ControlKit.Group.prototype.onSubGroupTrigger = function()
 {
     this._updateHeight();
-    if(!this._height)return;
-    this._updateScrollBar();
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE,null));
-};
 
-ControlKit.Group.prototype._updateScrollBar = function()
-{
-    var scrollbar = this._scrollbar,
+    if(!this.hasMaxHeight())return;
+
+    var scrollBar = this._scrollBar,
         wrapNode  = this._wrapNode;
 
     var bufferTop    = this._scrollBufferTop,
         bufferBottom = this._scrollBufferBottom;
 
-    scrollbar.update();
+    scrollBar.update();
 
-    if(!scrollbar.isValid())
+    if(!scrollBar.isValid())
     {
-        scrollbar.disable();
+        scrollBar.disable();
         wrapNode.setHeight(wrapNode.getChildAt(1).getHeight());
 
         if(bufferTop   )bufferTop.setStyleProperty(   'display','none');
@@ -147,13 +120,14 @@ ControlKit.Group.prototype._updateScrollBar = function()
     }
     else
     {
-        scrollbar.enable();
-        wrapNode.setHeight(this._height);
+        scrollBar.enable();
+        wrapNode.setHeight(this.getMaxHeight());
 
         if(bufferTop   )bufferTop.setStyleProperty(   'display','block');
         if(bufferBottom)bufferBottom.setStyleProperty('display','block');
     }
 
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE,null));
 };
 
 /*-------------------------------------------------------------------------------------*/
@@ -162,20 +136,19 @@ ControlKit.Group.prototype._onHeadDragStart   = function(){this._disabled = !thi
 
 /*-------------------------------------------------------------------------------------*/
 
-ControlKit.Group.prototype.addStringInput     = function(object,value,label,params)       {return this._addComponent(new ControlKit.StringInput(     this.getSubGroup(),object,value,label,params));};
-ControlKit.Group.prototype.addNumberInput     = function(object,value,label,params)       {return this._addComponent(new ControlKit.NumberInput(     this.getSubGroup(),object,value,label,params));};
-ControlKit.Group.prototype.addRange           = function(object,value,label,params)       {return this._addComponent(new ControlKit.Range(           this.getSubGroup(),object,value,label,params));};
-ControlKit.Group.prototype.addCheckbox        = function(object,value,label,params)       {return this._addComponent(new ControlKit.Checkbox(        this.getSubGroup(),object,value,label,params));};
-ControlKit.Group.prototype.addButton          = function(label,onPress)                   {return this._addComponent(new ControlKit.Button(          this.getSubGroup(),label,onPress));};
-ControlKit.Group.prototype.addSelect          = function(object,value,target,label,params){return this._addComponent(new ControlKit.Select(          this.getSubGroup(),object,value,target,label,params));};
-ControlKit.Group.prototype.addSlider          = function(object,value,target,label,params){return this._addComponent(new ControlKit.Slider(          this.getSubGroup(),object,value,target,label,params));};
+ControlKit.Group.prototype.addStringInput     = function(object,value,params)       {return this._addComponent(new ControlKit.StringInput(     this.getSubGroup(),object,value,params));};
+ControlKit.Group.prototype.addNumberInput     = function(object,value,params)       {return this._addComponent(new ControlKit.NumberInput(     this.getSubGroup(),object,value,params));};
+ControlKit.Group.prototype.addRange           = function(object,value,params)       {return this._addComponent(new ControlKit.Range(           this.getSubGroup(),object,value,params));};
+ControlKit.Group.prototype.addCheckbox        = function(object,value,params)       {return this._addComponent(new ControlKit.Checkbox(        this.getSubGroup(),object,value,params));};
+ControlKit.Group.prototype.addButton          = function(label,onPress)             {return this._addComponent(new ControlKit.Button(          this.getSubGroup(),label,onPress));};
+ControlKit.Group.prototype.addSelect          = function(object,value,target,params){return this._addComponent(new ControlKit.Select(          this.getSubGroup(),object,value,target,params));};
+ControlKit.Group.prototype.addSlider          = function(object,value,target,params){return this._addComponent(new ControlKit.Slider(          this.getSubGroup(),object,value,target,params));};
 
-ControlKit.Group.prototype.addFunctionPlotter = function(object,value,label,params)       {return this._addComponent(new ControlKit.FunctionPlotter( this.getSubGroup(),object,value,label,params));};
-ControlKit.Group.prototype.addPad             = function(object,value,label,params)       {return this._addComponent(new ControlKit.Pad(             this.getSubGroup(),object,value,label,params));};
-ControlKit.Group.prototype.addValuePlotter    = function(object,value,label,params)       {return this._addComponent(new ControlKit.ValuePlotter(    this.getSubGroup(),object,value,label,params));};
-ControlKit.Group.prototype.addNumberOutput    = function(object,value,label,params)       {return this._addComponent(new ControlKit.NumberOutput(    this.getSubGroup(),object,value,label,params));};
-ControlKit.Group.prototype.addStringOutput    = function(object,value,label,params)       {return this._addComponent(new ControlKit.StringOutput(    this.getSubGroup(),object,value,label,params));};
-
+ControlKit.Group.prototype.addFunctionPlotter = function(object,value,params)       {return this._addComponent(new ControlKit.FunctionPlotter( this.getSubGroup(),object,value,params));};
+ControlKit.Group.prototype.addPad             = function(object,value,params)       {return this._addComponent(new ControlKit.Pad(             this.getSubGroup(),object,value,params));};
+ControlKit.Group.prototype.addValuePlotter    = function(object,value,params)       {return this._addComponent(new ControlKit.ValuePlotter(    this.getSubGroup(),object,value,params));};
+ControlKit.Group.prototype.addNumberOutput    = function(object,value,params)       {return this._addComponent(new ControlKit.NumberOutput(    this.getSubGroup(),object,value,params));};
+ControlKit.Group.prototype.addStringOutput    = function(object,value,params)       {return this._addComponent(new ControlKit.StringOutput(    this.getSubGroup(),object,value,params));};
 
 /*-------------------------------------------------------------------------------------*/
 
@@ -196,7 +169,7 @@ ControlKit.Group.prototype._updateHeight = function()
 
     this.getSubGroup().update();
 
-    if(this._height)this._scrollbar.update();
+    if(this.hasMaxHeight())this._scrollBar.update();
 };
 
 /*----------------------------------------------------------collapsed---------------------*/
@@ -206,76 +179,60 @@ ControlKit.Group.prototype._updateAppearance = function()
     var wrapNode = this._wrapNode,
         inidNode = this._indiNode;
 
+    var scrollBar = this._scrollBar;
+
     var bufferTop    = this._scrollBufferTop,
         bufferBottom = this._scrollBufferBottom;
-
-    var scrollbar    = this._scrollbar;
 
     if(this.isDisabled())
     {
         wrapNode.setHeight(0);
         if(inidNode)inidNode.setStyleClass(ControlKit.CSS.ArrowBMin);
 
-        if(scrollbar)
+        if(scrollBar)
         {
             if(bufferTop   )bufferTop.setStyleProperty(   'display','none');
             if(bufferBottom)bufferBottom.setStyleProperty('display','none');
         }
+
+        return;
+    }
+
+    var maxHeight = this.getMaxHeight(),
+        listHeight;
+
+    if (maxHeight)
+    {
+        listHeight = wrapNode.getChildAt(1).getHeight();
+        wrapNode.setHeight(listHeight < maxHeight ? listHeight : maxHeight);
+
+        if (scrollBar.isValid())
+        {
+            if (bufferTop)bufferTop.setStyleProperty('display', 'block');
+            if (bufferBottom)bufferBottom.setStyleProperty('display', 'block');
+        }
     }
     else
     {
-        var maxHeight = this._height,
-            listHeight;
-
-        if(maxHeight)
-        {
-            listHeight = wrapNode.getChildAt(1).getHeight();
-            wrapNode.setHeight(listHeight < maxHeight ? listHeight : maxHeight);
-        }
-        else
-        {
-            listHeight = wrapNode.getFirstChild().getHeight();
-            wrapNode.setHeight(listHeight);
-        }
-
-        if(inidNode)inidNode.setStyleClass(ControlKit.CSS.ArrowBMax);
-
-        if(scrollbar)
-        {
-            if(scrollbar.isValid())
-            {
-                if(bufferTop   )bufferTop.setStyleProperty(   'display','block');
-                if(bufferBottom)bufferBottom.setStyleProperty('display','block');
-            }
-        }
+        listHeight = wrapNode.getFirstChild().getHeight();
+        wrapNode.setHeight(listHeight);
     }
+
+    if (inidNode)inidNode.setStyleClass(ControlKit.CSS.ArrowBMax);
 };
 
-ControlKit.Group.prototype.onGroupSizeUpdate = function(){this._updateAppearance();this._scrollbar.update();};
+ControlKit.Group.prototype.onGroupSizeUpdate = function(){this._updateAppearance();this._scrollBar.update();};
 
 /*-------------------------------------------------------------------------------------*/
 
 ControlKit.Group.prototype.addSubGroup  = function(params)
 {
-    if(!this._subGroupsInit)
-    {
-        this.getSubGroup().set(params);
-        this._subGroupsInit = true;
-    }
-    else this._subGroups.push(new ControlKit.SubGroup(this,params));
-
+    this._subGroups.push(new ControlKit.SubGroup(this,params));
     this._updateHeight();
     return this;
 };
 
-ControlKit.Group.prototype.getSubGroup = function(){var subGroups = this._subGroups;return subGroups[subGroups.length-1];};
-
 /*-------------------------------------------------------------------------------------*/
 
+ControlKit.Group.prototype.getSubGroup   = function(){var subGroups = this._subGroups;return subGroups[subGroups.length-1];};
 ControlKit.Group.prototype.getComponents = function(){return this._components;};
-
-
-
-
-
-

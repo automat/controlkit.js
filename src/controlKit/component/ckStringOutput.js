@@ -1,4 +1,4 @@
-ControlKit.StringOutput = function(parent,object,value,label,params)
+ControlKit.StringOutput = function(parent,object,value,params)
 {
     ControlKit.Output.apply(this,arguments);
 };

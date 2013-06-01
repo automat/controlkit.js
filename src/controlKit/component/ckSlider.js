@@ -1,19 +1,23 @@
-ControlKit.Slider = function(parent,object,value,label,target,params)
+ControlKit.Slider = function(parent,object,value,target,params)
 {
-    ControlKit.ObjectComponent.apply(this,arguments);
+    /*---------------------------------------------------------------------------------*/
+
+    params          = params          || {};
+    params.label    = params.label    || target;
+
+    /*---------------------------------------------------------------------------------*/
+
+    ControlKit.ObjectComponent.apply(this,[parent,object,value,params]);
 
     this._values  = this._object[this._key];
     this._targetKey = target;
 
     /*---------------------------------------------------------------------------------*/
 
-    params          = params          || {};
     params.step     = params.step     || 1;
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
     params.dp       = params.dp       || 2;
-
-    console.log(label);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -22,15 +26,14 @@ ControlKit.Slider = function(parent,object,value,label,target,params)
     this._onFinish = params.onFinish;
     this._dp       = params.dp;
 
+    /*---------------------------------------------------------------------------------*/
+
     var values    = this._values,
         obj       = this._object,
         targetKey = this._targetKey;
 
     var wrapNode  = this._wrapNode;
-
-    /*---------------------------------------------------------------------------------*/
-
-    wrapNode.setStyleClass(ControlKit.CSS.WrapSlider);
+        wrapNode.setStyleClass(ControlKit.CSS.WrapSlider);
 
     var slider = this._slider = new ControlKit.Slider_Internal(wrapNode,
                                                                this._onSliderBegin.bind(this),
@@ -61,7 +64,18 @@ ControlKit.Slider = function(parent,object,value,label,target,params)
 
 ControlKit.Slider.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 
-ControlKit.Slider.prototype.pushHistoryState = function(){var obj = this._object,key = this._targetKey;ControlKit.History.getInstance().pushState(obj,key,obj[key]);};
+/*---------------------------------------------------------------------------------*/
+
+
+ControlKit.Slider.prototype.pushHistoryState = function()
+{
+    var obj = this._object,
+        key = this._targetKey;
+    ControlKit.History.getInstance().pushState(obj,key,obj[key]);
+};
+
+/*---------------------------------------------------------------------------------*/
+
 
 ControlKit.Slider.prototype._onSliderBegin  = function(){this.pushHistoryState();};
 
