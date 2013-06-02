@@ -9,11 +9,11 @@
   box-shadow:        $temp;
 }
 
-@mixin box-shadow-arg($arg)
+@mixin box-shadow-args($args...)
 {
-  -webkit-box-shadow:$arg;
-  -moz-box-shadow:   $arg;
-  box-shadow:        $arg;
+  -webkit-box-shadow:$args;
+  -moz-box-shadow:   $args;
+  box-shadow:        $args;
 }
 
 @mixin box-shadow-mult2($h0, $v0, $blur0, $spread0, $color0, $inset0,
@@ -27,12 +27,35 @@ $h1, $v1, $blur1, $spread1, $color1, $inset1)
   box-shadow:        $temp;
 }
 
-@mixin linear-gradient($color0,$color1,$start,$end)
+@mixin linear-gradient($args...)
 {
-  background-image:-webkit-linear-gradient($color0 $start, $color1 $end);
-  background-image:-moz-linear-gradient(   $color0 $start, $color1 $end);
-  background-image:-o-linear-gradient(     $color0 $start, $color1 $end);
-  background-image:linear-gradient(        $color0 $start, $color1 $end);
+  background-image:-webkit-linear-gradient($args);
+  background-image:-moz-linear-gradient(   $args);
+  background-image:-o-linear-gradient(     $args);
+  background-image:linear-gradient(        $args);
+}
+
+@mixin vertical-linear-gradient($args...){@include linear-gradient($args);}
+
+@mixin horizontal-linear-gradient($args...)
+{
+  background-image: -moz-linear-gradient(left,$args);
+  background-image: -o-linear-gradient(left,  $args);
+  background-image: linear-gradient(to right, $args);
+}
+
+@mixin linear-gradient-with-image($gradient,$image)
+{
+  background: $image,linear-gradient(     #{$gradient});
+  background: $image,-moz-linear-gradient(#{$gradient});
+  background: $image,o-linear-gradient(   #{$gradient});
+  background: $image,linear-gradient(     #{$gradient});
+
+}
+
+@mixin color-with-image($args...)
+{
+  background: $image,$color;
 }
 
 @mixin user-select
@@ -59,3 +82,4 @@ $h1, $v1, $blur1, $spread1, $color1, $inset1)
   -webkit-border-radius: $radius;
 
 }
+

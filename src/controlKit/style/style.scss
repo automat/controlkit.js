@@ -3,6 +3,27 @@
 @import "_presets";
 @import "_images";
 
+@mixin component-border
+{
+  @include
+  border-radius($compBorderRadius);
+  border-bottom:$compBorderBottom;
+}
+
+@mixin component-input-border
+{
+  border:none;
+  @include
+  box-shadow-args($compInsetShadow);
+  @include
+  component-border;
+}
+
+/*
+ *
+ * TODO: DATA URL TO SVG
+ */
+
 
 #controlKit
 {
@@ -21,7 +42,7 @@
     background-color: $panelColorBg;
 
     @include
-    box-shadow(0, 0, 1px, 1px, $panelShadowColor);
+    box-shadow-args($panelBoxShadow);
 
     font-family: $fontFamily;
 
@@ -44,180 +65,131 @@
       @include
       box-sizing(border-box);
 
-      height:       $inputHeight;
-      width:        100%;
-      padding-left: 8px;
+      height:  $inputHeight;
+      width:   100%;
+      padding: $inputPadding;
+
+      font-family: $inputFontFamily;
+      font-size:   $inputFontSize;
+      color:       $inputFontColor;
+      text-shadow: $inputFontShadow;
 
       background-color: $inputColorBg;
 
-      font:
-      {
-        family: $inputFontFamily;
-        size:   $inputFontSize;
-      }
-
-      color:       $inputFontColor;
-      text-shadow: $fontShadowDefault;
-
-      border: none;
       @include
-      border-radius($inputBorderRadius);
+      linear-gradient($inputGradientStartColor 0%,
+                      $inputGradientEndColor 100%);
 
       @include
-      linear-gradient($inputGradientStartColor, $inputGradientEndColor,
-        0%,100%);
-      @include
-      box-shadow-mult2(0,0,1px,2px,rgba(0,0,0,0.0125),inset,
-                       0,0,1px,1px,#111314,inset);
-      border-bottom: $borderBottomDrop;
+      component-input-border;
     }
 
     textarea
     {
-      padding: 5px 8px 2px 8px;
-      overflow: hidden;
-      resize:none;
+      padding:        $textareaPadding;
+      overflow:       hidden;
+      resize:         none;
       vertical-align: top;
-      white-space: nowrap;
+      white-space:    nowrap;
+    }
 
+
+    .button,.select,.selectActive
+    {
+      @include
+      box-sizing(border-box);
+
+      width:  100%;
+      height: $buttonHeight;
+      margin: $buttonMargin;
+
+      cursor: pointer;
+
+      background-color:        $buttonBgColor;
+      @include linear-gradient($buttonGradient);
+
+      font-family:    $buttonFontFamily;
+      color:          $buttonFontColor;
+
+      border: none;
+      @include border-radius(  $borderRadiusDefault);
+      @include box-shadow-args($buttonBoxShadow);
+      border-bottom:           $borderBottomDrop;
     }
 
     .button
     {
-      @include
-      box-sizing(border-box);
+      font-size:      $buttonFontSize;
+      font-weight:    $buttonFontWeight;
+      text-shadow:    $buttonTextShadow;
+      text-transform: $buttonTextTransform;
 
-      width: 100%;
-      height: $buttonHeight;
-      margin: -2px 0 0 0;
 
-      border: none;
-      @include
-      border-radius($borderRadiusDefault);
+      &:hover {background-image: none;}
+      &:active{@include linear-gradient($buttonGradientActive);}
 
-      background-color: $buttonBgColor;
-      @include
-      linear-gradient($buttonGradientStartColor,
-                      $buttonGradientEndColor,
-                      $buttonGradientStart,
-                      $buttonGradientEnd);
-
-      font:
-      {
-        family: $buttonFontFamily;
-        size:   $buttonFontSize;
-        weight: $buttonFontWeight;
-      };
-
-      color: #fff;
-      text-shadow: 0 -1px #000;
-      text-transform: uppercase;
-
-      @include
-      box-shadow-mult2(0,0,0,1px,#131313,inset,
-                       -1px,2px,0,0,#2a333d,inset);
-
-      border-bottom: $borderBottomDrop;
-
-      cursor: pointer;
-
-      &:hover
-      {
-        background-image: none;
-        background-color: #3c494e;
-      }
-
-      &:active
-      {
-        @include
-        linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0),0%,100%);
-      }
     }
-
-    .presetBtn,.presetBtnActive
-    {
-      float: right;
-
-      @include
-      box-sizing(border-box);
-
-      width:   20px;
-      height:  22px;
-
-      margin: 1px 0 0 0;
-
-      border: none;
-
-      border-top-right-radius: 2px;
-      border-bottom-right-radius: 2px;
-
-      font-family:    arial,sans-serif;
-      font-size:      10px;
-      font-weight:    bold;
-      color:          #fff;
-      text-shadow:    0 -1px #000;
-      text-transform: uppercase;
-
-      @include
-      box-shadow(0,1px,0,0,#2a333d,inset);
-
-      border-left: 1px solid #0f1112;
-
-      cursor: pointer;
-
-      position: absolute;
-      right: 1px;
-    }
-
-    .presetBtnActive,.presetBtn:hover{background: $imageBtnPreset, 50% 50% no-repeat,#3c494e;}
-    .presetBtn{background: $imageBtnPreset,50% 50% no-repeat, linear-gradient( rgb(58, 70, 75) 0%, rgb(44, 52, 55) 100%)}
-
 
     .select,.selectActive
     {
-      @include
-      box-sizing(border-box);
-
-      width: 100%;
-      height: 28px;
-
-      margin: -2px 0 0 0;
-
       padding-left: 10px;
       padding-right: 20px;
-      font-family: arial,sans-serif;
-      font-size:   11px;
-      text-align:  left;
-      color:       #fff;
-      text-shadow: 1px 1px #000;
 
-      border:none;
-      @include
-      border-radius(2px);
-
-      @include
-      box-shadow-mult2(0,0,0,1px,#131313,inset,
-                       -1px,2px,0,0,#2a333d,inset);
-
-      border-bottom: 1px solid #3b4447;
+      font-size:$compFontSize;
+      text-align:left;
+      text-shadow: $inputFontShadow;
 
       cursor:pointer;
 
       overflow:hidden;
       white-space: nowrap;
       text-overflow:ellipsis;
+
     }
 
     .select
     {
-      background: $imageSelect 100% 50% no-repeat,
-      linear-gradient(rgba(58, 70, 75, 1) 0%, rgba(44, 52, 55, 0) 100%);
+      @include linear-gradient-with-image(#{$selectGradient},$imageSelect 100% 50% no-repeat);
     }
 
     .select:hover,.selectActive
     {
       background: $imageSelect 100% 50% no-repeat,#3c494e;
     }
+
+
+
+
+    .presetBtn,.presetBtnActive
+    {
+      @include
+      box-sizing(border-box);
+
+      position: absolute;
+      right: 1px;
+
+      width:  $buttonPresetWidth;
+      height: $buttonPresetHeight;
+      margin: 1px 0 0 0;
+
+      cursor: pointer;
+
+      float: right;
+
+      border: none;
+      border-top-right-radius:    2px;
+      border-bottom-right-radius: 2px;
+      border-left: $buttonPresetBorderLeft;
+
+      @include box-shadow-args($buttonPresetBoxShadow);
+    }
+
+    .presetBtnActive,.presetBtn:hover{background: $imageBtnPreset, 50% 50% no-repeat,#3c494e;}
+    .presetBtn
+    {
+      @include linear-gradient-with-image(#{$buttonPresetGradient},$imageBtnPreset 50% 50% no-repeat);
+    }
+
 
     .scrollBar
     {
@@ -232,10 +204,7 @@
       margin:0;
       position: relative;
       background: #212628;
-
-      background-image: -moz-linear-gradient(left,rgba(26, 29, 31,1.0) 0%, rgba(26, 29, 31,0.0) 100%);
-      background-image: -o-linear-gradient(left,  rgba(26, 29, 31,1.0) 0%, rgba(26, 29, 31,0.0) 100%);
-      background-image: linear-gradient(to right, rgba(26, 29, 31,1.0) 0%, rgba(26, 29, 31,0.0) 100%);
+      @include horizontal-linear-gradient(rgba(26, 29, 31,1.0) 0%, rgba(26, 29, 31,0.0) 100%);
 
       .track
       {
@@ -251,7 +220,7 @@
           background: #3b484e;
           position: absolute;
           @include
-          linear-gradient(#3a4145,#363c40,0%,100%);
+          linear-gradient(#3a4145 0%,#363c40 100%);
           border: 1px solid #15181a;;
           @include
           box-shadow(0,1px,0,0,#434b50,inset);
@@ -261,69 +230,7 @@
 
     }
 
-    .options
-    {
-      @include
-      box-sizing(border-box);
 
-      border: 1px solid #131313;
-      @include
-      border-radius(2px);
-      font-family: arial,sans-serif;
-      font-size:   11px;
-      color:       #fff;
-      text-shadow: 1px 1px #000;
-      @include
-      box-shadow(0,1px,0,0,#566166,inset);
-      cursor: pointer;
-      position: absolute;
-      left:-1px;
-      top: -1px;
-      z-index: 2147483638;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-
-      ul
-      {
-        width: 100%;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-
-        li
-        {
-          margin: 0;
-          height: 28px;
-          line-height: 28px;
-          padding: 0 20px 0 10px;
-          width: 100%;
-
-          overflow:hidden;
-          white-space: normal;
-          text-overflow:ellipsis;
-
-          &:hover
-          {
-            background-color: #1f2325;
-          }
-        }
-
-        .liSelected
-        {
-          background-color: #292d30;
-        }
-
-        .liColor
-          {
-
-          &:hover{}
-        }
-
-        .liColorSelected{}
-      }
-
-    }
 
 
 
@@ -353,7 +260,7 @@
       height: 30px;
       padding: 0 10px 0 10px;
 
-      background-color: #1a1d1f;
+      background-color: $panelHeadColor;
     }
 
     .head
@@ -484,8 +391,7 @@
       box-shadow-mult2(0,0,1px,2px, $inputColorInsetTop,inset,
         0,0,1px,1px,#111314,inset);
       @include
-      linear-gradient($inputGradientStartColor, $inputGradientEndColor,
-        0%,100%);
+      linear-gradient($inputGradientStartColor 0%, $inputGradientEndColor 100%);
 
       background-color: #1a1d1f;
       overflow: hidden;
@@ -496,7 +402,7 @@
         @include
         border-radius(0);
         @include
-        box-shadow-arg(none);
+        box-shadow-args(none);
         background: none;
       }
 
@@ -530,6 +436,8 @@
     {
       cursor: pointer;
       vertical-align: bottom;
+      @include
+      component-input-border;
     }
 
 
@@ -551,20 +459,7 @@
       background-color: #1e2224;
 
       @include
-      linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.05),0%,100%);
-
-      canvas
-        {
-        @include
-        box-shadow-mult2(0,0,1px,3px,rgba(0,0,0,0.05),inset,
-          0,0,1px,1px,#111314,inset);
-
-        border:none;
-        @include
-        border-radius(2px);
-
-        border-bottom: 1px soldid #3b4447;
-      }
+      linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%);
     }
 
     /*-------------------------------------------------------------------------------------
@@ -592,7 +487,7 @@
           padding: 0 20px 0 20px;
 
           @include
-          linear-gradient(#3c4a4f,#383f47,0%,100%);
+          linear-gradient(#3c4a4f 0%,#383f47 100%);
           cursor: pointer;
 
           .label
@@ -605,7 +500,7 @@
           &:hover
           {
             @include
-            linear-gradient(#3c4a4f,#3c4a4f,0%,100%);
+            linear-gradient(#3c4a4f 0%,#3c4a4f 100%);
           }
         }
 
@@ -686,7 +581,7 @@
               box-shadow(0,1px,0,0,#434b50,inset);
               padding: 0 10px 0 10px;
               @include
-              linear-gradient(rgb(58, 65, 69),rgb(54, 60, 64),0%,100%);
+              linear-gradient(rgb(58, 65, 69) 0%,rgb(54, 60, 64) 100%);
               cursor: pointer;
 
               &:hover
@@ -827,13 +722,7 @@
               background-color: #1e2224;
 
               @include
-              linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.05),0%, 100%);
-
-              @include
-              box-shadow-mult2(0,0,1px,3px,rgba(0,0,0,0.05),inset,
-                               0,0,1px,1px,#111314,inset);
-
-              border-bottom: 1px solid #3b4447;
+              component-input-border;
             }
 
             .sliderHandle
@@ -847,7 +736,7 @@
 
               background-color: #b32435;
               @include
-              linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.1),  0%, 100%);
+              linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%);
 
               @include
               box-shadow(0,1px,0,0,#0f0f0f);
@@ -1048,6 +937,72 @@
       float: left;;
 
     }
+  }
+
+  .options
+    {
+    @include
+    box-sizing(border-box);
+
+    border: 1px solid #131313;
+    @include
+    border-radius(2px);
+    font-family: arial,sans-serif;
+    font-size:   11px;
+    color:       #fff;
+    text-shadow: 1px 1px #000;
+    @include
+    box-shadow(0,1px,0,0,#566166,inset);
+    cursor: pointer;
+    position: absolute;
+    left:-1px;
+    top: -1px;
+    z-index: 2147483638;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+
+    background-color: #3c494e;
+
+    ul
+      {
+      width: 100%;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li
+        {
+        margin: 0;
+        height: 28px;
+        line-height: 28px;
+        padding: 0 20px 0 10px;
+        width: 100%;
+
+        overflow:hidden;
+        white-space: normal;
+        text-overflow:ellipsis;
+
+        &:hover
+          {
+          background-color: #1f2325;
+        }
+      }
+
+      .liSelected
+        {
+        background-color: #292d30;
+      }
+
+      .liColor
+        {
+
+        &:hover{}
+      }
+
+      .liColorSelected{}
+    }
+
   }
 
 }

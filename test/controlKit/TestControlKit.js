@@ -117,6 +117,7 @@ function TestControlKit(parentDomElementId)
     var panel0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [20, 20]});
     var group01 = panel0.addGroup()
         .addSubGroup({label: 'Function Select'})
+        .addButton('hello')
 
         .addFunctionPlotter(object, 'funcTarget', {label: 'Graph'})
         .addStringOutput(object, 'funcTarget')
@@ -130,7 +131,7 @@ function TestControlKit(parentDomElementId)
 
 
 
-    var control0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [20, 20]}),
+    var control0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [220, 20]}),
         group00 = control0.addGroup({label:'label',height:100})
             .addSubGroup()
             .addValuePlotter(object, 'changeValue2', {height: 35, lineWidth: 2, lineColor: [237, 20, 91]})
