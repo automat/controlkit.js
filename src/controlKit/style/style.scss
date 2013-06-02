@@ -78,6 +78,8 @@
       overflow: hidden;
       resize:none;
       vertical-align: top;
+      white-space: nowrap;
+
     }
 
     .button
@@ -220,7 +222,7 @@
     .scrollBar
     {
       @include
-      box-sizing(border-box);
+      box-sizing(content-box);
 
       width:17px;
       height:100%;
@@ -511,7 +513,7 @@
     .scrollWrap
     {
       position: relative;
-      overflow: hidde;
+      overflow: hidden;
      }
 
     .scrollBuffer
@@ -522,6 +524,47 @@
       border-top:1px solid #3b4447;
       border-bottom: 1px solid #1e2224;
 
+    }
+
+    canvas
+    {
+      cursor: pointer;
+      vertical-align: bottom;
+    }
+
+
+
+    .canvasWrap
+      {
+      margin: 6px 0 0 0 ;
+
+      width: 70%;
+      float:right;
+
+      @include
+      box-sizing(border-box);
+
+      border:none;
+      @include
+      border-radius(2px);
+
+      background-color: #1e2224;
+
+      @include
+      linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.05),0%,100%);
+
+      canvas
+        {
+        @include
+        box-shadow-mult2(0,0,1px,3px,rgba(0,0,0,0.05),inset,
+          0,0,1px,1px,#111314,inset);
+
+        border:none;
+        @include
+        border-radius(2px);
+
+        border-bottom: 1px soldid #3b4447;
+      }
     }
 
     /*-------------------------------------------------------------------------------------
@@ -630,42 +673,6 @@
             .canvasListItem
             {
               padding: 0 10px 0 10px;
-
-              .canvasWrap
-              {
-                margin: 6px 0 0 0 ;
-
-                width: 70%;
-                float:right;
-
-                @include
-                box-sizing(border-box);
-
-                border:none;
-                @include
-                border-radius(2px);
-
-                background-color: #1e2224;
-
-                @include
-                linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.05),0%,100%);
-
-                canvas
-                {
-                  @include
-                  box-shadow-mult2(0,0,1px,3px,rgba(0,0,0,0.05),inset,
-                                   0,0,1px,1px,#111314,inset);
-
-                  border:none;
-                  @include
-                  border-radius(2px);
-
-                  border-bottom: 1px soldid #3b4447;
-
-                  cursor: pointer;
-                  vertical-align: bottom;
-                }
-              }
             }
 
 
@@ -1005,10 +1012,7 @@
 
     }
 
-    canvas
-    {
-      vertical-align: bottom
-    }
+
 
     .wrap
     {
