@@ -1,5 +1,6 @@
 @import "_mixins";
 @import "_presets";
+@import "_images";
 
 
 #controlKit
@@ -65,7 +66,8 @@
       linear-gradient($inputGradientStartColor, $inputGradientEndColor,
         0%,100%);
       @include
-      box-shadow(0,0,1px,2px,rgba(0,0,0,0.0125),inset);
+      box-shadow-mult2(0,0,1px,2px,rgba(0,0,0,0.0125),inset,
+                       0,0,1px,1px,#111314,inset);
       border-bottom: $borderBottomDrop;
     }
 
@@ -129,6 +131,97 @@
       }
     }
 
+    .presetBtn,.presetBtnActive
+    {
+      float: right;
+
+      @include
+      box-sizing(border-box);
+
+      width:   20px;
+      height:  22px;
+
+      margin: 1px 0 0 0;
+
+      border: none;
+
+      border-top-right-radius: 2px;
+      border-bottom-right-radius: 2px;
+
+      font-family:    arial,sans-serif;
+      font-size:      10px;
+      font-weight:    bold;
+      color:          #fff;
+      text-shadow:    0 -1px #000;
+      text-transform: uppercase;
+
+      @include
+      box-shadow(0,1px,0,0,#2a333d,inset);
+
+      border-left: 1px solid #0f1112;
+
+      cursor: pointer;
+
+      position: absolute;
+      right: 1px;
+    }
+
+    .presetBtnActive,.presetBtn:hover{background: $imageBtnPreset, 50% 50% no-repeat,#3c494e;}
+    .presetBtn{background: $imageBtnPreset,50% 50% no-repeat, linear-gradient( rgb(58, 70, 75) 0%, rgb(44, 52, 55) 100%)}
+
+
+    .select,.selectActive
+    {
+      @include
+      box-sizing(border-box);
+
+      width: 100%;
+      height: 28px;
+
+      margin: -2px 0 0 0;
+
+      padding-left: 10px;
+      padding-right: 20px;
+      font-family: arial,sans-serif;
+      font-size:   11px;
+      text-align:  left;
+      color:       #fff;
+      text-shadow: 1px 1px #000;
+
+      border:none;
+      @include
+      border-radius(2px);
+
+      @include
+      box-shadow-mult2(0,0,0,1px,#131313,inset,
+                       -1px,2px,0,0,#2a333d,inset);
+
+      border-bottom: 1px solid #3b4447;
+
+      cursor:pointer;
+
+      overflow:hidden;
+      white-space: nowrap;
+      text-overflow:ellipsis;
+    }
+
+    .select
+    {
+      background: $imageSelect 100% 50% no-repeat,
+      linear-gradient(rgba(58, 70, 75, 1) 0%, rgba(44, 52, 55, 0) 100%);
+    }
+
+    .select:hover,.selectActive
+    {
+      background: $imageSelect 100% 50% no-repeat,#3c494e;
+    }
+
+
+
+
+
+
+
     /*-------------------------------------------------------------------------------------
      * Head & Label
      *-------------------------------------------------------------------------------------*/
@@ -148,7 +241,7 @@
 
     .head, .panelHeadInactive
     {
-      height: 38px;
+      height: 30px;
       padding: 0 10px 0 10px;
 
       background-color: #1a1d1f;
@@ -218,8 +311,8 @@
 
       @mixin btnMenuBackground($img,$imgHover)
       {
-        background: $img,50% 50% no-repeat,linear-gradient(rgb(43, 48, 51) 0%,rgb(31, 35, 37) 100%);
-        &:hover{background: $imgHover,50% 50% no-repeat,#2B3033;
+        background: $img 50% 50% no-repeat,linear-gradient(rgb(43, 48, 51) 0%,rgb(31, 35, 37) 100%);
+        &:hover{background: $imgHover 50% 50% no-repeat,#2B3033;
         }
       }
 
@@ -242,28 +335,8 @@
     }
 
     /*-------------------------------------------------------------------------------------
-     * Groups
-     *-------------------------------------------------------------------------------------*/
-
-     ul
-     {
-       margin:     0;
-       padding:    0;
-       list-style: none;
-     }
-
-
-
-
-
-
-
-
-
-
-    /*-------------------------------------------------------------------------------------
-     * Wraps
-     *-------------------------------------------------------------------------------------*/
+    * Wraps
+    *-------------------------------------------------------------------------------------*/
 
 
     .wrap
@@ -277,18 +350,18 @@
     }
 
     .inputWPresetWrap
-    {
+      {
       width: 100%;
       float: left;
 
       input[type='text']
-      {
+        {
         padding-right: 25px;
       }
     }
 
     .textAreaWrap
-    {
+      {
       width: 100%;
       padding: 0;
       float: left;
@@ -300,16 +373,16 @@
 
       @include
       box-shadow-mult2(0,0,1px,2px, $inputColorInsetTop,inset,
-                       0,0,1px,1px,#111314,inset);
+        0,0,1px,1px,#111314,inset);
       @include
       linear-gradient($inputGradientStartColor, $inputGradientEndColor,
-                      0%,100%);
+        0%,100%);
 
       background-color: #1a1d1f;
       overflow: hidden;
 
       textarea
-      {
+        {
         border: none;
         @include
         border-radius(0);
@@ -318,6 +391,366 @@
         background: none;
       }
     }
+
+    /*-------------------------------------------------------------------------------------
+     * Groups
+     *-------------------------------------------------------------------------------------*/
+
+    ul
+    {
+      margin:     0;
+      padding:    0;
+      list-style: none;
+    }
+
+    .groupList
+    {
+      .group
+      {
+        .head
+        {
+          height: 42px;
+
+          border-top:    1px solid #566166;
+          border-bottom: 1px solid #1a1d1f;
+
+          padding: 0 20px 0 20px;
+
+          @include
+          linear-gradient(#3c4a4f,#383f47,0%,100%);
+          cursor: pointer;
+
+          .label
+          {
+            font-size:13px;
+            line-height:42px;
+            color:#fff;
+          }
+
+          &:hover
+          {
+            @include
+            linear-gradient(#3c4a4f,#3c4a4f,0%,100%);
+          }
+        }
+
+        li
+        {
+          height:   35px;
+          padding:  0 10px 0 10px;
+        }
+
+
+        .subGroupList
+        {
+          padding: 10px;
+          border-top: 1px solid #3b4447;
+          border-bottom: 1px solid #1e2224;
+
+          .subGroup
+          {
+            padding: 0;
+            margin-top: 6px;
+
+            @include
+            border-radius(2px);
+            border:1px solid #1e2224;
+            @include
+            box-shadow(0,1px,0,0,rgba(59,68,71,1.0));
+            height:auto;
+
+            ul{overflow: hidden;}
+
+            &:first-child{margin-top: 0;}
+
+            .head
+            {
+              height: 26px;
+
+              border-top: none;
+              border-bottom: 1px solid #1e2224;
+
+              border-top-left-radius:  2px;
+              border-top-right-radius: 2px;
+
+              padding: 0 10px 0 10px;
+
+              background-image: none;
+              background-color: #25282b;
+
+              cursor: pointer;
+
+              &:hover
+                {
+                background-image: none;
+                background-color: #222629;
+              }
+
+
+
+            }
+
+            li
+              {
+              &:nth-child(odd){background-color: #292d30;}
+            }
+
+            .canvasListItem
+            {
+              padding: 0 10px 0 10px;
+
+              .canvasWrap
+              {
+                margin: 6px 0 0 0 ;
+
+                width: 70%;
+                float:right;
+
+                @include
+                box-sizing(border-box);
+
+                border:none;
+                @include
+                border-radius(2px);
+
+                background-color: #1e2224;
+
+                @include
+                linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.05),0%,100%);
+
+                canvas
+                {
+                  @include
+                  box-shadow-mult2(0,0,1px,3px,rgba(0,0,0,0.05),inset,
+                                   0,0,1px,1px,#111314,inset);
+
+                  border:none;
+                  @include
+                  border-radius(2px);
+
+                  border-bottom: 1px soldid #3b4447;
+
+                  cursor: pointer;
+                  vertical-align: bottom;
+                }
+              }
+            }
+
+
+
+            .headInactive
+            {
+              @include
+              box-sizing(border-box);
+              height:26px;
+              @include
+              box-shadow(0,1px,0,0,#434b50,inset);
+              padding: 0 10px 0 10px;
+              @include
+              linear-gradient(rgb(58, 65, 69),rgb(54, 60, 64),0%,100%);
+              cursor: pointer;
+
+              &:hover
+              {
+                background-image: none;
+                background-color: #3A4145;
+              }
+            }
+
+            .head .label,.headInactive .label
+            {
+              margin: 0;
+              padding: 0;
+              line-height: 26px;
+              color: #fff;
+              font-weight: bold;
+              font-size: 11px;
+              text-shadow: 1px 1px #000;
+              text-transform: capitalize;
+
+
+            }
+
+            .head,.headInactive
+            {
+              .wrap .label
+               {
+                width: 100%;
+                font-weight: bold;
+                color: #fff;
+                padding: 0;
+              }
+            }
+
+            .wrap
+            {
+              .label
+              {
+                width:   30%;
+                padding: 10px 5px 0 0;
+                float:   left;
+
+                @include
+                box-sizing(border-box);
+
+                font-size:   11px;
+                font-weight: normal;
+                color:       #aeb5b8;
+                text-shadow: 1px 1px #000;
+                height: 100%;
+              }
+
+
+
+              .wrap
+              {
+                @include
+                box-sizing(border-box);
+
+                width: 70%;
+                padding: 6px 0 0 0;
+                float:right;
+                height: 100%;
+
+                .wrap
+                {
+                  width: 25%;
+                  padding: 0;
+                  float: left;
+
+                  .label
+                  {
+                    width: 100%;
+                    padding: 4px 0 0 0;
+
+                    color: #878787;
+                    text-align:     center;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                    text-shadow: 1px 1px #1a1a1a
+                  }
+
+                  input[type='text']
+                  {
+                    padding: 0;
+                    text-align: center;
+                  }
+                }
+              }
+            }
+
+            /*-------------------------------------------------------------------------------------
+             * Slider
+             *-------------------------------------------------------------------------------------*/
+
+            .wrapSlider
+            {
+              @include
+              box-sizing(border-box);
+
+              width: 70%;
+              padding: 6px 0 0 0;
+              float:right;
+              height: 100%;
+
+              input[type='text']
+              {
+                width: 25%;
+                text-align: center;
+                padding: 0;
+                float: right;
+              }
+            }
+
+            .sliderWrap
+            {
+              float:left;
+              @include
+              box-sizing(border-box);
+              width: 75%;
+              padding: 0 6px 0 0;
+              cursor: ew-resize;
+            }
+
+            .sliderSlot
+            {
+              @include
+              box-sizing(border-box);
+
+              height:25px;
+              width:100%;
+              padding:3px;
+
+              border:none;
+              @include
+              border-radius(2px);
+
+              background-color: #1e2224;
+
+              @include
+              linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.05),0%, 100%);
+
+              @include
+              box-shadow-mult2(0,0,1px,3px,rgba(0,0,0,0.05),inset,
+                               0,0,1px,1px,#111314,inset);
+
+              border-bottom: 1px solid #3b4447;
+            }
+
+            .sliderHandle
+            {
+              @include
+              box-sizing(border-box);
+
+              position: relative;
+              width: 100%;
+              height: 100%;
+
+              background-color: #b32435;
+              @include
+              linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.1),  0%, 100%);
+
+              @include
+              box-shadow(0,1px,0,0,#0f0f0f);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+          }
+
+        }
+
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
