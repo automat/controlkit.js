@@ -180,7 +180,7 @@ ControlKit.Pad.prototype._drawPoint = function()
 
 ControlKit.Pad.prototype._getMouseNormalized = function()
 {
-    var offset       = this._canvasNode.getPositionGlobal(),
+    var offset       = this._canvas.getNode().getPositionGlobal(),
         mouse        = ControlKit.Mouse.getInstance().getPosition();
 
     var canvas       = this._canvas,
