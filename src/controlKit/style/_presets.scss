@@ -7,8 +7,8 @@ $defaultBorderRadius: 2px;
  *-------------------------------------------------------------------------------------*/
 
 $panelColorBg:      #303639;
-$panelBorderRadius: 1px;
-$panelBoxShadow:    0 0 1px 1px rgba(0,0,0,0.95);
+$panelBorderRadius: 2px;
+$panelBoxShadow:    0 0 1px 1px rgba(0,0,0,0.25);
 
 $labelFontSize:   11px;
 $labelFontWeight: bold;
@@ -108,9 +108,10 @@ $buttonTextShadow:    0 -1px #000;
 $buttonTextTransform: uppercase;
 
 $buttonBgColor: #3c494e;
+$buttonBevelTop : -1px 2px 0 0 #2a333d inset;
 
 $buttonBoxShadow: 0 0 0 1px #131313 inset,
-                  -1px 2px 0 0 #2a333d inset;
+                  $buttonBevelTop;
 
 $buttonGradient:       rgba(34,39,41,0) 0%,
                        rgba(34,39,41,0.65) 100%;
@@ -143,7 +144,7 @@ $canvasWrapGradient: rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%;
 
 $scrollBarWidth:             17px;
 $scrollBarBgColor:           #212628;
-$scrollBarGradient:          rgba(26, 29, 31,1.0) 0%, rgba(26, 29, 31,0.0) 100%;
+$scrollBarGradient:          rgb(21, 24, 26) 0%, rgba(26, 29, 31,0.0) 100%;
 $scrollBarTrackPadding:      0 3px 0 2px;
 $scrollBarThumbWidth:        13px;
 $scrollBarThumbBorderRadius: 2px;
@@ -226,7 +227,7 @@ $menuButtonBoxShadow:     0 0 0 1px #131313 inset,
   -1px 2px 0 0 #212527 inset;
 $menuButtonBorderBottom:  1px solid #24292b;
 
-$menuButtonGradient:      rgb(43, 48, 51) 0%,rgb(31, 35, 37) 100%;
+$menuButtonGradient:      rgb(26, 29, 31) 0%, rgb(26, 29, 31) 100%;//rgb(43, 48, 51) 0%,rgb(31, 35, 37) 100%;
 $menuButtonHoverColorBg:  #2B3033;
 
 $menuButtonUndoPadding:   0 6px 1px 0;

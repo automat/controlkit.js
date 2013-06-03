@@ -115,7 +115,7 @@ function TestControlKit(parentDomElementId)
 
 
     var panel0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [20, 20]});
-    var group01 = panel0.addGroup()
+    var group01 = panel0.addGroup({height:300})
         .addSubGroup({label: 'Function Select'})
         .addButton('hello')
 
@@ -131,8 +131,8 @@ function TestControlKit(parentDomElementId)
 
 
 
-    var control0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [221, 20]}),
-        group00 = control0.addGroup({label:'label',height:100})
+    var control0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [220, 20]}),
+        group00 = control0.addGroup({label:'label',height:300})
             .addSubGroup()
             .addValuePlotter(object, 'changeValue2', {height: 35, lineWidth: 2, lineColor: [237, 20, 91]})
             .addValuePlotter(object, 'changeValue3', {height: 35, lineWidth: 2})
@@ -152,8 +152,8 @@ function TestControlKit(parentDomElementId)
 
 
 
-    var control0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [422, 20]});
-        control0.addGroup({label: 'level', height: 200})
+    var control0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [420, 20]});
+        control0.addGroup({label: 'level', height: 300})
         .addSubGroup({label: 'noise', height: 200})
         .addNumberInput(object, 'number',  {presets: 'numberPresets'})
         .addNumberInput(object, 'number')
@@ -172,6 +172,11 @@ function TestControlKit(parentDomElementId)
         .addRange(object, 'range')
    //     .addSlider(object, 'range', 'slideValue', 'slider')
         .addSelect(object, 'selectOptions', 'selectTarget');
+
+
+    control0 = controlKit.addPanel({width:300,fixed:false})
+        .addGroup().addSubGroup()
+        .addPad(object, 'xyValue');
 
     /*
     var output = controlKit.addPanel({width:300,fixed:false,position:[200,400]});

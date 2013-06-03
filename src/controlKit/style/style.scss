@@ -630,9 +630,8 @@
           }
         }
         &:last-child {
-          .subGroupList, .scrollBuffer:nth-of-type(3) {
-            border-bottom: none;
-          }
+          .subGroupList, .scrollBuffer:nth-of-type(3){border-bottom: none;}
+          .scrollWrap .subGroupList{border-bottom: $subGroupListBorderBottom;}
         }
       }
     }
@@ -757,6 +756,14 @@
     width:  0;
     height: 0;
 
+
+    /*
+    left:   0;
+    top:    0;
+    width:  0;
+    height: 0;
+    */
+
     z-index: 2147483638;
 
     font-family: $optionsFontFamily;
@@ -779,7 +786,6 @@
       li
         {
         margin:      0;
-
         width: 100%;
         height:      $optionsListItemHeight;
         line-height: $optionsListItemHeight;
