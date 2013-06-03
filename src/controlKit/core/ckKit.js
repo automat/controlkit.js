@@ -21,6 +21,7 @@ ControlKit.Kit = function(parentDomElementId,params)
     params         = params         || {};
     params.trigger = params.trigger || false;
     params.history = params.history || false;
+    params.opacity = params.opacity || ControlKit.Default.OPACITY;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -53,6 +54,10 @@ ControlKit.Kit = function(parentDomElementId,params)
    // node.addChild(ControlKit.Picker.getInstance().getNode());
     node.addChild(options.getNode());
 
+    if(params.opacity != 1.0 || params.opacity != 0.0)
+    {
+        node.setStyleProperty('opacity',params.opacity);
+    }
 
     /*---------------------------------------------------------------------------------*/
 

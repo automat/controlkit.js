@@ -10,5 +10,9 @@ ControlKit.Default =
     VALIGN : ControlKit.Layout.ALIGN_TOP,
     ALIGN  : ControlKit.Layout.ALIGN_RIGHT,
 
+    OPACITY : 1.0,
+
     FIXED : true
+
+
 };

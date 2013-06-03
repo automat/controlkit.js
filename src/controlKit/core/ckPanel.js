@@ -14,6 +14,7 @@ ControlKit.Panel = function(controlKit,params)
     params.maxHeight  = params.maxHeight || window.innerHeight;
     params.ratio      = params.ratio     || ControlKit.Default.RATIO;
     params.label      = params.label     || ControlKit.Default.LABEL;
+    params.opacity    = params.opacity   || ControlKit.Default.OPACITY;
 
     params.fixed      = params.fixed === undefined ?
                         ControlKit.Default.FIXED :
@@ -65,8 +66,6 @@ ControlKit.Panel = function(controlKit,params)
     menuClose.setStyleClass(ControlKit.CSS.MenuBtnClose);
     menuHide.setStyleClass( ControlKit.CSS.MenuBtnHide);
 
-
-
     /*---------------------------------------------------------------------------------*/
 
     rootNode.setWidth(width);
@@ -79,6 +78,11 @@ ControlKit.Panel = function(controlKit,params)
         this._dragging = false;
         this._mouseOffset  = [0,0];
         headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,    this._onHeadDragStart.bind(this));
+    }
+
+    if(params.opacity != 1.0 || params.opacity != 0.0)
+    {
+        rootNode.setStyleProperty('opacity',params.opacity);
     }
 
     /*---------------------------------------------------------------------------------*/
