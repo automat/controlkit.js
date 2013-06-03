@@ -131,7 +131,7 @@ function TestControlKit(parentDomElementId)
 
 
 
-    var control0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [220, 20]}),
+    var control0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [221, 20]}),
         group00 = control0.addGroup({label:'label',height:100})
             .addSubGroup()
             .addValuePlotter(object, 'changeValue2', {height: 35, lineWidth: 2, lineColor: [237, 20, 91]})
@@ -150,28 +150,36 @@ function TestControlKit(parentDomElementId)
 
 
 
-    /*
 
-    control0.addGroup({label: 'level', height: 200})
+
+    var control0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [422, 20]});
+        control0.addGroup({label: 'level', height: 200})
         .addSubGroup({label: 'noise', height: 200})
-        .addNumberInput(object, 'number', 'Input Comp', {presets: 'numberPresets'})
-        .addNumberInput(object, 'number', 'Input Comp')
-        .addStringInput(object, 'string', 'Input Comp', {presets: 'stringPresets'})
-        .addNumberOutput(object, 'changeValue1', 'changeValue1')
+        .addNumberInput(object, 'number',  {presets: 'numberPresets'})
+        .addNumberInput(object, 'number')
+        .addStringInput(object, 'string',{presets: 'stringPresets'})
+        .addNumberOutput(object, 'changeValue1')
         .addStringInput(object, 'string', 'Input Comp')
-        .addRange(object, 'range', 'Range Comp')
+        .addRange(object, 'range')
       //  .addSlider(object, 'range', 'slideValue', 'slider')
-        .addSelect(object, 'selectOptions', 'selectTarget', 'select')
+        .addSelect(object, 'selectOptions', 'selectTarget')
 
 
         .addSubGroup({label: 'grain', show: false, height: 150})
-        .addRange(object, 'range', 'Range Comp')
+        .addRange(object, 'range')
         //.addSlider(object, 'range', 'slideValue', 'slider')
-        .addSelect(object, 'selectOptions', 'selectTarget', 'select')
-        .addRange(object, 'range', 'Range Comp')
+        .addSelect(object, 'selectOptions', 'selectTarget')
+        .addRange(object, 'range')
    //     .addSlider(object, 'range', 'slideValue', 'slider')
-        .addSelect(object, 'selectOptions', 'selectTarget', 'select');
+        .addSelect(object, 'selectOptions', 'selectTarget');
 
+    /*
+    var output = controlKit.addPanel({width:300,fixed:false,position:[200,400]});
+        output.addGroup().addSubGroup().addStringOutput(object,'changeValue01',{height:300});
+        */
+
+
+    /*
 
     control0.addGroup()
         .addSubGroup('functions')
