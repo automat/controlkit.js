@@ -1,62 +1,46 @@
-
-
-@mixin box-shadow($h, $v, $blur, $spread, $color, $inset:"") {
-
-  $temp : $h $v $blur $spread $color #{$inset};
-
-  -webkit-box-shadow:$temp;
-  -moz-box-shadow:   $temp;
-  box-shadow:        $temp;
-}
-
-@mixin box-shadow-args($args...)
+@mixin box-shadow($args...)
 {
-  -webkit-box-shadow:$args;
-  -moz-box-shadow:   $args;
+  //-webkit-box-shadow:$args;
+  //-moz-box-shadow:   $args;
   box-shadow:        $args;
-}
-
-@mixin box-shadow-mult2($h0, $v0, $blur0, $spread0, $color0, $inset0,
-$h1, $v1, $blur1, $spread1, $color1, $inset1)
-{
-  $temp : $h0 $v0 $blur0 $spread0 $color0 #{$inset0},
-  $h1 $v1 $blur1 $spread1 $color1 #{$inset1};
-
-  -webkit-box-shadow:$temp;
-  -moz-box-shadow:   $temp;
-  box-shadow:        $temp;
 }
 
 @mixin linear-gradient($args...)
 {
-  background-image:-webkit-linear-gradient($args);
-  background-image:-moz-linear-gradient(   $args);
+  //background-image:-webkit-linear-gradient($args);
+  //background-image:-moz-linear-gradient(   $args);
   background-image:-o-linear-gradient(     $args);
   background-image:linear-gradient(        $args);
 }
 
-@mixin vertical-linear-gradient($args...){@include linear-gradient($args);}
-
-@mixin horizontal-linear-gradient($args...)
+@mixin linear-gradient-with-background($gradient,$bgColor)
 {
-  background-image: -moz-linear-gradient(left,$args);
-  background-image: -o-linear-gradient(left,  $args);
+  background: $bgColor;
+  @include linear-gradient(#{$gradient});
+}
+
+@mixin v-linear-gradient($args...){@include linear-gradient($args);}
+
+@mixin h-linear-gradient($args...)
+{
+  //background-image: -moz-linear-gradient(left,$args);
+  //background-image: -o-linear-gradient(left,  $args);
   background-image: linear-gradient(to right, $args);
+}
+
+@mixin h-linear-gradient-with-background($gradient,$bgColor)
+{
+  background: $bgColor;
+  @include h-linear-gradient(#{$gradient});
 }
 
 @mixin linear-gradient-with-image($gradient,$image)
 {
-  background: $image,linear-gradient(     #{$gradient});
-  background: $image,-moz-linear-gradient(#{$gradient});
-  background: $image,o-linear-gradient(   #{$gradient});
-  background: $image,linear-gradient(     #{$gradient});
-
+  //background: $image,-moz-linear-gradient(#{$gradient});
+  background: $image,-o-linear-gradient(#{$gradient});
+  background: $image,linear-gradient(  #{$gradient});
 }
 
-@mixin color-with-image($args...)
-{
-  background: $image,$color;
-}
 
 @mixin user-select
 {
@@ -65,7 +49,7 @@ $h1, $v1, $blur1, $spread1, $color1, $inset1)
   -khtml-user-select:    none;
   -moz-user-select:      none;
   -ms-user-select:       none;
-  user-select:          none;
+   user-select:          none;
 }
 
 @mixin box-sizing($type)
@@ -79,7 +63,12 @@ $h1, $v1, $blur1, $spread1, $color1, $inset1)
 {
   border-radius:         $radius;
   -moz-border-radius:    $radius;
-  -webkit-border-radius: $radius;
+  //-webkit-border-radius: $radius;
+}
 
+@mixin border($border,$radius)
+{
+  border: $border;
+  @include border-radius($radius);
 }
 

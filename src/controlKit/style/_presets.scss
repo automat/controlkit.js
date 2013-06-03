@@ -1,73 +1,106 @@
-$fontFamily: arial,sans-serif;
-$fontSizeInput: 11px;
-
-$fontShadowDefault : 1px 1px #000;
-
-$borderBottomDrop: 1px solid #3b4447;
-
-$borderRadiusPanel   : 1px;
-$borderRadiusDefault : 2px;
-
-$compHeightDefault : 25px;
-$compBorderBottom  : 1px solid #3b4447;
-$compBorderRadius  : 2px;
-$compInsetShadow   : 0 0 1px 2px rgba(0,0,0,0.0125) inset,
-                     0 0 1px 1px #111314 inset;
-$compFontSize: 11px;
+$defaultFontFamily:   arial,sans-serif;
+$defaultTextShadow:   1px 1px #000;
+$defaultBorderRadius: 2px;
 
 /*-------------------------------------------------------------------------------------
  * Panel
  *-------------------------------------------------------------------------------------*/
 
-$panelColorBg      : #303639;
-$panelBorderRadius : 1px;
-$panelBoxShadow    : 0 0 1px 1px rgba(0,0,0,0.95);
+$panelColorBg:      #303639;
+$panelBorderRadius: 1px;
+$panelBoxShadow:    0 0 1px 1px rgba(0,0,0,0.95);
 
-$panelHeadColor : #1a1d1f;
+$labelFontSize:   11px;
+$labelFontWeight: bold;
+$labelTextShadow: 0 -1px #000;
+
+$panelHeadColorBg:      #1a1d1f;
+$panelHeadHeight:       30px;
+$panelHeadPadding:      0 10px 0 10px;
+$panelHeadBorderTop:    1px solid #202426;
+$panelHeadBorderBottom: 1px solid #111314;
+
+$panelHeadLabelFontColor:    #65696b;
+$panelHeadInactiveBorderTop: 1px solid #202426;
 
 /*-------------------------------------------------------------------------------------
- * Canvas
+ * Components
  *-------------------------------------------------------------------------------------*/
+$compWidth:        70%;
+$compHeight:       25px;
+$compPadding:      6px 0 0 0;
+$compBorderBottom: 1px solid #3b4447;
+$compBorderRadius: 2px;
+$compInsetShadow:  0 0 1px 2px rgba(0,0,0,0.0125) inset,
+                   0 0 1px 1px #111314 inset;
 
+$compFontSize: 11px;
 
-/*-------------------------------------------------------------------------------------
- * Input & textarea
- *-------------------------------------------------------------------------------------*/
+$compLabelWidth:      30%;
+$compLabelPadding:    10px 5px 0 0;
+$compLabelFontSize:   $compFontSize;
+$compLabelFontWeight: normal;
+$compLabelFontColor:  #aeb5b8;
+$compLabelTextShadow: $defaultTextShadow;
 
-$inputHeight: $compHeightDefault;
-$inputPadding: 0 0 0 8px;
+//Range
+$rangeLabelPadding:       4px 0 0 0;
+$rangeLabelFontColor:     #878787;
+$rangeLabelTextAlign:     center;
+$rangeLabelTextTransform: uppercase;
+$rangeLabelFontWeight:    bold;
+$rangeLabelTextShadow:    1px 1px #1a1a1a;
 
+//Slider
+$sliderWidth:   $compWidth;
+$sliderPadding: 0 6px 0 0;
+
+$sliderSlotBorder:       none;
+$sliderSlotBorderRadius: $defaultBorderRadius;
+$sliderSlotColorBg:      #1e2224;
+
+$sliderHeight:          $compHeight;
+$sliderPadding:         3px;
+$sliderHandleColorBG:   #b32435;
+$sliderHandleGradient:  rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%;
+$sliderHandleBoxShadow: 0 1px 0 0 #0f0f0f;
+
+//Input
+$inputHeight:    $compHeight;
+$inputPadding:   0 0 0 8px;
 $inputBoxShadow: 0 0 1px 2px rgba(0,0,0,0.0125) inset,
                  0 0 1px 1px #111314 inset;
 
-$inputFontFamily     : $fontFamily;
-$inputFontColor      : #fff;
-$inputFontSize       : 11px;
-$inputFontShadow     : 1px 1px #000;
+$inputFontFamily : $defaultFontFamily;
+$inputFontColor :  #fff;
+$inputFontSize :   11px;
+$inputFontShadow : $defaultTextShadow;
 
-$inputColorBg:            #222729;
-$inputColorText:          #fff;
+$inputColorBg:     #222729;
+$inputColorText:   #fff;
+$inputGradient:    rgba(0,0,0,0) 0%,
+                   rgba(0,0,0,0.125) 100%;
 
-$inputGradientStartColor: rgba(0,0,0,0);
-$inputGradientEndColor:   rgba(0,0,0,0.125);
-$inputGradientStart:      0%;
-$inputGradientEnd:        100%;
+$inputColorInsetTop: rgba(0,0,0,0.0125);
 
-$inputColorInsetTop:      rgba(0,0,0,0.0125);
+$inputBorderRadius: $defaultBorderRadius;
 
-$inputBorderRadius: $borderRadiusDefault;
+//Textarea
+$textareaPadding:          5px 8px 2px 8px;
+$textareaWrapBorderRadius: $inputBorderRadius;
+$textareaWrapBoxShadow:    $inputBoxShadow;
+$textareaWrapGradient:     $inputGradient;
+$textareaWrapColorBg:      $inputColorBg;
 
-$textareaPadding: 5px 8px 2px 8px;
+$textareaWrapScrollBarBorder:       px solid #101213;
+$textareaWrapScrollBarBorderRadius: $defaultBorderRadius;
 
-/*-------------------------------------------------------------------------------------
- * Button
- *-------------------------------------------------------------------------------------*/
+//Button
+$buttonHeight :      28px;
+$buttonMargin :      -2px 0 0 0;
+$buttonBorderRadius: $defaultBorderRadius;
 
-$buttonHeight : 28px;
-$buttonMargin : -2px 0 0 0;
-$buttonBorderRadius: $borderRadiusDefault;
-
-$buttonFontFamily:    $fontFamily;
+$buttonFontFamily: $defaultFontFamily;
 $buttonFontColor:     #fff;
 $buttonFontSize:      10px;
 $buttonFontWeight:    bold;
@@ -92,10 +125,131 @@ $buttonPresetHeight:     22px;
 $buttonPresetBoxShadow:  0 1px 0 0 #2a333d inset;
 $buttonPresetBorderLeft: 1px solid #0f1112;
 
+//Select
 $selectGradient: rgba(58, 70, 75, 1) 0%, rgba(44, 52, 55, 0) 100%;
 
+/*-------------------------------------------------------------------------------------
+ * Canvas
+ *-------------------------------------------------------------------------------------*/
 
+$canvasWrapMargin : 6px 0 0 0;
+$canvasWrapBorderRadius: $defaultBorderRadius;
+$canvasWrapColorBg:#1e2224;
+$canvasWrapGradient: rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%;
 
+/*-------------------------------------------------------------------------------------
+ * ScrollBar
+ *-------------------------------------------------------------------------------------*/
 
+$scrollBarWidth:             17px;
+$scrollBarBgColor:           #212628;
+$scrollBarGradient:          rgba(26, 29, 31,1.0) 0%, rgba(26, 29, 31,0.0) 100%;
+$scrollBarTrackPadding:      0 3px 0 2px;
+$scrollBarThumbWidth:        13px;
+$scrollBarThumbBorderRadius: 2px;
+$scrollBarThumbBgColor:      #3b484e;
+$scrollBarThumbGradient:     #3a4145 0%,#363c40 100%;
+$scrollBarThumbBorder:       1px solid #15181a;
+$scrollBarThumbBoxShadow:    inset 0 1px 0 0 #434b50;
+
+$scrollBufferHeight:       8px;
+$scrollBufferBorderTop:    1px solid #3b4447;
+$scrollBufferBorderBottom: 1px solid #1e2224;
+
+/*-------------------------------------------------------------------------------------
+ * Group & subGroup
+ *-------------------------------------------------------------------------------------*/
+
+$groupHeadHeight:       42px;
+$groupHeadBorderTop:    1px solid #566166;
+$groupHeadBorderBottom: 1px solid #1a1d1f;
+$groupHeadPadding:      0 20px 0 20px;
+$groupHeadGradient:     #3c4a4f 0%,#383f47 100%;
+$groupHeadHoverGradient: #3c4a4f 0%,#3c4a4f 100%;
+$groupHeadLabelFontSize:13px;
+$groupHeadLabelFontColor:#fff;
+
+$subGroupListPadding:     10px;
+$subGroupListBorderTop:   1px solid #3b4447;
+$subGroupListBorderBottom:1px solid #1e2224;
+
+$subGroupListItemHeight: 35px;
+$subGroupListItemPadding:0 10px 0 10px;
+$subGroupListItemColorBgOdd:#292d30;
+
+$subGroupMarginTop: 6px;
+$subGroupBorder:       1px solid #1e2224;
+$subGroupBorderRadius: $defaultBorderRadius;
+$subGroupBoxShadow:    0 1px 0 0 rgba(59,68,71,1);
+
+$subGroupHeadHeight: 26px;
+$subGroupHeadPadding: 0 10px 0 10px;
+$subGroupHeadBorderTop: none;
+$subGroupHeadBorderBottom: 1px solid #1e2224;
+$subGroupHeadBorderTopRadius: $defaultBorderRadius;
+$subGroupHeadColorBg: #25282b;
+$subGroupHeadHoverColorBg: #222629;
+
+$subGroupHeadInactiveHeight:      $subGroupHeadHeight;
+$subGroupHeadInactivePadding:     $subGroupHeadPadding;
+$subGroupHeadInactiveBoxShadow:   0 1px 0 0 #434b50 inset;
+$subGroupHeadInactiveGradient:    rgb(58, 65, 69) 0%,rgb(54, 60, 64) 100%;
+$subGroupHeadInactiveHoverColorBg: #3A4145;
+
+$subGroupHeadLabelFontColor : #fff;
+$subGroupHeadLabelFontWeight : bold;
+$subGroupHeadLabelFontSize : 11px;
+$subGroupHeadLabelTextShadow :  $defaultTextShadow;
+$subGroupHeadLabelTextTransform :  capitalize;
+
+$subGroupCanvasListItemPadding: 0 10px 0 10px;
+
+/*-------------------------------------------------------------------------------------
+ * Menu
+ *-------------------------------------------------------------------------------------*/
+
+$menuPadding:             5px 0 0 0;
+
+$menuButtonWidth:         20px;
+$menuButtonHeight:        20px;
+$menuButtonMarginLeft:    4px;
+$menuButtonBorderRadius:  $compBorderRadius;
+$menuButtonColorBg:       #2B3033;
+$menuButtonFontFamily: $defaultFontFamily;
+$menuButtonFontSize:      10px;
+$menuButtonFontWeight:    bold;
+$menuButtonFontColor:     #aaaaaa;
+$menuButtonTextShadow:    0 -1px #000;
+$menuButtonTextTransform: uppercase;
+
+$menuButtonBoxShadow:     0 0 0 1px #131313 inset,
+  -1px 2px 0 0 #212527 inset;
+$menuButtonBorderBottom:  1px solid #24292b;
+
+$menuButtonGradient:      rgb(43, 48, 51) 0%,rgb(31, 35, 37) 100%;
+$menuButtonHoverColorBg:  #2B3033;
+
+$menuButtonUndoPadding:   0 6px 1px 0;
+$menuButtonUndoWidth:     38px;
+
+/*-------------------------------------------------------------------------------------
+ * Options
+ *-------------------------------------------------------------------------------------*/
+
+$optionsBorder:       1px solid #131313;
+$optionsBorderRadius: 2px;
+
+$optionsFontFamily:   $defaultFontFamily;
+$optionsTextShadow:   $defaultTextShadow;
+$optionsFontColor:    #fff;
+$optionsFontSize:     11px;
+
+$optionsBoxShadow:    0 1px 0 0 #566166 inset;
+$optionsColorBg:      #3c494e;
+
+$optionsListItemHeight:          28px;
+$optionsListItemPadding:         0 20px 0 10px;
+$optionsListItemHoverColorBg:    #1f2325;
+$optionsListItemSelectedColorBg: #292d30;
 
 
