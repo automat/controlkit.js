@@ -86,6 +86,7 @@ ControlKit.Options.prototype =
 
     _clearList : function()
     {
+        this._rootNode.setWidth(0);
         this._listNode.removeAllChildren();
         this._selectedIndex  = null;
         this._build          = false;

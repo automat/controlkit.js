@@ -85,7 +85,7 @@ ControlKit.NumberInput_Internal.prototype.inputIsNumber = function()
     var value = this._getInput();
 
     //TODO:FIX
-    if(value == '-')return true;
+    if(value == '-' || value == '0')return true;
     return /^\s*-?[0-9]\d*(\.\d{1,1000000})?\s*$/.test(value);
 };
 
