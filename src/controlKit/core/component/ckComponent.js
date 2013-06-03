@@ -24,6 +24,12 @@ ControlKit.Component = function(parent,label)
                 lablNode.setProperty('innerHTML',label);
                 rootNode.addChild(lablNode);
         }
+
+        if(label == 'none')
+        {
+            wrapNode.setStyleProperty('marginLeft','0');
+            wrapNode.setStyleProperty('width','100%');
+        }
     }
 
     /*---------------------------------------------------------------------------------*/
