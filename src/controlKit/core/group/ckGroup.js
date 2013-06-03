@@ -234,5 +234,12 @@ ControlKit.Group.prototype.addSubGroup  = function(params)
 
 /*-------------------------------------------------------------------------------------*/
 
-ControlKit.Group.prototype.getSubGroup   = function(){var subGroups = this._subGroups;return subGroups[subGroups.length-1];};
+ControlKit.Group.prototype.getSubGroup   = function()
+{
+    var subGroups    = this._subGroups,
+        subGroupsLen = subGroups.length;
+
+    if(subGroupsLen==0)this.addSubGroup(null);
+    return subGroups[subGroupsLen-1];
+};
 ControlKit.Group.prototype.getComponents = function(){return this._components;};
