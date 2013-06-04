@@ -36,6 +36,7 @@ ControlKit.EventType =
     HISTORY_STATE_POP      : 'historyStatePop',
 
     GROUP_SIZE_CHANGE     : 'groupSizeChange',
+    GROUP_LIST_SIZE_CHANGE: 'groupListSizeChange',
     GROUP_SIZE_UPDATE     : 'groupSizeUpdate',
 
     UPDATE_MENU            : 'updateMenu'

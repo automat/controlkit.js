@@ -47,7 +47,8 @@ ControlKit.Group = function(parent,params)
             lablWrap.addChild(lablNode);
             headNode.addChild(lablWrap);
 
-        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadDragStart.bind(this));
+        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadTrigger.bind(this));
+        this.addEventListener(ControlKit.EventType.GROUP_LIST_SIZE_CHANGE,this._parent,'onGroupListSizeChange');
 
         rootNode.addChild(headNode);
 
@@ -81,6 +82,7 @@ ControlKit.Group = function(parent,params)
     this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,  this,'onPanelMoveEnd');
     this._parent.addEventListener(ControlKit.EventType.PANEL_HIDE,      this,'onPanelHide');
     this._parent.addEventListener(ControlKit.EventType.PANEL_SHOW,      this,'onPanelShow');
+    this.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE,this._parent,'onGroupListSizeChange');
 };
 
 ControlKit.Group.prototype = Object.create(ControlKit.AbstractGroup.prototype);
@@ -132,7 +134,12 @@ ControlKit.Group.prototype.onSubGroupTrigger = function()
 
 /*-------------------------------------------------------------------------------------*/
 
-ControlKit.Group.prototype._onHeadDragStart   = function(){this._disabled = !this._disabled;this._updateAppearance();};
+ControlKit.Group.prototype._onHeadTrigger = function()
+{
+    this._disabled = !this._disabled;
+    this._updateAppearance();
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_LIST_SIZE_CHANGE,null));
+};
 
 /*-------------------------------------------------------------------------------------*/
 
@@ -171,6 +178,8 @@ ControlKit.Group.prototype._updateHeight = function()
         wrapNode.setHeight(wrapNode.getFirstChild().getHeight());
 
     this.getSubGroup().update();
+
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE,null));
 
     if(this.hasMaxHeight())this._scrollBar.update();
 };
@@ -224,7 +233,11 @@ ControlKit.Group.prototype._updateAppearance = function()
     if (inidNode)inidNode.setStyleClass(ControlKit.CSS.ArrowBMax);
 };
 
-ControlKit.Group.prototype.onGroupSizeUpdate = function(){this._updateAppearance();this._scrollBar.update();};
+ControlKit.Group.prototype.onGroupSizeUpdate = function()
+{
+    this._updateAppearance();
+    if(this.hasMaxHeight())this._scrollBar.update();
+};
 
 /*-------------------------------------------------------------------------------------*/
 
