@@ -22,13 +22,20 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    var align  = this._align  = params.align;
-    var height = this._height = params.height ?  Math.max(0,Math.min(params.height,window.innerHeight)) : null;
-    var width  = this._width  = Math.max(ControlKit.Default.WIDTH_MIN,
-                                   Math.min(params.width,ControlKit.Default.WIDTH_MAX));
-    var fixed  = this._fixed  = params.fixed;
+    var align    = this._align    = params.align,
+        height   = this._height   = params.height ?  Math.max(0,Math.min(params.height,window.innerHeight)) : null,
+        width    = this._width    = Math.max(ControlKit.Default.WIDTH_MIN,
+                                    Math.min(params.width,ControlKit.Default.WIDTH_MAX)),
+        fixed    = this._fixed    = params.fixed,
+        label    = this._label    = params.label,
+        position = this._position = params.position,
+        opacity  =                  params.opacity;
 
-    var label  = this._label  = params.label;
+    /*---------------------------------------------------------------------------------*/
+
+    this._disabled = false;
+
+    this._groups = [];
 
     /*---------------------------------------------------------------------------------*/
 
@@ -75,11 +82,7 @@ ControlKit.Panel = function(controlKit,params)
         headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,    this._onHeadDragStart.bind(this));
     }
 
-    if(params.opacity != 1.0 || params.opacity != 0.0)
-    {
-        rootNode.setStyleProperty('opacity',params.opacity);
-    }
-
+    if(opacity != 1.0 || opacity != 0.0){rootNode.setStyleProperty('opacity',opacity);}
 
     /*---------------------------------------------------------------------------------*/
 
@@ -109,33 +112,18 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    this._disabled = false;
 
-    menuHide.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMenuHideMouseDown.bind(this));
+    if(align == 'left')this._setPosition(position[0],position[1]);
+    else               this._setPosition(window.innerWidth - (position[0] - width),position[1]);
+
+    if(this.hasMaxHeight()){this._addScrollBar();}
+
+    /*---------------------------------------------------------------------------------*/
+
+    menuHide.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuHideMouseDown.bind(this));
     menuClose.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this.disable.bind(this));
 
-    parent.addEventListener(ControlKit.EventType.UPDATE_MENU,this,'onUpdateMenu');
-
-
-    /*---------------------------------------------------------------------------------*/
-
-    this._position = params.position;
-
-    if(align == 'left')this._setPosition(params.position[0],params.position[1]);
-    else               this._setPosition(window.innerWidth - params.position[0] - width,params.position[1]);
-
-    this._groups = [];
-
-    /*---------------------------------------------------------------------------------*/
-
-    if(this.hasMaxHeight())
-    {
-        if(this.isEnabled())wrapNode.setHeight(height);
-        this._scrollBar = new ControlKit.ScrollBar(wrapNode,listNode,height);
-    }
-
-    /*---------------------------------------------------------------------------------*/
-
+    this._parent.addEventListener(ControlKit.EventType.UPDATE_MENU,this,'onUpdateMenu');
 
     window.addEventListener('resize',this._onWindowResize.bind(this));
 };
@@ -144,10 +132,6 @@ ControlKit.Panel.prototype = Object.create(ControlKit.EventDispatcher.prototype)
 
 /*---------------------------------------------------------------------------------*/
 
-ControlKit.Panel.prototype.isEnabled  = function(){return !this._disabled;};
-ControlKit.Panel.prototype.isDisabled = function(){return this._disabled;};
-
-
 ControlKit.Panel.prototype.addGroup  = function(params)
 {
     var group = new ControlKit.Group(this,params);
@@ -155,10 +139,16 @@ ControlKit.Panel.prototype.addGroup  = function(params)
     return group;
 };
 
+/*---------------------------------------------------------------------------------*/
+
 ControlKit.Panel.prototype.onGroupListSizeChange = function()
 {
     if(!this.hasMaxHeight())return;
+    this._updateScrollWrap();
+};
 
+ControlKit.Panel.prototype._updateScrollWrap = function()
+{
     var wrapNode  = this._wrapNode,
         scrollBar = this._scrollBar,
         height    = this.getMaxHeight(),
@@ -168,11 +158,6 @@ ControlKit.Panel.prototype.onGroupListSizeChange = function()
     {
         listHeight = wrapNode.getChildAt(1).getHeight();
         wrapNode.setHeight(listHeight < height ? listHeight : height);
-    }
-    else
-    {
-        listHeight = wrapNode.getFirstChild().getHeight();
-        wrapNode.setHeight(listHeight);
     }
 
     scrollBar.update();
@@ -188,6 +173,26 @@ ControlKit.Panel.prototype.onGroupListSizeChange = function()
         wrapNode.setHeight(this.getMaxHeight());
     }
 };
+
+ControlKit.Panel.prototype._setHeight = function(height)
+{
+    this._height = height;
+
+    if(!this._scrollBar)this._addScrollBar();
+    this._updateScrollWrap()
+};
+
+ControlKit.Panel.prototype._addScrollBar = function()
+{
+    var wrapNode = this._wrapNode,
+        listNode = this._listNode,
+        height   = this._height;
+
+    this._scrollBar = new ControlKit.ScrollBar(wrapNode,listNode,height);
+    if(this.isEnabled())wrapNode.setHeight(height);
+};
+
+/*---------------------------------------------------------------------------------*/
 
 ControlKit.Panel.prototype._onMenuHideMouseDown = function()
 {
@@ -284,7 +289,8 @@ ControlKit.Panel.prototype._updatePosition = function()
 
 ControlKit.Panel.prototype._onWindowResize = function()
 {
-    var position = this._position;this._setPosition(position[0],position[1]);
+    var position = this._position;
+    this._setPosition(position[0],position[1]);
 };
 
 /*---------------------------------------------------------------------------------*/
@@ -326,6 +332,10 @@ ControlKit.Panel.prototype.disable = function()
     this._disabled = true;
     this._updateAppearance();
 };
+
+ControlKit.Panel.prototype.isEnabled  = function(){return !this._disabled;};
+ControlKit.Panel.prototype.isDisabled = function(){return this._disabled;};
+
 
 /*
 ControlKit.Panel.prototype._constrainHeight = function()
