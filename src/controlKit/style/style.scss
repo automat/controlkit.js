@@ -91,7 +91,7 @@
       color: $buttonFontColor;
 
       border: none;
-      @include border-radius($defaultBorderRadius);
+      @include border-radius($buttonBorderRadius);
       @include box-shadow($buttonBoxShadow);
       border-bottom: $compBorderBottom;
     }
@@ -253,7 +253,6 @@
         margin-left: $menuButtonMarginLeft;
         border: none;
 
-        background-color: $menuButtonColorBg;
         @include border-radius($menuButtonBorderRadius);
 
         font-family: $menuButtonFontFamily;
@@ -267,10 +266,12 @@
         border-bottom: $menuButtonBorderBottom;
       }
 
-      @mixin btnMenuBackground($img, $imgHover) {
-        @include linear-gradient-with-image(#{$menuButtonGradient}, $img 50% 50% no-repeat);
+      @mixin btnMenuBackground($img, $imgHover)
+      {
+        background: $img 50% 50% no-repeat, $menuButtonColorBg;
         &:hover {
           background: $imgHover 50% 50% no-repeat, $menuButtonHoverColorBg;
+          @include box-shadow($menuButtonHoverBoxShadow);
         }
       }
 
@@ -602,7 +603,7 @@
               cursor: ew-resize;
 
               width: $sliderWidth;
-              padding: $sliderPadding;
+              //padding: $sliderPadding;
 
             }
 
@@ -794,6 +795,8 @@
         overflow:      hidden;
         white-space:   normal;
         text-overflow: ellipsis;
+
+        cursor: pointer;
 
         &:hover {
           background-color: $optionsListItemHoverColorBg;

@@ -96,7 +96,7 @@ $textareaWrapScrollBarBorder:       px solid #101213;
 $textareaWrapScrollBarBorderRadius: $defaultBorderRadius;
 
 //Button
-$buttonHeight :      28px;
+$buttonHeight :      26px;
 $buttonMargin :      -2px 0 0 0;
 $buttonBorderRadius: $defaultBorderRadius;
 
@@ -108,7 +108,8 @@ $buttonTextShadow:    0 -1px #000;
 $buttonTextTransform: uppercase;
 
 $buttonBgColor: #3c494e;
-$buttonBevelTop : -1px 2px 0 0 #2a333d inset;
+$buttonBevelTopColor: #4c5559;
+$buttonBevelTop : -1px 2px 0 0 $buttonBevelTopColor inset;
 
 $buttonBoxShadow: 0 0 0 1px #131313 inset,
                   $buttonBevelTop;
@@ -123,7 +124,7 @@ $buttonPresetGradient: rgb(58, 70, 75) 0%,
 
 $buttonPresetWidth:      20px;
 $buttonPresetHeight:     22px;
-$buttonPresetBoxShadow:  0 1px 0 0 #2a333d inset;
+$buttonPresetBoxShadow:  0 1px 0 0 $buttonBevelTopColor inset;
 $buttonPresetBorderLeft: 1px solid #0f1112;
 
 //Select
@@ -215,7 +216,7 @@ $menuButtonWidth:         20px;
 $menuButtonHeight:        20px;
 $menuButtonMarginLeft:    4px;
 $menuButtonBorderRadius:  $compBorderRadius;
-$menuButtonColorBg:       #2B3033;
+$menuButtonColorBg: #1a1d1f;
 $menuButtonFontFamily: $defaultFontFamily;
 $menuButtonFontSize:      10px;
 $menuButtonFontWeight:    bold;
@@ -224,11 +225,15 @@ $menuButtonTextShadow:    0 -1px #000;
 $menuButtonTextTransform: uppercase;
 
 $menuButtonBoxShadow:     0 0 0 1px #131313 inset,
-  -1px 2px 0 0 #212527 inset;
+                         -1px 2px 0 0 #212527 inset;
+
+$menuButtonHoverBoxShadow: 0 0 0 1px #131313 inset,
+                          -1px 2px 0 0 #121314 inset;
+
 $menuButtonBorderBottom:  1px solid #24292b;
 
 $menuButtonGradient:      rgb(26, 29, 31) 0%, rgb(26, 29, 31) 100%;//rgb(43, 48, 51) 0%,rgb(31, 35, 37) 100%;
-$menuButtonHoverColorBg:  #2B3033;
+$menuButtonHoverColorBg: #111314;
 
 $menuButtonUndoPadding:   0 6px 1px 0;
 $menuButtonUndoWidth:     38px;
