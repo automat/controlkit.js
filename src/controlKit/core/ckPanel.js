@@ -43,10 +43,6 @@ ControlKit.Panel = function(controlKit,params)
     var menuClose =                  new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON),
         menuHide  = this._menuHide = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
 
-
-
-
-
     /*---------------------------------------------------------------------------------*/
 
     controlKit.getRootNode().addChild(rootNode);

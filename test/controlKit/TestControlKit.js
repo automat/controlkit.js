@@ -60,6 +60,8 @@ var imports = [
                'component/ckStringOutput.js',
                'component/ckNumberOutput.js',
 
+               'component/ckConsole.js',
+
                'component/internal/ckPicker.js'
 
 
@@ -130,12 +132,17 @@ function TestControlKit(parentDomElementId)
 
 
 
+    /*
 
     var control0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [220, 20]}),
         group00 = control0.addGroup({label:'label',height:300})
             .addSubGroup()
             .addValuePlotter(object, 'changeValue2', {height: 35, lineWidth: 2, lineColor: [237, 20, 91]})
             .addValuePlotter(object, 'changeValue3', {height: 35, lineWidth: 2})
+            .addValuePlotter(object, 'changeValue2', {height: 35, lineColor: [237, 20, 91]})
+            .addValuePlotter(object, 'changeValue3', {height: 35})
+            .addValuePlotter(object, 'changeValue3', {height: 35})
+            .addNumberOutput(object, 'changeValue0')
             .addNumberOutput(object, 'changeValue0')
             control0.addGroup({height:150})
             .addSubGroup({label:'label',height:150})
@@ -174,10 +181,16 @@ function TestControlKit(parentDomElementId)
         .addSelect(object, 'selectOptions', 'selectTarget');
 
 
-    control0 = controlKit.addPanel({width:300,fixed:false})
-        .addGroup().addSubGroup()
-        .addPad(object, 'xyValue');
 
+    control0 = controlKit.addPanel({width:200,fixed:false,label:'Pad'})
+        .addGroup().addSubGroup().addPad(object, 'xyValue',{label:'none'})
+        .addNumberOutput(object,'xyValue');
+
+        */
+
+    /*
+    var kitConsole = controlKit.addConsole({fixed:false});
+    */
     /*
     var output = controlKit.addPanel({width:300,fixed:false,position:[200,400]});
         output.addGroup().addSubGroup().addStringOutput(object,'changeValue01',{height:300});

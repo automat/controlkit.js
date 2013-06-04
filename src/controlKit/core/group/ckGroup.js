@@ -152,6 +152,9 @@ ControlKit.Group.prototype.addStringOutput    = function(object,value,params)   
 
 /*-------------------------------------------------------------------------------------*/
 
+ControlKit.Group.prototype.addConsole         = function(params)                    {return this._addComponent(new ControlKit.Console(        this.getSubGroup(),params));};
+
+
 //TODO: Move to subroup
 ControlKit.Group.prototype._addComponent = function(component)
 {

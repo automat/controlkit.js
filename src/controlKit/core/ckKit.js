@@ -162,4 +162,47 @@ ControlKit.Kit.prototype.onHistoryStatePop  = function()
 
 ControlKit.Kit.prototype.getRootNode = function(){return this._rootNode;};
 
+/*---------------------------------------------------------------------------------*/
+
+//TODO: fix
+ControlKit.Kit.prototype.addConsole = function(params)
+{
+    params            = params           || {};
+    params.valign     = params.valign    || ControlKit.Default.VALIGN;
+    params.align      = params.align     || ControlKit.Default.ALIGN;
+    params.position   = params.position  || ControlKit.Default.POSITION;
+    params.width      = params.width     || ControlKit.Default.WIDTH;
+    params.height     = params.height    || ControlKit.Default.WIDTH;
+    params.ratio      = params.ratio     || ControlKit.Default.RATIO;
+    params.label      = params.label     || ControlKit.Default.LABEL;
+    params.opacity    = params.opacity   || ControlKit.Default.OPACITY;
+
+    params.fixed      = params.fixed === undefined ?
+                        ControlKit.Default.FIXED :
+                        params.fixed;
+
+    this.addPanel({valign:   params.valign,
+                   align:    params.align,
+                   position: params.position,
+                   width:    params.width,
+                   ratio:    params.ratio,
+                   label:    params.label,
+                   opacity:  params.opacity,
+                   fixed:    params.fixed})
+                   .addGroup()
+                   .addSubGroup()
+                   .addConsole({height:params.height});
+
+
+    /*
+    return this._panels[this._panels.length-1].getGroups()[0]
+                                              .getSubGroup()
+                                              .getComponents()[0];
+
+                                              */
+};
+
+/*---------------------------------------------------------------------------------*/
+
+
 ControlKit.getKitInstance = function(){return ControlKit.Kit._instance;};
