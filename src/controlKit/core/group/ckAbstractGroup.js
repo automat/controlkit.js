@@ -28,7 +28,7 @@ ControlKit.AbstractGroup.prototype = Object.create(ControlKit.EventDispatcher.pr
 ControlKit.AbstractGroup.prototype.setScrollBar = function()
 {
     var wrapNode  = this._wrapNode,
-        maxHeight = this._height;
+        maxHeight = this.getMaxHeight();
 
     if(this.isEnabled())wrapNode.setHeight(maxHeight);
     this._scrollBar = new ControlKit.ScrollBar(wrapNode,this._listNode,maxHeight);
