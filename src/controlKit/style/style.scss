@@ -484,11 +484,16 @@
               &:nth-child(odd) {
                 background-color: $subGroupListItemColorBgOdd;
               }
+              &:nth-child(even)
+              {
+                background-color: $subGroupListItemColorBgEven;
+              }
+
             }
 
-            .canvasListItem {
-              padding: $subGroupCanvasListItemPadding;
-            }
+
+
+
 
             .headInactive {
               @include box-sizing(border-box);
@@ -527,7 +532,9 @@
               }
             }
 
+
             .wrap {
+
               .label {
                 @include box-sizing(border-box);
                 height: 100%;
@@ -560,11 +567,13 @@
                     width: 100%;
                     padding: $rangeLabelPadding;
 
-                    color: $rangeLabelFontColor;
-                    text-align: $rangeLabelTextAlign;
+                    color:          $rangeLabelFontColor;
+                    text-align:     $rangeLabelTextAlign;
                     text-transform: $rangeLabelTextTransform;
-                    font-weight: $rangeLabelFontWeight;
-                    text-shadow: $rangeLabelTextShadow;
+                    font-weight:    $rangeLabelFontWeight;
+                    text-shadow:    $rangeLabelTextShadow;
+
+
                   }
 
                   input[type='text'] {
@@ -575,66 +584,76 @@
               }
             }
 
-            /*-------------------------------------------------------------------------------------
-             * Slider
-             *-------------------------------------------------------------------------------------*/
-
-            .wrapSlider {
-              @include box-sizing(border-box);
-
-              width: 70%;
-              padding: 6px 0 0 0;
-              float: right;
-              height: 100%;
-
-              input[type='text'] {
-                width: 25%;
-                text-align: center;
-                padding: 0;
-                float: right;
-              }
-            }
-
-            .sliderWrap {
-
-              @include box-sizing(border-box);
-
-              float: left;
-              cursor: ew-resize;
-
-              width: $sliderWidth;
-              //padding: $sliderPadding;
-
-            }
-
-            .sliderSlot {
-              @include box-sizing(border-box);
-
-              width: 100%;
-              height: $sliderHeight;
-              padding: $sliderPadding;
-
-              background-color: $sliderSlotColorBg;
-              @include component-input-border;
-            }
-
-            .sliderHandle {
-              @include box-sizing(border-box);
-
-              position: relative;
-              width: 100%;
-              height: 100%;
-
-              @include linear-gradient-with-background(#{$sliderHandleGradient}, $sliderHandleColorBG);
-              @include box-shadow($sliderHandleBoxShadow);
-            }
+            .wrap{background: $subGroupHeadColorBg;}
+            .wrap{.wrap{background: none;}}
           }
+
+          .head .wrap, .headInactive .wrap{background:none;}
         }
         &:last-child {
           .subGroupList, .scrollBuffer:nth-of-type(3){border-bottom: none;}
           .scrollWrap .subGroupList{border-bottom: $subGroupListBorderBottom;}
         }
+
       }
+    }
+
+    /*-------------------------------------------------------------------------------------
+     * Slider
+     *-------------------------------------------------------------------------------------*/
+
+    .wrapSlider {
+      @include box-sizing(border-box);
+
+      width: 70%;
+      padding: 6px 0 0 0;
+      float: right;
+      height: 100%;
+
+      input[type='text'] {
+        width: 25%;
+        text-align: center;
+        padding: 0;
+        float: right;
+      }
+    }
+
+    .sliderWrap {
+
+      @include box-sizing(border-box);
+
+      float: left;
+      cursor: ew-resize;
+
+      width: $sliderWidth;
+      //padding: $sliderPadding;
+
+    }
+
+    .sliderSlot {
+      @include box-sizing(border-box);
+
+      width: 100%;
+      height: $sliderHeight;
+      padding: $sliderPadding;
+
+      background-color: $sliderSlotColorBg;
+      @include component-input-border;
+    }
+
+    .sliderHandle {
+      @include box-sizing(border-box);
+
+      position: relative;
+      width: 100%;
+      height: 100%;
+
+      @include linear-gradient-with-background(#{$sliderHandleGradient}, $sliderHandleColorBG);
+      @include box-shadow($sliderHandleBoxShadow);
+    }
+
+    .canvasListItem {
+      padding: $subGroupCanvasListItemPadding;
     }
 
     .arrowSMax {

@@ -46,8 +46,7 @@ ControlKit.ValuePlotter.prototype._redraw = function()
         length = points.length,
         ratio  = width / (length * 0.5 + 1);
 
-    var i = 0;
-    while(i < length){points[i] = width - i * ratio;i+=2;}
+    var i = 0;while(i < length){points[i] = width - i * ratio;i+=2;}
 
     this._drawValue();
 };
