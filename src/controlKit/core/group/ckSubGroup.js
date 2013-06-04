@@ -44,8 +44,6 @@ ControlKit.SubGroup = function(parent,params)
                 headNode.addChild(lablWrap);
 
             headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
-            headNode.setEventListener(ControlKit.NodeEventType.MOUSE_UP,  this._onHeadMouseUp.bind(this));
-
             rootNode.addChildAt(headNode,0);
 
             if(!params.enable)this.disable();
@@ -72,8 +70,17 @@ ControlKit.SubGroup.prototype = Object.create(ControlKit.AbstractGroup.prototype
 
 //FIXME
 
-ControlKit.SubGroup.prototype._onHeadMouseDown = function(){this._disabled = !this._disabled;this._onTrigger();};
-ControlKit.SubGroup.prototype._onHeadMouseUp   = function(){this._onTrigger();};
+ControlKit.SubGroup.prototype._onHeadMouseDown = function()
+{
+    this._disabled = !this._disabled;this._onTrigger();
+
+    var event = ControlKit.DocumentEventType.MOUSE_UP,
+        self  = this;
+    var onDocumenttMouseUp = function(){self._onTrigger();
+        document.removeEventListener(event,onDocumenttMouseUp);};
+
+    document.addEventListener(event,onDocumenttMouseUp);
+};
 
 ControlKit.SubGroup.prototype._onTrigger = function()
 {
@@ -81,25 +88,29 @@ ControlKit.SubGroup.prototype._onTrigger = function()
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_TRIGGER,null));
 };
 
+
 /*-------------------------------------------------------------------------------------*/
 
 ControlKit.SubGroup.prototype._updateAppearance = function()
 {
     if(this.isDisabled())
     {
-        this._wrapNode.setHeight(0);
         this._headNode.setStyleClass(ControlKit.CSS.HeadInactive);
         this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMin);
+        this._wrapNode.setHeight(0);
     }
     else
     {
+        var wrapNode = this._wrapNode;
+
         var height   = this.hasMaxHeight() ?
                        this.getMaxHeight() :
-                       this._wrapNode.getFirstChild().getHeight();
+                       wrapNode.getFirstChild().getHeight();
 
-        this._wrapNode.setHeight(height);
         this._headNode.setStyleClass(ControlKit.CSS.Head);
         this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
+
+        wrapNode.setHeight(height);
     }
 };
 

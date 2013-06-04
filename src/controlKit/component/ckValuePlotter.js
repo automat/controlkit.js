@@ -4,14 +4,16 @@ ControlKit.ValuePlotter = function(parent,object,value,params)
 
     /*---------------------------------------------------------------------------------*/
 
+    var canvas = this._canvas;
+
     params            = params            || {};
-    params.height     = params.height     || this._canvas.height * 0.5;
+    params.height     = params.height     || canvas.height * 0.5;
     params.resolution = params.resolution || 1;
 
     /*---------------------------------------------------------------------------------*/
 
     var resolution = params.resolution,
-        length     = Math.floor(this._canvas.width / resolution);
+        length     = Math.floor(canvas.width / resolution);
 
     var points  = this._points  = new Array(length * 2),
         buffer0 = this._buffer0 = new Array(length),
@@ -22,20 +24,43 @@ ControlKit.ValuePlotter = function(parent,object,value,params)
     var i = 0; while(i   < pointsLength){points[i]  = (length-i+1)*resolution;points[i+1]=0.0;i+=2;}
         i =-1; while(++i < length    )  {buffer0[i] =  buffer1[i] = 0.0;}
 
-    params.height = params.height  < ControlKit.Constant.MIN_HEIGHT ?
-                    ControlKit.Constant.MIN_HEIGHT : params.height;
+    this._height = params.height = params.height  < ControlKit.Constant.MIN_HEIGHT ?
+                   ControlKit.Constant.MIN_HEIGHT : params.height;
 
-    var canvas = this._canvas;
-        canvas.setSize(canvas.width,Math.floor(params.height));
+    /*---------------------------------------------------------------------------------*/
+
+    canvas.setSize(canvas.width,Math.floor(params.height));
+
+    /*---------------------------------------------------------------------------------*/
 
     this._updateHeight();
-
     this._drawValue();
 };
 
 ControlKit.ValuePlotter.prototype = Object.create(ControlKit.Plotter.prototype);
 
-ControlKit.ValuePlotter.prototype._redraw = function(){this._drawValue();};
+ControlKit.ValuePlotter.prototype._redraw = function()
+{
+    var width  = this._wrapNode.getWidth(),
+        points = this._points,
+        length = points.length,
+        ratio  = width / (length * 0.5 + 1);
+
+    var i = 0;
+    while(i < length){points[i] = width - i * ratio;i+=2;}
+
+    this._drawValue();
+};
+
+ControlKit.ValuePlotter.prototype.onGroupSizeChange = function()
+{
+    var width  = this._wrapNode.getWidth(),
+        height = this._height;
+
+    this._canvas.setSize(width,height);
+    this._updateHeight();
+    this._redraw();
+};
 
 ControlKit.ValuePlotter.prototype._drawValue = function()
 {

@@ -25,10 +25,8 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
 
 ControlKit.FunctionPlotter.prototype = Object.create(ControlKit.Plotter.prototype);
 
-ControlKit.FunctionPlotter.prototype.onValueUpdate = function()
-{
-    this.setFunction(this._object[this._key]);
-};
+ControlKit.FunctionPlotter.prototype.onValueUpdate = function(){this.setFunction(this._object[this._key]);};
+ControlKit.FunctionPlotter.prototype._redraw       = function(){this.setFunction(this._object[this._key]);}
 
 ControlKit.FunctionPlotter.prototype.setFunction = function(func)
 {
@@ -62,29 +60,20 @@ ControlKit.FunctionPlotter.prototype._drawAxes = function()
     canvas.stroke(39,44,46);
     canvas.line(0,canvasHeightHalf,canvasWidth,canvasHeightHalf);
     canvas.line(canvasWidthHalf,0,canvasWidthHalf,canvasHeight);
-
-
-
-
 };
 
 ControlKit.FunctionPlotter.prototype._drawBoundsPanel = function()
 {
-    var canvas           = this._canvas,
-        canvasWidth      = canvas.width;
-
-    var panelSize = 50,
-        panelX    = 8,
-        panelY    = 16;
+    var canvas = this._canvas,
+        panelX = 8,
+        panelY = 16,
+        bounds = this._bounds;
 
     canvas.noStroke();
 
-    var bounds = this._bounds;
-
     canvas.fill(100);
     canvas.text('x=['+bounds[0] + ' ,' +bounds[1] + ']\ny=['+bounds[2] + ' ,' +bounds[3] + ']' ,panelX,panelY);
-
-}
+};
 
 
 ControlKit.FunctionPlotter.prototype._drawPlot = function()
@@ -111,8 +100,6 @@ ControlKit.FunctionPlotter.prototype._drawPlot = function()
         i+=2;
     }
 
-
-
     canvas.push();
     {
         canvas.translate(0,(Math.floor(height)*0.5+0.5));
@@ -126,6 +113,3 @@ ControlKit.FunctionPlotter.prototype._drawPlot = function()
     canvas.pop();
 
 };
-
-
-
