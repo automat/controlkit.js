@@ -44,9 +44,9 @@ ControlKit.CanvasComponent.prototype._redraw = function(){};
 
 ControlKit.CanvasComponent.prototype.onGroupSizeChange = function()
 {
-    var wrapNodeWidth = this._wrapNode.getWidth();
+    var width = this._wrapNode.getWidth();
 
-    this._canvas.setSize(wrapNodeWidth,wrapNodeWidth);
+    this._canvas.setSize(width,width);
     this._updateHeight();
     this._redraw();
 
