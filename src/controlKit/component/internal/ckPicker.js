@@ -1,4 +1,4 @@
-ControlKit.Picker = function()
+ControlKit.Picker = function(params)
 {
     /*---------------------------------------------------------------------------------*/
 
@@ -14,25 +14,14 @@ ControlKit.Picker = function()
 
     /*---------------------------------------------------------------------------------*/
 
-    var paletteWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
-        paletteWrap.setStyleClass(ControlKit.CSS.PalleteWrap);
+    var fieldWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
+        fieldWrap.setStyleClass(ControlKit.CSS.PalleteWrap);
 
-    var paletteWrapInner = new ControlKit.Node(ControlKit.NodeType.DIV);
-        paletteWrapInner.setStyleClass(ControlKit.CSS.PaletteWrapInner);
+    var fieldWrapInner = new ControlKit.Node(ControlKit.NodeType.DIV);
+        fieldWrapInner.setStyleClass(ControlKit.CSS.PaletteWrapInner);
 
     var sliderWrapInner  = new ControlKit.Node(ControlKit.NodeType.DIV);
         sliderWrapInner.setStyleClass(ControlKit.CSS.PaletteWrapInner);
-
-    /*---------------------------------------------------------------------------------*/
-
-    var paletteCanvas = this._paletteCanvas = new ControlKit.Canvas(paletteWrapInner);
-        paletteCanvas.setAntialias(false);
-        paletteCanvas.setSize(154,154);
-
-
-    var sliderCanvas  = this._sliderCanvas  = new ControlKit.Canvas(sliderWrapInner);
-        sliderCanvas.setAntialias(false);
-        sliderCanvas.setSize(24,154);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -42,16 +31,38 @@ ControlKit.Picker = function()
     node.addChild(head);
     node.addChild(wrap);
 
-    wrap.addChild(paletteWrap);
-    paletteWrap.addChild(paletteWrapInner);
-    paletteWrap.addChild(sliderWrapInner);
+    wrap.addChild(fieldWrap);
+    fieldWrap.addChild(fieldWrapInner);
+    fieldWrap.addChild(sliderWrapInner);
 
     /*---------------------------------------------------------------------------------*/
 
+    var canvasField = this._canvasField = new ControlKit.Canvas(fieldWrapInner);
+        canvasField.setAntialias(false);
+        canvasField.setSize(154,154);
+
+
+    var canvasSlider  = this._canvasSlider  = new ControlKit.Canvas(sliderWrapInner);
+        canvasSlider.setAntialias(false);
+        canvasSlider.setSize(20,154);
+
+    /*---------------------------------------------------------------------------------*/
+
+    this._imageDataSlider = this._canvasSlider.createImageData();
+    this._imageDataField  = this._canvasField.createImageData();
+
     this._colorMode = ControlKit.Picker.ColorModeType.HUE_MODE;
 
-    this._drawPalette();
-    this._drawSlider();
+    this._valueHue = 0;
+    this._valueSat = 0;
+    this._valueVal = 0;
+    this._valueR   = 0;
+    this._valueG   = 0;
+    this._valueB   = 0;
+    this._valueA   = 0;
+
+    this._drawCanvasField();
+    this._drawCanvasSlider();
 
     //for testing
     node.setPositionGlobal(300,200);
@@ -61,49 +72,71 @@ ControlKit.Picker.prototype =
 {
     getNode : function(){return this._rootNode;},
 
-    _drawPalette : function()
+    _drawCanvasField : function()
     {
-        var c = this._paletteCanvas;
+        var c = this._canvasField;
 
-        var width  = c.width,
-            height = c.height;
+        var width     = c.width,
+            height    = c.height,
+            invWidth  = 1 / width,
+            invHeight = 1 / height;
 
-        c.clear();
-        c.noStroke();
-        c.push();
+        var imageData = this._imageDataField,
+            rgb       = [],
+            index     = 0;
+
+        var valueHue  = this._valueHue,
+            valueSat  = this._valueSat,
+            valueVal  = this._valueVal;
+
+        var i = -1, j;
+        while(++i < height)
         {
-            c.translateHalfFloat();
-            c.fill(255);
-            c.rect(0,0,width,height);
-
-
+            j = -1;
 
         }
-        c.pop();
-    },
-
-    _drawSlider : function()
-    {
-        var c = this._sliderCanvas;
-
-        var width  = c.width,
-            height = c.height;
 
         c.clear();
+        c.putImageData(imageData,0,0);
 
-        var imageData = c.createImageData();
-
-        /*
-        c.noStroke();
-        c.push();
-        {
-            c.translateHalfFloat();
-            c.fill(255);
-            c.rect(0,0,width,height);
-        }
-        c.pop();
-        */
     },
+
+    _drawIndicatorField : function(){},
+
+    _drawCanvasSlider : function()
+    {
+        var c = this._canvasSlider;
+
+        var width     = c.width,
+            height    = c.height,
+            invHeight = 1 / height;
+
+        var imageData = this._imageDataSlider,
+            rgb       = [],
+            index     = 0;
+
+        var i = -1,j;
+        while(++i < height)
+        {
+            j = -1;
+
+            while(++j < width)
+            {
+                rgb   = this._HSV2RGB( (1.0 - i * invHeight) * 360.0,100.0,100.0);
+                index = (i * width + j) * 4;
+
+                imageData.data[index  ] = rgb[0];
+                imageData.data[index+1] = rgb[1];
+                imageData.data[index+2] = rgb[2];
+                imageData.data[index+3] = 255;
+            }
+        }
+
+        c.clear();
+        c.putImageData(imageData,0,0);
+    },
+
+    _drawIndicatorSlider : function(){},
 
     _HSV2RGB : function(hue,sat,val)
     {
@@ -162,6 +195,8 @@ ControlKit.Picker.prototype =
         return [r,g,b];
 
     },
+
+    _RGB2HSV : function(){},
 
 
 
