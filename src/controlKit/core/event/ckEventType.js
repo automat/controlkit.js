@@ -1,43 +1,46 @@
 ControlKit.EventType =
 {
-    VALUE_UPDATED          : 'valueUpdated',
-    UPDATE_VALUE           : 'updateValue',
+    VALUE_UPDATED             : 'valueUpdated',
+    UPDATE_VALUE              : 'updateValue',
 
-    SELECT_TRIGGERED       : 'selectTrigger',
-    TRIGGER_SELECT         : 'triggerSelect',
+    SELECT_TRIGGERED          : 'selectTrigger',
+    TRIGGER_SELECT            : 'triggerSelect',
 
-    PANEL_MOVE_BEGIN       : 'panelMoveBegin',
-    PANEL_MOVE             : 'panelMove',
-    PANEL_MOVE_END         : 'panelMoveEnd',
+    PANEL_MOVE_BEGIN          : 'panelMoveBegin',
+    PANEL_MOVE                : 'panelMove',
+    PANEL_MOVE_END            : 'panelMoveEnd',
 
-    PANEL_SHOW             : 'panelShow',
-    PANEL_HIDE             : 'panelHide',
+    PANEL_SHOW                : 'panelShow',
+    PANEL_HIDE                : 'panelHide',
 
-    SUBGROUP_TRIGGER       : 'subGroupTrigger',
+    PANEL_SCROLL_WRAP_ADDED   : 'panelScrollWrapAdded',
+    PANEL_SCROLL_WRAP_REMOVED : 'panelScrollWrapRemoved',
 
-    COMPONENTS_ENABLE      : 'enableCompo',
-    COMPONENTS_DISABLE     : 'disableComps',
+    SUBGROUP_TRIGGER          : 'subGroupTrigger',
 
-    SUBGROUP_ENABLE        : 'enableSubGroup',
-    SUBGROUP_DISABLE       : 'disableSubGroup',
+    COMPONENTS_ENABLE         : 'enableCompo',
+    COMPONENTS_DISABLE        : 'disableComps',
 
-    INDEX_ORDER_CHANGED    : 'indexOrderChanged',
-    CHANGE_INDEX_ORDER     : 'changeIndexOrder',
+    SUBGROUP_ENABLE          : 'enableSubGroup',
+    SUBGROUP_DISABLE         : 'disableSubGroup',
 
-    SCROLL_BEGIN           : 'scrollBegin',
-    SCROLL                 : 'scroll',
-    SCROLL_END             : 'scrollEnd',
+    INDEX_ORDER_CHANGED      : 'indexOrderChanged',
+    CHANGE_INDEX_ORDER       : 'changeIndexOrder',
 
-    INPUT_SELECTDRAG_START : 'inputSelectDragStart',
-    INPUT_SELECTDRAG       : 'inputSelectDrag',
-    INPUT_SELECTDRAG_END   : 'inputSelectDragEnd',
+    SCROLL_BEGIN             : 'scrollBegin',
+    SCROLL                   : 'scroll',
+    SCROLL_END               : 'scrollEnd',
 
-    HISTORY_STATE_PUSH     : 'historyStatePush',
-    HISTORY_STATE_POP      : 'historyStatePop',
+    INPUT_SELECTDRAG_START   : 'inputSelectDragStart',
+    INPUT_SELECTDRAG         : 'inputSelectDrag',
+    INPUT_SELECTDRAG_END     : 'inputSelectDragEnd',
 
-    GROUP_SIZE_CHANGE     : 'groupSizeChange',
-    GROUP_LIST_SIZE_CHANGE: 'groupListSizeChange',
-    GROUP_SIZE_UPDATE     : 'groupSizeUpdate',
+    HISTORY_STATE_PUSH       : 'historyStatePush',
+    HISTORY_STATE_POP        : 'historyStatePop',
+
+    GROUP_SIZE_CHANGE        : 'groupSizeChange',
+    GROUP_LIST_SIZE_CHANGE   : 'groupListSizeChange',
+    GROUP_SIZE_UPDATE        : 'groupSizeUpdate',
 
     UPDATE_MENU            : 'updateMenu'
 };
