@@ -52,7 +52,7 @@ ControlKit.SubGroup = function(parent,params)
         }
     }
 
-    if(this.hasMaxHeight())this.setScrollBar();
+    if(this.hasMaxHeight())this.addScrollWrap();
 
     /*-------------------------------------------------------------------------------------*/
 

@@ -25,13 +25,13 @@ ControlKit.AbstractGroup.prototype = Object.create(ControlKit.EventDispatcher.pr
 
 /*---------------------------------------------------------------------------------*/
 
-ControlKit.AbstractGroup.prototype.setScrollBar = function()
+ControlKit.AbstractGroup.prototype.addScrollWrap = function()
 {
     var wrapNode  = this._wrapNode,
         maxHeight = this.getMaxHeight();
 
-    if(this.isEnabled())wrapNode.setHeight(maxHeight);
     this._scrollBar = new ControlKit.ScrollBar(wrapNode,this._listNode,maxHeight);
+    if(this.isEnabled())wrapNode.setHeight(maxHeight);
 };
 
 ControlKit.AbstractGroup.prototype.hasMaxHeight = function(){return this._height != null;};

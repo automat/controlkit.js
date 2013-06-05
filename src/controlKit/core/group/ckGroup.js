@@ -55,7 +55,7 @@ ControlKit.Group = function(parent,params)
         if(!params.enable)this.disable();
     }
 
-    if(this.hasMaxHeight())this.setScrollBar();
+    if(this.hasMaxHeight())this.addScrollWrap();
 
     rootNode.addChild(wrapNode);
 
