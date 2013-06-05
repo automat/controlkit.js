@@ -1,3 +1,7 @@
+/*
+    TODO: FIX draw error, last point glitch
+ */
+
 ControlKit.ValuePlotter = function(parent,object,value,params)
 {
     ControlKit.Plotter.apply(this,arguments);
@@ -15,9 +19,9 @@ ControlKit.ValuePlotter = function(parent,object,value,params)
     var resolution = params.resolution,
         length     = Math.floor(canvas.width / resolution);
 
-    var points  = this._points  = new Array(length * 2),
-        buffer0 = this._buffer0 = new Array(length),
-        buffer1 = this._buffer1 = new Array(length);
+    var points     = this._points  = new Array(length * 2),
+        buffer0    = this._buffer0 = new Array(length),
+        buffer1    = this._buffer1 = new Array(length);
 
     var pointsLength = points.length;
 
@@ -44,7 +48,7 @@ ControlKit.ValuePlotter.prototype._redraw = function()
     var width  = this._wrapNode.getWidth(),
         points = this._points,
         length = points.length,
-        ratio  = width / (length * 0.5 + 1);
+        ratio  = width / (length * 0.5 ) ;
 
     var i = 0;while(i < length){points[i] = width - i * ratio;i+=2;}
 
