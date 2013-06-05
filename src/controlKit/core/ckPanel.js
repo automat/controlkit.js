@@ -32,8 +32,9 @@ ControlKit.Panel = function(controlKit,params)
         fixed      = this._fixed      = params.fixed,
         label      = this._label      = params.label,
         position   = this._position   = params.position,
-        opacity    =                    params.opacity,
-        vConstrain = this._vConstrain = params.vconstrain;
+        opacity    =                    params.opacity;
+
+    this._vConstrain = params.vconstrain;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -56,10 +57,6 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    controlKit.getRootNode().addChild(rootNode);
-
-    /*---------------------------------------------------------------------------------*/
-
     rootNode.setStyleClass(ControlKit.CSS.Panel);
     headNode.setStyleClass(ControlKit.CSS.Head);
     lablWrap.setStyleClass(ControlKit.CSS.Wrap);
@@ -73,12 +70,15 @@ ControlKit.Panel = function(controlKit,params)
     menuClose.setStyleClass(ControlKit.CSS.MenuBtnClose);
     menuHide.setStyleClass( ControlKit.CSS.MenuBtnHide);
 
-    /*---------------------------------------------------------------------------------*/
-
     rootNode.setWidth(width);
     lablNode.setProperty('innerHTML',label);
 
     /*---------------------------------------------------------------------------------*/
+
+    controlKit.getRootNode().addChild(rootNode);
+
+    /*---------------------------------------------------------------------------------*/
+
 
     if(!fixed)
     {
@@ -157,7 +157,7 @@ ControlKit.Panel.prototype._updateScrollWrap = function()
     var wrapNode   = this._wrapNode,
         scrollBar  = this._scrollBar,
         height     = this.hasMaxHeight() ? this.getMaxHeight() : 100,
-        listHeight = wrapNode.getChildAt(1).getHeight();
+        listHeight = this._listNode.getHeight();
 
     wrapNode.setHeight(listHeight < height ? listHeight : height);
 
@@ -174,7 +174,6 @@ ControlKit.Panel.prototype._updateScrollWrap = function()
         wrapNode.setHeight(height);
     }
 };
-
 
 
 ControlKit.Panel.prototype._addScrollWrap = function()
@@ -347,7 +346,7 @@ ControlKit.Panel.prototype._constrainHeight = function()
         if(!hasScrollWrap)
         {
             this._addScrollWrap(heightSum);
-            this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_SCROLL_WRAP_ADDED));
+            this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_SCROLL_WRAP_ADDED, null));
             return;
         }
 
@@ -358,14 +357,15 @@ ControlKit.Panel.prototype._constrainHeight = function()
     {
         if(!hasMaxHeight && hasScrollWrap)
         {
+            scrollBar.freeTargetNode();
             wrapNode.removeChild(scrollBar.getNode());
             wrapNode.removeChild(scrollBar.getWrapNode());
-            wrapNode.addChild(scrollBar.freeTargetNode());
+            wrapNode.addChild(this._listNode);
             wrapNode.deleteStyleProperty('height');
 
-            this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_SCROLL_WRAP_REMOVED));
-
             this._scrollBar = null;
+
+            this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_SCROLL_WRAP_REMOVED, null));
         }
     }
 };

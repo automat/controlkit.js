@@ -77,11 +77,16 @@ ControlKit.Group = function(parent,params)
 
     /*-------------------------------------------------------------------------------------*/
 
-    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_BEGIN,this,'onPanelMoveBegin');
-    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE,      this,'onPanelMove');
-    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,  this,'onPanelMoveEnd');
-    this._parent.addEventListener(ControlKit.EventType.PANEL_HIDE,      this,'onPanelHide');
-    this._parent.addEventListener(ControlKit.EventType.PANEL_SHOW,      this,'onPanelShow');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_BEGIN,          this, 'onPanelMoveBegin');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE,                this, 'onPanelMove');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,            this, 'onPanelMoveEnd');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_HIDE,                this, 'onPanelHide');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_SHOW,                this, 'onPanelShow');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_SCROLL_WRAP_ADDED,   this, 'onPanelScrollWrapAdded');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_SCROLL_WRAP_REMOVED, this, 'onPanelScrollWrapRemoved');
+
+    /*-------------------------------------------------------------------------------------*/
+
     this.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE,this._parent,'onGroupListSizeChange');
 };
 
@@ -89,12 +94,13 @@ ControlKit.Group.prototype = Object.create(ControlKit.AbstractGroup.prototype);
 
 /*-------------------------------------------------------------------------------------*/
 
-ControlKit.Group.prototype.onPanelMoveBegin = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_BEGIN,null));};
-ControlKit.Group.prototype.onPanelMove      = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE,      null))};
-ControlKit.Group.prototype.onPanelMoveEnd   = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,  null))};
-
-ControlKit.Group.prototype.onPanelHide      = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_DISABLE,null));};
-ControlKit.Group.prototype.onPanelShow      = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_ENABLE, null));};
+ControlKit.Group.prototype.onPanelMoveBegin         = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_BEGIN,  null));};
+ControlKit.Group.prototype.onPanelMove              = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE,        null));};
+ControlKit.Group.prototype.onPanelMoveEnd           = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,    null));};
+ControlKit.Group.prototype.onPanelScrollWrapAdded   = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE, null));};
+ControlKit.Group.prototype.onPanelScrollWrapRemoved = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE, null));};
+ControlKit.Group.prototype.onPanelHide              = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_DISABLE,  null));};
+ControlKit.Group.prototype.onPanelShow              = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_ENABLE,   null));};
 
 /*-------------------------------------------------------------------------------------*/
 

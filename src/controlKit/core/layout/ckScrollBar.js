@@ -1,4 +1,4 @@
-//TODO: Add mouseoffset
+//TODO: Add mouseoffset & reset..
 ControlKit.ScrollBar = function(parentNode,targetNode,wrapHeight)
 {
     this._wrapHeight = wrapHeight;
