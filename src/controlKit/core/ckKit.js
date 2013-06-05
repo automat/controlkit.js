@@ -51,10 +51,11 @@ ControlKit.Kit = function(parentDomElementId,params)
         document.body.appendChild(trigger.getElement());
     }
 
-   // node.addChild(ControlKit.Picker.getInstance().getNode());
+    node.addChild(picker.getNode());
     node.addChild(options.getNode());
 
-    if(params.opacity != 1.0 || params.opacity != 0.0)
+
+    if(params.opacity != 1.0 && params.opacity != 0.0)
     {
         node.setStyleProperty('opacity',params.opacity);
     }

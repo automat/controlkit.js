@@ -2,6 +2,8 @@ ControlKit.Panel = function(controlKit,params)
 {
     ControlKit.EventDispatcher.apply(this,arguments);
 
+    /*---------------------------------------------------------------------------------*/
+
     var parent = this._parent = controlKit;
 
     /*---------------------------------------------------------------------------------*/
@@ -78,7 +80,6 @@ ControlKit.Panel = function(controlKit,params)
     controlKit.getRootNode().addChild(rootNode);
 
     /*---------------------------------------------------------------------------------*/
-
 
     if(!fixed)
     {
@@ -309,7 +310,6 @@ ControlKit.Panel.prototype._setPosition = function(x,y)
     }
     else
     {
-
         //TODO FIX
         position[0] = maxX;
     }
@@ -357,9 +357,7 @@ ControlKit.Panel.prototype._constrainHeight = function()
     {
         if(!hasMaxHeight && hasScrollWrap)
         {
-            scrollBar.freeTargetNode();
-            wrapNode.removeChild(scrollBar.getNode());
-            wrapNode.removeChild(scrollBar.getWrapNode());
+            scrollBar.removeFromParent();
             wrapNode.addChild(this._listNode);
             wrapNode.deleteStyleProperty('height');
 
