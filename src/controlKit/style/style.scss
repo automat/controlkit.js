@@ -687,81 +687,91 @@
       float: right;
     }
 
-    /*-------------------------------------------------------------------------------------
+
+  }
+
+
+  /*-------------------------------------------------------------------------------------
       * Picker
       *-------------------------------------------------------------------------------------*/
 
-    .picker {
+  .picker {
+    @include box-sizing(border-box);
+    @include border-radius(2px);
+    background-color: #3c494e;
+
+    font-family: arial, sans-serif;
+    font-size: 11px;
+    color: #fff;
+    text-shadow: 1px 1px #000;
+
+    cursor: pointer;
+
+    position: absolute;
+    z-index: 2147483631;
+
+    width: 380px;
+    height: 250px;
+
+    overflow: hidden;
+
+    @include user-select;
+    @include box-shadow(0 0 1px 1px rgba(0, 0, 0, 0.95));
+
+    canvas{vertical-align: bottom;}
+
+    .head {
+      height: 30px;
+      padding: 0 20px 0 10px;
+
+      background-color: #1a1d1f;
+      border-top: 1px solid #202426;
+      border-bottom: 1px solid #111314;
+
+      .label {
+        float: left;
+        font-size: 11px;
+        font-weight: bold;
+        text-shadow: 0 -1px #000;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        cursor: default;
+        line-height: 30px;
+      }
+
+    }
+
+    .wrap {
+      position: relative;
       @include box-sizing(border-box);
+      padding: 10px;
+    }
+
+    .paletteWrap {
+      height: 160px;
+    }
+
+    .paletteWrapInner {
+      padding: 3px;
+
+      /*
+      @include box-shadow(0 0 1px 3px rgba(0, 0, 0, 0.05) inset, 0 0 1px 1px #111314 inset);
+      border: none;
       @include border-radius(2px);
-      background-color: #3c494e;
+      border-bottom: 1px solid #3b4447;
+      */
 
-      font-family: arial, sans-serif;
-      font-size: 11px;
-      color: #fff;
-      text-shadow: 1px 1px #000;
+      @include component-input-border;
 
-      cursor: pointer;
+      background: #1e2224;
 
-      position: absolute;
-      z-index: 2147483631;
+      margin-right: 5px;
 
-      width: 380px;
-      height: 250px;
+      height: 100%;
 
-      overflow: hidden;
+      float: left;;
 
-      @include user-select;
-      @include box-shadow(0 0 1px 1px rgba(0, 0, 0, 0.95));
-
-      .head {
-        height: 30px;
-        padding: 0 20px 0 10px;
-
-        background-color: #1a1d1f;
-        border-top: 1px solid #202426;
-        border-bottom: 1px solid #111314;
-
-        .label {
-          float: left;
-          font-size: 11px;
-          font-weight: bold;
-          text-shadow: 0 -1px #000;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          cursor: default;
-          line-height: 30px;
-        }
-
-      }
-
-      .wrap {
-        position: relative;
-        @include box-sizing(border-box);
-        padding: 10px;
-      }
-
-      .paletteWrap {
-        height: 160px;
-      }
-
-      .paletteWrapInner {
-        padding: 3px;
-        @include box-shadow(0 0 1px 3px rgba(0, 0, 0, 0.05) inset, 0 0 1px 1px #111314 inset);
-        border: none;
-        @include border-radius(2px);
-        border-bottom: 1px solid #3b4447;
-
-        background: #1e2224;
-
-        margin-right: 5px;
-
-        height: 100%;
-
-        float: left;;
-
-      }
     }
   }
 
@@ -796,6 +806,8 @@
     overflow: hidden;
 
     background-color: $optionsColorBg;
+
+
 
     ul {
       width: 100%;
