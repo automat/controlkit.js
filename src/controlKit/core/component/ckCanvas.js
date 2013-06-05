@@ -324,9 +324,9 @@ ControlKit.Canvas.prototype.createImageData = function(width,height)
     return this.context.createImageData(width,height);
 };
 
-ControlKit.Canvas.prototype.putImageData = function(imageData,x,y,dirtyX,dirtyY,dirtyWidth,dirtyHeight)
+ControlKit.Canvas.prototype.putImageData = function(imageData,x,y)
 {
-    this.context.putImageData(imageData,x,y,dirtyX,dirtyY,dirtyWidth,dirtyHeight);
+    this.context.putImageData(imageData,x,y);
 };
 
 
