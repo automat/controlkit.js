@@ -31,9 +31,11 @@ ControlKit.ScrollBar = function(parentNode,targetNode,wrapHeight)
     this._scrollHeight = 0;
     this._scrollUnit   = 0;
 
+    /*
     this._scrollMin    = 0;
     this._scrollMax    = 1;
     this._scrollPos    = 0;
+    */
 
     thumb.setPositionY(ControlKit.Constant.SCROLLBAR_TRACK_PADDING);
     thumb.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onThumbDragStart.bind(this));
@@ -111,6 +113,7 @@ ControlKit.ScrollBar.prototype =
 
         var mouse = ControlKit.Mouse.getInstance();
 
+        //TODO:add
         this._scrollOffset = mouse.getY() - this._thumbNode.getPositionGlobalY();
 
         var onDrag    = function()
@@ -146,5 +149,17 @@ ControlKit.ScrollBar.prototype =
         }
     },
 
-    isValid : function(){return this._isValid;}
+    isValid : function(){return this._isValid;},
+
+    setWrapHeight : function(height)
+    {
+        this._wrapHeight = height;
+        this.update();
+    },
+
+    freeTargetNode : function(){return this._wrapNode.removeChild(this._targetNode);},
+    getWrapNode    : function(){return this._wrapNode;},
+    getNode        : function(){return this._rootNode;},
+    getTargetNode  : function(){return this._targetNode;}
+
 };
