@@ -315,6 +315,21 @@ ControlKit.Canvas.prototype.getContext = function ()
     return this.context;
 };
 
+
+ControlKit.Canvas.prototype.createImageData = function(width,height)
+{
+    width  = width  || this.width;
+    height = height || this.height;
+
+    return this.context.createImageData(width,height);
+};
+
+ControlKit.Canvas.prototype.putImageData = function(imageData,x,y,dirtyX,dirtyY,dirtyWidth,dirtyHeight)
+{
+    this.context.putImageData(imageData,x,y,dirtyX,dirtyY,dirtyWidth,dirtyHeight);
+};
+
+
 ControlKit.Canvas.prototype.getElement = function()
 {
     return this._canvas;
@@ -595,7 +610,7 @@ ControlKit.color = function()
     }
 
     return s + '(' + r + ',' + g + ',' + b + ',' + a + ')';
-}
+};
 
 
 ControlKit.Canvas.prototype.getNode = function(){return this._node;};
