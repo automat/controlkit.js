@@ -1,8 +1,11 @@
 //TODO: Add mouseoffset & reset..
 ControlKit.ScrollBar = function(parentNode,targetNode,wrapHeight)
 {
-    this._wrapHeight = wrapHeight;
+    this._parentNode = parentNode;
     this._targetNode = targetNode;
+    this._wrapHeight = wrapHeight;
+
+    /*---------------------------------------------------------------------------------*/
 
     var wrap   = this._wrapNode   = new ControlKit.Node(ControlKit.NodeType.DIV),
         node   = this._rootNode   = new ControlKit.Node(ControlKit.NodeType.DIV),
@@ -31,11 +34,10 @@ ControlKit.ScrollBar = function(parentNode,targetNode,wrapHeight)
     this._scrollHeight = 0;
     this._scrollUnit   = 0;
 
-    /*
     this._scrollMin    = 0;
     this._scrollMax    = 1;
     this._scrollPos    = 0;
-    */
+
 
     thumb.setPositionY(ControlKit.Constant.SCROLLBAR_TRACK_PADDING);
     thumb.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onThumbDragStart.bind(this));
@@ -73,6 +75,17 @@ ControlKit.ScrollBar.prototype =
         thumb.setHeight(thumbHeight);
 
         this._isValid = true;
+
+
+        /*
+        var scrollMin = this._scrollMin,
+            scrollMax = this._scrollMax,
+            scrollPos = this._scrollPos;
+
+        var scrollPosNorm = (scrollPos - scrollMin) / (scrollMax - scrollPos);
+        */
+
+
     },
 
     _scrollThumb : function(y)
@@ -157,9 +170,22 @@ ControlKit.ScrollBar.prototype =
         this.update();
     },
 
-    freeTargetNode : function(){return this._wrapNode.removeChild(this._targetNode);},
+    removeTargetNode : function(){return this._wrapNode.removeChild(this._targetNode);},
+
+    removeFromParent : function()
+    {
+        var parentNode = this._parentNode,
+            rootNode   = this._rootNode,
+            targetNode = this._targetNode;
+
+        rootNode.removeChild(targetNode);
+        parentNode.removeChild(this._wrapNode);
+        parentNode.removeChild(rootNode);
+
+        return targetNode;
+    },
+
     getWrapNode    : function(){return this._wrapNode;},
     getNode        : function(){return this._rootNode;},
     getTargetNode  : function(){return this._targetNode;}
-
 };
