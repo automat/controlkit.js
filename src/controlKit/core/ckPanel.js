@@ -59,21 +59,21 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    rootNode.setStyleClass(ControlKit.CSS.Panel);
-    headNode.setStyleClass(ControlKit.CSS.Head);
-    lablWrap.setStyleClass(ControlKit.CSS.Wrap);
-    lablNode.setStyleClass(ControlKit.CSS.Label);
-    menuNode.setStyleClass(ControlKit.CSS.Menu);
-    wrapNode.setStyleClass(ControlKit.CSS.Wrap);
-    listNode.setStyleClass(ControlKit.CSS.GroupList);
+        rootNode.setStyleClass(ControlKit.CSS.Panel);
+        headNode.setStyleClass(ControlKit.CSS.Head);
+        lablWrap.setStyleClass(ControlKit.CSS.Wrap);
+        lablNode.setStyleClass(ControlKit.CSS.Label);
+        menuNode.setStyleClass(ControlKit.CSS.Menu);
+        wrapNode.setStyleClass(ControlKit.CSS.Wrap);
+        listNode.setStyleClass(ControlKit.CSS.GroupList);
 
     /*---------------------------------------------------------------------------------*/
 
-    menuClose.setStyleClass(ControlKit.CSS.MenuBtnClose);
-    menuHide.setStyleClass( ControlKit.CSS.MenuBtnHide);
+        menuClose.setStyleClass(ControlKit.CSS.MenuBtnClose);
+        menuHide.setStyleClass( ControlKit.CSS.MenuBtnHide);
 
-    rootNode.setWidth(width);
-    lablNode.setProperty('innerHTML',label);
+        rootNode.setWidth(width);
+        lablNode.setProperty('innerHTML',label);
 
     /*---------------------------------------------------------------------------------*/
 
