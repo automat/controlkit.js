@@ -20,6 +20,65 @@
  */
 
 #controlKit {
+
+
+  .panel input[type='text'], .panel textarea, .picker input[type='text']{
+    @include box-sizing(border-box);
+
+    height: $inputHeight;
+    width: 100%;
+    padding: $inputPadding;
+
+    font-family: $inputFontFamily;
+    font-size:   $inputFontSize;
+    color:       $inputFontColor;
+    text-shadow: $inputFontShadow;
+
+    @include linear-gradient-with-background(#{$inputGradient}, $inputColorBg);
+
+    @include component-input-border;
+  }
+
+
+  .panel .button, .picker .button,.panel .select, .panel .selectActive {
+    @include box-sizing(border-box);
+
+    width: 100%;
+    height: $buttonHeight;
+    margin: $buttonMargin;
+
+    cursor: pointer;
+
+    @include linear-gradient-with-background(#{$buttonGradient}, $buttonBgColor);
+
+    font-family: $buttonFontFamily;
+    color: $buttonFontColor;
+
+    border: none;
+    @include border-radius($buttonBorderRadius);
+    @include box-shadow($buttonBoxShadow);
+    border-bottom: $compBorderBottom;
+  }
+
+  .panel .button, .picker .button
+  {
+    font-size: $buttonFontSize;
+    font-weight: $buttonFontWeight;
+    text-shadow: $buttonTextShadow;
+    text-transform: $buttonTextTransform;
+
+    &:hover {
+      background-image: none;
+    }
+    &:active {
+      @include linear-gradient($buttonGradientActive);
+    }
+
+  }
+
+
+
+
   .panel {
 
     position: absolute;
@@ -51,22 +110,7 @@
      * Inputs
      *-------------------------------------------------------------------------------------*/
 
-    input[type='text'], textarea {
-      @include box-sizing(border-box);
 
-      height: $inputHeight;
-      width: 100%;
-      padding: $inputPadding;
-
-      font-family: $inputFontFamily;
-      font-size:   $inputFontSize;
-      color:       $inputFontColor;
-      text-shadow: $inputFontShadow;
-
-      @include linear-gradient-with-background(#{$inputGradient}, $inputColorBg);
-
-      @include component-input-border;
-    }
 
     textarea {
       padding: $textareaPadding;
@@ -76,40 +120,7 @@
       white-space: nowrap;
     }
 
-    .button, .select, .selectActive {
-      @include box-sizing(border-box);
 
-      width: 100%;
-      height: $buttonHeight;
-      margin: $buttonMargin;
-
-      cursor: pointer;
-
-      @include linear-gradient-with-background(#{$buttonGradient}, $buttonBgColor);
-
-      font-family: $buttonFontFamily;
-      color: $buttonFontColor;
-
-      border: none;
-      @include border-radius($buttonBorderRadius);
-      @include box-shadow($buttonBoxShadow);
-      border-bottom: $compBorderBottom;
-    }
-
-    .button {
-      font-size: $buttonFontSize;
-      font-weight: $buttonFontWeight;
-      text-shadow: $buttonTextShadow;
-      text-transform: $buttonTextTransform;
-
-      &:hover {
-        background-image: none;
-      }
-      &:active {
-        @include linear-gradient($buttonGradientActive);
-      }
-
-    }
 
     .select, .selectActive {
       padding-left: 10px;
@@ -200,108 +211,7 @@
      * Head & Label
      *-------------------------------------------------------------------------------------*/
 
-    .label {
-      width: 100%;
 
-      float: left;
-      font-size: $labelFontSize;
-      font-weight: $labelFontWeight;
-      text-shadow: $labelTextShadow;
-
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      cursor: default;
-    }
-
-    .head, .panelHeadInactive {
-      height: $panelHeadHeight;
-      padding: $panelHeadPadding;
-      background: $panelHeadColorBg;
-    }
-
-    .head {
-      border-top: $panelHeadBorderTop;
-      border-bottom: $panelHeadBorderBottom;
-
-      .label {
-        cursor: pointer;
-
-        line-height: $panelHeadHeight;
-        color: $panelHeadLabelFontColor;
-      }
-    }
-
-    .panelHeadInactive {
-      border-top: $panelHeadInactiveBorderTop;
-    }
-
-    /*-------------------------------------------------------------------------------------
-     * Menu
-     *-------------------------------------------------------------------------------------*/
-
-    .menu {
-      float: right;
-      padding: $menuPadding;
-
-      input[type='button'] {
-        @include box-sizing(border-box);
-
-        cursor: pointer;
-
-        height: $menuButtonHeight;
-        margin-left: $menuButtonMarginLeft;
-        border: none;
-
-        @include border-radius($menuButtonBorderRadius);
-
-        font-family: $menuButtonFontFamily;
-        font-size: $menuButtonFontSize;
-        font-weight: $menuButtonFontWeight;
-        color: $menuButtonFontColor;
-        text-shadow: $menuButtonTextShadow;
-        text-transform: $menuButtonTextTransform;
-
-        @include box-shadow($menuButtonBoxShadow);
-        border-bottom: $menuButtonBorderBottom;
-      }
-
-      @mixin btnMenuBackground($img, $imgHover)
-      {
-        background: $img 50% 50% no-repeat, $menuButtonColorBg;
-        &:hover {
-          background: $imgHover 50% 50% no-repeat, $menuButtonHoverColorBg;
-          @include box-shadow($menuButtonHoverBoxShadow);
-        }
-      }
-
-      .btnHide, .btnShow, .btnClose {
-        width: 20px;
-      }
-
-      .btnHide {
-        @include btnMenuBackground($imageBtnHide, $imageBtnHideHover);
-      }
-      .btnShow {
-        @include btnMenuBackground($imageBtnShow, $imageBtnShowHover);
-      }
-      .btnClose {
-        @include btnMenuBackground($imageBtnClose, $imageBtnCloseHover);
-      }
-
-      .btnUndo {
-
-        @include linear-gradient-with-image($imageBtnUndo 20% 50% no-repeat, #{$menuButtonGradient});
-
-        padding: $menuButtonUndoPadding;
-        width: $menuButtonUndoWidth;
-        vertical-align: top;
-        text-align: end;
-        &:hover {
-          background: $imageBtnUndoHover 20% 50% no-repeat, $menuButtonHoverColorBg;
-        }
-      }
-    }
 
     /*-------------------------------------------------------------------------------------
     * Wraps
@@ -338,7 +248,6 @@
 
       border-radius: $textareaWrapBorderRadius;
       @include component-input-border;
-
 
       background-color: $textareaWrapColorBg;
       @include box-shadow($textareaWrapBoxShadow);
@@ -691,88 +600,306 @@
   }
 
 
+  .panel .label, .picker .label {
+    width: 100%;
+
+    float: left;
+    font-size: $labelFontSize;
+    font-weight: $labelFontWeight;
+    text-shadow: $labelTextShadow;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: default;
+  }
+
+  .panel .head, .picker .head, .panel .panelHeadInactive {
+    height: $panelHeadHeight;
+    padding: $panelHeadPadding;
+    background: $panelHeadColorBg;
+
+    //TODO: merge with panel
+    .wrap {
+      width: auto;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+
+  }
+
+  .panel .head, .picker .head {
+    border-top: $panelHeadBorderTop;
+    border-bottom: $panelHeadBorderBottom;
+
+    .label {
+      cursor: pointer;
+
+      line-height: $panelHeadHeight;
+      color: $panelHeadLabelFontColor;
+    }
+  }
+
+  .panel .panelHeadInactive {
+    border-top: $panelHeadInactiveBorderTop;
+  }
+
+  /*-------------------------------------------------------------------------------------
+     * Menu
+     *-------------------------------------------------------------------------------------*/
+
+  .panel .menu, .picker .menu {
+    float: right;
+    padding: $menuPadding;
+
+
+
+    input[type='button'] {
+      @include box-sizing(border-box);
+
+      cursor: pointer;
+
+      height: $menuButtonHeight;
+      margin-left: $menuButtonMarginLeft;
+      border: none;
+
+      @include border-radius($menuButtonBorderRadius);
+
+      font-family: $menuButtonFontFamily;
+      font-size: $menuButtonFontSize;
+      font-weight: $menuButtonFontWeight;
+      color: $menuButtonFontColor;
+      text-shadow: $menuButtonTextShadow;
+      text-transform: $menuButtonTextTransform;
+
+      @include box-shadow($menuButtonBoxShadow);
+      border-bottom: $menuButtonBorderBottom;
+    }
+
+    @mixin btnMenuBackground($img, $imgHover) {
+      background: $img 50% 50% no-repeat, $menuButtonColorBg;
+      &:hover {
+        background: $imgHover 50% 50% no-repeat, $menuButtonHoverColorBg;
+        @include box-shadow($menuButtonHoverBoxShadow);
+      }
+    }
+
+    .btnHide, .btnShow, .btnClose {
+      width: 20px;
+    }
+
+    .btnHide {
+      @include btnMenuBackground($imageBtnHide, $imageBtnHideHover);
+    }
+    .btnShow {
+      @include btnMenuBackground($imageBtnShow, $imageBtnShowHover);
+    }
+    .btnClose {
+      @include btnMenuBackground($imageBtnClose, $imageBtnCloseHover);
+    }
+
+    .btnUndo {
+
+      @include linear-gradient-with-image($imageBtnUndo 20% 50% no-repeat, #{$menuButtonGradient});
+
+      padding: $menuButtonUndoPadding;
+      width: $menuButtonUndoWidth;
+      vertical-align: top;
+      text-align: end;
+      &:hover {
+        background: $imageBtnUndoHover 20% 50% no-repeat, $menuButtonHoverColorBg;
+      }
+
+    }
+
+  }
+
+
   /*-------------------------------------------------------------------------------------
       * Picker
       *-------------------------------------------------------------------------------------*/
 
-  .picker {
+  .picker
+  {
     @include box-sizing(border-box);
-    @include border-radius(2px);
-    background-color: #3c494e;
+    @include border-radius($panelBorderRadius);
+    background-color: $panelColorBg;
 
     font-family: arial, sans-serif;
     font-size: 11px;
     color: #fff;
     text-shadow: 1px 1px #000;
 
-    cursor: pointer;
-
     position: absolute;
     z-index: 2147483631;
 
-    width: 380px;
+    width: 360px;
     height: 250px;
 
     overflow: hidden;
 
     @include user-select;
-    @include box-shadow(0 0 1px 1px rgba(0, 0, 0, 0.95));
+    @include box-shadow($panelBoxShadow);
 
-    canvas{vertical-align: bottom;}
+    canvas{vertical-align: bottom;cursor: pointer;}
 
-    .head {
-      height: 30px;
-      padding: 0 20px 0 10px;
+    //FIXME
+    .wrap {
 
-      background-color: #1a1d1f;
-      border-top: 1px solid #202426;
-      border-bottom: 1px solid #111314;
+      @include box-sizing(border-box);
+      //height: 100%;
+      height: 210px;
+      padding: 10px;
+      float: left;
+
+
+
+
+
+    }
+
+    .fieldWrap {padding: 3px;}
+    .sliderWrap{padding: 3px 13px 3px 3px;}
+
+
+    .fieldWrap,.sliderWrap,.inputWrap
+    {
+      height:   auto;
+      overflow: hidden;
+      float:    left;
+    }
+
+    //FIXME
+    .inputWrap {
+      @include box-sizing(border-box);
+
+      @include border($subGroupBorder, $subGroupBorderRadius);
+      @include box-shadow($subGroupBoxShadow);
+
+      width: 140px;
+      float: right;
+
+      padding: 5px 10px 1px 0;
+    }
+
+    .inputFieldWrap {
+      width: 50%;
+      float: right;
+      margin-bottom: 4px;
 
       .label {
-        float: left;
-        font-size: 11px;
-        font-weight: bold;
-        text-shadow: 0 -1px #000;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        cursor: default;
-        line-height: 30px;
+        padding: $rangeLabelPadding;
+        color: $rangeLabelFontColor;
+        text-align: center;
+        text-transform: $rangeLabelTextTransform;
+        font-weight: $rangeLabelFontWeight;
+        text-shadow: $rangeLabelTextShadow;
+        width: 40%;
+      }
+
+      .wrap {
+        padding: 0;
+        width: 60%;
+        height: auto;
+        float: right;
       }
 
     }
 
-    .wrap {
-      position: relative;
+    .controlsWrap
+    {
       @include box-sizing(border-box);
-      padding: 10px;
+      width: 100%;
+      height: auto;
+      float: right;
+      padding:10px 0 0 0;
+
+
+      input[type='button']
+      {
+        float: right;
+        width: 70px;
+      }
+
     }
 
-    .paletteWrap {
-      height: 160px;
+    input[type='text'] {
+      padding: 0;
+      text-align: center;
+      width: 60%;
+      float: right;
     }
 
-    .paletteWrapInner {
-      padding: 3px;
+    .wrap {
 
-      /*
-      @include box-shadow(0 0 1px 3px rgba(0, 0, 0, 0.05) inset, 0 0 1px 1px #111314 inset);
-      border: none;
-      @include border-radius(2px);
-      border-bottom: 1px solid #3b4447;
-      */
+      .inputWrap:nth-of-type(3) {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
 
-      @include component-input-border;
+      .inputWrap:nth-of-type(4) {
+        border-top: none;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        .inputFieldWrap {
+          width: 100%;
+          .label {
+            width: 20%;
+          }
+        }
+        input[type='text'] {
+          width: 80%;
+        }
+      }
+    }
+
+    .fieldWrap, .sliderWrap
+    {
 
       background: #1e2224;
-
+      @include component-input-border;
+      position: relative;
       margin-right: 5px;
 
-      height: 100%;
+      .indicator
+      {
+        position: absolute;
+        border: 2px solid #fff;
+        @include box-shadow(0 1px #000,0 1px #000 inset);
+        cursor: pointer;
+      }
+    }
 
-      float: left;;
+    .fieldWrap .indicator
+    {
+      width:  8px;
+      height: 8px;
+
+      left:50%;
+      top:50%;
+
+      @include border-radius(50%);
+    }
+
+    .sliderWrap .indicator
+    {
+      width: 14px;
+      height: 3px;
+
+      @include border-radius(8px);
+
+      left:1px;
+      top:1px;
 
     }
+
+
+
+
   }
 
   .options {

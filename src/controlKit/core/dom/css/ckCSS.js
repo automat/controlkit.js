@@ -70,7 +70,13 @@ ControlKit.CSS =
 
     Picker : 'picker',
     PalleteWrap : 'palleteWrap',
-    PaletteWrapInner :  'paletteWrapInner',
+    FieldWrap   :  'fieldWrap',
+    InputWrap   : 'inputWrap',
+    InputFieldWrap : 'inputFieldWrap',
+    ControlsWrap   : 'controlsWrap',
+
+    IndicatorField  : 'indicator',
+    IndicatorSlider : 'indicator',
 
     /*-------------------------------------------------------------------------------------*/
 
