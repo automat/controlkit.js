@@ -8,7 +8,7 @@ ControlKit.ScrollBar = function(parentNode,targetNode,wrapHeight)
     /*---------------------------------------------------------------------------------*/
 
     var wrap   = this._wrapNode   = new ControlKit.Node(ControlKit.NodeType.DIV),
-        node   = this._rootNode   = new ControlKit.Node(ControlKit.NodeType.DIV),
+        node   = this._node   = new ControlKit.Node(ControlKit.NodeType.DIV),
         track  = this._trackNode  = new ControlKit.Node(ControlKit.NodeType.DIV),
         thumb  = this._thumbNode  = new ControlKit.Node(ControlKit.NodeType.DIV);
 
@@ -152,13 +152,13 @@ ControlKit.ScrollBar.prototype =
     {
         if(this._disabled)
         {
-            this._rootNode.setStyleProperty('display','none');
+            this._node.setStyleProperty('display','none');
             this._targetNode.setPositionY(0);
             this._thumbNode.setPositionY(ControlKit.Constant.SCROLLBAR_TRACK_PADDING);
         }
         else
         {
-            this._rootNode.setStyleProperty('display','block');
+            this._node.setStyleProperty('display','block');
         }
     },
 
@@ -175,7 +175,7 @@ ControlKit.ScrollBar.prototype =
     removeFromParent : function()
     {
         var parentNode = this._parentNode,
-            rootNode   = this._rootNode,
+            rootNode   = this._node,
             targetNode = this._targetNode;
 
         rootNode.removeChild(targetNode);
@@ -186,6 +186,6 @@ ControlKit.ScrollBar.prototype =
     },
 
     getWrapNode    : function(){return this._wrapNode;},
-    getNode        : function(){return this._rootNode;},
+    getNode        : function(){return this._node;},
     getTargetNode  : function(){return this._targetNode;}
 };

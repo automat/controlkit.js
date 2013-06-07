@@ -9,7 +9,7 @@ ControlKit.Component = function(parent,label)
 
     /*---------------------------------------------------------------------------------*/
 
-    var rootNode = this._rootNode = new ControlKit.Node(ControlKit.NodeType.LIST_ITEM),
+    var rootNode = this._node = new ControlKit.Node(ControlKit.NodeType.LIST_ITEM),
         wrapNode = this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV);
 
         wrapNode.setStyleClass(ControlKit.CSS.Wrap);

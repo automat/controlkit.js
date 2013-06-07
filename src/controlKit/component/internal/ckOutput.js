@@ -14,7 +14,7 @@ ControlKit.Output = function(parent,object,value,params)
 
     var textArea = this._textArea = new ControlKit.Node(ControlKit.NodeType.TEXTAREA),
         wrapNode = this._wrapNode,
-        rootNode = this._rootNode;
+        rootNode = this._node;
 
         textArea.setProperty('readOnly',true);
         wrapNode.addChild(textArea);

@@ -14,11 +14,11 @@ ControlKit.AbstractGroup = function(parent,params)
     this._disabled  = false;
     this._scrollBar = null;
 
-    this._rootNode = new ControlKit.Node(ControlKit.NodeType.LIST_ITEM);
+    this._node = new ControlKit.Node(ControlKit.NodeType.LIST_ITEM);
     this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV);
     this._listNode = new ControlKit.Node(ControlKit.NodeType.LIST);
 
-    this._parent.getList().addChild(this._rootNode);
+    this._parent.getList().addChild(this._node);
 };
 
 ControlKit.AbstractGroup.prototype = Object.create(ControlKit.EventDispatcher.prototype);

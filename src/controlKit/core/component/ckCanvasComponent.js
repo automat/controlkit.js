@@ -20,7 +20,7 @@ ControlKit.CanvasComponent = function(parent,object,value,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    this._rootNode.setStyleClass(ControlKit.CSS.CanvasListItem);
+    this._node.setStyleClass(ControlKit.CSS.CanvasListItem);
 
 
     this._parent.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE,this,  'onGroupSizeChange');
@@ -37,7 +37,7 @@ ControlKit.CanvasComponent.prototype._updateHeight = function()
     var canvasHeight = this._canvas.height;
 
     this._wrapNode.setHeight(canvasHeight);
-    this._rootNode.setHeight(canvasHeight + ControlKit.Constant.PADDING_WRAPPER);
+    this._node.setHeight(canvasHeight + ControlKit.Constant.PADDING_WRAPPER);
 };
 
 ControlKit.CanvasComponent.prototype._redraw = function(){};

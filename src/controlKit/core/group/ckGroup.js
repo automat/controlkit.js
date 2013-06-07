@@ -16,7 +16,7 @@ ControlKit.Group = function(parent,params)
 
     /*-------------------------------------------------------------------------------------*/
 
-    var rootNode = this._rootNode,
+    var rootNode = this._node,
         wrapNode = this._wrapNode,
         listNode = this._listNode;
 
