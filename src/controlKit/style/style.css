@@ -547,8 +547,6 @@
     position: absolute;
     z-index: 2147483631;
     width: 360px;
-    height: 250px;
-    overflow: hidden;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -563,7 +561,6 @@
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
-      height: 210px;
       padding: 10px;
       float: left; }
     #controlKit .picker .fieldWrap {
@@ -585,11 +582,11 @@
       width: 140px;
       float: right;
       padding: 5px 10px 1px 0; }
-    #controlKit .picker .inputFieldWrap {
+    #controlKit .picker .inputField {
       width: 50%;
       float: right;
       margin-bottom: 4px; }
-      #controlKit .picker .inputFieldWrap .label {
+      #controlKit .picker .inputField .label {
         padding: 4px 0 0 0;
         color: #878787;
         text-align: center;
@@ -597,7 +594,7 @@
         font-weight: bold;
         text-shadow: 1px 1px #1a1a1a;
         width: 40%; }
-      #controlKit .picker .inputFieldWrap .wrap {
+      #controlKit .picker .inputField .wrap {
         padding: 0;
         width: 60%;
         height: auto;
@@ -612,7 +609,26 @@
       padding: 10px 0 0 0; }
       #controlKit .picker .controlsWrap input[type='button'] {
         float: right;
-        width: 70px; }
+        width: 65px;
+        margin: 0 0 0 10px; }
+    #controlKit .picker .colorContrast {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      border: none;
+      box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.0125) inset, 0 0 1px 1px #111314 inset;
+      border-radius: 2px;
+      -moz-border-radius: 2px;
+      border-bottom: 1px solid #3b4447;
+      width: 160px;
+      height: 24px;
+      padding: 3px;
+      margin: -6px 0 0 0;
+      float: left; }
+      #controlKit .picker .colorContrast div {
+        width: 50%;
+        height: 100%;
+        float: left; }
     #controlKit .picker input[type='text'] {
       padding: 0;
       text-align: center;
@@ -625,9 +641,9 @@
       border-top: none;
       border-top-left-radius: 0;
       border-top-right-radius: 0; }
-      #controlKit .picker .wrap .inputWrap:nth-of-type(4) .inputFieldWrap {
+      #controlKit .picker .wrap .inputWrap:nth-of-type(4) .inputField {
         width: 100%; }
-        #controlKit .picker .wrap .inputWrap:nth-of-type(4) .inputFieldWrap .label {
+        #controlKit .picker .wrap .inputWrap:nth-of-type(4) .inputField .label {
           width: 20%; }
       #controlKit .picker .wrap .inputWrap:nth-of-type(4) input[type='text'] {
         width: 80%; }

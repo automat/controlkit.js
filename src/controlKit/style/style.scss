@@ -738,9 +738,9 @@
     z-index: 2147483631;
 
     width: 360px;
-    height: 250px;
+    //height: 250px;
 
-    overflow: hidden;
+    //overflow: hidden;
 
     @include user-select;
     @include box-shadow($panelBoxShadow);
@@ -752,7 +752,6 @@
 
       @include box-sizing(border-box);
       //height: 100%;
-      height: 210px;
       padding: 10px;
       float: left;
 
@@ -786,7 +785,7 @@
       padding: 5px 10px 1px 0;
     }
 
-    .inputFieldWrap {
+    .inputField {
       width: 50%;
       float: right;
       margin-bottom: 4px;
@@ -822,9 +821,25 @@
       input[type='button']
       {
         float: right;
-        width: 70px;
-      }
+        width: 65px;
+        margin: 0 0 0 10px;
 
+      }
+    }
+
+    .colorContrast
+    {
+      @include box-sizing(border-box);
+      @include component-input-border;
+
+      width: 160px;
+      height: 24px;
+      padding: 3px;
+
+      margin: -6px 0 0 0;
+      float:left;
+
+      div{width: 50%;height: 100%;float:left;}
     }
 
     input[type='text'] {
@@ -845,7 +860,7 @@
         border-top: none;
         border-top-left-radius: 0;
         border-top-right-radius: 0;
-        .inputFieldWrap {
+        .inputField {
           width: 100%;
           .label {
             width: 20%;

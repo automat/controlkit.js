@@ -72,8 +72,9 @@ ControlKit.CSS =
     PalleteWrap : 'palleteWrap',
     FieldWrap   :  'fieldWrap',
     InputWrap   : 'inputWrap',
-    InputFieldWrap : 'inputFieldWrap',
+    InputField : 'inputField',
     ControlsWrap   : 'controlsWrap',
+    ColorContrast : 'colorContrast',
 
     IndicatorField  : 'indicator',
     IndicatorSlider : 'indicator',
