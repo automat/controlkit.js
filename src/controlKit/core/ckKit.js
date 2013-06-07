@@ -25,9 +25,8 @@ ControlKit.Kit = function(parentDomElementId,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    this._rootNode = node;
+    this._node     = node;
     this._panels   = [];
-
     this._disabled = false;
 
     /*---------------------------------------------------------------------------------*/
@@ -39,8 +38,8 @@ ControlKit.Kit = function(parentDomElementId,params)
     if(!params.history)history.disable();
 
     var mouse   = ControlKit.Mouse.init(),
-        picker  = ControlKit.Picker.init(),
-        options = ControlKit.Options.init();
+        picker  = ControlKit.Picker.init( this.getNode()),
+        options = ControlKit.Options.init(this.getNode());
 
     if(params.trigger)
     {
@@ -51,8 +50,7 @@ ControlKit.Kit = function(parentDomElementId,params)
         document.body.appendChild(trigger.getElement());
     }
 
-    node.addChild(picker.getNode());
-    node.addChild(options.getNode());
+    picker.open();
 
 
     if(params.opacity != 1.0 && params.opacity != 0.0)
@@ -63,7 +61,6 @@ ControlKit.Kit = function(parentDomElementId,params)
     /*---------------------------------------------------------------------------------*/
 
     ControlKit.Kit._instance = this;
-
 };
 
 ControlKit.Kit.prototype = Object.create(ControlKit.EventDispatcher.prototype);
@@ -73,7 +70,7 @@ ControlKit.Kit.prototype = Object.create(ControlKit.EventDispatcher.prototype);
 ControlKit.Kit.prototype._onTriggerDown = function()
 {
     var disabled = this._disabled = !this._disabled;
-    this._rootNode.setStyleProperty('visibility',disabled ? 'hidden' : 'visible');
+    this._node.setStyleProperty('visibility',disabled ? 'hidden' : 'visible');
 };
 
 ControlKit.Kit.prototype.onValueUpdated = function(e)
@@ -161,7 +158,7 @@ ControlKit.Kit.prototype.onHistoryStatePop  = function()
 
 /*---------------------------------------------------------------------------------*/
 
-ControlKit.Kit.prototype.getRootNode = function(){return this._rootNode;};
+ControlKit.Kit.prototype.getNode = function(){return this._node;};
 
 /*---------------------------------------------------------------------------------*/
 
