@@ -1,6 +1,8 @@
-ControlKit.Options = function()
+ControlKit.Options = function(parentNode)
 {
-    var node     = this._rootNode = new ControlKit.Node(ControlKit.NodeType.DIV);
+    this._parenNode = parentNode;
+
+    var node     = this._node = new ControlKit.Node(ControlKit.NodeType.DIV);
     var listNode = this._listNode = new ControlKit.Node(ControlKit.NodeType.LIST);
 
     node.setStyleClass(ControlKit.CSS.Options);
@@ -35,7 +37,9 @@ ControlKit.Options.prototype =
     {
         this._clearList();
 
-        var rootNode = this._rootNode,
+        this._parenNode.addChild(this.getNode());
+
+        var rootNode = this._node,
             listNode = this._listNode;
 
         paddingRight = paddingRight || 0;
@@ -73,7 +77,8 @@ ControlKit.Options.prototype =
         rootNode.setWidth( listWidth < elementWidth ? elementWidth : listWidth);
         rootNode.setHeight(listHeight);
         rootNode.setPositionGlobal(elementPos[0],elementPos[1]+elementHeight-ControlKit.Constant.PADDING_OPTIONS);
-        rootNode.setStyleProperty('visibility','visible');
+
+
 
         this._callbackOut = callbackOut;
         this._unfocusable = false;
@@ -86,7 +91,7 @@ ControlKit.Options.prototype =
 
     _clearList : function()
     {
-        this._rootNode.setWidth(0);
+        this._node.setWidth(0);
         this._listNode.removeAllChildren();
         this._selectedIndex  = null;
         this._build          = false;
@@ -96,14 +101,14 @@ ControlKit.Options.prototype =
     {
         this._clearList();
         this._callbackOut = function(){};
-        this._rootNode.setStyleProperty('visibility','hidden');
+        this._parenNode.removeChild(this.getNode());
 
     },
 
     isBuild     : function(){return this._build;},
-    getNode     : function(){return this._rootNode; },
+    getNode     : function(){return this._node; },
     getSelectedIndex : function(){return this._selectedIndex;}
 };
 
-ControlKit.Options.init        = function(){return ControlKit.Options._instance = new ControlKit.Options();};
+ControlKit.Options.init        = function(parentNode){return ControlKit.Options._instance = new ControlKit.Options(parentNode);};
 ControlKit.Options.getInstance = function(){return ControlKit.Options._instance;};
