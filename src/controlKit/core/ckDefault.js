@@ -12,7 +12,14 @@ ControlKit.Default =
 
     OPACITY : 1.0,
 
-    FIXED : true
+    FIXED : true,
+
+
+    VALUE_HUE : 200.0,
+    VALUE_SAT : 50.0,
+    VALUE_VAL : 50.0
+
+
 
 
 };
