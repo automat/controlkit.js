@@ -68,16 +68,16 @@ ControlKit.CSS =
 
     /*-------------------------------------------------------------------------------------*/
 
-    Picker : 'picker',
-    PalleteWrap : 'palleteWrap',
-    FieldWrap   :  'fieldWrap',
-    InputWrap   : 'inputWrap',
-    InputField : 'inputField',
-    ControlsWrap   : 'controlsWrap',
-    ColorContrast : 'colorContrast',
+    Picker              : 'picker',
+    PickerPalleteWrap   : 'palleteWrap',
+    PickerFieldWrap     :  'fieldWrap',
+    PickerInputWrap     : 'inputWrap',
+    PickerInputField    : 'inputField',
+    PickerControlsWrap  : 'controlsWrap',
+    PickerColorContrast : 'colorContrast',
 
-    IndicatorField  : 'indicator',
-    IndicatorSlider : 'indicator',
+    PickerHandleField  : 'indicator',
+    PickerHandleSlider : 'indicator',
 
     /*-------------------------------------------------------------------------------------*/
 

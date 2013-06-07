@@ -15,9 +15,9 @@ ControlKit.Picker = function(parentNode)
 
     /*---------------------------------------------------------------------------------*/
 
-    var fieldWrap  = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass( ControlKit.CSS.FieldWrap),
+    var fieldWrap  = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass( ControlKit.CSS.PickerFieldWrap),
         sliderWrap = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.SliderWrap),
-        inputWrap  = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass( ControlKit.CSS.InputWrap);
+        inputWrap  = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass( ControlKit.CSS.PickerInputWrap);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -32,11 +32,11 @@ ControlKit.Picker = function(parentNode)
     var canvasFieldNode  = canvasField.getNode(),
         canvasSliderNode = canvasSlider.getNode();
 
-    var indiField  = this._indiField  = new ControlKit.Node(ControlKit.NodeType.DIV);
-        indiField.setStyleClass(ControlKit.CSS.IndicatorField);
+    var handleField  = this._handleField  = new ControlKit.Node(ControlKit.NodeType.DIV);
+        handleField.setStyleClass(ControlKit.CSS.PickerHandleField);
 
-    var indiSlider = this._indiSlider = new ControlKit.Node(ControlKit.NodeType.DIV);
-        indiSlider.setStyleClass(ControlKit.CSS.IndicatorSlider);
+    var handleSlider = this._handleSlider = new ControlKit.Node(ControlKit.NodeType.DIV);
+        handleSlider.setStyleClass(ControlKit.CSS.PickerHandleSlider);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -64,9 +64,9 @@ ControlKit.Picker = function(parentNode)
 
     //CLEAN UP, TABle
 
-    var inputFieldWrapHue = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.InputField),
-        inputFieldWrapSat = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.InputField),
-        inputFieldWrapVal = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.InputField);
+    var inputFieldWrapHue = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerInputField),
+        inputFieldWrapSat = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerInputField),
+        inputFieldWrapVal = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerInputField);
 
     var inputFieldWrapHueLabel = new ControlKit.Node(ControlKit.NodeType.SPAN).setStyleClass(ControlKit.CSS.Label).setProperty('innerHTML','H'),
         inputFieldWrapSatLabel = new ControlKit.Node(ControlKit.NodeType.SPAN).setStyleClass(ControlKit.CSS.Label).setProperty('innerHTML','S'),
@@ -76,10 +76,10 @@ ControlKit.Picker = function(parentNode)
         inputFieldWrapSat.addChildren(inputFieldWrapSatLabel,inputSat.getNode());
         inputFieldWrapVal.addChildren(inputFieldWrapValLabel,inputVal.getNode());
 
-    var inputFieldWrapR = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.InputField),
-        inputFieldWrapG = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.InputField),
-        inputFieldWrapB = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.InputField),
-        inputFieldWrapA = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.InputField);
+    var inputFieldWrapR = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerInputField),
+        inputFieldWrapG = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerInputField),
+        inputFieldWrapB = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerInputField),
+        inputFieldWrapA = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerInputField);
 
     var inputFieldWrapRLabel = new ControlKit.Node(ControlKit.NodeType.SPAN).setStyleClass(ControlKit.CSS.Label).setProperty('innerHTML','R'),
         inputFieldWrapGLabel = new ControlKit.Node(ControlKit.NodeType.SPAN).setStyleClass(ControlKit.CSS.Label).setProperty('innerHTML','G'),
@@ -99,10 +99,10 @@ ControlKit.Picker = function(parentNode)
     /*---------------------------------------------------------------------------------*/
 
     var hexInputWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
-        hexInputWrap.setStyleClass(ControlKit.CSS.InputWrap);
+        hexInputWrap.setStyleClass(ControlKit.CSS.PickerInputWrap);
 
     var inputHEX = this._inputHEX = new ControlKit.Node(ControlKit.NodeType.INPUT_TEXT),
-        inputFieldWrapHEX         = new ControlKit.Node(ControlKit.NodeType.DIV ).setStyleClass(ControlKit.CSS.InputField),
+        inputFieldWrapHEX         = new ControlKit.Node(ControlKit.NodeType.DIV ).setStyleClass(ControlKit.CSS.PickerInputField),
         inputFieldWrapHEXLabel    = new ControlKit.Node(ControlKit.NodeType.SPAN).setStyleClass(ControlKit.CSS.Label);
 
         inputFieldWrapHEXLabel.setProperty('innerHTML','#');
@@ -112,19 +112,17 @@ ControlKit.Picker = function(parentNode)
 
     /*---------------------------------------------------------------------------------*/
 
-    var controlsWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
-        controlsWrap.setStyleClass(ControlKit.CSS.ControlsWrap);
+    var controlsWrap = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerControlsWrap);;
+        controlsWrap.setStyleClass(ControlKit.CSS.PickerControlsWrap);
 
     var buttonCancel = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON),
         buttonPick   = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
 
-        buttonCancel.setStyleClass(ControlKit.CSS.Button);
-        buttonPick.setStyleClass(  ControlKit.CSS.Button);
-        buttonPick.setProperty(  'value','pick');
-        buttonCancel.setProperty('value','cancel');
+        buttonPick.setStyleClass(  ControlKit.CSS.Button).setProperty('value','pick');
+        buttonCancel.setStyleClass(ControlKit.CSS.Button).setProperty('value','cancel');
 
     var colorContrast = new ControlKit.Node(ControlKit.NodeType.DIV);
-        colorContrast.setStyleClass(ControlKit.CSS.ColorContrast);
+        colorContrast.setStyleClass(ControlKit.CSS.PickerColorContrast);
 
     var color0 = this._colorCurrNode = new ControlKit.Node(ControlKit.NodeType.DIV),
         color1 = this._colorPrevNode = new ControlKit.Node(ControlKit.NodeType.DIV);
@@ -158,8 +156,8 @@ ControlKit.Picker = function(parentNode)
         wrapNode.addChild(hexInputWrap);
         wrapNode.addChild(controlsWrap);
 
-        fieldWrap.addChild( indiField);
-        sliderWrap.addChild(indiSlider);
+        fieldWrap.addChild( handleField);
+        sliderWrap.addChild(handleSlider);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -168,13 +166,13 @@ ControlKit.Picker = function(parentNode)
 
         fieldWrap.setEventListener(       eventMouseDown, callback);
         canvasFieldNode.setEventListener( eventMouseDown, callback);
-        indiField.setEventListener(       eventMouseDown, callback);
+        handleField.setEventListener(     eventMouseDown, callback);
 
         callback = this._onCanvasSliderMouseDown.bind(this);
 
         sliderWrap.setEventListener(      eventMouseDown, callback);
         canvasSliderNode.setEventListener(eventMouseDown, callback);
-        indiSlider.setEventListener(      eventMouseDown, callback);
+        handleSlider.setEventListener(    eventMouseDown, callback);
 
         menuClose.setEventListener(   eventMouseDown, this._onClose.bind(this));
         buttonPick.setEventListener(  eventMouseDown, this._onPick.bind(this));
@@ -189,8 +187,10 @@ ControlKit.Picker = function(parentNode)
     this._mouseOffset = [0,0];
     this._position    = [0,0];
 
-    this._canvasSliderNodePos = [0,0];
-    this._canvasFieldNodePos  = [0,0];
+    this._canvasSliderPos = [0,0];
+    this._canvasFieldPos  = [0,0];
+    this._handleFieldSize    = 12;
+    this._handleSliderHeight = 7;
 
     this._imageDataSlider = this._canvasSlider.createImageData();
     this._imageDataField  = this._canvasField.createImageData();
@@ -228,31 +228,33 @@ ControlKit.Picker = function(parentNode)
     this._updateColorRGBFromHSV();
     this._updateColorHEXFromRGB();
 
-    this._updateIndicators();
+    this._updateHandles();
 };
 
 /*---------------------------------------------------------------------------------*/
 
 ControlKit.Picker.prototype =
 {
-    _drawIndicatorField : function()
+
+    //FIXME
+
+    _drawHandleField : function()
     {
         var canvas   = this._canvasField,
-            nodePos  = this._canvasFieldNodePos;
+            nodePos  = this._canvasFieldPos;
 
         var mousePos = ControlKit.Mouse.getInstance().getPosition();
 
-        var indiNode       = this._indiField,
-            indiNodeWidth  = indiNode.getWidth(),
-            indiNodeHeight = indiNode.getHeight();
+        var handleField     = this._handleField,
+            handleFieldSize = this._handleFieldSize;
 
         var padding = 3;
 
-        var minX = -indiNodeWidth  * 0.5 + padding, maxX = canvas.width  - padding,
-            minY = -indiNodeHeight * 0.5 + padding, maxY = canvas.height - padding;
+        var minX = -handleFieldSize  * 0.5 + padding, maxX = canvas.width  - padding,
+            minY = -handleFieldSize * 0.5 + padding, maxY = canvas.height - padding;
 
-        var offsetPosX = Math.max(minX,Math.min(mousePos[0] - nodePos[0] - indiNodeWidth  * 0.25,maxX)),
-            offsetPosY = Math.max(minY,Math.min(mousePos[1] - nodePos[1] - indiNodeHeight * 0.25,maxY));
+        var offsetPosX = Math.max(minX,Math.min(mousePos[0] - nodePos[0] - handleFieldSize * 0.25,maxX)),
+            offsetPosY = Math.max(minY,Math.min(mousePos[1] - nodePos[1] - handleFieldSize * 0.25,maxY));
 
         var sat = Math.round(       (offsetPosX - minX) / (maxX - minX)  * this._valueSatMinMax[1]),
             val = Math.round((1.0 - (offsetPosY - minY) / (maxY - minY)) * this._valueValMinMax[1]);
@@ -261,47 +263,56 @@ ControlKit.Picker.prototype =
         this._updateColorRGBFromHSV();
         this._updateColorHEXFromRGB();
 
-        indiNode.setPositionGlobal(offsetPosX,offsetPosY);
+        this._updateHandleField();
     },
 
-    _updateIndicatorField : function()
+    //FIXME
+    _updateHandleField : function()
     {
-       //var height = this._canvasField
+        var handleFieldSize = this._handleFieldSize;
 
+       var width  = this._canvasField.width,
+           height = this._canvasField.height;
+
+
+       this._handleField.setPositionGlobal(width * this._valueSat/this._valueSatMinMax[1] - handleFieldSize * 0.25,
+                                         height * (1.0 - this._valueVal/this._valueValMinMax[1]) - handleFieldSize * 0.25);
 
     },
 
-    _drawIndicatorSlider : function()
+    //FIXME
+    _drawHandleSlider : function()
     {
         var canvas     = this._canvasSlider,
-            nodePos    = this._canvasSliderNodePos;
+            canvasPosY = this._canvasSliderPos[1];
 
-        var mousePos   = ControlKit.Mouse.getInstance().getPosition();
+        var mouseY   = ControlKit.Mouse.getInstance().getY();
 
-        var indiNode       = this._indiSlider,
-            indiNodeHeight = indiNode.getHeight();
+        var handleSlider       = this._handleSlider,
+            handleSliderHeight = this._handleSliderHeight;
 
-        var minY       = -indiNodeHeight*0.5 + 4,maxY = canvas.height - 2;
-        var offsetPosY = Math.max(minY,Math.min(mousePos[1] - nodePos[1] - indiNodeHeight * 0.25,maxY));
+        var minY       = -handleSliderHeight*0.5 + 4,maxY = canvas.height - 2;
+        var offsetPosY = Math.max(minY,Math.min(mouseY - canvasPosY - handleSliderHeight * 0.25,maxY));
 
         this._setHue(Math.floor(( 1.0 - (offsetPosY - minY) / (maxY - minY)) * 360.0));
         this._setColorHSV(this._valueHue,this._valueSat,this._valueVal);
         this._updateColorRGBFromHSV();
         this._updateColorHEXFromRGB();
 
-        indiNode.setPositionGlobalY(offsetPosY);
+        this._handleSlider.setPositionGlobalY(offsetPosY);
     },
 
-    _updateIndicatorSlider : function()
+    //FIXME
+    _updateHandleSlider : function()
     {
         var height = this._canvasSlider.height - 2;
-        this._indiSlider.setPositionGlobalY(height * (this._valueHue/this._valueHueMinMax[1]));
+        this._handleSlider.setPositionGlobalY(height * (1.0 - this._valueHue/this._valueHueMinMax[1]));
     },
 
-    _updateIndicators : function()
+    _updateHandles : function()
     {
-        this._updateIndicatorField();
-        this._updateIndicatorSlider();
+        this._updateHandleField();
+        this._updateHandleSlider();
     },
 
     /*---------------------------------------------------------------------------------*/
@@ -361,7 +372,7 @@ ControlKit.Picker.prototype =
         this._setHue(inputVal);
         this._updateColorRGBFromHSV();
         this._updateColorHEXFromRGB();
-        this._updateIndicatorSlider();
+        this._updateHandleSlider();
     },
 
     _onInputSatChange : function()
@@ -403,14 +414,14 @@ ControlKit.Picker.prototype =
     {
         this._updateColorRGBFromHSV();
         this._updateColorHEXFromRGB();
-        this._updateIndicatorField();
+        this._updateHandleSlider();
     },
 
     _onInputRGBChange : function()
     {
         this._updateColorHSVFromRGB();
         this._updateColorHEXFromRGB();
-        this._updateIndicators();
+        this._updateHandles();
     },
 
     _getValueContrained : function(input,minMax)
@@ -749,6 +760,7 @@ ControlKit.Picker.prototype =
         c.putImageData(imageData,0,0);
     },
 
+
     /*---------------------------------------------------------------------------------*/
 
     _onCanvasFieldMouseDown : function()
@@ -760,7 +772,7 @@ ControlKit.Picker.prototype =
 
         var onDrag     = function()
             {
-                self._drawIndicatorField();
+                self._drawHandleField();
             },
 
             onDragEnd  = function()
@@ -772,7 +784,7 @@ ControlKit.Picker.prototype =
         document.addEventListener(eventMouseMove, onDrag,    false);
         document.addEventListener(eventMouseUp,   onDragEnd, false);
 
-        self._drawIndicatorField();
+        self._drawHandleField();
     },
 
     _onCanvasSliderMouseDown : function()
@@ -784,7 +796,7 @@ ControlKit.Picker.prototype =
 
         var onDrag     = function()
             {
-                self._drawIndicatorSlider();
+                self._drawHandleSlider();
             },
 
             onDragEnd  = function()
@@ -796,7 +808,7 @@ ControlKit.Picker.prototype =
         document.addEventListener(eventMouseMove, onDrag,    false);
         document.addEventListener(eventMouseUp,   onDragEnd, false);
 
-        self._drawIndicatorSlider();
+        self._drawHandleSlider();
     },
 
     /*---------------------------------------------------------------------------------*/
@@ -814,8 +826,8 @@ ControlKit.Picker.prototype =
 
     _updateCanvasNodePositions : function()
     {
-        this._canvasSliderNodePos = this._canvasSlider.getNode().getPositionGlobal();
-        this._canvasFieldNodePos  = this._canvasField.getNode().getPositionGlobal();
+        this._canvasSliderPos = this._canvasSlider.getNode().getPositionGlobal();
+        this._canvasFieldPos  = this._canvasField.getNode().getPositionGlobal();
     },
 
     setCallbackPick : function(func){this._callbackPick = func;},
