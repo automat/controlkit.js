@@ -29,6 +29,13 @@ ControlKit.Node.prototype =
         return node;
     },
 
+    addChildren : function()
+    {
+        var i = -1,l = arguments.length,e = this._element;
+        while(++i < l){e.appendChild(arguments[i].getElement());}
+        return this;
+    },
+
     addChildAt : function(node,index)
     {
         this._element.insertBefore(node.getElement(),this._element.children[index]);
@@ -40,6 +47,13 @@ ControlKit.Node.prototype =
         if(!this.contains(node))return null;
         this._element.removeChild(node.getElement());
         return node;
+    },
+
+    removeChildren : function()
+    {
+        var i = -1, l = arguments.length, e = this._element;
+        while(++i<l){e.removeChild(arguments[i].getElement());}
+        return this;
     },
 
     removeChildAt : function(node,index)
