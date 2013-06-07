@@ -46,7 +46,7 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    var rootNode  = this._rootNode = new ControlKit.Node(ControlKit.NodeType.DIV),
+    var rootNode  = this._node = new ControlKit.Node(ControlKit.NodeType.DIV),
         headNode  = this._headNode = new ControlKit.Node(ControlKit.NodeType.DIV),
         lablWrap  =                  new ControlKit.Node(ControlKit.NodeType.DIV),
         lablNode  =                  new ControlKit.Node(ControlKit.NodeType.SPAN),
@@ -77,7 +77,7 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    controlKit.getRootNode().addChild(rootNode);
+    controlKit.getNode().addChild(rootNode);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -87,7 +87,7 @@ ControlKit.Panel = function(controlKit,params)
         headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,    this._onHeadDragStart.bind(this));
     }
 
-    if(opacity != 1.0 || opacity != 0.0){rootNode.setStyleProperty('opacity',opacity);}
+    if(opacity != 1.0 && opacity != 0.0){rootNode.setStyleProperty('opacity',opacity);}
 
     /*---------------------------------------------------------------------------------*/
 
@@ -201,7 +201,7 @@ ControlKit.Panel.prototype._onMenuHideMouseDown = function()
 
 ControlKit.Panel.prototype._updateAppearance = function()
 {
-    var rootNode = this._rootNode,
+    var rootNode = this._node,
         headNode = this._headNode,
         menuHide = this._menuHide;
 
@@ -237,8 +237,8 @@ ControlKit.Panel.prototype._onMenuUndoTrigger = function(){ControlKit.History.ge
 
 ControlKit.Panel.prototype._onHeadDragStart = function()
 {
-    var parentNode = this._parent.getRootNode(),
-        node       = this._rootNode;
+    var parentNode = this._parent.getNode(),
+        node       = this._node;
 
     var nodePos   = node.getPositionGlobal(),
         mousePos  = ControlKit.Mouse.getInstance().getPosition(),
@@ -296,7 +296,7 @@ ControlKit.Panel.prototype._onWindowResize = function()
 
 ControlKit.Panel.prototype._setPosition = function(x,y)
 {
-    var node     = this._rootNode,
+    var node     = this._node,
         head     = this._headNode,
         position = this._position;
 
@@ -372,14 +372,14 @@ ControlKit.Panel.prototype._constrainHeight = function()
 
 ControlKit.Panel.prototype.enable  = function()
 {
-    this._rootNode.setStyleProperty('display','block');
+    this._node.setStyleProperty('display','block');
     this._disabled = false;
     this._updateAppearance();
 };
 
 ControlKit.Panel.prototype.disable = function()
 {
-    this._rootNode.setStyleProperty('display','none');
+    this._node.setStyleProperty('display','none');
     this._disabled = true;
     this._updateAppearance();
 };
@@ -395,7 +395,7 @@ ControlKit.Panel.prototype.getMaxHeight  = function(){return this._height;};
 /*---------------------------------------------------------------------------------*/
 
 ControlKit.Panel.prototype.getGroups     = function(){return this._groups;};
-ControlKit.Panel.prototype.getNode       = function(){return this._rootNode;};
+ControlKit.Panel.prototype.getNode       = function(){return this._node;};
 ControlKit.Panel.prototype.getList       = function(){return this._listNode;};
 
 /*---------------------------------------------------------------------------------*/
