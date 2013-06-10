@@ -48,19 +48,39 @@ ControlKit.Picker = function(parentNode)
         callbackVal = this._onInputValChange.bind(this),
         callbackR   = this._onInputRChange.bind(this),
         callbackG   = this._onInputGChange.bind(this),
-        callbackB   = this._onInputBChange.bind(this),
-        callbackA   = this._onInputAChange.bind(this);
+        callbackB   = this._onInputBChange.bind(this);
+
 
     var inputHue = this._inputHue = new ControlKit.NumberInput_Internal(step,dp,null,callbackHue,callbackHue),
         inputSat = this._inputSat = new ControlKit.NumberInput_Internal(step,dp,null,callbackSat,callbackSat),
         inputVal = this._inputVal = new ControlKit.NumberInput_Internal(step,dp,null,callbackVal,callbackVal),
         inputR   = this._inputR   = new ControlKit.NumberInput_Internal(step,dp,null,callbackR,callbackR),
         inputG   = this._inputG   = new ControlKit.NumberInput_Internal(step,dp,null,callbackG,callbackG),
-        inputB   = this._inputB   = new ControlKit.NumberInput_Internal(step,dp,null,callbackB,callbackB),
-        inputA   = this._inputA   = new ControlKit.NumberInput_Internal(0.01,2, null,callbackA,callbackA);
+        inputB   = this._inputB   = new ControlKit.NumberInput_Internal(step,dp,null,callbackB,callbackB);
 
     /*---------------------------------------------------------------------------------*/
 
+    var controlsWrap = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerControlsWrap);
+
+    var buttonCancel = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON).setStyleClass(ControlKit.CSS.Button).setProperty('value','pick'),
+        buttonPick   = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON).setStyleClass(ControlKit.CSS.Button).setProperty('value','cancel');
+
+
+    var colorContrast = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerColorContrast);
+
+    var color0 = this._colorCurrNode = new ControlKit.Node(ControlKit.NodeType.DIV),
+        color1 = this._colorPrevNode = new ControlKit.Node(ControlKit.NodeType.DIV);
+
+    colorContrast.addChild(color0);
+    colorContrast.addChild(color1);
+
+    controlsWrap.addChild(buttonCancel);
+    controlsWrap.addChild(buttonPick);
+    controlsWrap.addChild(colorContrast);
+
+    this._setContrasPrevColor(0,0,0);
+
+    /*---------------------------------------------------------------------------------*/
 
     //CLEAN UP, TABle
 
@@ -78,23 +98,20 @@ ControlKit.Picker = function(parentNode)
 
     var inputFieldWrapR = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerInputField),
         inputFieldWrapG = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerInputField),
-        inputFieldWrapB = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerInputField),
-        inputFieldWrapA = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerInputField);
+        inputFieldWrapB = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerInputField);
 
     var inputFieldWrapRLabel = new ControlKit.Node(ControlKit.NodeType.SPAN).setStyleClass(ControlKit.CSS.Label).setProperty('innerHTML','R'),
         inputFieldWrapGLabel = new ControlKit.Node(ControlKit.NodeType.SPAN).setStyleClass(ControlKit.CSS.Label).setProperty('innerHTML','G'),
-        inputFieldWrapBLabel = new ControlKit.Node(ControlKit.NodeType.SPAN).setStyleClass(ControlKit.CSS.Label).setProperty('innerHTML','B'),
-        inputFieldWrapALabel = new ControlKit.Node(ControlKit.NodeType.SPAN).setStyleClass(ControlKit.CSS.Label).setProperty('innerHTML','A');
+        inputFieldWrapBLabel = new ControlKit.Node(ControlKit.NodeType.SPAN).setStyleClass(ControlKit.CSS.Label).setProperty('innerHTML','B');
 
         inputFieldWrapR.addChildren(inputFieldWrapRLabel,inputR.getNode());
         inputFieldWrapG.addChildren(inputFieldWrapGLabel,inputG.getNode());
         inputFieldWrapB.addChildren(inputFieldWrapBLabel,inputB.getNode());
-        inputFieldWrapA.addChildren(inputFieldWrapALabel,inputA.getNode());
+
 
         inputWrap.addChildren(inputFieldWrapR,inputFieldWrapHue,
                               inputFieldWrapG,inputFieldWrapSat,
-                              inputFieldWrapB,inputFieldWrapVal,
-                              inputFieldWrapA);
+                              inputFieldWrapB,inputFieldWrapVal,colorContrast);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -111,34 +128,6 @@ ControlKit.Picker = function(parentNode)
         hexInputWrap.addChild(inputFieldWrapHEX);
 
         inputHEX.setEventListener(ControlKit.NodeEventType.CHANGE,this._onInputHEXFinish.bind(this));
-
-
-    /*---------------------------------------------------------------------------------*/
-
-    var controlsWrap = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerControlsWrap);;
-        controlsWrap.setStyleClass(ControlKit.CSS.PickerControlsWrap);
-
-    var buttonCancel = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON),
-        buttonPick   = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
-
-        buttonPick.setStyleClass(  ControlKit.CSS.Button).setProperty('value','pick');
-        buttonCancel.setStyleClass(ControlKit.CSS.Button).setProperty('value','cancel');
-
-    var colorContrast = new ControlKit.Node(ControlKit.NodeType.DIV);
-        colorContrast.setStyleClass(ControlKit.CSS.PickerColorContrast);
-
-    var color0 = this._colorCurrNode = new ControlKit.Node(ControlKit.NodeType.DIV),
-        color1 = this._colorPrevNode = new ControlKit.Node(ControlKit.NodeType.DIV);
-
-        colorContrast.addChild(color0);
-        colorContrast.addChild(color1);
-
-        controlsWrap.addChild(buttonCancel);
-        controlsWrap.addChild(buttonPick);
-        controlsWrap.addChild(colorContrast);
-
-        this._setContrasPrevColor(0,0,0);
-
 
     /*---------------------------------------------------------------------------------*/
 
@@ -181,7 +170,7 @@ ControlKit.Picker = function(parentNode)
         buttonPick.setEventListener(  eventMouseDown, this._onPick.bind(this));
         buttonCancel.setEventListener(eventMouseDown, this._onClose.bind(this));
 
-       headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onHeadDragStart.bind(this));
+        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onHeadDragStart.bind(this));
 
     /*---------------------------------------------------------------------------------*/
 
@@ -206,7 +195,6 @@ ControlKit.Picker = function(parentNode)
     this._valueHueMinMax = [0,360];
     this._valueSatMinMax = this._valueValMinMax = [0,100];
     this._valueRGBMinMax = [0,255];
-    this._valueAMinMax   = [0.0,1.0];
 
     this._valueHue = ControlKit.Default.VALUE_HUE;
     this._valueSat = ControlKit.Default.VALUE_SAT;
@@ -214,14 +202,15 @@ ControlKit.Picker = function(parentNode)
     this._valueR   = 0;
     this._valueG   = 0;
     this._valueB   = 0;
-    this._valueA   = 1.0;
 
-    inputA.setValue(this._valueA);
+
 
     this._valueHEX = '#000000';
     this._valueHEXValid = this._valueHEX;
 
     this._callbackPick = function(){};
+
+    //this._canvasFieldImageDataFunc = function(i,j){return this._HSV2RGB(this._valueHue,j)}
 
     /*---------------------------------------------------------------------------------*/
 
@@ -352,12 +341,6 @@ ControlKit.Picker.prototype =
         this._updateColorRGB();
     },
 
-    _setA : function(value)
-    {
-        this._valueA = value;
-
-    },
-
     /*---------------------------------------------------------------------------------*/
 
     _onInputHueChange : function()
@@ -405,26 +388,16 @@ ControlKit.Picker.prototype =
         this._onInputRGBChange();
     },
 
-    _onInputAChange   : function()
-    {
-        this._setA(this._getValueContrained(this._inputA,this._valueAMinMax));
-    },
-
-
     _onInputHEXFinish : function()
     {
         var input = this._inputHEX,
             value = input.getProperty('value');
-
-        console.log(value);
 
         if(!this._isValidHEX(value))
         {
             input.setProperty('value',this._valueHEXValid);
             return;
         }
-
-
 
         this._valueHEX = this._valueHEXValid = value;
         this._updateColorFromHEX();
@@ -466,7 +439,6 @@ ControlKit.Picker.prototype =
     _updateInputR   : function(){this._inputR.setValue(this._valueR);},
     _updateInputG   : function(){this._inputG.setValue(this._valueG);},
     _updateInputB   : function(){this._inputB.setValue(this._valueB);},
-    _updateInputA   : function(){this._inputA.setValue(this._valueA);},
     _updateInputHEX : function(){this._inputHEX.setProperty('value',this._valueHEX);},
 
     /*---------------------------------------------------------------------------------*/
@@ -547,7 +519,7 @@ ControlKit.Picker.prototype =
     /*---------------------------------------------------------------------------------*/
 
     _updateContrastCurrColor : function(){this._setContrastCurrColor(this._valueR, this._valueG, this._valueB);},
-   // _updateContrastPrevColor : function(){this._setContrasPrevColor( this._valueR, this._valueG, this._valueB)}
+    //_updateContrastPrevColor : function(){this._setContrasPrevColor( this._valueR, this._valueG, this._valueB)},
 
     _setContrastCurrColor  : function(r,g,b){this._colorCurrNode.setStyleProperty('background','rgb('+r+','+g+','+b+')')},
     _setContrasPrevColor   : function(r,g,b){this._colorPrevNode.setStyleProperty('background','rgb('+r+','+g+','+b+')')},
@@ -657,17 +629,14 @@ ControlKit.Picker.prototype =
 
         var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
         return result ? [parseInt(result[1], 16),parseInt(result[2], 16),parseInt(result[3], 16)] : null;
-
     },
-
-
 
     /*---------------------------------------------------------------------------------*/
 
     _onHeadDragStart : function()
     {
         var node       = this._node,
-            parentNode = node.getParent();
+            parentNode = this._parentNode;
 
         var nodePos    = node.getPositionGlobal(),
             mousePos   = ControlKit.Mouse.getInstance().getPosition(),
@@ -728,6 +697,7 @@ ControlKit.Picker.prototype =
 
     _drawCanvasField : function()
     {
+
         var c = this._canvasField;
 
         var width     = c.width,
@@ -760,10 +730,13 @@ ControlKit.Picker.prototype =
 
         c.clear();
         c.putImageData(imageData,0,0);
+
     },
+
 
     _drawCanvasSlider : function()
     {
+
         var c = this._canvasSlider;
 
         var width     = c.width,
@@ -793,7 +766,11 @@ ControlKit.Picker.prototype =
 
         c.clear();
         c.putImageData(imageData,0,0);
+
     },
+
+
+
 
 
     /*---------------------------------------------------------------------------------*/
@@ -856,7 +833,7 @@ ControlKit.Picker.prototype =
 
     close : function(){this._parentNode.removeChild(this._node);},
 
-    _onClose : function(){this.close();},
+    _onClose : function(e){e.cancelBubble = true;this.close();},
     _onPick  : function(){this._callbackPick();this.close();},
 
     _updateCanvasNodePositions : function()
@@ -873,9 +850,7 @@ ControlKit.Picker.prototype =
     getR    : function(){return this._valueR;},
     getG    : function(){return this._valueG;},
     getB    : function(){return this._valueB;},
-    getA    : function(){return this._valueA;},
     getRGB  : function(){return [this._valueR,this._valueG,this._valueB];},
-    getRGBA : function(){return [this._valueR,this._valueG,this._valueB,this._valueA];},
     getHue  : function(){return this._valueHue;},
     getSat  : function(){return this._valueSat;},
     getVal  : function(){return this._valueVal;},
