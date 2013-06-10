@@ -33,7 +33,7 @@ ControlKit.Options.prototype =
         this._unfocusable = true;
     },
 
-    build : function(entries,selected,element,callbackSelect,callbackOut,paddingRight)
+    build : function(entries,selected,element,callbackSelect,callbackOut,paddingRight,entriesAreColors)
     {
         this._clearList();
 
@@ -49,21 +49,34 @@ ControlKit.Options.prototype =
         // build list
         var itemNode,entry;
         var i = -1;
-        while(++i < entries.length)
+
+        if(entriesAreColors)
         {
-            entry = entries[i];
+            while(++i < entries.length)
+            {
 
-            itemNode = listNode.addChild(new ControlKit.Node(ControlKit.NodeType.LIST_ITEM));
-            itemNode.setProperty('innerHTML',entry);
-            if(entry == selected)itemNode.setStyleClass(ControlKit.CSS.OptionsSelected);
-
-            itemNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,
-                function()
-                {
-                    self._selectedIndex = Array.prototype.indexOf.call(this.parentNode.children,this);
-                    callbackSelect();
-                });
+            }
         }
+        else
+        {
+            while(++i < entries.length)
+            {
+                entry = entries[i];
+
+                itemNode = listNode.addChild(new ControlKit.Node(ControlKit.NodeType.LIST_ITEM));
+                itemNode.setProperty('innerHTML',entry);
+                if(entry == selected)itemNode.setStyleClass(ControlKit.CSS.OptionsSelected);
+
+                itemNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,
+                    function()
+                    {
+                        self._selectedIndex = Array.prototype.indexOf.call(this.parentNode.children,this);
+                        callbackSelect();
+                    });
+            }
+        }
+
+
 
         //position, set width and enable
 
@@ -78,15 +91,18 @@ ControlKit.Options.prototype =
         rootNode.setHeight(listHeight);
         rootNode.setPositionGlobal(elementPos[0],elementPos[1]+elementHeight-ControlKit.Constant.PADDING_OPTIONS);
 
-
-
         this._callbackOut = callbackOut;
         this._unfocusable = false;
     },
 
     _entriesAreColors : function(entries)
     {
-        return false;
+        var regex = /^#[0-9A-F]{6}$/i;
+
+        var i = -1;
+        while(++i < entries.length){if(!regex.test(entries[i]))return false;}
+
+        return true;
     },
 
     _clearList : function()
