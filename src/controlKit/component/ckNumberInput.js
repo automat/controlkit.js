@@ -62,6 +62,9 @@ ControlKit.NumberInput = function(parent,object,value,params)
         presetBtn.setCallbackInactive(onPresetDeactivate)
     }
 
+    input.getNode().setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onInputDragStart.bind(this));
+    this.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,ControlKit.getKitInstance(),'onInputSelectDrag');
+
     input.setValue(this._object[this._key]);
 };
 
@@ -82,4 +85,33 @@ ControlKit.NumberInput.prototype.onValueUpdate = function(e)
 {
     if(e.data.origin == this)return;
     this._input.setValue(this._object[this._key]);
+};
+
+//Prevent chrome select drag
+ControlKit.NumberInput.prototype._onInputDragStart = function()
+{
+    var eventMove = ControlKit.DocumentEventType.MOUSE_MOVE,
+        eventUp   = ControlKit.DocumentEventType.MOUSE_UP;
+
+    var event = ControlKit.EventType.INPUT_SELECT_DRAG;
+
+    var self  = this;
+
+    var onDrag       = function()
+        {
+            self.dispatchEvent(new ControlKit.Event(this,event,null));
+        },
+
+        onDragFinish = function()
+        {
+            self.dispatchEvent(new ControlKit.Event(this,event,null));
+
+            document.removeEventListener(eventMove, onDrag,       false);
+            document.removeEventListener(eventMove, onDragFinish, false);
+        };
+
+    this.dispatchEvent(new ControlKit.Event(this,event,null));
+
+    document.addEventListener(eventMove, onDrag,       false);
+    document.addEventListener(eventUp,   onDragFinish, false);
 };
