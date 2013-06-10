@@ -54,6 +54,8 @@ ControlKit.CSS =
     Options         : 'options',
     OptionsSelected : 'liSelected',
 
+    SelectColor : 'selectColor',
+
     /*-------------------------------------------------------------------------------------*/
 
     PresetBtn        : 'presetBtn',

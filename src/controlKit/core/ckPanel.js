@@ -220,7 +220,7 @@ ControlKit.Panel.prototype._updateAppearance = function()
     else
     {
         rootNode.setHeight(headNode.getHeight() +  this._wrapNode.getHeight());
-        rootNode.setStyleProperty('height','auto');
+        rootNode.deleteStyleProperty('height');
         menuHide.setStyleClass(ControlKit.CSS.MenuBtnHide);
         headNode.setStyleClass(ControlKit.CSS.Head);
 

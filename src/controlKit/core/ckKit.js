@@ -50,9 +50,6 @@ ControlKit.Kit = function(parentDomElementId,params)
         document.body.appendChild(trigger.getElement());
     }
 
-    picker.open();
-
-
     if(params.opacity != 1.0 && params.opacity != 0.0)
     {
         node.setStyleProperty('opacity',params.opacity);
