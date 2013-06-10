@@ -110,6 +110,9 @@ ControlKit.Picker = function(parentNode)
 
         hexInputWrap.addChild(inputFieldWrapHEX);
 
+        inputHEX.setEventListener(ControlKit.NodeEventType.CHANGE,this._onInputHEXFinish.bind(this));
+
+
     /*---------------------------------------------------------------------------------*/
 
     var controlsWrap = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerControlsWrap);;
@@ -178,7 +181,7 @@ ControlKit.Picker = function(parentNode)
         buttonPick.setEventListener(  eventMouseDown, this._onPick.bind(this));
         buttonCancel.setEventListener(eventMouseDown, this._onClose.bind(this));
 
-        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onHeadDragStart.bind(this));
+       headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onHeadDragStart.bind(this));
 
     /*---------------------------------------------------------------------------------*/
 
@@ -212,9 +215,11 @@ ControlKit.Picker = function(parentNode)
     this._valueG   = 0;
     this._valueB   = 0;
     this._valueA   = 1.0;
+
     inputA.setValue(this._valueA);
 
     this._valueHEX = '#000000';
+    this._valueHEXValid = this._valueHEX;
 
     this._callbackPick = function(){};
 
@@ -235,78 +240,69 @@ ControlKit.Picker = function(parentNode)
 
 ControlKit.Picker.prototype =
 {
-
-    //FIXME
-
     _drawHandleField : function()
     {
         var canvas   = this._canvasField,
-            nodePos  = this._canvasFieldPos;
+            nodePos  = this._canvasFieldPos,
+            mousePos = ControlKit.Mouse.getInstance().getPosition();
 
-        var mousePos = ControlKit.Mouse.getInstance().getPosition();
+        var posX     = Math.max(0,Math.min(mousePos[0] - nodePos[0],canvas.width)),
+            posY     = Math.max(0,Math.min(mousePos[1] - nodePos[1],canvas.height)),
+            posXNorm = posX / canvas.width,
+            posYNorm = posY / canvas.height;
 
-        var handleField     = this._handleField,
-            handleFieldSize = this._handleFieldSize;
-
-        var padding = 3;
-
-        var minX = -handleFieldSize  * 0.5 + padding, maxX = canvas.width  - padding,
-            minY = -handleFieldSize * 0.5 + padding, maxY = canvas.height - padding;
-
-        var offsetPosX = Math.max(minX,Math.min(mousePos[0] - nodePos[0] - handleFieldSize * 0.25,maxX)),
-            offsetPosY = Math.max(minY,Math.min(mousePos[1] - nodePos[1] - handleFieldSize * 0.25,maxY));
-
-        var sat = Math.round(       (offsetPosX - minX) / (maxX - minX)  * this._valueSatMinMax[1]),
-            val = Math.round((1.0 - (offsetPosY - minY) / (maxY - minY)) * this._valueValMinMax[1]);
+        var sat = Math.round(       posXNorm   * this._valueSatMinMax[1]),
+            val = Math.round((1.0 - posYNorm) * this._valueValMinMax[1]);
 
         this._setColorHSV(this._valueHue,sat,val);
+
         this._updateColorRGBFromHSV();
         this._updateColorHEXFromRGB();
 
         this._updateHandleField();
     },
 
-    //FIXME
     _updateHandleField : function()
     {
-        var handleFieldSize = this._handleFieldSize;
+        var width        = this._canvasField.width,
+            height       = this._canvasField.height,
+            offsetHandle = this._handleFieldSize * 0.25;
 
-       var width  = this._canvasField.width,
-           height = this._canvasField.height;
+        var satNorm      = this._valueSat / this._valueSatMinMax[1],
+            valNorm      = this._valueVal / this._valueValMinMax[1];
 
-
-       this._handleField.setPositionGlobal(width * this._valueSat/this._valueSatMinMax[1] - handleFieldSize * 0.25,
-                                         height * (1.0 - this._valueVal/this._valueValMinMax[1]) - handleFieldSize * 0.25);
+       this._handleField.setPositionGlobal(satNorm * width          - offsetHandle,
+                                           (1.0 - valNorm) * height - offsetHandle);
 
     },
 
-    //FIXME
     _drawHandleSlider : function()
     {
         var canvas     = this._canvasSlider,
-            canvasPosY = this._canvasSliderPos[1];
+            canvasPosY = this._canvasSliderPos[1],
+            mousePosY  = ControlKit.Mouse.getInstance().getY();
 
-        var mouseY   = ControlKit.Mouse.getInstance().getY();
+        var posY     = Math.max(0,Math.min(mousePosY - canvasPosY,canvas.height)),
+            posYNorm = posY / canvas.height;
 
-        var handleSlider       = this._handleSlider,
-            handleSliderHeight = this._handleSliderHeight;
+        var hue  = Math.floor((1.0 - posYNorm) * this._valueHueMinMax[1]);
 
-        var minY       = -handleSliderHeight*0.5 + 4,maxY = canvas.height - 2;
-        var offsetPosY = Math.max(minY,Math.min(mouseY - canvasPosY - handleSliderHeight * 0.25,maxY));
+        this._setColorHSV(hue,this._valueSat,this._valueVal);
 
-        this._setHue(Math.floor(( 1.0 - (offsetPosY - minY) / (maxY - minY)) * 360.0));
-        this._setColorHSV(this._valueHue,this._valueSat,this._valueVal);
         this._updateColorRGBFromHSV();
         this._updateColorHEXFromRGB();
 
-        this._handleSlider.setPositionGlobalY(offsetPosY);
+        this._updateHandleSlider();
     },
 
-    //FIXME
     _updateHandleSlider : function()
     {
-        var height = this._canvasSlider.height - 2;
-        this._handleSlider.setPositionGlobalY(height * (1.0 - this._valueHue/this._valueHueMinMax[1]));
+        var height       = this._canvasSlider.height,
+            offsetHandle = this._handleSliderHeight * 0.25;
+
+        var hueNorm = this._valueHue / this._valueHueMinMax[1];
+
+        this._handleSlider.setPositionGlobalY((height - offsetHandle) * (1.0 - hueNorm));
     },
 
     _updateHandles : function()
@@ -319,7 +315,9 @@ ControlKit.Picker.prototype =
 
     _setHue : function(value)
     {
-        this._valueHue = value == 360.0 ? 0.0 : value;
+        var minMax = this._valueHueMinMax;
+
+        this._valueHue = value == minMax[1] ? minMax[0] : value;
         this._updateColorHSV();
         this._drawCanvasField();
     },
@@ -367,7 +365,9 @@ ControlKit.Picker.prototype =
         var input    = this._inputHue,
             inputVal = this._getValueContrained(input,this._valueHueMinMax);
 
-        if(inputVal == 360){inputVal = 0; input.setValue(inputVal);}
+        var minMax = this._valueHueMinMax;
+
+        if(inputVal == minMax[1]){inputVal = minMax[0]; input.setValue(inputVal);}
 
         this._setHue(inputVal);
         this._updateColorRGBFromHSV();
@@ -410,11 +410,31 @@ ControlKit.Picker.prototype =
         this._setA(this._getValueContrained(this._inputA,this._valueAMinMax));
     },
 
+
+    _onInputHEXFinish : function()
+    {
+        var input = this._inputHEX,
+            value = input.getProperty('value');
+
+        console.log(value);
+
+        if(!this._isValidHEX(value))
+        {
+            input.setProperty('value',this._valueHEXValid);
+            return;
+        }
+
+
+
+        this._valueHEX = this._valueHEXValid = value;
+        this._updateColorFromHEX();
+    },
+
     _onInputSVChange : function()
     {
         this._updateColorRGBFromHSV();
         this._updateColorHEXFromRGB();
-        this._updateHandleSlider();
+        this._updateHandleField();
     },
 
     _onInputRGBChange : function()
@@ -435,6 +455,8 @@ ControlKit.Picker.prototype =
 
         return inputVal;
     },
+
+
 
     /*---------------------------------------------------------------------------------*/
 
@@ -493,12 +515,6 @@ ControlKit.Picker.prototype =
         this._updateContrastCurrColor();
     },
 
-    _updateColorHEX : function()
-    {
-        this._setColorHEX(this._valueHEX);
-        this._updateContrastCurrColor();
-    },
-
     _updateColorHSVFromRGB : function()
     {
         var hsv = this._RGB2HSV(this._valueR,this._valueG,this._valueB);
@@ -517,6 +533,15 @@ ControlKit.Picker.prototype =
         this._setColorHEX(hex);
     },
 
+    _updateColorFromHEX : function()
+    {
+        var rgb = this._HEX2RGB(this._valueHEX);
+
+        this._setColorRGB(rgb[0],rgb[1],rgb[2]);
+        this._updateColorHSVFromRGB();
+        this._updateHandles();
+    },
+
 
 
     /*---------------------------------------------------------------------------------*/
@@ -531,18 +556,26 @@ ControlKit.Picker.prototype =
 
     _HSV2RGB : function(hue,sat,val)
     {
-        var max_hue = 360.0,
-            max_sat = 100.0,
-            max_val = 100.0;
+        var hueMinMax = this._valueHueMinMax,
+            satMinMax = this._valueSatMinMax,
+            valMinMax = this._valueValMinMax;
 
-        var min_hue = 0.0,
-            min_sat = 0.0,
-            min_val = 0.0;
+        var max_hue = hueMinMax[1],
+            max_sat = satMinMax[1],
+            max_val = valMinMax[1];
+
+        var min_hue = hueMinMax[0],
+            min_sat = satMinMax[0],
+            min_val = valMinMax[0];
 
         hue = hue % max_hue;
         val = Math.max(min_val,Math.min(val,max_val))/max_val * 255.0;
 
-        if(sat <= min_sat){val = Math.round(val);return[val,val,val];}
+        if(sat <= min_sat)
+        {
+            val = Math.round(val);
+            return[val,val,val];
+        }
         else if(sat > max_sat)sat = max_sat;
 
         sat = sat/max_sat;
@@ -570,7 +603,11 @@ ControlKit.Picker.prototype =
             default: break;
         }
 
-        return [Math.round(r),Math.round(g),Math.round(b)];
+        r = Math.round(r);
+        g = Math.round(g);
+        b = Math.round(b);
+
+        return [r,g,b];
 
     },
 
@@ -580,9 +617,9 @@ ControlKit.Picker.prototype =
             s = 0,
             v = 0;
 
-        r = r / 255;
-        g = g / 255;
-        b = b / 255;
+        r = r / 255.0;
+        g = g / 255.0;
+        b = b / 255.0;
 
         var minRGB = Math.min(r, Math.min(g, b)),
             maxRGB = Math.max(r, Math.max(g, b));
@@ -593,15 +630,15 @@ ControlKit.Picker.prototype =
             hh = (r == minRGB) ? 3 : ((b == minRGB) ? 1 : 5);
 
         h = Math.round(60 * (hh - dd / (maxRGB - minRGB)));
-        s = Math.round((maxRGB - minRGB) / maxRGB);
-        v = Math.round( maxRGB);
+        s = Math.round((maxRGB - minRGB) / maxRGB * 100.0);
+        v = Math.round( maxRGB * 100.0);
 
         return [h, s, v];
     },
 
-    _HEX2RGBA : function(hex)
+    _isValidHEX : function(hex)
     {
-
+        return /^#[0-9A-F]{6}$/i.test(hex);
     },
 
     //http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
@@ -619,13 +656,11 @@ ControlKit.Picker.prototype =
         });
 
         var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
+        return result ? [parseInt(result[1], 16),parseInt(result[2], 16),parseInt(result[3], 16)] : null;
 
     },
+
+
 
     /*---------------------------------------------------------------------------------*/
 
