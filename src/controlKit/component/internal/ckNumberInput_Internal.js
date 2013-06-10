@@ -24,6 +24,9 @@ ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onBegin,onCha
     input.setEventListener(ControlKit.NodeEventType.KEY_DOWN, this._onInputKeyDown.bind(this));
     input.setEventListener(ControlKit.NodeEventType.KEY_UP,   this._onInputKeyUp.bind(this));
     input.setEventListener(ControlKit.NodeEventType.CHANGE,   this._onInputChange.bind(this));
+
+    input.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onInputDragStart.bind(this));
+    this.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,ControlKit.getKitInstance(),'onInputSelectDrag');
 };
 
 ControlKit.NumberInput_Internal.prototype = Object.create(ControlKit.EventDispatcher.prototype);
@@ -97,6 +100,35 @@ ControlKit.NumberInput_Internal.prototype._format = function()
     if(index>0)string = string.slice(0,index+this._valueDPlace);
 
     this._setOutput(string);
+};
+
+//Prevent chrome select drag
+ControlKit.NumberInput_Internal.prototype._onInputDragStart = function()
+{
+    var eventMove = ControlKit.DocumentEventType.MOUSE_MOVE,
+        eventUp   = ControlKit.DocumentEventType.MOUSE_UP;
+
+    var event = ControlKit.EventType.INPUT_SELECT_DRAG;
+
+    var self  = this;
+
+    var onDrag       = function()
+        {
+            self.dispatchEvent(new ControlKit.Event(this,event,null));
+        },
+
+        onDragFinish = function()
+        {
+            self.dispatchEvent(new ControlKit.Event(this,event,null));
+
+            document.removeEventListener(eventMove, onDrag,       false);
+            document.removeEventListener(eventMove, onDragFinish, false);
+        };
+
+    this.dispatchEvent(new ControlKit.Event(this,event,null));
+
+    document.addEventListener(eventMove, onDrag,       false);
+    document.addEventListener(eventUp,   onDragFinish, false);
 };
 
 ControlKit.NumberInput_Internal.prototype._setOutput = function(n){this._input.setProperty('value',n);};

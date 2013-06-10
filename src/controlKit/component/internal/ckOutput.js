@@ -19,6 +19,8 @@ ControlKit.Output = function(parent,object,value,params)
         textArea.setProperty('readOnly',true);
         wrapNode.addChild(textArea);
 
+        textArea.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onInputDragStart.bind(this));
+        this.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,ControlKit.getKitInstance(),'onInputSelectDrag');
     /*---------------------------------------------------------------------------------*/
 
 
@@ -60,3 +62,34 @@ ControlKit.Output.prototype = Object.create(ControlKit.ObjectComponent.prototype
 ControlKit.Output.prototype._setValue     = function(){};
 ControlKit.Output.prototype.onValueUpdate = function(){this._setValue();};
 ControlKit.Output.prototype.update        = function(){this._setValue();};
+
+/*---------------------------------------------------------------------------------*/
+
+//Prevent chrome select drag
+ControlKit.Output.prototype._onInputDragStart = function()
+{
+    var eventMove = ControlKit.DocumentEventType.MOUSE_MOVE,
+        eventUp   = ControlKit.DocumentEventType.MOUSE_UP;
+
+    var event = ControlKit.EventType.INPUT_SELECT_DRAG;
+
+    var self  = this;
+
+    var onDrag = function()
+        {
+            self.dispatchEvent(new ControlKit.Event(this,event,null));
+        },
+
+        onDragFinish = function()
+        {
+            self.dispatchEvent(new ControlKit.Event(this,event,null));
+
+            document.removeEventListener(eventMove, onDrag,       false);
+            document.removeEventListener(eventMove, onDragFinish, false);
+        };
+
+    this.dispatchEvent(new ControlKit.Event(this,event,null));
+
+    document.addEventListener(eventMove, onDrag,       false);
+    document.addEventListener(eventUp,   onDragFinish, false);
+};

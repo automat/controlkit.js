@@ -35,6 +35,8 @@ ControlKit.EventType =
     INPUT_SELECTDRAG         : 'inputSelectDrag',
     INPUT_SELECTDRAG_END     : 'inputSelectDragEnd',
 
+    INPUT_SELECT_DRAG        : 'inputSelectDrag',
+
     HISTORY_STATE_PUSH       : 'historyStatePush',
     HISTORY_STATE_POP        : 'historyStatePop',
 

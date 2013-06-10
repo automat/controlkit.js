@@ -65,6 +65,9 @@ ControlKit.StringInput = function(parent,object,value,params)
     input.setEventListener(ControlKit.NodeEventType.KEY_UP, this._onInputKeyUp.bind(this));
     input.setEventListener(ControlKit.NodeEventType.CHANGE, this._onInputChange.bind(this));
 
+    input.setEventListener(ControlKit.EventType.MOUSE_DOWN, this._onInputDragStart.bind(this));
+    this.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,ControlKit.getKitInstance(),'onInputSelectDrag');
+
     /*---------------------------------------------------------------------------------*/
 };
 
@@ -108,6 +111,37 @@ ControlKit.StringInput.prototype.onValueUpdate = function(e)
 {
     if(e.data.origin == this)return;
     this._input.setProperty('value',this._object[this._key]);
+};
+
+/*---------------------------------------------------------------------------------*/
+
+//Prevent chrome select drag
+ControlKit.StringInput.prototype._onInputDragStart = function()
+{
+    var eventMove = ControlKit.DocumentEventType.MOUSE_MOVE,
+        eventUp   = ControlKit.DocumentEventType.MOUSE_UP;
+
+    var event = ControlKit.EventType.INPUT_SELECT_DRAG;
+
+    var self  = this;
+
+    var onDrag = function()
+        {
+            self.dispatchEvent(new ControlKit.Event(this,event,null));
+        },
+
+        onDragFinish = function()
+        {
+            self.dispatchEvent(new ControlKit.Event(this,event,null));
+
+            document.removeEventListener(eventMove, onDrag,       false);
+            document.removeEventListener(eventMove, onDragFinish, false);
+        };
+
+    this.dispatchEvent(new ControlKit.Event(this,event,null));
+
+    document.addEventListener(eventMove, onDrag,       false);
+    document.addEventListener(eventUp,   onDragFinish, false);
 };
 
 

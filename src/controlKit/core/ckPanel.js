@@ -129,9 +129,12 @@ ControlKit.Panel = function(controlKit,params)
     menuHide.setEventListener( ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuHideMouseDown.bind(this));
     menuClose.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this.disable.bind(this));
 
-    this._parent.addEventListener(ControlKit.EventType.UPDATE_MENU,this,'onUpdateMenu');
+    this._parent.addEventListener(ControlKit.EventType.UPDATE_MENU,      this, 'onUpdateMenu');
+    this._parent.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,this, 'onInputSelectDrag');
 
     window.addEventListener('resize',this._onWindowResize.bind(this));
+
+
 };
 
 ControlKit.Panel.prototype = Object.create(ControlKit.EventDispatcher.prototype);
@@ -290,6 +293,12 @@ ControlKit.Panel.prototype._onWindowResize = function()
 {
     var position = this._position;
     this._setPosition(position[0],position[1]);
+};
+
+ControlKit.Panel.prototype.onInputSelectDrag = function()
+{
+    if(!this._hasScrollWrap())return;
+    this._wrapNode.getElement().scrollTop = 0;
 };
 
 /*---------------------------------------------------------------------------------*/
