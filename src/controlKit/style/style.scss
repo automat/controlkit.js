@@ -59,7 +59,8 @@
       @include linear-gradient-with-background(#{$sliderHandleGradient}, $sliderHandleColorBG);
       @include box-shadow($sliderHandleBoxShadow);
 
-
+      @include user-select;
+      cursor: pointer;
     }
 
   }
@@ -100,8 +101,6 @@
       background: #fff;
       float: left;
     }
-
-
   }
 
   .panel .button, .picker .button

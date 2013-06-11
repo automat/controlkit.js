@@ -62,8 +62,8 @@ ControlKit.Picker = function(parentNode)
 
     var controlsWrap = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerControlsWrap);
 
-    var buttonCancel = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON).setStyleClass(ControlKit.CSS.Button).setProperty('value','pick'),
-        buttonPick   = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON).setStyleClass(ControlKit.CSS.Button).setProperty('value','cancel');
+    var buttonPick   = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON).setStyleClass(ControlKit.CSS.Button).setProperty('value','pick'),
+        buttonCancel = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON).setStyleClass(ControlKit.CSS.Button).setProperty('value','cancel');
 
 
     var colorContrast = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.PickerColorContrast);
@@ -356,6 +356,8 @@ ControlKit.Picker.prototype =
         this._updateColorRGBFromHSV();
         this._updateColorHEXFromRGB();
         this._updateHandleSlider();
+
+        this._drawCanvasField();
     },
 
     _onInputSatChange : function()
@@ -769,10 +771,6 @@ ControlKit.Picker.prototype =
 
     },
 
-
-
-
-
     /*---------------------------------------------------------------------------------*/
 
     _onCanvasFieldMouseDown : function()
@@ -809,18 +807,21 @@ ControlKit.Picker.prototype =
         var onDrag     = function()
             {
                 self._drawHandleSlider();
+                self._drawCanvasField();
             },
 
             onDragEnd  = function()
             {
                 document.removeEventListener(eventMouseMove, onDrag,    false);
                 document.removeEventListener(eventMouseUp,   onDragEnd, false);
+                self._drawCanvasField();
             };
 
         document.addEventListener(eventMouseMove, onDrag,    false);
         document.addEventListener(eventMouseUp,   onDragEnd, false);
 
         self._drawHandleSlider();
+        self._drawCanvasField();
     },
 
     /*---------------------------------------------------------------------------------*/
@@ -846,6 +847,19 @@ ControlKit.Picker.prototype =
 
     /*---------------------------------------------------------------------------------*/
 
+    setColorHEX : function(hex)
+    {
+        this._setColorHEX(hex);
+        this._updateColorFromHEX();
+
+        this._drawCanvasField();
+
+        this._updateHandles();
+    },
+
+    //TODO ADD
+    setColorRGB : function(r,g,b){},
+    setColorHSV : function(h,s,v){},
 
     getR    : function(){return this._valueR;},
     getG    : function(){return this._valueG;},

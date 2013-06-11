@@ -69,7 +69,14 @@
       background: #b32435;
       background-image: -o-linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
       background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
-      box-shadow: 0 1px 0 0 #0f0f0f; }
+      box-shadow: 0 1px 0 0 #0f0f0f;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      cursor: pointer; }
   #controlKit .panel .button,
   #controlKit .picker .button,
   #controlKit .panel .select,
@@ -256,7 +263,7 @@
         box-shadow: none;
         background: none; }
       #controlKit .panel .textAreaWrap .scrollBar {
-        border: px solid #101213;
+        border: 1px solid #101213;
         border-bottom-right-radius: 2px;
         border-top-right-radius: 2px;
         border-left: none;

@@ -88,7 +88,7 @@ function TestControlKit(parentDomElementId)
                   stringPresets:['hy','well','bummm'],
                   number:26.0,
                   numberPresets:[10.0,20.0,345.0,12.0],
-                  range:[0,1],
+                  range:[-1,1],
                   bool:true,
                   slideValue:0.01,
                   selectOptions:['hello','bello','cello'],
@@ -116,26 +116,35 @@ function TestControlKit(parentDomElementId)
         slideValue4:0.01,
         slideValue5:0.01,
         slideValue6:0.01,
-        slideValue7:0.01
+        slideValue7:0.01,
+
+                   selectColorOptions : ['#5b3f95','#121212','#B32435'],
+                   selectColorTarget  : null
                   };
 
     object.funcTarget = object.funcs[0];
+    object.selectColorTarget = object.selectColorOptions[0];
 
     var controlKit = new ControlKit.Kit(parentDomElementId,{trigger:true});
 
 
-    var panel0 = controlKit.addPanel({width: 200,height:300, align: 'left', fixed: false, position: [20, 20]});
+    var panel0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [20, 20]});
     var group01 = panel0.addGroup({height:300})
         .addSubGroup({label: 'Function Select'})
+        .addSelect(object,'selectColorOptions','selectColorTarget')
         .addButton('hello')
+        .addNumberInput(object,'number',{presets: 'numberPresets'})
+
 
         .addFunctionPlotter(object, 'funcTarget', {label: 'Graph'})
         .addStringOutput(object, 'funcTarget')
         .addSelect(object, 'funcs', 'funcTarget')
         .addSubGroup({label: 'Function Plot'})
-        .addValuePlotter(object, 'changeValue0', {lineColor: [237, 20, 91]})
+        //.addValuePlotter(object, 'changeValue0', {lineColor: [237, 20, 91]})
         .addRange(object, 'range')
         .addSlider(object, 'range', 'slideValue');
+
+
 
 
 
@@ -167,7 +176,7 @@ function TestControlKit(parentDomElementId)
 
 
 
-    var control0 = controlKit.addPanel({width: 200, height:300,align: 'left', fixed: false, position: [420, 20]});
+    var control0 = controlKit.addPanel({width: 200,align: 'left', fixed: false, position: [420, 20]});
         control0.addGroup({label: 'level'})
         .addSubGroup({label: 'noise', height: 200})
         .addNumberInput(object, 'number',  {presets: 'numberPresets'})
@@ -180,7 +189,7 @@ function TestControlKit(parentDomElementId)
         .addSelect(object, 'selectOptions', 'selectTarget')
 
 
-        .addSubGroup({label: 'grain', show: false, height: 150})
+        .addSubGroup({label: 'grain', show: false})
         .addRange(object, 'range')
         //.addSlider(object, 'range', 'slideValue', 'slider')
         .addSelect(object, 'selectOptions', 'selectTarget')
@@ -203,6 +212,17 @@ function TestControlKit(parentDomElementId)
         .addSlider(object,'range','slideValue2')
         .addSlider(object,'range','slideValue3')
         .addSlider(object,'range','slideValue4')
+        .addSlider(object,'range','slideValue3')
+        .addSlider(object,'range','slideValue2')
+        .addSlider(object,'range','slideValue1')
+        .addSlider(object,'range','slideValue0')
+        .addSlider(object,'range','slideValue')
+
+
+    control0 = controlKit.addPanel({width:200,align: 'left', fixed: false, position: [620, 20], label:'Graph'})
+        .addGroup().addSubGroup().addValuePlotter(object,'changeValue5',{label:'none',height:100});
+
+
 
 
 
@@ -353,6 +373,7 @@ function TestControlKit(parentDomElementId)
 
 
 
+        var f = 1/6;
         var t = 0.0;
         var sint;
         function updateObject()
@@ -372,7 +393,12 @@ function TestControlKit(parentDomElementId)
             object.changeValue5 = frac(sint);
             object.changeValue6 = sint;
 
-            object.slideValue0 = sin(object.slideValue+0.1);
+            object.slideValue0 = sin(object.slideValue+f);
+            object.slideValue1 = sin(object.slideValue0+f);
+            object.slideValue2 = sin(object.slideValue1+f);
+            object.slideValue3 = sin(object.slideValue2+f);
+            object.slideValue4 = sin(object.slideValue3+f);
+            object.slideValue5 = sin(object.slideValue4+f);
 
             /*
             t+=object.xyChangeValue[0];
