@@ -35,7 +35,7 @@ ControlKit.NumberInput = function(parent,object,value,params)
     else
     {
         var inputWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
-            inputWrap.setStyleClass(ControlKit.CSS.InputWPresetWrap);
+            inputWrap.setStyleClass(ControlKit.CSS.WrapInputWPreset);
 
         wrapNode.addChild(inputWrap);
         inputWrap.addChild(input.getNode());
@@ -55,7 +55,8 @@ ControlKit.NumberInput = function(parent,object,value,params)
             options.build(presets,input.getValue(),input.getNode(),
                           function(){input.setValue(presets[options.getSelectedIndex()]);
                                      self.applyValue();},
-                          onPresetDeactivate,ControlKit.Constant.PADDING_PRESET);
+                          onPresetDeactivate,ControlKit.Constant.PADDING_PRESET,
+                          false);
         };
 
         presetBtn.setCallbackActive(onPresetActivate);

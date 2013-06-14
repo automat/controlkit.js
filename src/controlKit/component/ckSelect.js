@@ -24,77 +24,11 @@ ControlKit.Select = function(parent,object,value,target,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    this._isColorSelect = false;
-    var regex = /^#[0-9A-F]{6}$/i,i = -1;
-
-    if(regex.test(obj[targetKey]))
-    {
-        while(++i<values.length){if(!regex.test(values[i]))break;}
-        this._isColorSelect = true;
-    }
-
     this._selected  = null;
-    var select;
 
-    /*---------------------------------------------------------------------------------*/
-
-    var onTrigger = this._onSelectTrigger.bind(this);
-
-    //FIXME + Add [r,g,b] + [h,s,v], - anonymous funcs
-
-    if(this.isColorSelect())
-    {
-
-
-        select = this._select = new ControlKit.Node(ControlKit.NodeType.DIV);
-        select.setStyleClass(ControlKit.CSS.SelectColor);
-
-        var colorSelected = obj[targetKey];
-
-        var color = select.addChild(new ControlKit.Node(ControlKit.NodeType.DIV));
-            color.setProperty('innerHTML', colorSelected);
-            color.getStyle().backgroundColor = colorSelected;
-            color.getStyle().backgroundImage = 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%)';
-
-
-
-        var self = this;
-
-        var onPickerPick   = function()
-                             {
-                                 var options = ControlKit.Options.getInstance(),
-                                     picker  = ControlKit.Picker.getInstance();
-
-                                 colorSelected = obj[targetKey] = values[options.getSelectedIndex()] = picker.getHEX();
-
-                                 color.setProperty('innerHTML', colorSelected);
-                                 color.getStyle().backgroundColor = colorSelected;
-                                 color.getStyle().backgroundImage = 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%)';
-
-
-
-                             },
-            onColorTrigger = function()
-                             {
-                                 var picker = ControlKit.Picker.getInstance();
-                                     picker.setColorHEX(obj[targetKey]);
-                                     picker.setCallbackPick(onPickerPick);
-                                     picker.open();
-                             };
-
-            color.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,onColorTrigger);
-
-        var btn = this._selectBtn = new ControlKit.PresetBtn(wrapNode);
-            btn.setCallbackActive(onTrigger);
-
-    }
-    else
-    {
-        select = this._select = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
-        select.setStyleClass(ControlKit.CSS.Select);
-
-        select.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,onTrigger);
-    }
+    var select  = this._select = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
+    select.setStyleClass(ControlKit.CSS.Select);
+    select.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onSelectTrigger.bind(this));
 
     i = -1;
     while(++i < values.length){if(targetObj == values[i])this._selected = values[i];}
@@ -112,10 +46,7 @@ ControlKit.Select = function(parent,object,value,target,params)
 
 ControlKit.Select.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 
-ControlKit.Select.prototype._getOptionsIndex = function(option)
-{
 
-};
 
 ControlKit.Select.prototype.onSelectTrigger = function (e)
 {
@@ -132,35 +63,31 @@ ControlKit.Select.prototype.onSelectTrigger = function (e)
 
     this._active = false;
     this._updateAppearance();
-
 };
 
 ControlKit.Select.prototype._buildOptions = function()
 {
     var options = ControlKit.Options.getInstance();
 
+    var onSelect    = function()
+                      {
+                          this.applyValue();
+                          this._active = false;
+                          this._updateAppearance();
+                          options.clear();
+
+                      }.bind(this);
+
+    var onSelectOut = function()
+                      {
+                          this._active = false;
+                          this._updateAppearance();
+                          options.clear();
+
+                      }.bind(this);
 
 
-    options.build(this._values,
-                  this._selected,
-                  this._select,
-                  function ()
-                  {
-                      this.applyValue();
-
-                      this._active = false;
-                      this._updateAppearance();
-                      options.clear();
-
-                  }.bind(this),
-                  function()
-                  {
-                      this._active = false;
-                      this._updateAppearance();
-                      options.clear();
-
-                  }.bind(this),
-                  this.isColorSelect());
+    options.build(this._values,this._selected,this._select,onSelect,onSelectOut,false);
 
 };
 
@@ -172,18 +99,7 @@ ControlKit.Select.prototype.applyValue = function()
     var selectedIndex = ControlKit.Options.getInstance().getSelectedIndex(),
         selected = this._selected = this._object[this._targetKey] = this._values[selectedIndex];
 
-    if(this._isColorSelect)
-    {
-        var color = this._select.getFirstChild();
-
-        color.setProperty('innerHTML',selected);
-        color.getStyle().backgroundColor = selected;
-        color.getStyle().backgroundImage = 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%)';
-    }
-    else
-    {
-        this._select.setProperty('value',selected);
-    }
+    this._select.setProperty('value',selected);
 
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
 };
@@ -195,14 +111,10 @@ ControlKit.Select.prototype._onSelectTrigger = function()
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SELECT_TRIGGERED,null));
 };
 
-ControlKit.Select.prototype.isColorSelect = function(){return this._isColorSelect;};
-
 ControlKit.Select.prototype._updateAppearance = function()
 {
-    if(this.isColorSelect()){if(!this._active)this._selectBtn.deactivate();}
-    else { this._select.setStyleClass(this._active ? ControlKit.CSS.SelectActive : ControlKit.CSS.Select);}
+    this._select.setStyleClass(this._active ? ControlKit.CSS.SelectActive : ControlKit.CSS.Select);
 };
-
 
 ControlKit.Select.prototype.onValueUpdate = function(e)
 {

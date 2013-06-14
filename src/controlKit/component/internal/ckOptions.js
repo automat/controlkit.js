@@ -52,13 +52,36 @@ ControlKit.Options.prototype =
 
         if(entriesAreColors)
         {
+            listNode.setStyleClass(ControlKit.CSS.Color);
+
+            var color;
+
             while(++i < entries.length)
             {
+                entry = entries[i];
 
+                itemNode = listNode.addChild(new ControlKit.Node(ControlKit.NodeType.LIST_ITEM));
+
+                color    = itemNode.addChild(new ControlKit.Node(ControlKit.NodeType.DIV));
+                color.getStyle().backgroundColor = entry;
+                color.getStyle().backgroundImage = 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%)';
+                color.setProperty('innerHTML',entry);
+
+                if(entry == selected)itemNode.setStyleClass(ControlKit.CSS.OptionsSelected);
+
+                itemNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,
+                    function()
+                    {
+                        self._selectedIndex = Array.prototype.indexOf.call(this.parentNode.children,this);
+                        callbackSelect();
+                    });
             }
+
         }
         else
         {
+            listNode.deleteStyleClass();
+
             while(++i < entries.length)
             {
                 entry = entries[i];
@@ -76,19 +99,15 @@ ControlKit.Options.prototype =
             }
         }
 
-
-
         //position, set width and enable
 
         var elementPos    = element.getPositionGlobal(),
             elementWidth  = element.getWidth() - paddingRight,
             elementHeight = element.getHeight();
 
-        var listWidth  = listNode.getWidth(),
-            listHeight = listNode.getHeight();
+        var listWidth  = listNode.getWidth();
 
         rootNode.setWidth( listWidth < elementWidth ? elementWidth : listWidth);
-        rootNode.setHeight(listHeight);
         rootNode.setPositionGlobal(elementPos[0],elementPos[1]+elementHeight-ControlKit.Constant.PADDING_OPTIONS);
 
         this._callbackOut = callbackOut;

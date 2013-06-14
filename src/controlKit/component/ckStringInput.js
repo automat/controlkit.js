@@ -29,15 +29,14 @@ ControlKit.StringInput = function(parent,object,value,params)
     else
     {
         var inputWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
-        inputWrap.setStyleClass(ControlKit.CSS.InputWPresetWrap);
+        inputWrap.setStyleClass(ControlKit.CSS.WrapInputWPreset);
 
         wrapNode.addChild(inputWrap);
         inputWrap.addChild(input);
 
-        var presets = this._presets   = this._object[this._presetsKey];
-
-        var options   = ControlKit.Options.getInstance();
-        var presetBtn = this._presetBtn = new ControlKit.PresetBtn(this._wrapNode);
+        var presets   = this._object[this._presetsKey],
+            options   = ControlKit.Options.getInstance(),
+            presetBtn = new ControlKit.PresetBtn(this._wrapNode);
 
         var onPresetDeactivate = function(){options.clear();presetBtn.deactivate();};
 
@@ -53,7 +52,9 @@ ControlKit.StringInput = function(parent,object,value,params)
                               self.pushHistoryState();
                               self.applyValue();
                           },
-                          onPresetDeactivate,ControlKit.Constant.PADDING_PRESET);
+                          onPresetDeactivate,
+                          ControlKit.Constant.PADDING_PRESET,
+                          false);
         };
 
         presetBtn.setCallbackActive(onPresetActivate);
