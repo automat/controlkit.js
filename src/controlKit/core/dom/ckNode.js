@@ -138,7 +138,8 @@ ControlKit.Node.prototype =
     getStyleProperty   : function(property)      {return this._element.style[property];},
     setStyleProperties : function(properties)    {for(var p in properties)this._element.style[p] = properties[p];return this;},
 
-    deleteStyleProperty : function(property)     {this._element.style[property] = '';return this;},
+    deleteStyleClass      : function()           {this._element.className = '';return this},
+    deleteStyleProperty   : function(property)   {this._element.style[property] = '';return this;},
     deleteStyleProperties : function(properties) {for(var p in properties)this._element.style[p] = '';return this;},
 
     getChildAt     : function(index) {return new ControlKit.Node().setElement(this._element.children[index]);},
