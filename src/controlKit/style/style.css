@@ -35,7 +35,7 @@
       *-------------------------------------------------------------------------------------*/ }
   #controlKit .panel input[type='text'],
   #controlKit .panel textarea,
-  #controlKit .panel .selectColor,
+  #controlKit .panel .color,
   #controlKit .picker input[type='text'] {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -55,9 +55,9 @@
     border-radius: 2px;
     -moz-border-radius: 2px;
     border-bottom: 1px solid #3b4447; }
-  #controlKit .panel .selectColor {
-    padding: 3px 23px 3px 3px; }
-    #controlKit .panel .selectColor div {
+  #controlKit .panel .color {
+    padding: 3px; }
+    #controlKit .panel .color div {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
@@ -98,11 +98,6 @@
     -moz-border-radius: 2px;
     box-shadow: 0 0 0 1px #131313 inset, -1px 2px 0 0 #323a44 inset;
     border-bottom: 1px solid #3b4447; }
-  #controlKit .panel .select .color, #controlKit .panel .selectActive .color {
-    width: 100%;
-    height: 100%;
-    background: #fff;
-    float: left; }
   #controlKit .panel .button, #controlKit .picker .button {
     font-size: 10px;
     font-weight: bold;
@@ -230,11 +225,13 @@
       padding: 0;
       position: relative;
       overflow: hidden; }
-    #controlKit .panel .inputWPresetWrap {
+    #controlKit .panel .inputWPresetWrap, #controlKit .panel .colorWPresetWrap {
       width: 100%;
       float: left; }
-      #controlKit .panel .inputWPresetWrap input[type='text'] {
-        padding-right: 25px; }
+    #controlKit .panel .inputWPresetWrap input[type='text'] {
+      padding-right: 25px; }
+    #controlKit .panel .colorWPresetWrap .color {
+      padding-right: 23px; }
     #controlKit .panel .textAreaWrap {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -720,7 +717,7 @@
     left: 0;
     top: 0;
     width: 0;
-    height: 0;
+    height: auto;
     /*
     left:   0;
     top:    0;
@@ -754,3 +751,43 @@
           background-color: #1f2325; }
       #controlKit .options ul .liSelected {
         background-color: #292d30; }
+    #controlKit .options .color {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      padding-bottom: 1.5px;
+      padding-top: 1.5px; }
+      #controlKit .options .color li, #controlKit .options .color .liSelected {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 1.5px 3px 1.5px 3px;
+        height: 25px; }
+        #controlKit .options .color li div, #controlKit .options .color .liSelected div {
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          width: 100%;
+          height: 100%;
+          background: #fff;
+          text-align: center;
+          vertical-align: text-top;
+          line-height: 21px;
+          background: #b32435;
+          background-image: -o-linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
+          background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
+          border: 1px solid #25282b;
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          cursor: pointer; }
+          #controlKit .options .color li div:hover, #controlKit .options .color .liSelected div:hover {
+            border: 3px solid #121415;
+            line-height: 17px; }
+        #controlKit .options .color li:hover, #controlKit .options .color .liSelected:hover {
+          background: none; }
+      #controlKit .options .color .liSelected {
+        background: none; }

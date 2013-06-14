@@ -13,6 +13,9 @@ ControlKit.CSS =
     MenuBtnShow  : 'btnShow',
     MenuBtnUndo  : 'btnUndo',
 
+    WrapInputWPreset : 'inputWPresetWrap',
+    WrapColorWPreset : 'colorWPresetWrap',
+
     /*-------------------------------------------------------------------------------------*/
 
     HeadInactive : 'headInactive',
@@ -54,16 +57,15 @@ ControlKit.CSS =
     Options         : 'options',
     OptionsSelected : 'liSelected',
 
+
     SelectColor : 'selectColor',
 
     /*-------------------------------------------------------------------------------------*/
 
     PresetBtn        : 'presetBtn',
     PresetBtnActive  : 'presetBtnActive',
-    InputWPresetWrap : 'inputWPresetWrap',
 
     /*-------------------------------------------------------------------------------------*/
-
 
     CanvasListItem  : 'canvasListItem',
     CanvasWrap      : 'canvasWrap',
@@ -80,6 +82,8 @@ ControlKit.CSS =
 
     PickerHandleField  : 'indicator',
     PickerHandleSlider : 'indicator',
+
+    Color : 'color',
 
     /*-------------------------------------------------------------------------------------*/
 
