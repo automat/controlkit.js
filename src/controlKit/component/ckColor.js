@@ -122,5 +122,6 @@ ControlKit.Color.prototype._updateColor = function()
     var colorNode = this._color.getFirstChild();
     colorNode.setProperty('innerHTML',colorHEX);
     colorNode.getStyle().backgroundColor = colorHEX;
-    colorNode.getStyle().backgroundImage = 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%)';
+    colorNode.getStyle().backgroundImage = 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0,0,0,0.25) 100%)';
+    colorNode.getStyle().boxShadow       = '0 1px 0 0 rgba(0,0,0,0.25) inset';
 };

@@ -56,7 +56,7 @@
     -moz-border-radius: 2px;
     border-bottom: 1px solid #3b4447; }
   #controlKit .panel .color {
-    padding: 3px; }
+    padding: 1px; }
     #controlKit .panel .color div {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -65,7 +65,7 @@
       height: 100%;
       background: #fff;
       text-align: center;
-      padding-top: 2px;
+      line-height: 23px;
       background: #b32435;
       background-image: -o-linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
       background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
@@ -231,7 +231,7 @@
     #controlKit .panel .inputWPresetWrap input[type='text'] {
       padding-right: 25px; }
     #controlKit .panel .colorWPresetWrap .color {
-      padding-right: 23px; }
+      padding-right: 21px; }
     #controlKit .panel .textAreaWrap {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -754,14 +754,12 @@
     #controlKit .options .color {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      padding-bottom: 1.5px;
-      padding-top: 1.5px; }
+      box-sizing: border-box; }
       #controlKit .options .color li, #controlKit .options .color .liSelected {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        padding: 1.5px 3px 1.5px 3px;
+        padding: 0;
         height: 25px; }
         #controlKit .options .color li div, #controlKit .options .color .liSelected div {
           -webkit-box-sizing: border-box;
@@ -772,11 +770,10 @@
           background: #fff;
           text-align: center;
           vertical-align: text-top;
-          line-height: 21px;
+          line-height: 25px;
           background: #b32435;
           background-image: -o-linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
           background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
-          border: 1px solid #25282b;
           -webkit-touch-callout: none;
           -webkit-user-select: none;
           -khtml-user-select: none;
@@ -785,8 +782,7 @@
           user-select: none;
           cursor: pointer; }
           #controlKit .options .color li div:hover, #controlKit .options .color .liSelected div:hover {
-            border: 3px solid #121415;
-            line-height: 17px; }
+            font-weight: bold; }
         #controlKit .options .color li:hover, #controlKit .options .color .liSelected:hover {
           background: none; }
       #controlKit .options .color .liSelected {

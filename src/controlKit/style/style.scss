@@ -44,7 +44,7 @@
 
   .panel .color
   {
-    padding: 3px;
+    padding: 1px;
 
     div
     {
@@ -53,8 +53,9 @@
       height:100%;
       background: #fff;
       text-align: center;
+      line-height: 23px;
 
-      padding-top: 2px;
+      //padding-top: 2px;
 
       @include linear-gradient-with-background(#{$sliderHandleGradient}, $sliderHandleColorBG);
       @include box-shadow($sliderHandleBoxShadow);
@@ -267,7 +268,7 @@
 
     .colorWPresetWrap .color
     {
-      padding-right: 23px;
+      padding-right: 21px;
     }
 
     .textAreaWrap {
@@ -1022,15 +1023,16 @@
     .color
     {
       @include box-sizing(border-box);
-      padding-bottom: 1.5px;
-      padding-top:    1.5px;
+      //padding-bottom: 1.5px;
+      //padding-top:    1.5px;
 
 
 
       li, .liSelected
       {
         @include box-sizing(border-box);
-        padding: 1.5px 3px 1.5px 3px;
+        //padding: 1.5px 3px 1.5px 3px;
+        padding: 0;
         height: 25px;
 
 
@@ -1043,25 +1045,20 @@
           background: #fff;
           text-align: center;
           vertical-align: text-top;
-          line-height: 21px;
+          line-height: 25px;
 
 
           @include linear-gradient-with-background(#{$sliderHandleGradient}, $sliderHandleColorBG);
 
-          border: 1px solid #25282b;
+          //border: 1px solid #25282b;
 
           @include user-select;
           cursor: pointer;
 
           &:hover
           {
-            border: 3px solid #121415;
-            line-height: 17px;
-
-
+            font-weight: bold;
           }
-
-
         }
 
         &:hover {
