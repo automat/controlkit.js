@@ -53,6 +53,7 @@ var imports = [
                'component/ckCheckbox.js',
                'component/ckSlider.js',
                'component/ckSelect.js',
+               'component/ckColor.js',
 
                'component/ckFunctionPlotter.js',
                'component/ckPad.js',
@@ -119,7 +120,8 @@ function TestControlKit(parentDomElementId)
         slideValue7:0.01,
 
                    selectColorOptions : ['#5b3f95','#121212','#B32435'],
-                   selectColorTarget  : null
+                   selectColorTarget  : null,
+                   color0 : '#5b3f95'
                   };
 
     object.funcTarget = object.funcs[0];
@@ -131,6 +133,8 @@ function TestControlKit(parentDomElementId)
     var panel0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [20, 20]});
     var group01 = panel0.addGroup({height:300})
         .addSubGroup({label: 'Function Select'})
+        .addColor(object,'color0')
+        .addColor(object,'color0',{presets:'selectColorOptions'})
         .addSelect(object,'selectColorOptions','selectColorTarget')
         .addButton('hello')
         .addNumberInput(object,'number',{presets: 'numberPresets'})
