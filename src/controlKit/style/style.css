@@ -56,27 +56,27 @@
     -moz-border-radius: 2px;
     border-bottom: 1px solid #3b4447; }
   #controlKit .panel .color {
-    padding: 1px; }
-    #controlKit .panel .color div {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      width: 100%;
-      height: 100%;
-      background: #fff;
-      text-align: center;
-      line-height: 23px;
-      background: #b32435;
-      background-image: -o-linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
-      background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
-      box-shadow: 0 1px 0 0 #0f0f0f;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      cursor: pointer; }
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    height: 25px;
+    line-height: 25px;
+    background: #fff;
+    text-align: center;
+    padding: 0;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 0 1px #111314 inset;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-bottom: 1px solid #3b4447; }
   #controlKit .panel .button,
   #controlKit .picker .button,
   #controlKit .panel .select,
@@ -228,10 +228,8 @@
     #controlKit .panel .inputWPresetWrap, #controlKit .panel .colorWPresetWrap {
       width: 100%;
       float: left; }
-    #controlKit .panel .inputWPresetWrap input[type='text'] {
+    #controlKit .panel .inputWPresetWrap input[type='text'], #controlKit .panel .colorWPresetWrap .color {
       padding-right: 25px; }
-    #controlKit .panel .colorWPresetWrap .color {
-      padding-right: 21px; }
     #controlKit .panel .textAreaWrap {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -760,30 +758,43 @@
         -moz-box-sizing: border-box;
         box-sizing: border-box;
         padding: 0;
-        height: 25px; }
-        #controlKit .options .color li div, #controlKit .options .color .liSelected div {
-          -webkit-box-sizing: border-box;
-          -moz-box-sizing: border-box;
-          box-sizing: border-box;
-          width: 100%;
-          height: 100%;
-          background: #fff;
-          text-align: center;
-          vertical-align: text-top;
-          line-height: 25px;
-          background: #b32435;
-          background-image: -o-linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
-          background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
-          -webkit-touch-callout: none;
-          -webkit-user-select: none;
-          -khtml-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
-          cursor: pointer; }
-          #controlKit .options .color li div:hover, #controlKit .options .color .liSelected div:hover {
-            font-weight: bold; }
+        height: 25px;
+        line-height: 25px;
+        text-align: center; }
         #controlKit .options .color li:hover, #controlKit .options .color .liSelected:hover {
-          background: none; }
+          background: none;
+          font-weight: bold; }
       #controlKit .options .color .liSelected {
-        background: none; }
+        font-weight: bold; }
+  #controlKit .iconArrowUpBig {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #080a0a;
+  /*
+  &:before
+  {
+    content: "";
+    @include arrow($width,$height -1,$bevelBottomColor,$direction);
+    top: $bevelWidth * 2;
+    left: -$width * 0.5;
+
+
+  }
+  */
+    position: relative;
+    top: 50%;
+    margin-top: -2px;
+    float: right; }
+    #controlKit .iconArrowUpBig:after, #controlKit .iconArrowUpBig:before {
+      position: absolute; }
+    #controlKit .iconArrowUpBig:after {
+      content: "";
+      width: 0;
+      height: 0;
+      border-left: 4.5px solid transparent;
+      border-right: 4.5px solid transparent;
+      border-bottom: 4px solid #7a8890;
+      top: 1px;
+      left: -5px; }

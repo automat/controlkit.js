@@ -44,25 +44,24 @@
 
   .panel .color
   {
-    padding: 1px;
+    @include box-sizing(border-box);
+    width: 100%;
+    height:$inputHeight;
+    line-height: $inputHeight;
 
-    div
-    {
-      @include box-sizing(border-box);
-      width: 100%;
-      height:100%;
-      background: #fff;
-      text-align: center;
-      line-height: 23px;
+    background: #fff;
+    text-align: center;
+    padding: 0;
 
-      //padding-top: 2px;
+    @include user-select;
+    cursor: pointer;
 
-      @include linear-gradient-with-background(#{$sliderHandleGradient}, $sliderHandleColorBG);
-      @include box-shadow($sliderHandleBoxShadow);
+    border: none;
 
-      @include user-select;
-      cursor: pointer;
-    }
+    @include box-shadow(0 0 0 1px #111314 inset);
+
+    //@include box-shadow($compInsetShadow);
+    @include component-border;
   }
 
 
@@ -261,15 +260,12 @@
       float: left;
     }
 
-    .inputWPresetWrap input[type='text']
+    .inputWPresetWrap input[type='text'], .colorWPresetWrap .color
     {
       padding-right: 25px;
     }
 
-    .colorWPresetWrap .color
-    {
-      padding-right: 21px;
-    }
+
 
     .textAreaWrap {
 
@@ -1019,58 +1015,81 @@
 
 
 
-    //FIXME
+
     .color
     {
       @include box-sizing(border-box);
-      //padding-bottom: 1.5px;
-      //padding-top:    1.5px;
-
-
 
       li, .liSelected
       {
         @include box-sizing(border-box);
-        //padding: 1.5px 3px 1.5px 3px;
         padding: 0;
-        height: 25px;
-
-
-
-        div
-        {
-          @include box-sizing(border-box);
-          width: 100%;
-          height:100%;
-          background: #fff;
-          text-align: center;
-          vertical-align: text-top;
-          line-height: 25px;
-
-
-          @include linear-gradient-with-background(#{$sliderHandleGradient}, $sliderHandleColorBG);
-
-          //border: 1px solid #25282b;
-
-          @include user-select;
-          cursor: pointer;
-
-          &:hover
-          {
-            font-weight: bold;
-          }
-        }
+        height: $inputHeight;
+        line-height: $inputHeight;
+        text-align: center;
 
         &:hover {
           background: none;
+          font-weight: bold;
         }
       }
 
-      .liSelected{background: none;}
-
+      .liSelected
+      {
+        font-weight: bold;
+      }
     }
 
   }
+
+
+  .iconArrowUpBig
+  {
+    @include beveled-arrow(10px,5px,#080a0a,'up',1px,#7a8890,#8d8d8d);
+
+    position: relative;
+    top: 50%;
+    margin-top: -2px;
+    float: right
+
+    /*
+    position: relative;
+    top: 50%;
+    margin-top: -2px;
+
+    @include arrow(10px,5px, #080a0a,'up');
+    float: right;
+
+    &:after
+    {
+      content: "";
+
+      @include arrow(9px,4px, #7a8890,'up');
+      float: right;
+
+      position: absolute;
+      top: 1px;
+      left: -4px;
+    }
+
+    &:before
+    {
+      content: "";
+
+      @include arrow(10px,4px, #8d8d8d,'up');
+      float: right;
+
+
+      position: absolute;
+      top: 2px;
+      left: -5px;
+
+
+    }
+    */
+  }
+
+
 
 }
 

@@ -20,9 +20,9 @@ ControlKit.Color = function(parent,object,value,params)
     var wrapNode = this._wrapNode;
 
     var color = this._color = new ControlKit.Node(ControlKit.NodeType.DIV);
-        color.addChild(new ControlKit.Node(ControlKit.NodeType.DIV));
 
-    this._value = this._object[this._key];
+
+    this._value     = this._object[this._key];
 
     if(!this._presetsKey)
     {
@@ -66,7 +66,7 @@ ControlKit.Color = function(parent,object,value,params)
             presetBtn.setCallbackInactive(onPresetDeactivate);
     }
 
-    color.getFirstChild().setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onColorTrigger.bind(this));
+    color.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onColorTrigger.bind(this));
 
     /*---------------------------------------------------------------------------------*/
 
@@ -119,9 +119,8 @@ ControlKit.Color.prototype._updateColor = function()
 {
     var colorHEX  = this._value;
 
-    var colorNode = this._color.getFirstChild();
+    var colorNode = this._color;
     colorNode.setProperty('innerHTML',colorHEX);
     colorNode.getStyle().backgroundColor = colorHEX;
-    colorNode.getStyle().backgroundImage = 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0,0,0,0.25) 100%)';
-    colorNode.getStyle().boxShadow       = '0 1px 0 0 rgba(0,0,0,0.25) inset';
+    //colorNode.getStyle().boxShadow       = '0 1px 0 0 rgba(0,0,0,0.25) inset';
 };

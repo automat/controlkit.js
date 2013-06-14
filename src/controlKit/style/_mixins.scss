@@ -72,3 +72,64 @@
   @include border-radius($radius);
 }
 
+@mixin arrow($width,$height,$color,$direction)
+{
+  width:  0;
+  height: 0;
+
+  @if($direction == 'up')
+  {
+    border-left:   $width * 0.5 solid transparent;
+    border-right:  $width * 0.5 solid transparent;
+    border-bottom: $height solid $color;
+  }
+
+  @if($direction == 'down')
+  {
+    border-left:   $width * 0.5 solid transparent;
+    border-right:  $width * 0.5 solid transparent;
+    border-top:    $height solid $color;
+  }
+
+  @if($direction == 'left')
+  {
+    border-top:    $height * 0.5 solid transparent;
+    border-bottom: $height * 0.5 solid transparent;
+    border-right:  $width solid $color;
+  }
+
+  @if($direction == 'left')
+  {
+    border-top:    $height * 0.5 solid transparent;
+    border-bottom: $height * 0.5 solid transparent;
+    border-left:   $width solid $color;
+  }
+}
+
+@mixin beveled-arrow($width,$height,$color,$direction,$bevelWidth,$bevelTopColor,$bevelBottomColor)
+{
+  @include  arrow($width,$height,$color,$direction);
+
+  &:after,&:before{position: absolute;}
+
+  &:after
+  {
+    content: "";
+    @include  arrow($width - $bevelWidth,$height - $bevelWidth,$bevelTopColor,$direction);
+    top: $bevelWidth;
+    left: -$width*0.5;
+  }
+
+  /*
+  &:before
+  {
+    content: "";
+    @include arrow($width,$height -1,$bevelBottomColor,$direction);
+    top: $bevelWidth * 2;
+    left: -$width * 0.5;
+
+
+  }
+  */
+}
+

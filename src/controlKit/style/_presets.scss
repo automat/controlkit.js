@@ -31,8 +31,9 @@ $compHeight:       25px;
 $compPadding:      6px 0 0 0;
 $compBorderBottom: 1px solid #3b4447;
 $compBorderRadius: 2px;
+$compInsetBorder:  0 0 1px 1px #111314 inset;
 $compInsetShadow:  0 0 1px 2px rgba(0,0,0,0.0125) inset,
-                   0 0 1px 1px #111314 inset;
+                   $compInsetBorder;
 
 $compFontSize: 11px;
 

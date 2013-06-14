@@ -521,7 +521,7 @@ ControlKit.Picker.prototype =
     /*---------------------------------------------------------------------------------*/
 
     _updateContrastCurrColor : function(){this._setContrastCurrColor(this._valueR, this._valueG, this._valueB);},
-    //_updateContrastPrevColor : function(){this._setContrasPrevColor( this._valueR, this._valueG, this._valueB)},
+    _updateContrastPrevColor : function(){this._setContrasPrevColor( this._valueR, this._valueG, this._valueB)},
 
     _setContrastCurrColor  : function(r,g,b){this._colorCurrNode.setStyleProperty('background','rgb('+r+','+g+','+b+')')},
     _setContrasPrevColor   : function(r,g,b){this._colorPrevNode.setStyleProperty('background','rgb('+r+','+g+','+b+')')},
@@ -855,11 +855,15 @@ ControlKit.Picker.prototype =
         this._drawCanvasField();
 
         this._updateHandles();
+
+        var rgb = this._HEX2RGB(hex);
+        this._setContrasPrevColor(rgb[0],rgb[1],rgb[2]);
     },
 
     //TODO ADD
     setColorRGB : function(r,g,b){},
     setColorHSV : function(h,s,v){},
+
 
     getR    : function(){return this._valueR;},
     getG    : function(){return this._valueG;},

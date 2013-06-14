@@ -40,9 +40,7 @@ ControlKit.NumberInput = function(parent,object,value,params)
         wrapNode.addChild(inputWrap);
         inputWrap.addChild(input.getNode());
 
-        var presets = this._presets   = this._object[this._presetsKey],
-            obj     = this._object,
-            key     = this._key;
+        var presets = this._object[this._presetsKey];
 
         var options   = ControlKit.Options.getInstance();
         var presetBtn = this._presetBtn = new ControlKit.PresetBtn(this._wrapNode);

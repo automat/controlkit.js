@@ -31,6 +31,8 @@ ControlKit.CSS =
 
     TextAreaWrap : 'textAreaWrap',
 
+    IconArrowUpBig : 'iconArrowUpBig',
+
 
     /*-------------------------------------------------------------------------------------*/
 
