@@ -339,6 +339,13 @@
 
       background: $canvasWrapColorBg;
       @include linear-gradient($canvasWrapGradient);
+
+      svg
+      {
+        cursor: pointer;
+        vertical-align: bottom;
+        @include  component-input-border;
+      }
     }
 
 
