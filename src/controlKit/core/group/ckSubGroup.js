@@ -36,8 +36,8 @@ ControlKit.SubGroup = function(parent,params)
                 headNode.setStyleClass(ControlKit.CSS.Head);
                 lablWrap.setStyleClass(ControlKit.CSS.Wrap);
                 lablNode.setStyleClass(ControlKit.CSS.Label);
-                //indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
-                indiNode.setStyleClass(ControlKit.CSS.IconArrowUpBig);
+                indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
+                //indiNode.setStyleClass(ControlKit.CSS.IconArrowUpBig);
 
                 lablNode.setProperty('innerHTML',label);
 

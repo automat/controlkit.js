@@ -229,7 +229,9 @@
       width: 100%;
       float: left; }
     #controlKit .panel .inputWPresetWrap input[type='text'], #controlKit .panel .colorWPresetWrap .color {
-      padding-right: 25px; }
+      padding-right: 25px;
+      border-top-right-radius: 2px;
+      border-bottom-right-radius: 3px; }
     #controlKit .panel .textAreaWrap {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
