@@ -24,9 +24,12 @@ ControlKit.Pad = function(parent,object,value,params)
 
     /*---------------------------------------------------------------------------------*/
 
+    /*
     var canvas = this._canvas;
         canvas.setFontFamily('Arial');
         canvas.setFontSize(10);
+
+        */
 
     /*---------------------------------------------------------------------------------*/
 
@@ -89,6 +92,7 @@ ControlKit.Pad.prototype._drawValue = function(value)
 {
     this._object[this._key] = value;
 
+    /*
     var canvas = this._canvas;
 
     canvas.clear();
@@ -98,11 +102,14 @@ ControlKit.Pad.prototype._drawValue = function(value)
     this._drawGrid();
     this._drawPoint();
     canvas.pop();
+    */
 };
 
 
 ControlKit.Pad.prototype._drawPoint = function()
 {
+    /*
+
     var canvas       = this._canvas,
         canvasWidth  = canvas.width  - 1,
         canvasHeight = canvas.height - 1,
@@ -176,10 +183,17 @@ ControlKit.Pad.prototype._drawPoint = function()
 
     canvas.fill(255);
     canvas.circle(localX,localY,3);
+
+    */
+
+
+
 };
 
 ControlKit.Pad.prototype._getMouseNormalized = function()
 {
+    /*
+
     var offset       = this._canvas.getNode().getPositionGlobal(),
         mouse        = ControlKit.Mouse.getInstance().getPosition();
 
@@ -189,6 +203,7 @@ ControlKit.Pad.prototype._getMouseNormalized = function()
 
     return [ -1 + Math.max(0,Math.min(mouse[0]-offset[0],canvasWidth )) / canvasWidth  * 2,
             ( 1 - Math.max(0,Math.min(mouse[1]-offset[1],canvasHeight)) / canvasHeight * 2)];
+            */
 };
 
 ControlKit.Pad.prototype.applyValue = function()
