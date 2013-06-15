@@ -8,32 +8,34 @@ ControlKit.ValuePlotter = function(parent,object,value,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    var canvas = this._canvas;
+    var svg       = this._svg,
+        svgWidth  = Number(svg.getAttribute('width')),
+        svgHeight = Number(svg.getAttribute('height'));
 
     params            = params            || {};
-    params.height     = params.height     || canvas.height * 0.5;
+    params.height     = params.height     || svgHeight;
     params.resolution = params.resolution || 1;
 
     /*---------------------------------------------------------------------------------*/
 
     var resolution = params.resolution,
-        length     = Math.floor(canvas.width / resolution);
+        length     = Math.floor(svgWidth / resolution);
 
     var points     = this._points  = new Array(length * 2),
         buffer0    = this._buffer0 = new Array(length),
         buffer1    = this._buffer1 = new Array(length);
 
-    var pointsLength = points.length;
+    var min = this._lineWidth * 0.5;
 
-    var i = 0; while(i   < pointsLength){points[i]  = (length-i+1)*resolution;points[i+1]=0.0;i+=2;}
-        i =-1; while(++i < length    )  {buffer0[i] =  buffer1[i] = 0.0;}
+    var i = -1; while(++i < length){buffer0[i] =  buffer1[i] = points[i*2] = points[i*2+1] = min;}
 
     this._height = params.height = params.height  < ControlKit.Constant.MIN_HEIGHT ?
                    ControlKit.Constant.MIN_HEIGHT : params.height;
 
     /*---------------------------------------------------------------------------------*/
 
-    canvas.setSize(canvas.width,Math.floor(params.height));
+    this._svgSetSize(svgHeight,Math.floor(params.height));
+    this._grid.style.stroke = 'rgb(39,44,46)';
 
     /*---------------------------------------------------------------------------------*/
 
@@ -45,12 +47,13 @@ ControlKit.ValuePlotter.prototype = Object.create(ControlKit.Plotter.prototype);
 
 ControlKit.ValuePlotter.prototype._redraw = function()
 {
-    var width  = this._wrapNode.getWidth(),
-        points = this._points,
-        length = points.length,
-        ratio  = width / (length * 0.5 ) ;
+    var points    = this._points,
+        bufferLen = this._buffer0.length;
 
-    var i = 0;while(i < length){points[i] = width - i * ratio;i+=2;}
+    var width = Number(this._svg.getAttribute('width')),
+        ratio = width / (bufferLen-1);
+
+    var i = -1;while(++i < bufferLen){points[i*2] = width - i * ratio;}
 
     this._drawValue();
 };
@@ -60,76 +63,68 @@ ControlKit.ValuePlotter.prototype.onGroupSizeChange = function()
     var width  = this._wrapNode.getWidth(),
         height = this._height;
 
-    this._canvas.setSize(width,height);
+    this._svgSetSize(width,height);
     this._updateHeight();
+    this._drawGrid();
     this._redraw();
 };
 
 ControlKit.ValuePlotter.prototype._drawValue = function()
 {
-    var canvas = this._canvas;
-
-    canvas.clear();
-    canvas.background(0,0);
-    canvas.push();
-    {
-        canvas.translateHalfFloat();
-        this._drawGrid();
-        this._drawCurve();
-    }
-    canvas.pop();
+    this._drawCurve();
 };
 
 ControlKit.ValuePlotter.prototype._drawGrid = function()
 {
-    var canvas           = this._canvas,
-        canvasWidth      = canvas.width,
-        canvasHeightHalf = Math.floor(canvas.height * 0.5);
+    var svg = this._svg;
 
-    canvas.setLineWidth(1);
-    canvas.stroke(39,44,46);
-    canvas.line(0,canvasHeightHalf,canvasWidth,canvasHeightHalf);
+    var svgWidth      = Number(svg.getAttribute('width')),
+        svgHeightHalf = Math.floor(Number(svg.getAttribute('height')) * 0.5);
+
+    var pathCmd = '';
+        pathCmd += this._moveToSVGPathCmd(0,svgHeightHalf);
+        pathCmd += this._lineToSVGPathCmd(svgWidth,svgHeightHalf);
+
+    this._applySVGPathCmd( this._grid,pathCmd);
 };
 
+//TODO: merge update + pathcmd
 ControlKit.ValuePlotter.prototype._drawCurve = function()
 {
+    var svg = this._svg;
+
     var value = this._object[this._key];
-
-    var canvas       = this._canvas,
-        canvasHeight = this._canvas.height-2;
-
-    var i = 0;
-
-    var length  = this._buffer0.length;
 
     var buffer0 = this._buffer0,
         buffer1 = this._buffer1,
         points  = this._points;
 
-    buffer0[length - 1] = value * (canvasHeight * 0.5) * -1;
+    var bufferLength = buffer0.length;
 
-    while(++i < length)
+    var heightHalf = Number(svg.getAttribute('height')) * 0.5,
+        unit       = heightHalf - this._lineWidth * 0.5;
+
+        points[1] = buffer0[0];
+        buffer0[bufferLength - 1] =  (value * unit) * -1 + Math.floor(heightHalf);
+
+    var i = 0;
+    while(++i < bufferLength)
     {
-        buffer1[i - 1 ] = buffer0[i];
-        points[ i*2+1 ] = buffer0[i - 1] = buffer1[i - 1];
+        buffer1[i-1]  = buffer0[i];
+        points[i*2+1] = buffer0[i-1] = buffer1[i-1];
     }
 
-    points[1] = buffer0[0];
+    var pathCmd = '';
+        pathCmd += this._moveToSVGPathCmd(points[0],points[1]);
 
-    var strokeColor = this._lineColor;
-
-    canvas.push();
+    i = 2;
+    while(i < points.length)
     {
-        canvas.translate(0,(Math.floor(canvasHeight)*0.5+0.5));
-        //canvas.setLineWidth(this._lineWidth+3);
-        //canvas.stroke(0);
-        //canvas.lineArray(this._points);
-        canvas.setLineWidth(this._lineWidth+0.5);
-        canvas.stroke(strokeColor[0],strokeColor[1],strokeColor[2]);
-        canvas.lineArray(this._points);
+        pathCmd += this._lineToSVGPathCmd(points[i],points[i+1]);
+        i+=2;
     }
-    canvas.pop();
 
+    this._applySVGPathCmd(this._path,pathCmd);
 };
 
 ControlKit.ValuePlotter.prototype.update = function()
