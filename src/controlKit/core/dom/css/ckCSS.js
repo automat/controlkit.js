@@ -72,6 +72,13 @@ ControlKit.CSS =
     CanvasListItem  : 'canvasListItem',
     CanvasWrap      : 'canvasWrap',
 
+    GraphSliderXWrap   : 'graphSliderXWrap',
+    GraphSliderYWrap   : 'graphSliderYWrap',
+    GraphSliderX       : 'graphSliderX',
+    GraphSliderY       : 'graphSliderY',
+    GraphSliderXHandle : 'graphSliderXHandle',
+    GraphSliderYHandle : 'graphSliderYHandle',
+
     /*-------------------------------------------------------------------------------------*/
 
     Picker              : 'picker',

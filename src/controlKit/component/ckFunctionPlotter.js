@@ -18,13 +18,40 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
         width  = Number(svg.getAttribute('width')),
         height = Number(svg.getAttribute('height'));
 
+    var sliderXWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
+        sliderXWrap.setStyleClass(ControlKit.CSS.GraphSliderXWrap);
+
+    var sliderYWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
+        sliderYWrap.setStyleClass(ControlKit.CSS.GraphSliderYWrap);
+
+    var sliderX = new ControlKit.Node(ControlKit.NodeType.DIV);
+        sliderX.setStyleClass(ControlKit.CSS.GraphSliderX);
+
+    var sliderY = new ControlKit.Node(ControlKit.NodeType.DIV);
+        sliderY.setStyleClass(ControlKit.CSS.GraphSliderY);
+
+    var sliderXHandle = this._sliderXHandle  = new ControlKit.Node(ControlKit.NodeType.DIV);
+        sliderXHandle.setStyleClass(ControlKit.CSS.GraphSliderXHandle);
+
+    var sliderYHandle = this._sliderYHandle = new ControlKit.Node(ControlKit.NodeType.DIV);
+        sliderYHandle.setStyleClass(ControlKit.CSS.GraphSliderYHandle);
+
+        sliderX.addChild(sliderXHandle);
+        sliderY.addChild(sliderYHandle);
+        sliderXWrap.addChild(sliderX);
+        sliderYWrap.addChild(sliderY);
+
+    var wrapNode = this._wrapNode;
+        wrapNode.addChild(sliderXWrap);
+        wrapNode.addChild(sliderYWrap);
+
     /*---------------------------------------------------------------------------------*/
 
     this._units       = [1,1];
     this._unitsMinMax = [0.15,8];
 
-    this._scale       = 1.0;
-    this._scaleMinMax = [0.15,8];
+    this._scale       = 10.0;
+    this._scaleMinMax = [0.02,50];
 
     this._center = [Math.round(width * 0.5),Math.round(width*0.5)];
     this._svgPos = [0,0];
