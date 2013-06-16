@@ -131,7 +131,8 @@ ControlKit.Node.prototype =
         return offset;
     },
 
-    setEventListener : function(event,func){this._element[event] = func; return this;},
+    setEventListener    : function(event,func){this._element[event] = func; return this;},
+    removeEventListener : function(event)     {this._element[event] = '';return this;},
 
     setStyleClass      : function(style)         {this._element.className = style; return this;},
     setStyleProperty   : function(property,value){this._element.style[property] = value; return this;},
