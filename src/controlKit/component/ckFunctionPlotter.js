@@ -4,21 +4,36 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    params          = params          || {};
-    params.bounds   = params.bounds   || [-1,1,-1,1];
+    params = params || {};
 
     /*---------------------------------------------------------------------------------*/
-
-    this._bounds       = params.bounds;
 
     var axes = this._axes = this._svgRoot.insertBefore(this._createSVGObject('path'),this._path);
         axes.style.stroke = 'rgb(39,44,46)';
         axes.style.lineWidth = 1;
 
+    this._grid.style.stroke = 'rgb(25,25,25)';
+
+    var svg    = this._svg,
+        width  = Number(svg.getAttribute('width')),
+        height = Number(svg.getAttribute('height'));
+
+    /*---------------------------------------------------------------------------------*/
+
+    this._units       = [1,1];
+    this._unitsMinMax = [0.15,8];
+
+    this._scale       = 1.0;
+    this._scaleMinMax = [0.15,8];
+
+    this._center = [Math.round(width * 0.5),Math.round(width*0.5)];
+    this._svgPos = [0,0];
+
     this._func = null;
     this.setFunction(this._object[this._key]);
 
-    this._svg.onclick = this._onDragStart.bind(this);
+    svg.addEventListener(ControlKit.DocumentEventType.MOUSE_DOWN,this._onDragStart.bind(this),false);
+    this._wrapNode.getElement().addEventListener("mousewheel",   this._onScale.bind(this, false));
 
     /*---------------------------------------------------------------------------------*/
 
@@ -30,26 +45,63 @@ ControlKit.FunctionPlotter.prototype = Object.create(ControlKit.Plotter.prototyp
 
 /*---------------------------------------------------------------------------------*/
 
+ControlKit.FunctionPlotter.prototype._updateCenter = function()
+{
+    var svg    = this._svg,
+        width  = Number(svg.getAttribute('width')),
+        height = Number(svg.getAttribute('height'));
+
+    var mousePos = ControlKit.Mouse.getInstance().getPosition(),
+        svgPos   = this._svgPos,
+        center   = this._center;
+
+    center[0] = Math.max(0,Math.min(mousePos[0]-svgPos[0],width));
+    center[1] = Math.max(0,Math.min(mousePos[1]-svgPos[1],height));
+
+    this._plotGraph();
+};
+
 ControlKit.FunctionPlotter.prototype._onDragStart = function()
 {
+    var element = this._svg;
+
+    var svgPos = this._svgPos;
+        svgPos[0] = 0;
+        svgPos[1] = 0;
+
+    while(element)
+    {
+        svgPos[0] += element.offsetLeft;
+        svgPos[1] += element.offsetTop;
+        element    = element.offsetParent;
+    }
+
     var eventMove = ControlKit.DocumentEventType.MOUSE_MOVE,
         eventUp   = ControlKit.DocumentEventType.MOUSE_UP;
 
-    var self = this;
-
-    var onDrag    = function()
+    var onDrag    = this._updateCenter.bind(this),
+        onDragEnd = function()
                     {
-
-                    };
-
-    var onDragEnd = function()
-                    {
+                        this._updateCenter.bind(this)
                         document.removeEventListener(eventMove,onDrag,   false);
-                        document.removeEventListener(eventMove,onDragEnd,false)
-                    };
+                        document.removeEventListener(eventUp,  onDragEnd,false);
+                    }.bind(this);
 
     document.addEventListener(eventMove, onDrag,    false);
     document.addEventListener(eventUp,   onDragEnd, false);
+
+    this._updateCenter();
+};
+
+ControlKit.FunctionPlotter.prototype._onScale = function(e)
+{
+    e = window.event || e;
+    this._scale += Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail))) * -1;
+
+    var scaleMinMax = this._scaleMinMax;
+    this._scale = Math.max(scaleMinMax[0],Math.min(this._scale,scaleMinMax[1]));
+
+    this._plotGraph();
 };
 
 /*---------------------------------------------------------------------------------*/
@@ -60,10 +112,13 @@ ControlKit.FunctionPlotter.prototype._redraw       = function(){this.setFunction
 ControlKit.FunctionPlotter.prototype.setFunction = function(func)
 {
     this._func = func;
+    this._plotGraph();
+};
 
+ControlKit.FunctionPlotter.prototype._plotGraph = function()
+{
     this._drawGrid();
     this._drawAxes();
-    this._drawBoundsPanel();
     this._drawPlot();
 };
 
@@ -71,50 +126,51 @@ ControlKit.FunctionPlotter.prototype._drawAxes = function()
 {
     var svg           = this._svg,
         svgWidth      = Number(svg.getAttribute('width')),
-        svgHeight     = Number(svg.getAttribute('height')),
-        svgWidthHalf  = Math.floor(svgWidth  * 0.5),
-        svgHeightHalf = Math.floor(svgHeight * 0.5);
+        svgHeight     = Number(svg.getAttribute('height'));
+
+    var center  = this._center,
+        centerX = center[0],
+        centerY = center[1];
 
     var pathCmd = '';
-        pathCmd += this._pathCmdLine(0,svgHeightHalf,svgWidth,svgHeightHalf);
-        pathCmd += this._pathCmdLine(svgWidthHalf,0,svgWidthHalf,svgHeight);
+        pathCmd += this._pathCmdLine(0,centerY,svgWidth,centerY);
+        pathCmd += this._pathCmdLine(centerX,0,centerX,svgHeight);
 
     this._axes.setAttribute('d',pathCmd);
 };
 
-
-//TODO: add
-ControlKit.FunctionPlotter.prototype._drawBoundsPanel = function()
-{
-
-};
-
-//TODO: merge update + pathcmd
 ControlKit.FunctionPlotter.prototype._drawPlot = function()
 {
-    var svg       = this._svg,
-        svgWidth  = Number(svg.getAttribute('width')),
-        svgHeight = Number(svg.getAttribute('height'));
+    var svg    = this._svg,
+        width  = Number(svg.getAttribute('width')),
+        height = Number(svg.getAttribute('height'));
 
-    var bounds = this._bounds,
-        minx   = bounds[0],
-        maxx   = bounds[1],
-        miny   = bounds[2],
-        maxy   = bounds[3];
+    var center  = this._center,
+        centerX = center[0],
+        centerY = center[1];
 
-    var points = new Array(Math.floor(svgWidth) * 2);
-    var i = 0, l = points.length;
-    var normval;
-    while(i<l)
+    var scale = this._scale;
+    var unit  = height / (this._units[1] * scale);
+
+    var len    = Math.floor(width);
+    var points = new Array(len * 2);
+
+    var i = -1;
+    var normval, value, index;
+    var offsetX = centerX / width;
+
+    while(++i < len)
     {
-        normval =  i/l;
-        points[i]   = normval*svgWidth;
-        points[i+1] = this._func(normval)*svgHeight*0.5;
-        i+=2;
+        normval =  (-offsetX + i / len) * scale;
+        value   = centerY - this._func(normval) * unit;
+        index   = i * 2;
+
+        points[index]     = i;
+        points[index + 1] = value;
     }
 
     var pathCmd = '';
-    pathCmd += this._pathCmdMoveTo(points[0],points[1]);
+        pathCmd += this._pathCmdMoveTo(points[0],points[1]);
 
     i = 2;
     while(i < points.length)
@@ -124,4 +180,61 @@ ControlKit.FunctionPlotter.prototype._drawPlot = function()
     }
 
     this._path.setAttribute('d',pathCmd);
+};
+
+ControlKit.Plotter.prototype._drawGrid = function()
+{
+    var svg    = this._svg,
+        width  = Number(svg.getAttribute('width')),
+        height = Number(svg.getAttribute('height'));
+
+    var scale = this._scale;
+
+    var gridRes      = this._units,
+        gridSpacingX = width  / (gridRes[0] * scale),
+        gridSpacingY = height / (gridRes[1] * scale);
+
+    var center  = this._center,
+        centerX = center[0],
+        centerY = center[1];
+
+    var gridNumTop    = Math.round(centerY / gridSpacingY),
+        gridNumBottom = Math.round((height - centerY) / gridSpacingY) + 1,
+        gridNumLeft   = Math.round(centerX / gridSpacingX),
+        gridNumRight  = Math.round((width - centerX) / gridSpacingX) + 1;
+
+    var pathCmd = '';
+
+    var i,temp;
+
+    i = -1;
+    while(++i < gridNumTop)
+    {
+        temp = Math.round(centerY - gridSpacingY * i);
+        pathCmd += this._pathCmdLine(0,temp,width,temp);
+    }
+
+    i = -1;
+    while(++i < gridNumBottom)
+    {
+        temp = Math.round(centerY + gridSpacingY * i);
+        pathCmd += this._pathCmdLine(0,temp,width,temp);
+    }
+
+    i = -1;
+    while(++i < gridNumLeft)
+    {
+        temp = Math.round(centerX - gridSpacingX * i);
+        pathCmd += this._pathCmdLine(temp,0,temp,height);
+    }
+
+    i = -1;
+    while(++i < gridNumRight)
+    {
+        temp = Math.round(centerX + gridSpacingX * i);
+        pathCmd += this._pathCmdLine(temp,0,temp,height);
+    }
+
+
+    this._grid.setAttribute('d',pathCmd);
 };
