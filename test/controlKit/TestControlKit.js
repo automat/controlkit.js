@@ -97,10 +97,21 @@ function TestControlKit(parentDomElementId)
                   slideValue:0.1,
                   selectOptions:['hello','bello','cello'],
                   selectTarget:'hello',
-                  func:function(x){return Math.sin(x);},
+                  func:function(x){return sin(x);},
                   func2:function(x){return x*x;},
-                  funcs:[function(x){return Math.sin(x*x*Math.PI);},
-                         function(x){return x*x}],
+
+                  funcs:[function(x){return randomFloat(sin(x));},
+                         function(x){return stepSmooth(sin(x))},
+                         function(x){return stepSmoothSquared(sin(x))},
+                         function(x){return stepSmoothInvCubed(sin(x))},
+                         function(x){return stepSmoothSquared(sin(x))},
+                         function(x){return stepSmoothInvSquared(sin(x))},
+                      function(x){return stepSmoothCubed(sin(x))},
+                      function(x){return stepSmoothInvCubed(sin(x))},
+                      function(x){return stepSquared(sin(x))},
+                      function(x){return stepInvSquared(sin(x))},
+                      function(x){return stepCubed(sin(x))},
+                      function(x){return stepInvCubed(sin(x))}],
                   funcTarget : null,
 
                   xyValue:[0.25,-0.35],
@@ -137,7 +148,11 @@ function TestControlKit(parentDomElementId)
                        .addSubGroup()
                        .addValuePlotter(object, 'changeValue1',{height:35,lineWidth:2,resolution:4})
             .addValuePlotter(object, 'changeValue2',{lineWidth:2})
-            .addFunctionPlotter(object,'func',{label:'none'});
+            .addSubGroup({label:'Graph'})
+            .addSelect(object,'funcs','funcTarget',{label:'Choose'})
+            .addFunctionPlotter(object,'funcTarget',{label:'none'})
+            .addStringOutput(object,'funcTarget',{label:'none'})
+            ;
 
 
     /*
