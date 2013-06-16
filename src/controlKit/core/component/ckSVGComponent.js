@@ -31,8 +31,6 @@ ControlKit.SVGComponent = function(parent,object,value,params)
 
 ControlKit.SVGComponent.prototype = Object.create(ControlKit.ObjectComponent.prototype);
 
-
-
 /*---------------------------------------------------------------------------------*/
 
 ControlKit.SVGComponent.prototype._updateHeight = function()
@@ -71,14 +69,9 @@ ControlKit.SVGComponent.prototype._svgSetSize = function(width,height)
 
 /*---------------------------------------------------------------------------------*/
 
-
-ControlKit.SVGComponent.prototype._moveToSVGPathCmd  = function(x,y){return 'M ' + x + ' ' + y + ' ';};
-ControlKit.SVGComponent.prototype._lineToSVGPathCmd  = function(x,y){return 'L ' + x + ' ' + y + ' ';};
-ControlKit.SVGComponent.prototype._closeSVGPathCmd   = function()   {return 'Z';};
-
-ControlKit.SVGComponent.prototype._lineSVGPathCmd    = function(x0,y0,x1,y1){return 'M ' + x0 + ' ' + y0 + ' L ' + x1 + ' ' + y1; };
-
-ControlKit.SVGComponent.prototype._bezierCubicSVGPathCmd     = function(cmd,x0,y0,cx0,cy0,cx1,cy1,x1,y1){return 'M ' + x0 + ' ' + y0 + ' C ' + cx0 + ' ' + cy0 + ', ' + cx1 + ' ' + cy1 + ', ' + x1 + ' ' + y1;};
-ControlKit.SVGComponent.prototype._bezierQuadraticSVGPathCmd = function(cmd,x0,y0,cx,cy,x1,y1)          {return 'M ' + x0 + ' '+ y0 + ' Q ' + cx + ' ' + cy + ', ' + x1 + ' ' + y1;};
-
-ControlKit.SVGComponent.prototype._applySVGPathCmd = function(path,cmd){path.setAttribute('d',cmd);};
+ControlKit.SVGComponent.prototype._pathCmdMoveTo          = function(x,y){return 'M ' + x + ' ' + y + ' ';};
+ControlKit.SVGComponent.prototype._pathCmdLineTo          = function(x,y){return 'L ' + x + ' ' + y + ' ';};
+ControlKit.SVGComponent.prototype._pathCmdClose           = function()   {return 'Z';};
+ControlKit.SVGComponent.prototype._pathCmdLine            = function(x0,y0,x1,y1){return 'M ' + x0 + ' ' + y0 + ' L ' + x1 + ' ' + y1; };
+ControlKit.SVGComponent.prototype._pathCmdBezierCubic     = function(cmd,x0,y0,cx0,cy0,cx1,cy1,x1,y1){return 'M ' + x0 + ' ' + y0 + ' C ' + cx0 + ' ' + cy0 + ', ' + cx1 + ' ' + cy1 + ', ' + x1 + ' ' + y1;};
+ControlKit.SVGComponent.prototype._pathCmdBezierQuadratic = function(cmd,x0,y0,cx,cy,x1,y1)          {return 'M ' + x0 + ' '+ y0 + ' Q ' + cx + ' ' + cy + ', ' + x1 + ' ' + y1;};

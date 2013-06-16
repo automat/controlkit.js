@@ -18,6 +18,8 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
     this._func = null;
     this.setFunction(this._object[this._key]);
 
+    this._svg.onclick = this._onDragStart.bind(this);
+
     /*---------------------------------------------------------------------------------*/
 
     var kit = ControlKit.getKitInstance();
@@ -28,8 +30,32 @@ ControlKit.FunctionPlotter.prototype = Object.create(ControlKit.Plotter.prototyp
 
 /*---------------------------------------------------------------------------------*/
 
+ControlKit.FunctionPlotter.prototype._onDragStart = function()
+{
+    var eventMove = ControlKit.DocumentEventType.MOUSE_MOVE,
+        eventUp   = ControlKit.DocumentEventType.MOUSE_UP;
+
+    var self = this;
+
+    var onDrag    = function()
+                    {
+
+                    };
+
+    var onDragEnd = function()
+                    {
+                        document.removeEventListener(eventMove,onDrag,   false);
+                        document.removeEventListener(eventMove,onDragEnd,false)
+                    };
+
+    document.addEventListener(eventMove, onDrag,    false);
+    document.addEventListener(eventUp,   onDragEnd, false);
+};
+
+/*---------------------------------------------------------------------------------*/
+
 ControlKit.FunctionPlotter.prototype.onValueUpdate = function(){this.setFunction(this._object[this._key]);};
-ControlKit.FunctionPlotter.prototype._redraw       = function(){this.setFunction(this._object[this._key]);}
+ControlKit.FunctionPlotter.prototype._redraw       = function(){this.setFunction(this._object[this._key]);};
 
 ControlKit.FunctionPlotter.prototype.setFunction = function(func)
 {
@@ -46,14 +72,14 @@ ControlKit.FunctionPlotter.prototype._drawAxes = function()
     var svg           = this._svg,
         svgWidth      = Number(svg.getAttribute('width')),
         svgHeight     = Number(svg.getAttribute('height')),
-        svgWidthHalf  = svgWidth * 0.5  + 0.5,
-        svgHeightHalf = svgHeight * 0.5 + 0.5;
+        svgWidthHalf  = Math.floor(svgWidth  * 0.5),
+        svgHeightHalf = Math.floor(svgHeight * 0.5);
 
     var pathCmd = '';
-        pathCmd += this._lineSVGPathCmd(0,svgHeightHalf,svgWidth,svgHeightHalf);
-        pathCmd += this._lineSVGPathCmd(svgWidthHalf,0,svgWidthHalf,svgHeight);
+        pathCmd += this._pathCmdLine(0,svgHeightHalf,svgWidth,svgHeightHalf);
+        pathCmd += this._pathCmdLine(svgWidthHalf,0,svgWidthHalf,svgHeight);
 
-    this._applySVGPathCmd(this._axes,pathCmd);
+    this._axes.setAttribute('d',pathCmd);
 };
 
 
@@ -88,14 +114,14 @@ ControlKit.FunctionPlotter.prototype._drawPlot = function()
     }
 
     var pathCmd = '';
-    pathCmd += this._moveToSVGPathCmd(points[0],points[1]);
+    pathCmd += this._pathCmdMoveTo(points[0],points[1]);
 
     i = 2;
     while(i < points.length)
     {
-        pathCmd += this._lineToSVGPathCmd(points[i],points[i+1]);
+        pathCmd += this._pathCmdLineTo(points[i],points[i+1]);
         i+=2;
     }
 
-    this._applySVGPathCmd(this._path,pathCmd);
+    this._path.setAttribute('d',pathCmd);
 };

@@ -82,10 +82,10 @@ ControlKit.ValuePlotter.prototype._drawGrid = function()
         svgHeightHalf = Math.floor(Number(svg.getAttribute('height')) * 0.5);
 
     var pathCmd = '';
-        pathCmd += this._moveToSVGPathCmd(0,svgHeightHalf);
-        pathCmd += this._lineToSVGPathCmd(svgWidth,svgHeightHalf);
+        pathCmd += this._pathCmdMoveTo(0,svgHeightHalf);
+        pathCmd += this._pathCmdLineTo(svgWidth,svgHeightHalf);
 
-    this._applySVGPathCmd( this._grid,pathCmd);
+    this._grid.setAttribute('d',pathCmd);
 };
 
 //TODO: merge update + pathcmd
@@ -101,30 +101,29 @@ ControlKit.ValuePlotter.prototype._drawCurve = function()
 
     var bufferLength = buffer0.length;
 
+    var pathCmd = '';
+
     var heightHalf = Number(svg.getAttribute('height')) * 0.5,
         unit       = heightHalf - this._lineWidth * 0.5;
 
         points[1] = buffer0[0];
         buffer0[bufferLength - 1] =  (value * unit) * -1 + Math.floor(heightHalf);
 
-    var i = 0;
+    pathCmd += this._pathCmdMoveTo(points[0],points[1]);
+
+    var i = 0,index;
+
     while(++i < bufferLength)
     {
-        buffer1[i-1]  = buffer0[i];
-        points[i*2+1] = buffer0[i-1] = buffer1[i-1];
+        index = i * 2;
+
+        buffer1[i-1]    = buffer0[i];
+        points[index+1] = buffer0[i-1] = buffer1[i-1];
+
+        pathCmd += this._pathCmdLineTo(points[index],points[index+1]);
     }
 
-    var pathCmd = '';
-        pathCmd += this._moveToSVGPathCmd(points[0],points[1]);
-
-    i = 2;
-    while(i < points.length)
-    {
-        pathCmd += this._lineToSVGPathCmd(points[i],points[i+1]);
-        i+=2;
-    }
-
-    this._applySVGPathCmd(this._path,pathCmd);
+    this._path.setAttribute('d',pathCmd);
 };
 
 ControlKit.ValuePlotter.prototype.update = function()

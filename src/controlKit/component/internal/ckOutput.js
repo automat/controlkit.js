@@ -31,8 +31,8 @@ ControlKit.Output = function(parent,object,value,params)
         {
             var textAreaWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
                 textAreaWrap.setStyleClass(ControlKit.CSS.TextAreaWrap);
-            wrapNode.addChild(textAreaWrap);
-            textAreaWrap.addChild(textArea);
+                wrapNode.addChild(textAreaWrap);
+                textAreaWrap.addChild(textArea);
 
             var height  = this._height = params.height,
                 padding = 6;

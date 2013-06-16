@@ -33,6 +33,7 @@ ControlKit.Pad = function(parent,object,value,params)
 
     /*---------------------------------------------------------------------------------*/
 
+    /*
     canvas = this._canvas.getElement();
 
     canvas.onmousedown = function()
@@ -76,6 +77,8 @@ ControlKit.Pad = function(parent,object,value,params)
         }
 
     }.bind(this);
+
+    */
 
     /*---------------------------------------------------------------------------------*/
 

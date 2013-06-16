@@ -35,8 +35,8 @@ ControlKit.Plotter.prototype._drawGrid = function()
 
     var gridResX     = this._gridRes[0],
         gridResY     = this._gridRes[1],
-        width        = Number(svg.getAttribute('width')),
-        height       = Number(svg.getAttribute('height'));
+        width        = Math.round(Number(svg.getAttribute('width'))),
+        height       = Math.round(Number(svg.getAttribute('height')));
 
     var spacingGridX = width  / gridResX,
         spacingGridY = height / gridResY;
@@ -49,50 +49,14 @@ ControlKit.Plotter.prototype._drawGrid = function()
     while(++i < gridResX)
     {
         temp = Math.round(spacingGridX + spacingGridX * i);
-        pathCmd += this._lineSVGPathCmd(0,temp,width,temp);
+        pathCmd += this._pathCmdLine(0,temp,width,temp);
     }
     i = -1;
     while(++i < gridResY)
     {
         temp = Math.round(spacingGridY + spacingGridY * i);
-        pathCmd += this._lineSVGPathCmd(temp,0,temp,height);
+        pathCmd += this._pathCmdLine(temp,0,temp,height);
     }
 
-    this._applySVGPathCmd(this._grid,pathCmd);
-
-
-
-
-
-
-
-    /*
-    var c = this._canvas;
-
-    var gridResX     = this._gridRes[0],
-        gridResY     = this._gridRes[1],
-        canvasWidth  = c.width,
-        canvasHeight = c.height;
-
-
-    var spacingGridX = canvasWidth  / gridResX,
-        spacingGridY = canvasHeight / gridResY;
-
-    var temp;
-    var i = -1;
-
-    c.stroke(26,29,31);
-
-    while(++i < gridResX)
-    {
-        temp = Math.round(spacingGridX + spacingGridX * i);
-        c.line(0,temp,canvasWidth,temp);
-    }
-    i = -1;
-    while(++i < gridResY)
-    {
-        temp = Math.round(spacingGridY + spacingGridY * i);
-        c.line(temp,0,temp,canvasHeight);
-    }
-    */
+    this._grid.setAttribute('d',pathCmd);
 };

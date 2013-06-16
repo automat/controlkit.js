@@ -30,6 +30,7 @@ var imports = [
                'core/component/ckObjectComponent.js',
                'core/component/ckCanvas.js',
                'core/component/ckCanvasComponent.js',
+               'core/component/ckSVGComponent.js',
 
                'core/layout/ckScrollBar.js',
                'core/group/ckAbstractGroup.js',
@@ -93,7 +94,7 @@ function TestControlKit(parentDomElementId)
                   numberPresets:[10.0,20.0,345.0,12.0],
                   range:[-1,1],
                   bool:true,
-                  slideValue:0.01,
+                  slideValue:0.1,
                   selectOptions:['hello','bello','cello'],
                   selectTarget:'hello',
                   func:function(x){return Math.sin(x);},
@@ -131,7 +132,15 @@ function TestControlKit(parentDomElementId)
 
     var controlKit = new ControlKit.Kit(parentDomElementId,{trigger:true});
 
+    var panel0 = controlKit.addPanel({width: 200, align:'left', fixed: false, position:[20,20]}),
+        group0 = panel0.addGroup()
+                       .addSubGroup()
+                       .addValuePlotter(object, 'changeValue1',{height:35,lineWidth:2,resolution:4})
+            .addValuePlotter(object, 'changeValue2',{lineWidth:2})
+            .addFunctionPlotter(object,'func',{label:'none'});
 
+
+    /*
     var panel0 = controlKit.addPanel({width: 200, align: 'left', fixed: false, position: [20, 20]});
     var group01 = panel0.addGroup({height:300})
         .addSubGroup({label: 'Function Select'})
@@ -230,13 +239,6 @@ function TestControlKit(parentDomElementId)
 
 
 
-    /*
-    var kitConsole = controlKit.addConsole({fixed:false});
-    */
-    /*
-    var output = controlKit.addPanel({width:300,fixed:false,position:[200,400]});
-        output.addGroup().addSubGroup().addStringOutput(object,'changeValue01',{height:300});
-        */
 
 
     var control0 = controlKit.addPanel({width: 200,align: 'left', fixed: false, position: [620, 20]})
@@ -275,7 +277,7 @@ function TestControlKit(parentDomElementId)
         .addSubGroup({label: 'values3'})
         .addValuePlotter(object, 'changeValue4', {height: 35, lineWidth: 2, lineColor: [237, 20, 91]})
 
-
+    */
 
     /*
     control0.addGroup({label: 'Group'})
@@ -380,12 +382,12 @@ function TestControlKit(parentDomElementId)
 
             t+=object.slideValue;
 
-            object.changeValue0 = object.funcTarget(t);//sgn(sint);
+            object.changeValue0 = sin(t);//object.funcTarget(t);//sgn(sint);
             sint = Math.sin(t);
 
             object.changeValue1 = tri(sint);
 
-            object.changeValue2 = randomFloat(-1,1);
+            object.changeValue2 = sint;//randomFloat(-1,1);
             object.changeValue3 = rect(sint);
             object.changeValue4 = randomInteger(-1,1);
             object.changeValue5 = frac(sint);
