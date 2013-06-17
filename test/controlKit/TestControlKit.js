@@ -143,6 +143,15 @@ function TestControlKit(parentDomElementId)
 
     var controlKit = new ControlKit.Kit(parentDomElementId,{trigger:true});
 
+    var panel0 = controlKit.addPanel({width: 400, align:'left', fixed: false, position:[20,20]}),
+        group0 = panel0.addGroup()
+            .addSubGroup({label:'Graph'})
+            .addSelect(object,'funcs','funcTarget',{label:'Choose'})
+            .addFunctionPlotter(object,'funcTarget',{label:'none'})
+            .addStringOutput(object,'funcTarget',{label:'none'})
+        ;
+
+    /*
     var panel0 = controlKit.addPanel({width: 200, align:'left', fixed: false, position:[20,20]}),
         group0 = panel0.addGroup()
                        .addSubGroup()
@@ -153,6 +162,8 @@ function TestControlKit(parentDomElementId)
             .addFunctionPlotter(object,'funcTarget',{label:'none'})
             .addStringOutput(object,'funcTarget',{label:'none'})
             ;
+
+            */
 
 
     /*
