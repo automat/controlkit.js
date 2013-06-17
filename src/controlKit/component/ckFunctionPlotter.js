@@ -8,11 +8,18 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    var axes = this._axes = this._svgRoot.insertBefore(this._createSVGObject('path'),this._path);
-        axes.style.stroke = 'rgb(39,44,46)';
+    var svgRoot = this._svgRoot,
+        path    = this._path;
+
+    var axes = this._axes = svgRoot.insertBefore(this._createSVGObject('path'),path);
+        axes.style.stroke = 'rgb(54,60,64)';
         axes.style.lineWidth = 1;
 
-    this._grid.style.stroke = 'rgb(22,22,22)';
+    var axesLabels = this._axesLabels = svgRoot.insertBefore(this._createSVGObject('path'),path);
+        axesLabels.style.stroke = 'rgb(43,48,51)';
+        axesLabels.style.lineWidth = 1;
+
+    this._grid.style.stroke = 'rgb(25,25,25)';
 
     var svg    = this._svg,
         width  = Number(svg.getAttribute('width')),
@@ -51,10 +58,10 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
     /*---------------------------------------------------------------------------------*/
 
     this._units       = [1,1];
-    this._unitsMinMax = [0.15,8];
+    this._unitsMinMax = [0.15,4]; //1/8->8
 
     this._scale       = 10.0;
-    this._scaleMinMax = [0.02,50];
+    this._scaleMinMax = [0.02,25]; //1/50 -> 50
 
     this._center = [Math.round(width * 0.5),Math.round(width*0.5)];
     this._svgPos = [0,0];
@@ -92,36 +99,52 @@ ControlKit.FunctionPlotter.prototype._updateCenter = function()
     this._plotGraph();
 };
 
-ControlKit.FunctionPlotter.prototype._onDragStart = function()
+ControlKit.FunctionPlotter.prototype._onDragStart = function(e)
 {
-    var element = this._svg;
+    var leftClick;
+    if(!e) e = window.event;
 
-    var svgPos = this._svgPos;
+    if(e.which)       leftClick = e.which == 1;
+    else if(e.button) leftClick = e.button == 1;
+
+    var svg = this._svg;
+
+    if(leftClick)
+    {
+        var element = svg;
+
+        var svgPos = this._svgPos;
         svgPos[0] = 0;
         svgPos[1] = 0;
 
-    while(element)
-    {
-        svgPos[0] += element.offsetLeft;
-        svgPos[1] += element.offsetTop;
-        element    = element.offsetParent;
+        while(element)
+        {
+            svgPos[0] += element.offsetLeft;
+            svgPos[1] += element.offsetTop;
+            element    = element.offsetParent;
+        }
+
+        var eventMove = ControlKit.DocumentEventType.MOUSE_MOVE,
+            eventUp   = ControlKit.DocumentEventType.MOUSE_UP;
+
+        var onDrag    = this._updateCenter.bind(this),
+            onDragEnd = function()
+            {
+                this._updateCenter.bind(this);
+                document.removeEventListener(eventMove,onDrag,   false);
+                document.removeEventListener(eventUp,  onDragEnd,false);
+            }.bind(this);
+
+        document.addEventListener(eventMove, onDrag,    false);
+        document.addEventListener(eventUp,   onDragEnd, false);
+
+        this._updateCenter();
     }
-
-    var eventMove = ControlKit.DocumentEventType.MOUSE_MOVE,
-        eventUp   = ControlKit.DocumentEventType.MOUSE_UP;
-
-    var onDrag    = this._updateCenter.bind(this),
-        onDragEnd = function()
-                    {
-                        this._updateCenter.bind(this)
-                        document.removeEventListener(eventMove,onDrag,   false);
-                        document.removeEventListener(eventUp,  onDragEnd,false);
-                    }.bind(this);
-
-    document.addEventListener(eventMove, onDrag,    false);
-    document.addEventListener(eventUp,   onDragEnd, false);
-
-    this._updateCenter();
+    else
+    {
+        this._center[0] = this._center[1] = Number(svg.getAttribute('width')) * 0.5;
+        this._plotGraph();
+    }
 };
 
 ControlKit.FunctionPlotter.prototype._onScale = function(e)
@@ -237,40 +260,68 @@ ControlKit.Plotter.prototype._drawGrid = function()
         gridNumLeft   = Math.round(centerX / gridSpacingX) + 1,
         gridNumRight  = Math.round((width - centerX) / gridSpacingX) + 1;
 
-    var pathCmd = '';
+    var pathCmdGrid       = '',
+        pathCmdAxesLabels = '';
 
     var i,temp;
+
+    var paddingLabelsRight  = width - 7,
+        paddingLabelsSize   = 6,
+        paddingLabelsTop    = 6,
+        paddingLabelsLeft   = 6,
+        paddingLabelsBottom = height - 7;
 
     i = -1;
     while(++i < gridNumTop)
     {
         temp = Math.round(centerY - gridSpacingY * i);
-        pathCmd += this._pathCmdLine(0,temp,width,temp);
+        pathCmdGrid      += this._pathCmdLine(0,temp,width,temp);
+
+        if(temp > paddingLabelsTop)
+
+        pathCmdAxesLabels += this._pathCmdLine(paddingLabelsRight,temp,
+                                               paddingLabelsRight - paddingLabelsSize,temp);
     }
 
     i = -1;
     while(++i < gridNumBottom)
     {
         temp = Math.round(centerY + gridSpacingY * i);
-        pathCmd += this._pathCmdLine(0,temp,width,temp);
+        pathCmdGrid += this._pathCmdLine(0,temp,width,temp);
+
+        if(temp < paddingLabelsBottom - 14)
+
+        pathCmdAxesLabels += this._pathCmdLine(paddingLabelsRight,temp,
+                                               paddingLabelsRight - paddingLabelsSize,temp);
     }
 
     i = -1;
     while(++i < gridNumLeft)
     {
         temp = Math.round(centerX - gridSpacingX * i);
-        pathCmd += this._pathCmdLine(temp,0,temp,height);
+        pathCmdGrid += this._pathCmdLine(temp,0,temp,height);
+
+        if(temp > paddingLabelsLeft)
+
+        pathCmdAxesLabels += this._pathCmdLine(temp, paddingLabelsBottom,
+                                               temp, paddingLabelsBottom - paddingLabelsSize);
     }
 
     i = -1;
     while(++i < gridNumRight)
     {
         temp = Math.round(centerX + gridSpacingX * i);
-        pathCmd += this._pathCmdLine(temp,0,temp,height);
+        pathCmdGrid += this._pathCmdLine(temp,0,temp,height);
+
+        if(temp < paddingLabelsRight - 14)
+
+        pathCmdAxesLabels += this._pathCmdLine(temp, paddingLabelsBottom,
+                                               temp, paddingLabelsBottom - paddingLabelsSize);
     }
 
 
-    this._grid.setAttribute('d',pathCmd);
+    this._grid.setAttribute('d',pathCmdGrid);
+    this._axesLabels.setAttribute('d',pathCmdAxesLabels);
 };
 
 /*---------------------------------------------------------------------------------*/
