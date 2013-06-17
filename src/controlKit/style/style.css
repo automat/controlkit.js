@@ -289,9 +289,9 @@
       background: rgba(24, 27, 29, 0.5);
       border: 1px solid #181b1d; }
     #controlKit .panel .graphSliderX {
-      height: 6px; }
+      height: 8px; }
     #controlKit .panel .graphSliderY {
-      width: 6px;
+      width: 8px;
       height: 100%; }
     #controlKit .panel .graphSliderXHandle, #controlKit .panel .graphSliderYHandle {
       -webkit-box-sizing: border-box;
@@ -301,11 +301,15 @@
       border: 1px solid #181b1d;
       background: #303639; }
     #controlKit .panel .graphSliderXHandle {
-      width: 16px;
-      height: 100%; }
+      width: 20px;
+      height: 100%;
+      border-top: none;
+      border-bottom: none; }
     #controlKit .panel .graphSliderYHandle {
       width: 100%;
-      height: 16px; }
+      height: 20px;
+      border-left: none;
+      border-right: none; }
     #controlKit .panel .scrollWrap {
       position: relative;
       overflow: hidden; }
