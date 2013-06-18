@@ -266,6 +266,7 @@
 
       border-top-right-radius: 2px;
       border-bottom-right-radius: 2px;
+      width: 90%;
     }
 
     .textAreaWrap {
@@ -397,7 +398,7 @@
       @include component-input-border;
     }
 
-    .canvasWrap {
+    .svgWrap, .canvasWrap {
       margin: $canvasWrapMargin;
 
       position: relative;
@@ -678,7 +679,7 @@
       @include box-shadow($sliderHandleBoxShadow);
     }
 
-    .canvasListItem {
+    .canvasListItem, .svgListItem {
       padding: $subGroupCanvasListItemPadding;
     }
 
@@ -843,35 +844,33 @@
   .picker
   {
     @include box-sizing(border-box);
-    @include border-radius($panelBorderRadius);
-    background-color: $panelColorBg;
+    @include border-radius($pickerBorderRadius);
+    background-color: $pickerColorBg;
 
-    font-family: arial, sans-serif;
-    font-size: 11px;
-    color: #fff;
-    text-shadow: 1px 1px #000;
+    font-family: $pickerFontFamily;
+    font-size:   $pickerFontSize;
+    color:       $pickerFontColor;
+    text-shadow: $pickerTextShadow;
 
     position: absolute;
     z-index: 2147483631;
 
-    width: 360px;
+    width: $pickerPanelWidth;
 
     @include user-select;
     @include box-shadow($panelBoxShadow);
 
     canvas{vertical-align: bottom;cursor: pointer;}
 
-    //FIXME
     .wrap {
 
       @include box-sizing(border-box);
-      //height: 100%;
-      padding: 10px;
+      padding: $pickerPadding;
       float: left;
     }
 
-    .fieldWrap {padding: 3px;}
-    .sliderWrap{padding: 3px 13px 3px 3px;}
+    .fieldWrap {padding: $pickerFieldWrapPadding;}
+    .sliderWrap{padding: $pickerSliderWrapPadding;}
 
 
     .fieldWrap,.sliderWrap,.inputWrap
@@ -885,19 +884,20 @@
     .inputWrap {
       @include box-sizing(border-box);
 
-      @include border($subGroupBorder, $subGroupBorderRadius);
-      @include box-shadow($subGroupBoxShadow);
+      @include border($pickerInputWrapBorder,
+                      $pickerInputWrapBorderRadis);
+      @include box-shadow($pickerInputWrapBoxShadow);
 
-      width: 140px;
+      width: $pickerInputWrapWidth;
       float: right;
 
-      padding: 5px 10px 1px 0;
+      padding: $pickerInputWrapPadding;
     }
 
     .inputField {
-      width: 50%;
+      width: $pickerInputFieldWidth;
       float: right;
-      margin-bottom: 4px;
+      margin-bottom: $pickerInputFieldMarginBottom;
 
       .label {
         padding: $rangeLabelPadding;
@@ -906,12 +906,12 @@
         text-transform: $rangeLabelTextTransform;
         font-weight: $rangeLabelFontWeight;
         text-shadow: $rangeLabelTextShadow;
-        width: 40%;
+        width: $pickerInputFieldRatioLabel;
       }
 
       .wrap {
         padding: 0;
-        width: 60%;
+        width: $pickerInputFieldRatioWrap;
         height: auto;
         float: right;
       }
@@ -924,14 +924,14 @@
       width: 100%;
       height: auto;
       float: right;
-      padding:9px 0 0 0;
+      padding:$pickerControlsWrapPadding;
 
 
       input[type='button']
       {
         float: right;
-        width: 65px;
-        margin: 0 0 0 10px;
+        width:  $pickerControlButtonWidth;
+        margin: $pickerControlButtonMargin;
 
       }
     }
@@ -942,14 +942,12 @@
       @include component-input-border;
 
       width: 100%;
-      height: 25px;
-      padding: 3px;
-      width: 80%;
-      margin-bottom: 4px;
+      height:        $pickerColorContrastHeight;
+      padding:       $pickerColorContrastPadding;
+      width:         $pickerColorContrastWidth;
+      margin-bottom: $pickerColorContrastMarginBottom;
 
       float: right;
-
-
 
       div{width: 50%;height: 100%;float:left;}
     }
@@ -995,41 +993,69 @@
       .indicator
       {
         position: absolute;
-        border: 2px solid #fff;
-        @include box-shadow(0 1px #000,0 1px #000 inset);
+        border: $pickerIndicatorBorder;
+        @include box-shadow($pickerIndicatorBoxShadow);
         cursor: pointer;
       }
     }
 
     .fieldWrap .indicator
     {
-      width:  8px;
-      height: 8px;
+      width:  $pickerIndicatorFieldSize;
+      height: $pickerIndicatorFieldSize;
 
       left:50%;
       top:50%;
 
       @include border-radius(50%);
-    }
+}
 
     .sliderWrap .indicator
     {
-      width: 14px;
-      height: 3px;
+      width:  $pickerIndicatorSliderWidth;
+      height: $pickerIndicatorSliderHeight;
 
-      @include border-radius(8px);
+      @include border-radius($pickerIndicatorFieldSize);
 
       left:1px;
-      top:1px;
+      top: 1px;
 
+      &:after
+      {
+        content: "";
+
+        @include arrow($pickerIndicatorSliderArrowWidth,
+                       $pickerIndicatorSliderArrowHeight,
+                       $pickerIndicatorColor,
+                       'left');
+        float: right;
+
+        position: absolute;
+        top:  $pickerIndicatorSliderArrowTop;
+        left: $pickerIndicatorSliderArrowLeft;
+
+      }
+
+      &:before
+      {
+        content: "";
+
+        @include arrow($pickerIndicatorSliderArrowWidth,
+                       $pickerIndicatorSliderArrowHeight,
+                       #000,
+                       'left');
+        float: right;
+
+        position: absolute;
+        top: $pickerIndicatorSliderArrowTop - 1;
+        left: $pickerIndicatorSliderArrowLeft;
+      }
     }
-
-
-
-
   }
 
-  .options {
+  .options
+  {
+
     @include box-sizing(border-box);
     @include border($optionsBorder,$optionsBorderRadius);
 
@@ -1037,16 +1063,8 @@
 
     left:   0;
     top:    0;
-    width:  0;
+    width: auto;
     height: auto;
-
-
-    /*
-    left:   0;
-    top:    0;
-    width:  0;
-    height: 0;
-    */
 
     z-index: 2147483638;
 
@@ -1060,10 +1078,6 @@
     overflow: hidden;
 
     background-color: $optionsColorBg;
-
-
-
-
 
     ul {
       width: 100%;
@@ -1096,9 +1110,6 @@
       }
     }
 
-
-
-
     .color
     {
       @include box-sizing(border-box);
@@ -1107,7 +1118,7 @@
       {
         @include box-sizing(border-box);
         padding: 0;
-        height: $inputHeight;
+        height:      $inputHeight;
         line-height: $inputHeight;
         text-align: center;
 
@@ -1122,58 +1133,7 @@
         font-weight: bold;
       }
     }
-
   }
-
-
-  .iconArrowUpBig
-  {
-    @include beveled-arrow(10px,5px,#080a0a,'up',1px,#7a8890,#8d8d8d);
-
-    position: relative;
-    top: 50%;
-    margin-top: -2px;
-    float: right
-
-    /*
-    position: relative;
-    top: 50%;
-    margin-top: -2px;
-
-    @include arrow(10px,5px, #080a0a,'up');
-    float: right;
-
-    &:after
-    {
-      content: "";
-
-      @include arrow(9px,4px, #7a8890,'up');
-      float: right;
-
-      position: absolute;
-      top: 1px;
-      left: -4px;
-    }
-
-    &:before
-    {
-      content: "";
-
-      @include arrow(10px,4px, #8d8d8d,'up');
-      float: right;
-
-
-      position: absolute;
-      top: 2px;
-      left: -5px;
-
-
-    }
-    */
-  }
-
-
-
 }
 
 #controlKitTrigger {

@@ -263,3 +263,50 @@ $optionsListItemSelectedColorBg: #292d30;
 /*-------------------------------------------------------------------------------------
  * Picker
  *-------------------------------------------------------------------------------------*/
+
+$pickerPanelWidth :  360px;
+$pickerBorderRadius: $panelBorderRadius;
+$pickerColorBg:      $panelColorBg;
+$pickerFontFamily:   $defaultFontFamily;
+$pickerFontSize:     11px;
+$pickerFontColor:    #fff;
+$pickerTextShadow:   $defaultTextShadow;
+$pickerPadding:      10px;
+
+$pickerFieldWrapPadding:     3px;
+$pickerSliderWrapPadding:    3px 13px 3px 3px;
+$pickerInputWrapBorder:      $subGroupBorder;
+$pickerInputWrapBorderRadis: $subGroupBorderRadius;
+$pickerInputWrapBoxShadow:   $subGroupBoxShadow;
+$pickerInputWrapWidth:       140px;
+$pickerInputWrapPadding:     5px 10px 1px 0;
+
+$pickerInputFieldWidth:        50%;
+$pickerInputFieldMarginBottom: 4px;
+$pickerInputFieldRatioLabel:   40%;
+$pickerInputFieldRatioWrap:    60%;
+
+$pickerControlsWrapPadding: 9px 0 0 0;
+$pickerControlButtonWidth: 65px;
+$pickerControlButtonMargin: 0 0 0 10px;
+
+$pickerColorContrastHeight: $compHeight;
+$pickerColorContrastPadding: 3px;
+$pickerColorContrastWidth:   80%;
+$pickerColorContrastMarginBottom : 4px;
+
+$pickerIndicatorColor:     #fff;
+$pickerIndicatorBorder:    2px solid $pickerIndicatorColor;
+$pickerIndicatorBoxShadow: 0 1px #000, 0 1px #000 inset;
+
+$pickerIndicatorFieldSize: 8px;
+$pickerIndicatorSliderWidth: 14px;
+$pickerIndicatorSliderHeight: 3px;
+$pickerIndicatorSliderArrowWidth: 4px;
+$pickerIndicatorSliderArrowHeight: 9px;
+$pickerIndicatorSliderArrowTop: -2px;
+$pickerIndicatorSliderArrowLeft: 19px;
+
+
+
+

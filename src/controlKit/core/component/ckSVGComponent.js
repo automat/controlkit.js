@@ -5,7 +5,7 @@ ControlKit.SVGComponent = function(parent,object,value,params)
     /*---------------------------------------------------------------------------------*/
 
     var wrapNode = this._wrapNode;
-        wrapNode.setStyleClass(ControlKit.CSS.CanvasWrap);
+        wrapNode.setStyleClass(ControlKit.CSS.SVGWrap);
     var wrapSize = wrapNode.getWidth();
 
     var svg = this._svg = this._createSVGObject('svg');
@@ -23,7 +23,7 @@ ControlKit.SVGComponent = function(parent,object,value,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    this._node.setStyleClass(ControlKit.CSS.CanvasListItem);
+    this._node.setStyleClass(ControlKit.CSS.SVGListItem);
 
     this._parent.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE, this, 'onGroupSizeChange');
     this.addEventListener(ControlKit.EventType.GROUP_SIZE_UPDATE, this._parent, 'onGroupSizeUpdate');

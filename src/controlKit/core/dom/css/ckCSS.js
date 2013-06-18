@@ -72,6 +72,9 @@ ControlKit.CSS =
     CanvasListItem  : 'canvasListItem',
     CanvasWrap      : 'canvasWrap',
 
+    SVGListItem     : 'svgListItem',
+    SVGWrap         : 'svgWrap',
+
     GraphSliderXWrap   : 'graphSliderXWrap',
     GraphSliderYWrap   : 'graphSliderYWrap',
     GraphSliderX       : 'graphSliderX',
@@ -83,7 +86,7 @@ ControlKit.CSS =
 
     Picker              : 'picker',
     PickerPalleteWrap   : 'palleteWrap',
-    PickerFieldWrap     :  'fieldWrap',
+    PickerFieldWrap     : 'fieldWrap',
     PickerInputWrap     : 'inputWrap',
     PickerInputField    : 'inputField',
     PickerControlsWrap  : 'controlsWrap',

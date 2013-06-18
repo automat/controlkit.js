@@ -44,8 +44,8 @@ ControlKit.Kit = function(parentDomElementId,params)
     if(params.trigger)
     {
         var trigger = new ControlKit.Node(ControlKit.NodeType.DIV);
-        trigger.setProperty('id',ControlKit.CSS.Trigger);
-        trigger.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onTriggerDown.bind(this));
+            trigger.setProperty('id',ControlKit.CSS.Trigger);
+            trigger.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onTriggerDown.bind(this));
 
         document.body.appendChild(trigger.getElement());
     }

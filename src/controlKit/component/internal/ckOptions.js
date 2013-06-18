@@ -107,7 +107,10 @@ ControlKit.Options.prototype =
 
         var listWidth  = listNode.getWidth();
 
-        rootNode.setWidth( listWidth < elementWidth ? elementWidth : listWidth);
+        //hm FIXME
+        var strokeSize = ControlKit.Metric.STROKE_SIZE;
+
+        listNode.setWidth( (listWidth < elementWidth ? elementWidth : listWidth) - strokeSize * 2);
         rootNode.setPositionGlobal(elementPos[0],elementPos[1]+elementHeight-ControlKit.Metric.PADDING_OPTIONS);
 
         this._callbackOut = callbackOut;
@@ -126,8 +129,8 @@ ControlKit.Options.prototype =
 
     _clearList : function()
     {
-        this._node.setWidth(0);
         this._listNode.removeAllChildren();
+        this._listNode.deleteStyleProperty('width');
         this._selectedIndex  = null;
         this._build          = false;
     },

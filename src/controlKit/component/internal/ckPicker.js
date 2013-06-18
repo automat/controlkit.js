@@ -830,7 +830,6 @@ ControlKit.Picker.prototype =
             canvas.height = height;
     },
 
-
     /*---------------------------------------------------------------------------------*/
 
     open  : function()
@@ -849,6 +848,9 @@ ControlKit.Picker.prototype =
         var canvasSliderPos = this._canvasSliderPos,
             canvasFieldPos  = this._canvasFieldPos;
 
+            canvasSliderPos[0] = canvasSliderPos[1] = 0;
+            canvasFieldPos[0]  = canvasFieldPos[1]  = 0;
+
         var element = this._canvasSlider;
 
         while(element)
@@ -866,9 +868,6 @@ ControlKit.Picker.prototype =
             canvasFieldPos[1] += element.offsetTop;
             element            = element.offsetParent;
         }
-
-
-
     },
 
     setCallbackPick : function(func){this._callbackPick = func;},

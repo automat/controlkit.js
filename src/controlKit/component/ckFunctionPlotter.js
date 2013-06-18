@@ -107,50 +107,36 @@ ControlKit.FunctionPlotter.prototype._updateCenter = function()
 
 ControlKit.FunctionPlotter.prototype._onDragStart = function(e)
 {
-    var leftClick;
-    if(!e) e = window.event;
-
-    if(e.which)       leftClick = e.which == 1;
-    else if(e.button) leftClick = e.button == 1;
-
     var svg = this._svg;
 
-    if(leftClick)
+    var element = svg;
+
+    var svgPos = this._svgPos;
+    svgPos[0] = 0;
+    svgPos[1] = 0;
+
+    while(element)
     {
-        var element = svg;
+        svgPos[0] += element.offsetLeft;
+        svgPos[1] += element.offsetTop;
+        element    = element.offsetParent;
+    }
 
-        var svgPos = this._svgPos;
-        svgPos[0] = 0;
-        svgPos[1] = 0;
+    var eventMove = ControlKit.DocumentEventType.MOUSE_MOVE,
+        eventUp   = ControlKit.DocumentEventType.MOUSE_UP;
 
-        while(element)
+    var onDrag    = this._updateCenter.bind(this),
+        onDragEnd = function()
         {
-            svgPos[0] += element.offsetLeft;
-            svgPos[1] += element.offsetTop;
-            element    = element.offsetParent;
-        }
+            this._updateCenter.bind(this);
+            document.removeEventListener(eventMove,onDrag,   false);
+            document.removeEventListener(eventUp,  onDragEnd,false);
+        }.bind(this);
 
-        var eventMove = ControlKit.DocumentEventType.MOUSE_MOVE,
-            eventUp   = ControlKit.DocumentEventType.MOUSE_UP;
+    document.addEventListener(eventMove, onDrag,    false);
+    document.addEventListener(eventUp,   onDragEnd, false);
 
-        var onDrag    = this._updateCenter.bind(this),
-            onDragEnd = function()
-            {
-                this._updateCenter.bind(this);
-                document.removeEventListener(eventMove,onDrag,   false);
-                document.removeEventListener(eventUp,  onDragEnd,false);
-            }.bind(this);
-
-        document.addEventListener(eventMove, onDrag,    false);
-        document.addEventListener(eventUp,   onDragEnd, false);
-
-        this._updateCenter();
-    }
-    else
-    {
-        this._center[0] = this._center[1] = Number(svg.getAttribute('width')) * 0.5;
-        this._plotGraph();
-    }
+    this._updateCenter();
 };
 
 ControlKit.FunctionPlotter.prototype._onScale = function(e)
@@ -344,7 +330,7 @@ ControlKit.FunctionPlotter.prototype._sliderXStep = function(mousePos)
         trackWidth  = track.getWidth(),
         trackLeft   = track.getPositionGlobalX();
 
-    var strokeSize = ControlKit.Preset.STROKE_SIZE;
+    var strokeSize = ControlKit.Metric.STROKE_SIZE;
 
     var max = trackWidth - handleWidthHalf - strokeSize * 2;
 

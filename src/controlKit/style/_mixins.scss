@@ -98,7 +98,7 @@
     border-right:  $width solid $color;
   }
 
-  @if($direction == 'left')
+  @if($direction == 'right')
   {
     border-top:    $height * 0.5 solid transparent;
     border-bottom: $height * 0.5 solid transparent;
