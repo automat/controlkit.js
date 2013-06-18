@@ -53,7 +53,7 @@ ControlKit.StringInput = function(parent,object,value,params)
                               self.applyValue();
                           },
                           onPresetDeactivate,
-                          ControlKit.Constant.PADDING_PRESET,
+                          ControlKit.Metric.PADDING_PRESET,
                           false);
         };
 

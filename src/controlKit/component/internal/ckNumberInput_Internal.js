@@ -30,7 +30,7 @@ ControlKit.NumberInput_Internal.prototype = Object.create(ControlKit.EventDispat
 
 ControlKit.NumberInput_Internal.prototype._onInputKeyDown = function(e)
 {
-    var step       = (e.shiftKey ? ControlKit.Constant.NUMBER_INPUT_SHIFT_MULTIPLIER : 1) * this._valueStep,
+    var step       = (e.shiftKey ? ControlKit.Preset.NUMBER_INPUT_SHIFT_MULTIPLIER : 1) * this._valueStep,
         keyCode    =  e.keyCode;
 
     if( keyCode == 38 ||

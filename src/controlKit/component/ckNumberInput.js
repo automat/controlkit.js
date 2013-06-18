@@ -53,7 +53,7 @@ ControlKit.NumberInput = function(parent,object,value,params)
             options.build(presets,input.getValue(),input.getNode(),
                           function(){input.setValue(presets[options.getSelectedIndex()]);
                                      self.applyValue();},
-                          onPresetDeactivate,ControlKit.Constant.PADDING_PRESET,
+                          onPresetDeactivate,ControlKit.Metric.PADDING_PRESET,
                           false);
         };
 

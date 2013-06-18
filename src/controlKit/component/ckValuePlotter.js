@@ -29,8 +29,8 @@ ControlKit.ValuePlotter = function(parent,object,value,params)
 
     var i = -1; while(++i < length){buffer0[i] =  buffer1[i] = points[i*2] = points[i*2+1] = min;}
 
-    this._height = params.height = params.height  < ControlKit.Constant.MIN_HEIGHT ?
-                   ControlKit.Constant.MIN_HEIGHT : params.height;
+    this._height = params.height = params.height  < ControlKit.Metric.COMPONENT_MIN_HEIGHT ?
+                   ControlKit.Metric.COMPONENT_MIN_HEIGHT : params.height;
 
     /*---------------------------------------------------------------------------------*/
 
