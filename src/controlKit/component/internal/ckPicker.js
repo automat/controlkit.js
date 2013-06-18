@@ -1,6 +1,3 @@
-
-//TODO: CLEANUP
-
 ControlKit.Picker = function(parentNode)
 {
     var rootNode = this._node     = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.Picker),
@@ -21,16 +18,17 @@ ControlKit.Picker = function(parentNode)
 
     /*---------------------------------------------------------------------------------*/
 
-    var canvasField  = this._canvasField  = new ControlKit.Canvas(fieldWrap),
-        canvasSlider = this._canvasSlider = new ControlKit.Canvas(sliderWrap);
+    var canvasField  = this._canvasField  = document.createElement('canvas'),
+        canvasSlider = this._canvasSlider = document.createElement('Canvas');
 
-        canvasField.setAntialias(false);
-        canvasField.setSize(154,154);
-        canvasSlider.setAntialias(false);
-        canvasSlider.setSize(14,154);
+        fieldWrap.getElement().appendChild(canvasField);
+        sliderWrap.getElement().appendChild(canvasSlider);
 
-    var canvasFieldNode  = canvasField.getNode(),
-        canvasSliderNode = canvasSlider.getNode();
+        this._setSizeCanvasField(154,154);
+        this._setSizeCanvasSlider(14,154);
+
+    var contextCanvasField  = this._contextCanvasField  = canvasField.getContext('2d'),
+        contextCanvasSlider = this._contextCanvasSlider = canvasSlider.getContext('2d');
 
     var handleField  = this._handleField  = new ControlKit.Node(ControlKit.NodeType.DIV);
         handleField.setStyleClass(ControlKit.CSS.PickerHandleField);
@@ -156,15 +154,13 @@ ControlKit.Picker = function(parentNode)
     var eventMouseDown = ControlKit.NodeEventType.MOUSE_DOWN,
         callback       = this._onCanvasFieldMouseDown.bind(this);
 
-        fieldWrap.setEventListener(       eventMouseDown, callback);
-        canvasFieldNode.setEventListener( eventMouseDown, callback);
-        handleField.setEventListener(     eventMouseDown, callback);
+        fieldWrap.setEventListener(  eventMouseDown, callback);
+        handleField.setEventListener(eventMouseDown, callback);
 
         callback = this._onCanvasSliderMouseDown.bind(this);
 
-        sliderWrap.setEventListener(      eventMouseDown, callback);
-        canvasSliderNode.setEventListener(eventMouseDown, callback);
-        handleSlider.setEventListener(    eventMouseDown, callback);
+        sliderWrap.setEventListener(  eventMouseDown, callback);
+        handleSlider.setEventListener(eventMouseDown, callback);
 
         menuClose.setEventListener(   eventMouseDown, this._onClose.bind(this));
         buttonPick.setEventListener(  eventMouseDown, this._onPick.bind(this));
@@ -184,26 +180,19 @@ ControlKit.Picker = function(parentNode)
     this._handleFieldSize    = 12;
     this._handleSliderHeight = 7;
 
-    this._imageDataSlider = this._canvasSlider.createImageData();
-    this._imageDataField  = this._canvasField.createImageData();
-
-    this._fieldFocused  = false;
-    this._sliderFocused = false;
-
-    this._colorMode = ControlKit.Picker.ColorModeType.HUE_MODE;
+    this._imageDataSlider = contextCanvasSlider.createImageData(canvasSlider.width,canvasSlider.height);
+    this._imageDataField  = contextCanvasField.createImageData( canvasField.width, canvasField.height);
 
     this._valueHueMinMax = [0,360];
     this._valueSatMinMax = this._valueValMinMax = [0,100];
     this._valueRGBMinMax = [0,255];
 
-    this._valueHue = ControlKit.Default.VALUE_HUE;
-    this._valueSat = ControlKit.Default.VALUE_SAT;
-    this._valueVal = ControlKit.Default.VALUE_VAL;
+    this._valueHue = ControlKit.Default.COLOR_PICKER_VALUE_HUE;
+    this._valueSat = ControlKit.Default.COLOR_PICKER_VALUE_SAT;
+    this._valueVal = ControlKit.Default.COLOR_PICKER_VALUE_VAL;
     this._valueR   = 0;
     this._valueG   = 0;
     this._valueB   = 0;
-
-
 
     this._valueHEX = '#000000';
     this._valueHEXValid = this._valueHEX;
@@ -699,11 +688,11 @@ ControlKit.Picker.prototype =
 
     _drawCanvasField : function()
     {
+        var canvas  = this._canvasField,
+            context = this._contextCanvasField;
 
-        var c = this._canvasField;
-
-        var width     = c.width,
-            height    = c.height,
+        var width     = canvas.width,
+            height    = canvas.height,
             invWidth  = 1 / width,
             invHeight = 1 / height;
 
@@ -730,19 +719,18 @@ ControlKit.Picker.prototype =
             }
         }
 
-        c.clear();
-        c.putImageData(imageData,0,0);
+        context.putImageData(imageData,0,0);
 
     },
 
 
     _drawCanvasSlider : function()
     {
+        var canvas  = this._canvasSlider,
+            context = this._contextCanvasSlider;
 
-        var c = this._canvasSlider;
-
-        var width     = c.width,
-            height    = c.height,
+        var width     = canvas.width,
+            height    = canvas.height,
             invHeight = 1 / height;
 
         var imageData = this._imageDataSlider,
@@ -766,8 +754,7 @@ ControlKit.Picker.prototype =
             }
         }
 
-        c.clear();
-        c.putImageData(imageData,0,0);
+        context.putImageData(imageData,0,0);
 
     },
 
@@ -824,6 +811,26 @@ ControlKit.Picker.prototype =
         self._drawCanvasField();
     },
 
+    _setSizeCanvasField : function(width,height)
+    {
+        var canvas = this._canvasField;
+            canvas.style.width  = width  + 'px';
+            canvas.style.height = height + 'px';
+            canvas.width  = width;
+            canvas.height = height;
+
+    },
+
+    _setSizeCanvasSlider : function(width,height)
+    {
+        var canvas = this._canvasSlider;
+            canvas.style.width  = width  + 'px';
+            canvas.style.height = height + 'px';
+            canvas.width  = width;
+            canvas.height = height;
+    },
+
+
     /*---------------------------------------------------------------------------------*/
 
     open  : function()
@@ -839,8 +846,29 @@ ControlKit.Picker.prototype =
 
     _updateCanvasNodePositions : function()
     {
-        this._canvasSliderPos = this._canvasSlider.getNode().getPositionGlobal();
-        this._canvasFieldPos  = this._canvasField.getNode().getPositionGlobal();
+        var canvasSliderPos = this._canvasSliderPos,
+            canvasFieldPos  = this._canvasFieldPos;
+
+        var element = this._canvasSlider;
+
+        while(element)
+        {
+            canvasSliderPos[0] += element.offsetLeft;
+            canvasSliderPos[1] += element.offsetTop;
+            element             = element.offsetParent;
+        }
+
+        element = this._canvasField;
+
+        while(element)
+        {
+            canvasFieldPos[0] += element.offsetLeft;
+            canvasFieldPos[1] += element.offsetTop;
+            element            = element.offsetParent;
+        }
+
+
+
     },
 
     setCallbackPick : function(func){this._callbackPick = func;},
@@ -881,10 +909,3 @@ ControlKit.Picker.prototype =
 
 ControlKit.Picker.init        = function(parentNode){return ControlKit.Picker._instance = new ControlKit.Picker(parentNode);};
 ControlKit.Picker.getInstance = function(){return ControlKit.Picker._instance;};
-
-ControlKit.Picker.ColorModeType =
-{
-    HUE_MODE        : 'hueMode',
-    SATURATION_MODE : 'saturationMode',
-    BRIGHTNESS_MODE : 'brightnessMode'
-};
