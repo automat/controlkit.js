@@ -74,7 +74,7 @@ ControlKit.SubGroup.prototype = Object.create(ControlKit.AbstractGroup.prototype
 
 ControlKit.SubGroup.prototype._onHeadMouseDown = function()
 {
-    this._disabled = !this._disabled;this._onTrigger();
+    this._isDisabled = !this._isDisabled;this._onTrigger();
 
     var event = ControlKit.DocumentEventType.MOUSE_UP,
         self  = this;

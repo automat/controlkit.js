@@ -11,6 +11,8 @@ ControlKit.StringOutput.prototype._setValue = function()
 
     var textArea = this._textArea;
 
+    //TODO: Add object / function check
+
     if(!this._wrap)
     {
         textArea.setProperty('value',this._object[this._key]);

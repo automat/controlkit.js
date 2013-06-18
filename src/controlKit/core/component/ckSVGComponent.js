@@ -38,7 +38,7 @@ ControlKit.SVGComponent.prototype._updateHeight = function()
     var svgHeight = Number(this._svg.getAttribute('height'));
 
     this._wrapNode.setHeight(svgHeight);
-    this._node.setHeight(svgHeight + ControlKit.Constant.PADDING_WRAPPER);
+    this._node.setHeight(svgHeight + ControlKit.Metric.PADDING_WRAPPER);
 };
 
 ControlKit.SVGComponent.prototype._redraw = function(){};

@@ -57,13 +57,19 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    this._units       = [1,1];
-    this._unitsMinMax = [0.15,4]; //1/8->8
+    this._units       = [ControlKit.Preset.FUNCTION_PLOTTER_UNIT_X,
+                         ControlKit.Preset.FUNCTION_PLOTTER_UNIT_Y];
+    this._unitsMinMax = [ControlKit.Preset.FUNCTION_PLOTTER_UNIT_MIN,
+                         ControlKit.Preset.FUNCTION_PLOTTER_UNIT_MAX]; //1/8->4
 
-    this._scale       = 10.0;
-    this._scaleMinMax = [0.02,25]; //1/50 -> 50
+    this._scale       =  ControlKit.Preset.FUNCTION_PLOTTER_SCALE;
+    this._scaleMinMax = [ControlKit.Preset.FUNCTION_PLOTTER_SCALE_MIN,
+                         ControlKit.Preset.FUNCTION_PLOTTER_SCALE_MAX]; //1/50 -> 25
 
-    this._center = [Math.round(width * 0.5),Math.round(width*0.5)];
+    /*---------------------------------------------------------------------------------*/
+
+    this._center = [Math.round(width * 0.5),
+                    Math.round(width * 0.5)];
     this._svgPos = [0,0];
 
     this._func = null;
@@ -265,22 +271,25 @@ ControlKit.Plotter.prototype._drawGrid = function()
 
     var i,temp;
 
-    var paddingLabelsRight  = width - 7,
-        paddingLabelsSize   = 6,
-        paddingLabelsTop    = 6,
-        paddingLabelsLeft   = 6,
-        paddingLabelsBottom = height - 7;
+    var strokeSize = ControlKit.Metric.STROKE_SIZE;
+
+    var labelTickSize                = ControlKit.Metric.FUNCTION_PLOTTER_LABEL_TICK_SIZE,
+        labelTickPaddingRight        = width  - labelTickSize - strokeSize,
+        labelTickPaddingBottom       = height - labelTickSize - strokeSize,
+        labelTickPaddingRightOffset  = labelTickPaddingRight  - labelTickSize,
+        labelTickPaddingBottomOffset = labelTickPaddingBottom - labelTickSize,
+        labelTickOffsetRight         = labelTickPaddingRight  - (labelTickSize + strokeSize) * 2,
+        labelTickOffsetBottom        = labelTickPaddingBottom - (labelTickSize + strokeSize) * 2;
 
     i = -1;
     while(++i < gridNumTop)
     {
         temp = Math.round(centerY - gridSpacingY * i);
-        pathCmdGrid      += this._pathCmdLine(0,temp,width,temp);
+        pathCmdGrid += this._pathCmdLine(0,temp,width,temp);
 
-        if(temp > paddingLabelsTop)
-
-        pathCmdAxesLabels += this._pathCmdLine(paddingLabelsRight,temp,
-                                               paddingLabelsRight - paddingLabelsSize,temp);
+        if(temp > labelTickSize)
+        pathCmdAxesLabels += this._pathCmdLine(labelTickPaddingRight,      temp,
+                                               labelTickPaddingRightOffset,temp);
     }
 
     i = -1;
@@ -289,10 +298,9 @@ ControlKit.Plotter.prototype._drawGrid = function()
         temp = Math.round(centerY + gridSpacingY * i);
         pathCmdGrid += this._pathCmdLine(0,temp,width,temp);
 
-        if(temp < paddingLabelsBottom - 14)
-
-        pathCmdAxesLabels += this._pathCmdLine(paddingLabelsRight,temp,
-                                               paddingLabelsRight - paddingLabelsSize,temp);
+        if(temp < labelTickOffsetBottom)
+        pathCmdAxesLabels += this._pathCmdLine(labelTickPaddingRight,      temp,
+                                               labelTickPaddingRightOffset,temp);
     }
 
     i = -1;
@@ -301,10 +309,9 @@ ControlKit.Plotter.prototype._drawGrid = function()
         temp = Math.round(centerX - gridSpacingX * i);
         pathCmdGrid += this._pathCmdLine(temp,0,temp,height);
 
-        if(temp > paddingLabelsLeft)
-
-        pathCmdAxesLabels += this._pathCmdLine(temp, paddingLabelsBottom,
-                                               temp, paddingLabelsBottom - paddingLabelsSize);
+        if(temp > labelTickSize)
+        pathCmdAxesLabels += this._pathCmdLine(temp, labelTickPaddingBottom,
+                                               temp, labelTickPaddingBottomOffset);
     }
 
     i = -1;
@@ -313,10 +320,9 @@ ControlKit.Plotter.prototype._drawGrid = function()
         temp = Math.round(centerX + gridSpacingX * i);
         pathCmdGrid += this._pathCmdLine(temp,0,temp,height);
 
-        if(temp < paddingLabelsRight - 14)
-
-        pathCmdAxesLabels += this._pathCmdLine(temp, paddingLabelsBottom,
-                                               temp, paddingLabelsBottom - paddingLabelsSize);
+        if(temp < labelTickOffsetRight)
+        pathCmdAxesLabels += this._pathCmdLine(temp, labelTickPaddingBottom,
+                                               temp, labelTickPaddingBottomOffset);
     }
 
 
@@ -338,7 +344,9 @@ ControlKit.FunctionPlotter.prototype._sliderXStep = function(mousePos)
         trackWidth  = track.getWidth(),
         trackLeft   = track.getPositionGlobalX();
 
-    var max = trackWidth - handleWidthHalf - 2;
+    var strokeSize = ControlKit.Preset.STROKE_SIZE;
+
+    var max = trackWidth - handleWidthHalf - strokeSize * 2;
 
     var pos       = Math.max(handleWidthHalf,Math.min(mouseX - trackLeft,max)),
         handlePos = pos - handleWidthHalf;
@@ -374,10 +382,11 @@ ControlKit.FunctionPlotter.prototype._setSliderInitial = function()
         handleYHeightHalf = handleYHeight * 0.5,
         trackYHeight      = this._sliderYTrack.getHeight();
 
-    var handleXMin = handleXWidthHalf,
-        handleXMax = trackXWidth - handleXWidthHalf - 2;
+    var strokeSize = ControlKit.Preset.STROKE_SIZE;
 
-    var handleYMin = trackYHeight - handleYHeightHalf - 2,
+    var handleXMin = handleXWidthHalf,
+        handleXMax = trackXWidth  - handleXWidthHalf  - strokeSize * 2,
+        handleYMin = trackYHeight - handleYHeightHalf - strokeSize * 2,
         handleYMax = handleYHeightHalf;
 
     handleX.setPositionX((handleXMin + (handleXMax - handleXMin) * ((unitX - unitMin) / (unitMax - unitMin))) - handleXWidthHalf);

@@ -142,7 +142,7 @@ ControlKit.Group.prototype.onSubGroupTrigger = function()
 
 ControlKit.Group.prototype._onHeadTrigger = function()
 {
-    this._disabled = !this._disabled;
+    this._isDisabled = !this._isDisabled;
     this._updateAppearance();
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_LIST_SIZE_CHANGE,null));
 };
@@ -158,17 +158,16 @@ ControlKit.Group.prototype.addButton          = function(label,onPress)         
 ControlKit.Group.prototype.addSelect          = function(object,value,target,params){return this._addComponent(new ControlKit.Select(          this.getSubGroup(),object,value,target,params));};
 ControlKit.Group.prototype.addSlider          = function(object,value,target,params){return this._addComponent(new ControlKit.Slider(          this.getSubGroup(),object,value,target,params));};
 
-
 ControlKit.Group.prototype.addFunctionPlotter = function(object,value,params)       {return this._addComponent(new ControlKit.FunctionPlotter( this.getSubGroup(),object,value,params));};
 ControlKit.Group.prototype.addPad             = function(object,value,params)       {return this._addComponent(new ControlKit.Pad(             this.getSubGroup(),object,value,params));};
 ControlKit.Group.prototype.addValuePlotter    = function(object,value,params)       {return this._addComponent(new ControlKit.ValuePlotter(    this.getSubGroup(),object,value,params));};
 ControlKit.Group.prototype.addNumberOutput    = function(object,value,params)       {return this._addComponent(new ControlKit.NumberOutput(    this.getSubGroup(),object,value,params));};
 ControlKit.Group.prototype.addStringOutput    = function(object,value,params)       {return this._addComponent(new ControlKit.StringOutput(    this.getSubGroup(),object,value,params));};
 
+ControlKit.Group.prototype.addCanvas          = function(params)                    {return this._addComponent(new ControlKit.Canvas(          this.getSubGroup(),params));};
+ControlKit.Group.prototype.addSVG             = function(params)                    {return this._addComponent(new ControlKit.SVG(             this.getSubGroup(),params));};
+
 /*-------------------------------------------------------------------------------------*/
-
-ControlKit.Group.prototype.addConsole         = function(params)                    {return this._addComponent(new ControlKit.Console(        this.getSubGroup(),params));};
-
 
 //TODO: Move to subroup
 ControlKit.Group.prototype._addComponent = function(component)

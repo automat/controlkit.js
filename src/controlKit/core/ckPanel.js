@@ -10,17 +10,17 @@ ControlKit.Panel = function(controlKit,params)
 
     params                 = params           || {};
 
-    params.valign     = params.valign    || ControlKit.Default.VALIGN;
-    params.align      = params.align     || ControlKit.Default.ALIGN;
-    params.position   = params.position  || ControlKit.Default.POSITION;
-    params.width      = params.width     || ControlKit.Default.WIDTH;
+    params.valign     = params.valign    || ControlKit.Default.PANEL_VALIGN;
+    params.align      = params.align     || ControlKit.Default.PANEL_ALIGN;
+    params.position   = params.position  || ControlKit.Default.PANEL_POSITION;
+    params.width      = params.width     || ControlKit.Default.PANEL_WIDTH;
     params.height     = params.height    || null;
-    params.ratio      = params.ratio     || ControlKit.Default.RATIO;
-    params.label      = params.label     || ControlKit.Default.LABEL;
-    params.opacity    = params.opacity   || ControlKit.Default.OPACITY;
+    params.ratio      = params.ratio     || ControlKit.Default.PANEL_RATIO;
+    params.label      = params.label     || ControlKit.Default.PANEL_LABEL;
+    params.opacity    = params.opacity   || ControlKit.Default.PANEL_OPACITY;
 
     params.fixed      = params.fixed === undefined ?
-                        ControlKit.Default.FIXED :
+                        ControlKit.Default.PANEL_FIXED :
                         params.fixed;
 
     params.vconstrain = params.vconstrain || true;
@@ -29,8 +29,8 @@ ControlKit.Panel = function(controlKit,params)
 
     var align      = this._align      = params.align,
         height     = this._height     = params.height ?  Math.max(0,Math.min(params.height,window.innerHeight)) : null,
-        width      = this._width      = Math.max(ControlKit.Default.WIDTH_MIN,
-                                        Math.min(params.width,ControlKit.Default.WIDTH_MAX)),
+        width      = this._width      = Math.max(ControlKit.Default.PANEL_WIDTH_MIN,
+                                        Math.min(params.width,ControlKit.Default.PANEL_WIDTH_MAX)),
         fixed      = this._fixed      = params.fixed,
         label      = this._label      = params.label,
         position   = this._position   = params.position,
@@ -40,7 +40,7 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    this._disabled = false;
+    this._isDisabled = false;
 
     this._groups = [];
 
@@ -198,7 +198,7 @@ ControlKit.Panel.prototype._hasScrollWrap = function(){return this._scrollBar !=
 
 ControlKit.Panel.prototype._onMenuHideMouseDown = function()
 {
-    this._disabled = !this._disabled;
+    this._isDisabled = !this._isDisabled;
     this._updateAppearance();
 };
 
@@ -208,7 +208,7 @@ ControlKit.Panel.prototype._updateAppearance = function()
         headNode = this._headNode,
         menuHide = this._menuHide;
 
-    if(this._disabled)
+    if(this._isDisabled)
     {
         headNode.getStyle().borderBottom = 'none';
 
@@ -382,19 +382,19 @@ ControlKit.Panel.prototype._constrainHeight = function()
 ControlKit.Panel.prototype.enable  = function()
 {
     this._node.setStyleProperty('display','block');
-    this._disabled = false;
+    this._isDisabled = false;
     this._updateAppearance();
 };
 
 ControlKit.Panel.prototype.disable = function()
 {
     this._node.setStyleProperty('display','none');
-    this._disabled = true;
+    this._isDisabled = true;
     this._updateAppearance();
 };
 
-ControlKit.Panel.prototype.isEnabled  = function(){return !this._disabled;};
-ControlKit.Panel.prototype.isDisabled = function(){return this._disabled;};
+ControlKit.Panel.prototype.isEnabled  = function(){return !this._isDisabled;};
+ControlKit.Panel.prototype.isDisabled = function(){return this._isDisabled;};
 
 /*---------------------------------------------------------------------------------*/
 

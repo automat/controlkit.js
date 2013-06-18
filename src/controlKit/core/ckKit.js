@@ -21,13 +21,13 @@ ControlKit.Kit = function(parentDomElementId,params)
     params         = params         || {};
     params.trigger = params.trigger || false;
     params.history = params.history || false;
-    params.opacity = params.opacity || ControlKit.Default.OPACITY;
+    params.opacity = params.opacity || ControlKit.Default.KIT_OPACITY;
 
     /*---------------------------------------------------------------------------------*/
 
     this._node     = node;
     this._panels   = [];
-    this._disabled = false;
+    this._isDisabled = false;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -66,7 +66,7 @@ ControlKit.Kit.prototype = Object.create(ControlKit.EventDispatcher.prototype);
 
 ControlKit.Kit.prototype._onTriggerDown = function()
 {
-    var disabled = this._disabled = !this._disabled;
+    var disabled = this._isDisabled = !this._isDisabled;
     this._node.setStyleProperty('visibility',disabled ? 'hidden' : 'visible');
 };
 
@@ -98,7 +98,7 @@ ControlKit.Kit.prototype.addPanel = function(params)
 
 ControlKit.Kit.prototype.update = function()
 {
-    if(this._disabled)return;
+    if(this._isDisabled)return;
 
     var i = -1, j, k;
 
@@ -139,8 +139,8 @@ ControlKit.Kit.prototype.update = function()
     }
 };
 
-ControlKit.Kit.prototype.enable  = function(){this._disabled = false;};
-ControlKit.Kit.prototype.disable = function(){this._disabled = true;};
+ControlKit.Kit.prototype.enable  = function(){this._isDisabled = false;};
+ControlKit.Kit.prototype.disable = function(){this._isDisabled = true;};
 
 ControlKit.Kit.prototype.disableAllPanels = function(){var i=-1,p=this._panels;while(++i<p.length)p[i].enable();};
 ControlKit.Kit.prototype.enableAllPanels  = function(){var i=-1,p=this._panels;while(++i<p.length)p[i].disable();};
@@ -161,46 +161,6 @@ ControlKit.Kit.prototype.onHistoryStatePop  = function()
 /*---------------------------------------------------------------------------------*/
 
 ControlKit.Kit.prototype.getNode = function(){return this._node;};
-
-/*---------------------------------------------------------------------------------*/
-
-//TODO: fix
-ControlKit.Kit.prototype.addConsole = function(params)
-{
-    params            = params           || {};
-    params.valign     = params.valign    || ControlKit.Default.VALIGN;
-    params.align      = params.align     || ControlKit.Default.ALIGN;
-    params.position   = params.position  || ControlKit.Default.POSITION;
-    params.width      = params.width     || ControlKit.Default.WIDTH;
-    params.height     = params.height    || ControlKit.Default.WIDTH;
-    params.ratio      = params.ratio     || ControlKit.Default.RATIO;
-    params.label      = params.label     || ControlKit.Default.LABEL;
-    params.opacity    = params.opacity   || ControlKit.Default.OPACITY;
-
-    params.fixed      = params.fixed === undefined ?
-                        ControlKit.Default.FIXED :
-                        params.fixed;
-
-    this.addPanel({valign:   params.valign,
-                   align:    params.align,
-                   position: params.position,
-                   width:    params.width,
-                   ratio:    params.ratio,
-                   label:    params.label,
-                   opacity:  params.opacity,
-                   fixed:    params.fixed})
-                   .addGroup()
-                   .addSubGroup()
-                   .addConsole({height:params.height});
-
-
-    /*
-    return this._panels[this._panels.length-1].getGroups()[0]
-                                              .getSubGroup()
-                                              .getComponents()[0];
-
-                                              */
-};
 
 /*---------------------------------------------------------------------------------*/
 

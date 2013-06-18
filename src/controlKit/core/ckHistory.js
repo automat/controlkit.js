@@ -2,7 +2,7 @@ ControlKit.History = function()
 {
     ControlKit.EventDispatcher.apply(this,arguments);
     this._states   = [];
-    this._disabled = false;
+    this._isDisabled = false;
 };
 
 ControlKit.History.prototype = Object.create(ControlKit.EventDispatcher.prototype);
@@ -11,10 +11,10 @@ ControlKit.History.prototype = Object.create(ControlKit.EventDispatcher.prototyp
 
 ControlKit.History.prototype.pushState = function(object,key,value)
 {
-    if(this._disabled)return;
+    if(this._isDisabled)return;
 
     var states    = this._states,
-        statesMax = ControlKit.Constant.HISTORY_MAX_STATES;
+        statesMax = ControlKit.Preset.HISTORY_MAX_STATES;
 
     if(states.length >= statesMax)states.shift();
     states.push({object:object,key:key,value:value});
@@ -51,7 +51,7 @@ ControlKit.History.prototype.getState = function(object,key)
 
 ControlKit.History.prototype.popState  = function()
 {
-    if(this._disabled)return;
+    if(this._isDisabled)return;
 
     var states = this._states;
     if(states.length < 1)return;
@@ -70,6 +70,6 @@ ControlKit.History._instance   = null;
 ControlKit.History.init        = function(){return ControlKit.History._instance = new ControlKit.History();};
 ControlKit.History.getInstance = function(){return ControlKit.History._instance;};
 
-ControlKit.History.prototype.enable     = function(){this._disabled=false;};
-ControlKit.History.prototype.disable    = function(){this._disabled=true;};
-ControlKit.History.prototype.isDisabled = function(){return this._disabled;};
+ControlKit.History.prototype.enable     = function(){this._isDisabled=false;};
+ControlKit.History.prototype.disable    = function(){this._isDisabled=true;};
+ControlKit.History.prototype.isDisabled = function(){return this._isDisabled;};

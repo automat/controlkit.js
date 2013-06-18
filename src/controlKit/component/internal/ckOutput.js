@@ -37,7 +37,7 @@ ControlKit.Output = function(parent,object,value,params)
             var height  = this._height = params.height,
                 padding = 6;
 
-            textArea.setHeight(Math.max(height  ,ControlKit.Constant.MIN_HEIGHT));
+            textArea.setHeight(Math.max(height  ,ControlKit.Metric.COMPONENT_MIN_HEIGHT));
             wrapNode.setHeight(textArea.getHeight() +6 );
             rootNode.setHeight(wrapNode.getHeight() +4);
 

@@ -39,11 +39,11 @@ ControlKit.ScrollBar = function(parentNode,targetNode,wrapHeight)
     this._scrollPos    = 0;
 
 
-    thumb.setPositionY(ControlKit.Constant.SCROLLBAR_TRACK_PADDING);
+    thumb.setPositionY(ControlKit.Metric.SCROLLBAR_TRACK_PADDING);
     thumb.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onThumbDragStart.bind(this));
 
     this._isValid  = false;
-    this._disabled = false;
+    this._isDisabled = false;
 };
 
 ControlKit.ScrollBar.prototype =
@@ -53,7 +53,7 @@ ControlKit.ScrollBar.prototype =
         var target  = this._targetNode,
             thumb   = this._thumbNode;
 
-        var padding = ControlKit.Constant.SCROLLBAR_TRACK_PADDING;
+        var padding = ControlKit.Metric.SCROLLBAR_TRACK_PADDING;
 
         var targetWrapHeight = this._wrapHeight,
             targetHeight     = target.getHeight(),
@@ -117,7 +117,7 @@ ControlKit.ScrollBar.prototype =
 
     _onThumbDragStart : function()
     {
-        if(!this._isValid || this._disabled)return;
+        if(!this._isValid || this._isDisabled)return;
 
         var eventMouseMove = ControlKit.DocumentEventType.MOUSE_MOVE,
             eventMouseUp   = ControlKit.DocumentEventType.MOUSE_UP;
@@ -145,16 +145,16 @@ ControlKit.ScrollBar.prototype =
         document.addEventListener(eventMouseUp,   onDragEnd, false);
     },
 
-    enable  : function(){this._disabled = false;this._updateAppearance();},
-    disable : function(){this._disabled = true; this._updateAppearance();},
+    enable  : function(){this._isDisabled = false;this._updateAppearance();},
+    disable : function(){this._isDisabled = true; this._updateAppearance();},
 
     _updateAppearance : function()
     {
-        if(this._disabled)
+        if(this._isDisabled)
         {
             this._node.setStyleProperty('display','none');
             this._targetNode.setPositionY(0);
-            this._thumbNode.setPositionY(ControlKit.Constant.SCROLLBAR_TRACK_PADDING);
+            this._thumbNode.setPositionY(ControlKit.Metric.SCROLLBAR_TRACK_PADDING);
         }
         else
         {

@@ -5,7 +5,7 @@ ControlKit.Component = function(parent,label)
     /*---------------------------------------------------------------------------------*/
 
     this._parent   = parent;
-    this._disabled = false;
+    this._isDisabled = false;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -44,11 +44,11 @@ ControlKit.Component.prototype = Object.create(ControlKit.EventDispatcher.protot
 
 /*---------------------------------------------------------------------------------*/
 
-ControlKit.Component.prototype.enable     = function(){this._disabled = false;};
-ControlKit.Component.prototype.disable    = function(){this._disabled = true; };
+ControlKit.Component.prototype.enable     = function(){this._isDisabled = false;};
+ControlKit.Component.prototype.disable    = function(){this._isDisabled = true; };
 
-ControlKit.Component.prototype.isEnabled  = function(){return !this._disabled;};
-ControlKit.Component.prototype.isDisabled = function(){return this._disabled};
+ControlKit.Component.prototype.isEnabled  = function(){return !this._isDisabled;};
+ControlKit.Component.prototype.isDisabled = function(){return this._isDisabled};
 
 ControlKit.Component.prototype.onEnable  = function(){this.enable();};
 ControlKit.Component.prototype.onDisable = function(){this.disable();};

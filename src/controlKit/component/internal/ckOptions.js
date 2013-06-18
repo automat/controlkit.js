@@ -108,7 +108,7 @@ ControlKit.Options.prototype =
         var listWidth  = listNode.getWidth();
 
         rootNode.setWidth( listWidth < elementWidth ? elementWidth : listWidth);
-        rootNode.setPositionGlobal(elementPos[0],elementPos[1]+elementHeight-ControlKit.Constant.PADDING_OPTIONS);
+        rootNode.setPositionGlobal(elementPos[0],elementPos[1]+elementHeight-ControlKit.Metric.PADDING_OPTIONS);
 
         this._callbackOut = callbackOut;
         this._unfocusable = false;
