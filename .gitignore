@@ -1,10 +1,5 @@
 .idea
 .build
-src.BAK
-test.BAK
-src.BAK1
-test/componentTests/
-test/mathTest/
 src/controlKit/style/_mixins.css
 src/controlKit/style/_presets.css
 src/controlKit/style/_images.css
