@@ -27,11 +27,20 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
+    if(params.dock)
+    {
+        params.dock.align     = params.dock.align     || ControlKit.Default.PANEL_DOCK.align;
+        params.dock.resizable = params.dock.resizable || ControlKit.Default.PANEL_DOCK.resizable;
+    }
+
+    /*---------------------------------------------------------------------------------*/
+
     var align      = this._align      = params.align,
         height     = this._height     = params.height ?  Math.max(0,Math.min(params.height,window.innerHeight)) : null,
         width      = this._width      = Math.max(ControlKit.Default.PANEL_WIDTH_MIN,
                                         Math.min(params.width,ControlKit.Default.PANEL_WIDTH_MAX)),
         fixed      = this._fixed      = params.fixed,
+        dock       = this._dock       = params.dock,
         label      = this._label      = params.label,
         position   = this._position   = params.position,
         opacity    =                    params.opacity;
@@ -50,12 +59,8 @@ ControlKit.Panel = function(controlKit,params)
         headNode  = this._headNode = new ControlKit.Node(ControlKit.NodeType.DIV),
         lablWrap  =                  new ControlKit.Node(ControlKit.NodeType.DIV),
         lablNode  =                  new ControlKit.Node(ControlKit.NodeType.SPAN),
-        menuNode  =                  new ControlKit.Node(ControlKit.NodeType.DIV),
         wrapNode  = this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV),
         listNode  = this._listNode = new ControlKit.Node(ControlKit.NodeType.LIST);
-
-    var menuClose =                  new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON),
-        menuHide  = this._menuHide = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -63,17 +68,13 @@ ControlKit.Panel = function(controlKit,params)
         headNode.setStyleClass(ControlKit.CSS.Head);
         lablWrap.setStyleClass(ControlKit.CSS.Wrap);
         lablNode.setStyleClass(ControlKit.CSS.Label);
-        menuNode.setStyleClass(ControlKit.CSS.Menu);
         wrapNode.setStyleClass(ControlKit.CSS.Wrap);
         listNode.setStyleClass(ControlKit.CSS.GroupList);
 
     /*---------------------------------------------------------------------------------*/
 
-        menuClose.setStyleClass(ControlKit.CSS.MenuBtnClose);
-        menuHide.setStyleClass( ControlKit.CSS.MenuBtnHide);
-
-        rootNode.setWidth(width);
-        lablNode.setProperty('innerHTML',label);
+    rootNode.setWidth(width);
+    lablNode.setProperty('innerHTML',label);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -81,15 +82,19 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    if(!fixed)
+    if(!fixed && !isDocked)
     {
         this._mouseOffset  = [0,0];
-        headNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,    this._onHeadDragStart.bind(this));
+        headNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadDragStart.bind(this));
     }
 
     if(opacity != 1.0 && opacity != 0.0){rootNode.setStyleProperty('opacity',opacity);}
 
     /*---------------------------------------------------------------------------------*/
+
+    var menuNode = new ControlKit.Node(ControlKit.NodeType.DIV);
+        menuNode.setStyleClass( ControlKit.CSS.Menu);
+
 
     if(!ControlKit.History.getInstance().isDisabled())
     {
@@ -104,8 +109,65 @@ ControlKit.Panel = function(controlKit,params)
             headNode.addEventListener(ControlKit.NodeEventType.MOUSE_OUT,  this._onHeadMouseOut.bind(this));
     }
 
-    menuNode.addChild(menuHide);
-    menuNode.addChild(menuClose);
+    var isDocked = this.isDocked();
+
+    if(!isDocked)
+    {
+        var menuClose = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON),
+            menuHide  = this._menuHide = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
+
+            menuClose.setStyleClass(ControlKit.CSS.MenuBtnClose);
+            menuHide.setStyleClass( ControlKit.CSS.MenuBtnHide);
+
+            menuNode.addChild(menuHide);
+            menuNode.addChild(menuClose);
+
+            menuHide.addEventListener( ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuHideMouseDown.bind(this));
+            menuClose.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this.disable.bind(this));
+    }
+    else
+    {
+        var windowWidth = window.innerWidth,
+            rootWidth   = rootNode.getWidth();
+
+        switch(dock.align)
+        {
+            case ControlKit.Layout.TOP:
+                break;
+
+            case ControlKit.Layout.RIGHT:
+
+                position[0] = windowWidth - rootWidth;
+                position[1] = 0;
+                this._height = window.innerHeight;
+                align = this._align = ControlKit.Layout.RIGHT;
+
+                break;
+
+            case ControlKit.Layout.BOTTOM:
+                break;
+
+            case ControlKit.Layout.LEFT:
+
+                position[0] = 0;
+                position[1] = 0;
+                this._height = window.innerHeight;
+                align = this._align = ControlKit.Layout.LEFT;
+
+                break;
+        }
+
+        /*
+        if(dock.resizable)
+        {
+            var sizeHandle = new ControlKit.Node(ControlKit.NodeType.DIV);
+                sizeHandle.setStyleClass(ControlKit.CSS.SizeHandle);
+            rootNode.addChildAt(sizeHandle,0);
+        }
+        */
+
+        rootNode.setPositionGlobal(position[0],position[1]);
+    }
 
     /*---------------------------------------------------------------------------------*/
 
@@ -118,21 +180,20 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
+    if(!isDocked)
+    {
+        this._setPosition(align == ControlKit.Layout.LEFT ? position[0] :
+                          window.innerWidth - (position[0] - width), position[1]);
 
-    if(align == 'left')this._setPosition(position[0],position[1]);
-    else               this._setPosition(window.innerWidth - (position[0] - width),position[1]);
-
-    if(this.hasMaxHeight()){this._addScrollWrap();}
+        if(this.hasMaxHeight()){this._addScrollWrap();}
+    }
 
     /*---------------------------------------------------------------------------------*/
 
-    menuHide.addEventListener( ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuHideMouseDown.bind(this));
-    menuClose.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this.disable.bind(this));
-
     this._parent.addEventListener(ControlKit.EventType.UPDATE_MENU,      this, 'onUpdateMenu');
-    this._parent.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,this, 'onInputSelectDrag');
+    this._parent.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,this, 'onComponentInputSelectDrag');
 
-    window.addEventListener('resize',this._onWindowResize.bind(this));
+    window.addEventListener(ControlKit.DocumentEventType.WINDOW_RESIZE,this._onWindowResize.bind(this));
 
 
 };
@@ -145,6 +206,7 @@ ControlKit.Panel.prototype.addGroup  = function(params)
 {
     var group = new ControlKit.Group(this,params);
     this._groups.push(group);
+    if(this.isDocked())this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_SIZE_CHANGE));
     return group;
 };
 
@@ -160,7 +222,8 @@ ControlKit.Panel.prototype._updateScrollWrap = function()
 {
     var wrapNode   = this._wrapNode,
         scrollBar  = this._scrollBar,
-        height     = this.hasMaxHeight() ? this.getMaxHeight() : 100,
+        height     = this.hasMaxHeight() ?
+                     this.getMaxHeight() : 100,
         listHeight = this._listNode.getHeight();
 
     wrapNode.setHeight(listHeight < height ? listHeight : height);
@@ -285,17 +348,39 @@ ControlKit.Panel.prototype._updatePosition = function()
         currPositionY = mousePos[1] - offsetPos[1];
 
     this._setPosition(currPositionX,currPositionY);
-
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE,null));
 };
 
 ControlKit.Panel.prototype._onWindowResize = function()
 {
-    var position = this._position;
-    this._setPosition(position[0],position[1]);
+    if(this.isDocked())
+    {
+        var dock = this._dock;
+
+        if(dock.align == ControlKit.Layout.RIGHT ||
+           dock.align == ControlKit.Layout.LEFT )
+        {
+            var windowHeight = window.innerHeight,
+                listHeight   = this._listNode.getHeight(),
+                headHeight   = this._headNode.getHeight();
+
+            this._height = windowHeight;
+            this._constrainHeight();
+
+            if((windowHeight - headHeight) > listHeight)this._scrollBar.disable();
+            else this._scrollBar.enable();
+
+            this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_SIZE_CHANGE));
+        }
+    }
+    else
+    {
+        var position = this._position;
+        this._setPosition(position[0],position[1]);
+    }
 };
 
-ControlKit.Panel.prototype.onInputSelectDrag = function()
+ControlKit.Panel.prototype.onComponentInputSelectDrag = function()
 {
     if(!this._hasScrollWrap())return;
     this._wrapNode.getElement().scrollTop = 0;
@@ -400,6 +485,8 @@ ControlKit.Panel.prototype.isDisabled = function(){return this._isDisabled;};
 
 ControlKit.Panel.prototype.hasMaxHeight  = function(){return this._height != null;};
 ControlKit.Panel.prototype.getMaxHeight  = function(){return this._height;};
+
+ControlKit.Panel.prototype.isDocked      = function(){return this._dock;};
 
 /*---------------------------------------------------------------------------------*/
 
