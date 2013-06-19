@@ -834,7 +834,12 @@ ControlKit.Picker.prototype =
 
     open  : function()
     {
-        this._parentNode.addChild(this._node);
+        var node = this._node;
+
+        this._parentNode.addChild(node);
+        node.setPositionGlobal(window.innerWidth  * 0.5 - node.getWidth()  * 0.5,
+                               window.innerHeight * 0.5 - node.getHeight() * 0.5);
+
         this._updateCanvasNodePositions();
     },
 
