@@ -33,7 +33,7 @@ ControlKit.Options.prototype =
         this._unfocusable = true;
     },
 
-    build : function(entries,selected,element,callbackSelect,callbackOut,paddingRight,entriesAreColors)
+    build : function(entries,selected,element,callbackSelect,callbackOut,paddingRight,areColors)
     {
         this._clearList();
 
@@ -50,7 +50,7 @@ ControlKit.Options.prototype =
         var itemNode,entry;
         var i = -1;
 
-        if(entriesAreColors)
+        if(areColors)
         {
             listNode.setStyleClass(ControlKit.CSS.Color);
 
@@ -105,26 +105,27 @@ ControlKit.Options.prototype =
             elementWidth  = element.getWidth() - paddingRight,
             elementHeight = element.getHeight();
 
-        var listWidth  = listNode.getWidth();
+        var listWidth    = listNode.getWidth(),
+            listHeight   = listNode.getHeight(),
+            strokeOffset = ControlKit.Metric.STROKE_SIZE * 2;
 
-        //hm FIXME
-        var strokeSize = ControlKit.Metric.STROKE_SIZE;
+        var paddingOptions = ControlKit.Metric.PADDING_OPTIONS;
 
-        listNode.setWidth( (listWidth < elementWidth ? elementWidth : listWidth) - strokeSize * 2);
-        rootNode.setPositionGlobal(elementPos[0],elementPos[1]+elementHeight-ControlKit.Metric.PADDING_OPTIONS);
+        var width   = (listWidth < elementWidth ? elementWidth : listWidth) -strokeOffset,
+            posX    = elementPos[0],
+            posY    = elementPos[1]+elementHeight-paddingOptions;
+
+        var windowWidth  = window.innerWidth,
+            windowHeight = window.innerHeight;
+
+        var rootPosX = (posX + width)      > windowWidth  ? (posX - width + elementWidth - strokeOffset)    : posX,
+            rootPosY = (posY + listHeight) > windowHeight ? (posY - listHeight * 0.5 - elementHeight * 0.5) : posY;
+
+        listNode.setWidth(width);
+        rootNode.setPositionGlobal(rootPosX,rootPosY);
 
         this._callbackOut = callbackOut;
         this._unfocusable = false;
-    },
-
-    _entriesAreColors : function(entries)
-    {
-        var regex = /^#[0-9A-F]{6}$/i;
-
-        var i = -1;
-        while(++i < entries.length){if(!regex.test(entries[i]))return false;}
-
-        return true;
     },
 
     _clearList : function()
