@@ -84,6 +84,7 @@ ControlKit.Group = function(parent,params)
     this._parent.addEventListener(ControlKit.EventType.PANEL_SHOW,                this, 'onPanelShow');
     this._parent.addEventListener(ControlKit.EventType.PANEL_SCROLL_WRAP_ADDED,   this, 'onPanelScrollWrapAdded');
     this._parent.addEventListener(ControlKit.EventType.PANEL_SCROLL_WRAP_REMOVED, this, 'onPanelScrollWrapRemoved');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_SIZE_CHANGE,         this, 'onPanelSizeChange');
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -101,6 +102,8 @@ ControlKit.Group.prototype.onPanelScrollWrapAdded   = function(){this.dispatchEv
 ControlKit.Group.prototype.onPanelScrollWrapRemoved = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE, null));};
 ControlKit.Group.prototype.onPanelHide              = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_DISABLE,  null));};
 ControlKit.Group.prototype.onPanelShow              = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_ENABLE,   null));};
+ControlKit.Group.prototype.onPanelSizeChange        = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE, null));};
+
 
 /*-------------------------------------------------------------------------------------*/
 
@@ -154,7 +157,7 @@ ControlKit.Group.prototype.addNumberInput     = function(object,value,params)   
 ControlKit.Group.prototype.addRange           = function(object,value,params)       {return this._addComponent(new ControlKit.Range(           this.getSubGroup(),object,value,params));};
 ControlKit.Group.prototype.addCheckbox        = function(object,value,params)       {return this._addComponent(new ControlKit.Checkbox(        this.getSubGroup(),object,value,params));};
 ControlKit.Group.prototype.addColor           = function(object,value,params)       {return this._addComponent(new ControlKit.Color(           this.getSubGroup(),object,value,params));};
-ControlKit.Group.prototype.addButton          = function(label,onPress)             {return this._addComponent(new ControlKit.Button(          this.getSubGroup(),label,onPress));};
+ControlKit.Group.prototype.addButton          = function(label,onPress,params)      {return this._addComponent(new ControlKit.Button(          this.getSubGroup(),label,onPress,params));};
 ControlKit.Group.prototype.addSelect          = function(object,value,target,params){return this._addComponent(new ControlKit.Select(          this.getSubGroup(),object,value,target,params));};
 ControlKit.Group.prototype.addSlider          = function(object,value,target,params){return this._addComponent(new ControlKit.Slider(          this.getSubGroup(),object,value,target,params));};
 
@@ -181,14 +184,10 @@ ControlKit.Group.prototype._addComponent = function(component)
 
 ControlKit.Group.prototype._updateHeight = function()
 {
-    var wrapNode = this._wrapNode;
-        wrapNode.setHeight(wrapNode.getFirstChild().getHeight());
-
     this.getSubGroup().update();
-
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE,null));
-
     if(this.hasMaxHeight())this._scrollBar.update();
+
 };
 
 /*----------------------------------------------------------collapsed---------------------*/
@@ -217,12 +216,11 @@ ControlKit.Group.prototype._updateAppearance = function()
         return;
     }
 
-    var maxHeight = this.getMaxHeight(),
-        listHeight;
-
-    if (maxHeight)
+    if (this.hasMaxHeight())
     {
-        listHeight = wrapNode.getChildAt(1).getHeight();
+        var maxHeight  = this.getMaxHeight(),
+            listHeight = wrapNode.getChildAt(1).getHeight();
+
         wrapNode.setHeight(listHeight < maxHeight ? listHeight : maxHeight);
 
         if (scrollBar.isValid())
@@ -233,8 +231,7 @@ ControlKit.Group.prototype._updateAppearance = function()
     }
     else
     {
-        listHeight = wrapNode.getFirstChild().getHeight();
-        wrapNode.setHeight(listHeight);
+        wrapNode.deleteStyleProperty('height');
     }
 
     if (inidNode)inidNode.setStyleClass(ControlKit.CSS.ArrowBMax);

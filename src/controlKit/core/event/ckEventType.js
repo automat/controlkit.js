@@ -44,5 +44,7 @@ ControlKit.EventType =
     GROUP_LIST_SIZE_CHANGE   : 'groupListSizeChange',
     GROUP_SIZE_UPDATE        : 'groupSizeUpdate',
 
+    PANEL_SIZE_CHANGE        : 'panelSizeChange',
+
     UPDATE_MENU            : 'updateMenu'
 };
