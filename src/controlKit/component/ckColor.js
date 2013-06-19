@@ -66,7 +66,7 @@ ControlKit.Color = function(parent,object,value,params)
             presetBtn.setCallbackInactive(onPresetDeactivate);
     }
 
-    color.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onColorTrigger.bind(this));
+    color.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onColorTrigger.bind(this));
 
     /*---------------------------------------------------------------------------------*/
 

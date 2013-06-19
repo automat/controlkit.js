@@ -69,7 +69,7 @@ ControlKit.Options.prototype =
 
                 if(entry == selected)itemNode.setStyleClass(ControlKit.CSS.OptionsSelected);
 
-                itemNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,
+                itemNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,
                     function()
                     {
                         self._selectedIndex = Array.prototype.indexOf.call(this.parentNode.children,this);
@@ -90,7 +90,7 @@ ControlKit.Options.prototype =
                 itemNode.setProperty('innerHTML',entry);
                 if(entry == selected)itemNode.setStyleClass(ControlKit.CSS.OptionsSelected);
 
-                itemNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,
+                itemNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,
                     function()
                     {
                         self._selectedIndex = Array.prototype.indexOf.call(this.parentNode.children,this);

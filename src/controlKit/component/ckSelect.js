@@ -28,7 +28,7 @@ ControlKit.Select = function(parent,object,value,target,params)
 
     var select  = this._select = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
     select.setStyleClass(ControlKit.CSS.Select);
-    select.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onSelectTrigger.bind(this));
+    select.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onSelectTrigger.bind(this));
 
     i = -1;
     while(++i < values.length){if(targetObj == values[i])this._selected = values[i];}

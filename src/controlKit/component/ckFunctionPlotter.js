@@ -52,8 +52,8 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
         wrapNode.addChild(sliderXWrap);
         wrapNode.addChild(sliderYWrap);
 
-        sliderXHandle.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onSliderXHandleDown.bind(this));
-        sliderYHandle.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onSliderYHandleDown.bind(this));
+        sliderXHandle.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onSliderXHandleDown.bind(this));
+        sliderYHandle.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onSliderYHandleDown.bind(this));
 
     /*---------------------------------------------------------------------------------*/
 

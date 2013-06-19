@@ -45,7 +45,7 @@ ControlKit.SubGroup = function(parent,params)
                 lablWrap.addChild(lablNode);
                 headNode.addChild(lablWrap);
 
-            headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
+            headNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
             rootNode.addChildAt(headNode,0);
 
             if(!params.enable)this.disable();

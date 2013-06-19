@@ -19,7 +19,7 @@ ControlKit.Output = function(parent,object,value,params)
         textArea.setProperty('readOnly',true);
         wrapNode.addChild(textArea);
 
-        textArea.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onInputDragStart.bind(this));
+        textArea.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onInputDragStart.bind(this));
         this.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,ControlKit.getKitInstance(),'onInputSelectDrag');
     /*---------------------------------------------------------------------------------*/
 

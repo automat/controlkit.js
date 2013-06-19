@@ -16,7 +16,7 @@ ControlKit.Checkbox = function(parent,object,value,params)
     var input = this._textArea = new ControlKit.Node(ControlKit.NodeType.INPUT_CHECKBOX);
 
     input.setProperty('checked',this._object[this._key]);
-    input.setEventListener(ControlKit.NodeEventType.CHANGE,this._onInputChange.bind(this));
+    input.addEventListener(ControlKit.NodeEventType.CHANGE,this._onInputChange.bind(this));
 
     this._wrapNode.addChild(this._textArea);
 };

@@ -21,9 +21,9 @@ ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onBegin,onCha
 
     /*---------------------------------------------------------------------------------*/
 
-    input.setEventListener(ControlKit.NodeEventType.KEY_DOWN, this._onInputKeyDown.bind(this));
-    input.setEventListener(ControlKit.NodeEventType.KEY_UP,   this._onInputKeyUp.bind(this));
-    input.setEventListener(ControlKit.NodeEventType.CHANGE,   this._onInputChange.bind(this));
+    input.addEventListener(ControlKit.NodeEventType.KEY_DOWN, this._onInputKeyDown.bind(this));
+    input.addEventListener(ControlKit.NodeEventType.KEY_UP,   this._onInputKeyUp.bind(this));
+    input.addEventListener(ControlKit.NodeEventType.CHANGE,   this._onInputChange.bind(this));
 };
 
 ControlKit.NumberInput_Internal.prototype = Object.create(ControlKit.EventDispatcher.prototype);

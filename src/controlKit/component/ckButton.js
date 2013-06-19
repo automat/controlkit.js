@@ -8,7 +8,7 @@ ControlKit.Button = function(parent,label,onPress)
 
     input.setStyleClass(ControlKit.CSS.Button);
     input.setProperty('value',label);
-    input.setEventListener(ControlKit.NodeEventType.ON_CLICK,
+    input.addEventListener(ControlKit.NodeEventType.ON_CLICK,
                            function()
                            {
                                onPress();

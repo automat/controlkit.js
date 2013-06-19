@@ -63,10 +63,10 @@ ControlKit.StringInput = function(parent,object,value,params)
 
     input.setProperty('value',this._object[this._key]);
 
-    input.setEventListener(ControlKit.NodeEventType.KEY_UP, this._onInputKeyUp.bind(this));
-    input.setEventListener(ControlKit.NodeEventType.CHANGE, this._onInputChange.bind(this));
+    input.addEventListener(ControlKit.NodeEventType.KEY_UP, this._onInputKeyUp.bind(this));
+    input.addEventListener(ControlKit.NodeEventType.CHANGE, this._onInputChange.bind(this));
 
-    input.setEventListener(ControlKit.EventType.MOUSE_DOWN, this._onInputDragStart.bind(this));
+    input.addEventListener(ControlKit.EventType.MOUSE_DOWN, this._onInputDragStart.bind(this));
     this.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,ControlKit.getKitInstance(),'onInputSelectDrag');
 
     /*---------------------------------------------------------------------------------*/

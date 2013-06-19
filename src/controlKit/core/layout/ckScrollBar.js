@@ -40,7 +40,7 @@ ControlKit.ScrollBar = function(parentNode,targetNode,wrapHeight)
 
 
     thumb.setPositionY(ControlKit.Metric.SCROLLBAR_TRACK_PADDING);
-    thumb.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onThumbDragStart.bind(this));
+    thumb.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onThumbDragStart.bind(this));
 
     this._isValid  = false;
     this._isDisabled = false;

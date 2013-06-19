@@ -84,7 +84,7 @@ ControlKit.Panel = function(controlKit,params)
     if(!fixed)
     {
         this._mouseOffset  = [0,0];
-        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,    this._onHeadDragStart.bind(this));
+        headNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,    this._onHeadDragStart.bind(this));
     }
 
     if(opacity != 1.0 && opacity != 0.0){rootNode.setStyleProperty('opacity',opacity);}
@@ -98,10 +98,10 @@ ControlKit.Panel = function(controlKit,params)
             menuUndo.setProperty('value',ControlKit.History.getInstance().getNumStates());
             menuNode.addChild(menuUndo);
             menuUndo.setStyleProperty('display','none');
-            menuUndo.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuUndoTrigger.bind(this));
+            menuUndo.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuUndoTrigger.bind(this));
 
-            headNode.setEventListener(ControlKit.NodeEventType.MOUSE_OVER, this._onHeadMouseOver.bind(this));
-            headNode.setEventListener(ControlKit.NodeEventType.MOUSE_OUT,  this._onHeadMouseOut.bind(this));
+            headNode.addEventListener(ControlKit.NodeEventType.MOUSE_OVER, this._onHeadMouseOver.bind(this));
+            headNode.addEventListener(ControlKit.NodeEventType.MOUSE_OUT,  this._onHeadMouseOut.bind(this));
     }
 
     menuNode.addChild(menuHide);
@@ -126,8 +126,8 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    menuHide.setEventListener( ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuHideMouseDown.bind(this));
-    menuClose.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this.disable.bind(this));
+    menuHide.addEventListener( ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuHideMouseDown.bind(this));
+    menuClose.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this.disable.bind(this));
 
     this._parent.addEventListener(ControlKit.EventType.UPDATE_MENU,      this, 'onUpdateMenu');
     this._parent.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,this, 'onInputSelectDrag');

@@ -125,7 +125,7 @@ ControlKit.Picker = function(parentNode)
 
         hexInputWrap.addChild(inputFieldWrapHEX);
 
-        inputHEX.setEventListener(ControlKit.NodeEventType.CHANGE,this._onInputHEXFinish.bind(this));
+        inputHEX.addEventListener(ControlKit.NodeEventType.CHANGE,this._onInputHEXFinish.bind(this));
 
     /*---------------------------------------------------------------------------------*/
 
@@ -154,19 +154,19 @@ ControlKit.Picker = function(parentNode)
     var eventMouseDown = ControlKit.NodeEventType.MOUSE_DOWN,
         callback       = this._onCanvasFieldMouseDown.bind(this);
 
-        fieldWrap.setEventListener(  eventMouseDown, callback);
-        handleField.setEventListener(eventMouseDown, callback);
+        fieldWrap.addEventListener(  eventMouseDown, callback);
+        handleField.addEventListener(eventMouseDown, callback);
 
         callback = this._onCanvasSliderMouseDown.bind(this);
 
-        sliderWrap.setEventListener(  eventMouseDown, callback);
-        handleSlider.setEventListener(eventMouseDown, callback);
+        sliderWrap.addEventListener(  eventMouseDown, callback);
+        handleSlider.addEventListener(eventMouseDown, callback);
 
-        menuClose.setEventListener(   eventMouseDown, this._onClose.bind(this));
-        buttonPick.setEventListener(  eventMouseDown, this._onPick.bind(this));
-        buttonCancel.setEventListener(eventMouseDown, this._onClose.bind(this));
+        menuClose.addEventListener(   eventMouseDown, this._onClose.bind(this));
+        buttonPick.addEventListener(  eventMouseDown, this._onPick.bind(this));
+        buttonCancel.addEventListener(eventMouseDown, this._onClose.bind(this));
 
-        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onHeadDragStart.bind(this));
+        headNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onHeadDragStart.bind(this));
 
     /*---------------------------------------------------------------------------------*/
 

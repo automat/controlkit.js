@@ -8,7 +8,7 @@ ControlKit.PresetBtn = function(parentNode)
     this._active   = false;
 
     btnNode.setStyleClass(ControlKit.CSS.PresetBtn);
-    btnNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMouseDown.bind(this));
+    btnNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMouseDown.bind(this));
 
     btnNode.addChild(indiNode);
     parentNode.addChild(btnNode);

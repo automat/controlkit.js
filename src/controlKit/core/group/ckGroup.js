@@ -47,7 +47,7 @@ ControlKit.Group = function(parent,params)
             lablWrap.addChild(lablNode);
             headNode.addChild(lablWrap);
 
-        headNode.setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadTrigger.bind(this));
+        headNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadTrigger.bind(this));
         this.addEventListener(ControlKit.EventType.GROUP_LIST_SIZE_CHANGE,this._parent,'onGroupListSizeChange');
 
         rootNode.addChild(headNode);

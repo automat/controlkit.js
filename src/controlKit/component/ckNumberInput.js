@@ -61,7 +61,7 @@ ControlKit.NumberInput = function(parent,object,value,params)
         presetBtn.setCallbackInactive(onPresetDeactivate)
     }
 
-    input.getNode().setEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onInputDragStart.bind(this));
+    input.getNode().addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onInputDragStart.bind(this));
     this.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,ControlKit.getKitInstance(),'onInputSelectDrag');
 
     input.setValue(this._object[this._key]);
