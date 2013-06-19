@@ -99,8 +99,6 @@
     background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 100%); }
 #controlKit .panel {
   position: absolute;
-  left: 0;
-  top: 0;
   z-index: 1;
   margin: 0;
   padding: 0;
@@ -120,7 +118,8 @@
   border-radius: 2px;
   -moz-border-radius: 2px;
   overflow: hidden;
-  opacity: 1.0; }
+  opacity: 1.0;
+  float: left; }
   #controlKit .panel textarea {
     padding: 5px 8px 2px 8px;
     overflow: hidden;
@@ -514,6 +513,10 @@
     width: 10px;
     height: 100%;
     float: right; }
+#controlKit .panel .sizeHandle {
+  float: left;
+  width: 10px;
+  height: 100px; }
 #controlKit .panel .label, #controlKit .picker .label {
   width: 100%;
   float: left;

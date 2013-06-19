@@ -109,5 +109,7 @@ ControlKit.CSS =
 
     /*-------------------------------------------------------------------------------------*/
 
-    Trigger : 'controlKitTrigger'
+    Trigger : 'controlKitTrigger',
+
+    SizeHandle : 'sizeHandle'
 };

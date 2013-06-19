@@ -16,8 +16,6 @@
 
 #controlKit {
 
-
-
   .panel input[type='text'],
   .panel textarea,
   .panel .color,
@@ -103,11 +101,11 @@
 
   }
 
+
+
   .panel {
 
     position: absolute;
-    left: 0;
-    top: 0;
     z-index: 1;
 
     margin: 0;
@@ -129,6 +127,8 @@
     overflow: hidden;
 
     opacity:1.0;
+
+    float: left;
 
     textarea {
       padding: $textareaPadding;
@@ -224,6 +224,8 @@
         }
       }
     }
+
+
 
     .wrap {
       width: auto;
@@ -679,6 +681,16 @@
       height: 100%;
       float: right;
     }
+
+
+  }
+
+  .panel .sizeHandle
+  {
+
+    float: left;
+    width: 10px;
+    height: 100px;
 
 
   }
