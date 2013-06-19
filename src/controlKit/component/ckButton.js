@@ -1,10 +1,13 @@
-ControlKit.Button = function(parent,label,onPress)
+ControlKit.Button = function(parent,label,onPress,params)
 {
-    ControlKit.Component.apply(this,[parent,label]);
+    params       = params       || {};
+    params.label = params.label || '';
+
+    ControlKit.Component.apply(this,[parent,params.label]);
 
     var input = this._textArea = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
 
-    onPress = onPress  || function(){};
+    onPress = onPress || function(){};
 
     input.setStyleClass(ControlKit.CSS.Button);
     input.setProperty('value',label);
