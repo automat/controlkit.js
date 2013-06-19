@@ -18,5 +18,7 @@ ControlKit.NodeEventType =
 
     DRAG_ENTER   : 'dragenter',
     DRAG_OVER    : 'dragover',
-    DRAG_LEAVE   : 'dragleave'
+    DRAG_LEAVE   : 'dragleave',
+
+    RESIZE       : 'resize'
 };
