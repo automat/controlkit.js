@@ -57,15 +57,15 @@ ControlKit.Range = function(parent,object,value,params)
 
     var wrapNode = this._wrapNode;
 
-    wrapLablMin.addChild(lablMinNode);
-    wrapInputMin.addChild(inputMin.getNode());
-    wrapLablMax.addChild(lablMaxNode);
-    wrapInputMax.addChild(inputMax.getNode());
+        wrapLablMin.addChild(lablMinNode);
+        wrapInputMin.addChild(inputMin.getNode());
+        wrapLablMax.addChild(lablMaxNode);
+        wrapInputMax.addChild(inputMax.getNode());
 
-    wrapNode.addChild(wrapLablMin);
-    wrapNode.addChild(wrapInputMin);
-    wrapNode.addChild(wrapLablMax);
-    wrapNode.addChild(wrapInputMax);
+        wrapNode.addChild(wrapLablMin);
+        wrapNode.addChild(wrapInputMin);
+        wrapNode.addChild(wrapLablMax);
+        wrapNode.addChild(wrapInputMax);
 };
 
 ControlKit.Range.prototype = Object.create(ControlKit.ObjectComponent.prototype);

@@ -1,16 +1,16 @@
-ControlKit.Slider = function(parent,object,value,target,params)
+ControlKit.Slider = function(parent,object,value,range,params)
 {
     /*---------------------------------------------------------------------------------*/
 
     params          = params          || {};
-    params.label    = params.label    || target;
+    params.label    = params.label    || value;
 
     /*---------------------------------------------------------------------------------*/
 
-    ControlKit.ObjectComponent.apply(this,[parent,object,value,params]);
+    ControlKit.ObjectComponent.apply(this,[parent,object,range,params]);
 
     this._values  = this._object[this._key];
-    this._targetKey = target;
+    this._targetKey = value;
 
     /*---------------------------------------------------------------------------------*/
 

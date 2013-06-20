@@ -89,9 +89,13 @@ ControlKit.Slider_Internal.prototype =
         this._interpolateValue();
     },
 
+    //FIXME
     _updateHandle : function()
     {
-        this._handle.node.setWidth(Math.round(this._intrpl*this._slot.width));
+        var slotWidth   = this._slot.width,
+            handleWidth = Math.round(this._intrpl * slotWidth);
+
+        this._handle.node.setWidth(Math.min(handleWidth,slotWidth));
     },
 
     _interpolateValue : function()
