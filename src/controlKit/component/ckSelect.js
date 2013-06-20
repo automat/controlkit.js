@@ -1,10 +1,10 @@
-ControlKit.Select = function(parent,object,value,target,params)
+ControlKit.Select = function(parent,object,value,params)
 {
-    ControlKit.ObjectComponent.apply(this,[parent,object,value,params]);
+    ControlKit.ObjectComponent.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
-    params = params || {};
+    params          = params || {};
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
 
@@ -16,25 +16,28 @@ ControlKit.Select = function(parent,object,value,target,params)
     var obj    = this._object,
         key    = this._key;
 
-    var targetKey = this._targetKey = target,
-        values    = this._values = obj[key],
-        targetObj = obj[targetKey] || '';
-
-    var wrapNode = this._wrapNode;
+    var targetKey = this._targetKey = params.target,
+        values    = this._values = obj[key];
 
     /*---------------------------------------------------------------------------------*/
 
     this._selected  = null;
 
     var select  = this._select = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
-    select.setStyleClass(ControlKit.CSS.Select);
-    select.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onSelectTrigger.bind(this));
+        select.setStyleClass(ControlKit.CSS.Select);
+        select.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onSelectTrigger.bind(this));
 
-    i = -1;
-    while(++i < values.length){if(targetObj == values[i])this._selected = values[i];}
-    select.setProperty('value',targetObj.toString().length > 0 ? targetObj : values[0]);
+    if(this._hasTarget())
+    {
+        var targetObj = obj[targetKey] || '';
 
-    wrapNode.addChild(select);
+        var i = -1;
+        while(++i < values.length){if(targetObj == values[i])this._selected = values[i];}
+        select.setProperty('value',targetObj.toString().length > 0 ? targetObj : values[0]);
+    }
+    else{ select.setProperty('value',params.selected || 'Choose ...'); }
+
+    this._wrapNode.addChild(select);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -45,8 +48,6 @@ ControlKit.Select = function(parent,object,value,target,params)
 };
 
 ControlKit.Select.prototype = Object.create(ControlKit.ObjectComponent.prototype);
-
-
 
 ControlKit.Select.prototype.onSelectTrigger = function (e)
 {
@@ -96,17 +97,27 @@ ControlKit.Select.prototype._buildOptions = function()
 
 ControlKit.Select.prototype.applyValue = function()
 {
-    this.pushHistoryState();
+    var index    = ControlKit.Options.getInstance().getSelectedIndex(),
+        selected = this._selected = this._values[index];
 
-    var selectedIndex = ControlKit.Options.getInstance().getSelectedIndex(),
-        selected = this._selected = this._object[this._targetKey] = this._values[selectedIndex];
+    if(this._hasTarget())
+    {
+        this.pushHistoryState();
+        this._object[this._targetKey] = selected;
+
+    }
 
     this._select.setProperty('value',selected);
-
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
 };
 
-ControlKit.Select.prototype.pushHistoryState = function(){var obj = this._object,key = this._targetKey;ControlKit.History.getInstance().pushState(obj,key,obj[key]);};
+ControlKit.Select.prototype.pushHistoryState = function()
+{
+    var obj = this._object,
+        key = this._targetKey;
+
+    ControlKit.History.getInstance().pushState(obj,key,obj[key]);
+};
 
 ControlKit.Select.prototype._onSelectTrigger = function()
 {
@@ -120,6 +131,9 @@ ControlKit.Select.prototype._updateAppearance = function()
 
 ControlKit.Select.prototype.onValueUpdate = function(e)
 {
+    if(!this._hasTarget())return;
     this._selected = this._object[this._targetKey];
-    this._select.setProperty('value',this._selected);
+    this._select.setProperty('value',this._selected.toString());
 };
+
+ControlKit.Select.prototype._hasTarget = function(){return this._targetKey != null;}

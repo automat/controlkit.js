@@ -158,7 +158,7 @@ ControlKit.Group.prototype.addRange           = function(object,value,params)   
 ControlKit.Group.prototype.addCheckbox        = function(object,value,params)       {return this._addComponent(new ControlKit.Checkbox(        this.getSubGroup(),object,value,params));};
 ControlKit.Group.prototype.addColor           = function(object,value,params)       {return this._addComponent(new ControlKit.Color(           this.getSubGroup(),object,value,params));};
 ControlKit.Group.prototype.addButton          = function(label,onPress,params)      {return this._addComponent(new ControlKit.Button(          this.getSubGroup(),label,onPress,params));};
-ControlKit.Group.prototype.addSelect          = function(object,value,target,params){return this._addComponent(new ControlKit.Select(          this.getSubGroup(),object,value,target,params));};
+ControlKit.Group.prototype.addSelect          = function(object,value,params)       {return this._addComponent(new ControlKit.Select(          this.getSubGroup(),object,value,params));};
 ControlKit.Group.prototype.addSlider          = function(object,value,target,params){return this._addComponent(new ControlKit.Slider(          this.getSubGroup(),object,value,target,params));};
 
 ControlKit.Group.prototype.addFunctionPlotter = function(object,value,params)       {return this._addComponent(new ControlKit.FunctionPlotter( this.getSubGroup(),object,value,params));};
