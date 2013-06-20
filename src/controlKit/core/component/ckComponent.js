@@ -4,6 +4,10 @@ ControlKit.Component = function(parent,label)
 
     /*---------------------------------------------------------------------------------*/
 
+    label = parent.usesLabels() ? label : 'none';
+
+    /*---------------------------------------------------------------------------------*/
+
     this._parent   = parent;
     this._isDisabled = false;
 
@@ -14,6 +18,7 @@ ControlKit.Component = function(parent,label)
 
         wrapNode.setStyleClass(ControlKit.CSS.Wrap);
         rootNode.addChild(wrapNode);
+
 
     if(label)
     {

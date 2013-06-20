@@ -4,10 +4,11 @@ ControlKit.SubGroup = function(parent,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    params            = params        || {};
-    params.label      = params.label  || null;
-    params.enable     = params.enable === undefined ? true : params.enable;
+    params            = params          || {};
+    params.label      = params.label    || null;
+    params.enable     = params.enable     === undefined ? true : params.enable;
     params.expandable = params.expandable === undefined ? true : params.expandable;
+    params.useLabels  = params.useLabels  === undefined ? true : params.useLabels;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -20,6 +21,8 @@ ControlKit.SubGroup = function(parent,params)
 
         wrapNode.addChild(listNode);
         rootNode.addChild(wrapNode);
+
+    this._useLabels = params.useLabels;
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -134,6 +137,7 @@ ControlKit.SubGroup.prototype.onPanelSizeChange = function(){this._updateAppeara
 
 ControlKit.SubGroup.prototype.hasLabel         = function()    {return this._headNode != null;};
 ControlKit.SubGroup.prototype.addComponentNode = function(node){this._listNode.addChild(node);};
+ControlKit.SubGroup.prototype.usesLabels       = function()    {return this._useLabels;};
 
 
 
