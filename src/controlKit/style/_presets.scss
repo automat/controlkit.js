@@ -163,14 +163,15 @@ $scrollBufferBorderBottom: 1px solid #1e2224;
  * Group & subGroup
  *-------------------------------------------------------------------------------------*/
 
-$groupHeadHeight:       40px;
+$groupHeadHeight:       38px;
 $groupHeadBorderTop:    1px solid #566166;
 $groupHeadBorderBottom: 1px solid #1a1d1f;
-$groupHeadPadding:      0 20px 0 20px;
+$groupHeadPadding:      0 20px 0 15px;
 $groupHeadGradient:     #3c4a4f 0%,#383f47 100%;
 $groupHeadHoverGradient: #3c4a4f 0%,#3c4a4f 100%;
-$groupHeadLabelFontSize:13px;
+$groupHeadLabelFontSize:12px;
 $groupHeadLabelFontColor:#fff;
+
 
 $subGroupListPadding:     10px;
 $subGroupListBorderTop:   1px solid #3b4447;

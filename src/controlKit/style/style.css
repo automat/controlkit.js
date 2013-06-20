@@ -126,6 +126,8 @@
     resize: none;
     vertical-align: top;
     white-space: nowrap; }
+  #controlKit .panel input[type='checkbox'] {
+    margin: 5px 0 0 0; }
   #controlKit .panel .select, #controlKit .panel .selectActive {
     padding-left: 10px;
     padding-right: 20px;
@@ -326,16 +328,16 @@
     padding: 0;
     list-style: none; }
   #controlKit .panel .groupList .group .head {
-    height: 40px;
+    height: 38px;
     border-top: 1px solid #566166;
     border-bottom: 1px solid #1a1d1f;
-    padding: 0 20px 0 20px;
+    padding: 0 20px 0 15px;
     background-image: -o-linear-gradient(#3c4a4f 0%, #383f47 100%);
     background-image: linear-gradient(#3c4a4f 0%, #383f47 100%);
     cursor: pointer; }
     #controlKit .panel .groupList .group .head .label {
-      font-size: 13px;
-      line-height: 40px;
+      font-size: 12px;
+      line-height: 38px;
       color: white; }
     #controlKit .panel .groupList .group .head:hover {
       background-image: -o-linear-gradient(#3c4a4f 0%, #3c4a4f 100%);
