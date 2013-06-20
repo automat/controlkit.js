@@ -11,7 +11,7 @@ ControlKit.PresetBtn = function(parentNode)
     btnNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMouseDown.bind(this));
 
     btnNode.addChild(indiNode);
-    parentNode.addChild(btnNode);
+    parentNode.addChildAt(btnNode,0);
 
 };
 

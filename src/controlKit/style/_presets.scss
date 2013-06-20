@@ -124,7 +124,7 @@ $buttonPresetGradient: rgb(58, 70, 75) 0%,
                        rgb(44, 52, 55) 100%;
 
 $buttonPresetWidth:      20px;
-$buttonPresetHeight:     22px;
+$buttonPresetHeight:     $inputHeight;
 $buttonPresetBoxShadow:  0 1px 0 0 $buttonBevelTopColor inset;
 $buttonPresetBorderLeft: 1px solid #0f1112;
 

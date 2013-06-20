@@ -173,11 +173,12 @@
       @include box-sizing(border-box);
 
       position: absolute;
-      right: 1px;
+
+      right: 0;
 
       width : $buttonPresetWidth;
       height: $buttonPresetHeight;
-      margin: 1px 0 0 0;
+      margin: 0 0 0 0;
 
       cursor: pointer;
 
@@ -188,7 +189,14 @@
       border-bottom-right-radius: $buttonBorderRadius;
       border-left: $buttonPresetBorderLeft;
 
-      @include box-shadow($buttonPresetBoxShadow);
+      //@include box-shadow($buttonPresetBoxShadow);
+
+      border: none;
+
+      @include box-shadow($buttonBoxShadow);
+      border-bottom: $compBorderBottom;
+
+
     }
 
     .presetBtnActive, .presetBtn:hover {
@@ -196,6 +204,7 @@
     }
     .presetBtn {
       @include linear-gradient-with-image(#{$buttonPresetGradient}, $imageBtnPreset 50% 50% no-repeat);
+
     }
 
     .scrollBar {
@@ -252,6 +261,7 @@
       padding-right: 25px;
       border-top-right-radius: 2px;
       border-bottom-right-radius: 2px;
+      float: left;
     }
 
     .textAreaWrap {
