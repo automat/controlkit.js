@@ -1,4 +1,4 @@
-ControlKit.Layout =
+ControlKit.LayoutMode =
 {
     LEFT   : 'left',
     RIGHT  : 'right',
