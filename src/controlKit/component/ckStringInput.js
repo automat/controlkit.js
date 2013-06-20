@@ -57,8 +57,8 @@ ControlKit.StringInput = function(parent,object,value,params)
                           false);
         };
 
-        presetBtn.setCallbackActive(onPresetActivate);
-        presetBtn.setCallbackInactive(onPresetDeactivate)
+        presetBtn.setOnActive(onPresetActivate);
+        presetBtn.setOnDeactive(onPresetDeactivate)
     }
 
     input.setProperty('value',this._object[this._key]);

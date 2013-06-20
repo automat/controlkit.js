@@ -3,9 +3,9 @@ ControlKit.PresetBtn = function(parentNode)
     var btnNode  = this._btnNode  = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
     var indiNode = this._indiNode = new ControlKit.Node(ControlKit.NodeType.DIV);
 
-    this._callbackA = function(){};
-    this._callbackI = function(){};
-    this._active   = false;
+    this._onActive = function(){};
+    this._onDeactive = function(){};
+    this._isActive   = false;
 
     btnNode.setStyleClass(ControlKit.CSS.PresetBtn);
     btnNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMouseDown.bind(this));
@@ -19,22 +19,22 @@ ControlKit.PresetBtn.prototype =
 {
     _onMouseDown : function()
     {
-        var active = this._active = !this._active;
+        var isActive = this._isActive = !this._isActive;
 
-        if(active)
+        if(isActive)
         {
             this._btnNode.setStyleClass(ControlKit.CSS.PresetBtnActive);
-            this._callbackA();
+            this._onActive();
         }
         else
         {
             this._btnNode.setStyleClass(ControlKit.CSS.PresetBtn);
-            this._callbackI();
+            this._onDeactive();
         }
     },
 
-    setCallbackActive   : function(func){this._callbackA = func;},
-    setCallbackInactive : function(func){this._callbackI = func;},
+    setOnActive   : function(func){this._onActive = func;},
+    setOnDeactive : function(func){this._onDeactive = func;},
 
     deactivate : function(){this._active = false;this._btnNode.setStyleClass(ControlKit.CSS.PresetBtn);}
 };

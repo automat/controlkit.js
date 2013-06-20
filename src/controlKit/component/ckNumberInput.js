@@ -57,8 +57,8 @@ ControlKit.NumberInput = function(parent,object,value,params)
                           false);
         };
 
-        presetBtn.setCallbackActive(onPresetActivate);
-        presetBtn.setCallbackInactive(onPresetDeactivate)
+        presetBtn.setOnActive(onPresetActivate);
+        presetBtn.setOnDeactive(onPresetDeactivate)
     }
 
     input.getNode().addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onInputDragStart.bind(this));

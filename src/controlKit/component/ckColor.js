@@ -74,8 +74,8 @@ ControlKit.Color = function(parent,object,value,params)
                                       colorMode);
                                   };
 
-            presetBtn.setCallbackActive(onPresetActivate);
-            presetBtn.setCallbackInactive(onPresetDeactivate);
+            presetBtn.setOnActive(onPresetActivate);
+            presetBtn.setOnDeactive(onPresetDeactivate);
     }
 
     color.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onColorTrigger.bind(this));
