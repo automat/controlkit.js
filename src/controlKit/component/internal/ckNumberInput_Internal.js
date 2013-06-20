@@ -14,6 +14,9 @@ ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onBegin,onCha
     this._onChange     = onChange || function(){};
     this._onFinish     = onFinish || function(){};
 
+
+    this._prevKeyCode = null;
+
     /*---------------------------------------------------------------------------------*/
 
     var input = this._input = new ControlKit.Node(ControlKit.NodeType.INPUT_TEXT);
@@ -51,10 +54,18 @@ ControlKit.NumberInput_Internal.prototype._onInputKeyUp = function(e)
 {
     var keyCode = e.keyCode;
 
+
     if( e.shiftKey    || keyCode == 38  ||
         keyCode == 40 || keyCode == 190 ||
         keyCode == 8  || keyCode == 39  ||
-        keyCode == 37)   return;
+        keyCode == 37 || keyCode == 189)
+    {
+        this._prevKeyCode = keyCode;
+        return;
+    }
+
+    if(this._prevKeyCode == 189 && keyCode == 48){return;} //-0
+    if(this._prevKeyCode == 190 && keyCode == 48){return;} //0.0
 
     this._validate();
     this._format();
@@ -84,6 +95,7 @@ ControlKit.NumberInput_Internal.prototype.inputIsNumber = function()
 {
     var value = this._getInput();
 
+
     //TODO:FIX
     if(value == '-' || value == '0')return true;
     return /^\s*-?[0-9]\d*(\.\d{1,1000000})?\s*$/.test(value);
@@ -94,7 +106,15 @@ ControlKit.NumberInput_Internal.prototype._format = function()
     var string = this._value.toString(),
         index  = string.indexOf('.');
 
-    if(index>0)string = string.slice(0,index+this._valueDPlace);
+
+
+    if(index > 0)
+    {
+
+        string = string.slice(0,index + this._valueDPlace);
+
+
+    }
 
     this._setOutput(string);
 };
