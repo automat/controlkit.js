@@ -132,27 +132,27 @@ ControlKit.Panel = function(controlKit,params)
 
         switch(dock.align)
         {
-            case ControlKit.Layout.TOP:
+            case ControlKit.LayoutMode.TOP:
                 break;
 
-            case ControlKit.Layout.RIGHT:
+            case ControlKit.LayoutMode.RIGHT:
 
                 position[0] = windowWidth - rootWidth;
                 position[1] = 0;
                 this._height = window.innerHeight;
-                align = this._align = ControlKit.Layout.RIGHT;
+                align = this._align = ControlKit.LayoutMode.RIGHT;
 
                 break;
 
-            case ControlKit.Layout.BOTTOM:
+            case ControlKit.LayoutMode.BOTTOM:
                 break;
 
-            case ControlKit.Layout.LEFT:
+            case ControlKit.LayoutMode.LEFT:
 
                 position[0] = 0;
                 position[1] = 0;
                 this._height = window.innerHeight;
-                align = this._align = ControlKit.Layout.LEFT;
+                align = this._align = ControlKit.LayoutMode.LEFT;
 
                 break;
         }
@@ -182,7 +182,7 @@ ControlKit.Panel = function(controlKit,params)
 
     if(!isDocked)
     {
-        this._setPosition(align == ControlKit.Layout.LEFT ? position[0] :
+        this._setPosition(align == ControlKit.LayoutMode.LEFT ? position[0] :
                           window.innerWidth - (position[0] - width), position[1]);
 
         if(this.hasMaxHeight()){this._addScrollWrap();}
@@ -357,8 +357,8 @@ ControlKit.Panel.prototype._onWindowResize = function()
     {
         var dock = this._dock;
 
-        if(dock.align == ControlKit.Layout.RIGHT ||
-           dock.align == ControlKit.Layout.LEFT )
+        if(dock.align == ControlKit.LayoutMode.RIGHT ||
+           dock.align == ControlKit.LayoutMode.LEFT )
         {
             var windowHeight = window.innerHeight,
                 listHeight   = this._listNode.getHeight(),
