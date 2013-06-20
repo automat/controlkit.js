@@ -74,7 +74,9 @@ ControlKit.Select.prototype._buildOptions = function()
                           this.applyValue();
                           this._active = false;
                           this._updateAppearance();
+                          this._onChange(options.getSelectedIndex());
                           options.clear();
+
 
                       }.bind(this);
 
@@ -119,5 +121,5 @@ ControlKit.Select.prototype._updateAppearance = function()
 ControlKit.Select.prototype.onValueUpdate = function(e)
 {
     this._selected = this._object[this._targetKey];
-    this._select.setProperty('value',this._selected.toString());
+    this._select.setProperty('value',this._selected);
 };
