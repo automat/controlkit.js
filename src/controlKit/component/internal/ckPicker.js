@@ -384,7 +384,7 @@ ControlKit.Picker.prototype =
         var input = this._inputHEX,
             value = input.getProperty('value');
 
-        if(!this._isValidHEX(value))
+        if(!ControlKit.ColorUtil.isValidHEX(value))
         {
             input.setProperty('value',this._valueHEXValid);
             return;
@@ -480,32 +480,30 @@ ControlKit.Picker.prototype =
 
     _updateColorHSVFromRGB : function()
     {
-        var hsv = this._RGB2HSV(this._valueR,this._valueG,this._valueB);
+        var hsv = ControlKit.ColorUtil.RGB2HSV(this._valueR,this._valueG,this._valueB);
         this._setColorHSV(hsv[0],hsv[1],hsv[2]);
     },
 
     _updateColorRGBFromHSV : function()
     {
-        var rgb = this._HSV2RGB(this._valueHue,this._valueSat,this._valueVal);
+        var rgb = ControlKit.ColorUtil.HSV2RGB(this._valueHue,this._valueSat,this._valueVal);
         this._setColorRGB(rgb[0],rgb[1],rgb[2]);
     },
 
     _updateColorHEXFromRGB : function()
     {
-        var hex = this._RGB2HEX(this._valueR, this._valueG, this._valueB);
+        var hex = ControlKit.ColorUtil.RGB2HEX(this._valueR, this._valueG, this._valueB);
         this._setColorHEX(hex);
     },
 
     _updateColorFromHEX : function()
     {
-        var rgb = this._HEX2RGB(this._valueHEX);
+        var rgb = ControlKit.ColorUtil.HEX2RGB(this._valueHEX);
 
         this._setColorRGB(rgb[0],rgb[1],rgb[2]);
         this._updateColorHSVFromRGB();
         this._updateHandles();
     },
-
-
 
     /*---------------------------------------------------------------------------------*/
 
@@ -514,113 +512,6 @@ ControlKit.Picker.prototype =
 
     _setContrastCurrColor  : function(r,g,b){this._colorCurrNode.setStyleProperty('background','rgb('+r+','+g+','+b+')')},
     _setContrasPrevColor   : function(r,g,b){this._colorPrevNode.setStyleProperty('background','rgb('+r+','+g+','+b+')')},
-
-    /*---------------------------------------------------------------------------------*/
-
-    _HSV2RGB : function(hue,sat,val)
-    {
-        var hueMinMax = this._valueHueMinMax,
-            satMinMax = this._valueSatMinMax,
-            valMinMax = this._valueValMinMax;
-
-        var max_hue = hueMinMax[1],
-            max_sat = satMinMax[1],
-            max_val = valMinMax[1];
-
-        var min_hue = hueMinMax[0],
-            min_sat = satMinMax[0],
-            min_val = valMinMax[0];
-
-        hue = hue % max_hue;
-        val = Math.max(min_val,Math.min(val,max_val))/max_val * 255.0;
-
-        if(sat <= min_sat)
-        {
-            val = Math.round(val);
-            return[val,val,val];
-        }
-        else if(sat > max_sat)sat = max_sat;
-
-        sat = sat/max_sat;
-
-        //http://d.hatena.ne.jp/ja9/20100903/128350434
-
-        var hi = Math.floor(hue/60.0)% 6,
-            f  = (hue/60.0) - hi,
-            p  = val * (1 - sat),
-            q  = val * (1 - f * sat),
-            t  = val * (1 - (1 - f) * sat);
-
-        var r = 0,
-            g = 0,
-            b = 0;
-
-        switch(hi)
-        {
-            case 0: r = val; g = t; b = p;break;
-            case 1: r = q; g = val; b = p;break;
-            case 2: r = p; g = val; b = t;break;
-            case 3: r = p; g = q; b = val;break;
-            case 4: r = t; g = p; b = val;break;
-            case 5: r = val; g = p; b = q;break;
-            default: break;
-        }
-
-        r = Math.round(r);
-        g = Math.round(g);
-        b = Math.round(b);
-
-        return [r,g,b];
-
-    },
-
-    _RGB2HSV: function (r, g, b)
-    {
-        var h = 0,
-            s = 0,
-            v = 0;
-
-        r = r / 255.0;
-        g = g / 255.0;
-        b = b / 255.0;
-
-        var minRGB = Math.min(r, Math.min(g, b)),
-            maxRGB = Math.max(r, Math.max(g, b));
-
-        if (minRGB == maxRGB) { v = minRGB;return [0, 0, Math.round(v)];}
-
-        var dd = (r == minRGB) ? g - b : ((b == minRGB) ? r - g : b - r),
-            hh = (r == minRGB) ? 3 : ((b == minRGB) ? 1 : 5);
-
-        h = Math.round(60 * (hh - dd / (maxRGB - minRGB)));
-        s = Math.round((maxRGB - minRGB) / maxRGB * 100.0);
-        v = Math.round( maxRGB * 100.0);
-
-        return [h, s, v];
-    },
-
-    _isValidHEX : function(hex)
-    {
-        return /^#[0-9A-F]{6}$/i.test(hex);
-    },
-
-    //http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
-
-    _RGB2HEX : function(r,g,b)
-    {
-        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-    },
-
-    _HEX2RGB : function(hex)
-    {
-        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-            return r + r + g + g + b + b;
-        });
-
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? [parseInt(result[1], 16),parseInt(result[2], 16),parseInt(result[3], 16)] : null;
-    },
 
     /*---------------------------------------------------------------------------------*/
 
@@ -709,7 +600,7 @@ ControlKit.Picker.prototype =
 
             while(++j < width)
             {
-                rgb   = this._HSV2RGB(valueHue, j * invWidth * 100.0,( 1.0 - i * invHeight ) * 100.0);
+                rgb   = ControlKit.ColorUtil.HSV2RGB(valueHue, j * invWidth * 100.0,( 1.0 - i * invHeight ) * 100.0);
                 index = (i * width + j) * 4;
 
                 imageData.data[index  ] = rgb[0];
@@ -744,7 +635,7 @@ ControlKit.Picker.prototype =
 
             while(++j < width)
             {
-                rgb   = this._HSV2RGB( (1.0 - i * invHeight) * 360.0,100.0,100.0);
+                rgb   = ControlKit.ColorUtil.HSV2RGB( (1.0 - i * invHeight) * 360.0,100.0,100.0);
                 index = (i * width + j) * 4;
 
                 imageData.data[index  ] = rgb[0];
@@ -883,29 +774,55 @@ ControlKit.Picker.prototype =
     {
         this._setColorHEX(hex);
         this._updateColorFromHEX();
-
-        this._drawCanvasField();
-
-        this._updateHandles();
-
-        var rgb = this._HEX2RGB(hex);
-        this._setContrasPrevColor(rgb[0],rgb[1],rgb[2]);
+        this._setColor();
     },
 
     //TODO ADD
-    setColorRGB : function(r,g,b){},
-    setColorHSV : function(h,s,v){},
+    setColorRGB   : function(r,g,b)
+    {
+        this._setColorRGB(r,g,b);
+        this._updateColorHEXFromRGB();
+        this._updateColorHSVFromRGB();
+        this._setColor();
+    },
+
+    setColorRGBfv : function(r,g,b)
+    {
+        this._setColorRGB(Math.floor(r * 255.0),
+                          Math.floor(g * 255.0),
+                          Math.floor(b * 255.0));
+    },
+
+    setColorHSV   : function(h,s,v)
+    {
+        this._setColorHSV(h,s,v);
+        this._updateColorRGBFromHSV();
+        this._updateColorHEXFromRGB();
+        this._setColor();
+    },
+
+    _setColor : function()
+    {
+        this._drawCanvasField();
+        this._drawCanvasSlider();
+
+        this._updateHandles();
+
+        //var rgb = ControlKit.ColorUtil.HEX2RGB(hex);
+        this._setContrasPrevColor(this._valueR,this._valueG,this._valueB);
+    },
 
 
-    getR    : function(){return this._valueR;},
-    getG    : function(){return this._valueG;},
-    getB    : function(){return this._valueB;},
-    getRGB  : function(){return [this._valueR,this._valueG,this._valueB];},
-    getHue  : function(){return this._valueHue;},
-    getSat  : function(){return this._valueSat;},
-    getVal  : function(){return this._valueVal;},
-    getHSV  : function(){return [this._valueHue,this._valueSat,this._valueVal];},
-    getHEX  : function(){return this._valueHEX;},
+    getR     : function(){return this._valueR;},
+    getG     : function(){return this._valueG;},
+    getB     : function(){return this._valueB;},
+    getRGB   : function(){return [this._valueR,this._valueG,this._valueB];},
+    getHue   : function(){return this._valueHue;},
+    getSat   : function(){return this._valueSat;},
+    getVal   : function(){return this._valueVal;},
+    getHSV   : function(){return [this._valueHue,this._valueSat,this._valueVal];},
+    getHEX   : function(){return this._valueHEX;},
+    getRGBfv : function(){return [this._valueR / 255.0,this._valueG / 255.0,this._valueB / 255.0];},
 
     getNode : function(){return this._node;}
 

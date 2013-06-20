@@ -33,7 +33,7 @@ ControlKit.Options.prototype =
         this._unfocusable = true;
     },
 
-    build : function(entries,selected,element,callbackSelect,callbackOut,paddingRight,areColors)
+    build : function(entries,selected,element,callbackSelect,callbackOut,paddingRight,areColors,colorMode)
     {
         this._clearList();
 
@@ -52,18 +52,27 @@ ControlKit.Options.prototype =
 
         if(areColors)
         {
+            colorMode = colorMode || ControlKit.ColorMode.HEX;
+
             listNode.setStyleClass(ControlKit.CSS.Color);
 
-            var color;
+            var color,nodeColor;
 
             while(++i < entries.length)
             {
-                entry = entries[i];
-
+                entry    = entries[i];
                 itemNode = listNode.addChild(new ControlKit.Node(ControlKit.NodeType.LIST_ITEM));
-
                 color    = itemNode.addChild(new ControlKit.Node(ControlKit.NodeType.DIV));
-                color.getStyle().backgroundColor = entry;
+
+                switch(colorMode)
+                {
+                    case ControlKit.ColorMode.HEX:   nodeColor = entry; break;
+                    case ControlKit.ColorMode.RGB:   nodeColor = ControlKit.ColorUtil.RGB2HEX(  entry[0],entry[1],entry[2]); break;
+                    case ControlKit.ColorMode.RGBfv: nodeColor = ControlKit.ColorUtil.RGBfv2HEX(entry[0],entry[1],entry[2]); break;
+                    case ControlKit.ColorMode.HSV:   nodeColor = ControlKit.ColorUtil.HSV2RGB(  entry[0],entry[1],entry[2]); break;
+                }
+
+                color.getStyle().backgroundColor = nodeColor;
                 color.getStyle().backgroundImage = 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%)';
                 color.setProperty('innerHTML',entry);
 

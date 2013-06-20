@@ -11,14 +11,16 @@ ControlKit.Default =
     PANEL_RATIO     : 40,
     PANEL_LABEL     : 'Control Panel',
 
-    PANEL_VALIGN : ControlKit.Layout.TOP,
-    PANEL_ALIGN  : ControlKit.Layout.RIGHT,
-    PANEL_DOCK   : {align:ControlKit.Layout.RIGHT,resizable:true},
+    PANEL_VALIGN : ControlKit.LayoutMode.TOP,
+    PANEL_ALIGN  : ControlKit.LayoutMode.RIGHT,
+    PANEL_DOCK   : {align:ControlKit.LayoutMode.RIGHT,resizable:true},
 
 
     PANEL_OPACITY : 1.0,
 
     PANEL_FIXED : true,
+
+    COLOR_COLOR_MODE : ControlKit.ColorMode.HEX,
 
 
     /*---------------------------------------------------------------------------------*/

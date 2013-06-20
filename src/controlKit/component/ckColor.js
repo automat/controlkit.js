@@ -4,25 +4,28 @@ ControlKit.Color = function(parent,object,value,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    params          = params || {};
-    params.onChange = params.onChange || this._onChange;
-    params.onFinish = params.onFinish || this._onFinish;
-    params.presets  = params.presets  || null;
+    params           = params           || {};
+    params.onChange  = params.onChange  || this._onChange;
+    params.onFinish  = params.onFinish  || this._onFinish;
+    params.presets   = params.presets   || null;
+    params.colorMode = params.colorMode || ControlKit.Default.COLOR_COLOR_MODE;
 
     /*---------------------------------------------------------------------------------*/
 
-    this._onChange = this._onFinish = params._onChange;
-
+    this._onChange   = this._onFinish = params.onChange;
     this._presetsKey = params.presets;
 
     /*---------------------------------------------------------------------------------*/
 
-    var wrapNode = this._wrapNode;
-
     var color = this._color = new ControlKit.Node(ControlKit.NodeType.DIV);
+    var value = this._value = this._object[this._key];
 
+    var colorMode = this._colorMode = params.colorMode;
 
-    this._value     = this._object[this._key];
+    this._validateColorFormat(value, 'Error! Color format should be hex. Set colorMode to rgb, rgbfv or hsv.',
+                                     'Error! Color format should be rgb, rgbfv or hsv. Set colorMode to hex.');
+
+    var wrapNode = this._wrapNode;
 
     if(!this._presetsKey)
     {
@@ -39,8 +42,16 @@ ControlKit.Color = function(parent,object,value,params)
             wrapNode.addChild(colorWrap);
             colorWrap.addChild(color);
 
-        var presets   = this._object[this._presetsKey],
-            options   = ControlKit.Options.getInstance(),
+        var presets   = this._object[this._presetsKey];
+
+        var i = -1;
+        while(++i < presets.length)
+        {
+            this._validateColorFormat(presets[i], 'Error! Preset color format should be hex.',
+                                                  'Error! Preset color format should be rgb, rgbfv or hsv.');
+        }
+
+        var options   = ControlKit.Options.getInstance(),
             presetBtn = new ControlKit.PresetBtn(wrapNode);
 
         var onPresetDeactivate = function(){options.clear();presetBtn.deactivate();};
@@ -59,7 +70,8 @@ ControlKit.Color = function(parent,object,value,params)
                                       },
                                       onPresetDeactivate,
                                       ControlKit.Metric.PADDING_PRESET,
-                                      true);
+                                      true,
+                                      colorMode);
                                   };
 
             presetBtn.setCallbackActive(onPresetActivate);
@@ -80,16 +92,56 @@ ControlKit.Color.prototype = Object.create(ControlKit.ObjectComponent.prototype)
 
 ControlKit.Color.prototype._onColorTrigger = function()
 {
+    var colorMode      = this._colorMode,
+        colorModeHEX   = ControlKit.ColorMode.HEX,
+        colorModeRGB   = ControlKit.ColorMode.RGB,
+        colorModeRGBfv = ControlKit.ColorMode.RGBfv,
+        colorModeHSV   = ControlKit.ColorMode.HSV;
+
+    var value = this._value,
+        temp;
+
     var onPickerPick = function()
                        {
                            this.pushHistoryState();
-                           this._value = ControlKit.Picker.getInstance().getHEX();
+
+                           switch(colorMode)
+                           {
+                               case colorModeHEX:   this._value = ControlKit.Picker.getInstance().getHEX();break;
+                               case colorModeRGB:
+
+                                   //if val = Float32array or so
+                                   temp = ControlKit.Picker.getInstance().getRGB();
+                                   value[0] = temp[0];
+                                   value[1] = temp[1];
+                                   value[2] = temp[2];
+                                   break;
+
+                               case colorModeRGBfv:
+
+                                   temp = ControlKit.Picker.getInstance().getRGBfv();
+                                   value[0] = temp[0];
+                                   value[1] = temp[1];
+                                   value[2] = temp[2];
+                                   break;
+
+                               case colorModeHSV:   this._value = ControlKit.Picker.getInstance().getHSV();break;
+                           }
+
                            this.applyValue();
 
                        }.bind(this);
 
     var picker = ControlKit.Picker.getInstance();
-        picker.setColorHEX(this._value);
+
+    switch(colorMode)
+    {
+        case colorModeHEX:   picker.setColorHEX(value);break;
+        case colorModeRGB:   picker.setColorRGB(value[0],value[1],value[2]);break;
+        case colorModeRGBfv: picker.setColorRGBfv(value[0],value[1],value[2]);break;
+        case colorModeHSV:   picker.setColorHSV(value[0],value[1],value[2]);break;
+    }
+
         picker.setCallbackPick(onPickerPick);
         picker.open();
 
@@ -114,13 +166,49 @@ ControlKit.Color.prototype.onValueUpdate = function(e)
 
 /*---------------------------------------------------------------------------------*/
 
-
 ControlKit.Color.prototype._updateColor = function()
 {
-    var colorHEX  = this._value;
+    var color  = this._value,
+        colorNode = this._color,
+        nodeColor;
 
-    var colorNode = this._color;
-    colorNode.setProperty('innerHTML',colorHEX);
-    colorNode.getStyle().backgroundColor = colorHEX;
-    //colorNode.getStyle().boxShadow       = '0 1px 0 0 rgba(0,0,0,0.25) inset';
+    colorNode.setProperty('innerHTML',color)
+
+    switch(this._colorMode)
+    {
+        case ControlKit.ColorMode.HEX:
+            nodeColor = color;
+            break;
+
+        case ControlKit.ColorMode.RGB:
+            nodeColor = ControlKit.ColorUtil.RGB2HEX(color[0],color[1],color[2]);
+            break;
+
+        case ControlKit.ColorMode.RGBfv:
+            nodeColor = ControlKit.ColorUtil.RGBfv2HEX(color[0],color[1],color[2]);
+            break;
+
+        case ControlKit.ColorMode.HSV:
+            nodeColor = ControlKit.ColorUtil.HSV2RGB(color[0],color[1],color[2]);
+            break;
+    }
+
+    colorNode.getStyle().backgroundColor = nodeColor;
+};
+
+ControlKit.Color.prototype._validateColorFormat = function(value,msgHex,msgArr)
+{
+    var colorMode = this._colorMode;
+
+    if(colorMode == ControlKit.ColorMode.HEX && Object.prototype.toString.call(value) === '[object Array]')
+    {
+        throw msgHex;
+    }
+    if((colorMode == ControlKit.ColorMode.RGB   ||
+        colorMode == ControlKit.ColorMode.RGBfv ||
+        colorMode == ControlKit.ColorMode.HSV) &&
+        Object.prototype.toString.call(value) !== '[object Array]')
+    {
+        throw msgArr;
+    }
 };
