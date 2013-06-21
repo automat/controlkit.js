@@ -1,5 +1,14 @@
 ControlKit.ObjectComponent = function(parent,object,value,params)
 {
+    if(ControlKit.ErrorUtil.ReferenceError(object,value))
+    {
+        throw new ReferenceError(ControlKit.Error.COMPONENT_OBJECT +
+                                 object.constructor.name +
+                                 ControlKit.Error.COMPONENT_OBJECT_MEMBER_REFERENCE +
+                                 value +
+                                 ControlKit.Error.END);
+    }
+
     /*-------------------------------------------------------------------------------------*/
 
     params       = params || {};
