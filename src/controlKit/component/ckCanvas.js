@@ -57,10 +57,10 @@ ControlKit.Canvas.prototype._setCanvasSize = function(width,height)
         canvasHeight = this._canvasHeight = height;
 
     var canvas = this._canvas;
-        canvas.setStyleProperty('width', canvasWidth  + 'px');
-        canvas.setStyleProperty('height',canvasHeight + 'px');
-        canvas.width  = canvasWidth;
-        canvas.height = canvasHeight;
+        canvas.style.width  = canvasWidth  + 'px';
+        canvas.style.height = canvasHeight + 'px';
+        canvas.width        = canvasWidth;
+        canvas.height       = canvasHeight;
 };
 
 ControlKit.Canvas.prototype.getCanvas  = function(){return this._canvas;};
