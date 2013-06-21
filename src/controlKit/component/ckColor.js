@@ -22,8 +22,8 @@ ControlKit.Color = function(parent,object,value,params)
 
     var colorMode = this._colorMode = params.colorMode;
 
-    this._validateColorFormat(value, 'Error! Color format should be hex. Set colorMode to rgb, rgbfv or hsv.',
-                                     'Error! Color format should be rgb, rgbfv or hsv. Set colorMode to hex.');
+    this._validateColorFormat(value, ControlKit.Error.COLOR_FORMAT_HEX,
+                                     ControlKit.Error.COLOR_FORMAT_RGB_RGBFV_HSV);
 
     var wrapNode = this._wrapNode;
 
@@ -47,8 +47,8 @@ ControlKit.Color = function(parent,object,value,params)
         var i = -1;
         while(++i < presets.length)
         {
-            this._validateColorFormat(presets[i], 'Error! Preset color format should be hex.',
-                                                  'Error! Preset color format should be rgb, rgbfv or hsv.');
+            this._validateColorFormat(presets[i], ControlKit.Error.COLOR_PRESET_FORMAT_HEX,
+                                                  ControlKit.Error.COLOR_PRESET_FORMAT_RGB_RGBFV_HSV);
         }
 
         var options   = ControlKit.Options.getInstance(),
@@ -200,15 +200,16 @@ ControlKit.Color.prototype._validateColorFormat = function(value,msgHex,msgArr)
 {
     var colorMode = this._colorMode;
 
+
     if(colorMode == ControlKit.ColorMode.HEX && Object.prototype.toString.call(value) === '[object Array]')
     {
-        throw msgHex;
+        throw new TypeError(msgHex);
     }
     if((colorMode == ControlKit.ColorMode.RGB   ||
         colorMode == ControlKit.ColorMode.RGBfv ||
         colorMode == ControlKit.ColorMode.HSV) &&
         Object.prototype.toString.call(value) !== '[object Array]')
     {
-        throw msgArr;
+        throw new TypeError(msgArr);
     }
 };
