@@ -6,13 +6,12 @@ ControlKit.AbstractGroup = function(parent,params)
 
     params        = params        || {};
     params.height = params.height || null;
-    params.enable = params.enable === undefined ? true : params.enable;
 
     /*---------------------------------------------------------------------------------*/
 
     this._parent     = parent;
     this._height     = params.height;
-    this._isDisabled = !params.enable;
+    this._isDisabled = false;
     this._scrollBar  = null;
 
     this._node = new ControlKit.Node(ControlKit.NodeType.LIST_ITEM);
@@ -21,10 +20,6 @@ ControlKit.AbstractGroup = function(parent,params)
 
     this._parent.getList().addChild(this._node);
 
-    /*
-    ControlKit.getKitInstance().addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,
-                                                 this,'onInputSelectDrag');
-                                                 */
 };
 
 ControlKit.AbstractGroup.prototype = Object.create(ControlKit.EventDispatcher.prototype);
@@ -39,14 +34,6 @@ ControlKit.AbstractGroup.prototype.addScrollWrap = function()
     this._scrollBar = new ControlKit.ScrollBar(wrapNode,this._listNode,maxHeight);
     if(this.isEnabled())wrapNode.setHeight(maxHeight);
 };
-/*
-//Prevent chrome select drag
-ControlKit.AbstractGroup.prototype.onInputSelectDrag = function()
-{
-    if(!this.hasScrollWrap())return;
-    this._wrapNode.getElement().scrollTop = 0;
-};
-*/
 
 ControlKit.AbstractGroup.prototype.preventSelectDrag = function()
 {
@@ -56,6 +43,7 @@ ControlKit.AbstractGroup.prototype.preventSelectDrag = function()
     this._wrapNode.getElement().scrollTop = 0;
 };
 
+/*---------------------------------------------------------------------------------*/
 
 ControlKit.AbstractGroup.prototype.hasMaxHeight  = function(){return this._height != null;};
 ControlKit.AbstractGroup.prototype.getMaxHeight  = function(){return this._height;};

@@ -7,7 +7,6 @@ ControlKit.SubGroup = function(parent,params)
     params            = params          || {};
     params.label      = params.label    || null;
     params.enable     = params.enable     === undefined ? true : params.enable;
-    params.expandable = params.expandable === undefined ? true : params.expandable;
     params.useLabels  = params.useLabels  === undefined ? true : params.useLabels;
 
     /*---------------------------------------------------------------------------------*/
@@ -22,7 +21,8 @@ ControlKit.SubGroup = function(parent,params)
         wrapNode.addChild(listNode);
         rootNode.addChild(wrapNode);
 
-    this._useLabels = params.useLabels;
+    this._useLabels  = params.useLabels;
+    this._isDisabled = !params.enable;
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -45,7 +45,6 @@ ControlKit.SubGroup = function(parent,params)
                 lablWrap.addChild(lablNode);
                 headNode.addChild(lablWrap);
 
-            if(!params.enable)this.disable();
 
             var indiNode = this._indiNode = new ControlKit.Node(ControlKit.NodeType.DIV);
             indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
@@ -55,6 +54,8 @@ ControlKit.SubGroup = function(parent,params)
 
             this.addEventListener(ControlKit.EventType.SUBGROUP_TRIGGER,this._parent,'onSubGroupTrigger');
             headNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
+
+            this._updateAppearance();
         }
     }
 
@@ -70,7 +71,7 @@ ControlKit.SubGroup = function(parent,params)
 
     this.addEventListener(ControlKit.EventType.GROUP_SIZE_UPDATE,this._parent,'onGroupSizeUpdate');
 
-    this._updateAppearance();
+
 };
 
 ControlKit.SubGroup.prototype = Object.create(ControlKit.AbstractGroup.prototype);

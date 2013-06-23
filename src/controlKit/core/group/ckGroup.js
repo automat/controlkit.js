@@ -7,6 +7,7 @@ ControlKit.Group = function(parent,params)
     params           = params || {};
     params.label     = params.label     || null;
     params.useLabels = params.useLabels || true;
+    params.enable    = params.enable     === undefined ? true : params.enable;
 
 
     /*-------------------------------------------------------------------------------------*/
@@ -196,8 +197,6 @@ ControlKit.Group.prototype._updateHeight = function()
 
 ControlKit.Group.prototype._updateAppearance = function()
 {
-    console.log(this._isDisabled);
-
     var wrapNode = this._wrapNode,
         inidNode = this._indiNode;
 

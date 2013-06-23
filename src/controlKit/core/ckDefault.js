@@ -4,9 +4,10 @@ ControlKit.Default =
 
     /*---------------------------------------------------------------------------------*/
 
-    PANEL_POSITION  : [0,0],
+    PANEL_POSITION  : null,
     PANEL_WIDTH     : 300,
-    PANEL_WIDTH_MIN : 150,
+    PANEL_HEIGHT    : null,
+    PANEL_WIDTH_MIN : 100,
     PANEL_WIDTH_MAX : 600,
     PANEL_RATIO     : 40,
     PANEL_LABEL     : 'Control Panel',

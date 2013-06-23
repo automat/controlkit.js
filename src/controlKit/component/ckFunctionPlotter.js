@@ -28,7 +28,6 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
         path    = this._path;
 
     var axes = this._axes = svgRoot.insertBefore(this._createSVGObject('path'),path);
-        axes.style.stroke = 'rgb(54,60,64)';
         axes.style.lineWidth = 1;
 
     var axesLabels = this._axesLabels = svgRoot.insertBefore(this._createSVGObject('path'),path);
@@ -79,11 +78,13 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
 
         wrapNode.getElement().insertBefore(canvas,svg);
 
-        this._grid.style.stroke = 'rgba(25,25,25,0.25)';
+        axes.style.stroke = 'rgba(255,255,255,0.75)';
+        this._grid.style.stroke = 'rgba(25,25,25,0.75)';
 
     }
     else
     {
+        axes.style.stroke = 'rgb(54,60,64)';
         this._grid.style.stroke = 'rgb(25,25,25)';
     }
 
