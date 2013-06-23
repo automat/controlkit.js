@@ -40,7 +40,7 @@ ControlKit.Panel = function(controlKit,params)
         width      = this._width      = Math.max(ControlKit.Default.PANEL_WIDTH_MIN,
                                         Math.min(params.width,ControlKit.Default.PANEL_WIDTH_MAX)),
         isFixed    = this._fixed      = params.fixed,
-        isDocked   = this._dock       = params.dock,
+        dock       = this._dock       = params.dock,
         label      = this._label      = params.label,
         position   = this._position   = params.position,
         opacity    =                    params.opacity;
@@ -85,9 +85,7 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    //FIXME
-
-    if(!isDocked)
+    if(!dock)
     {
         var menuClose = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON),
             menuHide  = this._menuHide = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
@@ -101,46 +99,8 @@ ControlKit.Panel = function(controlKit,params)
             menuHide.addEventListener( ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuHideMouseDown.bind(this));
             menuClose.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this.disable.bind(this));
 
-            if(this.hasMaxHeight()){this._addScrollWrap();}
-    }
-    else
-    {
-        //FIXME
+        if(this.hasMaxHeight()){this._addScrollWrap();}
 
-        switch(isDocked.align)
-        {
-            case ControlKit.LayoutMode.TOP:
-                break;
-
-            case ControlKit.LayoutMode.RIGHT:
-
-                this._height = window.innerHeight;
-                align = ControlKit.LayoutMode.RIGHT;
-                break;
-
-            case ControlKit.LayoutMode.BOTTOM:
-                break;
-
-            case ControlKit.LayoutMode.LEFT:
-
-                this._height = window.innerHeight;
-                align = ControlKit.LayoutMode.LEFT;
-                break;
-        }
-       /*
-        if(dock.resizable)
-        {
-            var sizeHandle = new ControlKit.Node(ControlKit.NodeType.DIV);
-                sizeHandle.setStyleClass(ControlKit.CSS.SizeHandle);
-            rootNode.addChildAt(sizeHandle,0);
-        }
-        */
-    }
-
-    //FIXME
-
-    if(!isDocked)
-    {
         if(!isFixed)
         {
             this._mouseOffset  = [0,0];
@@ -153,21 +113,39 @@ ControlKit.Panel = function(controlKit,params)
         {
             if(position)
             {
-                console.log(position);
+                var positionX = position[0],
+                    positionY = position[1];
 
-                var posX = position[0],
-                    posY = position[1];
-
-                if(posX != 0 && posY != 0)
-                {
-                    rootNode.setPositionY(posY);
-
-                    if(align == ControlKit.LayoutMode.RIGHT)
-                    rootNode.getElement().marginRight = posX;
-                    else rootNode.setPositionX(posX);
-                }
+                if(positionY!=0)rootNode.setPositionY(positionY);
+                if(positionX!=0)if(align==ControlKit.LayoutMode.RIGHT)rootNode.getElement().marginRight = positionX;
+                                else rootNode.setPositionX(positionX);
             }
         }
+    }
+    else
+    {
+        if(dock.align == ControlKit.LayoutMode.LEFT ||
+           dock.align == ControlKit.LayoutMode.RIGHT)
+        {
+            align = dock.align;
+            this._height = window.innerHeight;
+        }
+
+        if(dock.align == ControlKit.LayoutMode.TOP ||
+           dock.align == ControlKit.LayoutMode.BOTTOM)
+        {
+
+        }
+
+        /*
+        if(dock.resizable)
+        {
+            var sizeHandle = new ControlKit.Node(ControlKit.NodeType.DIV);
+                sizeHandle.setStyleClass(ControlKit.CSS.SizeHandle);
+                rootNode.addChild(sizeHandle);
+        }
+        */
+
     }
 
     rootNode.setStyleProperty('float',align);
@@ -246,7 +224,7 @@ ControlKit.Panel.prototype._onMenuUndoTrigger = function(){ControlKit.History.ge
 /*---------------------------------------------------------------------------------*
 * Panel dragging
 *----------------------------------------------------------------------------------*/
-//FIXME
+
 ControlKit.Panel.prototype._onHeadDragStart = function()
 {
     var parentNode = this._parent.getNode(),
@@ -256,8 +234,8 @@ ControlKit.Panel.prototype._onHeadDragStart = function()
         mousePos  = ControlKit.Mouse.getInstance().getPosition(),
         offsetPos = this._mouseOffset;
 
-    offsetPos[0] = mousePos[0] - nodePos[0];
-    offsetPos[1] = mousePos[1] - nodePos[1];
+        offsetPos[0] = mousePos[0] - nodePos[0];
+        offsetPos[1] = mousePos[1] - nodePos[1];
 
     var eventMouseMove = ControlKit.DocumentEventType.MOUSE_MOVE,
         eventMouseUp   = ControlKit.DocumentEventType.MOUSE_UP;
@@ -271,7 +249,6 @@ ControlKit.Panel.prototype._onHeadDragStart = function()
 
         onDragEnd = function()
                     {
-
                         document.removeEventListener(eventMouseMove, onDrag,    false);
                         document.removeEventListener(eventMouseUp,   onDragEnd, false);
                         self.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,null));
@@ -298,7 +275,7 @@ ControlKit.Panel.prototype._updatePosition = function()
     this._constrainHeight();
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE,null));
 };
-//FIXME
+
 ControlKit.Panel.prototype._onWindowResize = function()
 {
     if(this.isDocked())
@@ -314,16 +291,11 @@ ControlKit.Panel.prototype._onWindowResize = function()
 
             this._height = windowHeight;
 
-
             if((windowHeight - headHeight) > listHeight)this._scrollBar.disable();
             else this._scrollBar.enable();
 
             this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_SIZE_CHANGE));
         }
-    }
-    else
-    {
-
     }
 
     this._constrainHeight();
@@ -470,7 +442,6 @@ ControlKit.Panel.prototype.preventSelectDrag = function()
 };
 
 /*---------------------------------------------------------------------------------*/
-
 
 ControlKit.Panel.prototype.enable  = function()
 {

@@ -22,6 +22,10 @@
 /*-------------------------------------------------------------------------------------
  * Picker
  *-------------------------------------------------------------------------------------*/
+body {
+  margin: 0;
+  padding: 0; }
+
 #controlKit .panel input[type='text'],
 #controlKit .panel textarea,
 #controlKit .panel .color,
@@ -98,7 +102,7 @@
     background-image: -o-linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
     background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 100%); }
 #controlKit .panel {
-  position: absolute;
+  position: relative;
   z-index: 1;
   margin: 0;
   padding: 0;
@@ -524,7 +528,8 @@
 #controlKit .panel .sizeHandle {
   float: left;
   width: 10px;
-  height: 100px; }
+  height: 100px;
+  border-left: 1py; }
 #controlKit .panel .label, #controlKit .picker .label {
   width: 100%;
   float: left;

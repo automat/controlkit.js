@@ -14,7 +14,11 @@
   @include component-border;
 }
 
-#controlKit {
+body{margin: 0;padding: 0;}
+
+
+#controlKit
+{
 
   .panel input[type='text'],
   .panel textarea,
@@ -103,9 +107,10 @@
 
 
 
-  .panel {
+  .panel
+  {
+    position: relative;
 
-    position: absolute;
     z-index: 1;
 
     margin: 0;
@@ -248,6 +253,7 @@
       padding: 0;
       position: relative;
       overflow: hidden;
+
     }
 
     .inputWPresetWrap , .colorWPresetWrap
@@ -710,6 +716,7 @@
     float: left;
     width: 10px;
     height: 100px;
+    border-left: 1py
 
 
   }
