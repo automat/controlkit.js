@@ -191,7 +191,7 @@ ControlKit.Panel = function(controlKit,params)
     /*---------------------------------------------------------------------------------*/
 
     this._parent.addEventListener(ControlKit.EventType.UPDATE_MENU,      this, 'onUpdateMenu');
-    this._parent.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,this, 'onComponentInputSelectDrag');
+    //this._parent.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,this, 'onComponentInputSelectDrag');
 
     window.addEventListener(ControlKit.DocumentEventType.WINDOW_RESIZE,this._onWindowResize.bind(this));
 
@@ -214,7 +214,7 @@ ControlKit.Panel.prototype.addGroup  = function(params)
 
 ControlKit.Panel.prototype.onGroupListSizeChange = function()
 {
-    if(this._hasScrollWrap())this._updateScrollWrap();
+    if(this.hasScrollWrap())this._updateScrollWrap();
     this._constrainHeight();
 };
 
@@ -255,7 +255,7 @@ ControlKit.Panel.prototype._addScrollWrap = function()
     if(this.isEnabled())wrapNode.setHeight(height);
 };
 
-ControlKit.Panel.prototype._hasScrollWrap = function(){return this._scrollBar != null;};
+ControlKit.Panel.prototype.hasScrollWrap = function(){return this._scrollBar != null;};
 
 /*---------------------------------------------------------------------------------*/
 
@@ -380,9 +380,9 @@ ControlKit.Panel.prototype._onWindowResize = function()
     }
 };
 
-ControlKit.Panel.prototype.onComponentInputSelectDrag = function()
+ControlKit.Panel.prototype.preventSelectDrag = function()
 {
-    if(!this._hasScrollWrap())return;
+    if(!this.hasScrollWrap())return;
     this._wrapNode.getElement().scrollTop = 0;
 };
 
@@ -415,7 +415,7 @@ ControlKit.Panel.prototype._setPosition = function(x,y)
 ControlKit.Panel.prototype._constrainHeight = function()
 {
     var hasMaxHeight  = this.hasMaxHeight(),
-        hasScrollWrap = this._hasScrollWrap();
+        hasScrollWrap = this.hasScrollWrap();
 
     var headNode      = this._headNode,
         wrapNode      = this._wrapNode;

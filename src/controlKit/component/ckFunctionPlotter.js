@@ -2,7 +2,7 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
 {
     ControlKit.Plotter.apply(this,arguments);
 
-    if(!ControlKit.ErrorUtil.TypeError(object,value,Function))
+    if(ControlKit.ErrorUtil.TypeError(object,value,Function))
     {
         throw new TypeError(ControlKit.Error.COMPONENT_OBJECT +
                             object.constructor.name + ' ' +
@@ -95,12 +95,20 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    this._units       = [ControlKit.Preset.FUNCTION_PLOTTER_UNIT_X,
-                         ControlKit.Preset.FUNCTION_PLOTTER_UNIT_Y];
+    this._units       = plotMode == ControlKit.FunctionPlotType.NON_IMPLICIT ?
+                        [ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_UNIT_X,
+                         ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_UNIT_Y] :
+                        [ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_UNIT_X,
+                         ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_UNIT_Y];
+
     this._unitsMinMax = [ControlKit.Preset.FUNCTION_PLOTTER_UNIT_MIN,
                          ControlKit.Preset.FUNCTION_PLOTTER_UNIT_MAX]; //1/8->4
 
-    this._scale       =  ControlKit.Preset.FUNCTION_PLOTTER_SCALE;
+    this._scale       =  plotMode == ControlKit.FunctionPlotType.NON_IMPLICIT ?
+                         ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_SCALE :
+                         ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_SCALE;
+
+
     this._scaleMinMax = [ControlKit.Preset.FUNCTION_PLOTTER_SCALE_MIN,
                          ControlKit.Preset.FUNCTION_PLOTTER_SCALE_MAX]; //1/50 -> 25
 
@@ -208,7 +216,7 @@ ControlKit.FunctionPlotter.prototype._redraw       = function()
 
 ControlKit.FunctionPlotter.prototype.setFunction = function(func)
 {
-    this._func = func;
+    this._func = func.bind(this._object);
     this._plotGraph();
 };
 
@@ -339,6 +347,7 @@ ControlKit.FunctionPlotter.prototype._drawPlot = function()
             }
 
         }
+        context.clearRect(0,0,width,height);
         context.putImageData(imgData,0,0);
     }
 };

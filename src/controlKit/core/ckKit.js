@@ -80,11 +80,6 @@ ControlKit.Kit.prototype.onSelectTriggered = function(e)
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.TRIGGER_SELECT,{origin: e.sender}));
 };
 
-ControlKit.Kit.prototype.onInputSelectDrag = function()
-{
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.INPUT_SELECT_DRAG,null));
-};
-
 /*---------------------------------------------------------------------------------*/
 
 ControlKit.Kit.prototype.addPanel = function(params)

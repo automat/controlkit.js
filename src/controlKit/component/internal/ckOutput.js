@@ -20,7 +20,8 @@ ControlKit.Output = function(parent,object,value,params)
         wrapNode.addChild(textArea);
 
         textArea.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onInputDragStart.bind(this));
-        this.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,ControlKit.getKitInstance(),'onInputSelectDrag');
+        this.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,this._parent,'onComponentSelectDrag');
+
     /*---------------------------------------------------------------------------------*/
 
 

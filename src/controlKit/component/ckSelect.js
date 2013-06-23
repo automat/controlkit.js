@@ -35,7 +35,7 @@ ControlKit.Select = function(parent,object,value,params)
         while(++i < values.length){if(targetObj == values[i])this._selected = values[i];}
         select.setProperty('value',targetObj.toString().length > 0 ? targetObj : values[0]);
     }
-    else{ select.setProperty('value',params.selected || 'Choose ...'); }
+    else{ select.setProperty('value',params.selected ? values[params.selected] :  'Choose ...'); }
 
     this._wrapNode.addChild(select);
 

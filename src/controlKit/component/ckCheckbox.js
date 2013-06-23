@@ -13,12 +13,12 @@ ControlKit.Checkbox = function(parent,object,value,params)
     this._onChange = params.onChange;
     this._onFinish = params.onFinish;
 
-    var input = this._textArea = new ControlKit.Node(ControlKit.NodeType.INPUT_CHECKBOX);
+    var input = this._input = new ControlKit.Node(ControlKit.NodeType.INPUT_CHECKBOX);
 
     input.setProperty('checked',this._object[this._key]);
     input.addEventListener(ControlKit.NodeEventType.CHANGE,this._onInputChange.bind(this));
 
-    this._wrapNode.addChild(this._textArea);
+    this._wrapNode.addChild(this._input);
 };
 
 ControlKit.Checkbox.prototype = Object.create(ControlKit.ObjectComponent.prototype);
@@ -42,5 +42,5 @@ ControlKit.Checkbox.prototype._onInputChange = function()
 ControlKit.Checkbox.prototype.onValueUpdate = function(e)
 {
     if(e.data.origin == this)return;
-    this._textArea.setProperty('checked',this._object[this._key]);
+    this._input.setProperty('checked',this._object[this._key]);
 };

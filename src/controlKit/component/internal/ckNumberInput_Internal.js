@@ -107,13 +107,9 @@ ControlKit.NumberInput_Internal.prototype._format = function()
         index  = string.indexOf('.');
 
 
-
     if(index > 0)
     {
-
         string = string.slice(0,index + this._valueDPlace);
-
-
     }
 
     this._setOutput(string);

@@ -69,6 +69,8 @@ ControlKit.SubGroup = function(parent,params)
     this._parent.addEventListener(ControlKit.EventType.PANEL_SIZE_CHANGE,this, 'onPanelSizeChange');
 
     this.addEventListener(ControlKit.EventType.GROUP_SIZE_UPDATE,this._parent,'onGroupSizeUpdate');
+
+    this._updateAppearance();
 };
 
 ControlKit.SubGroup.prototype = Object.create(ControlKit.AbstractGroup.prototype);
@@ -102,9 +104,14 @@ ControlKit.SubGroup.prototype._updateAppearance = function()
 {
     if(this.isDisabled())
     {
-        this._headNode.setStyleClass(ControlKit.CSS.HeadInactive);
-        this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMin);
         this._wrapNode.setHeight(0);
+
+        if(this.hasLabel())
+        {
+            this._headNode.setStyleClass(ControlKit.CSS.HeadInactive);
+            this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMin);
+        }
+
     }
     else
     {
@@ -117,12 +124,23 @@ ControlKit.SubGroup.prototype._updateAppearance = function()
             this._wrapNode.deleteStyleProperty('height');
         }
 
-        this._headNode.setStyleClass(ControlKit.CSS.Head);
-        this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
+        if(this.hasLabel())
+        {
+            this._headNode.setStyleClass(ControlKit.CSS.Head);
+            this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
+        }
+
     }
 };
 
 ControlKit.SubGroup.prototype.update = function(){if(this.hasMaxHeight())this._scrollBar.update();};
+
+/*-------------------------------------------------------------------------------------*/
+
+ControlKit.SubGroup.prototype.onComponentSelectDrag = function()
+{
+    this.preventSelectDrag();
+};
 
 /*-------------------------------------------------------------------------------------*/
 

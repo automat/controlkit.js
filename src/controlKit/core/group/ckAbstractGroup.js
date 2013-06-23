@@ -6,13 +6,14 @@ ControlKit.AbstractGroup = function(parent,params)
 
     params        = params        || {};
     params.height = params.height || null;
+    params.enable = params.enable === undefined ? true : params.enable;
 
     /*---------------------------------------------------------------------------------*/
 
-    this._parent    = parent;
-    this._height    = params.height;
-    this._isDisabled  = false;
-    this._scrollBar = null;
+    this._parent     = parent;
+    this._height     = params.height;
+    this._isDisabled = !params.enable;
+    this._scrollBar  = null;
 
     this._node = new ControlKit.Node(ControlKit.NodeType.LIST_ITEM);
     this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV);
@@ -20,8 +21,10 @@ ControlKit.AbstractGroup = function(parent,params)
 
     this._parent.getList().addChild(this._node);
 
+    /*
     ControlKit.getKitInstance().addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,
                                                  this,'onInputSelectDrag');
+                                                 */
 };
 
 ControlKit.AbstractGroup.prototype = Object.create(ControlKit.EventDispatcher.prototype);
@@ -36,18 +39,28 @@ ControlKit.AbstractGroup.prototype.addScrollWrap = function()
     this._scrollBar = new ControlKit.ScrollBar(wrapNode,this._listNode,maxHeight);
     if(this.isEnabled())wrapNode.setHeight(maxHeight);
 };
-
+/*
 //Prevent chrome select drag
 ControlKit.AbstractGroup.prototype.onInputSelectDrag = function()
 {
     if(!this.hasScrollWrap())return;
     this._wrapNode.getElement().scrollTop = 0;
 };
+*/
+
+ControlKit.AbstractGroup.prototype.preventSelectDrag = function()
+{
+    this._parent.preventSelectDrag();
+
+    if(!this.hasScrollWrap())return;
+    this._wrapNode.getElement().scrollTop = 0;
+};
+
 
 ControlKit.AbstractGroup.prototype.hasMaxHeight  = function(){return this._height != null;};
 ControlKit.AbstractGroup.prototype.getMaxHeight  = function(){return this._height;};
 ControlKit.AbstractGroup.prototype.hasScrollWrap = function(){return this._scrollBar != null;};
-ControlKit.AbstractGroup.prototype.hasLabel      = function(){return this._lablNode;};
+ControlKit.AbstractGroup.prototype.hasLabel      = function(){return this._lablNode  != null;};
 
 ControlKit.AbstractGroup.prototype.disable      = function() {this._isDisabled = false; this._updateAppearance();};
 ControlKit.AbstractGroup.prototype.enable       = function() {this._isDisabled = true;  this._updateAppearance();};
