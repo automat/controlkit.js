@@ -15,6 +15,8 @@ ControlKit.NumberOutput = function(parent,object,value,params)
 
 ControlKit.NumberOutput.prototype = Object.create(ControlKit.Output.prototype);
 
+
+//FIXME
 ControlKit.NumberOutput.prototype._setValue = function()
 {
     if(this._parent.isDisabled())return;

@@ -21,6 +21,9 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
     /*---------------------------------------------------------------------------------*/
 
     params = params || {};
+    params.showMinMaxLabels = params.hideMinMaxLabels === undefined ?
+                              ControlKit.Default.PANEL_FIXED :
+                              params.hideMinMaxLabels;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -34,9 +37,10 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
         axesLabels.style.stroke = 'rgb(43,48,51)';
         axesLabels.style.lineWidth = 1;
 
-    var svg    = this._svg,
-        width  = Number(svg.getAttribute('width')),
-        height = Number(svg.getAttribute('height'));
+    var grid = this._grid;
+
+    var svg   = this._svg,
+        size  = Number(svg.getAttribute('width'));
 
     var sliderXWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
         sliderXWrap.setStyleClass(ControlKit.CSS.GraphSliderXWrap);
@@ -70,22 +74,21 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
     if(plotMode == ControlKit.FunctionPlotType.IMPLICIT)
     {
         var canvas = this._canvas = document.createElement('canvas');
-            canvas.style.width  = canvas.style.height =  width  + 'px';
-            canvas.width        = canvas.height = width;
-
-        var canvasContext = this._canvasContext   = canvas.getContext('2d');
-        this._canvasImageData = canvasContext.getImageData(0,0,width,height);
+            canvas.style.width    = canvas.style.height =  size  + 'px';
+            canvas.width          = canvas.height = size;
 
         wrapNode.getElement().insertBefore(canvas,svg);
 
-        axes.style.stroke = 'rgba(255,255,255,0.75)';
-        this._grid.style.stroke = 'rgba(25,25,25,0.75)';
+        this._canvasContext = canvas.getContext('2d');
+        this._canvasImageData = this._canvasContext.getImageData(0,0,size,size);
 
+        axes.style.stroke = ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_AXES_COLOR;
+        grid.style.stroke = ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_GRID_COLOR;
     }
     else
     {
-        axes.style.stroke = 'rgb(54,60,64)';
-        this._grid.style.stroke = 'rgb(25,25,25)';
+        axes.style.stroke = ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_AXES_COLOR;
+        grid.style.stroke = ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_GRID_COLOR;
     }
 
         wrapNode.addChild(sliderXWrap);
@@ -96,33 +99,41 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    this._units       = plotMode == ControlKit.FunctionPlotType.NON_IMPLICIT ?
-                        [ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_UNIT_X,
-                         ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_UNIT_Y] :
-                        [ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_UNIT_X,
-                         ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_UNIT_Y];
+    var units   = this._units = [null,null];
+    this._scale = null;
+
+    if(plotMode == ControlKit.FunctionPlotType.NON_IMPLICIT)
+    {
+        units[0] = ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_UNIT_X;
+        units[1] = ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_UNIT_Y;
+
+        this._scale = ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_SCALE;
+    }
+    else if(plotMode == ControlKit.FunctionPlotType.IMPLICIT)
+    {
+        units[0] = ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_UNIT_X;
+        units[1] = ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_UNIT_Y;
+
+        this._scale = ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_SCALE;
+    }
 
     this._unitsMinMax = [ControlKit.Preset.FUNCTION_PLOTTER_UNIT_MIN,
                          ControlKit.Preset.FUNCTION_PLOTTER_UNIT_MAX]; //1/8->4
-
-    this._scale       =  plotMode == ControlKit.FunctionPlotType.NON_IMPLICIT ?
-                         ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_SCALE :
-                         ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_SCALE;
-
 
     this._scaleMinMax = [ControlKit.Preset.FUNCTION_PLOTTER_SCALE_MIN,
                          ControlKit.Preset.FUNCTION_PLOTTER_SCALE_MAX]; //1/50 -> 25
 
     /*---------------------------------------------------------------------------------*/
 
-    this._center = [Math.round(width * 0.5),
-                    Math.round(width * 0.5)];
+    this._center = [Math.round(size * 0.5),
+                    Math.round(size * 0.5)];
     this._svgPos = [0,0];
 
     this._func = null;
     this.setFunction(this._object[this._key]);
 
-    this._setSliderInitial();
+    this._sliderXHandleUpdate();
+    this._sliderYHandleUpdate();
 
     /*---------------------------------------------------------------------------------*/
 
@@ -198,6 +209,7 @@ ControlKit.FunctionPlotter.prototype._onScale = function(e)
 /*---------------------------------------------------------------------------------*/
 
 ControlKit.FunctionPlotter.prototype.onValueUpdate = function(){this.setFunction(this._object[this._key]);};
+
 ControlKit.FunctionPlotter.prototype._redraw       = function()
 {
     if(this._plotMode == ControlKit.FunctionPlotType.IMPLICIT)
@@ -209,8 +221,10 @@ ControlKit.FunctionPlotter.prototype._redraw       = function()
             canvas.width        = canvas.height = size;
 
         this._canvasImageData = this._canvasContext.getImageData(0,0,size,size);
-
     }
+
+    this._sliderXHandleUpdate();
+    this._sliderYHandleUpdate();
 
     this.setFunction(this._object[this._key]);
 };
@@ -247,19 +261,18 @@ ControlKit.FunctionPlotter.prototype._drawAxes = function()
 
 ControlKit.FunctionPlotter.prototype._drawPlot = function()
 {
-    var width,height;
+    var width, height;
 
     var center  = this._center,
         centerX = center[0],
         centerY = center[1];
 
     var units = this._units,
-        unitX,unitY;
+        unitX, unitY;
 
     var scale = this._scale;
-
-    var normval, value, index;
-    var offsetX;
+    var normval, scaledVal, value, index;
+    var offsetX, offsetY;
 
     var i;
 
@@ -267,12 +280,10 @@ ControlKit.FunctionPlotter.prototype._drawPlot = function()
     {
         var svg    = this._svg;
 
-        width  = Number(svg.getAttribute('width'));
-        height = Number(svg.getAttribute('height'));
-
-        unitX = units[0]  * scale;
-        unitY = height / (units[1] * scale);
-
+        width   = Number(svg.getAttribute('width'));
+        height  = Number(svg.getAttribute('height'));
+        unitX   = units[0] * scale;
+        unitY   = height / (units[1] * scale);
         offsetX = centerX / width;
 
         var len    = Math.floor(width),
@@ -281,8 +292,10 @@ ControlKit.FunctionPlotter.prototype._drawPlot = function()
         i = -1;
         while(++i < len)
         {
-            normval = (-offsetX + i / len) * unitX;
-            value   = centerY - this._func(normval) * unitY;
+            normval   = (-offsetX + i / len);
+            scaledVal = normval * unitX;
+            value     = centerY - this._func(scaledVal) * unitY;
+
             index   = i * 2;
 
             points[index]     = i;
@@ -307,15 +320,14 @@ ControlKit.FunctionPlotter.prototype._drawPlot = function()
             context = this._canvasContext,
             imgData = this._canvasImageData;
 
-        width     = canvas.width;
-        height    = canvas.height;
+        width   = canvas.width;
+        height  = canvas.height;
 
-        unitX = units[0] * scale;
-        unitY = units[1] * scale;
-
+        unitX   = units[0] * scale;
+        unitY   = units[1] * scale;
 
         offsetX = centerX / width;
-        var offsetY = centerY / height;
+        offsetY = centerY / height;
 
         var invWidth  = 1 / width,
             invHeight = 1 / height;
@@ -346,8 +358,8 @@ ControlKit.FunctionPlotter.prototype._drawPlot = function()
                 imgData.data[index+2] = rgb[2];
                 imgData.data[index+3] = 255;
             }
-
         }
+
         context.clearRect(0,0,width,height);
         context.putImageData(imgData,0,0);
     }
@@ -472,38 +484,6 @@ ControlKit.FunctionPlotter.prototype._sliderXStep = function(mousePos)
     this._plotGraph();
 };
 
-
-//FIXME
-ControlKit.FunctionPlotter.prototype._setSliderInitial = function()
-{
-    var unitMin = this._unitsMinMax[0],
-        unitMax = this._unitsMinMax[1];
-
-    var unitX = this._units[0],
-        unitY = this._units[1];
-
-    var handleX           = this._sliderXHandle,
-        handleXWidth      = handleX.getWidth(),
-        handleXWidthHalf  = handleXWidth * 0.5,
-        trackXWidth       = this._sliderXTrack.getWidth();
-
-    var handleY           = this._sliderYHandle,
-        handleYHeight     = handleY.getHeight(),
-        handleYHeightHalf = handleYHeight * 0.5,
-        trackYHeight      = this._sliderYTrack.getHeight();
-
-    var strokeSize = ControlKit.Preset.STROKE_SIZE;
-
-    var handleXMin = handleXWidthHalf,
-        handleXMax = trackXWidth  - handleXWidthHalf  - strokeSize * 2,
-        handleYMin = trackYHeight - handleYHeightHalf - strokeSize * 2,
-        handleYMax = handleYHeightHalf;
-
-    handleX.setPositionX((handleXMin + (handleXMax - handleXMin) * ((unitX - unitMin) / (unitMax - unitMin))) - handleXWidthHalf);
-    handleY.setPositionY((handleYMin + (handleYMax - handleYMin) * ((unitY - unitMin) / (unitMax - unitMin))) - handleYHeightHalf);
-
-};
-
 ControlKit.FunctionPlotter.prototype._sliderYStep = function(mousePos)
 {
     var mouseY = mousePos[1];
@@ -562,3 +542,43 @@ ControlKit.FunctionPlotter.prototype._onSliderHandleDown = function(sliderStepFu
     document.addEventListener(eventMouseMove, onDrag,    false);
     document.addEventListener(eventMouseUp,   onDragEnd, false);
 };
+
+ControlKit.FunctionPlotter.prototype._sliderXHandleUpdate = function()
+{
+    var unitMin = this._unitsMinMax[0],
+        unitMax = this._unitsMinMax[1],
+        unitX   = this._units[0];
+
+    var handleX           = this._sliderXHandle,
+        handleXWidth      = handleX.getWidth(),
+        handleXWidthHalf  = handleXWidth * 0.5,
+        trackXWidth       = this._sliderXTrack.getWidth();
+
+    var strokeSize = ControlKit.Metric.STROKE_SIZE;
+
+    var handleXMin = handleXWidthHalf,
+        handleXMax = trackXWidth  - handleXWidthHalf  - strokeSize * 2;
+
+    handleX.setPositionX((handleXMin + (handleXMax - handleXMin) * ((unitX - unitMin) / (unitMax - unitMin))) - handleXWidthHalf);
+};
+
+ControlKit.FunctionPlotter.prototype._sliderYHandleUpdate = function()
+{
+    var unitMin = this._unitsMinMax[0],
+        unitMax = this._unitsMinMax[1],
+        unitY   = this._units[1];
+
+    var handleY           = this._sliderYHandle,
+        handleYHeight     = handleY.getHeight(),
+        handleYHeightHalf = handleYHeight * 0.5,
+        trackYHeight      = this._sliderYTrack.getHeight();
+
+    var strokeSize = ControlKit.Metric.STROKE_SIZE;
+
+    var handleYMin = trackYHeight - handleYHeightHalf - strokeSize * 2,
+        handleYMax = handleYHeightHalf;
+
+    handleY.setPositionY((handleYMin + (handleYMax - handleYMin) * ((unitY - unitMin) / (unitMax - unitMin))) - handleYHeightHalf);
+
+};
+

@@ -148,6 +148,8 @@ ControlKit.ScrollBar.prototype =
     enable  : function(){this._isDisabled = false;this._updateAppearance();},
     disable : function(){this._isDisabled = true; this._updateAppearance();},
 
+    reset : function(){this._scrollThumb(0);},
+
     _updateAppearance : function()
     {
         if(this._isDisabled)

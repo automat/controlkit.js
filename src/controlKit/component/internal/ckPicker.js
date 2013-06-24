@@ -611,9 +611,7 @@ ControlKit.Picker.prototype =
         }
 
         context.putImageData(imageData,0,0);
-
     },
-
 
     _drawCanvasSlider : function()
     {
@@ -777,7 +775,6 @@ ControlKit.Picker.prototype =
         this._setColor();
     },
 
-    //TODO ADD
     setColorRGB   : function(r,g,b)
     {
         this._setColorRGB(r,g,b);
@@ -789,8 +786,8 @@ ControlKit.Picker.prototype =
     setColorRGBfv : function(r,g,b)
     {
         this.setColorRGB(Math.floor(r * 255.0),
-                          Math.floor(g * 255.0),
-                          Math.floor(b * 255.0));
+                         Math.floor(g * 255.0),
+                         Math.floor(b * 255.0));
     },
 
     setColorHSV   : function(h,s,v)
@@ -805,13 +802,9 @@ ControlKit.Picker.prototype =
     {
         this._drawCanvasField();
         this._drawCanvasSlider();
-
         this._updateHandles();
-
-        //var rgb = ControlKit.ColorUtil.HEX2RGB(hex);
         this._setContrasPrevColor(this._valueR,this._valueG,this._valueB);
     },
-
 
     getR     : function(){return this._valueR;},
     getG     : function(){return this._valueG;},
@@ -825,7 +818,6 @@ ControlKit.Picker.prototype =
     getRGBfv : function(){return [this._valueR / 255.0,this._valueG / 255.0,this._valueB / 255.0];},
 
     getNode : function(){return this._node;}
-
 };
 
 ControlKit.Picker.init        = function(parentNode){return ControlKit.Picker._instance = new ControlKit.Picker(parentNode);};

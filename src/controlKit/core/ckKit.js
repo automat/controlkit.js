@@ -18,16 +18,18 @@ ControlKit.Kit = function(parentDomElementId,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    params         = params         || {};
-    params.trigger = params.trigger || false;
-    params.history = params.history || false;
-    params.opacity = params.opacity || ControlKit.Default.KIT_OPACITY;
+    params                = params                || {};
+    params.trigger        = params.trigger        === undefined ? ControlKit.Default.KIT_TRIGGER         : params.fixed;
+    params.history        = params.history        === undefined ? ControlKit.Default.KIT_HISTORY         : params.history;
+    params.panelsClosable = params.panelsClosable === undefined ? ControlKit.Default.KIT_PANELS_CLOSABLE : params.panelsClosable;
+    params.opacity        = params.opacity        || ControlKit.Default.KIT_OPACITY;
 
     /*---------------------------------------------------------------------------------*/
 
-    this._node     = node;
-    this._panels   = [];
-    this._isDisabled = false;
+    this._node           = node;
+    this._panels         = [];
+    this._isDisabled     = false;
+    this._historyEnabled = params.history;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -35,7 +37,7 @@ ControlKit.Kit = function(parentDomElementId,params)
         history.addEventListener(ControlKit.EventType.HISTORY_STATE_PUSH,this,'onHistoryStatePush');
         history.addEventListener(ControlKit.EventType.HISTORY_STATE_POP ,this,'onHistoryStatePop');
 
-    if(!params.history)history.disable();
+    if(!this._historyEnabled)history.disable();
 
     var mouse   = ControlKit.Mouse.init(),
         picker  = ControlKit.Picker.init( this.getNode()),
@@ -133,6 +135,8 @@ ControlKit.Kit.prototype.update = function()
         }
     }
 };
+
+ControlKit.Kit.prototype.historyIsEnabled = function(){return this._historyEnabled;};
 
 ControlKit.Kit.prototype.enable  = function(){this._isDisabled = false;};
 ControlKit.Kit.prototype.disable = function(){this._isDisabled = true;};

@@ -57,4 +57,3 @@ ControlKit.AbstractGroup.prototype.isDisabled   = function() {return this._isDis
 ControlKit.AbstractGroup.prototype.isEnabled    = function() {return !this._isDisabled;};
 
 ControlKit.AbstractGroup.prototype.getList      = function(){return this._listNode;};
-

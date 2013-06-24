@@ -250,7 +250,6 @@ ControlKit.Group.prototype.addSubGroup  = function(params)
     return this;
 };
 
-
 /*-------------------------------------------------------------------------------------*/
 
 ControlKit.Group.prototype.getSubGroup   = function()

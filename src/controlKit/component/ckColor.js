@@ -144,7 +144,6 @@ ControlKit.Color.prototype._onColorTrigger = function()
 
         picker.setCallbackPick(onPickerPick);
         picker.open();
-
 };
 
 /*---------------------------------------------------------------------------------*/

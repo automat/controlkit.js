@@ -24,34 +24,31 @@ ControlKit.Output = function(parent,object,value,params)
 
     /*---------------------------------------------------------------------------------*/
 
-
-    //TODO: fix
     if(params.height)
     {
-        if(params.height != 'auto')
-        {
-            var textAreaWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
-                textAreaWrap.setStyleClass(ControlKit.CSS.TextAreaWrap);
-                wrapNode.addChild(textAreaWrap);
-                textAreaWrap.addChild(textArea);
+        var textAreaWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
+            textAreaWrap.setStyleClass(ControlKit.CSS.TextAreaWrap);
+            textAreaWrap.addChild(textArea);
+            wrapNode.addChild(textAreaWrap);
 
-            var height  = this._height = params.height,
-                padding = 6;
 
-            textArea.setHeight(Math.max(height  ,ControlKit.Metric.COMPONENT_MIN_HEIGHT));
-            wrapNode.setHeight(textArea.getHeight() +6 );
-            rootNode.setHeight(wrapNode.getHeight() +4);
+        //FIXME
+        var height  = this._height = params.height,
+            padding = 4;
 
-            this._scrollbar = new ControlKit.ScrollBar(textAreaWrap,textArea,height);
-        }
+            textArea.setHeight(Math.max(height + padding  ,ControlKit.Metric.COMPONENT_MIN_HEIGHT));
+            wrapNode.setHeight(textArea.getHeight());
+            rootNode.setHeight(wrapNode.getHeight() + padding);
 
-        //TODO: Add auto height
+        this._scrollBar = new ControlKit.ScrollBar(textAreaWrap,textArea,height - padding)
     }
 
     if(params.wrap)textArea.setStyleProperty('white-space','pre-wrap');
 
     /*---------------------------------------------------------------------------------*/
 
+    this._prevString = '';
+    this._prevScrollHeight = -1;
     this._setValue();
 };
 
