@@ -34,66 +34,6 @@ var ControlKit = ControlKit || {};
 
 
 
-ControlKit.Metric =
-{
-    COMPONENT_MIN_HEIGHT : 25,
-    STROKE_SIZE          : 1,
-    PADDING_WRAPPER      : 12,
-    PADDING_OPTIONS      : 2,
-    PADDING_PRESET       : 20,
-
-    SCROLLBAR_TRACK_PADDING          : 2,
-    FUNCTION_PLOTTER_LABEL_TICK_SIZE : 6
-};
-ControlKit.Preset =
-{
-    /*---------------------------------------------------------------------------------*/
-
-    HISTORY_MAX_STATES : 30,
-    NUMBER_INPUT_SHIFT_MULTIPLIER : 10,
-
-    /*---------------------------------------------------------------------------------*/
-
-    FUNCTION_PLOTTER_UNIT_X    :  1,
-    FUNCTION_PLOTTER_UNIT_Y    :  1,
-    FUNCTION_PLOTTER_UNIT_MIN  : 0.15,
-    FUNCTION_PLOTTER_UNIT_MAX  : 4,
-    FUNCTION_PLOTTER_SCALE     : 10.0,
-    FUNCTION_PLOTTER_SCALE_MIN : 0.02,
-    FUNCTION_PLOTTER_SCALE_MAX : 25
-
-    /*---------------------------------------------------------------------------------*/
-
-};
-ControlKit.Default =
-{
-    KIT_OPACITY : 1.0,
-
-    /*---------------------------------------------------------------------------------*/
-
-    PANEL_POSITION  : [0,0],
-    PANEL_WIDTH     : 300,
-    PANEL_WIDTH_MIN : 150,
-    PANEL_WIDTH_MAX : 600,
-    PANEL_RATIO     : 40,
-    PANEL_LABEL     : 'Control Panel',
-
-    PANEL_VALIGN : ControlKit.Layout.ALIGN_TOP,
-    PANEL_ALIGN  : ControlKit.Layout.ALIGN_RIGHT,
-
-    PANEL_OPACITY : 1.0,
-
-    PANEL_FIXED : true,
-
-    /*---------------------------------------------------------------------------------*/
-
-    COLOR_PICKER_VALUE_HUE : 200.0,
-    COLOR_PICKER_VALUE_SAT : 50.0,
-    COLOR_PICKER_VALUE_VAL : 50.0
-
-    /*---------------------------------------------------------------------------------*/
-
-};
 ControlKit.Event = function(sender,type,data)
 {
     this.sender = sender;
@@ -215,7 +155,107 @@ ControlKit.EventType =
     GROUP_LIST_SIZE_CHANGE   : 'groupListSizeChange',
     GROUP_SIZE_UPDATE        : 'groupSizeUpdate',
 
+    PANEL_SIZE_CHANGE        : 'panelSizeChange',
+
     UPDATE_MENU            : 'updateMenu'
+};
+ControlKit.ColorMode =
+{
+    RGB  : 'rgb',
+    HSV  : 'hsv',
+    HEX  : 'hex',
+    RGBfv : 'rgbfv'
+};
+ControlKit.LayoutMode =
+{
+    LEFT   : 'left',
+    RIGHT  : 'right',
+    TOP    : 'top',
+    BOTTOM : 'bottom',
+    NONE   : 'none'
+};
+ControlKit.Metric =
+{
+    COMPONENT_MIN_HEIGHT : 25,
+    STROKE_SIZE          : 1,
+    PADDING_WRAPPER      : 12,
+    PADDING_OPTIONS      : 2,
+    PADDING_PRESET       : 20,
+
+    SCROLLBAR_TRACK_PADDING          : 2,
+    FUNCTION_PLOTTER_LABEL_TICK_SIZE : 6
+};
+ControlKit.Preset =
+{
+    /*---------------------------------------------------------------------------------*/
+
+    HISTORY_MAX_STATES : 30,
+    NUMBER_INPUT_SHIFT_MULTIPLIER : 10,
+
+    /*---------------------------------------------------------------------------------*/
+
+    FUNCTION_PLOTTER_NON_IMPLICIT_UNIT_X    :  1,
+    FUNCTION_PLOTTER_NON_IMPLICIT_UNIT_Y    :  1,
+    FUNCTION_PLOTTER_IMPLICIT_UNIT_X    :  0.25,
+    FUNCTION_PLOTTER_IMPLICIT_UNIT_Y    :  0.25,
+    FUNCTION_PLOTTER_UNIT_MIN  : 0.15,
+    FUNCTION_PLOTTER_UNIT_MAX  : 4,
+    FUNCTION_PLOTTER_NON_IMPLICIT_SCALE     : 10.0,
+    FUNCTION_PLOTTER_IMPLICIT_SCALE     :1.0,
+    FUNCTION_PLOTTER_SCALE_MIN : 0.02,
+    FUNCTION_PLOTTER_SCALE_MAX : 25,
+
+    FUNCTION_PLOTTER_IMPLICIT_AXES_COLOR : 'rgba(255,255,255,0.75)',
+    FUNCTION_PLOTTER_IMPLICIT_GRID_COLOR : 'rgba(25,25,25,0.75)',
+
+    FUNCTION_PLOTTER_NON_IMPLICIT_AXES_COLOR : 'rgb(54,60,64)',
+    FUNCTION_PLOTTER_NON_IMPLICIT_GRID_COLOR : 'rgb(25,25,25)',
+
+    FUNCTION_PLOTTER_CIRCLE_LABEL_RADIUS : 3,
+    FUNCTION_PLOTTER_CIRCLE_LABEL_FILL   : 'rgb(255,255,255)',
+    FUNCTION_PLOTTER_CIRCLE_STROKE       : '#b12334'
+
+    /*---------------------------------------------------------------------------------*/
+
+};
+ControlKit.Default =
+{
+    KIT_TRIGGER         : false,
+    KIT_HISTORY         : false,
+    KIT_PANELS_CLOSABLE : true,
+    KIT_OPACITY         : 1.0,
+
+    /*---------------------------------------------------------------------------------*/
+
+    PANEL_POSITION   : null,
+    PANEL_WIDTH      : 300,
+    PANEL_HEIGHT     : null,
+    PANEL_WIDTH_MIN  : 100,
+    PANEL_WIDTH_MAX  : 600,
+    PANEL_RATIO      : 40,
+    PANEL_LABEL      : 'Control Panel',
+    PANEL_VALIGN     : ControlKit.LayoutMode.TOP,
+    PANEL_ALIGN      : ControlKit.LayoutMode.RIGHT,
+    PANEL_DOCK       : {align:ControlKit.LayoutMode.RIGHT,resizable:true},
+    PANEL_ENABLE     : true,
+    PANEL_OPACITY    : 1.0,
+    PANEL_FIXED      : true,
+    PANEL_VCONSTRAIN : true,
+
+    /*---------------------------------------------------------------------------------*/
+
+    FUNCTION_PLOTTER_SHOW_MIN_MAX_LABELS : true,
+
+
+    /*---------------------------------------------------------------------------------*/
+
+    COLOR_COLOR_MODE : ControlKit.ColorMode.HEX,
+
+    COLOR_PICKER_VALUE_HUE : 200.0,
+    COLOR_PICKER_VALUE_SAT : 50.0,
+    COLOR_PICKER_VALUE_VAL : 50.0
+
+    /*---------------------------------------------------------------------------------*/
 };
 ControlKit.History = function()
 {
@@ -292,6 +332,23 @@ ControlKit.History.getInstance = function(){return ControlKit.History._instance;
 ControlKit.History.prototype.enable     = function(){this._isDisabled=false;};
 ControlKit.History.prototype.disable    = function(){this._isDisabled=true;};
 ControlKit.History.prototype.isDisabled = function(){return this._isDisabled;};
+ControlKit.Error =
+{
+    COLOR_FORMAT_HEX                  : 'Color format should be hex. Set colorMode to rgb, rgbfv or hsv.',
+    COLOR_FORMAT_RGB_RGBFV_HSV        : 'Color format should be rgb, rgbfv or hsv. Set colorMode to hex.',
+    COLOR_PRESET_FORMAT_HEX           : 'Preset color format should be hex.',
+    COLOR_PRESET_FORMAT_RGB_RGBFV_HSV : 'Preset color format should be rgb, rgbfv or hsv.',
+    COMPONENT_OBJECT                  : 'Object ',
+    COMPONENT_OBJECT_MEMBER_REFERENCE : ' has no member ',
+    TYPE                              : ' should be of type ',
+    COMPONENT_FUNCTION_LENGTH         : 'Function should be of form f(x) or f(x,y).',
+    END                               : '.'
+};
+ControlKit.ErrorUtil =
+{
+    ReferenceError : function(object,key)       {return (object[key] === undefined);},
+    TypeError      : function(object,value,type){return Object.prototype.toString.call(object[value]) !== Object.prototype.toString.call(type);}
+};
 ControlKit.Kit = function(parentDomElementId,params)
 {
     ControlKit.EventDispatcher.apply(this,arguments);
@@ -308,31 +365,22 @@ ControlKit.Kit = function(parentDomElementId,params)
         node = ControlKit.Node.getNodeById(parentDomElementId);
     }
 
-    if(ControlKit.CSS.Style)
-    {
-        var style = document.createElement('style');
-            style.setAttribute('type','text/css');
-
-        if(style.styleSheet){style.stylesheet.cssText = ControlKit.CSS.Style;}
-        else style.appendChild(document.createTextNode(ControlKit.CSS.Style));
-
-        document.getElementsByName('head')[0].appendChild(style);
-    }
-
     node.setProperty('id',ControlKit.CSS.ControlKit);
 
     /*---------------------------------------------------------------------------------*/
 
-    params         = params         || {};
-    params.trigger = params.trigger || false;
-    params.history = params.history || false;
-    params.opacity = params.opacity || ControlKit.Default.KIT_OPACITY;
+    params                = params                || {};
+    params.trigger        = params.trigger        === undefined ? ControlKit.Default.KIT_TRIGGER         : params.fixed;
+    params.history        = params.history        === undefined ? ControlKit.Default.KIT_HISTORY         : params.history;
+    params.panelsClosable = params.panelsClosable === undefined ? ControlKit.Default.KIT_PANELS_CLOSABLE : params.panelsClosable;
+    params.opacity        = params.opacity        || ControlKit.Default.KIT_OPACITY;
 
     /*---------------------------------------------------------------------------------*/
 
-    this._node     = node;
-    this._panels   = [];
-    this._isDisabled = false;
+    this._node           = node;
+    this._panels         = [];
+    this._isDisabled     = false;
+    this._historyEnabled = params.history;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -340,7 +388,7 @@ ControlKit.Kit = function(parentDomElementId,params)
         history.addEventListener(ControlKit.EventType.HISTORY_STATE_PUSH,this,'onHistoryStatePush');
         history.addEventListener(ControlKit.EventType.HISTORY_STATE_POP ,this,'onHistoryStatePop');
 
-    if(!params.history)history.disable();
+    if(!this._historyEnabled)history.disable();
 
     var mouse   = ControlKit.Mouse.init(),
         picker  = ControlKit.Picker.init( this.getNode()),
@@ -383,11 +431,6 @@ ControlKit.Kit.prototype.onValueUpdated = function(e)
 ControlKit.Kit.prototype.onSelectTriggered = function(e)
 {
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.TRIGGER_SELECT,{origin: e.sender}));
-};
-
-ControlKit.Kit.prototype.onInputSelectDrag = function()
-{
-    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.INPUT_SELECT_DRAG,null));
 };
 
 /*---------------------------------------------------------------------------------*/
@@ -443,6 +486,8 @@ ControlKit.Kit.prototype.update = function()
         }
     }
 };
+
+ControlKit.Kit.prototype.historyIsEnabled = function(){return this._historyEnabled;};
 
 ControlKit.Kit.prototype.enable  = function(){this._isDisabled = false;};
 ControlKit.Kit.prototype.disable = function(){this._isDisabled = true;};
@@ -582,7 +627,9 @@ ControlKit.CSS =
 
     /*-------------------------------------------------------------------------------------*/
 
-    Trigger : 'controlKitTrigger'
+    Trigger : 'controlKitTrigger',
+
+    SizeHandle : 'sizeHandle'
 };
 
 ControlKit.DocumentEventType =
@@ -627,25 +674,27 @@ ControlKit.Mouse.init        = function(){if(!ControlKit.Mouse._instance)Control
 ControlKit.Mouse.getInstance = function(){return ControlKit.Mouse._instance;};
 ControlKit.NodeEventType =
 {
-    MOUSE_DOWN   : 'onmousedown',
-    MOUSE_UP     : 'onmouseup',
-    MOUSE_OVER   : 'onmouseover',
-    MOUSE_MOVE   : 'onmousemove',
-    MOUSE_OUT    : 'onmouseout',
-    KEY_DOWN     : 'onkeydown',
-    KEY_UP       : 'onkeyup',
-    CHANGE       : 'onchange',
-    FINISH       : 'onfinish',
-    DBL_CLICK    : 'ondblclick',
-    ON_CLICK     : 'onclick',
-    SELECT_START : 'onselectstart',
-    DRAG_START   : 'ondragstart',
-    DRAG         : 'ondrag',
-    DRAG_END     : 'ondragend',
+    MOUSE_DOWN   : 'mousedown',
+    MOUSE_UP     : 'mouseup',
+    MOUSE_OVER   : 'mouseover',
+    MOUSE_MOVE   : 'mousemove',
+    MOUSE_OUT    : 'mouseout',
+    KEY_DOWN     : 'keydown',
+    KEY_UP       : 'keyup',
+    CHANGE       : 'change',
+    FINISH       : 'finish',
+    DBL_CLICK    : 'dblclick',
+    ON_CLICK     : 'click',
+    SELECT_START : 'selectstart',
+    DRAG_START   : 'dragstart',
+    DRAG         : 'drag',
+    DRAG_END     : 'dragend',
 
-    DRAG_ENTER   : 'ondragenter',
-    DRAG_OVER    : 'ondragover',
-    DRAG_LEAVE   : 'ondragleave'
+    DRAG_ENTER   : 'dragenter',
+    DRAG_OVER    : 'dragover',
+    DRAG_LEAVE   : 'dragleave',
+
+    RESIZE       : 'resize'
 };
 ControlKit.NodeType =
 {
@@ -793,8 +842,8 @@ ControlKit.Node.prototype =
         return offset;
     },
 
-    addEventListener    : function(event,func){this._element[event] = func; return this;},
-    removeEventListener : function(event)     {this._element[event] = '';return this;},
+    addEventListener    : function(type,listener,useCapture){this._element.addEventListener(   type, listener, useCapture); return this;},
+    removeEventListener : function(type,listener,useCapture){this._element.removeEventListener(type, listener, useCapture);return this;},
 
     setStyleClass      : function(style)         {this._element.className = style; return this;},
     setStyleProperty   : function(property,value){this._element.style[property] = value; return this;},
@@ -832,16 +881,13 @@ ControlKit.Node.getNodeByElement = function(element){return new ControlKit.Node(
 ControlKit.Node.getNodeById      = function(id)     {return new ControlKit.Node().setElement(document.getElementById(id));};
 
 
-ControlKit.Layout =
-{
-    ALIGN_LEFT   : 'left',
-    ALIGN_RIGHT  : 'right',
-    ALIGN_TOP    : 'top',
-    ALIGN_BOTTOM : 'bottom'
-};
 ControlKit.Component = function(parent,label)
 {
     ControlKit.EventDispatcher.apply(this,arguments);
+
+    /*---------------------------------------------------------------------------------*/
+
+    label = parent.usesLabels() ? label : 'none';
 
     /*---------------------------------------------------------------------------------*/
 
@@ -855,6 +901,7 @@ ControlKit.Component = function(parent,label)
 
         wrapNode.setStyleClass(ControlKit.CSS.Wrap);
         rootNode.addChild(wrapNode);
+
 
     if(label)
     {
@@ -897,6 +944,15 @@ ControlKit.Component.prototype.onDisable = function(){this.disable();};
 
 ControlKit.ObjectComponent = function(parent,object,value,params)
 {
+    if(ControlKit.ErrorUtil.ReferenceError(object,value))
+    {
+        throw new ReferenceError(ControlKit.Error.COMPONENT_OBJECT +
+                                 object.constructor.name +
+                                 ControlKit.Error.COMPONENT_OBJECT_MEMBER_REFERENCE +
+                                 value +
+                                 ControlKit.Error.END);
+    }
+
     /*-------------------------------------------------------------------------------------*/
 
     params       = params || {};
@@ -1006,6 +1062,139 @@ ControlKit.SVGComponent.prototype._pathCmdLine            = function(x0,y0,x1,y1
 ControlKit.SVGComponent.prototype._pathCmdBezierCubic     = function(cmd,x0,y0,cx0,cy0,cx1,cy1,x1,y1){return 'M ' + x0 + ' ' + y0 + ' C ' + cx0 + ' ' + cy0 + ', ' + cx1 + ' ' + cy1 + ', ' + x1 + ' ' + y1;};
 ControlKit.SVGComponent.prototype._pathCmdBezierQuadratic = function(cmd,x0,y0,cx,cy,x1,y1)          {return 'M ' + x0 + ' '+ y0 + ' Q ' + cx + ' ' + cy + ', ' + x1 + ' ' + y1;};
 
+ControlKit.ColorUtil =
+{
+    HSV2RGB : function(hue,sat,val)
+    {
+        var max_hue = 360.0,
+            max_sat = 100.0,
+            max_val = 100.0;
+
+        var min_hue = 0.0,
+            min_sat = 0,
+            min_val = 0;
+
+        hue = hue % max_hue;
+        val = Math.max(min_val,Math.min(val,max_val))/max_val * 255.0;
+
+        if(sat <= min_sat)
+        {
+            val = Math.round(val);
+            return[val,val,val];
+        }
+        else if(sat > max_sat)sat = max_sat;
+
+        sat = sat/max_sat;
+
+        //http://d.hatena.ne.jp/ja9/20100903/128350434
+
+        var hi = Math.floor(hue/60.0)% 6,
+            f  = (hue/60.0) - hi,
+            p  = val * (1 - sat),
+            q  = val * (1 - f * sat),
+            t  = val * (1 - (1 - f) * sat);
+
+        var r = 0,
+            g = 0,
+            b = 0;
+
+        switch(hi)
+        {
+            case 0: r = val; g = t; b = p;break;
+            case 1: r = q; g = val; b = p;break;
+            case 2: r = p; g = val; b = t;break;
+            case 3: r = p; g = q; b = val;break;
+            case 4: r = t; g = p; b = val;break;
+            case 5: r = val; g = p; b = q;break;
+            default: break;
+        }
+
+        r = Math.round(r);
+        g = Math.round(g);
+        b = Math.round(b);
+
+        return [r,g,b];
+
+    },
+
+    RGB2HSV : function(r,g,b)
+    {
+        var h = 0,
+            s = 0,
+            v = 0;
+
+        r = r / 255.0;
+        g = g / 255.0;
+        b = b / 255.0;
+
+        var minRGB = Math.min(r, Math.min(g, b)),
+            maxRGB = Math.max(r, Math.max(g, b));
+
+        if (minRGB == maxRGB) { v = minRGB;return [0, 0, Math.round(v)];}
+
+        var dd = (r == minRGB) ? g - b : ((b == minRGB) ? r - g : b - r),
+            hh = (r == minRGB) ? 3 : ((b == minRGB) ? 1 : 5);
+
+        h = Math.round(60 * (hh - dd / (maxRGB - minRGB)));
+        s = Math.round((maxRGB - minRGB) / maxRGB * 100.0);
+        v = Math.round( maxRGB * 100.0);
+
+        return [h, s, v];
+    },
+
+    RGB2HEX : function(r,g,b)
+    {
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    },
+
+    RGBfv2HEX : function(r,g,b)
+    {
+        return ControlKit.ColorUtil.RGB2HEX(Math.floor(r * 255.0),
+                                            Math.floor(g * 255.0),
+                                            Math.floor(b * 255.0));
+    },
+
+    HSV2HEX : function(h,s,v)
+    {
+        var rgb = ControlKit.ColorUtil.HSV2RGB(h,s,v);
+        return ControlKit.ColorUtil.RGB2HEX(rgb[0],rgb[1],rgb[2]);
+    },
+
+    HEX2RGB : function(hex)
+    {
+        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+            return r + r + g + g + b + b;
+        });
+
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? [parseInt(result[1], 16),parseInt(result[2], 16),parseInt(result[3], 16)] : null;
+
+    },
+
+    isValidHEX : function(hex)
+    {
+        return /^#[0-9A-F]{6}$/i.test(hex);
+    },
+
+    isValidRGB : function(r,g,b)
+    {
+        return r >= 0 && r <= 255 &&
+               g >= 0 && g <= 255 &&
+               b >= 0 && b <= 255;
+    },
+
+    isValidRGBfv : function(r,g,b)
+    {
+        return r >= 0 && r <= 1.0 &&
+               g >= 0 && g <= 1.0 &&
+               b >= 0 && b <= 1.0;
+    }
+
+
+
+
+};
 //TODO: Add mouseoffset & reset..
 ControlKit.ScrollBar = function(parentNode,targetNode,wrapHeight)
 {
@@ -1156,6 +1345,8 @@ ControlKit.ScrollBar.prototype =
     enable  : function(){this._isDisabled = false;this._updateAppearance();},
     disable : function(){this._isDisabled = true; this._updateAppearance();},
 
+    reset : function(){this._scrollThumb(0);},
+
     _updateAppearance : function()
     {
         if(this._isDisabled)
@@ -1206,22 +1397,21 @@ ControlKit.AbstractGroup = function(parent,params)
 
     params        = params        || {};
     params.height = params.height || null;
+    params.enable = params.enable === undefined ? true : params.enable;
 
     /*---------------------------------------------------------------------------------*/
 
-    this._parent    = parent;
-    this._height    = params.height;
-    this._isDisabled  = false;
-    this._scrollBar = null;
+    this._parent     = parent;
+    this._height     = params.height;
+    this._isDisabled = !params.enable;
+    this._scrollBar  = null;
 
-    this._node = new ControlKit.Node(ControlKit.NodeType.LIST_ITEM);
+    this._node     = new ControlKit.Node(ControlKit.NodeType.LIST_ITEM);
     this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV);
     this._listNode = new ControlKit.Node(ControlKit.NodeType.LIST);
 
     this._parent.getList().addChild(this._node);
 
-    ControlKit.getKitInstance().addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,
-                                                 this,'onInputSelectDrag');
 };
 
 ControlKit.AbstractGroup.prototype = Object.create(ControlKit.EventDispatcher.prototype);
@@ -1237,17 +1427,20 @@ ControlKit.AbstractGroup.prototype.addScrollWrap = function()
     if(this.isEnabled())wrapNode.setHeight(maxHeight);
 };
 
-//Prevent chrome select drag
-ControlKit.AbstractGroup.prototype.onInputSelectDrag = function()
+ControlKit.AbstractGroup.prototype.preventSelectDrag = function()
 {
+    this._parent.preventSelectDrag();
+
     if(!this.hasScrollWrap())return;
     this._wrapNode.getElement().scrollTop = 0;
 };
 
+/*---------------------------------------------------------------------------------*/
+
 ControlKit.AbstractGroup.prototype.hasMaxHeight  = function(){return this._height != null;};
 ControlKit.AbstractGroup.prototype.getMaxHeight  = function(){return this._height;};
 ControlKit.AbstractGroup.prototype.hasScrollWrap = function(){return this._scrollBar != null;};
-ControlKit.AbstractGroup.prototype.hasLabel      = function(){return this._lablNode;};
+ControlKit.AbstractGroup.prototype.hasLabel      = function(){return this._lablNode  != null;};
 
 ControlKit.AbstractGroup.prototype.disable      = function() {this._isDisabled = false; this._updateAppearance();};
 ControlKit.AbstractGroup.prototype.enable       = function() {this._isDisabled = true;  this._updateAppearance();};
@@ -1255,7 +1448,6 @@ ControlKit.AbstractGroup.prototype.isDisabled   = function() {return this._isDis
 ControlKit.AbstractGroup.prototype.isEnabled    = function() {return !this._isDisabled;};
 
 ControlKit.AbstractGroup.prototype.getList      = function(){return this._listNode;};
-
 
 ControlKit.Group = function(parent,params)
 {
@@ -1266,7 +1458,7 @@ ControlKit.Group = function(parent,params)
     params           = params || {};
     params.label     = params.label     || null;
     params.useLabels = params.useLabels || true;
-    params.enable    = params.enable === undefined ? true : params.enable;
+    params.enable    = params.enable     === undefined ? true : params.enable;
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -1305,13 +1497,12 @@ ControlKit.Group = function(parent,params)
             headNode.addChild(indiNode);
             lablWrap.addChild(lablNode);
             headNode.addChild(lablWrap);
+            rootNode.addChild(headNode);
 
         headNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadTrigger.bind(this));
         this.addEventListener(ControlKit.EventType.GROUP_LIST_SIZE_CHANGE,this._parent,'onGroupListSizeChange');
 
-        rootNode.addChild(headNode);
-
-        if(!params.enable)this.disable();
+        this._updateAppearance();
     }
 
     if(this.hasMaxHeight())this.addScrollWrap();
@@ -1343,6 +1534,7 @@ ControlKit.Group = function(parent,params)
     this._parent.addEventListener(ControlKit.EventType.PANEL_SHOW,                this, 'onPanelShow');
     this._parent.addEventListener(ControlKit.EventType.PANEL_SCROLL_WRAP_ADDED,   this, 'onPanelScrollWrapAdded');
     this._parent.addEventListener(ControlKit.EventType.PANEL_SCROLL_WRAP_REMOVED, this, 'onPanelScrollWrapRemoved');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_SIZE_CHANGE,         this, 'onPanelSizeChange');
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -1360,6 +1552,8 @@ ControlKit.Group.prototype.onPanelScrollWrapAdded   = function(){this.dispatchEv
 ControlKit.Group.prototype.onPanelScrollWrapRemoved = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE, null));};
 ControlKit.Group.prototype.onPanelHide              = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_DISABLE,  null));};
 ControlKit.Group.prototype.onPanelShow              = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_ENABLE,   null));};
+ControlKit.Group.prototype.onPanelSizeChange        = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE, null));};
+
 
 /*-------------------------------------------------------------------------------------*/
 
@@ -1413,9 +1607,9 @@ ControlKit.Group.prototype.addNumberInput     = function(object,value,params)   
 ControlKit.Group.prototype.addRange           = function(object,value,params)       {return this._addComponent(new ControlKit.Range(           this.getSubGroup(),object,value,params));};
 ControlKit.Group.prototype.addCheckbox        = function(object,value,params)       {return this._addComponent(new ControlKit.Checkbox(        this.getSubGroup(),object,value,params));};
 ControlKit.Group.prototype.addColor           = function(object,value,params)       {return this._addComponent(new ControlKit.Color(           this.getSubGroup(),object,value,params));};
-ControlKit.Group.prototype.addButton          = function(label,onPress)             {return this._addComponent(new ControlKit.Button(          this.getSubGroup(),label,onPress));};
-ControlKit.Group.prototype.addSelect          = function(object,value,target,params){return this._addComponent(new ControlKit.Select(          this.getSubGroup(),object,value,target,params));};
-ControlKit.Group.prototype.addSlider          = function(object,value,target,params){return this._addComponent(new ControlKit.Slider(          this.getSubGroup(),object,value,target,params));};
+ControlKit.Group.prototype.addButton          = function(label,onPress,params)      {return this._addComponent(new ControlKit.Button(          this.getSubGroup(),label,onPress,params));};
+ControlKit.Group.prototype.addSelect          = function(object,value,params)       {return this._addComponent(new ControlKit.Select(          this.getSubGroup(),object,value,params));};
+ControlKit.Group.prototype.addSlider          = function(object,value,range,params) {return this._addComponent(new ControlKit.Slider(          this.getSubGroup(),object,value,range,params));};
 
 ControlKit.Group.prototype.addFunctionPlotter = function(object,value,params)       {return this._addComponent(new ControlKit.FunctionPlotter( this.getSubGroup(),object,value,params));};
 ControlKit.Group.prototype.addPad             = function(object,value,params)       {return this._addComponent(new ControlKit.Pad(             this.getSubGroup(),object,value,params));};
@@ -1440,13 +1634,8 @@ ControlKit.Group.prototype._addComponent = function(component)
 
 ControlKit.Group.prototype._updateHeight = function()
 {
-    var wrapNode = this._wrapNode;
-        wrapNode.setHeight(wrapNode.getFirstChild().getHeight());
-
     this.getSubGroup().update();
-
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE,null));
-
     if(this.hasMaxHeight())this._scrollBar.update();
 };
 
@@ -1476,12 +1665,11 @@ ControlKit.Group.prototype._updateAppearance = function()
         return;
     }
 
-    var maxHeight = this.getMaxHeight(),
-        listHeight;
-
-    if (maxHeight)
+    if (this.hasMaxHeight())
     {
-        listHeight = wrapNode.getChildAt(1).getHeight();
+        var maxHeight  = this.getMaxHeight(),
+            listHeight = wrapNode.getChildAt(1).getHeight();
+
         wrapNode.setHeight(listHeight < maxHeight ? listHeight : maxHeight);
 
         if (scrollBar.isValid())
@@ -1492,8 +1680,7 @@ ControlKit.Group.prototype._updateAppearance = function()
     }
     else
     {
-        listHeight = wrapNode.getFirstChild().getHeight();
-        wrapNode.setHeight(listHeight);
+        wrapNode.deleteStyleProperty('height');
     }
 
     if (inidNode)inidNode.setStyleClass(ControlKit.CSS.ArrowBMax);
@@ -1532,9 +1719,9 @@ ControlKit.SubGroup = function(parent,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    params           = params        || {};
-    params.label     = params.label  || null;
-    params.enable    = params.enable === undefined ? true : params.enable;
+    params            = params          || {};
+    params.label      = params.label    || null;
+    params.useLabels  = params.useLabels  === undefined ? true : params.useLabels;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -1548,6 +1735,8 @@ ControlKit.SubGroup = function(parent,params)
         wrapNode.addChild(listNode);
         rootNode.addChild(wrapNode);
 
+    this._useLabels  = params.useLabels;
+
     /*-------------------------------------------------------------------------------------*/
 
     var label = params.label;
@@ -1558,27 +1747,28 @@ ControlKit.SubGroup = function(parent,params)
         {
             var headNode = this._headNode = new ControlKit.Node(ControlKit.NodeType.DIV),
                 lablWrap =                  new ControlKit.Node(ControlKit.NodeType.DIV),
-                lablNode =                  new ControlKit.Node(ControlKit.NodeType.SPAN),
-                indiNode = this._indiNode = new ControlKit.Node(ControlKit.NodeType.DIV);
+                lablNode =                  new ControlKit.Node(ControlKit.NodeType.SPAN);
 
                 headNode.setStyleClass(ControlKit.CSS.Head);
                 lablWrap.setStyleClass(ControlKit.CSS.Wrap);
                 lablNode.setStyleClass(ControlKit.CSS.Label);
-                indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
-                //indiNode.setStyleClass(ControlKit.CSS.IconArrowUpBig);
 
                 lablNode.setProperty('innerHTML',label);
 
-                headNode.addChild(indiNode);
                 lablWrap.addChild(lablNode);
                 headNode.addChild(lablWrap);
 
-            headNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
+
+            var indiNode = this._indiNode = new ControlKit.Node(ControlKit.NodeType.DIV);
+            indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
+            headNode.addChildAt(indiNode,0);
+
             rootNode.addChildAt(headNode,0);
 
-            if(!params.enable)this.disable();
-
             this.addEventListener(ControlKit.EventType.SUBGROUP_TRIGGER,this._parent,'onSubGroupTrigger');
+            headNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadMouseDown.bind(this));
+
+            this._updateAppearance();
         }
     }
 
@@ -1590,8 +1780,11 @@ ControlKit.SubGroup = function(parent,params)
     this._parent.addEventListener(ControlKit.EventType.SUBGROUP_DISABLE, this, 'onDisable');
     this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,   this, 'onPanelMoveEnd');
     this._parent.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE,this, 'onGroupSizeChange');
+    this._parent.addEventListener(ControlKit.EventType.PANEL_SIZE_CHANGE,this, 'onPanelSizeChange');
 
     this.addEventListener(ControlKit.EventType.GROUP_SIZE_UPDATE,this._parent,'onGroupSizeUpdate');
+
+
 };
 
 ControlKit.SubGroup.prototype = Object.create(ControlKit.AbstractGroup.prototype);
@@ -1625,26 +1818,43 @@ ControlKit.SubGroup.prototype._updateAppearance = function()
 {
     if(this.isDisabled())
     {
-        this._headNode.setStyleClass(ControlKit.CSS.HeadInactive);
-        this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMin);
         this._wrapNode.setHeight(0);
+
+        if(this.hasLabel())
+        {
+            this._headNode.setStyleClass(ControlKit.CSS.HeadInactive);
+            this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMin);
+        }
+
     }
     else
     {
-        var wrapNode = this._wrapNode;
+        if(this.hasMaxHeight())
+        {
+            this._wrapNode.setHeight(this.getMaxHeight());
+        }
+        else
+        {
+            this._wrapNode.deleteStyleProperty('height');
+        }
 
-        var height   = this.hasMaxHeight() ?
-                       this.getMaxHeight() :
-                       wrapNode.getFirstChild().getHeight();
+        if(this.hasLabel())
+        {
+            this._headNode.setStyleClass(ControlKit.CSS.Head);
+            this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
+        }
 
-        this._headNode.setStyleClass(ControlKit.CSS.Head);
-        this._indiNode.setStyleClass(ControlKit.CSS.ArrowBSubMax);
-
-        wrapNode.setHeight(height);
     }
 };
 
 ControlKit.SubGroup.prototype.update = function(){if(this.hasMaxHeight())this._scrollBar.update();};
+
+/*-------------------------------------------------------------------------------------*/
+
+ControlKit.SubGroup.prototype.onComponentSelectDrag = function()
+{
+    this.preventSelectDrag();
+};
 
 /*-------------------------------------------------------------------------------------*/
 
@@ -1654,11 +1864,12 @@ ControlKit.SubGroup.prototype.onDisable         = function(){if(this.isDisabled(
 ControlKit.SubGroup.prototype.onGroupSizeChange = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE,null));};
 ControlKit.SubGroup.prototype.onGroupSizeUpdate = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_UPDATE,null));};
 ControlKit.SubGroup.prototype.onPanelMoveEnd    = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,   null));};
-
+ControlKit.SubGroup.prototype.onPanelSizeChange = function(){this._updateAppearance();};
 /*-------------------------------------------------------------------------------------*/
 
 ControlKit.SubGroup.prototype.hasLabel         = function()    {return this._headNode != null;};
 ControlKit.SubGroup.prototype.addComponentNode = function(node){this._listNode.addChild(node);};
+ControlKit.SubGroup.prototype.usesLabels       = function()    {return this._useLabels;};
 
 
 
@@ -1673,137 +1884,190 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    var parent = this._parent = controlKit;
+    this._parent = controlKit;
 
     /*---------------------------------------------------------------------------------*/
 
-    params                 = params           || {};
+    params            = params           || {};
 
     params.valign     = params.valign    || ControlKit.Default.PANEL_VALIGN;
     params.align      = params.align     || ControlKit.Default.PANEL_ALIGN;
     params.position   = params.position  || ControlKit.Default.PANEL_POSITION;
     params.width      = params.width     || ControlKit.Default.PANEL_WIDTH;
-    params.height     = params.height    || null;
+    params.height     = params.height    || ControlKit.Default.PANEL_HEIGHT;
     params.ratio      = params.ratio     || ControlKit.Default.PANEL_RATIO;
     params.label      = params.label     || ControlKit.Default.PANEL_LABEL;
     params.opacity    = params.opacity   || ControlKit.Default.PANEL_OPACITY;
+    params.fixed      = params.fixed      === undefined ? ControlKit.Default.PANEL_FIXED      : params.fixed;
+    params.enable     = params.enable     === undefined ? ControlKit.Default.PANEL_ENABLE     : params.enable;
+    params.vconstrain = params.vconstrain === undefined ? ControlKit.Default.PANEL_VCONSTRAIN : params.vconstrain;
 
-    params.fixed      = params.fixed === undefined ?
-                        ControlKit.Default.PANEL_FIXED :
-                        params.fixed;
-
-    params.vconstrain = params.vconstrain || true;
+    if(params.dock)
+    {
+        params.dock.align     = params.dock.align     || ControlKit.Default.PANEL_DOCK.align;
+        params.dock.resizable = params.dock.resizable || ControlKit.Default.PANEL_DOCK.resizable;
+    }
 
     /*---------------------------------------------------------------------------------*/
 
-    var align      = this._align      = params.align,
-        height     = this._height     = params.height ?  Math.max(0,Math.min(params.height,window.innerHeight)) : null,
-        width      = this._width      = Math.max(ControlKit.Default.PANEL_WIDTH_MIN,
-                                        Math.min(params.width,ControlKit.Default.PANEL_WIDTH_MAX)),
-        fixed      = this._fixed      = params.fixed,
-        label      = this._label      = params.label,
-        position   = this._position   = params.position,
-        opacity    =                    params.opacity;
-
+    this._width      = Math.max(ControlKit.Default.PANEL_WIDTH_MIN,
+                       Math.min(params.width,ControlKit.Default.PANEL_WIDTH_MAX));
+    this._height     = params.height ?  Math.max(0,Math.min(params.height,window.innerHeight)) : null;
+    this._fixed      = params.fixed;
+    this._dock       = params.dock;
+    this._position   = params.position;
     this._vConstrain = params.vconstrain;
+    this._label      = params.label;
+    this._isDisabled = !params.enable;
+    this._groups     = [];
 
     /*---------------------------------------------------------------------------------*/
 
-    this._isDisabled = false;
-
-    this._groups = [];
+    var width    = this._width,
+        isFixed  = this._fixed,
+        dock     = this._dock,
+        position = this._position,
+        label    = this._label,
+        align    = params.align,
+        opacity  = params.opacity;
 
     /*---------------------------------------------------------------------------------*/
 
-    var rootNode  = this._node = new ControlKit.Node(ControlKit.NodeType.DIV),
+    var rootNode  = this._node     = new ControlKit.Node(ControlKit.NodeType.DIV),
         headNode  = this._headNode = new ControlKit.Node(ControlKit.NodeType.DIV),
+        menuNode  =                  new ControlKit.Node(ControlKit.NodeType.DIV),
         lablWrap  =                  new ControlKit.Node(ControlKit.NodeType.DIV),
         lablNode  =                  new ControlKit.Node(ControlKit.NodeType.SPAN),
-        menuNode  =                  new ControlKit.Node(ControlKit.NodeType.DIV),
         wrapNode  = this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV),
         listNode  = this._listNode = new ControlKit.Node(ControlKit.NodeType.LIST);
 
-    var menuClose =                  new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON),
-        menuHide  = this._menuHide = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
-
-    /*---------------------------------------------------------------------------------*/
-
         rootNode.setStyleClass(ControlKit.CSS.Panel);
         headNode.setStyleClass(ControlKit.CSS.Head);
+        menuNode.setStyleClass(ControlKit.CSS.Menu);
         lablWrap.setStyleClass(ControlKit.CSS.Wrap);
         lablNode.setStyleClass(ControlKit.CSS.Label);
-        menuNode.setStyleClass(ControlKit.CSS.Menu);
         wrapNode.setStyleClass(ControlKit.CSS.Wrap);
         listNode.setStyleClass(ControlKit.CSS.GroupList);
-
-    /*---------------------------------------------------------------------------------*/
-
-        menuClose.setStyleClass(ControlKit.CSS.MenuBtnClose);
-        menuHide.setStyleClass( ControlKit.CSS.MenuBtnHide);
 
         rootNode.setWidth(width);
         lablNode.setProperty('innerHTML',label);
 
+        headNode.addChild(menuNode);
+        lablWrap.addChild(lablNode);
+        headNode.addChild(lablWrap);
+        wrapNode.addChild(listNode);
+        rootNode.addChild(headNode);
+        rootNode.addChild(wrapNode);
+
+        controlKit.getNode().addChild(rootNode);
+
     /*---------------------------------------------------------------------------------*/
 
-    controlKit.getNode().addChild(rootNode);
-
-    /*---------------------------------------------------------------------------------*/
-
-    if(!fixed)
+    if(!dock)
     {
-        this._mouseOffset  = [0,0];
-        headNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,    this._onHeadDragStart.bind(this));
+        var menuClose = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON),
+            menuHide  = this._menuHide = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
+
+            menuClose.setStyleClass(ControlKit.CSS.MenuBtnClose);
+            menuHide.setStyleClass( ControlKit.CSS.MenuBtnHide);
+
+            menuNode.addChild(menuHide);
+            menuNode.addChild(menuClose);
+
+            menuHide.addEventListener( ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuHideMouseDown.bind(this));
+            menuClose.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this.disable.bind(this));
+
+        if(this.hasMaxHeight()){this._addScrollWrap();}
+
+        if(!isFixed)
+        {
+            if(position)
+            {
+                if(align == ControlKit.LayoutMode.LEFT ||
+                   align == ControlKit.LayoutMode.TOP  ||
+                   align == ControlKit.LayoutMode.BOTTOM)
+                {
+                    rootNode.setPositionGlobal(position[0],position[1]);
+                }
+                else
+                {
+                    rootNode.setPositionGlobal(window.innerWidth - width - position[0],position[1]);
+                    this._position = rootNode.getPosition();
+                }
+            }
+            else this._position = rootNode.getPosition();
+
+            this._mouseOffset  = [0,0];
+
+            rootNode.setStyleProperty('position','absolute');
+            headNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadDragStart.bind(this));
+        }
+        else
+        {
+            if(position)
+            {
+                var positionX = position[0],
+                    positionY = position[1];
+
+                if(positionY != 0)rootNode.setPositionY(positionY);
+                if(positionX != 0)if(align==ControlKit.LayoutMode.RIGHT)rootNode.getElement().marginRight = positionX;
+                                  else rootNode.setPositionX(positionX);
+            }
+
+            rootNode.setStyleProperty('float',align);
+        }
     }
+    else
+    {
+        var dockAlignment = dock.align;
+
+        if(dockAlignment == ControlKit.LayoutMode.LEFT ||
+           dockAlignment == ControlKit.LayoutMode.RIGHT)
+        {
+            align = dockAlignment;
+            this._height = window.innerHeight;
+        }
+
+        if(dockAlignment == ControlKit.LayoutMode.TOP ||
+           dockAlignment == ControlKit.LayoutMode.BOTTOM)
+        {
+
+        }
+
+        /*
+        if(dock.resizable)
+        {
+            var sizeHandle = new ControlKit.Node(ControlKit.NodeType.DIV);
+                sizeHandle.setStyleClass(ControlKit.CSS.SizeHandle);
+                rootNode.addChild(sizeHandle);
+        }
+        */
+
+        rootNode.setStyleProperty('float',align);
+
+    }
+
+    if(this._parent.historyIsEnabled())
+    {
+        var menuUndo = this._menuUndo = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
+            menuUndo.setStyleClass(ControlKit.CSS.MenuBtnUndo);
+            menuUndo.setStyleProperty('display','none');
+            menuUndo.setProperty('value',ControlKit.History.getInstance().getNumStates());
+            menuNode.addChildAt(menuUndo,0);
+
+            menuUndo.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuUndoTrigger.bind(this));
+            headNode.addEventListener(ControlKit.NodeEventType.MOUSE_OVER, this._onHeadMouseOver.bind(this));
+            headNode.addEventListener(ControlKit.NodeEventType.MOUSE_OUT,  this._onHeadMouseOut.bind(this))
+    }
+
+    /*---------------------------------------------------------------------------------*/
 
     if(opacity != 1.0 && opacity != 0.0){rootNode.setStyleProperty('opacity',opacity);}
 
     /*---------------------------------------------------------------------------------*/
 
-    if(!ControlKit.History.getInstance().isDisabled())
-    {
-        var menuUndo = this._menuUndo = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
-            menuUndo.setStyleClass( ControlKit.CSS.MenuBtnUndo);
-            menuUndo.setProperty('value',ControlKit.History.getInstance().getNumStates());
-            menuNode.addChild(menuUndo);
-            menuUndo.setStyleProperty('display','none');
-            menuUndo.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuUndoTrigger.bind(this));
-
-            headNode.addEventListener(ControlKit.NodeEventType.MOUSE_OVER, this._onHeadMouseOver.bind(this));
-            headNode.addEventListener(ControlKit.NodeEventType.MOUSE_OUT,  this._onHeadMouseOut.bind(this));
-    }
-
-    menuNode.addChild(menuHide);
-    menuNode.addChild(menuClose);
-
-    /*---------------------------------------------------------------------------------*/
-
-    headNode.addChild(menuNode);
-    lablWrap.addChild(lablNode);
-    headNode.addChild(lablWrap);
-    wrapNode.addChild(listNode);
-    rootNode.addChild(headNode);
-    rootNode.addChild(wrapNode);
-
-    /*---------------------------------------------------------------------------------*/
-
-
-    if(align == 'left')this._setPosition(position[0],position[1]);
-    else               this._setPosition(window.innerWidth - (position[0] - width),position[1]);
-
-    if(this.hasMaxHeight()){this._addScrollWrap();}
-
-    /*---------------------------------------------------------------------------------*/
-
-    menuHide.addEventListener( ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuHideMouseDown.bind(this));
-    menuClose.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this.disable.bind(this));
-
     this._parent.addEventListener(ControlKit.EventType.UPDATE_MENU,      this, 'onUpdateMenu');
-    this._parent.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,this, 'onInputSelectDrag');
-
-    window.addEventListener('resize',this._onWindowResize.bind(this));
-
-
+    window.addEventListener(ControlKit.DocumentEventType.WINDOW_RESIZE,this._onWindowResize.bind(this));
 };
 
 ControlKit.Panel.prototype = Object.create(ControlKit.EventDispatcher.prototype);
@@ -1814,54 +2078,9 @@ ControlKit.Panel.prototype.addGroup  = function(params)
 {
     var group = new ControlKit.Group(this,params);
     this._groups.push(group);
+    if(this.isDocked())this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_SIZE_CHANGE));
     return group;
 };
-
-/*---------------------------------------------------------------------------------*/
-
-ControlKit.Panel.prototype.onGroupListSizeChange = function()
-{
-    if(this._hasScrollWrap())this._updateScrollWrap();
-    this._constrainHeight();
-};
-
-ControlKit.Panel.prototype._updateScrollWrap = function()
-{
-    var wrapNode   = this._wrapNode,
-        scrollBar  = this._scrollBar,
-        height     = this.hasMaxHeight() ? this.getMaxHeight() : 100,
-        listHeight = this._listNode.getHeight();
-
-    wrapNode.setHeight(listHeight < height ? listHeight : height);
-
-    scrollBar.update();
-
-    if (!scrollBar.isValid())
-    {
-        scrollBar.disable();
-        wrapNode.setHeight(wrapNode.getChildAt(1).getHeight());
-    }
-    else
-    {
-        scrollBar.enable();
-        wrapNode.setHeight(height);
-    }
-};
-
-
-ControlKit.Panel.prototype._addScrollWrap = function()
-{
-    var wrapNode = this._wrapNode,
-        listNode = this._listNode,
-        height   = arguments.length == 0 ?
-                   this.getMaxHeight() :
-                   arguments[0];
-
-    this._scrollBar = new ControlKit.ScrollBar(wrapNode,listNode,height);
-    if(this.isEnabled())wrapNode.setHeight(height);
-};
-
-ControlKit.Panel.prototype._hasScrollWrap = function(){return this._scrollBar != null;};
 
 /*---------------------------------------------------------------------------------*/
 
@@ -1916,8 +2135,8 @@ ControlKit.Panel.prototype._onHeadDragStart = function()
         mousePos  = ControlKit.Mouse.getInstance().getPosition(),
         offsetPos = this._mouseOffset;
 
-    offsetPos[0] = mousePos[0] - nodePos[0];
-    offsetPos[1] = mousePos[1] - nodePos[1];
+        offsetPos[0] = mousePos[0] - nodePos[0];
+        offsetPos[1] = mousePos[1] - nodePos[1];
 
     var eventMouseMove = ControlKit.DocumentEventType.MOUSE_MOVE,
         eventMouseUp   = ControlKit.DocumentEventType.MOUSE_UP;
@@ -1950,68 +2169,84 @@ ControlKit.Panel.prototype._updatePosition = function()
     var mousePos  = ControlKit.Mouse.getInstance().getPosition(),
         offsetPos = this._mouseOffset;
 
-    var currPositionX = mousePos[0] - offsetPos[0],
-        currPositionY = mousePos[1] - offsetPos[1];
+    var position = this._position;
+        position[0] = mousePos[0] - offsetPos[0];
+        position[1] = mousePos[1] - offsetPos[1];
 
-    this._setPosition(currPositionX,currPositionY);
+    this._constrainHeight();
+    this._constrainPosition();
 
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE,null));
 };
 
 ControlKit.Panel.prototype._onWindowResize = function()
 {
-    var position = this._position;
-    this._setPosition(position[0],position[1]);
-};
-
-ControlKit.Panel.prototype.onInputSelectDrag = function()
-{
-    if(!this._hasScrollWrap())return;
-    this._wrapNode.getElement().scrollTop = 0;
-};
-
-/*---------------------------------------------------------------------------------*/
-
-ControlKit.Panel.prototype._setPosition = function(x,y)
-{
-    var node     = this._node,
-        head     = this._headNode,
-        position = this._position;
-
-    var maxX = window.innerWidth  - node.getWidth(),
-        maxY = window.innerHeight - head.getHeight();
-
-    if(!this._fixed)
+    if(this.isDocked())
     {
-        position[0] = Math.max(0,Math.min(x,maxX));
-        position[1] = Math.max(0,Math.min(y,maxY));
+        var dock = this._dock;
+
+        if(dock.align == ControlKit.LayoutMode.RIGHT ||
+           dock.align == ControlKit.LayoutMode.LEFT )
+        {
+            var windowHeight = window.innerHeight,
+                listHeight   = this._listNode.getHeight(),
+                headHeight   = this._headNode.getHeight();
+
+            this._height = windowHeight;
+
+            if((windowHeight - headHeight) > listHeight)this._scrollBar.disable();
+            else this._scrollBar.enable();
+
+            this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_SIZE_CHANGE));
+        }
     }
     else
     {
-        //TODO FIX
-        position[0] = maxX;
+        if(!this.isFixed())this._constrainPosition();
     }
 
+    this._constrainHeight();
+};
+
+
+/*---------------------------------------------------------------------------------*/
+
+ControlKit.Panel.prototype._constrainPosition = function()
+{
+    var node = this._node;
+
+    var maxX = window.innerWidth  - node.getWidth(),
+        maxY = window.innerHeight - node.getHeight();
+
+    var position    = this._position;
+        position[0] = Math.max(0,Math.min(position[0],maxX));
+        position[1] = Math.max(0,Math.min(position[1],maxY));
+
     node.setPositionGlobal(position[0],position[1]);
-    if(this._vConstrain)this._constrainHeight();
 };
 
 ControlKit.Panel.prototype._constrainHeight = function()
 {
+    if(!this._vConstrain)return;
+
     var hasMaxHeight  = this.hasMaxHeight(),
-        hasScrollWrap = this._hasScrollWrap();
+        hasScrollWrap = this.hasScrollWrap();
 
     var headNode      = this._headNode,
         wrapNode      = this._wrapNode;
 
     var scrollBar     = this._scrollBar;
 
-    var panelTop      = this._position[1],
-        panelHeight   = hasMaxHeight  ? this.getMaxHeight() :
+    var panelTop      = this.isDocked() ? 0 :
+                        this.isFixed()  ? 0 :
+                        this._position[1];
+
+    var panelHeight   = hasMaxHeight  ? this.getMaxHeight() :
                         hasScrollWrap ? scrollBar.getTargetNode().getHeight() :
-                        wrapNode.getHeight(),
-        panelBottom   = panelTop + panelHeight,
-        headHeight    = headNode.getHeight();
+                        wrapNode.getHeight();
+
+    var panelBottom   = panelTop + panelHeight;
+    var headHeight    = headNode.getHeight();
 
     var windowHeight  = window.innerHeight,
         heightDiff    = windowHeight - panelBottom - headHeight,
@@ -2048,6 +2283,63 @@ ControlKit.Panel.prototype._constrainHeight = function()
 
 /*---------------------------------------------------------------------------------*/
 
+ControlKit.Panel.prototype.onGroupListSizeChange = function()
+{
+    if(this.hasScrollWrap())this._updateScrollWrap();
+    this._constrainHeight();
+};
+
+ControlKit.Panel.prototype._updateScrollWrap = function()
+{
+    var wrapNode   = this._wrapNode,
+        scrollBar  = this._scrollBar,
+        height     = this.hasMaxHeight() ?
+            this.getMaxHeight() : 100,
+        listHeight = this._listNode.getHeight();
+
+    wrapNode.setHeight(listHeight < height ? listHeight : height);
+
+    scrollBar.update();
+
+    if (!scrollBar.isValid())
+    {
+        scrollBar.disable();
+        wrapNode.setHeight(wrapNode.getChildAt(1).getHeight());
+    }
+    else
+    {
+        scrollBar.enable();
+        wrapNode.setHeight(height);
+    }
+};
+
+ControlKit.Panel.prototype._addScrollWrap = function()
+{
+    var wrapNode = this._wrapNode,
+        listNode = this._listNode,
+        height   = arguments.length == 0 ?
+                   this.getMaxHeight() :
+                   arguments[0];
+
+    this._scrollBar = new ControlKit.ScrollBar(wrapNode,listNode,height);
+    if(this.isEnabled())wrapNode.setHeight(height);
+};
+
+ControlKit.Panel.prototype.hasScrollWrap = function()
+{
+    return this._scrollBar != null;
+};
+
+/*---------------------------------------------------------------------------------*/
+
+ControlKit.Panel.prototype.preventSelectDrag = function()
+{
+    if(!this.hasScrollWrap())return;
+    this._wrapNode.getElement().scrollTop = 0;
+};
+
+/*---------------------------------------------------------------------------------*/
+
 ControlKit.Panel.prototype.enable  = function()
 {
     this._node.setStyleProperty('display','block');
@@ -2070,6 +2362,9 @@ ControlKit.Panel.prototype.isDisabled = function(){return this._isDisabled;};
 ControlKit.Panel.prototype.hasMaxHeight  = function(){return this._height != null;};
 ControlKit.Panel.prototype.getMaxHeight  = function(){return this._height;};
 
+ControlKit.Panel.prototype.isDocked      = function(){return this._dock;};
+ControlKit.Panel.prototype.isFixed       = function(){return this._fixed;};
+
 /*---------------------------------------------------------------------------------*/
 
 ControlKit.Panel.prototype.getGroups     = function(){return this._groups;};
@@ -2078,13 +2373,8 @@ ControlKit.Panel.prototype.getList       = function(){return this._listNode;};
 
 /*---------------------------------------------------------------------------------*/
 
-ControlKit.Panel.prototype.getLabel      = function(){return this._label;};
 ControlKit.Panel.prototype.getWidth      = function(){return this._width;};
 ControlKit.Panel.prototype.getPosition   = function(){return this._position;};
-
-
-
-
 
 ControlKit.Options = function(parentNode)
 {
@@ -2121,7 +2411,7 @@ ControlKit.Options.prototype =
         this._unfocusable = true;
     },
 
-    build : function(entries,selected,element,callbackSelect,callbackOut,paddingRight,entriesAreColors)
+    build : function(entries,selected,element,callbackSelect,callbackOut,paddingRight,areColors,colorMode)
     {
         this._clearList();
 
@@ -2138,20 +2428,29 @@ ControlKit.Options.prototype =
         var itemNode,entry;
         var i = -1;
 
-        if(entriesAreColors)
+        if(areColors)
         {
+            colorMode = colorMode || ControlKit.ColorMode.HEX;
+
             listNode.setStyleClass(ControlKit.CSS.Color);
 
-            var color;
+            var color,nodeColor;
 
             while(++i < entries.length)
             {
-                entry = entries[i];
-
+                entry    = entries[i];
                 itemNode = listNode.addChild(new ControlKit.Node(ControlKit.NodeType.LIST_ITEM));
-
                 color    = itemNode.addChild(new ControlKit.Node(ControlKit.NodeType.DIV));
-                color.getStyle().backgroundColor = entry;
+
+                switch(colorMode)
+                {
+                    case ControlKit.ColorMode.HEX:   nodeColor = entry; break;
+                    case ControlKit.ColorMode.RGB:   nodeColor = ControlKit.ColorUtil.RGB2HEX(  entry[0],entry[1],entry[2]); break;
+                    case ControlKit.ColorMode.RGBfv: nodeColor = ControlKit.ColorUtil.RGBfv2HEX(entry[0],entry[1],entry[2]); break;
+                    case ControlKit.ColorMode.HSV:   nodeColor = ControlKit.ColorUtil.HSV2RGB(  entry[0],entry[1],entry[2]); break;
+                }
+
+                color.getStyle().backgroundColor = nodeColor;
                 color.getStyle().backgroundImage = 'linear-gradient( rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%)';
                 color.setProperty('innerHTML',entry);
 
@@ -2193,26 +2492,27 @@ ControlKit.Options.prototype =
             elementWidth  = element.getWidth() - paddingRight,
             elementHeight = element.getHeight();
 
-        var listWidth  = listNode.getWidth();
+        var listWidth    = listNode.getWidth(),
+            listHeight   = listNode.getHeight(),
+            strokeOffset = ControlKit.Metric.STROKE_SIZE * 2;
 
-        //hm FIXME
-        var strokeSize = ControlKit.Metric.STROKE_SIZE;
+        var paddingOptions = ControlKit.Metric.PADDING_OPTIONS;
 
-        listNode.setWidth( (listWidth < elementWidth ? elementWidth : listWidth) - strokeSize * 2);
-        rootNode.setPositionGlobal(elementPos[0],elementPos[1]+elementHeight-ControlKit.Metric.PADDING_OPTIONS);
+        var width   = (listWidth < elementWidth ? elementWidth : listWidth) -strokeOffset,
+            posX    = elementPos[0],
+            posY    = elementPos[1]+elementHeight-paddingOptions;
+
+        var windowWidth  = window.innerWidth,
+            windowHeight = window.innerHeight;
+
+        var rootPosX = (posX + width)      > windowWidth  ? (posX - width + elementWidth - strokeOffset)    : posX,
+            rootPosY = (posY + listHeight) > windowHeight ? (posY - listHeight * 0.5 - elementHeight * 0.5) : posY;
+
+        listNode.setWidth(width);
+        rootNode.setPositionGlobal(rootPosX,rootPosY);
 
         this._callbackOut = callbackOut;
         this._unfocusable = false;
-    },
-
-    _entriesAreColors : function(entries)
-    {
-        var regex = /^#[0-9A-F]{6}$/i;
-
-        var i = -1;
-        while(++i < entries.length){if(!regex.test(entries[i]))return false;}
-
-        return true;
     },
 
     _clearList : function()
@@ -2254,6 +2554,9 @@ ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onBegin,onCha
     this._onChange     = onChange || function(){};
     this._onFinish     = onFinish || function(){};
 
+
+    this._prevKeyCode = null;
+
     /*---------------------------------------------------------------------------------*/
 
     var input = this._input = new ControlKit.Node(ControlKit.NodeType.INPUT_TEXT);
@@ -2291,10 +2594,18 @@ ControlKit.NumberInput_Internal.prototype._onInputKeyUp = function(e)
 {
     var keyCode = e.keyCode;
 
+
     if( e.shiftKey    || keyCode == 38  ||
         keyCode == 40 || keyCode == 190 ||
         keyCode == 8  || keyCode == 39  ||
-        keyCode == 37)   return;
+        keyCode == 37 || keyCode == 189)
+    {
+        this._prevKeyCode = keyCode;
+        return;
+    }
+
+    if(this._prevKeyCode == 189 && keyCode == 48){return;} //-0
+    if(this._prevKeyCode == 190 && keyCode == 48){return;} //0.0
 
     this._validate();
     this._format();
@@ -2324,6 +2635,7 @@ ControlKit.NumberInput_Internal.prototype.inputIsNumber = function()
 {
     var value = this._getInput();
 
+
     //TODO:FIX
     if(value == '-' || value == '0')return true;
     return /^\s*-?[0-9]\d*(\.\d{1,1000000})?\s*$/.test(value);
@@ -2334,7 +2646,11 @@ ControlKit.NumberInput_Internal.prototype._format = function()
     var string = this._value.toString(),
         index  = string.indexOf('.');
 
-    if(index>0)string = string.slice(0,index+this._valueDPlace);
+
+    if(index > 0)
+    {
+        string = string.slice(0,index + this._valueDPlace);
+    }
 
     this._setOutput(string);
 };
@@ -2435,9 +2751,13 @@ ControlKit.Slider_Internal.prototype =
         this._interpolateValue();
     },
 
+    //FIXME
     _updateHandle : function()
     {
-        this._handle.node.setWidth(Math.round(this._intrpl*this._slot.width));
+        var slotWidth   = this._slot.width,
+            handleWidth = Math.round(this._intrpl * slotWidth);
+
+        this._handle.node.setWidth(Math.min(handleWidth,slotWidth));
     },
 
     _interpolateValue : function()
@@ -2532,15 +2852,15 @@ ControlKit.PresetBtn = function(parentNode)
     var btnNode  = this._btnNode  = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
     var indiNode = this._indiNode = new ControlKit.Node(ControlKit.NodeType.DIV);
 
-    this._callbackA = function(){};
-    this._callbackI = function(){};
-    this._active   = false;
+    this._onActive = function(){};
+    this._onDeactive = function(){};
+    this._isActive   = false;
 
     btnNode.setStyleClass(ControlKit.CSS.PresetBtn);
     btnNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onMouseDown.bind(this));
 
     btnNode.addChild(indiNode);
-    parentNode.addChild(btnNode);
+    parentNode.addChildAt(btnNode,0);
 
 };
 
@@ -2548,22 +2868,22 @@ ControlKit.PresetBtn.prototype =
 {
     _onMouseDown : function()
     {
-        var active = this._active = !this._active;
+        var isActive = this._isActive = !this._isActive;
 
-        if(active)
+        if(isActive)
         {
             this._btnNode.setStyleClass(ControlKit.CSS.PresetBtnActive);
-            this._callbackA();
+            this._onActive();
         }
         else
         {
             this._btnNode.setStyleClass(ControlKit.CSS.PresetBtn);
-            this._callbackI();
+            this._onDeactive();
         }
     },
 
-    setCallbackActive   : function(func){this._callbackA = func;},
-    setCallbackInactive : function(func){this._callbackI = func;},
+    setOnActive   : function(func){this._onActive = func;},
+    setOnDeactive : function(func){this._onDeactive = func;},
 
     deactivate : function(){this._active = false;this._btnNode.setStyleClass(ControlKit.CSS.PresetBtn);}
 };
@@ -2592,37 +2912,35 @@ ControlKit.Output = function(parent,object,value,params)
         wrapNode.addChild(textArea);
 
         textArea.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onInputDragStart.bind(this));
-        this.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,ControlKit.getKitInstance(),'onInputSelectDrag');
+        this.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,this._parent,'onComponentSelectDrag');
+
     /*---------------------------------------------------------------------------------*/
 
-
-    //TODO: fix
     if(params.height)
     {
-        if(params.height != 'auto')
-        {
-            var textAreaWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
-                textAreaWrap.setStyleClass(ControlKit.CSS.TextAreaWrap);
-                wrapNode.addChild(textAreaWrap);
-                textAreaWrap.addChild(textArea);
+        var textAreaWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
+            textAreaWrap.setStyleClass(ControlKit.CSS.TextAreaWrap);
+            textAreaWrap.addChild(textArea);
+            wrapNode.addChild(textAreaWrap);
 
-            var height  = this._height = params.height,
-                padding = 6;
 
-            textArea.setHeight(Math.max(height  ,ControlKit.Metric.COMPONENT_MIN_HEIGHT));
-            wrapNode.setHeight(textArea.getHeight() +6 );
-            rootNode.setHeight(wrapNode.getHeight() +4);
+        //FIXME
+        var height  = this._height = params.height,
+            padding = 4;
 
-            this._scrollbar = new ControlKit.ScrollBar(textAreaWrap,textArea,height);
-        }
+            textArea.setHeight(Math.max(height + padding  ,ControlKit.Metric.COMPONENT_MIN_HEIGHT));
+            wrapNode.setHeight(textArea.getHeight());
+            rootNode.setHeight(wrapNode.getHeight() + padding);
 
-        //TODO: Add auto height
+        this._scrollBar = new ControlKit.ScrollBar(textAreaWrap,textArea,height - padding)
     }
 
     if(params.wrap)textArea.setStyleProperty('white-space','pre-wrap');
 
     /*---------------------------------------------------------------------------------*/
 
+    this._prevString = '';
+    this._prevScrollHeight = -1;
     this._setValue();
 };
 
@@ -2666,6 +2984,11 @@ ControlKit.Output.prototype._onInputDragStart = function()
     document.addEventListener(eventUp,   onDragFinish, false);
 };
 
+ControlKit.FunctionPlotType =
+{
+    IMPLICIT     : 'implicit',
+    NON_IMPLICIT : 'nonImplicit'
+};
 ControlKit.StringInput = function(parent,object,value,params)
 {
     ControlKit.ObjectComponent.apply(this,arguments);
@@ -2725,8 +3048,8 @@ ControlKit.StringInput = function(parent,object,value,params)
                           false);
         };
 
-        presetBtn.setCallbackActive(onPresetActivate);
-        presetBtn.setCallbackInactive(onPresetDeactivate)
+        presetBtn.setOnActive(onPresetActivate);
+        presetBtn.setOnDeactive(onPresetDeactivate)
     }
 
     input.setProperty('value',this._object[this._key]);
@@ -2734,8 +3057,8 @@ ControlKit.StringInput = function(parent,object,value,params)
     input.addEventListener(ControlKit.NodeEventType.KEY_UP, this._onInputKeyUp.bind(this));
     input.addEventListener(ControlKit.NodeEventType.CHANGE, this._onInputChange.bind(this));
 
-    input.addEventListener(ControlKit.EventType.MOUSE_DOWN, this._onInputDragStart.bind(this));
-    this.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,ControlKit.getKitInstance(),'onInputSelectDrag');
+    input.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onInputDragStart.bind(this));
+    this.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,this._parent,'onComponentSelectDrag');
 
     /*---------------------------------------------------------------------------------*/
 };
@@ -2874,12 +3197,13 @@ ControlKit.NumberInput = function(parent,object,value,params)
                           false);
         };
 
-        presetBtn.setCallbackActive(onPresetActivate);
-        presetBtn.setCallbackInactive(onPresetDeactivate)
+        presetBtn.setOnActive(onPresetActivate);
+        presetBtn.setOnDeactive(onPresetDeactivate)
     }
 
-    input.getNode().addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onInputDragStart.bind(this));
-    this.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,ControlKit.getKitInstance(),'onInputSelectDrag');
+    input.getNode().addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,   this._onInputDragStart.bind(this));
+    this.addEventListener(ControlKit.EventType.INPUT_SELECT_DRAG,this._parent,'onComponentSelectDrag');
+
 
     input.setValue(this._object[this._key]);
 };
@@ -2931,13 +3255,16 @@ ControlKit.NumberInput.prototype._onInputDragStart = function()
     document.addEventListener(eventMove, onDrag,       false);
     document.addEventListener(eventUp,   onDragFinish, false);
 };
-ControlKit.Button = function(parent,label,onPress)
+ControlKit.Button = function(parent,label,onPress,params)
 {
-    ControlKit.Component.apply(this,[parent,label]);
+    params       = params       || {};
+    params.label = params.label || '';
 
-    var input = this._textArea = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
+    ControlKit.Component.apply(this,[parent,params.label]);
 
-    onPress = onPress  || function(){};
+    var input = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
+
+    onPress = onPress || function(){};
 
     input.setStyleClass(ControlKit.CSS.Button);
     input.setProperty('value',label);
@@ -3012,15 +3339,15 @@ ControlKit.Range = function(parent,object,value,params)
 
     var wrapNode = this._wrapNode;
 
-    wrapLablMin.addChild(lablMinNode);
-    wrapInputMin.addChild(inputMin.getNode());
-    wrapLablMax.addChild(lablMaxNode);
-    wrapInputMax.addChild(inputMax.getNode());
+        wrapLablMin.addChild(lablMinNode);
+        wrapInputMin.addChild(inputMin.getNode());
+        wrapLablMax.addChild(lablMaxNode);
+        wrapInputMax.addChild(inputMax.getNode());
 
-    wrapNode.addChild(wrapLablMin);
-    wrapNode.addChild(wrapInputMin);
-    wrapNode.addChild(wrapLablMax);
-    wrapNode.addChild(wrapInputMax);
+        wrapNode.addChild(wrapLablMin);
+        wrapNode.addChild(wrapInputMin);
+        wrapNode.addChild(wrapLablMax);
+        wrapNode.addChild(wrapInputMax);
 };
 
 ControlKit.Range.prototype = Object.create(ControlKit.ObjectComponent.prototype);
@@ -3104,12 +3431,12 @@ ControlKit.Checkbox = function(parent,object,value,params)
     this._onChange = params.onChange;
     this._onFinish = params.onFinish;
 
-    var input = this._textArea = new ControlKit.Node(ControlKit.NodeType.INPUT_CHECKBOX);
+    var input = this._input = new ControlKit.Node(ControlKit.NodeType.INPUT_CHECKBOX);
 
     input.setProperty('checked',this._object[this._key]);
     input.addEventListener(ControlKit.NodeEventType.CHANGE,this._onInputChange.bind(this));
 
-    this._wrapNode.addChild(this._textArea);
+    this._wrapNode.addChild(this._input);
 };
 
 ControlKit.Checkbox.prototype = Object.create(ControlKit.ObjectComponent.prototype);
@@ -3133,21 +3460,21 @@ ControlKit.Checkbox.prototype._onInputChange = function()
 ControlKit.Checkbox.prototype.onValueUpdate = function(e)
 {
     if(e.data.origin == this)return;
-    this._textArea.setProperty('checked',this._object[this._key]);
+    this._input.setProperty('checked',this._object[this._key]);
 };
-ControlKit.Slider = function(parent,object,value,target,params)
+ControlKit.Slider = function(parent,object,value,range,params)
 {
     /*---------------------------------------------------------------------------------*/
 
     params          = params          || {};
-    params.label    = params.label    || target;
+    params.label    = params.label    || value;
 
     /*---------------------------------------------------------------------------------*/
 
-    ControlKit.ObjectComponent.apply(this,[parent,object,value,params]);
+    ControlKit.ObjectComponent.apply(this,[parent,object,range,params]);
 
     this._values  = this._object[this._key];
-    this._targetKey = target;
+    this._targetKey = value;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -3301,13 +3628,13 @@ ControlKit.Slider.prototype._updateValueField  = function(){this._input.setValue
 ControlKit.Slider.prototype.onPanelMoveEnd     =
 ControlKit.Slider.prototype.onGroupWidthChange = function(){this._slider.resetOffset();};
 
-ControlKit.Select = function(parent,object,value,target,params)
+ControlKit.Select = function(parent,object,value,params)
 {
-    ControlKit.ObjectComponent.apply(this,[parent,object,value,params]);
+    ControlKit.ObjectComponent.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
-    params = params || {};
+    params          = params || {};
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
 
@@ -3319,25 +3646,28 @@ ControlKit.Select = function(parent,object,value,target,params)
     var obj    = this._object,
         key    = this._key;
 
-    var targetKey = this._targetKey = target,
-        values    = this._values = obj[key],
-        targetObj = obj[targetKey] || '';
-
-    var wrapNode = this._wrapNode;
+    var targetKey = this._targetKey = params.target,
+        values    = this._values = obj[key];
 
     /*---------------------------------------------------------------------------------*/
 
     this._selected  = null;
 
     var select  = this._select = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
-    select.setStyleClass(ControlKit.CSS.Select);
-    select.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onSelectTrigger.bind(this));
+        select.setStyleClass(ControlKit.CSS.Select);
+        select.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onSelectTrigger.bind(this));
 
-    i = -1;
-    while(++i < values.length){if(targetObj == values[i])this._selected = values[i];}
-    select.setProperty('value',targetObj.toString().length > 0 ? targetObj : values[0]);
+    if(this._hasTarget())
+    {
+        var targetObj = obj[targetKey] || '';
 
-    wrapNode.addChild(select);
+        var i = -1;
+        while(++i < values.length){if(targetObj == values[i])this._selected = values[i];}
+        select.setProperty('value',targetObj.toString().length > 0 ? targetObj : values[0]);
+    }
+    else{ select.setProperty('value',params.selected ? values[params.selected] :  'Choose ...'); }
+
+    this._wrapNode.addChild(select);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -3348,8 +3678,6 @@ ControlKit.Select = function(parent,object,value,target,params)
 };
 
 ControlKit.Select.prototype = Object.create(ControlKit.ObjectComponent.prototype);
-
-
 
 ControlKit.Select.prototype.onSelectTrigger = function (e)
 {
@@ -3377,7 +3705,9 @@ ControlKit.Select.prototype._buildOptions = function()
                           this.applyValue();
                           this._active = false;
                           this._updateAppearance();
+                          this._onChange(options.getSelectedIndex());
                           options.clear();
+
 
                       }.bind(this);
 
@@ -3397,17 +3727,27 @@ ControlKit.Select.prototype._buildOptions = function()
 
 ControlKit.Select.prototype.applyValue = function()
 {
-    this.pushHistoryState();
+    var index    = ControlKit.Options.getInstance().getSelectedIndex(),
+        selected = this._selected = this._values[index];
 
-    var selectedIndex = ControlKit.Options.getInstance().getSelectedIndex(),
-        selected = this._selected = this._object[this._targetKey] = this._values[selectedIndex];
+    if(this._hasTarget())
+    {
+        this.pushHistoryState();
+        this._object[this._targetKey] = selected;
+
+    }
 
     this._select.setProperty('value',selected);
-
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.VALUE_UPDATED,null));
 };
 
-ControlKit.Select.prototype.pushHistoryState = function(){var obj = this._object,key = this._targetKey;ControlKit.History.getInstance().pushState(obj,key,obj[key]);};
+ControlKit.Select.prototype.pushHistoryState = function()
+{
+    var obj = this._object,
+        key = this._targetKey;
+
+    ControlKit.History.getInstance().pushState(obj,key,obj[key]);
+};
 
 ControlKit.Select.prototype._onSelectTrigger = function()
 {
@@ -3421,34 +3761,40 @@ ControlKit.Select.prototype._updateAppearance = function()
 
 ControlKit.Select.prototype.onValueUpdate = function(e)
 {
+    if(!this._hasTarget())return;
     this._selected = this._object[this._targetKey];
     this._select.setProperty('value',this._selected.toString());
 };
+
+ControlKit.Select.prototype._hasTarget = function(){return this._targetKey != null;}
 ControlKit.Color = function(parent,object,value,params)
 {
     ControlKit.ObjectComponent.apply(this,arguments);
 
     /*---------------------------------------------------------------------------------*/
 
-    params          = params || {};
-    params.onChange = params.onChange || this._onChange;
-    params.onFinish = params.onFinish || this._onFinish;
-    params.presets  = params.presets  || null;
+    params           = params           || {};
+    params.onChange  = params.onChange  || this._onChange;
+    params.onFinish  = params.onFinish  || this._onFinish;
+    params.presets   = params.presets   || null;
+    params.colorMode = params.colorMode || ControlKit.Default.COLOR_COLOR_MODE;
 
     /*---------------------------------------------------------------------------------*/
 
-    this._onChange = this._onFinish = params._onChange;
-
+    this._onChange   = this._onFinish = params.onChange;
     this._presetsKey = params.presets;
 
     /*---------------------------------------------------------------------------------*/
 
-    var wrapNode = this._wrapNode;
-
     var color = this._color = new ControlKit.Node(ControlKit.NodeType.DIV);
+    var value = this._value = this._object[this._key];
 
+    var colorMode = this._colorMode = params.colorMode;
 
-    this._value     = this._object[this._key];
+    this._validateColorFormat(value, ControlKit.Error.COLOR_FORMAT_HEX,
+                                     ControlKit.Error.COLOR_FORMAT_RGB_RGBFV_HSV);
+
+    var wrapNode = this._wrapNode;
 
     if(!this._presetsKey)
     {
@@ -3465,8 +3811,16 @@ ControlKit.Color = function(parent,object,value,params)
             wrapNode.addChild(colorWrap);
             colorWrap.addChild(color);
 
-        var presets   = this._object[this._presetsKey],
-            options   = ControlKit.Options.getInstance(),
+        var presets   = this._object[this._presetsKey];
+
+        var i = -1;
+        while(++i < presets.length)
+        {
+            this._validateColorFormat(presets[i], ControlKit.Error.COLOR_PRESET_FORMAT_HEX,
+                                                  ControlKit.Error.COLOR_PRESET_FORMAT_RGB_RGBFV_HSV);
+        }
+
+        var options   = ControlKit.Options.getInstance(),
             presetBtn = new ControlKit.PresetBtn(wrapNode);
 
         var onPresetDeactivate = function(){options.clear();presetBtn.deactivate();};
@@ -3485,11 +3839,12 @@ ControlKit.Color = function(parent,object,value,params)
                                       },
                                       onPresetDeactivate,
                                       ControlKit.Metric.PADDING_PRESET,
-                                      true);
+                                      true,
+                                      colorMode);
                                   };
 
-            presetBtn.setCallbackActive(onPresetActivate);
-            presetBtn.setCallbackInactive(onPresetDeactivate);
+            presetBtn.setOnActive(onPresetActivate);
+            presetBtn.setOnDeactive(onPresetDeactivate);
     }
 
     color.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onColorTrigger.bind(this));
@@ -3506,19 +3861,58 @@ ControlKit.Color.prototype = Object.create(ControlKit.ObjectComponent.prototype)
 
 ControlKit.Color.prototype._onColorTrigger = function()
 {
+    var colorMode      = this._colorMode,
+        colorModeHEX   = ControlKit.ColorMode.HEX,
+        colorModeRGB   = ControlKit.ColorMode.RGB,
+        colorModeRGBfv = ControlKit.ColorMode.RGBfv,
+        colorModeHSV   = ControlKit.ColorMode.HSV;
+
+    var value = this._value,
+        temp;
+
     var onPickerPick = function()
                        {
                            this.pushHistoryState();
-                           this._value = ControlKit.Picker.getInstance().getHEX();
+
+                           switch(colorMode)
+                           {
+                               case colorModeHEX:   this._value = ControlKit.Picker.getInstance().getHEX();break;
+                               case colorModeRGB:
+
+                                   //if val = Float32array or so
+                                   temp = ControlKit.Picker.getInstance().getRGB();
+                                   value[0] = temp[0];
+                                   value[1] = temp[1];
+                                   value[2] = temp[2];
+                                   break;
+
+                               case colorModeRGBfv:
+
+                                   temp = ControlKit.Picker.getInstance().getRGBfv();
+                                   value[0] = temp[0];
+                                   value[1] = temp[1];
+                                   value[2] = temp[2];
+                                   break;
+
+                               case colorModeHSV:   this._value = ControlKit.Picker.getInstance().getHSV();break;
+                           }
+
                            this.applyValue();
 
                        }.bind(this);
 
     var picker = ControlKit.Picker.getInstance();
-        picker.setColorHEX(this._value);
+
+    switch(colorMode)
+    {
+        case colorModeHEX:   picker.setColorHEX(value);break;
+        case colorModeRGB:   picker.setColorRGB(value[0],value[1],value[2]);break;
+        case colorModeRGBfv: picker.setColorRGBfv(value[0],value[1],value[2]);break;
+        case colorModeHSV:   picker.setColorHSV(value[0],value[1],value[2]);break;
+    }
+
         picker.setCallbackPick(onPickerPick);
         picker.open();
-
 };
 
 /*---------------------------------------------------------------------------------*/
@@ -3540,23 +3934,79 @@ ControlKit.Color.prototype.onValueUpdate = function(e)
 
 /*---------------------------------------------------------------------------------*/
 
-
 ControlKit.Color.prototype._updateColor = function()
 {
-    var colorHEX  = this._value;
+    var color  = this._value,
+        colorNode = this._color,
+        nodeColor;
 
-    var colorNode = this._color;
-    colorNode.setProperty('innerHTML',colorHEX);
-    colorNode.getStyle().backgroundColor = colorHEX;
-    //colorNode.getStyle().boxShadow       = '0 1px 0 0 rgba(0,0,0,0.25) inset';
+    colorNode.setProperty('innerHTML',color)
+
+    switch(this._colorMode)
+    {
+        case ControlKit.ColorMode.HEX:
+            nodeColor = color;
+            break;
+
+        case ControlKit.ColorMode.RGB:
+            nodeColor = ControlKit.ColorUtil.RGB2HEX(color[0],color[1],color[2]);
+            break;
+
+        case ControlKit.ColorMode.RGBfv:
+            nodeColor = ControlKit.ColorUtil.RGBfv2HEX(color[0],color[1],color[2]);
+            break;
+
+        case ControlKit.ColorMode.HSV:
+            nodeColor = ControlKit.ColorUtil.HSV2RGB(color[0],color[1],color[2]);
+            break;
+    }
+
+    colorNode.getStyle().backgroundColor = nodeColor;
+};
+
+ControlKit.Color.prototype._validateColorFormat = function(value,msgHex,msgArr)
+{
+    var colorMode = this._colorMode;
+
+
+    if(colorMode == ControlKit.ColorMode.HEX && Object.prototype.toString.call(value) === '[object Array]')
+    {
+        throw new TypeError(msgHex);
+    }
+    if((colorMode == ControlKit.ColorMode.RGB   ||
+        colorMode == ControlKit.ColorMode.RGBfv ||
+        colorMode == ControlKit.ColorMode.HSV) &&
+        Object.prototype.toString.call(value) !== '[object Array]')
+    {
+        throw new TypeError(msgArr);
+    }
 };
 ControlKit.FunctionPlotter = function(parent,object,value,params)
 {
     ControlKit.Plotter.apply(this,arguments);
 
+    if(ControlKit.ErrorUtil.TypeError(object,value,Function))
+    {
+        throw new TypeError(ControlKit.Error.COMPONENT_OBJECT +
+                            object.constructor.name + ' ' +
+                            value +
+                            ControlKit.Error.TYPE +
+                            'Function');
+    }
+
+    var funcArgLength = object[value].length;
+
+    if(funcArgLength > 2 || funcArgLength == 0)
+    {
+        throw new Error(ControlKit.Error.COMPONENT_FUNCTION_LENGTH);
+    }
+
     /*---------------------------------------------------------------------------------*/
 
     params = params || {};
+    params.showMinMaxLabels = params.hideMinMaxLabels === undefined ?
+                              ControlKit.Default.PANEL_FIXED :
+                              params.hideMinMaxLabels;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -3564,18 +4014,16 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
         path    = this._path;
 
     var axes = this._axes = svgRoot.insertBefore(this._createSVGObject('path'),path);
-        axes.style.stroke = 'rgb(54,60,64)';
         axes.style.lineWidth = 1;
 
     var axesLabels = this._axesLabels = svgRoot.insertBefore(this._createSVGObject('path'),path);
         axesLabels.style.stroke = 'rgb(43,48,51)';
         axesLabels.style.lineWidth = 1;
 
-    this._grid.style.stroke = 'rgb(25,25,25)';
+    var grid = this._grid;
 
-    var svg    = this._svg,
-        width  = Number(svg.getAttribute('width')),
-        height = Number(svg.getAttribute('height'));
+    var svg   = this._svg,
+        size  = Number(svg.getAttribute('width'));
 
     var sliderXWrap = new ControlKit.Node(ControlKit.NodeType.DIV);
         sliderXWrap.setStyleClass(ControlKit.CSS.GraphSliderXWrap);
@@ -3601,6 +4049,31 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
         sliderYWrap.addChild(sliderYTrack);
 
     var wrapNode = this._wrapNode;
+
+    var plotMode = this._plotMode = funcArgLength == 1 ?
+                                    ControlKit.FunctionPlotType.NON_IMPLICIT :
+                                    ControlKit.FunctionPlotType.IMPLICIT;
+
+    if(plotMode == ControlKit.FunctionPlotType.IMPLICIT)
+    {
+        var canvas = this._canvas = document.createElement('canvas');
+            canvas.style.width    = canvas.style.height =  size  + 'px';
+            canvas.width          = canvas.height = size;
+
+        wrapNode.getElement().insertBefore(canvas,svg);
+
+        this._canvasContext = canvas.getContext('2d');
+        this._canvasImageData = this._canvasContext.getImageData(0,0,size,size);
+
+        axes.style.stroke = ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_AXES_COLOR;
+        grid.style.stroke = ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_GRID_COLOR;
+    }
+    else
+    {
+        axes.style.stroke = ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_AXES_COLOR;
+        grid.style.stroke = ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_GRID_COLOR;
+    }
+
         wrapNode.addChild(sliderXWrap);
         wrapNode.addChild(sliderYWrap);
 
@@ -3609,25 +4082,41 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    this._units       = [ControlKit.Preset.FUNCTION_PLOTTER_UNIT_X,
-                         ControlKit.Preset.FUNCTION_PLOTTER_UNIT_Y];
+    var units   = this._units = [null,null];
+    this._scale = null;
+
+    if(plotMode == ControlKit.FunctionPlotType.NON_IMPLICIT)
+    {
+        units[0] = ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_UNIT_X;
+        units[1] = ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_UNIT_Y;
+
+        this._scale = ControlKit.Preset.FUNCTION_PLOTTER_NON_IMPLICIT_SCALE;
+    }
+    else if(plotMode == ControlKit.FunctionPlotType.IMPLICIT)
+    {
+        units[0] = ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_UNIT_X;
+        units[1] = ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_UNIT_Y;
+
+        this._scale = ControlKit.Preset.FUNCTION_PLOTTER_IMPLICIT_SCALE;
+    }
+
     this._unitsMinMax = [ControlKit.Preset.FUNCTION_PLOTTER_UNIT_MIN,
                          ControlKit.Preset.FUNCTION_PLOTTER_UNIT_MAX]; //1/8->4
 
-    this._scale       =  ControlKit.Preset.FUNCTION_PLOTTER_SCALE;
     this._scaleMinMax = [ControlKit.Preset.FUNCTION_PLOTTER_SCALE_MIN,
                          ControlKit.Preset.FUNCTION_PLOTTER_SCALE_MAX]; //1/50 -> 25
 
     /*---------------------------------------------------------------------------------*/
 
-    this._center = [Math.round(width * 0.5),
-                    Math.round(width * 0.5)];
+    this._center = [Math.round(size * 0.5),
+                    Math.round(size * 0.5)];
     this._svgPos = [0,0];
 
     this._func = null;
     this.setFunction(this._object[this._key]);
 
-    this._setSliderInitial();
+    this._sliderXHandleUpdate();
+    this._sliderYHandleUpdate();
 
     /*---------------------------------------------------------------------------------*/
 
@@ -3659,9 +4148,7 @@ ControlKit.FunctionPlotter.prototype._updateCenter = function()
 
 ControlKit.FunctionPlotter.prototype._onDragStart = function(e)
 {
-    var svg = this._svg;
-
-    var element = svg;
+   var element = this._svg;
 
     var svgPos = this._svgPos;
     svgPos[0] = 0;
@@ -3705,11 +4192,29 @@ ControlKit.FunctionPlotter.prototype._onScale = function(e)
 /*---------------------------------------------------------------------------------*/
 
 ControlKit.FunctionPlotter.prototype.onValueUpdate = function(){this.setFunction(this._object[this._key]);};
-ControlKit.FunctionPlotter.prototype._redraw       = function(){this.setFunction(this._object[this._key]);};
+
+ControlKit.FunctionPlotter.prototype._redraw       = function()
+{
+    if(this._plotMode == ControlKit.FunctionPlotType.IMPLICIT)
+    {
+        var size  = this._wrapNode.getWidth(),
+            canvas = this._canvas;
+
+            canvas.style.width  = canvas.style.height =  size  + 'px';
+            canvas.width        = canvas.height = size;
+
+        this._canvasImageData = this._canvasContext.getImageData(0,0,size,size);
+    }
+
+    this._sliderXHandleUpdate();
+    this._sliderYHandleUpdate();
+
+    this.setFunction(this._object[this._key]);
+};
 
 ControlKit.FunctionPlotter.prototype.setFunction = function(func)
 {
-    this._func = func;
+    this._func = func.bind(this._object);
     this._plotGraph();
 };
 
@@ -3739,48 +4244,108 @@ ControlKit.FunctionPlotter.prototype._drawAxes = function()
 
 ControlKit.FunctionPlotter.prototype._drawPlot = function()
 {
-    var svg    = this._svg,
-        width  = Number(svg.getAttribute('width')),
-        height = Number(svg.getAttribute('height'));
+    var width, height;
 
     var center  = this._center,
         centerX = center[0],
         centerY = center[1];
 
-    var scale = this._scale,
-        units = this._units,
-        unitX = units[0]  * scale,
-        unitY = height / (units[1] * scale);
+    var units = this._units,
+        unitX, unitY;
 
-    var len    = Math.floor(width),
-        points = new Array(len * 2);
+    var scale = this._scale;
+    var normval, scaledVal, value, index;
+    var offsetX, offsetY;
 
-    var i = -1;
+    var i;
 
-    var normval, value, index;
-    var offsetX = centerX / width;
-
-    while(++i < len)
+    if(this._plotMode == ControlKit.FunctionPlotType.NON_IMPLICIT)
     {
-        normval = (-offsetX + i / len) * unitX;
-        value   = centerY - this._func(normval) * unitY;
-        index   = i * 2;
+        var svg    = this._svg;
 
-        points[index]     = i;
-        points[index + 1] = value;
+        width   = Number(svg.getAttribute('width'));
+        height  = Number(svg.getAttribute('height'));
+        unitX   = units[0] * scale;
+        unitY   = height / (units[1] * scale);
+        offsetX = centerX / width;
+
+        var len    = Math.floor(width),
+            points = new Array(len * 2);
+
+        i = -1;
+        while(++i < len)
+        {
+            normval   = (-offsetX + i / len);
+            scaledVal = normval * unitX;
+            value     = centerY - this._func(scaledVal) * unitY;
+
+            index   = i * 2;
+
+            points[index]     = i;
+            points[index + 1] = value;
+        }
+
+        var pathCmd = '';
+            pathCmd += this._pathCmdMoveTo(points[0],points[1]);
+
+        i = 2;
+        while(i < points.length)
+        {
+            pathCmd += this._pathCmdLineTo(points[i],points[i+1]);
+            i+=2;
+        }
+
+        this._path.setAttribute('d',pathCmd);
     }
-
-    var pathCmd = '';
-        pathCmd += this._pathCmdMoveTo(points[0],points[1]);
-
-    i = 2;
-    while(i < points.length)
+    else
     {
-        pathCmd += this._pathCmdLineTo(points[i],points[i+1]);
-        i+=2;
-    }
+        var canvas  = this._canvas,
+            context = this._canvasContext,
+            imgData = this._canvasImageData;
 
-    this._path.setAttribute('d',pathCmd);
+        width   = canvas.width;
+        height  = canvas.height;
+
+        unitX   = units[0] * scale;
+        unitY   = units[1] * scale;
+
+        offsetX = centerX / width;
+        offsetY = centerY / height;
+
+        var invWidth  = 1 / width,
+            invHeight = 1 / height;
+        var rgb       = [0,0,0];
+
+        var col0 = [30,34,36],
+            col1 = [255,255,255];
+
+        i = -1;
+        var j;
+        while(++i < height)
+        {
+            j = -1;
+
+            while(++j < width)
+            {
+                value    = this._func((-offsetX + j * invWidth) * unitX,
+                                      (-offsetY + i * invHeight)* unitY);
+
+                rgb[0] = floor((col1[0]-col0[0])*value + col0[0]);
+                rgb[1] = floor((col1[1]-col0[1])*value + col0[1]);
+                rgb[2] = floor((col1[2]-col0[2])*value + col0[2]);
+
+                index = (i * width + j) * 4;
+
+                imgData.data[index  ] = rgb[0];
+                imgData.data[index+1] = rgb[1];
+                imgData.data[index+2] = rgb[2];
+                imgData.data[index+3] = 255;
+            }
+        }
+
+        context.clearRect(0,0,width,height);
+        context.putImageData(imgData,0,0);
+    }
 };
 
 ControlKit.Plotter.prototype._drawGrid = function()
@@ -3902,36 +4467,6 @@ ControlKit.FunctionPlotter.prototype._sliderXStep = function(mousePos)
     this._plotGraph();
 };
 
-ControlKit.FunctionPlotter.prototype._setSliderInitial = function()
-{
-    var unitMin = this._unitsMinMax[0],
-        unitMax = this._unitsMinMax[1];
-
-    var unitX = this._units[0],
-        unitY = this._units[1];
-
-    var handleX           = this._sliderXHandle,
-        handleXWidth      = handleX.getWidth(),
-        handleXWidthHalf  = handleXWidth * 0.5,
-        trackXWidth       = this._sliderXTrack.getWidth();
-
-    var handleY           = this._sliderYHandle,
-        handleYHeight     = handleY.getHeight(),
-        handleYHeightHalf = handleYHeight * 0.5,
-        trackYHeight      = this._sliderYTrack.getHeight();
-
-    var strokeSize = ControlKit.Preset.STROKE_SIZE;
-
-    var handleXMin = handleXWidthHalf,
-        handleXMax = trackXWidth  - handleXWidthHalf  - strokeSize * 2,
-        handleYMin = trackYHeight - handleYHeightHalf - strokeSize * 2,
-        handleYMax = handleYHeightHalf;
-
-    handleX.setPositionX((handleXMin + (handleXMax - handleXMin) * ((unitX - unitMin) / (unitMax - unitMin))) - handleXWidthHalf);
-    handleY.setPositionY((handleYMin + (handleYMax - handleYMin) * ((unitY - unitMin) / (unitMax - unitMin))) - handleYHeightHalf);
-
-};
-
 ControlKit.FunctionPlotter.prototype._sliderYStep = function(mousePos)
 {
     var mouseY = mousePos[1];
@@ -3990,6 +4525,46 @@ ControlKit.FunctionPlotter.prototype._onSliderHandleDown = function(sliderStepFu
     document.addEventListener(eventMouseMove, onDrag,    false);
     document.addEventListener(eventMouseUp,   onDragEnd, false);
 };
+
+ControlKit.FunctionPlotter.prototype._sliderXHandleUpdate = function()
+{
+    var unitMin = this._unitsMinMax[0],
+        unitMax = this._unitsMinMax[1],
+        unitX   = this._units[0];
+
+    var handleX           = this._sliderXHandle,
+        handleXWidth      = handleX.getWidth(),
+        handleXWidthHalf  = handleXWidth * 0.5,
+        trackXWidth       = this._sliderXTrack.getWidth();
+
+    var strokeSize = ControlKit.Metric.STROKE_SIZE;
+
+    var handleXMin = handleXWidthHalf,
+        handleXMax = trackXWidth  - handleXWidthHalf  - strokeSize * 2;
+
+    handleX.setPositionX((handleXMin + (handleXMax - handleXMin) * ((unitX - unitMin) / (unitMax - unitMin))) - handleXWidthHalf);
+};
+
+ControlKit.FunctionPlotter.prototype._sliderYHandleUpdate = function()
+{
+    var unitMin = this._unitsMinMax[0],
+        unitMax = this._unitsMinMax[1],
+        unitY   = this._units[1];
+
+    var handleY           = this._sliderYHandle,
+        handleYHeight     = handleY.getHeight(),
+        handleYHeightHalf = handleYHeight * 0.5,
+        trackYHeight      = this._sliderYTrack.getHeight();
+
+    var strokeSize = ControlKit.Metric.STROKE_SIZE;
+
+    var handleYMin = trackYHeight - handleYHeightHalf - strokeSize * 2,
+        handleYMax = handleYHeightHalf;
+
+    handleY.setPositionY((handleYMin + (handleYMax - handleYMin) * ((unitY - unitMin) / (unitMax - unitMin))) - handleYHeightHalf);
+
+};
+
 
 ControlKit.Pad = function(parent,object,value,params)
 {
@@ -4360,28 +4935,36 @@ ControlKit.StringOutput.prototype._setValue = function()
 {
     if(this._parent.isDisabled())return;
 
-    var textArea = this._textArea;
+    var textAreaString = this._object[this._key];
 
-    //TODO: Add object / function check
+    if(textAreaString == this._prevString)return;
 
-    if(!this._wrap)
+    var textArea             = this._textArea,
+        textAreaElement      = textArea.getElement(),
+        textAreaScrollHeight;
+
+        textArea.setProperty('value',textAreaString);
+
+        textAreaScrollHeight = textAreaElement.scrollHeight;
+        textArea.setHeight(textAreaScrollHeight);
+
+    var scrollBar = this._scrollBar;
+
+    if(scrollBar)
     {
-        textArea.setProperty('value',this._object[this._key]);
-    }
-    else
-    {
-        var value = this._object[this._key];
-
-        if(typeof(value)        === 'object'   &&
-           typeof(value.length) === 'number'   &&
-           typeof(value.splice) === 'function' &&
-           !(value.propertyIsEnumerable('length')))
+        if(textAreaScrollHeight <= this._wrapNode.getHeight())
         {
-            textArea.setStyleProperty('white-space','nowrap');
+            scrollBar.disable();
         }
-
-        textArea.setProperty('value',value.join("\n"));
+        else
+        {
+            scrollBar.enable();
+            scrollBar.update();
+            scrollBar.reset();
+        }
     }
+
+    this._prevString = textAreaString;
 };
 
 
@@ -4401,6 +4984,8 @@ ControlKit.NumberOutput = function(parent,object,value,params)
 
 ControlKit.NumberOutput.prototype = Object.create(ControlKit.Output.prototype);
 
+
+//FIXME
 ControlKit.NumberOutput.prototype._setValue = function()
 {
     if(this._parent.isDisabled())return;
@@ -4834,7 +5419,7 @@ ControlKit.Picker.prototype =
         var input = this._inputHEX,
             value = input.getProperty('value');
 
-        if(!this._isValidHEX(value))
+        if(!ControlKit.ColorUtil.isValidHEX(value))
         {
             input.setProperty('value',this._valueHEXValid);
             return;
@@ -4930,32 +5515,30 @@ ControlKit.Picker.prototype =
 
     _updateColorHSVFromRGB : function()
     {
-        var hsv = this._RGB2HSV(this._valueR,this._valueG,this._valueB);
+        var hsv = ControlKit.ColorUtil.RGB2HSV(this._valueR,this._valueG,this._valueB);
         this._setColorHSV(hsv[0],hsv[1],hsv[2]);
     },
 
     _updateColorRGBFromHSV : function()
     {
-        var rgb = this._HSV2RGB(this._valueHue,this._valueSat,this._valueVal);
+        var rgb = ControlKit.ColorUtil.HSV2RGB(this._valueHue,this._valueSat,this._valueVal);
         this._setColorRGB(rgb[0],rgb[1],rgb[2]);
     },
 
     _updateColorHEXFromRGB : function()
     {
-        var hex = this._RGB2HEX(this._valueR, this._valueG, this._valueB);
+        var hex = ControlKit.ColorUtil.RGB2HEX(this._valueR, this._valueG, this._valueB);
         this._setColorHEX(hex);
     },
 
     _updateColorFromHEX : function()
     {
-        var rgb = this._HEX2RGB(this._valueHEX);
+        var rgb = ControlKit.ColorUtil.HEX2RGB(this._valueHEX);
 
         this._setColorRGB(rgb[0],rgb[1],rgb[2]);
         this._updateColorHSVFromRGB();
         this._updateHandles();
     },
-
-
 
     /*---------------------------------------------------------------------------------*/
 
@@ -4964,113 +5547,6 @@ ControlKit.Picker.prototype =
 
     _setContrastCurrColor  : function(r,g,b){this._colorCurrNode.setStyleProperty('background','rgb('+r+','+g+','+b+')')},
     _setContrasPrevColor   : function(r,g,b){this._colorPrevNode.setStyleProperty('background','rgb('+r+','+g+','+b+')')},
-
-    /*---------------------------------------------------------------------------------*/
-
-    _HSV2RGB : function(hue,sat,val)
-    {
-        var hueMinMax = this._valueHueMinMax,
-            satMinMax = this._valueSatMinMax,
-            valMinMax = this._valueValMinMax;
-
-        var max_hue = hueMinMax[1],
-            max_sat = satMinMax[1],
-            max_val = valMinMax[1];
-
-        var min_hue = hueMinMax[0],
-            min_sat = satMinMax[0],
-            min_val = valMinMax[0];
-
-        hue = hue % max_hue;
-        val = Math.max(min_val,Math.min(val,max_val))/max_val * 255.0;
-
-        if(sat <= min_sat)
-        {
-            val = Math.round(val);
-            return[val,val,val];
-        }
-        else if(sat > max_sat)sat = max_sat;
-
-        sat = sat/max_sat;
-
-        //http://d.hatena.ne.jp/ja9/20100903/128350434
-
-        var hi = Math.floor(hue/60.0)% 6,
-            f  = (hue/60.0) - hi,
-            p  = val * (1 - sat),
-            q  = val * (1 - f * sat),
-            t  = val * (1 - (1 - f) * sat);
-
-        var r = 0,
-            g = 0,
-            b = 0;
-
-        switch(hi)
-        {
-            case 0: r = val; g = t; b = p;break;
-            case 1: r = q; g = val; b = p;break;
-            case 2: r = p; g = val; b = t;break;
-            case 3: r = p; g = q; b = val;break;
-            case 4: r = t; g = p; b = val;break;
-            case 5: r = val; g = p; b = q;break;
-            default: break;
-        }
-
-        r = Math.round(r);
-        g = Math.round(g);
-        b = Math.round(b);
-
-        return [r,g,b];
-
-    },
-
-    _RGB2HSV: function (r, g, b)
-    {
-        var h = 0,
-            s = 0,
-            v = 0;
-
-        r = r / 255.0;
-        g = g / 255.0;
-        b = b / 255.0;
-
-        var minRGB = Math.min(r, Math.min(g, b)),
-            maxRGB = Math.max(r, Math.max(g, b));
-
-        if (minRGB == maxRGB) { v = minRGB;return [0, 0, Math.round(v)];}
-
-        var dd = (r == minRGB) ? g - b : ((b == minRGB) ? r - g : b - r),
-            hh = (r == minRGB) ? 3 : ((b == minRGB) ? 1 : 5);
-
-        h = Math.round(60 * (hh - dd / (maxRGB - minRGB)));
-        s = Math.round((maxRGB - minRGB) / maxRGB * 100.0);
-        v = Math.round( maxRGB * 100.0);
-
-        return [h, s, v];
-    },
-
-    _isValidHEX : function(hex)
-    {
-        return /^#[0-9A-F]{6}$/i.test(hex);
-    },
-
-    //http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
-
-    _RGB2HEX : function(r,g,b)
-    {
-        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-    },
-
-    _HEX2RGB : function(hex)
-    {
-        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-            return r + r + g + g + b + b;
-        });
-
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? [parseInt(result[1], 16),parseInt(result[2], 16),parseInt(result[3], 16)] : null;
-    },
 
     /*---------------------------------------------------------------------------------*/
 
@@ -5159,7 +5635,7 @@ ControlKit.Picker.prototype =
 
             while(++j < width)
             {
-                rgb   = this._HSV2RGB(valueHue, j * invWidth * 100.0,( 1.0 - i * invHeight ) * 100.0);
+                rgb   = ControlKit.ColorUtil.HSV2RGB(valueHue, j * invWidth * 100.0,( 1.0 - i * invHeight ) * 100.0);
                 index = (i * width + j) * 4;
 
                 imageData.data[index  ] = rgb[0];
@@ -5170,9 +5646,7 @@ ControlKit.Picker.prototype =
         }
 
         context.putImageData(imageData,0,0);
-
     },
-
 
     _drawCanvasSlider : function()
     {
@@ -5194,7 +5668,7 @@ ControlKit.Picker.prototype =
 
             while(++j < width)
             {
-                rgb   = this._HSV2RGB( (1.0 - i * invHeight) * 360.0,100.0,100.0);
+                rgb   = ControlKit.ColorUtil.HSV2RGB( (1.0 - i * invHeight) * 360.0,100.0,100.0);
                 index = (i * width + j) * 4;
 
                 imageData.data[index  ] = rgb[0];
@@ -5284,7 +5758,12 @@ ControlKit.Picker.prototype =
 
     open  : function()
     {
-        this._parentNode.addChild(this._node);
+        var node = this._node;
+
+        this._parentNode.addChild(node);
+        node.setPositionGlobal(window.innerWidth  * 0.5 - node.getWidth()  * 0.5,
+                               window.innerHeight * 0.5 - node.getHeight() * 0.5);
+
         this._updateCanvasNodePositions();
     },
 
@@ -5328,32 +5807,52 @@ ControlKit.Picker.prototype =
     {
         this._setColorHEX(hex);
         this._updateColorFromHEX();
-
-        this._drawCanvasField();
-
-        this._updateHandles();
-
-        var rgb = this._HEX2RGB(hex);
-        this._setContrasPrevColor(rgb[0],rgb[1],rgb[2]);
+        this._setColor();
     },
 
-    //TODO ADD
-    setColorRGB : function(r,g,b){},
-    setColorHSV : function(h,s,v){},
+    setColorRGB   : function(r,g,b)
+    {
+        this._setColorRGB(r,g,b);
+        this._updateColorHEXFromRGB();
+        this._updateColorHSVFromRGB();
+        this._setColor();
+    },
 
+    setColorRGBfv : function(r,g,b)
+    {
+        this.setColorRGB(Math.floor(r * 255.0),
+                         Math.floor(g * 255.0),
+                         Math.floor(b * 255.0));
+    },
 
-    getR    : function(){return this._valueR;},
-    getG    : function(){return this._valueG;},
-    getB    : function(){return this._valueB;},
-    getRGB  : function(){return [this._valueR,this._valueG,this._valueB];},
-    getHue  : function(){return this._valueHue;},
-    getSat  : function(){return this._valueSat;},
-    getVal  : function(){return this._valueVal;},
-    getHSV  : function(){return [this._valueHue,this._valueSat,this._valueVal];},
-    getHEX  : function(){return this._valueHEX;},
+    setColorHSV   : function(h,s,v)
+    {
+        this._setColorHSV(h,s,v);
+        this._updateColorRGBFromHSV();
+        this._updateColorHEXFromRGB();
+        this._setColor();
+    },
+
+    _setColor : function()
+    {
+        this._drawCanvasField();
+        this._drawCanvasSlider();
+        this._updateHandles();
+        this._setContrasPrevColor(this._valueR,this._valueG,this._valueB);
+    },
+
+    getR     : function(){return this._valueR;},
+    getG     : function(){return this._valueG;},
+    getB     : function(){return this._valueB;},
+    getRGB   : function(){return [this._valueR,this._valueG,this._valueB];},
+    getHue   : function(){return this._valueHue;},
+    getSat   : function(){return this._valueSat;},
+    getVal   : function(){return this._valueVal;},
+    getHSV   : function(){return [this._valueHue,this._valueSat,this._valueVal];},
+    getHEX   : function(){return this._valueHEX;},
+    getRGBfv : function(){return [this._valueR / 255.0,this._valueG / 255.0,this._valueB / 255.0];},
 
     getNode : function(){return this._node;}
-
 };
 
 ControlKit.Picker.init        = function(parentNode){return ControlKit.Picker._instance = new ControlKit.Picker(parentNode);};
@@ -5418,10 +5917,10 @@ ControlKit.Canvas.prototype._setCanvasSize = function(width,height)
         canvasHeight = this._canvasHeight = height;
 
     var canvas = this._canvas;
-        canvas.setStyleProperty('width', canvasWidth  + 'px');
-        canvas.setStyleProperty('height',canvasHeight + 'px');
-        canvas.width  = canvasWidth;
-        canvas.height = canvasHeight;
+        canvas.style.width  = canvasWidth  + 'px';
+        canvas.style.height = canvasHeight + 'px';
+        canvas.width        = canvasWidth;
+        canvas.height       = canvasHeight;
 };
 
 ControlKit.Canvas.prototype.getCanvas  = function(){return this._canvas;};
@@ -5486,4 +5985,3 @@ ControlKit.SVG.prototype._svgSetSize = function(width,height)
 };
 
 ControlKit.SVG.prototype.getSVG = function(){return this._svg;};
-ControlKit.CSS.Style = "#controlKit .panel input[type='text'],  #controlKit .panel textarea,  #controlKit .panel .color,  #controlKit .picker input[type='text'] {    -webkit-box-sizing: border-box;    -moz-box-sizing: border-box;    box-sizing: border-box;    height: 25px;    width: 100%;    padding: 0 0 0 8px;    font-family: arial, sans-serif;    font-size: 11px;    color: white;    text-shadow: 1px 1px black;    background: #222729;    background-image: -o-linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.125) 100%);    background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.125) 100%);    border: none;    box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.0125) inset, 0 0 1px 1px #111314 inset;    border-radius: 2px;    -moz-border-radius: 2px;    border-bottom: 1px solid #3b4447; }  #controlKit .panel .color {    -webkit-box-sizing: border-box;    -moz-box-sizing: border-box;    box-sizing: border-box;    width: 100%;    height: 25px;    line-height: 25px;    background: #fff;    text-align: center;    padding: 0;    -webkit-touch-callout: none;    -webkit-user-select: none;    -khtml-user-select: none;    -moz-user-select: none;    -ms-user-select: none;    user-select: none;    cursor: pointer;    border: none;    box-shadow: 0 0 0 1px #111314 inset;    border-radius: 2px;    -moz-border-radius: 2px;    border-bottom: 1px solid #3b4447; }  #controlKit .panel .button,  #controlKit .picker .button,  #controlKit .panel .select,  #controlKit .panel .selectActive {    -webkit-box-sizing: border-box;    -moz-box-sizing: border-box;    box-sizing: border-box;    width: 100%;    height: 26px;    margin: -2px 0 0 0;    cursor: pointer;    background: #3c494e;    background-image: -o-linear-gradient(rgba(34, 39, 41, 0) 0%, rgba(34, 39, 41, 0.65) 100%);    background-image: linear-gradient(rgba(34, 39, 41, 0) 0%, rgba(34, 39, 41, 0.65) 100%);    font-family: arial, sans-serif;    color: white;    border: none;    border-radius: 2px;    -moz-border-radius: 2px;    box-shadow: 0 0 0 1px #131313 inset, -1px 2px 0 0 #323a44 inset;    border-bottom: 1px solid #3b4447; }  #controlKit .panel .button, #controlKit .picker .button {    font-size: 10px;    font-weight: bold;    text-shadow: 0 -1px black;    text-transform: uppercase; }    #controlKit .panel .button:hover, #controlKit .picker .button:hover {      background-image: none; }    #controlKit .panel .button:active, #controlKit .picker .button:active {      background-image: -o-linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 100%);      background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 100%); }  #controlKit .panel {    position: absolute;    left: 0;    top: 0;    z-index: 1;    margin: 0;    padding: 0;    width: 300px;    background-color: #303639;    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25);    font-family: arial, sans-serif;    -webkit-touch-callout: none;    -webkit-user-select: none;    -khtml-user-select: none;    -moz-user-select: none;    -ms-user-select: none;    user-select: none;    -webkit-box-sizing: border-box;    -moz-box-sizing: border-box;    box-sizing: border-box;    border-radius: 2px;    -moz-border-radius: 2px;    overflow: hidden;    opacity: 1.0; }    #controlKit .panel textarea {      padding: 5px 8px 2px 8px;      overflow: hidden;      resize: none;      vertical-align: top;      white-space: nowrap; }    #controlKit .panel .select, #controlKit .panel .selectActive {      padding-left: 10px;      padding-right: 20px;      font-size: 11px;      text-align: left;      text-shadow: 1px 1px black;      cursor: pointer;      overflow: hidden;      white-space: nowrap;      text-overflow: ellipsis; }    #controlKit .panel .select {      background: url(data:image/png;base64,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) 100% 50% no-repeat, -o-linear-gradient(#3a464b 0%, rgba(44, 52, 55, 0) 100%);      background: url(data:image/png;base64,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) 100% 50% no-repeat, linear-gradient(#3a464b 0%, rgba(44, 52, 55, 0) 100%); }    #controlKit .panel .select:hover, #controlKit .panel .selectActive {      background: url(data:image/png;base64,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) 100% 50% no-repeat, #3c494e; }    #controlKit .panel .presetBtn, #controlKit .panel .presetBtnActive {      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box;      position: absolute;      right: 1px;      width: 20px;      height: 22px;      margin: 1px 0 0 0;      cursor: pointer;      float: right;      border: none;      border-top-right-radius: 2px;      border-bottom-right-radius: 2px;      border-left: 1px solid #0f1112;      box-shadow: 0 1px 0 0 #323a44 inset; }    #controlKit .panel .presetBtnActive, #controlKit .panel .presetBtn:hover {      background: url(data:image/png;base64,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) 50% 50% no-repeat, #3c494e; }    #controlKit .panel .presetBtn {      background: url(data:image/png;base64,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) 50% 50% no-repeat, -o-linear-gradient(#3a464b 0%, #2c3437 100%);      background: url(data:image/png;base64,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) 50% 50% no-repeat, linear-gradient(#3a464b 0%, #2c3437 100%); }    #controlKit .panel .scrollBar {      -webkit-box-sizing: content-box;      -moz-box-sizing: content-box;      box-sizing: content-box;      width: 17px;      height: 100%;      float: right;      top: 0;      padding: 0;      margin: 0;      position: relative;      background: #212628;      background-image: linear-gradient(to right, #15181a 0%, rgba(26, 29, 31, 0) 100%); }      #controlKit .panel .scrollBar .track {        padding: 0 3px 0 2px; }        #controlKit .panel .scrollBar .track .thumb {          -webkit-box-sizing: border-box;          -moz-box-sizing: border-box;          box-sizing: border-box;          width: 13px;          position: absolute;          cursor: pointer;          background: #3b484e;          background-image: -o-linear-gradient(#3a4145 0%, #363c40 100%);          background-image: linear-gradient(#3a4145 0%, #363c40 100%);          border: 1px solid #15181a;          border-radius: 2px;          -moz-border-radius: 2px;          box-shadow: inset 0 1px 0 0 #434b50; }    #controlKit .panel .wrap {      width: auto;      height: auto;      margin: 0;      padding: 0;      position: relative;      overflow: hidden; }    #controlKit .panel .inputWPresetWrap, #controlKit .panel .colorWPresetWrap {      width: 100%;      float: left; }    #controlKit .panel .inputWPresetWrap input[type='text'], #controlKit .panel .colorWPresetWrap .color {      padding-right: 25px;      border-top-right-radius: 2px;      border-bottom-right-radius: 2px;      width: 90%; }    #controlKit .panel .textAreaWrap {      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box;      width: 100%;      padding: 0;      float: left;      height: 100%;      overflow: hidden;      border-radius: 2px;      border: none;      box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.0125) inset, 0 0 1px 1px #111314 inset;      border-radius: 2px;      -moz-border-radius: 2px;      border-bottom: 1px solid #3b4447;      background-color: #222729;      box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.0125) inset, 0 0 1px 1px #111314 inset;      background-image: -o-linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.125) 100%);      background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.125) 100%); }      #controlKit .panel .textAreaWrap textarea {        border: none;        border-top-right-radius: 0;        border-bottom-right-radius: 0;        border-radius: 2px;        -moz-border-radius: 2px;        box-shadow: none;        background: none; }      #controlKit .panel .textAreaWrap .scrollBar {        border: 1px solid #101213;        border-bottom-right-radius: 2px;        border-top-right-radius: 2px;        border-left: none;        box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.0125) inset, 0 0 1px 1px #111314 inset; }    #controlKit .panel .graphSliderXWrap, #controlKit .panel .graphSliderYWrap {      position: absolute;      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box; }    #controlKit .panel .graphSliderXWrap {      bottom: 0;      left: 0;      width: 100%;      padding: 6px 20px 6px 6px; }    #controlKit .panel .graphSliderYWrap {      top: 0;      right: 0;      height: 100%;      padding: 6px 6px 20px 6px; }    #controlKit .panel .graphSliderX, #controlKit .panel .graphSliderY {      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box;      border-radius: 2px;      -moz-border-radius: 2px;      background: rgba(24, 27, 29, 0.5);      border: 1px solid #181b1d; }    #controlKit .panel .graphSliderX {      height: 8px; }    #controlKit .panel .graphSliderY {      width: 8px;      height: 100%; }    #controlKit .panel .graphSliderXHandle, #controlKit .panel .graphSliderYHandle {      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box;      cursor: pointer;      border: 1px solid #181b1d;      background: #303639; }    #controlKit .panel .graphSliderXHandle {      width: 20px;      height: 100%;      border-top: none;      border-bottom: none; }    #controlKit .panel .graphSliderYHandle {      width: 100%;      height: 20px;      border-left: none;      border-right: none; }    #controlKit .panel .scrollWrap {      position: relative;      overflow: hidden; }    #controlKit .panel .scrollBuffer {      width: 100%;      height: 8px;      border-top: 1px solid #3b4447;      border-bottom: 1px solid #1e2224; }    #controlKit .panel canvas {      cursor: pointer;      vertical-align: bottom;      border: none;      box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.0125) inset, 0 0 1px 1px #111314 inset;      border-radius: 2px;      -moz-border-radius: 2px;      border-bottom: 1px solid #3b4447; }    #controlKit .panel .svgWrap, #controlKit .panel .canvasWrap {      margin: 6px 0 0 0;      position: relative;      width: 70%;      float: right;      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box;      border: none;      border-radius: 2px;      -moz-border-radius: 2px;      background: #1e2224;      background-image: -o-linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.05) 100%);      background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.05) 100%); }      #controlKit .panel .svgWrap svg, #controlKit .panel .canvasWrap svg {        cursor: pointer;        vertical-align: bottom;        border: none;        box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.0125) inset, 0 0 1px 1px #111314 inset;        border-radius: 2px;        -moz-border-radius: 2px;        border-bottom: 1px solid #3b4447; }    #controlKit .panel ul {      margin: 0;      padding: 0;      list-style: none; }    #controlKit .panel .groupList .group .head {      height: 40px;      border-top: 1px solid #566166;      border-bottom: 1px solid #1a1d1f;      padding: 0 20px 0 20px;      background-image: -o-linear-gradient(#3c4a4f 0%, #383f47 100%);      background-image: linear-gradient(#3c4a4f 0%, #383f47 100%);      cursor: pointer; }      #controlKit .panel .groupList .group .head .label {        font-size: 13px;        line-height: 40px;        color: white; }      #controlKit .panel .groupList .group .head:hover {        background-image: -o-linear-gradient(#3c4a4f 0%, #3c4a4f 100%);        background-image: linear-gradient(#3c4a4f 0%, #3c4a4f 100%); }    #controlKit .panel .groupList .group li {      height: 35px;      padding: 0 10px 0 10px; }    #controlKit .panel .groupList .group .subGroupList {      padding: 10px;      border-top: 1px solid #3b4447;      border-bottom: 1px solid #1e2224; }      #controlKit .panel .groupList .group .subGroupList .subGroup {        padding: 0;        margin-top: 6px;        height: auto;        border: 1px solid #1e2224;        border-radius: 2px;        -moz-border-radius: 2px;        box-shadow: 0 1px 0 0 #3b4447; }        #controlKit .panel .groupList .group .subGroupList .subGroup ul {          overflow: hidden; }        #controlKit .panel .groupList .group .subGroupList .subGroup:first-child {          margin-top: 0; }        #controlKit .panel .groupList .group .subGroupList .subGroup .head {          height: 26px;          padding: 0 10px 0 10px;          border-top: none;          border-bottom: 1px solid #1e2224;          border-top-left-radius: 2px;          border-top-right-radius: 2px;          background-image: none;          background-color: #25282b;          cursor: pointer; }          #controlKit .panel .groupList .group .subGroupList .subGroup .head:hover {            background-image: none;            background-color: #222629; }        #controlKit .panel .groupList .group .subGroupList .subGroup li:nth-child(odd) {          background-color: #292d30; }        #controlKit .panel .groupList .group .subGroupList .subGroup li:nth-child(even) {          background-color: #303639; }        #controlKit .panel .groupList .group .subGroupList .subGroup .headInactive {          -webkit-box-sizing: border-box;          -moz-box-sizing: border-box;          box-sizing: border-box;          height: 26px;          padding: 0 10px 0 10px;          background-image: -o-linear-gradient(#3a4145 0%, #363c40 100%);          background-image: linear-gradient(#3a4145 0%, #363c40 100%);          box-shadow: 0 1px 0 0 #434b50 inset;          cursor: pointer; }          #controlKit .panel .groupList .group .subGroupList .subGroup .headInactive:hover {            background-image: none;            background-color: #3a4145; }        #controlKit .panel .groupList .group .subGroupList .subGroup .head .label, #controlKit .panel .groupList .group .subGroupList .subGroup .headInactive .label {          margin: 0;          padding: 0;          line-height: 26px;          color: white;          font-weight: bold;          font-size: 11px;          text-shadow: 1px 1px black;          text-transform: capitalize; }        #controlKit .panel .groupList .group .subGroupList .subGroup .head .wrap .label, #controlKit .panel .groupList .group .subGroupList .subGroup .headInactive .wrap .label {          width: 100%;          font-weight: bold;          color: white;          padding: 0; }        #controlKit .panel .groupList .group .subGroupList .subGroup .wrap .label {          -webkit-box-sizing: border-box;          -moz-box-sizing: border-box;          box-sizing: border-box;          height: 100%;          width: 30%;          padding: 10px 5px 0 0;          float: left;          font-size: 11px;          font-weight: normal;          color: #aeb5b8;          text-shadow: 1px 1px black; }        #controlKit .panel .groupList .group .subGroupList .subGroup .wrap .wrap {          -webkit-box-sizing: border-box;          -moz-box-sizing: border-box;          box-sizing: border-box;          width: 70%;          padding: 6px 0 0 0;          float: right;          height: 100%; }          #controlKit .panel .groupList .group .subGroupList .subGroup .wrap .wrap .wrap {            width: 25%;            padding: 0;            float: left; }            #controlKit .panel .groupList .group .subGroupList .subGroup .wrap .wrap .wrap .label {              width: 100%;              padding: 4px 0 0 0;              color: #878787;              text-align: center;              text-transform: uppercase;              font-weight: bold;              text-shadow: 1px 1px #1a1a1a; }            #controlKit .panel .groupList .group .subGroupList .subGroup .wrap .wrap .wrap input[type='text'] {              padding: 0;              text-align: center; }        #controlKit .panel .groupList .group .subGroupList .subGroup .wrap {          background: #25282b; }        #controlKit .panel .groupList .group .subGroupList .subGroup .wrap .wrap {          background: none; }      #controlKit .panel .groupList .group .subGroupList .head .wrap, #controlKit .panel .groupList .group .subGroupList .headInactive .wrap {        background: none; }    #controlKit .panel .groupList .group:last-child .subGroupList, #controlKit .panel .groupList .group:last-child .scrollBuffer:nth-of-type(3) {      border-bottom: none; }    #controlKit .panel .groupList .group:last-child .scrollWrap .subGroupList {      border-bottom: 1px solid #1e2224; }    #controlKit .panel .wrapSlider {      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box;      width: 70%;      padding: 6px 0 0 0;      float: right;      height: 100%; }      #controlKit .panel .wrapSlider input[type='text'] {        width: 25%;        text-align: center;        padding: 0;        float: right; }    #controlKit .panel .sliderWrap {      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box;      float: left;      cursor: ew-resize;      width: 70%; }    #controlKit .panel .sliderSlot {      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box;      width: 100%;      height: 25px;      padding: 3px;      background-color: #1e2224;      border: none;      box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.0125) inset, 0 0 1px 1px #111314 inset;      border-radius: 2px;      -moz-border-radius: 2px;      border-bottom: 1px solid #3b4447; }    #controlKit .panel .sliderHandle {      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box;      position: relative;      width: 100%;      height: 100%;      background: #b32435;      background-image: -o-linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);      background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);      box-shadow: 0 1px 0 0 #0f0f0f; }    #controlKit .panel .canvasListItem, #controlKit .panel .svgListItem {      padding: 0 10px 0 10px; }    #controlKit .panel .arrowSMax {      background: url(data:image/png;base64,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) center no-repeat; }    #controlKit .panel .arrowSMin {      background: url(data:image/png;base64,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) center no-repeat; }    #controlKit .panel .arrowSMax, #controlKit .panel .arrowSMin {      width: 100%;      height: 20px; }    #controlKit .panel .arrowBMax {      background: url(data:image/png;base64,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) center no-repeat; }    #controlKit .panel .arrowBMin {      background: url(data:image/png;base64,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) center no-repeat; }    #controlKit .panel .arrowBSubMax {      background: url(data:image/png;base64,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) center no-repeat; }    #controlKit .panel .arrowBSubMin {      background: url(data:image/png;base64,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) center no-repeat; }    #controlKit .panel .arrowBMax, #controlKit .panel .arrowBMin, #controlKit .panel .arrowBSubMax, #controlKit .panel .arrowBSubMin {      width: 10px;      height: 100%;      float: right; }  #controlKit .panel .label, #controlKit .picker .label {    width: 100%;    float: left;    font-size: 11px;    font-weight: bold;    text-shadow: 0 -1px black;    overflow: hidden;    white-space: nowrap;    text-overflow: ellipsis;    cursor: default; }  #controlKit .panel .head, #controlKit .picker .head, #controlKit .panel .panelHeadInactive {    height: 30px;    padding: 0 10px 0 10px;    background: #1a1d1f; }    #controlKit .panel .head .wrap, #controlKit .picker .head .wrap, #controlKit .panel .panelHeadInactive .wrap {      width: auto;      height: auto;      margin: 0;      padding: 0;      position: relative;      overflow: hidden; }  #controlKit .panel .head, #controlKit .picker .head {    border-top: 1px solid #202426;    border-bottom: 1px solid #111314; }    #controlKit .panel .head .label, #controlKit .picker .head .label {      cursor: pointer;      line-height: 30px;      color: #65696b; }  #controlKit .panel .panelHeadInactive {    border-top: 1px solid #202426; }  #controlKit .panel .menu, #controlKit .picker .menu {    float: right;    padding: 5px 0 0 0; }    #controlKit .panel .menu input[type='button'], #controlKit .picker .menu input[type='button'] {      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box;      cursor: pointer;      height: 20px;      margin-left: 4px;      border: none;      border-radius: 2px;      -moz-border-radius: 2px;      font-family: arial, sans-serif;      font-size: 10px;      font-weight: bold;      color: #aaaaaa;      text-shadow: 0 -1px black;      text-transform: uppercase;      box-shadow: 0 0 0 1px #131313 inset, -1px 2px 0 0 #212527 inset;      border-bottom: 1px solid #24292b; }    #controlKit .panel .menu .btnHide, #controlKit .panel .menu .btnShow, #controlKit .panel .menu .btnClose, #controlKit .picker .menu .btnHide, #controlKit .picker .menu .btnShow, #controlKit .picker .menu .btnClose {      width: 20px; }    #controlKit .panel .menu .btnHide, #controlKit .picker .menu .btnHide {      background: url(data:image/png;base64,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) 50% 50% no-repeat, #1a1d1f; }      #controlKit .panel .menu .btnHide:hover, #controlKit .picker .menu .btnHide:hover {        background: url(data:image/png;base64,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) 50% 50% no-repeat, #111314;        box-shadow: 0 0 0 1px #131313 inset, -1px 2px 0 0 #121314 inset; }    #controlKit .panel .menu .btnShow, #controlKit .picker .menu .btnShow {      background: url(data:image/png;base64,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) 50% 50% no-repeat, #1a1d1f; }      #controlKit .panel .menu .btnShow:hover, #controlKit .picker .menu .btnShow:hover {        background: url(data:image/png;base64,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) 50% 50% no-repeat, #111314;        box-shadow: 0 0 0 1px #131313 inset, -1px 2px 0 0 #121314 inset; }    #controlKit .panel .menu .btnClose, #controlKit .picker .menu .btnClose {      background: url(data:image/png;base64,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) 50% 50% no-repeat, #1a1d1f; }      #controlKit .panel .menu .btnClose:hover, #controlKit .picker .menu .btnClose:hover {        background: url(data:image/png;base64,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) 50% 50% no-repeat, #111314;        box-shadow: 0 0 0 1px #131313 inset, -1px 2px 0 0 #121314 inset; }    #controlKit .panel .menu .btnUndo, #controlKit .picker .menu .btnUndo {      background: #1a1d1f 0%, #1a1d1f 100%, -o-linear-gradient(url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAALCAYAAABLcGxfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAAAYVJREFUeNpckD1IW1EYhp9z7rm3oqkhzZ/xD6tR1EpFKelghlBonVwKDpaWDnbq2lVF0MHBUbdCp5aCUigdnISgoUPAqWMlYsGlNtYK1Zhzzr1dVG7zbt/L97x87yceTz0lrHKp+BJYBHqurG/AfC5f+AwgwkC5VHybyrTPdvdmA9f1BEJQO//LYWWfk+OfS7l8YeEGKJeKr7ND99aT6QzWmHPgE+AAM47rcnR4wI/K/qS8Ts90dq+lMh1YY1aBFuAF8AyQVuvNrrt9xOKJjyIau/MOGJp49ORhrXZh9r7ubgPPc/nCr3A36TjG931HDY+OTyjP6w8AKR01MvagcFqtxoH/gLPT3wexRDKrIrdbd6Tj9AshcD0PQaTa3BI5oUFa13sIAiTwyrd2wWqNqV/uAR3AccOrPyRSbUrX63/Ulbfk+34FxJdyqdgELAO3gDgwPTBy/3pvRoWC3gMkUm3pSDT6RkqJcl3iyXQQWIs1ZgXYUo239g4M1sKz1fo7MAdsAPwbAL9hftvTlNkdAAAAAElFTkSuQmCC) 20% 50% no-repeat);      background: #1a1d1f 0%, #1a1d1f 100%, linear-gradient(url(data:image/png;base64,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) 20% 50% no-repeat);      padding: 0 6px 1px 0;      width: 38px;      vertical-align: top;      text-align: end; }      #controlKit .panel .menu .btnUndo:hover, #controlKit .picker .menu .btnUndo:hover {        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAALCAYAAABLcGxfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAAAYVJREFUeNpckD1IW1EYhp9z7rm3oqkhzZ/xD6tR1EpFKelghlBonVwKDpaWDnbq2lVF0MHBUbdCp5aCUigdnISgoUPAqWMlYsGlNtYK1Zhzzr1dVG7zbt/L97x87yceTz0lrHKp+BJYBHqurG/AfC5f+AwgwkC5VHybyrTPdvdmA9f1BEJQO//LYWWfk+OfS7l8YeEGKJeKr7ND99aT6QzWmHPgE+AAM47rcnR4wI/K/qS8Ts90dq+lMh1YY1aBFuAF8AyQVuvNrrt9xOKJjyIau/MOGJp49ORhrXZh9r7ubgPPc/nCr3A36TjG931HDY+OTyjP6w8AKR01MvagcFqtxoH/gLPT3wexRDKrIrdbd6Tj9AshcD0PQaTa3BI5oUFa13sIAiTwyrd2wWqNqV/uAR3AccOrPyRSbUrX63/Ulbfk+34FxJdyqdgELAO3gDgwPTBy/3pvRoWC3gMkUm3pSDT6RkqJcl3iyXQQWIs1ZgXYUo239g4M1sKz1fo7MAdsAPwbAL9hftvTlNkdAAAAAElFTkSuQmCC) 20% 50% no-repeat, #111314; }  #controlKit .picker {    -webkit-box-sizing: border-box;    -moz-box-sizing: border-box;    box-sizing: border-box;    border-radius: 2px;    -moz-border-radius: 2px;    background-color: #303639;    font-family: arial, sans-serif;    font-size: 11px;    color: white;    text-shadow: 1px 1px black;    position: absolute;    z-index: 2147483631;    width: 360px;    -webkit-touch-callout: none;    -webkit-user-select: none;    -khtml-user-select: none;    -moz-user-select: none;    -ms-user-select: none;    user-select: none;    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25); }    #controlKit .picker canvas {      vertical-align: bottom;      cursor: pointer; }    #controlKit .picker .wrap {      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box;      padding: 10px;      float: left; }    #controlKit .picker .fieldWrap {      padding: 3px; }    #controlKit .picker .sliderWrap {      padding: 3px 13px 3px 3px; }    #controlKit .picker .fieldWrap, #controlKit .picker .sliderWrap, #controlKit .picker .inputWrap {      height: auto;      overflow: hidden;      float: left; }    #controlKit .picker .inputWrap {      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box;      border: 1px solid #1e2224;      border-radius: 2px;      -moz-border-radius: 2px;      box-shadow: 0 1px 0 0 #3b4447;      width: 140px;      float: right;      padding: 5px 10px 1px 0; }    #controlKit .picker .inputField {      width: 50%;      float: right;      margin-bottom: 4px; }      #controlKit .picker .inputField .label {        padding: 4px 0 0 0;        color: #878787;        text-align: center;        text-transform: uppercase;        font-weight: bold;        text-shadow: 1px 1px #1a1a1a;        width: 40%; }      #controlKit .picker .inputField .wrap {        padding: 0;        width: 60%;        height: auto;        float: right; }    #controlKit .picker .controlsWrap {      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box;      width: 100%;      height: auto;      float: right;      padding: 9px 0 0 0; }      #controlKit .picker .controlsWrap input[type='button'] {        float: right;        width: 65px;        margin: 0 0 0 10px; }    #controlKit .picker .colorContrast {      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box;      border: none;      box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.0125) inset, 0 0 1px 1px #111314 inset;      border-radius: 2px;      -moz-border-radius: 2px;      border-bottom: 1px solid #3b4447;      width: 100%;      height: 25px;      padding: 3px;      width: 80%;      margin-bottom: 4px;      float: right; }      #controlKit .picker .colorContrast div {        width: 50%;        height: 100%;        float: left; }    #controlKit .picker input[type='text'] {      padding: 0;      text-align: center;      width: 60%;      float: right; }    #controlKit .picker .wrap .inputWrap:nth-of-type(3) {      border-bottom-left-radius: 0;      border-bottom-right-radius: 0; }    #controlKit .picker .wrap .inputWrap:nth-of-type(4) {      border-top: none;      border-top-left-radius: 0;      border-top-right-radius: 0; }      #controlKit .picker .wrap .inputWrap:nth-of-type(4) .inputField {        width: 100%; }        #controlKit .picker .wrap .inputWrap:nth-of-type(4) .inputField .label {          width: 20%; }      #controlKit .picker .wrap .inputWrap:nth-of-type(4) input[type='text'] {        width: 80%; }    #controlKit .picker .fieldWrap, #controlKit .picker .sliderWrap {      background: #1e2224;      border: none;      box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.0125) inset, 0 0 1px 1px #111314 inset;      border-radius: 2px;      -moz-border-radius: 2px;      border-bottom: 1px solid #3b4447;      position: relative;      margin-right: 5px; }      #controlKit .picker .fieldWrap .indicator, #controlKit .picker .sliderWrap .indicator {        position: absolute;        border: 2px solid white;        box-shadow: 0 1px black, 0 1px black inset;        cursor: pointer; }    #controlKit .picker .fieldWrap .indicator {      width: 8px;      height: 8px;      left: 50%;      top: 50%;      border-radius: 50%;      -moz-border-radius: 50%; }    #controlKit .picker .sliderWrap .indicator {      width: 14px;      height: 3px;      border-radius: 8px;      -moz-border-radius: 8px;      left: 1px;      top: 1px; }      #controlKit .picker .sliderWrap .indicator:after {        content: "";        width: 0;        height: 0;        border-top: 4.5px solid transparent;        border-bottom: 4.5px solid transparent;        border-right: 4px solid white;        float: right;        position: absolute;        top: -2px;        left: 19px; }      #controlKit .picker .sliderWrap .indicator:before {        content: "";        width: 0;        height: 0;        border-top: 4.5px solid transparent;        border-bottom: 4.5px solid transparent;        border-right: 4px solid black;        float: right;        position: absolute;        top: -3px;        left: 19px; }  #controlKit .options {    -webkit-box-sizing: border-box;    -moz-box-sizing: border-box;    box-sizing: border-box;    border: 1px solid #131313;    border-radius: 2px;    -moz-border-radius: 2px;    position: absolute;    left: 0;    top: 0;    width: auto;    height: auto;    z-index: 2147483638;    font-family: arial, sans-serif;    font-size: 11px;    color: white;    text-shadow: 1px 1px black;    box-shadow: 0 1px 0 0 #566166 inset;    overflow: hidden;    background-color: #3c494e; }    #controlKit .options ul {      width: 100%;      list-style: none;      margin: 0;      padding: 0; }      #controlKit .options ul li {        margin: 0;        width: 100%;        height: 28px;        line-height: 28px;        padding: 0 20px 0 10px;        overflow: hidden;        white-space: normal;        text-overflow: ellipsis;        cursor: pointer; }        #controlKit .options ul li:hover {          background-color: #1f2325; }      #controlKit .options ul .liSelected {        background-color: #292d30; }    #controlKit .options .color {      -webkit-box-sizing: border-box;      -moz-box-sizing: border-box;      box-sizing: border-box; }      #controlKit .options .color li, #controlKit .options .color .liSelected {        -webkit-box-sizing: border-box;        -moz-box-sizing: border-box;        box-sizing: border-box;        padding: 0;        height: 25px;        line-height: 25px;        text-align: center; }        #controlKit .options .color li:hover, #controlKit .options .color .liSelected:hover {          background: none;          font-weight: bold; }      #controlKit .options .color .liSelected {        font-weight: bold; }  ";
