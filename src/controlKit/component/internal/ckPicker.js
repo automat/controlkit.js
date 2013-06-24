@@ -788,7 +788,7 @@ ControlKit.Picker.prototype =
 
     setColorRGBfv : function(r,g,b)
     {
-        this._setColorRGB(Math.floor(r * 255.0),
+        this.setColorRGB(Math.floor(r * 255.0),
                           Math.floor(g * 255.0),
                           Math.floor(b * 255.0));
     },
