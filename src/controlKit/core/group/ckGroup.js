@@ -9,7 +9,6 @@ ControlKit.Group = function(parent,params)
     params.useLabels = params.useLabels || true;
     params.enable    = params.enable     === undefined ? true : params.enable;
 
-
     /*-------------------------------------------------------------------------------------*/
 
     this._components = [];
@@ -47,13 +46,12 @@ ControlKit.Group = function(parent,params)
             headNode.addChild(indiNode);
             lablWrap.addChild(lablNode);
             headNode.addChild(lablWrap);
+            rootNode.addChild(headNode);
 
         headNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadTrigger.bind(this));
         this.addEventListener(ControlKit.EventType.GROUP_LIST_SIZE_CHANGE,this._parent,'onGroupListSizeChange');
 
-        rootNode.addChild(headNode);
-
-        if(!params.enable)this.disable();
+        this._updateAppearance();
     }
 
     if(this.hasMaxHeight())this.addScrollWrap();
@@ -90,8 +88,6 @@ ControlKit.Group = function(parent,params)
     /*-------------------------------------------------------------------------------------*/
 
     this.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE,this._parent,'onGroupListSizeChange');
-
-
 };
 
 ControlKit.Group.prototype = Object.create(ControlKit.AbstractGroup.prototype);
@@ -190,7 +186,6 @@ ControlKit.Group.prototype._updateHeight = function()
     this.getSubGroup().update();
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE,null));
     if(this.hasMaxHeight())this._scrollBar.update();
-
 };
 
 /*----------------------------------------------------------collapsed---------------------*/

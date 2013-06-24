@@ -6,15 +6,16 @@ ControlKit.AbstractGroup = function(parent,params)
 
     params        = params        || {};
     params.height = params.height || null;
+    params.enable = params.enable === undefined ? true : params.enable;
 
     /*---------------------------------------------------------------------------------*/
 
     this._parent     = parent;
     this._height     = params.height;
-    this._isDisabled = false;
+    this._isDisabled = !params.enable;
     this._scrollBar  = null;
 
-    this._node = new ControlKit.Node(ControlKit.NodeType.LIST_ITEM);
+    this._node     = new ControlKit.Node(ControlKit.NodeType.LIST_ITEM);
     this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV);
     this._listNode = new ControlKit.Node(ControlKit.NodeType.LIST);
 

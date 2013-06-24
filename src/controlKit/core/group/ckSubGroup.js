@@ -6,7 +6,6 @@ ControlKit.SubGroup = function(parent,params)
 
     params            = params          || {};
     params.label      = params.label    || null;
-    params.enable     = params.enable     === undefined ? true : params.enable;
     params.useLabels  = params.useLabels  === undefined ? true : params.useLabels;
 
     /*---------------------------------------------------------------------------------*/
@@ -22,7 +21,6 @@ ControlKit.SubGroup = function(parent,params)
         rootNode.addChild(wrapNode);
 
     this._useLabels  = params.useLabels;
-    this._isDisabled = !params.enable;
 
     /*-------------------------------------------------------------------------------------*/
 
