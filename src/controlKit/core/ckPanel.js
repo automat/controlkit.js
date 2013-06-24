@@ -4,11 +4,11 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    var parent = this._parent = controlKit;
+    this._parent = controlKit;
 
     /*---------------------------------------------------------------------------------*/
 
-    params                 = params           || {};
+    params            = params           || {};
 
     params.valign     = params.valign    || ControlKit.Default.PANEL_VALIGN;
     params.align      = params.align     || ControlKit.Default.PANEL_ALIGN;
@@ -18,14 +18,9 @@ ControlKit.Panel = function(controlKit,params)
     params.ratio      = params.ratio     || ControlKit.Default.PANEL_RATIO;
     params.label      = params.label     || ControlKit.Default.PANEL_LABEL;
     params.opacity    = params.opacity   || ControlKit.Default.PANEL_OPACITY;
-
-    params.fixed      = params.fixed === undefined ?
-                        ControlKit.Default.PANEL_FIXED :
-                        params.fixed;
-
+    params.fixed      = params.fixed  === undefined ? ControlKit.Default.PANEL_FIXED  : params.fixed;
+    params.enable     = params.enable === undefined ? ControlKit.Default.PANEL_ENABLE : params.enable;
     params.vconstrain = params.vconstrain || true;
-
-    /*---------------------------------------------------------------------------------*/
 
     if(params.dock)
     {
@@ -35,53 +30,56 @@ ControlKit.Panel = function(controlKit,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    var align      =                    params.align,
-        height     = this._height     = params.height ?  Math.max(0,Math.min(params.height,window.innerHeight)) : null,
-        width      = this._width      = Math.max(ControlKit.Default.PANEL_WIDTH_MIN,
-                                        Math.min(params.width,ControlKit.Default.PANEL_WIDTH_MAX)),
-        isFixed    = this._fixed      = params.fixed,
-        dock       = this._dock       = params.dock,
-        label      = this._label      = params.label,
-        position   = this._position   = params.position,
-        opacity    =                    params.opacity;
-
+    this._width      = Math.max(ControlKit.Default.PANEL_WIDTH_MIN,
+                       Math.min(params.width,ControlKit.Default.PANEL_WIDTH_MAX));
+    this._height     = params.height ?  Math.max(0,Math.min(params.height,window.innerHeight)) : null;
+    this._fixed      = params.fixed;
+    this._dock       = params.dock;
+    this._position   = params.position;
     this._vConstrain = params.vconstrain;
+    this._label      = params.label;
+    this._isDisabled = !params.enable;
+    this._groups     = [];
 
     /*---------------------------------------------------------------------------------*/
 
-    this._isDisabled = false;
-
-    this._groups = [];
+    var width    = this._width,
+        isFixed  = this._fixed,
+        dock     = this._dock,
+        position = this._position,
+        label    = this._label,
+        align    = params.align,
+        opacity  = params.opacity;
 
     /*---------------------------------------------------------------------------------*/
 
-    var rootNode  = this._node = new ControlKit.Node(ControlKit.NodeType.DIV),
+    var rootNode  = this._node     = new ControlKit.Node(ControlKit.NodeType.DIV),
         headNode  = this._headNode = new ControlKit.Node(ControlKit.NodeType.DIV),
+        menuNode  =                  new ControlKit.Node(ControlKit.NodeType.DIV),
         lablWrap  =                  new ControlKit.Node(ControlKit.NodeType.DIV),
         lablNode  =                  new ControlKit.Node(ControlKit.NodeType.SPAN),
         wrapNode  = this._wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV),
         listNode  = this._listNode = new ControlKit.Node(ControlKit.NodeType.LIST);
 
-    /*---------------------------------------------------------------------------------*/
-
         rootNode.setStyleClass(ControlKit.CSS.Panel);
         headNode.setStyleClass(ControlKit.CSS.Head);
+        menuNode.setStyleClass(ControlKit.CSS.Menu);
         lablWrap.setStyleClass(ControlKit.CSS.Wrap);
         lablNode.setStyleClass(ControlKit.CSS.Label);
         wrapNode.setStyleClass(ControlKit.CSS.Wrap);
         listNode.setStyleClass(ControlKit.CSS.GroupList);
 
-    /*---------------------------------------------------------------------------------*/
-
         rootNode.setWidth(width);
         lablNode.setProperty('innerHTML',label);
 
-    var menuNode = new ControlKit.Node(ControlKit.NodeType.DIV);
-        menuNode.setStyleClass( ControlKit.CSS.Menu);
+        headNode.addChild(menuNode);
+        lablWrap.addChild(lablNode);
+        headNode.addChild(lablWrap);
+        wrapNode.addChild(listNode);
+        rootNode.addChild(headNode);
+        rootNode.addChild(wrapNode);
 
-    /*---------------------------------------------------------------------------------*/
-
-    controlKit.getNode().addChild(rootNode);
+        controlKit.getNode().addChild(rootNode);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -103,11 +101,29 @@ ControlKit.Panel = function(controlKit,params)
 
         if(!isFixed)
         {
+            if(position)
+            {
+                if(align == ControlKit.LayoutMode.LEFT ||
+                   align == ControlKit.LayoutMode.TOP  ||
+                   align == ControlKit.LayoutMode.BOTTOM)
+                {
+                    rootNode.setPositionGlobal(position[0],position[1]);
+                }
+                else
+                {
+
+                    console.log(align);
+                    rootNode.setPositionGlobal(window.innerWidth - width - position[0],position[1]);
+                    this._position = rootNode.getPosition();
+                }
+            }
+            else this._position = rootNode.getPosition();
+
             this._mouseOffset  = [0,0];
-            this._position = rootNode.getPosition();
 
             rootNode.setStyleProperty('position','absolute');
             headNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadDragStart.bind(this));
+
         }
         else
         {
@@ -116,23 +132,27 @@ ControlKit.Panel = function(controlKit,params)
                 var positionX = position[0],
                     positionY = position[1];
 
-                if(positionY!=0)rootNode.setPositionY(positionY);
-                if(positionX!=0)if(align==ControlKit.LayoutMode.RIGHT)rootNode.getElement().marginRight = positionX;
-                                else rootNode.setPositionX(positionX);
+                if(positionY != 0)rootNode.setPositionY(positionY);
+                if(positionX != 0)if(align==ControlKit.LayoutMode.RIGHT)rootNode.getElement().marginRight = positionX;
+                                  else rootNode.setPositionX(positionX);
             }
+
+            rootNode.setStyleProperty('float',align);
         }
     }
     else
     {
-        if(dock.align == ControlKit.LayoutMode.LEFT ||
-           dock.align == ControlKit.LayoutMode.RIGHT)
+        var dockAlignment = dock.align;
+
+        if(dockAlignment == ControlKit.LayoutMode.LEFT ||
+           dockAlignment == ControlKit.LayoutMode.RIGHT)
         {
-            align = dock.align;
+            align = dockAlignment;
             this._height = window.innerHeight;
         }
 
-        if(dock.align == ControlKit.LayoutMode.TOP ||
-           dock.align == ControlKit.LayoutMode.BOTTOM)
+        if(dockAlignment == ControlKit.LayoutMode.TOP ||
+           dockAlignment == ControlKit.LayoutMode.BOTTOM)
         {
 
         }
@@ -146,18 +166,9 @@ ControlKit.Panel = function(controlKit,params)
         }
         */
 
+        rootNode.setStyleProperty('float',align);
+
     }
-
-    rootNode.setStyleProperty('float',align);
-
-    /*---------------------------------------------------------------------------------*/
-
-    headNode.addChild(menuNode);
-    lablWrap.addChild(lablNode);
-    headNode.addChild(lablWrap);
-    wrapNode.addChild(listNode);
-    rootNode.addChild(headNode);
-    rootNode.addChild(wrapNode);
 
     /*---------------------------------------------------------------------------------*/
 
@@ -268,11 +279,13 @@ ControlKit.Panel.prototype._updatePosition = function()
     var mousePos  = ControlKit.Mouse.getInstance().getPosition(),
         offsetPos = this._mouseOffset;
 
-    var currPositionX = mousePos[0] - offsetPos[0],
-        currPositionY = mousePos[1] - offsetPos[1];
+    var position = this._position;
+        position[0] = mousePos[0] - offsetPos[0];
+        position[1] = mousePos[1] - offsetPos[1];
 
-    this._setPosition(currPositionX,currPositionY);
     this._constrainHeight();
+    this._constrainPosition();
+
     this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE,null));
 };
 
@@ -297,32 +310,27 @@ ControlKit.Panel.prototype._onWindowResize = function()
             this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_SIZE_CHANGE));
         }
     }
+    else
+    {
+        if(!this.isFixed())this._constrainPosition();
+    }
 
     this._constrainHeight();
 };
 
 
 /*---------------------------------------------------------------------------------*/
-//FIXME
-ControlKit.Panel.prototype._setPosition = function(x,y)
+
+ControlKit.Panel.prototype._constrainPosition = function()
 {
-    var node     = this._node,
-        head     = this._headNode,
-        position = this._position;
+    var node = this._node;
 
     var maxX = window.innerWidth  - node.getWidth(),
-        maxY = window.innerHeight - head.getHeight();
+        maxY = window.innerHeight - node.getHeight();
 
-    if(!this._fixed)
-    {
-        position[0] = Math.max(0,Math.min(x,maxX));
-        position[1] = Math.max(0,Math.min(y,maxY));
-    }
-    else
-    {
-        //TODO FIX
-        position[0] = maxX;
-    }
+    var position    = this._position;
+        position[0] = Math.max(0,Math.min(position[0],maxX));
+        position[1] = Math.max(0,Math.min(position[1],maxY));
 
     node.setPositionGlobal(position[0],position[1]);
 };
@@ -415,7 +423,6 @@ ControlKit.Panel.prototype._updateScrollWrap = function()
     }
 };
 
-
 ControlKit.Panel.prototype._addScrollWrap = function()
 {
     var wrapNode = this._wrapNode,
@@ -476,7 +483,6 @@ ControlKit.Panel.prototype.getList       = function(){return this._listNode;};
 
 /*---------------------------------------------------------------------------------*/
 
-ControlKit.Panel.prototype.getLabel      = function(){return this._label;};
 ControlKit.Panel.prototype.getWidth      = function(){return this._width;};
 ControlKit.Panel.prototype.getPosition   = function(){return this._position;};
 
