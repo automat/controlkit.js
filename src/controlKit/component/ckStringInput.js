@@ -7,7 +7,7 @@ ControlKit.StringInput = function(parent,object,value,params)
     params          = params || {};
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
-    params.presets  = params.presets  || null;
+    params.presets  = params.presets  || ControlKit.Default.STRING_INPUT_PRESET;
 
     /*---------------------------------------------------------------------------------*/
 

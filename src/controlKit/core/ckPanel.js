@@ -18,9 +18,9 @@ ControlKit.Panel = function(controlKit,params)
     params.ratio      = params.ratio     || ControlKit.Default.PANEL_RATIO;
     params.label      = params.label     || ControlKit.Default.PANEL_LABEL;
     params.opacity    = params.opacity   || ControlKit.Default.PANEL_OPACITY;
-    params.fixed      = params.fixed  === undefined ? ControlKit.Default.PANEL_FIXED  : params.fixed;
-    params.enable     = params.enable === undefined ? ControlKit.Default.PANEL_ENABLE : params.enable;
-    params.vconstrain = params.vconstrain || true;
+    params.fixed      = params.fixed      === undefined ? ControlKit.Default.PANEL_FIXED      : params.fixed;
+    params.enable     = params.enable     === undefined ? ControlKit.Default.PANEL_ENABLE     : params.enable;
+    params.vconstrain = params.vconstrain === undefined ? ControlKit.Default.PANEL_VCONSTRAIN : params.vconstrain;
 
     if(params.dock)
     {
@@ -85,17 +85,22 @@ ControlKit.Panel = function(controlKit,params)
 
     if(!dock)
     {
-        var menuClose = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON),
-            menuHide  = this._menuHide = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
 
-            menuClose.setStyleClass(ControlKit.CSS.MenuBtnClose);
+        var menuHide  = this._menuHide = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
             menuHide.setStyleClass( ControlKit.CSS.MenuBtnHide);
-
-            menuNode.addChild(menuHide);
-            menuNode.addChild(menuClose);
-
             menuHide.addEventListener( ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuHideMouseDown.bind(this));
+
+        menuNode.addChild(menuHide);
+
+        if(this._parent.panelsAreClosable())
+        {
+            var menuClose = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
+            menuClose.setStyleClass(ControlKit.CSS.MenuBtnClose);
             menuClose.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this.disable.bind(this));
+
+            menuNode.addChild(menuClose);
+        }
+
 
         if(this.hasMaxHeight()){this._addScrollWrap();}
 
@@ -111,8 +116,6 @@ ControlKit.Panel = function(controlKit,params)
                 }
                 else
                 {
-
-                    console.log(align);
                     rootNode.setPositionGlobal(window.innerWidth - width - position[0],position[1]);
                     this._position = rootNode.getPosition();
                 }
@@ -123,7 +126,6 @@ ControlKit.Panel = function(controlKit,params)
 
             rootNode.setStyleProperty('position','absolute');
             headNode.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onHeadDragStart.bind(this));
-
         }
         else
         {
@@ -168,6 +170,19 @@ ControlKit.Panel = function(controlKit,params)
 
         rootNode.setStyleProperty('float',align);
 
+    }
+
+    if(this._parent.historyIsEnabled())
+    {
+        var menuUndo = this._menuUndo = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
+            menuUndo.setStyleClass(ControlKit.CSS.MenuBtnUndo);
+            menuUndo.setStyleProperty('display','none');
+            menuUndo.setProperty('value',ControlKit.History.getInstance().getNumStates());
+            menuNode.addChildAt(menuUndo,0);
+
+            menuUndo.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuUndoTrigger.bind(this));
+            headNode.addEventListener(ControlKit.NodeEventType.MOUSE_OVER, this._onHeadMouseOver.bind(this));
+            headNode.addEventListener(ControlKit.NodeEventType.MOUSE_OUT,  this._onHeadMouseOut.bind(this))
     }
 
     /*---------------------------------------------------------------------------------*/
@@ -485,7 +500,3 @@ ControlKit.Panel.prototype.getList       = function(){return this._listNode;};
 
 ControlKit.Panel.prototype.getWidth      = function(){return this._width;};
 ControlKit.Panel.prototype.getPosition   = function(){return this._position;};
-
-
-
-

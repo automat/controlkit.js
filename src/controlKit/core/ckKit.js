@@ -30,6 +30,7 @@ ControlKit.Kit = function(parentDomElementId,params)
     this._panels         = [];
     this._isDisabled     = false;
     this._historyEnabled = params.history;
+    this._panelsClosable = params.panelsClosable;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -136,7 +137,8 @@ ControlKit.Kit.prototype.update = function()
     }
 };
 
-ControlKit.Kit.prototype.historyIsEnabled = function(){return this._historyEnabled;};
+ControlKit.Kit.prototype.historyIsEnabled  = function(){return this._historyEnabled;};
+ControlKit.Kit.prototype.panelsAreClosable = function(){return this._panelsClosable;};
 
 ControlKit.Kit.prototype.enable  = function(){this._isDisabled = false;};
 ControlKit.Kit.prototype.disable = function(){this._isDisabled = true;};

@@ -7,9 +7,9 @@ ControlKit.NumberInput = function(parent,object,value,params)
     params          = params || {};
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
-    params.dp       = params.dp       || 2;
-    params.step     = params.step     || 1;
-    params.presets  = params.presets  || null;
+    params.dp       = params.dp       || ControlKit.Default.NUMBER_INPUT_DP;
+    params.step     = params.step     || ControlKit.Default.NUMBER_INPUT_STEP;
+    params.presets  = params.presets  || ControlKit.Default.NUMBER_INPUT_PRESET;
 
     /*---------------------------------------------------------------------------------*/
 

@@ -1,7 +1,7 @@
 ControlKit.Button = function(parent,label,onPress,params)
 {
     params       = params       || {};
-    params.label = params.label || '';
+    params.label = params.label || ControlKit.Default.BUTTON_LABEL;
 
     ControlKit.Component.apply(this,[parent,params.label]);
 

@@ -6,7 +6,7 @@ ControlKit.NumberOutput = function(parent,object,value,params)
     /*---------------------------------------------------------------------------------*/
 
     params            = params        || {};
-    params.dp         = params.dp     || 2;
+    params.dp         = params.dp     || ControlKit.Default.NUMBER_OUTPUT_DP;
 
     /*---------------------------------------------------------------------------------*/
 

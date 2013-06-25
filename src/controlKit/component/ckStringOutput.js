@@ -9,26 +9,34 @@ ControlKit.StringOutput.prototype._setValue = function()
 {
     if(this._parent.isDisabled())return;
 
-    var textArea = this._textArea;
+    var textAreaString = this._object[this._key];
 
-    //TODO: Add object / function check
+    if(textAreaString == this._prevString)return;
 
-    if(!this._wrap)
+    var textArea             = this._textArea,
+        textAreaElement      = textArea.getElement(),
+        textAreaScrollHeight;
+
+        textArea.setProperty('value',textAreaString);
+
+        textAreaScrollHeight = textAreaElement.scrollHeight;
+        textArea.setHeight(textAreaScrollHeight);
+
+    var scrollBar = this._scrollBar;
+
+    if(scrollBar)
     {
-        textArea.setProperty('value',this._object[this._key]);
-    }
-    else
-    {
-        var value = this._object[this._key];
-
-        if(typeof(value)        === 'object'   &&
-           typeof(value.length) === 'number'   &&
-           typeof(value.splice) === 'function' &&
-           !(value.propertyIsEnumerable('length')))
+        if(textAreaScrollHeight <= this._wrapNode.getHeight())
         {
-            textArea.setStyleProperty('white-space','nowrap');
+            scrollBar.disable();
         }
-
-        textArea.setProperty('value',value.join("\n"));
+        else
+        {
+            scrollBar.enable();
+            scrollBar.update();
+            scrollBar.reset();
+        }
     }
+
+    this._prevString = textAreaString;
 };

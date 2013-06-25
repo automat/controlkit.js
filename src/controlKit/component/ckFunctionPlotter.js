@@ -21,9 +21,9 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
     /*---------------------------------------------------------------------------------*/
 
     params = params || {};
-    params.showMinMaxLabels = params.hideMinMaxLabels === undefined ?
+    params.showMinMaxLabels = params.showMinMaxLabels === undefined ?
                               ControlKit.Default.PANEL_FIXED :
-                              params.hideMinMaxLabels;
+                              params.showMinMaxLabels;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -31,11 +31,11 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
         path    = this._path;
 
     var axes = this._axes = svgRoot.insertBefore(this._createSVGObject('path'),path);
-        axes.style.lineWidth = 1;
+        axes.style.strokeWidth = 1;
 
     var axesLabels = this._axesLabels = svgRoot.insertBefore(this._createSVGObject('path'),path);
         axesLabels.style.stroke = 'rgb(43,48,51)';
-        axesLabels.style.lineWidth = 1;
+        axesLabels.style.strokeWidth = 1;
 
     var grid = this._grid;
 
@@ -168,8 +168,8 @@ ControlKit.FunctionPlotter.prototype._onDragStart = function(e)
    var element = this._svg;
 
     var svgPos = this._svgPos;
-    svgPos[0] = 0;
-    svgPos[1] = 0;
+        svgPos[0] = 0;
+        svgPos[1] = 0;
 
     while(element)
     {
@@ -187,6 +187,7 @@ ControlKit.FunctionPlotter.prototype._onDragStart = function(e)
             this._updateCenter.bind(this);
             document.removeEventListener(eventMove,onDrag,   false);
             document.removeEventListener(eventUp,  onDragEnd,false);
+
         }.bind(this);
 
     document.addEventListener(eventMove, onDrag,    false);
@@ -365,7 +366,7 @@ ControlKit.FunctionPlotter.prototype._drawPlot = function()
     }
 };
 
-ControlKit.Plotter.prototype._drawGrid = function()
+ControlKit.FunctionPlotter.prototype._drawGrid = function()
 {
     var svg    = this._svg,
         width  = Number(svg.getAttribute('width')),

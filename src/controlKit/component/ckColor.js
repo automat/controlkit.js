@@ -7,7 +7,7 @@ ControlKit.Color = function(parent,object,value,params)
     params           = params           || {};
     params.onChange  = params.onChange  || this._onChange;
     params.onFinish  = params.onFinish  || this._onFinish;
-    params.presets   = params.presets   || null;
+    params.presets   = params.presets   || ControlKit.Default.COLOR_PRESETS;
     params.colorMode = params.colorMode || ControlKit.Default.COLOR_COLOR_MODE;
 
     /*---------------------------------------------------------------------------------*/

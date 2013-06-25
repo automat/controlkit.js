@@ -5,7 +5,7 @@ ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onBegin,onCha
     /*---------------------------------------------------------------------------------*/
 
     this._value        = 0;
-    this._valueStep    = stepValue || 1.0;
+    this._valueStep    = stepValue;
     this._valueDPlace  = decimalPlaces + 1;
 
     /*---------------------------------------------------------------------------------*/

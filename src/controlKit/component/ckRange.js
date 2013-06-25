@@ -8,8 +8,8 @@ ControlKit.Range = function(parent,object,value,params)
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
 
-    params.step     = params.step || 1.0;
-    params.dp       = params.dp   || 2;
+    params.step     = params.step || ControlKit.Default.RANGE_STEP;
+    params.dp       = params.dp   || ControlKit.Default.RANGE_DP;
 
     /*---------------------------------------------------------------------------------*/
 

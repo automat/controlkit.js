@@ -14,7 +14,7 @@ ControlKit.ValuePlotter = function(parent,object,value,params)
 
     params            = params            || {};
     params.height     = params.height     || svgHeight;
-    params.resolution = params.resolution || 1;
+    params.resolution = params.resolution || ControlKit.Default.VALUE_PLOTTER_RESOLUTION;
 
     /*---------------------------------------------------------------------------------*/
 

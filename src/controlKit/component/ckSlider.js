@@ -14,10 +14,11 @@ ControlKit.Slider = function(parent,object,value,range,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    params.step     = params.step     || 1;
+    params.step     = params.step     || ControlKit.Default.SLIDER_STEP;
+    params.dp       = params.dp       || ControlKit.Default.SLIDER_DP;
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
-    params.dp       = params.dp       || 2;
+
 
     /*---------------------------------------------------------------------------------*/
 
