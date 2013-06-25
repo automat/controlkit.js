@@ -222,7 +222,7 @@ ControlKit.Default =
 {
     KIT_TRIGGER         : false,
     KIT_HISTORY         : false,
-    KIT_PANELS_CLOSABLE : true,
+    KIT_PANELS_CLOSABLE : false,
     KIT_OPACITY         : 1.0,
 
     /*---------------------------------------------------------------------------------*/
@@ -244,12 +244,45 @@ ControlKit.Default =
 
     /*---------------------------------------------------------------------------------*/
 
+    BUTTON_LABEL : '',
+
+    /*---------------------------------------------------------------------------------*/
+
+    NUMBER_INPUT_DP     : 2,
+    NUMBER_INPUT_STEP   : 1,
+    NUMBER_INPUT_PRESET : null,
+    NUMBER_OUTPUT_DP    : 2,
+
+    STRING_INPUT_PRESET : null,
+
+    /*---------------------------------------------------------------------------------*/
+
+    PAD_BOUNDS_X : [-1,1],
+    PAD_BOUNDS_Y : [-1,1],
+    PAD_LABEL_X  : '',
+    PAD_LABEL_Y  : '',
+
+    /*---------------------------------------------------------------------------------*/
+
+    RANGE_STEP : 1.0,
+    RANGE_DP   : 2,
+
+    /*---------------------------------------------------------------------------------*/
+
+    SLIDER_STEP : 1.0,
+    SLIDER_DP   : 2,
+
+    /*---------------------------------------------------------------------------------*/
+
+    VALUE_PLOTTER_RESOLUTION : 1,
+
     FUNCTION_PLOTTER_SHOW_MIN_MAX_LABELS : true,
 
 
     /*---------------------------------------------------------------------------------*/
 
     COLOR_COLOR_MODE : ControlKit.ColorMode.HEX,
+    COLOR_PRESETS    : null,
 
     COLOR_PICKER_VALUE_HUE : 200.0,
     COLOR_PICKER_VALUE_SAT : 50.0,
@@ -381,6 +414,7 @@ ControlKit.Kit = function(parentDomElementId,params)
     this._panels         = [];
     this._isDisabled     = false;
     this._historyEnabled = params.history;
+    this._panelsClosable = params.panelsClosable;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -487,7 +521,8 @@ ControlKit.Kit.prototype.update = function()
     }
 };
 
-ControlKit.Kit.prototype.historyIsEnabled = function(){return this._historyEnabled;};
+ControlKit.Kit.prototype.historyIsEnabled  = function(){return this._historyEnabled;};
+ControlKit.Kit.prototype.panelsAreClosable = function(){return this._panelsClosable;};
 
 ControlKit.Kit.prototype.enable  = function(){this._isDisabled = false;};
 ControlKit.Kit.prototype.disable = function(){this._isDisabled = true;};
@@ -1965,17 +2000,22 @@ ControlKit.Panel = function(controlKit,params)
 
     if(!dock)
     {
-        var menuClose = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON),
-            menuHide  = this._menuHide = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
 
-            menuClose.setStyleClass(ControlKit.CSS.MenuBtnClose);
+        var menuHide  = this._menuHide = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
             menuHide.setStyleClass( ControlKit.CSS.MenuBtnHide);
-
-            menuNode.addChild(menuHide);
-            menuNode.addChild(menuClose);
-
             menuHide.addEventListener( ControlKit.NodeEventType.MOUSE_DOWN, this._onMenuHideMouseDown.bind(this));
+
+        menuNode.addChild(menuHide);
+
+        if(this._parent.panelsAreClosable())
+        {
+            var menuClose = new ControlKit.Node(ControlKit.NodeType.INPUT_BUTTON);
+            menuClose.setStyleClass(ControlKit.CSS.MenuBtnClose);
             menuClose.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN, this.disable.bind(this));
+
+            menuNode.addChild(menuClose);
+        }
+
 
         if(this.hasMaxHeight()){this._addScrollWrap();}
 
@@ -2545,7 +2585,7 @@ ControlKit.NumberInput_Internal = function(stepValue,decimalPlaces,onBegin,onCha
     /*---------------------------------------------------------------------------------*/
 
     this._value        = 0;
-    this._valueStep    = stepValue || 1.0;
+    this._valueStep    = stepValue;
     this._valueDPlace  = decimalPlaces + 1;
 
     /*---------------------------------------------------------------------------------*/
@@ -2998,7 +3038,7 @@ ControlKit.StringInput = function(parent,object,value,params)
     params          = params || {};
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
-    params.presets  = params.presets  || null;
+    params.presets  = params.presets  || ControlKit.Default.STRING_INPUT_PRESET;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -3147,9 +3187,9 @@ ControlKit.NumberInput = function(parent,object,value,params)
     params          = params || {};
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
-    params.dp       = params.dp       || 2;
-    params.step     = params.step     || 1;
-    params.presets  = params.presets  || null;
+    params.dp       = params.dp       || ControlKit.Default.NUMBER_INPUT_DP;
+    params.step     = params.step     || ControlKit.Default.NUMBER_INPUT_STEP;
+    params.presets  = params.presets  || ControlKit.Default.NUMBER_INPUT_PRESET;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -3258,7 +3298,7 @@ ControlKit.NumberInput.prototype._onInputDragStart = function()
 ControlKit.Button = function(parent,label,onPress,params)
 {
     params       = params       || {};
-    params.label = params.label || '';
+    params.label = params.label || ControlKit.Default.BUTTON_LABEL;
 
     ControlKit.Component.apply(this,[parent,params.label]);
 
@@ -3290,8 +3330,8 @@ ControlKit.Range = function(parent,object,value,params)
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
 
-    params.step     = params.step || 1.0;
-    params.dp       = params.dp   || 2;
+    params.step     = params.step || ControlKit.Default.RANGE_STEP;
+    params.dp       = params.dp   || ControlKit.Default.RANGE_DP;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -3478,10 +3518,11 @@ ControlKit.Slider = function(parent,object,value,range,params)
 
     /*---------------------------------------------------------------------------------*/
 
-    params.step     = params.step     || 1;
+    params.step     = params.step     || ControlKit.Default.SLIDER_STEP;
+    params.dp       = params.dp       || ControlKit.Default.SLIDER_DP;
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
-    params.dp       = params.dp       || 2;
+
 
     /*---------------------------------------------------------------------------------*/
 
@@ -3776,7 +3817,7 @@ ControlKit.Color = function(parent,object,value,params)
     params           = params           || {};
     params.onChange  = params.onChange  || this._onChange;
     params.onFinish  = params.onFinish  || this._onFinish;
-    params.presets   = params.presets   || null;
+    params.presets   = params.presets   || ControlKit.Default.COLOR_PRESETS;
     params.colorMode = params.colorMode || ControlKit.Default.COLOR_COLOR_MODE;
 
     /*---------------------------------------------------------------------------------*/
@@ -4004,9 +4045,9 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
     /*---------------------------------------------------------------------------------*/
 
     params = params || {};
-    params.showMinMaxLabels = params.hideMinMaxLabels === undefined ?
+    params.showMinMaxLabels = params.showMinMaxLabels === undefined ?
                               ControlKit.Default.PANEL_FIXED :
-                              params.hideMinMaxLabels;
+                              params.showMinMaxLabels;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -4014,11 +4055,11 @@ ControlKit.FunctionPlotter = function(parent,object,value,params)
         path    = this._path;
 
     var axes = this._axes = svgRoot.insertBefore(this._createSVGObject('path'),path);
-        axes.style.lineWidth = 1;
+        axes.style.strokeWidth = 1;
 
     var axesLabels = this._axesLabels = svgRoot.insertBefore(this._createSVGObject('path'),path);
         axesLabels.style.stroke = 'rgb(43,48,51)';
-        axesLabels.style.lineWidth = 1;
+        axesLabels.style.strokeWidth = 1;
 
     var grid = this._grid;
 
@@ -4151,8 +4192,8 @@ ControlKit.FunctionPlotter.prototype._onDragStart = function(e)
    var element = this._svg;
 
     var svgPos = this._svgPos;
-    svgPos[0] = 0;
-    svgPos[1] = 0;
+        svgPos[0] = 0;
+        svgPos[1] = 0;
 
     while(element)
     {
@@ -4170,6 +4211,7 @@ ControlKit.FunctionPlotter.prototype._onDragStart = function(e)
             this._updateCenter.bind(this);
             document.removeEventListener(eventMove,onDrag,   false);
             document.removeEventListener(eventUp,  onDragEnd,false);
+
         }.bind(this);
 
     document.addEventListener(eventMove, onDrag,    false);
@@ -4348,7 +4390,7 @@ ControlKit.FunctionPlotter.prototype._drawPlot = function()
     }
 };
 
-ControlKit.Plotter.prototype._drawGrid = function()
+ControlKit.FunctionPlotter.prototype._drawGrid = function()
 {
     var svg    = this._svg,
         width  = Number(svg.getAttribute('width')),
@@ -4573,10 +4615,11 @@ ControlKit.Pad = function(parent,object,value,params)
     /*---------------------------------------------------------------------------------*/
 
     params            = params            || {};
-    params.onChange   = params.onChange   || null;
-    params.onFinish   = params.onFinish   || null;
-    params.bounds     = params.bounds     || [-1,1,-1,1];
-    params.axisLabels = params.axisLabels || [null,null];
+    params.boundsX    = params.boundsX    || ControlKit.Default.PAD_BOUNDS_X;
+    params.boundsY    = params.boundsY    || ControlKit.Default.PAD_BOUNDS_Y;
+    params.labelX     = params.labelX     || ControlKit.Default.PAD_LABEL_X;
+    params.labelY     = params.labelY     || ControlKit.Default.PAD_LABEL_Y;
+
     params.showCross  = params.showCross  || true;
 
     /*---------------------------------------------------------------------------------*/
@@ -4584,11 +4627,51 @@ ControlKit.Pad = function(parent,object,value,params)
     this._onChange     = params.onChange || this._onChange;
     this._onFinish     = params.onFinish || this._onFinish;
 
-    this._bounds       = params.bounds;
-    this._axisLabels   = params.axisLabels;
-    this._showCross    = params.showCross;
+    this._boundsX      = params.boundsX;
+    this._boundsY      = params.boundsY;
+    this._labelAxisX   = params.labelX != '' && params.labelX != 'none' ? params.labelX : null;
+    this._labelAxisY   = params.labelY != '' && params.labelY != 'none' ? params.labelY : null;
 
-    this._dragging     = false;
+    var path = this._path;
+        path.style.strokeWidth = 1;
+        path.style.stroke      = '#363c40';
+
+    this._grid.style.stroke = 'rgb(25,25,25)';
+
+    this._svgPos = [0,0];
+
+
+    var handle = this._handle = this._svgRoot.appendChild(this._createSVGObject('g'));
+    var handleCircle0 = handle.appendChild(this._createSVGObject('circle'));
+        handleCircle0.setAttribute('r',String(11));
+        handleCircle0.setAttribute('fill','rgba(0,0,0,0.05)');
+    var handleCircle1 = handle.appendChild(this._createSVGObject('circle'));
+        handleCircle1.setAttribute('r',String(10));
+        handleCircle1.setAttribute('fill','rgb(83,93,98)');
+
+    var handleCircle2 = handle.appendChild(this._createSVGObject('circle'));
+        handleCircle2.setAttribute('r',String(9));
+        handleCircle2.setAttribute('fill','rgb(57,69,76)');
+        handleCircle2.setAttribute('cy',String(0.75));
+
+    var handleCircle3 = handle.appendChild(this._createSVGObject('circle'));
+        handleCircle3.setAttribute('r',String(10));
+        handleCircle3.setAttribute('stroke','rgb(17,19,20)');
+        handleCircle3.setAttribute('stroke-width',String(1));
+        handleCircle3.setAttribute('fill','none');
+
+    var handleCircle4 = handle.appendChild(this._createSVGObject('circle'));
+        handleCircle4.setAttribute('r',String(6));
+        handleCircle4.setAttribute('fill','rgb(30,34,36)');
+    var handleCircle5 = handle.appendChild(this._createSVGObject('circle'));
+        handleCircle5.setAttribute('r',String(3));
+        handleCircle5.setAttribute('fill','rgb(255,255,255)');
+
+        handle.setAttribute('tranform','translate(0 0)');
+
+    this._svg.addEventListener(ControlKit.DocumentEventType.MOUSE_DOWN,this._onDragStart.bind(this),false);
+
+
 
     /*---------------------------------------------------------------------------------*/
 
@@ -4657,124 +4740,109 @@ ControlKit.Pad.prototype = Object.create(ControlKit.Plotter.prototype);
 
 /*---------------------------------------------------------------------------------*/
 
+ControlKit.Pad.prototype._onDragStart = function()
+{
+    var element = this._svg;
+
+    var svgPos = this._svgPos;
+        svgPos[0] = 0;
+        svgPos[1] = 0;
+
+    while(element)
+    {
+        svgPos[0] += element.offsetLeft;
+        svgPos[1] += element.offsetTop;
+        element    = element.offsetParent;
+    }
+
+    var eventMove = ControlKit.DocumentEventType.MOUSE_MOVE,
+        eventUp   = ControlKit.DocumentEventType.MOUSE_UP;
+
+    var onDrag    = function()
+        {
+            this._drawValueInput();
+            this.applyValue();
+            this._onChange();
+
+        }.bind(this);
+
+    var onDragEnd = function()
+        {
+            this.pushHistoryState();
+            this._drawValueInput();
+            this.applyValue();
+            this._onFinish();
+
+            document.removeEventListener(eventMove,onDrag,   false);
+            document.removeEventListener(eventUp,  onDragEnd,false);
+
+        }.bind(this);
+
+    document.addEventListener(eventMove, onDrag,    false);
+    document.addEventListener(eventUp,   onDragEnd, false);
+
+    this._drawValueInput();
+    this.applyValue();
+    this._onChange();
+};
+
 ControlKit.Pad.prototype._redraw = function(){this._drawValue(this._object[this._key]);};
+
+ControlKit.Pad.prototype._drawValueInput = function()
+{
+    this._drawValue(this._getMouseNormalized());
+};
 
 ControlKit.Pad.prototype._drawValue = function(value)
 {
     this._object[this._key] = value;
 
-    /*
-    var canvas = this._canvas;
-
-    canvas.clear();
-    canvas.background(0,0);
-    canvas.push();
-    canvas.translateHalfFloat();
     this._drawGrid();
     this._drawPoint();
-    canvas.pop();
-    */
+};
+
+ControlKit.Pad.prototype._drawGrid = function()
+{
+    var svgSize = Number(this._svg.getAttribute('width')),
+        svgMidX = Math.floor(svgSize * 0.5),
+        svgMidY = Math.floor(svgSize * 0.5);
+
+    var pathCmd = '';
+        pathCmd+= this._pathCmdLine(0,svgMidY,svgSize,svgMidY);
+        pathCmd+= this._pathCmdLine(svgMidX,0,svgMidX,svgSize);
+
+    this._grid.setAttribute('d',pathCmd);
 };
 
 
 ControlKit.Pad.prototype._drawPoint = function()
 {
-    /*
-
-    var canvas       = this._canvas,
-        canvasWidth  = canvas.width  - 1,
-        canvasHeight = canvas.height - 1,
-        canvasMidX   = canvas.width  * 0.5,
-        canvasMidY   = canvas.height * 0.5;
-
-    var axisLabels   = this._axisLabels;
+    var svgSize = Number(this._svg.getAttribute('width')),
+        svgMidX = svgSize * 0.5,
+        svgMidY = svgSize * 0.5;
 
     var value = this._object[this._key];
 
-    var localX = ( 0.5 +  value[0] * 0.5 ) * canvasWidth,
-        localY = ( 0.5 + -value[1] * 0.5 ) * canvasHeight;
+    var localX = ( 0.5 +  value[0] * 0.5 ) * svgSize,
+        localY = ( 0.5 + -value[1] * 0.5 ) * svgSize;
 
-    canvas.stroke(39,44,46);
-    canvas.line(0,canvasMidY,canvasWidth,canvasMidY);
-    canvas.line(canvasMidX,0,canvasMidX,canvasHeight);
-    canvas.line(0,canvasMidY,canvasWidth,canvasMidY);
-    canvas.line(canvasMidX,0,canvasMidX,canvasHeight);
-    canvas.noStroke();
+    var pathCmd = '';
+        pathCmd+= this._pathCmdLine(0,localY,svgSize,localY);
+        pathCmd+= this._pathCmdLine(localX,0,localX,svgSize);
 
-    if(!(!axisLabels[0] && !axisLabels[1]))
-    {
-        canvas.fill(64,72,77);
-
-        if(axisLabels[0])
-        {
-            var stringX = axisLabels[0].toUpperCase();
-            canvas.text(stringX,Math.floor(canvasMidX*0.5-canvas.getTextWidth(stringX)*0.5),
-                                Math.floor(canvasMidY)+12);
-        }
-
-        if(axisLabels[1])
-        {
-            var stringY = axisLabels[1].toUpperCase();
-            canvas.push();
-            {
-                canvas.translate(Math.floor(canvasMidX)+5,
-                                 Math.floor(canvasMidY*0.5-canvas.getTextWidth(stringY)*0.5));
-                canvas.rotate(Math.PI*0.5);
-                canvas.text(stringY,0,0);
-            }
-            canvas.pop();
-        }
-
-        canvas.noFill();
-    }
-
-    if(this._showCross)
-    {
-        canvas.stroke(75,84,89);
-        canvas.line(0,localY,canvasWidth,localY);
-        canvas.line(localX,0,localX,canvasHeight);
-    }
-
-    canvas.noStroke();
-    canvas.fill(0,0.05);
-    canvas.circle(localX,localY,11);
-
-    canvas.fill(83,93,98);
-    canvas.circle(localX,localY,10);
-
-    canvas.fill(57,69,76);
-    canvas.circle(localX,localY+1,9);
-
-    canvas.stroke(17,19,20);
-    canvas.noFill();
-    canvas.circle(localX,localY,10);
-
-    canvas.fill(30,34,36);
-    canvas.circle(localX,localY,6);
-
-    canvas.fill(255);
-    canvas.circle(localX,localY,3);
-
-    */
-
-
-
+    this._path.setAttribute('d',pathCmd);
+    this._handle.setAttribute('transform','translate('+localX +' '+localY+')');
 };
 
 ControlKit.Pad.prototype._getMouseNormalized = function()
 {
-    /*
+    var offset  = this._svgPos,
+        mouse   = ControlKit.Mouse.getInstance().getPosition(),
+        svgSize = Number(this._svg.getAttribute('width'));
 
-    var offset       = this._canvas.getNode().getPositionGlobal(),
-        mouse        = ControlKit.Mouse.getInstance().getPosition();
+    return [ -1 + Math.max(0,Math.min(mouse[0]-offset[0],svgSize)) / svgSize * 2,
+            ( 1 - Math.max(0,Math.min(mouse[1]-offset[1],svgSize)) / svgSize * 2)];
 
-    var canvas       = this._canvas,
-        canvasWidth  = canvas.width  - 1,
-        canvasHeight = canvas.height - 1;
-
-    return [ -1 + Math.max(0,Math.min(mouse[0]-offset[0],canvasWidth )) / canvasWidth  * 2,
-            ( 1 - Math.max(0,Math.min(mouse[1]-offset[1],canvasHeight)) / canvasHeight * 2)];
-            */
 };
 
 ControlKit.Pad.prototype.applyValue = function()
@@ -4804,7 +4872,7 @@ ControlKit.ValuePlotter = function(parent,object,value,params)
 
     params            = params            || {};
     params.height     = params.height     || svgHeight;
-    params.resolution = params.resolution || 1;
+    params.resolution = params.resolution || ControlKit.Default.VALUE_PLOTTER_RESOLUTION;
 
     /*---------------------------------------------------------------------------------*/
 
@@ -4975,7 +5043,7 @@ ControlKit.NumberOutput = function(parent,object,value,params)
     /*---------------------------------------------------------------------------------*/
 
     params            = params        || {};
-    params.dp         = params.dp     || 2;
+    params.dp         = params.dp     || ControlKit.Default.NUMBER_OUTPUT_DP;
 
     /*---------------------------------------------------------------------------------*/
 
