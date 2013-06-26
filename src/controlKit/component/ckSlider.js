@@ -61,6 +61,7 @@ ControlKit.Slider = function(parent,object,value,range,params)
 
     this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,    this, 'onPanelMoveEnd');
     this._parent.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE, this, 'onGroupWidthChange');
+    this._parent.addEventListener(ControlKit.EventType.WINDOW_RESIZE,     this, 'onWindowResize');
 };
 
 ControlKit.Slider.prototype = Object.create(ControlKit.ObjectComponent.prototype);
@@ -163,4 +164,5 @@ ControlKit.Slider.prototype.onValueUpdate = function(e)
 ControlKit.Slider.prototype._updateValueField  = function(){this._input.setValue(this._slider.getValue());};
 
 ControlKit.Slider.prototype.onPanelMoveEnd     =
-ControlKit.Slider.prototype.onGroupWidthChange = function(){this._slider.resetOffset();};
+ControlKit.Slider.prototype.onGroupWidthChange =
+ControlKit.Slider.prototype.onWindowResize     = function(){this._slider.resetOffset();};
