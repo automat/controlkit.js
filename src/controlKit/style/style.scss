@@ -19,6 +19,12 @@ body{margin: 0;padding: 0;}
 
 #controlKit
 {
+  position: absolute;
+  top:    0;
+  left:   0;
+  width:  100%;
+  height: 100%;
+
 
   .panel input[type='text'],
   .panel textarea,
@@ -820,20 +826,20 @@ body{margin: 0;padding: 0;}
       @include btnMenuBackground($imageBtnClose, $imageBtnCloseHover);
     }
 
-    .btnUndo {
+    .btnUndo
+    {
+      background: $imageBtnUndo 20% 50% no-repeat, $menuButtonColorBg;
+      padding:    $menuButtonUndoPadding;
+      width:      $menuButtonUndoWidth;
 
-      @include linear-gradient-with-image($imageBtnUndo 20% 50% no-repeat, #{$menuButtonGradient});
-
-      padding: $menuButtonUndoPadding;
-      width: $menuButtonUndoWidth;
       vertical-align: top;
       text-align: end;
+
       &:hover {
         background: $imageBtnUndoHover 20% 50% no-repeat, $menuButtonHoverColorBg;
+        @include box-shadow($menuButtonHoverBoxShadow);
       }
-
     }
-
   }
 
   .picker
