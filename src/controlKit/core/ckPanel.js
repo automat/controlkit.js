@@ -331,6 +331,8 @@ ControlKit.Panel.prototype._onWindowResize = function()
     }
 
     this._constrainHeight();
+
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.WINDOW_RESIZE));
 };
 
 

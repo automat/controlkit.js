@@ -66,6 +66,7 @@ ControlKit.SubGroup = function(parent,params)
     this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,   this, 'onPanelMoveEnd');
     this._parent.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE,this, 'onGroupSizeChange');
     this._parent.addEventListener(ControlKit.EventType.PANEL_SIZE_CHANGE,this, 'onPanelSizeChange');
+    this._parent.addEventListener(ControlKit.EventType.WINDOW_RESIZE,    this, 'onWindowResize');
 
     this.addEventListener(ControlKit.EventType.GROUP_SIZE_UPDATE,this._parent,'onGroupSizeUpdate');
 
@@ -150,6 +151,7 @@ ControlKit.SubGroup.prototype.onGroupSizeChange = function(){this.dispatchEvent(
 ControlKit.SubGroup.prototype.onGroupSizeUpdate = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_UPDATE,null));};
 ControlKit.SubGroup.prototype.onPanelMoveEnd    = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,   null));};
 ControlKit.SubGroup.prototype.onPanelSizeChange = function(){this._updateAppearance();};
+ControlKit.SubGroup.prototype.onWindowResize    = function(e){this.dispatchEvent(e);};
 /*-------------------------------------------------------------------------------------*/
 
 ControlKit.SubGroup.prototype.hasLabel         = function()    {return this._headNode != null;};

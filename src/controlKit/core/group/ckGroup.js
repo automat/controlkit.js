@@ -84,6 +84,7 @@ ControlKit.Group = function(parent,params)
     this._parent.addEventListener(ControlKit.EventType.PANEL_SCROLL_WRAP_ADDED,   this, 'onPanelScrollWrapAdded');
     this._parent.addEventListener(ControlKit.EventType.PANEL_SCROLL_WRAP_REMOVED, this, 'onPanelScrollWrapRemoved');
     this._parent.addEventListener(ControlKit.EventType.PANEL_SIZE_CHANGE,         this, 'onPanelSizeChange');
+    this._parent.addEventListener(ControlKit.EventType.WINDOW_RESIZE,             this, 'onWindowResize');
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -102,6 +103,7 @@ ControlKit.Group.prototype.onPanelScrollWrapRemoved = function(){this.dispatchEv
 ControlKit.Group.prototype.onPanelHide              = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_DISABLE,  null));};
 ControlKit.Group.prototype.onPanelShow              = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_ENABLE,   null));};
 ControlKit.Group.prototype.onPanelSizeChange        = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE, null));};
+ControlKit.Group.prototype.onWindowResize           = function(e){this.dispatchEvent(e);};
 
 
 /*-------------------------------------------------------------------------------------*/
