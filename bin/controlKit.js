@@ -248,6 +248,10 @@ ControlKit.Default =
 
     /*---------------------------------------------------------------------------------*/
 
+    OUTPUT_HEIGHT : null,
+    OUTPUT_WRAP   : false,
+    OUTPUT_UPDATE : true,
+
     NUMBER_INPUT_DP     : 2,
     NUMBER_INPUT_STEP   : 1,
     NUMBER_INPUT_PRESET : null,
@@ -1570,6 +1574,7 @@ ControlKit.Group = function(parent,params)
     this._parent.addEventListener(ControlKit.EventType.PANEL_SCROLL_WRAP_ADDED,   this, 'onPanelScrollWrapAdded');
     this._parent.addEventListener(ControlKit.EventType.PANEL_SCROLL_WRAP_REMOVED, this, 'onPanelScrollWrapRemoved');
     this._parent.addEventListener(ControlKit.EventType.PANEL_SIZE_CHANGE,         this, 'onPanelSizeChange');
+    this._parent.addEventListener(ControlKit.EventType.WINDOW_RESIZE,             this, 'onWindowResize');
 
     /*-------------------------------------------------------------------------------------*/
 
@@ -1588,6 +1593,7 @@ ControlKit.Group.prototype.onPanelScrollWrapRemoved = function(){this.dispatchEv
 ControlKit.Group.prototype.onPanelHide              = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_DISABLE,  null));};
 ControlKit.Group.prototype.onPanelShow              = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.SUBGROUP_ENABLE,   null));};
 ControlKit.Group.prototype.onPanelSizeChange        = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_CHANGE, null));};
+ControlKit.Group.prototype.onWindowResize           = function(e){this.dispatchEvent(e);};
 
 
 /*-------------------------------------------------------------------------------------*/
@@ -1816,6 +1822,7 @@ ControlKit.SubGroup = function(parent,params)
     this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,   this, 'onPanelMoveEnd');
     this._parent.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE,this, 'onGroupSizeChange');
     this._parent.addEventListener(ControlKit.EventType.PANEL_SIZE_CHANGE,this, 'onPanelSizeChange');
+    this._parent.addEventListener(ControlKit.EventType.WINDOW_RESIZE,    this, 'onWindowResize');
 
     this.addEventListener(ControlKit.EventType.GROUP_SIZE_UPDATE,this._parent,'onGroupSizeUpdate');
 
@@ -1900,6 +1907,7 @@ ControlKit.SubGroup.prototype.onGroupSizeChange = function(){this.dispatchEvent(
 ControlKit.SubGroup.prototype.onGroupSizeUpdate = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.GROUP_SIZE_UPDATE,null));};
 ControlKit.SubGroup.prototype.onPanelMoveEnd    = function(){this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.PANEL_MOVE_END,   null));};
 ControlKit.SubGroup.prototype.onPanelSizeChange = function(){this._updateAppearance();};
+ControlKit.SubGroup.prototype.onWindowResize    = function(e){this.dispatchEvent(e);};
 /*-------------------------------------------------------------------------------------*/
 
 ControlKit.SubGroup.prototype.hasLabel         = function()    {return this._headNode != null;};
@@ -2246,6 +2254,8 @@ ControlKit.Panel.prototype._onWindowResize = function()
     }
 
     this._constrainHeight();
+
+    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.WINDOW_RESIZE));
 };
 
 
@@ -2937,12 +2947,19 @@ ControlKit.Output = function(parent,object,value,params)
     /*---------------------------------------------------------------------------------*/
 
     params            = params        || {};
-    params.height     = params.height || null;
-    params.wrap       = params.wrap   || false;
+    params.height     = params.height || ControlKit.Default.OUTPUT_HEIGHT;
+    params.wrap       = params.wrap   === undefined ?
+                        ControlKit.Default.OUTPUT_WRAP :
+                        params.wrap;
+    params.update     = params.update === undefined ?
+                        ControlKit.Default.OUTPUT_UPDATE :
+                        params.update;
 
     /*---------------------------------------------------------------------------------*/
 
     this._wrap = params.wrap;
+
+    this._update = params.update;
 
     var textArea = this._textArea = new ControlKit.Node(ControlKit.NodeType.TEXTAREA),
         wrapNode = this._wrapNode,
@@ -2991,7 +3008,7 @@ ControlKit.Output.prototype = Object.create(ControlKit.ObjectComponent.prototype
 //Override in subclass
 ControlKit.Output.prototype._setValue     = function(){};
 ControlKit.Output.prototype.onValueUpdate = function(){this._setValue();};
-ControlKit.Output.prototype.update        = function(){this._setValue();};
+ControlKit.Output.prototype.update        = function(){if(!this._update)this._setValue();};
 
 /*---------------------------------------------------------------------------------*/
 
@@ -3565,6 +3582,7 @@ ControlKit.Slider = function(parent,object,value,range,params)
 
     this._parent.addEventListener(ControlKit.EventType.PANEL_MOVE_END,    this, 'onPanelMoveEnd');
     this._parent.addEventListener(ControlKit.EventType.GROUP_SIZE_CHANGE, this, 'onGroupWidthChange');
+    this._parent.addEventListener(ControlKit.EventType.WINDOW_RESIZE,     this, 'onWindowResize');
 };
 
 ControlKit.Slider.prototype = Object.create(ControlKit.ObjectComponent.prototype);
@@ -3667,7 +3685,8 @@ ControlKit.Slider.prototype.onValueUpdate = function(e)
 ControlKit.Slider.prototype._updateValueField  = function(){this._input.setValue(this._slider.getValue());};
 
 ControlKit.Slider.prototype.onPanelMoveEnd     =
-ControlKit.Slider.prototype.onGroupWidthChange = function(){this._slider.resetOffset();};
+ControlKit.Slider.prototype.onGroupWidthChange =
+ControlKit.Slider.prototype.onWindowResize     = function(){this._slider.resetOffset();};
 
 ControlKit.Select = function(parent,object,value,params)
 {
