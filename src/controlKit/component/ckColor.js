@@ -200,14 +200,17 @@ ControlKit.Color.prototype._validateColorFormat = function(value,msgHex,msgArr)
     var colorMode = this._colorMode;
 
 
-    if(colorMode == ControlKit.ColorMode.HEX && Object.prototype.toString.call(value) === '[object Array]')
+    if(colorMode == ControlKit.ColorMode.HEX && Object.prototype.toString.call(value) === '[object Array]' ||
+       colorMode == ControlKit.ColorMode.HEX && Object.prototype.toString.call(value) === '[object Float32Array]')
     {
         throw new TypeError(msgHex);
     }
     if((colorMode == ControlKit.ColorMode.RGB   ||
         colorMode == ControlKit.ColorMode.RGBfv ||
         colorMode == ControlKit.ColorMode.HSV) &&
-        Object.prototype.toString.call(value) !== '[object Array]')
+        Object.prototype.toString.call(value) !== '[object Array]' ||
+        colorMode == ControlKit.ColorMode.HSV &&
+        Object.prototype.toString.call(value) !== '[object Float32Array]')
     {
         throw new TypeError(msgArr);
     }
