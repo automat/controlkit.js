@@ -5,12 +5,19 @@ ControlKit.Output = function(parent,object,value,params)
     /*---------------------------------------------------------------------------------*/
 
     params            = params        || {};
-    params.height     = params.height || null;
-    params.wrap       = params.wrap   || false;
+    params.height     = params.height || ControlKit.Default.OUTPUT_HEIGHT;
+    params.wrap       = params.wrap   === undefined ?
+                        ControlKit.Default.OUTPUT_WRAP :
+                        params.wrap;
+    params.update     = params.update === undefined ?
+                        ControlKit.Default.OUTPUT_UPDATE :
+                        params.update;
 
     /*---------------------------------------------------------------------------------*/
 
     this._wrap = params.wrap;
+
+    this._update = params.update;
 
     var textArea = this._textArea = new ControlKit.Node(ControlKit.NodeType.TEXTAREA),
         wrapNode = this._wrapNode,
@@ -59,7 +66,7 @@ ControlKit.Output.prototype = Object.create(ControlKit.ObjectComponent.prototype
 //Override in subclass
 ControlKit.Output.prototype._setValue     = function(){};
 ControlKit.Output.prototype.onValueUpdate = function(){this._setValue();};
-ControlKit.Output.prototype.update        = function(){this._setValue();};
+ControlKit.Output.prototype.update        = function(){if(!this._update)this._setValue();};
 
 /*---------------------------------------------------------------------------------*/
 

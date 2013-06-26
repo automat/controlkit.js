@@ -28,6 +28,10 @@ ControlKit.Default =
 
     /*---------------------------------------------------------------------------------*/
 
+    OUTPUT_HEIGHT : null,
+    OUTPUT_WRAP   : false,
+    OUTPUT_UPDATE : true,
+
     NUMBER_INPUT_DP     : 2,
     NUMBER_INPUT_STEP   : 1,
     NUMBER_INPUT_PRESET : null,
