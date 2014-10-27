@@ -25,21 +25,21 @@
             };
             var func = select.value[0];
 
-            var Base = ControlKit.setup();
-            var panel = Base.addPanel({label: 'Panel'});
-                panel.addGroup().
-                    addSubGroup({label: 'Function Select'}).
-                        addSelect(select,'key',{
-                            label : 'Function',
-                            onChange: function(index){
-                                func = select.value[index];}
-                        }).
-                        addFunctionPlotter(select.value,0).
-                        addFunctionPlotter(select.value,1).
-                        addFunctionPlotter(select.value,2).
-                    addSubGroup().
-                        addValuePlotter(obj,'value',{height: 80}).
-                        addNumberOutput(obj,'value');
+            ControlKit.setup();
+            ControlKit.addPanel({label: 'Panel'}).
+                    addGroup().
+                        addSubGroup({label: 'Function Select'}).
+                            addSelect(select,'key',{
+                                label : 'Function',
+                                onChange: function(index){
+                                    func = select.value[index];}
+                            }).
+                            addFunctionPlotter(select.value,0).
+                            addFunctionPlotter(select.value,1).
+                            addFunctionPlotter(select.value,2).
+                        addSubGroup().
+                            addValuePlotter(obj,'value',{height: 80}).
+                            addNumberOutput(obj,'value');
 
 
 
@@ -54,7 +54,7 @@
             (function update(){
                 obj.value = func(secondsElapsed * 0.0125);
 
-                Base.update();
+                ControlKit.update();
                 secondsElapsed = secondsStart - Date.now();
                 requestAnimationFrame(update,null);
             })();

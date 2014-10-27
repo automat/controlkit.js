@@ -111,83 +111,72 @@
             object.funcTarget = object.funcs[0];
             object.selectColorTarget = object.selectColorOptions[0];
 
-            var controlKit = ControlKit.setup({history : true});
-            var panel = controlKit.addPanel({label: 'Panel 1 Left', align: 'left', width: 200});
-            panel.addGroup().
-                addSubGroup({label: 'SubGroup 1'}).
-                    addNumberInput(object, 'number', {label: 'Num'}).
-                    addNumberInput(object, 'number', {presets: 'numberPresets', label: 'Num/wP'}).
-                addSubGroup({label: 'SubGroup 2'}).
-                    addStringInput(object, 'string', {label: 'Str'}).
-                    addStringInput(object, 'string', {presets: 'stringPresets', label: 'Str/wP'}).
-                addSubGroup().
-                    addSlider(object, 'slideValue', 'range', {label: 'Slide'}).
-                    addNumberInput(object, 'slideValue');
+            ControlKit.setup({history : true});
+            ControlKit.addPanel({label: 'Panel 1 Left', align: 'left', width: 200}).
+                    addGroup().
+                        addSubGroup({label: 'SubGroup 1'}).
+                            addNumberInput(object, 'number', {label: 'Num'}).
+                            addNumberInput(object, 'number', {presets: 'numberPresets', label: 'Num/wP'}).
+                        addSubGroup({label: 'SubGroup 2'}).
+                            addStringInput(object, 'string', {label: 'Str'}).
+                            addStringInput(object, 'string', {presets: 'stringPresets', label: 'Str/wP'}).
+                        addSubGroup().
+                            addSlider(object, 'slideValue', 'range', {label: 'Slide'}).
+                            addNumberInput(object, 'slideValue');
 
 
-            panel = controlKit.addPanel({label: 'Panel 2 Left Floated', width: 250, align: 'left'});
-
-            panel.addGroup({label: 'Group 1'}).
-                addSubGroup({label: 'Sub Group 1'}).
-                    addCheckbox(object, 'bool', {label: 'Bool'}).
-                    addSelect(object, 'selectOptions', {label: 'Select', selectTarget: 'selectTarget'}).
-                    addButton('Button').
-                addSubGroup({label: 'Sub Group with Visual Comps', height: 150}).
-                    addValuePlotter(object, 'changeValue0', {height: 80, label: 'Val 0 x1'}).
-                    addValuePlotter(object, 'changeValue1', {height: 80, label: 'Val 1 x1'}).
-                    addValuePlotter(object, 'changeValue2', {height: 80, label: 'Val 2 x1'}).
-                    addValuePlotter(object, 'changeValue3', {height: 80, label: 'Val 3 x1'}).
-                    addSubGroup({label: 'Sub Group with Visual Comps'}).
-                    addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x2', resolution: 2}).
-                    addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x4', resolution: 4, lineWidth: 4, lineColor: [44, 123, 230]}).
-                    addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x8', resolution: 8, lineWidth: 8}).
-                    addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x16', resolution: 16, lineWidth: 16});
-
-            panel.addGroup({label: 'Group 2'}).
-                addSubGroup()
-                    .addSlider(object, 'slideValue', 'range', {label: 'Slide'})
-                    .addRange(object, 'range', {label: 'Range'})
-                    .addNumberInput(object, 'slideValue');
+            ControlKit.addPanel({label: 'Panel 2 Left Floated', width: 250, align: 'left'}).
+                    addGroup({label: 'Group 1'}).
+                        addSubGroup({label: 'Sub Group 1'}).
+                            addCheckbox(object, 'bool', {label: 'Bool'}).
+                            addSelect(object, 'selectOptions', {label: 'Select', selectTarget: 'selectTarget'}).
+                            addButton('Button').
+                        addSubGroup({label: 'Sub Group with Visual Comps', height: 150}).
+                            addValuePlotter(object, 'changeValue0', {height: 80, label: 'Val 0 x1'}).
+                            addValuePlotter(object, 'changeValue1', {height: 80, label: 'Val 1 x1'}).
+                            addValuePlotter(object, 'changeValue2', {height: 80, label: 'Val 2 x1'}).
+                            addValuePlotter(object, 'changeValue3', {height: 80, label: 'Val 3 x1'}).
+                            addSubGroup({label: 'Sub Group with Visual Comps'}).
+                            addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x2', resolution: 2}).
+                            addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x4', resolution: 4, lineWidth: 4, lineColor: [44, 123, 230]}).
+                            addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x8', resolution: 8, lineWidth: 8}).
+                            addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x16', resolution: 16, lineWidth: 16});
 
 
-            panel = controlKit.addPanel({label: 'Panel 3 Left Floated', align: 'left', width: 220})
-            panel.addGroup({label: 'Group 1'}).
+
+            ControlKit.addPanel({label: 'Panel 3 Left Floated', align: 'left', width: 220}).
+                addGroup({label: 'Group 1'}).
                     addSubGroup({label: 'Function Selection'}).
-                    addFunctionPlotter(object, 'funcTarget', {label: 'none'}).
-                    addSelect(object, 'funcs', {label: 'Functions', onChange: function (index)
-                    {
-                        object.funcTarget = object.funcs[index];
-                    }}).
+                        addFunctionPlotter(object, 'funcTarget', {label: 'none'}).
+                        addSelect(object, 'funcs', {label: 'Functions', onChange: function (index)
+                        {
+                            object.funcTarget = object.funcs[index];
+                        }}).
                    addSubGroup({label: 'Function Output'}).
-                           addValuePlotter(object, 'changeValue6', {label: 'none', height: 100});
-            panel.addGroup({label: 'Group 2 - Constrained Height'}).
-                addSubGroup({label: 'Function List', height: 200}).
-                    addFunctionPlotter(object, 'func').
-                    addFunctionPlotter(object, 'func2');
+                           addValuePlotter(object, 'changeValue6', {label: 'none', height: 100}).
+                addGroup({label: 'Group 2 - Constrained Height'}).
+                    addSubGroup({label: 'Function List', height: 200}).
+                        addFunctionPlotter(object, 'func').
+                        addFunctionPlotter(object, 'func2');
 
 
 
-
-            panel = controlKit.addPanel({label: 'Floating Color Panel', align: 'left', fixed: false, position: [650, 200], width: 200});
-            panel.addGroup().
-                addSubGroup({label: 'System Colors'}).
-                    addColor(object, 'color0').
-                    addColor(object, 'color1').
-                    addColor(object, 'color2', {colorMode: 'rgbfv'}).
-                addSubGroup({label: 'System Colors Compressed'}).
-                    addColor(object, 'color0', {presets: 'selectColorOptions'}).
-                addSubGroup({label: 'Button Battery'}).
-                    addButton('FIRE');
-
+            ControlKit.addPanel({label: 'Floating Color Panel', align: 'left', fixed: false, position: [650, 200], width: 200}).
+                addGroup().
+                    addSubGroup({label: 'System Colors'}).
+                        addColor(object, 'color0').
+                        addColor(object, 'color1').
+                        addColor(object, 'color2', {colorMode: 'rgbfv'}).
+                    addSubGroup({label: 'System Colors Compressed'}).
+                        addColor(object, 'color0', {presets: 'selectColorOptions'}).
+                    addSubGroup({label: 'Button Battery'}).
+                        addButton('FIRE');
 
 
             window.requestAnimationFrame = window.requestAnimationFrame ||
             window.mozRequestAnimationFrame ||
             window.oRequestAnimationFrame ||
             window.msRequestAnimationFrame;
-
-            var secondsStart = Date.now(),
-                secondsElapsed = 0;
 
             var t = 0, sint;
 
@@ -205,7 +194,7 @@
                 object.changeValue3 = saw(sint);
 
                 object.changeValue6 = object.funcTarget(sint);
-                controlKit.update();
+                ControlKit.update();
                 requestAnimationFrame(update,null);
             })();
 

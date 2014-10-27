@@ -26,9 +26,9 @@
             };
             var func = select.value[0];
 
-            var Base = ControlKit.setup();
+            ControlKit.setup();
 
-            Base.addPanel({label: 'Panel Left', align: 'left', width : 200}).
+            ControlKit.addPanel({label: 'Panel Left', align: 'left', width : 200}).
                 addGroup().
                     addSubGroup({label: 'Function Select'}).
                         addSelect(select,'key',{
@@ -40,7 +40,7 @@
                         addFunctionPlotter(select.value,1).
                         addFunctionPlotter(select.value,2);
 
-            Base.addPanel({label: 'Panel Left Left', align : 'left', width: 200}).
+            ControlKit.addPanel({label: 'Panel Left Left', align : 'left', width: 200}).
                 addGroup().
                     addSubGroup().
                         addNumberInput(obj, 'value').
@@ -51,12 +51,12 @@
                             console.log(obj.value);
                         });
 
-            Base.addPanel({width: 200}).
+            ControlKit.addPanel({width: 200}).
                     addGroup().
                         addSubGroup().
                             addButton('a button');
 
-            Base.addPanel({label:'Floating Panel', align : 'left', fixed: false, position: [window.innerWidth * 0.5 - 150, window.innerHeight * 0.5]}).
+            ControlKit.addPanel({label:'Floating Panel', align : 'left', fixed: false, position: [window.innerWidth * 0.5 - 150, window.innerHeight * 0.5]}).
                     addGroup().
                         addSubGroup().
                             addNumberInput(obj,'value').

@@ -1,6 +1,8 @@
 .DS_Store
 .git*
-image*
 examples/
 utils/
 bin/
+images/
+style/
+README.md
