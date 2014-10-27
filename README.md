@@ -49,7 +49,7 @@ Control components are constructed per panel.
 <br/>
 ![Peng!](images/image-3.png)
 
-##Style
+###tyle
 
 The default styling can be customized. You can either pass a new style on setup:
 
@@ -64,7 +64,7 @@ Or create a standalone version of controlKit with a custom built-in style using:
     utils/.build -o outfilePath -s yourCustomStyleStringOrCssFile
 
 
-##Custom Components
+###Custom Components
 
 <br/>
 <br/>
