@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="../../bin/__controlKit.js"></script>
+    <script type="text/javascript">
+        window.addEventListener('load',function(){
+            var obj = {
+                value : 1,
+                str : 'abcd'
+            };
+
+            var select = {
+                key : ['Option 1', 'Option 2', 'Option 3'],
+                value : [
+                    function(time) {
+                        return Math.sin(time*0.75) * (Math.sin(time * 0.125) * Math.sin(time))
+                    },
+                    function(time){
+                        return Math.sin(time);
+                    },
+                    function(time){
+                        return Math.sin(time) * Math.sin(time);
+                    }
+                ]
+            };
+            var func = select.value[0];
+
+            var Base = ControlKit.setup();
+
+            Base.addPanel({label: 'Panel Left', align: 'left', width : 200}).
+                addGroup().
+                    addSubGroup({label: 'Function Select'}).
+                        addSelect(select,'key',{
+                            label : 'Function',
+                            onChange: function(index){
+                                func = select.value[index];}
+                        }).
+                        addFunctionPlotter(select.value,0).
+                        addFunctionPlotter(select.value,1).
+                        addFunctionPlotter(select.value,2);
+
+            Base.addPanel({label: 'Panel Left Left', align : 'left', width: 200}).
+                addGroup().
+                    addSubGroup().
+                        addNumberInput(obj, 'value').
+                        addNumberOutput(obj, 'value').
+                        addStringInput(obj, 'str').
+                        addButton('invert',function(){
+                            obj.value *= -1;
+                            console.log(obj.value);
+                        });
+
+            Base.addPanel({width: 200}).
+                    addGroup().
+                        addSubGroup().
+                            addButton('a button');
+
+            Base.addPanel({label:'Floating Panel', align : 'left', fixed: false, position: [window.innerWidth * 0.5 - 150, window.innerHeight * 0.5]}).
+                    addGroup().
+                        addSubGroup().
+                            addNumberInput(obj,'value').
+                            addStringInput(obj,'value');
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

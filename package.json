@@ -1,0 +1,10 @@
+{
+    "name": "ControlKit",
+    "version": "0.9.3",
+    "description": "A lightweight gui and controller library",
+    "author": "Henryk Wollik",
+    "main" : "src/index.js",
+    "dependencies" : {"browserify" : "latest"},
+    "repository" : {"type" : "git", "url" : "http://github/automat/controlKit.js"},
+    "license": "MIT"
+}

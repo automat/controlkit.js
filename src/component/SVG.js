@@ -1,0 +1,66 @@
+var Component = require('../core/component/Component');
+var CSS = require('../core/document/CSS');
+var EventType = require('../core/event/EventType');
+var Metric = require('../core/Metric');
+
+function SVG(parent,params) {
+    Component.apply(this,arguments);
+
+    /*---------------------------------------------------------------------------------*/
+
+    var wrapNode = this._wrapNode;
+    wrapNode.setStyleClass(CSS.CanvasWrap);
+    var wrapSize = wrapNode.getWidth();
+
+
+    var svg = this._svg = this._createSVGObject('svg');
+    svg.setAttribute('version', '1.2');
+    svg.setAttribute('baseProfile', 'tiny');
+    svg.setAttribute('preserveAspectRatio','true');
+
+    wrapNode.getElement().appendChild(svg);
+
+    this._svgSetSize(wrapSize,wrapSize);
+    this._updateHeight();
+
+    /*---------------------------------------------------------------------------------*/
+
+    this._node.setStyleClass(CSS.CanvasListItem);
+
+    this._parent.addEventListener(EventType.GROUP_SIZE_CHANGE, this, 'onGroupSizeChange');
+    this.addEventListener(EventType.GROUP_SIZE_UPDATE, this._parent, 'onGroupSizeUpdate');
+}
+
+SVG.prototype = Object.create(Component.prototype);
+
+/*---------------------------------------------------------------------------------*/
+
+SVG.prototype._updateHeight = function()
+{
+    var svgHeight = Number(this._svg.getAttribute('height'));
+
+    this._wrapNode.setHeight(svgHeight);
+    this._node.setHeight(svgHeight + Metric.PADDING_WRAPPER);
+};
+
+SVG.prototype.onGroupSizeChange = function()
+{
+    var width = this._wrapNode.getWidth();
+
+    this._svgSetSize(width,width);
+    this._updateHeight();
+};
+
+/*---------------------------------------------------------------------------------*/
+
+SVG.prototype._svgSetSize = function(width,height)
+{
+    var svg = this._svg;
+    svg.setAttribute('width',  width);
+    svg.setAttribute('height', height);
+    svg.setAttribute('viewbox', '0 0 ' + width + ' ' + height);
+};
+
+SVG.prototype.getSVG = function(){return this._svg;};
+
+module.exports = SVG;

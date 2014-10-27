@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="../../bin/__controlKit.js"></script>
+    <script type="text/javascript">
+        window.addEventListener('load',function(){
+            var obj = {
+                str : 'abc',
+                number: 0,
+                value: 0,
+                valueRange : [-1,1],
+                bool: false,
+                select : ['Option 1', 'Option 2', 'Option 3']
+            };
+
+            var Base = ControlKit.setup();
+            var panel = Base.addPanel({label: 'Panel'});
+                panel.addGroup().
+                    addSubGroup().
+                        addStringInput(obj,'str',{label: 'String'}).
+                        addStringInput(obj,'number',{label: 'Number'}).
+                        addSlider(obj,'value','valueRange',{label: 'Value'}).
+                        addRange(obj,'valueRange',{label : 'Value Range'}).
+                        addCheckbox(obj, 'bool', {label: 'Bool'}).
+                        addSelect(obj,'select', {label: 'Option',onChange: function(index){
+                            console.log(index);
+                        }});
+
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

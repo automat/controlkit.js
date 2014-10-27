@@ -1,0 +1,1115 @@
+@import "resets";
+@import "mixins";
+@import "presets";
+@import "images";
+
+@mixin component-border {
+  @include border-radius($compBorderRadius);
+  border-bottom: $compBorderBottom;
+}
+
+@mixin component-input-border {
+  border: none;
+  @include box-shadow($compInsetShadow);
+  @include component-border;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#controlKit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  user-select: none;
+
+  *{
+    outline: 0;
+  }
+
+  .panel input[type='text'],
+  .panel textarea,
+  .panel .color,
+  .picker input[type='text'] {
+    @include box-sizing(border-box);
+
+    height: $inputHeight;
+    width: 100%;
+    padding: $inputPadding;
+
+    font-family: $inputFontFamily;
+    font-size: $inputFontSize;
+    color: $inputFontColor;
+    text-shadow: $inputFontShadow;
+
+    @include linear-gradient-with-background(#{$inputGradient}, $inputColorBg);
+
+    @include component-input-border;
+
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+  }
+
+  .panel .color {
+    @include box-sizing(border-box);
+    width: 100%;
+    height: $inputHeight;
+    line-height: $inputHeight;
+
+    background: #fff;
+    text-align: center;
+    padding: 0;
+
+    @include user-select;
+    cursor: pointer;
+
+    border: none;
+
+    @include box-shadow(0 0 0 1px #111314 inset);
+
+    //@include box-shadow($compInsetShadow);
+    @include component-border;
+  }
+
+  .panel .button,
+  .picker .button,
+  .panel .select,
+  .panel .selectActive,
+  {
+    @include box-sizing(border-box);
+
+    width: 100%;
+    height: $buttonHeight;
+    margin: $buttonMargin;
+
+    cursor: pointer;
+
+    @include linear-gradient-with-background(#{$buttonGradient}, $buttonBgColor);
+
+    font-family: $buttonFontFamily;
+    color: $buttonFontColor;
+
+    border: none;
+    @include border-radius($buttonBorderRadius);
+    @include box-shadow($buttonBoxShadow);
+    border-bottom: $compBorderBottom;
+
+    outline:0;
+  }
+
+  .panel .button, .picker .button {
+    font-size: $buttonFontSize;
+    font-weight: $buttonFontWeight;
+    text-shadow: $buttonTextShadow;
+    text-transform: $buttonTextTransform;
+
+    &:hover {
+      background-image: none;
+    }
+    &:active {
+      @include linear-gradient($buttonGradientActive);
+    }
+
+  }
+
+  .panel {
+    position: relative;
+
+    z-index: 1;
+
+    margin: 0;
+    padding: 0;
+
+    width: 300px;
+
+    background-color: $panelColorBg;
+
+    @include box-shadow($panelBoxShadow);
+
+    font-family: $defaultFontFamily;
+
+    @include user-select;
+
+    @include box-sizing(border-box);
+    @include border-radius($panelBorderRadius);
+
+    overflow: hidden;
+
+    opacity: 1.0;
+
+    float: left;
+
+    textarea {
+      padding: $textareaPadding;
+      overflow: hidden;
+      resize: none;
+      vertical-align: top;
+      white-space: nowrap;
+    }
+
+    input[type='checkbox'] {
+      margin: 5px 0 0 0;
+    }
+
+    .select, .selectActive {
+      padding-left: 10px;
+      padding-right: 20px;
+
+      font-size: $compFontSize;
+      text-align: left;
+      text-shadow: $inputFontShadow;
+
+      cursor: pointer;
+
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+    }
+
+    .select {
+      @include linear-gradient-with-image(#{$selectGradient}, $imageSelect 100% 50% no-repeat);
+    }
+
+    .select:hover, .selectActive {
+      background: $imageSelect 100% 50% no-repeat, #3c494e;
+    }
+
+    .presetBtn, .presetBtnActive {
+      @include box-sizing(border-box);
+
+      position: absolute;
+
+      right: 0;
+
+      width: $buttonPresetWidth;
+      height: $buttonPresetHeight;
+      margin: 0 0 0 0;
+
+      cursor: pointer;
+
+      float: right;
+
+      border: none;
+      border-top-right-radius: $buttonBorderRadius;
+      border-bottom-right-radius: $buttonBorderRadius;
+      //border-left: $buttonPresetBorderLeft;
+
+      //@include box-shadow($buttonPresetBoxShadow);
+
+
+      @include box-shadow($buttonBoxShadow);
+      border-bottom: $compBorderBottom;
+
+    }
+
+    .presetBtnActive, .presetBtn:hover {
+      background: $imageBtnPreset 50% 50% no-repeat, #3c494e;
+    }
+    .presetBtn {
+      @include linear-gradient-with-image(#{$buttonPresetGradient}, $imageBtnPreset 50% 50% no-repeat);
+
+    }
+
+    .scrollBar {
+      @include box-sizing(content-box);
+
+      width: $scrollBarWidth;
+      height: 100%;
+      float: right;
+      top: 0;
+      padding: 0;
+      margin: 0;
+      position: relative;
+
+      @include h-linear-gradient-with-background(#{$scrollBarGradient}, $scrollBarBgColor);
+
+      .track {
+        padding: $scrollBarTrackPadding;
+
+        .thumb {
+          @include box-sizing(border-box);
+
+          width: $scrollBarThumbWidth;
+          position: absolute;
+
+          cursor: pointer;
+
+          @include linear-gradient-with-background(#{$scrollBarThumbGradient}, $scrollBarThumbBgColor);
+          @include border($scrollBarThumbBorder, $scrollBarThumbBorderRadius);
+
+          @include box-shadow($scrollBarThumbBoxShadow);
+        }
+      }
+    }
+
+    .wrap {
+      width: auto;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+
+    }
+
+    .inputWPresetWrap, .colorWPresetWrap {
+      width: 100%;
+      float: left;
+    }
+
+    .inputWPresetWrap input[type='text'], .colorWPresetWrap .color {
+      padding-right: 25px;
+      border-top-right-radius: 2px;
+      border-bottom-right-radius: 2px;
+      float: left;
+    }
+
+    .textAreaWrap {
+
+      @include box-sizing(border-box);
+
+      width: 100%;
+      padding: 0;
+      float: left;
+      height: 100%;
+
+      overflow: hidden;
+
+      border-radius: $textareaWrapBorderRadius;
+      @include component-input-border;
+
+      background-color: $textareaWrapColorBg;
+      @include box-shadow($textareaWrapBoxShadow);
+      @include linear-gradient($textareaWrapGradient);
+
+      textarea {
+        border: none;
+        //border-right: 1px solid #fff;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        @include border-radius($textareaWrapBorderRadius);
+        @include box-shadow(none);
+        background: none;
+      }
+
+      .scrollBar {
+        border: $textareaWrapScrollBarBorder;
+        border-bottom-right-radius: $textareaWrapBorderRadius;
+        border-top-right-radius: $textareaWrapBorderRadius;
+        border-left: none;
+        @include box-shadow($textareaWrapBoxShadow);
+      }
+    }
+
+    .graphSliderXWrap, .graphSliderYWrap {
+      position: absolute;
+      @include box-sizing(border-box);
+    }
+
+    .graphSliderXWrap {
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 6px 20px 6px 6px;
+    }
+
+    .graphSliderYWrap {
+      top: 0;
+      right: 0;
+      height: 100%;
+      padding: 6px 6px 20px 6px;
+    }
+
+    .graphSliderX, .graphSliderY {
+      @include box-sizing(border-box);
+      @include border-radius(2px);
+
+      background: rgba(24, 27, 29, 0.5);
+      border: 1px solid rgb(24, 27, 29);
+    }
+
+    .graphSliderX {
+      height: 8px;
+    }
+
+    .graphSliderY {
+      width: 8px;
+      height: 100%;
+    }
+
+    .graphSliderXHandle, .graphSliderYHandle {
+      @include box-sizing(border-box);
+      cursor: pointer;
+      border: 1px solid rgb(24, 27, 29);
+      background: #303639;
+    }
+
+    .graphSliderXHandle {
+      width: 20px;
+      height: 100%;
+
+      border-top: none;
+      border-bottom: none;
+
+    }
+
+    .graphSliderYHandle {
+      width: 100%;
+      height: 20px;
+
+      border-left: none;
+      border-right: none;
+    }
+
+    .scrollWrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scrollBuffer {
+      width: 100%;
+      height: $scrollBufferHeight;
+      border-top: $scrollBufferBorderTop;
+      border-bottom: $scrollBufferBorderBottom;
+
+    }
+
+    canvas {
+      cursor: pointer;
+      vertical-align: bottom;
+      @include component-input-border;
+    }
+
+    .svgWrap, .canvasWrap {
+      margin: $canvasWrapMargin;
+
+      position: relative;
+
+      width: 70%;
+      float: right;
+
+      @include box-sizing(border-box);
+
+      border: none;
+      @include border-radius($canvasWrapBorderRadius);
+
+      background: $canvasWrapColorBg;
+      @include linear-gradient($canvasWrapGradient);
+
+      svg {
+        position: absolute;
+
+        left: 0;
+        top: 0;
+        cursor: pointer;
+        vertical-align: bottom;
+        @include component-input-border;
+      }
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .groupList {
+
+      .group {
+        .head {
+          height: $groupHeadHeight;
+
+          border-top: $groupHeadBorderTop;
+          border-bottom: $groupHeadBorderBottom;
+
+          padding: $groupHeadPadding;
+
+          @include linear-gradient($groupHeadGradient);
+          cursor: pointer;
+
+          .label {
+            font-size: $groupHeadLabelFontSize;
+            line-height: $groupHeadHeight;
+            color: $groupHeadLabelFontColor;
+          }
+
+          &:hover {
+            @include linear-gradient($groupHeadHoverGradient);
+          }
+        }
+
+        li {
+          height: $subGroupListItemHeight;
+          padding: $subGroupListItemPadding;
+        }
+
+        .subGroupList {
+          padding: $subGroupListPadding;
+          border-top: $subGroupListBorderTop;
+          border-bottom: $subGroupListBorderBottom;
+
+          .subGroup {
+            padding: 0;
+            margin-top: $subGroupMarginTop;
+
+            height: auto;
+
+            @include border($subGroupBorder, $subGroupBorderRadius);
+            @include box-shadow($subGroupBoxShadow);
+
+            ul {
+              overflow: hidden;
+            }
+            &:first-child {
+              margin-top: 0;
+            }
+
+            .head {
+              height: $subGroupHeadHeight;
+              padding: $subGroupHeadPadding;
+
+              border-top: $subGroupHeadBorderTop;
+              border-bottom: $subGroupHeadBorderBottom;
+
+              border-top-left-radius: $subGroupHeadBorderTopRadius;
+              border-top-right-radius: $subGroupHeadBorderTopRadius;
+
+              background-image: none;
+              background-color: $subGroupHeadColorBg;
+
+              cursor: pointer;
+
+              &:hover {
+                background-image: none;
+                background-color: $subGroupHeadHoverColorBg;
+              }
+
+            }
+
+            li {
+              &:nth-child(odd) {
+                background-color: $subGroupListItemColorBgOdd;
+              }
+              &:nth-child(even) {
+                background-color: $subGroupListItemColorBgEven;
+              }
+
+            }
+
+            .headInactive {
+              @include box-sizing(border-box);
+
+              height: $subGroupHeadInactiveHeight;
+              padding: $subGroupHeadInactivePadding;
+
+              @include linear-gradient($subGroupHeadInactiveGradient);
+              @include box-shadow($subGroupHeadInactiveBoxShadow);
+
+              cursor: pointer;
+
+              &:hover {
+                background-image: none;
+                background-color: $subGroupHeadInactiveHoverColorBg;
+              }
+            }
+
+            .head .label, .headInactive .label {
+              margin: 0;
+              padding: 0;
+              line-height: $subGroupHeadHeight;
+              color: $subGroupHeadLabelFontColor;
+              font-weight: $subGroupHeadLabelFontWeight;
+              font-size: $subGroupHeadLabelFontSize;
+              text-shadow: $subGroupHeadLabelTextShadow;
+              text-transform: $subGroupHeadLabelTextTransform;
+            }
+
+            .head, .headInactive {
+              .wrap .label {
+                width: 100%;
+                font-weight: $subGroupHeadLabelFontWeight;
+                color: $subGroupHeadLabelFontColor;
+                padding: 0;
+              }
+            }
+
+            .wrap {
+
+              .label {
+                @include box-sizing(border-box);
+                height: 100%;
+
+                width: $compLabelWidth;
+                padding: $compLabelPadding;
+                float: left;
+
+                font-size: $compLabelFontSize;
+                font-weight: $compLabelFontWeight;
+                color: $compLabelFontColor;
+                text-shadow: $compLabelTextShadow;
+
+              }
+
+              .wrap {
+                @include box-sizing(border-box);
+
+                width: $compWidth;
+                padding: $compPadding;
+                float: right;
+                height: 100%;
+
+                .wrap {
+                  width: 25%;
+                  padding: 0;
+                  float: left;
+
+                  .label {
+                    width: 100%;
+                    padding: $rangeLabelPadding;
+
+                    color: $rangeLabelFontColor;
+                    text-align: $rangeLabelTextAlign;
+                    text-transform: $rangeLabelTextTransform;
+                    font-weight: $rangeLabelFontWeight;
+                    text-shadow: $rangeLabelTextShadow;
+
+                  }
+
+                  input[type='text'] {
+                    padding: 0;
+                    text-align: center;
+                  }
+                }
+              }
+            }
+
+            .wrap {
+              background: $subGroupHeadColorBg;
+            }
+            .wrap {
+              .wrap {
+                background: none;
+              }
+            }
+          }
+
+          .head .wrap, .headInactive .wrap {
+            background: none;
+          }
+        }
+        &:last-child {
+          .subGroupList, .scrollBuffer:nth-of-type(3) {
+            border-bottom: none;
+          }
+          .scrollWrap .subGroupList {
+            border-bottom: $subGroupListBorderBottom;
+          }
+        }
+
+      }
+    }
+
+    .wrapSlider {
+      @include box-sizing(border-box);
+
+      width: 70%;
+      padding: 6px 0 0 0;
+      float: right;
+      height: 100%;
+
+      input[type='text'] {
+        width: 25%;
+        text-align: center;
+        padding: 0;
+        float: right;
+      }
+    }
+
+    .sliderWrap {
+
+      @include box-sizing(border-box);
+
+      float: left;
+      cursor: ew-resize;
+
+      width: $sliderWidth;
+      //padding: $sliderPadding;
+
+    }
+
+    .sliderSlot {
+      @include box-sizing(border-box);
+
+      width: 100%;
+      height: $sliderHeight;
+      padding: $sliderPadding;
+
+      background-color: $sliderSlotColorBg;
+      @include component-input-border;
+    }
+
+    .sliderHandle {
+      @include box-sizing(border-box);
+
+      position: relative;
+      width: 100%;
+      height: 100%;
+
+      @include linear-gradient-with-background(#{$sliderHandleGradient}, $sliderHandleColorBG);
+      @include box-shadow($sliderHandleBoxShadow);
+    }
+
+    .canvasListItem, .svgListItem {
+      padding: $subGroupCanvasListItemPadding;
+    }
+
+    .arrowSMax {
+      background: $imageArrowSMax center no-repeat;
+    }
+    .arrowSMin {
+      background: $imageArrowSMin center no-repeat;
+    }
+    .arrowSMax, .arrowSMin {
+      width: 100%;
+      height: 20px;
+    }
+
+    .arrowBMax {
+      background: $imageArrowBMax center no-repeat;
+    }
+    .arrowBMin {
+      background: $imageArrowBMin center no-repeat;
+    }
+
+    .arrowBSubMax {
+      background: $imageArrowBSubMax center no-repeat;
+    }
+    .arrowBSubMin {
+      background: $imageArrowBSubMin center no-repeat;
+    }
+
+    .arrowBMax, .arrowBMin, .arrowBSubMax, .arrowBSubMin {
+      width: 10px;
+      height: 100%;
+      float: right;
+    }
+
+  }
+
+  .panel .sizeHandle {
+
+    float: left;
+    width: 10px;
+    height: 100px;
+    border-left: 1 py
+
+  }
+
+  .panel .label, .picker .label {
+    width: 100%;
+
+    float: left;
+    font-size: $labelFontSize;
+    font-weight: $labelFontWeight;
+    text-shadow: $labelTextShadow;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: default;
+  }
+
+  .panel .head, .picker .head, .panel .panelHeadInactive {
+    height: $panelHeadHeight;
+    padding: $panelHeadPadding;
+    background: $panelHeadColorBg;
+
+    //TODO: merge with panel
+    .wrap {
+      width: auto;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+  }
+
+  .panel .head, .picker .head {
+    border-top: $panelHeadBorderTop;
+    border-bottom: $panelHeadBorderBottom;
+
+    .label {
+      cursor: pointer;
+
+      line-height: $panelHeadHeight;
+      color: $panelHeadLabelFontColor;
+    }
+  }
+
+  .panel .panelHeadInactive {
+    border-top: $panelHeadInactiveBorderTop;
+  }
+
+  .panel .menu, .picker .menu {
+    float: right;
+    padding: $menuPadding;
+
+    input[type='button'] {
+      @include box-sizing(border-box);
+
+      cursor: pointer;
+
+      height: $menuButtonHeight;
+      margin-left: $menuButtonMarginLeft;
+      border: none;
+
+      @include border-radius($menuButtonBorderRadius);
+
+      font-family: $menuButtonFontFamily;
+      font-size: $menuButtonFontSize;
+      font-weight: $menuButtonFontWeight;
+      color: $menuButtonFontColor;
+      text-shadow: $menuButtonTextShadow;
+      text-transform: $menuButtonTextTransform;
+
+      @include box-shadow($menuButtonBoxShadow);
+      border-bottom: $menuButtonBorderBottom;
+    }
+
+    @mixin btnMenuBackground($img, $imgHover) {
+      background: $img 50% 50% no-repeat, $menuButtonColorBg;
+      &:hover {
+        background: $imgHover 50% 50% no-repeat, $menuButtonHoverColorBg;
+        @include box-shadow($menuButtonHoverBoxShadow);
+      }
+    }
+
+    .btnHide, .btnShow, .btnClose {
+      width: 20px;
+    }
+
+    .btnHide {
+      @include btnMenuBackground($imageBtnHide, $imageBtnHideHover);
+    }
+    .btnShow {
+      @include btnMenuBackground($imageBtnShow, $imageBtnShowHover);
+    }
+    .btnClose {
+      @include btnMenuBackground($imageBtnClose, $imageBtnCloseHover);
+    }
+
+    .btnUndo {
+      background: $imageBtnUndo 20% 50% no-repeat, $menuButtonColorBg;
+      padding: $menuButtonUndoPadding;
+      width: $menuButtonUndoWidth;
+
+      vertical-align: top;
+      text-align: end;
+
+      &:hover {
+        background: $imageBtnUndoHover 20% 50% no-repeat, $menuButtonHoverColorBg;
+        @include box-shadow($menuButtonHoverBoxShadow);
+      }
+    }
+  }
+
+  .picker {
+    @include box-sizing(border-box);
+    @include border-radius($pickerBorderRadius);
+    background-color: $pickerColorBg;
+
+    font-family: $pickerFontFamily;
+    font-size: $pickerFontSize;
+    color: $pickerFontColor;
+    text-shadow: $pickerTextShadow;
+
+    position: absolute;
+    z-index: 2147483631;
+
+    width: $pickerPanelWidth;
+
+    @include user-select;
+    @include box-shadow($panelBoxShadow);
+
+    canvas {
+      vertical-align: bottom;
+      cursor: pointer;
+    }
+
+    .wrap {
+
+      @include box-sizing(border-box);
+      padding: $pickerPadding;
+      float: left;
+    }
+
+    .fieldWrap {
+      padding: $pickerFieldWrapPadding;
+    }
+    .sliderWrap {
+      padding: $pickerSliderWrapPadding;
+    }
+
+    .fieldWrap, .sliderWrap, .inputWrap {
+      height: auto;
+      overflow: hidden;
+      float: left;
+    }
+
+    //FIXME
+    .inputWrap {
+      @include box-sizing(border-box);
+
+      @include border($pickerInputWrapBorder,
+              $pickerInputWrapBorderRadis);
+      @include box-shadow($pickerInputWrapBoxShadow);
+
+      width: $pickerInputWrapWidth;
+      float: right;
+
+      padding: $pickerInputWrapPadding;
+    }
+
+    .inputField {
+      width: $pickerInputFieldWidth;
+      float: right;
+      margin-bottom: $pickerInputFieldMarginBottom;
+
+      .label {
+        padding: $rangeLabelPadding;
+        color: $rangeLabelFontColor;
+        text-align: center;
+        text-transform: $rangeLabelTextTransform;
+        font-weight: $rangeLabelFontWeight;
+        text-shadow: $rangeLabelTextShadow;
+        width: $pickerInputFieldRatioLabel;
+      }
+
+      .wrap {
+        padding: 0;
+        width: $pickerInputFieldRatioWrap;
+        height: auto;
+        float: right;
+      }
+
+    }
+
+    .controlsWrap {
+      @include box-sizing(border-box);
+      width: 100%;
+      height: auto;
+      float: right;
+      padding: $pickerControlsWrapPadding;
+
+      input[type='button'] {
+        float: right;
+        width: $pickerControlButtonWidth;
+        margin: $pickerControlButtonMargin;
+
+      }
+    }
+
+    .colorContrast {
+      @include box-sizing(border-box);
+      @include component-input-border;
+
+      width: 100%;
+      height: $pickerColorContrastHeight;
+      padding: $pickerColorContrastPadding;
+      width: $pickerColorContrastWidth;
+      margin-bottom: $pickerColorContrastMarginBottom;
+
+      float: right;
+
+      div {
+        width: 50%;
+        height: 100%;
+        float: left;
+      }
+    }
+
+    input[type='text'] {
+      padding: 0;
+      text-align: center;
+      width: 60%;
+      float: right;
+    }
+
+    .wrap {
+
+      .inputWrap:nth-of-type(3) {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      .inputWrap:nth-of-type(4) {
+        border-top: none;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        .inputField {
+          width: 100%;
+          .label {
+            width: 20%;
+          }
+        }
+        input[type='text'] {
+          width: 80%;
+        }
+      }
+    }
+
+    .fieldWrap, .sliderWrap {
+
+      background: #1e2224;
+      @include component-input-border;
+      position: relative;
+      margin-right: 5px;
+
+      .indicator {
+        position: absolute;
+        border: $pickerIndicatorBorder;
+        @include box-shadow($pickerIndicatorBoxShadow);
+        cursor: pointer;
+      }
+    }
+
+    .fieldWrap .indicator {
+      width: $pickerIndicatorFieldSize;
+      height: $pickerIndicatorFieldSize;
+
+      left: 50%;
+      top: 50%;
+
+      @include border-radius(50%);
+    }
+
+    .sliderWrap .indicator {
+      width: $pickerIndicatorSliderWidth;
+      height: $pickerIndicatorSliderHeight;
+
+      @include border-radius($pickerIndicatorFieldSize);
+
+      left: 1px;
+      top: 1px;
+
+      &:after {
+        content: '';
+
+        @include arrow($pickerIndicatorSliderArrowWidth,
+                $pickerIndicatorSliderArrowHeight,
+                $pickerIndicatorColor,
+                'left');
+        float: right;
+
+        position: absolute;
+        top: $pickerIndicatorSliderArrowTop;
+        left: $pickerIndicatorSliderArrowLeft;
+
+      }
+
+      &:before {
+        content: '';
+
+        @include arrow($pickerIndicatorSliderArrowWidth,
+                $pickerIndicatorSliderArrowHeight,
+                #000,
+                'left');
+        float: right;
+
+        position: absolute;
+        top: $pickerIndicatorSliderArrowTop - 1;
+        left: $pickerIndicatorSliderArrowLeft;
+      }
+    }
+  }
+
+  .options {
+
+    @include box-sizing(border-box);
+    @include border($optionsBorder, $optionsBorderRadius);
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+    width: auto;
+    height: auto;
+
+    z-index: 2147483638;
+
+    font-family: $optionsFontFamily;
+    font-size: $optionsFontSize;
+    color: $optionsFontColor;
+    text-shadow: $optionsTextShadow;
+
+    @include box-shadow($optionsBoxShadow);
+
+    overflow: hidden;
+
+    background-color: $optionsColorBg;
+
+    ul {
+      width: 100%;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin: 0;
+        width: 100%;
+        height: $optionsListItemHeight;
+        line-height: $optionsListItemHeight;
+        padding: $optionsListItemPadding;
+
+        overflow: hidden;
+        white-space: normal;
+        text-overflow: ellipsis;
+
+        cursor: pointer;
+
+        &:hover {
+          background-color: $optionsListItemHoverColorBg;
+        }
+      }
+
+      .liSelected {
+        background-color: $optionsListItemSelectedColorBg;
+      }
+    }
+
+    .color {
+      @include box-sizing(border-box);
+
+      li, .liSelected {
+        @include box-sizing(border-box);
+        padding: 0;
+        height: $inputHeight;
+        line-height: $inputHeight;
+        text-align: center;
+
+        &:hover {
+          background: none;
+          font-weight: bold;
+        }
+      }
+
+      .liSelected {
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+#controlKitTrigger {
+
+}
