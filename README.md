@@ -49,7 +49,7 @@ Control components are constructed per panel.
 <br/>
 ![Peng!](images/image-3.png)
 
-###tyle
+###Style
 
 The default styling can be customized. You can either pass a new style on setup:
 
