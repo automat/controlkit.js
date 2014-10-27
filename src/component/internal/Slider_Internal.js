@@ -1,34 +1,34 @@
 var Node = require('../../core/document/Node');
-var NodeType = require('../../core/document/NodeType');
-var CSS = require('../../core/document/CSS');
-var NodeEventType = require('../../core/document/NodeEventType');
-var Mouse = require('../../core/document/Mouse');
-var DocumentEventType = require('../../core/document/DocumentEventType');
 
-function Slider_Internal(parentNode,onBegin,onChange,onFinish)
-{
+var DocumentEvent = require('../../core/document/DocumentEvent'),
+    NodeEvent = require('../../core/document/NodeEvent');
+
+
+var CSS = require('../../core/document/CSS');
+var Mouse = require('../../core/document/Mouse');
+
+
+function Slider_Internal(parentNode,onBegin,onChange,onFinish) {
     this._bounds   = [0,1];
     this._value    = 0;
     this._interpl  = 0;
     this._focus    = false;
 
-    /*---------------------------------------------------------------------------------*/
 
     this._onBegin    = onBegin  || function(){};
     this._onChange   = onChange || function(){};
     this._onFinish   = onFinish || function(){};
 
-    /*---------------------------------------------------------------------------------*/
 
-    var wrapNode = new Node(NodeType.DIV).setStyleClass(CSS.SliderWrap);
+    var wrapNode = new Node().setStyleClass(CSS.SliderWrap);
     parentNode.addChild(wrapNode);
 
-    var slot   = this._slot   = {node:    new Node(NodeType.DIV).setStyleClass(CSS.SliderSlot),
+    var slot   = this._slot   = {node:    new Node().setStyleClass(CSS.SliderSlot),
                                  offsetX: 0,
                                  width:   0,
                                  padding: 3};
 
-    var handle = this._handle = {node    : new Node(NodeType.DIV).setStyleClass(CSS.SliderHandle),
+    var handle = this._handle = {node    : new Node().setStyleClass(CSS.SliderHandle),
                                  width   : 0,
                                  dragging: false};
 
@@ -40,11 +40,11 @@ function Slider_Internal(parentNode,onBegin,onChange,onFinish)
 
     handle.node.setWidth(handle.width);
 
-    slot.node.addEventListener(NodeEventType.MOUSE_DOWN,this._onSlotMouseDown.bind(this));
-    slot.node.addEventListener(NodeEventType.MOUSE_UP,  this._onSlotMouseUp.bind(this));
+    slot.node.addEventListener(NodeEvent.MOUSE_DOWN,this._onSlotMouseDown.bind(this));
+    slot.node.addEventListener(NodeEvent.MOUSE_UP,  this._onSlotMouseUp.bind(this));
 
-    document.addEventListener(DocumentEventType.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
-    document.addEventListener(DocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
+    document.addEventListener(DocumentEvent.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
+    document.addEventListener(DocumentEvent.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
 };
 
 Slider_Internal.prototype =
@@ -178,15 +178,15 @@ module.exports = Slider_Internal;
 //
 //    /*---------------------------------------------------------------------------------*/
 //
-//    var wrapNode = new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.SliderWrap);
+//    var wrapNode = new ControlKit.Node(ControlKit.).setStyleClass(ControlKit.CSS.SliderWrap);
 //    parentNode.addChild(wrapNode);
 //
-//    var slot   = this._slot   = {node:    new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.SliderSlot),
+//    var slot   = this._slot   = {node:    new ControlKit.Node(ControlKit.).setStyleClass(ControlKit.CSS.SliderSlot),
 //                                 offsetX: 0,
 //                                 width:   0,
 //                                 padding: 3};
 //
-//    var handle = this._handle = {node    : new ControlKit.Node(ControlKit.NodeType.DIV).setStyleClass(ControlKit.CSS.SliderHandle),
+//    var handle = this._handle = {node    : new ControlKit.Node(ControlKit.).setStyleClass(ControlKit.CSS.SliderHandle),
 //                                 width   : 0,
 //                                 dragging: false};
 //
@@ -198,11 +198,11 @@ module.exports = Slider_Internal;
 //
 //    handle.node.setWidth(handle.width);
 //
-//    slot.node.addEventListener(ControlKit.NodeEventType.MOUSE_DOWN,this._onSlotMouseDown.bind(this));
-//    slot.node.addEventListener(ControlKit.NodeEventType.MOUSE_UP,  this._onSlotMouseUp.bind(this));
+//    slot.node.addEventListener(ControlKit.NodeEvent.MOUSE_DOWN,this._onSlotMouseDown.bind(this));
+//    slot.node.addEventListener(ControlKit.NodeEvent.MOUSE_UP,  this._onSlotMouseUp.bind(this));
 //
-//    document.addEventListener(ControlKit.DocumentEventType.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
-//    document.addEventListener(ControlKit.DocumentEventType.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
+//    document.addEventListener(ControlKit.DocumentEvent.MOUSE_MOVE,this._onDocumentMouseMove.bind(this));
+//    document.addEventListener(ControlKit.DocumentEvent.MOUSE_UP,  this._onDocumentMouseUp.bind(this));
 //};
 //
 //ControlKit.Slider_Internal.prototype =

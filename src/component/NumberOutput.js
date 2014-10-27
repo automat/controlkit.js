@@ -1,9 +1,10 @@
 var Output = require('./internal/Output');
-var Default = require('../core/Default');
+
+var DEFAULT_NUMBER_OUTPUT_DP = 2;
 
 function NumberOutput(parent, object, value, params) {
 	params = params || {};
-	params.dp = params.dp || Default.NUMBER_OUTPUT_DP;
+	params.dp = params.dp || DEFAULT_NUMBER_OUTPUT_DP;
 
 	Output.apply(this, arguments);
 	this._valueDPlace = params.dp + 1;
@@ -11,13 +12,11 @@ function NumberOutput(parent, object, value, params) {
 
 NumberOutput.prototype = Object.create(Output.prototype);
 
-
 //FIXME
 NumberOutput.prototype._setValue = function () {
 	if (this._parent.isDisabled()){
 		return;
 	}
-
 
 	var value = this._object[this._key],
 		textArea = this._textArea,

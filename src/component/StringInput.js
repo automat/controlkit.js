@@ -1,31 +1,31 @@
 var ObjectComponent = require('../core/component/ObjectComponent');
 var Node = require('../core/document/Node');
-var NodeType = require('../core/document/NodeType');
-var NodeEventType = require('../core/document/NodeEventType');
-var Default = require('../core/Default');
 var CSS = require('../core/document/CSS');
 var Options = require('./internal/Options');
 var PresetBtn = require('./internal/PresetBtn');
-var Event_ = require('../core/event/Event');
-var EventType = require('../core/event/EventType');
-var DocumentEventType = require('../core/document/DocumentEventType');
 var Metric = require('../core/Metric');
 
+var Event_ = require('../core/event/Event'),
+    DocumentEvent = require('../core/document/DocumentEvent'),
+    NodeEvent = require('../core/document/NodeEvent'),
+    ComponentEvent =  require('../core/component/ComponentEvent');
+
+var DEFAULT_STRING_INPUT_PRESET = null;
+
 function StringInput(parent,object,value,params) {
+    ObjectComponent.apply(this,arguments);
+
     params          = params || {};
     params.onChange = params.onChange || this._onChange;
     params.onFinish = params.onFinish || this._onFinish;
-    params.presets  = params.presets  || Default.STRING_INPUT_PRESET;
-
-
-    ObjectComponent.apply(this,arguments);
+    params.presets  = params.presets  || DEFAULT_STRING_INPUT_PRESET;
 
     this._onChange   = params.onChange;
     this._onFinish   = params.onFinish;
 
     this._presetsKey = params.presets;
 
-    var input = this._input = new Node(NodeType.INPUT_TEXT);
+    var input = this._input = new Node(Node.INPUT_TEXT);
 
     var wrapNode = this._wrapNode;
 
@@ -33,7 +33,7 @@ function StringInput(parent,object,value,params) {
         wrapNode.addChild(input);
     }
     else {
-        var inputWrap = new Node(NodeType.DIV);
+        var inputWrap = new Node();
         inputWrap.setStyleClass(CSS.WrapInputWPreset);
 
         wrapNode.addChild(inputWrap);
@@ -69,11 +69,11 @@ function StringInput(parent,object,value,params) {
 
     input.setProperty('value',this._object[this._key]);
 
-    input.addEventListener(NodeEventType.KEY_UP, this._onInputKeyUp.bind(this));
-    input.addEventListener(NodeEventType.CHANGE, this._onInputChange.bind(this));
+    input.addEventListener(NodeEvent.KEY_UP, this._onInputKeyUp.bind(this));
+    input.addEventListener(NodeEvent.CHANGE, this._onInputChange.bind(this));
 
-    input.addEventListener(NodeEventType.MOUSE_DOWN, this._onInputDragStart.bind(this));
-    this.addEventListener(EventType.INPUT_SELECT_DRAG,this._parent,'onComponentSelectDrag');
+    input.addEventListener(NodeEvent.MOUSE_DOWN, this._onInputDragStart.bind(this));
+    this.addEventListener(ComponentEvent.INPUT_SELECT_DRAG,this._parent,'onComponentSelectDrag');
 }
 
 StringInput.prototype = Object.create(ObjectComponent.prototype);
@@ -109,7 +109,7 @@ StringInput.prototype._keyIsChar = function (keyCode) {
 
 StringInput.prototype.applyValue = function () {
     this._object[this._key] = this._input.getProperty('value');
-    this.dispatchEvent(new Event_(this, EventType.VALUE_UPDATED, null));
+    this.dispatchEvent(new Event_(this, ComponentEvent.VALUE_UPDATED, null));
 };
 
 StringInput.prototype.onValueUpdate = function (e) {
@@ -119,10 +119,10 @@ StringInput.prototype.onValueUpdate = function (e) {
 
 //Prevent chrome select drag
 StringInput.prototype._onInputDragStart = function () {
-    var eventMove = DocumentEventType.MOUSE_MOVE,
-        eventUp = DocumentEventType.MOUSE_UP;
+    var eventMove = DocumentEvent.MOUSE_MOVE,
+        eventUp = DocumentEvent.MOUSE_UP;
 
-    var event = EventType.INPUT_SELECT_DRAG;
+    var event = ComponentEvent.INPUT_SELECT_DRAG;
     var self = this;
     var onDrag = function () {
             self.dispatchEvent(new Event_(this, event, null));

@@ -1,15 +1,13 @@
-var NodeType = require('./NodeType');
-
 function Node() {
     this._element = null;
 
     switch (arguments.length){
         case 1 :
             var arg = arguments[0];
-            if (arg != NodeType.INPUT_TEXT &&
-                arg != NodeType.INPUT_BUTTON &&
-                arg != NodeType.INPUT_SELECT &&
-                arg != NodeType.INPUT_CHECKBOX) {
+            if (arg != Node.INPUT_TEXT &&
+                arg != Node.INPUT_BUTTON &&
+                arg != Node.INPUT_SELECT &&
+                arg != Node.INPUT_CHECKBOX) {
                 this._element = document.createElement(arg);
             }
             else {
@@ -22,6 +20,18 @@ function Node() {
             break;
     }
 }
+
+Node.DIV = 'div';
+Node.INPUT_TEXT = '';
+Node.INPUT_TEXT = 'text';
+Node.INPUT_BUTTON = 'button';
+Node.INPUT_SELECT = 'select';
+Node.INPUT_CHECKBOX = 'checkbox';
+Node.OPTION = 'option';
+Node.LIST = 'ul';
+Node.LIST_ITEM = 'li';
+Node.SPAN = 'span';
+Node.TEXTAREA = 'textarea';
 
 Node.prototype = {
     addChild: function (node) {

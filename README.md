@@ -1,8 +1,6 @@
 D R A F T
 
-#ControlKit.js
-
-![Peng!](image.png)
+![Peng!](image-0.png)
 
 ControlKit.js is a lightweight controller and gui library for browser environments.
 Object properties can be modified with basic control components such
@@ -12,7 +10,7 @@ control. * Display components *
 
 
 
-##Install
+![Peng!](image-1.png)
 
 
 When using node or browserify
@@ -23,7 +21,7 @@ Alternatively use the standalone version found in ./bin.
     <script type='text/javascript' src='controlKit.min.js'></script>
 
 
-##Usage
+![Peng!](image-2.png)
 
 
 Control components are constructed per panel.
@@ -38,7 +36,7 @@ Control components are constructed per panel.
     ControlKit.addPanel().
                 addGroup().
                     addSubGroup().
-                        addNumberInput(obj,'number');
+                        addNumberInput(obj,'number').
                 addGroup().
                     addSubGroup().
                         addStringInput(obj,'string');
@@ -51,10 +49,7 @@ Control components are constructed per panel.
 
 
 
-##Custom components
-
-
-##Styling
+![Peng!](image-3.png)
 
 
 The default styling can be customized. You can either pass a new style on setup:
@@ -70,6 +65,6 @@ Or create a standalone version of controlKit with a custom built-in style using:
     bin/.build -o outfilePath -s yourCustomStyleStringOrCssFile
 
 
-##Documentation
+![Peng!](image-4.png)
 
 See wiki

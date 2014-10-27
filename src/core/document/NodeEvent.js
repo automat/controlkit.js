@@ -1,4 +1,4 @@
-var NodeEventType = {
+var NodeEvent = {
     MOUSE_DOWN   : 'mousedown',
     MOUSE_UP     : 'mouseup',
     MOUSE_OVER   : 'mouseover',
@@ -22,4 +22,4 @@ var NodeEventType = {
     RESIZE       : 'resize'
 };
 
-module.exports = NodeEventType;
+module.exports = NodeEvent;

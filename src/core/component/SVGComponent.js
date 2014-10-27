@@ -1,6 +1,6 @@
 var ObjectComponent = require('./ObjectComponent');
 var CSS = require('../document/CSS');
-var EventType = require('../event/EventType');
+var GroupEvent = require('../group/GroupEvent');
 var Metric = require('../Metric');
 
 function SVGComponent(parent,object,value,params){
@@ -24,8 +24,8 @@ function SVGComponent(parent,object,value,params){
 
     this._node.setStyleClass(CSS.SVGListItem);
 
-    this._parent.addEventListener(EventType.GROUP_SIZE_CHANGE, this, 'onGroupSizeChange');
-    this.addEventListener(EventType.GROUP_SIZE_UPDATE, this._parent, 'onGroupSizeUpdate');
+    this._parent.addEventListener(GroupEvent.GROUP_SIZE_CHANGE, this, 'onGroupSizeChange');
+    this.addEventListener(GroupEvent.GROUP_SIZE_UPDATE, this._parent, 'onGroupSizeUpdate');
 }
 
 SVGComponent.prototype = Object.create(ObjectComponent.prototype);

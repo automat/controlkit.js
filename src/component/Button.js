@@ -1,27 +1,29 @@
-var Component = require('../core/component/Component');
-var Node = require('../core/document/Node');
-var Event_ = require('../core/event/Event');
-var EventType = require('../core/event/EventType');
-var Default = require('../core/Default');
-var NodeType = require('../core/document/NodeType');
+var Event_ = require('../core/event/Event'),
+    NodeEvent = require('../core/document/NodeEvent'),
+    ComponentEvent = require('../core/component/ComponentEvent');
+
+var Node = require('../core/document/Node'),
+    Component = require('../core/component/Component');
+
 var CSS = require('../core/document/CSS');
-var NodeEventType = require('../core/document/NodeEventType');
+
+var DEFAULT_LABEL = '';
 
 function Button(parent,label,onPress,params) {
     onPress      = onPress || function(){};
     params       = params       || {};
-    params.label = params.label || Default.BUTTON_LABEL;
+    params.label = params.label || DEFAULT_LABEL;
 
     Component.apply(this,[parent,params.label]);
 
-    var input = new Node(NodeType.INPUT_BUTTON);
+    var input = new Node(Node.INPUT_BUTTON);
 
     input.setStyleClass(CSS.Button);
     input.setProperty('value',label);
-    input.addEventListener(NodeEventType.ON_CLICK,
+    input.addEventListener(NodeEvent.ON_CLICK,
                            function() {
                                onPress();
-                               this.dispatchEvent(new Event_(this,EventType.VALUE_UPDATED));
+                               this.dispatchEvent(new Event_(this,ComponentEvent.VALUE_UPDATED));
                            }.bind(this));
 
     this._wrapNode.addChild(input);

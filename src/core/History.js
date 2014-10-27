@@ -1,7 +1,6 @@
-var EventDispatcher = require('./event/EventDispatcher');
-var Preset = require('./Preset');
-var EventType = require('./event/EventType');
-var Event_ = require('./event/Event');
+var EventDispatcher = require('./event/EventDispatcher'),
+    Event_ = require('./event/Event'),
+    HistoryEvent = require('./HistoryEvent');
 
 var MAX_STATES = 30;
 
@@ -9,7 +8,7 @@ function History() {
     EventDispatcher.apply(this, arguments);
     this._states = [];
     this._isDisabled = false;
-};
+}
 
 History.prototype = Object.create(EventDispatcher.prototype);
 
@@ -23,7 +22,7 @@ History.prototype.pushState = function (object, key, value) {
         states.shift();
     }
     states.push({object: object, key: key, value: value});
-    this.dispatchEvent(new Event_(this, EventType.HISTORY_STATE_PUSH, null));
+    this.dispatchEvent(new Event_(this, HistoryEvent.STATE_PUSH, null));
 };
 
 History.prototype.getState = function (object, key) {
@@ -61,7 +60,7 @@ History.prototype.popState = function () {
     var lastState = states.pop();
     lastState.object[lastState.key] = lastState.value;
 
-    this.dispatchEvent(new Event_(this, EventType.HISTORY_STATE_POP, null));
+    this.dispatchEvent(new Event_(this, History.HISTORY_STATE_POP, null));
 };
 
 History.prototype.getNumStates = function () {
@@ -108,7 +107,7 @@ module.exports = History;
 //    if(states.length >= statesMax)states.shift();
 //    states.push({object:object,key:key,value:value});
 //
-//    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.HISTORY_STATE_PUSH,null));
+//    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.STATE_PUSH,null));
 //};
 //
 //ControlKit.History.prototype.getState = function(object,key)
@@ -148,7 +147,7 @@ module.exports = History;
 //    var lastState = states.pop();
 //    lastState.object[lastState.key] = lastState.value;
 //
-//    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.HISTORY_STATE_POP,null));
+//    this.dispatchEvent(new ControlKit.Event(this,ControlKit.EventType.STATE_POP,null));
 //};
 //
 //ControlKit.History.prototype.getNumStates = function(){return this._states.length;};
