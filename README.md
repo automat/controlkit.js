@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 D R A F T
 
 ![Peng!](image-0.png)
+=======
+D R A F T & E X P E R I M E N T A L
+
+![Peng!](image.png)
+>>>>>>> FETCH_HEAD
 
 ControlKit.js is a lightweight controller and gui library for browser environments.
 Object properties can be modified with basic control components such
