@@ -1,6 +1,4 @@
-D R A F T
-
-#ControlKit.js
+D R A F T 
 
 ![Peng!](image.png)
 
