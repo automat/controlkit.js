@@ -1,6 +1,6 @@
 {
     "name": "controlkit",
-    "version": "0.9.3",
+    "version": "0.1.1",
     "description": "A lightweight gui and controller library",
     "keywords": [
         "gui",
@@ -15,7 +15,7 @@
     },
     "main" : "index.js",
     "devDependencies" : {"browserify" : "latest"},
-    "repository" : {"type" : "git", "url" : "https://github/automat/controlKit.git"},
-    "homepage" : "http://github/automat/controlKit.js",
+    "repository" : {"type" : "git", "url" : "https://github.com/automat/controlKit.git"},
+    "homepage" : "http://github.com/automat/controlKit.js",
     "license": "MIT"
 }
