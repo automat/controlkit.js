@@ -112,34 +112,34 @@
             object.selectColorTarget = object.selectColorOptions[0];
 
             ControlKit.setup({history : true});
-            ControlKit.addPanel({label: 'Panel 1 Left', align: 'left', width: 200}).
-                        addSubGroup({label: 'SubGroup 1'}).
-                            addNumberInput(object, 'number', {label: 'Num'}).
-                            addNumberInput(object, 'number', {presets: 'numberPresets', label: 'Num/wP'}).
-                        addSubGroup({label: 'SubGroup 2'}).
-                            addStringInput(object, 'string', {label: 'Str'}).
-                            addStringInput(object, 'string', {presets: 'stringPresets', label: 'Str/wP'}).
-                        addSubGroup().
-                            addSlider(object, 'slideValue', 'range', {label: 'Slide'}).
-                            addNumberInput(object, 'slideValue');
+            ControlKit.addPanel({label: 'Panel 1 Left', align: 'left', width: 200})
+                        .addSubGroup({label: 'SubGroup 1'})
+                            .addNumberInput(object, 'number', {label: 'Num'})
+                            .addNumberInput(object, 'number', {presets: 'numberPresets', label: 'Num/wP'})
+                        .addSubGroup({label: 'SubGroup 2'})
+                            .addStringInput(object, 'string', {label: 'Str'})
+                            .addStringInput(object, 'string', {presets: 'stringPresets', label: 'Str/wP'})
+                        .addSubGroup()
+                            .addSlider(object, 'slideValue', 'range', {label: 'Slide'})
+                            .addNumberInput(object, 'slideValue');
 
 
-            ControlKit.addPanel({label: 'Panel 2 Left Floated', width: 250, align: 'left'}).
-                    addGroup({label: 'Group 1'}).
-                        addSubGroup({label: 'Sub Group 1'}).
-                            addCheckbox(object, 'bool', {label: 'Bool'}).
-                            addSelect(object, 'selectOptions', {label: 'Select', selectTarget: 'selectTarget'}).
-                            addButton('Button').
-                        addSubGroup({label: 'Sub Group with Visual Comps', height: 150}).
-                            addValuePlotter(object, 'changeValue0', {height: 80, label: 'Val 0 x1'}).
-                            addValuePlotter(object, 'changeValue1', {height: 80, label: 'Val 1 x1'}).
-                            addValuePlotter(object, 'changeValue2', {height: 80, label: 'Val 2 x1'}).
-                            addValuePlotter(object, 'changeValue3', {height: 80, label: 'Val 3 x1'}).
-                            addSubGroup({label: 'Sub Group with Visual Comps'}).
-                            addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x2', resolution: 2}).
-                            addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x4', resolution: 4, lineWidth: 4, lineColor: [44, 123, 230]}).
-                            addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x8', resolution: 8, lineWidth: 8}).
-                            addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x16', resolution: 16, lineWidth: 16});
+            ControlKit.addPanel({label: 'Panel 2 Left Floated', width: 250, align: 'left'})
+                    .addGroup({label: 'Group 1'})
+                        .addSubGroup({label: 'Sub Group 1'})
+                            .addCheckbox(object, 'bool', {label: 'Bool'})
+                            .addSelect(object, 'selectOptions', {label: 'Select', selectTarget: 'selectTarget'})
+                            .addButton('Button')
+                        .addSubGroup({label: 'Sub Group with Visual Comps', height: 150})
+                            .addValuePlotter(object, 'changeValue0', {height: 80, label: 'Val 0 x1'})
+                            .addValuePlotter(object, 'changeValue1', {height: 80, label: 'Val 1 x1'})
+                            .addValuePlotter(object, 'changeValue2', {height: 80, label: 'Val 2 x1'})
+                            .addValuePlotter(object, 'changeValue3', {height: 80, label: 'Val 3 x1'})
+                            .addSubGroup({label: 'Sub Group with Visual Comps'})
+                            .addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x2', resolution: 2})
+                            .addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x4', resolution: 4, lineWidth: 4, lineColor: [44, 123, 230]})
+                            .addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x8', resolution: 8, lineWidth: 8})
+                            .addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x16', resolution: 16, lineWidth: 16});
 
 
 

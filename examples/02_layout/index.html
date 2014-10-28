@@ -28,32 +28,30 @@
 
             ControlKit.setup();
 
-            ControlKit.addPanel({label: 'Panel Left', align: 'left', width : 200}).
-                    addSelect(select, 'key', {
+            ControlKit.addPanel({label: 'Panel Left', align: 'left', width : 200})
+                    .addSelect(select, 'key', {
                         label: 'Function',
                         onChange: function (index) {
                             func = select.value[index];
-                        }
-                    }).
-                    addFunctionPlotter(select.value, 0).
-                    addFunctionPlotter(select.value, 1).
-                    addFunctionPlotter(select.value, 2);
+                        }})
+                    .addFunctionPlotter(select.value, 0)
+                    .addFunctionPlotter(select.value, 1)
+                    .addFunctionPlotter(select.value, 2);
 
-            ControlKit.addPanel({label: 'Panel Left Left', align : 'left', width: 200}).
-                    addNumberInput(obj, 'value').
-                    addNumberOutput(obj, 'value').
-                    addStringInput(obj, 'str').
-                    addButton('invert', function () {
+            ControlKit.addPanel({label: 'Panel Left Left', align : 'left', width: 200})
+                    .addNumberInput(obj, 'value')
+                    .addNumberOutput(obj, 'value')
+                    .addStringInput(obj, 'str')
+                    .addButton('invert', function () {
                         obj.value *= -1;
-                        console.log(obj.value);
-                    });
+                        console.log(obj.value);});
 
-            ControlKit.addPanel({width: 200}).
-                    addButton('a button');
+            ControlKit.addPanel({width: 200})
+                    .addButton('a button');
 
-            ControlKit.addPanel({label:'Floating Panel', align : 'left', fixed: false, position: [window.innerWidth * 0.5 - 150, window.innerHeight * 0.5]}).
-                    addNumberInput(obj, 'value').
-                    addStringInput(obj, 'value');
+            ControlKit.addPanel({label:'Floating Panel', align : 'left', fixed: false, position: [window.innerWidth * 0.5 - 150, window.innerHeight * 0.5]})
+                    .addNumberInput(obj, 'value')
+                    .addStringInput(obj, 'value');
         });
     </script>
 </head>

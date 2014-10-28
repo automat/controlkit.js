@@ -26,19 +26,19 @@
             var func = select.value[0];
 
             ControlKit.setup();
-            ControlKit.addPanel({label: 'Panel'}).
-                    addSelect(select, 'key', {
+            ControlKit.addPanel({label: 'Panel'})
+                    .addSelect(select, 'key', {
                         label: 'Function',
                         onChange: function (index) {
                             func = select.value[index];
                         }
-                    }).
-                    addFunctionPlotter(select.value, 0).
-                    addFunctionPlotter(select.value, 1).
-                    addFunctionPlotter(select.value, 2).
-                    addSubGroup().
-                    addValuePlotter(obj, 'value', {height: 80}).
-                    addNumberOutput(obj, 'value');
+                     })
+                    .addFunctionPlotter(select.value, 0)
+                    .addFunctionPlotter(select.value, 1)
+                    .addFunctionPlotter(select.value, 2)
+                    .addSubGroup()
+                    .addValuePlotter(obj, 'value', {height: 80})
+                    .addNumberOutput(obj, 'value');
 
 
 

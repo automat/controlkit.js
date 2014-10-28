@@ -11,10 +11,10 @@
                 color2 : [255,0,255]
             };
             ControlKit.setup();
-            ControlKit.addPanel().
-                    addColor(obj,'color0').
-                    addColor(obj,'color1',{colorMode:'rgbfv'}).
-                    addColor(obj,'color2',{colorMode:'rgb', onChange: function(){console.log('color changed');}});
+            ControlKit.addPanel()
+                    .addColor(obj,'color0')
+                    .addColor(obj,'color1',{colorMode:'rgbfv'})
+                    .addColor(obj,'color2',{colorMode:'rgb', onChange: function(){console.log('color changed');}});
         });
     </script>
 </head>

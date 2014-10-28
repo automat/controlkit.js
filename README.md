@@ -37,22 +37,22 @@ container and component initialization are chained to their parent panel. This w
     //short version
     //1st group & 1st sub-group level gets auto-created if
     //components are immediately added after panel creation
-    ControlKit.addPanel().
-        addNumberInput(obj,'number').
-        addStringInput(obj,'string');
+    ControlKit.addPanel()
+        .addNumberInput(obj,'number')
+        .addStringInput(obj,'string');
 
     //equals
-    ControlKit.addPanel().
-        addGroup().
-            addNumberInput(obj,'number').
-            addStringInput(obj,'string');
+    ControlKit.addPanel()
+        .addGroup()
+            .addNumberInput(obj,'number')
+            .addStringInput(obj,'string');
 
     //equals
-    ControlKit.addPanel().
-        addGroup().
-            addSubGroup().
-               addNumberInput(obj,'number').
-               addStringInput(obj,'string');
+    ControlKit.addPanel()
+        .addGroup()
+            .addSubGroup()
+               .addNumberInput(obj,'number').
+               .addStringInput(obj,'string');
 
 
 
