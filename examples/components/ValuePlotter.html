@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="../../bin/controlKit.js"></script>
+    <script type="text/javascript">
+        var obj = {
+            value : 0
+        };
+
+        window.addEventListener('load',function(){
+            ControlKit.setup();
+            ControlKit.addPanel().addValuePlotter(obj,'value');
+        });
+
+        window.requestAnimationFrame = window.requestAnimationFrame ||
+                                       window.mozRequestAnimationFrame ||
+                                       window.oRequestAnimationFrame ||
+                                       window.msRequestAnimationFrame;
+
+        var step = 0;
+        (function update(){
+            obj.value = Math.sin((step++) * 0.125);
+            ControlKit.update();
+            requestAnimationFrame(update,null);
+        })()
+
+
+    </script>
+</head>
+<body>
+</body>
+</html>

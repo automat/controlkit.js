@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="../../bin/controlKit.js"></script>
+    <script type="text/javascript">
+        window.addEventListener('load',function(){
+            var obj = {
+                select : ['Hello','you','may','choose','one','of','these','options']
+            };
+            ControlKit.setup();
+            ControlKit.addPanel().addSelect(obj,'select',{
+                selected : 2,
+                onChange : function(index){
+                    console.log(index);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

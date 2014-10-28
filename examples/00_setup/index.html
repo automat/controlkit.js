@@ -16,16 +16,14 @@
 
             ControlKit.setup();
             ControlKit.addPanel({label: 'Panel'}).
-                    addGroup().
-                        addSubGroup().
-                            addStringInput(obj,'str',{label: 'String'}).
-                            addStringInput(obj,'number',{label: 'Number'}).
-                            addSlider(obj,'value','valueRange',{label: 'Value'}).
-                            addRange(obj,'valueRange',{label : 'Value Range'}).
-                            addCheckbox(obj, 'bool', {label: 'Bool'}).
-                            addSelect(obj,'select', {label: 'Option',onChange: function(index){
-                                console.log(index);
-                            }});
+                    addStringInput(obj,'str',{label: 'String'}).
+                    addStringInput(obj,'number',{label: 'Number'}).
+                    addSlider(obj,'value','valueRange',{label: 'Value'}).
+                    addRange(obj,'valueRange',{label : 'Value Range'}).
+                    addCheckbox(obj, 'bool', {label: 'Bool'}).
+                    addSelect(obj,'select', {label: 'Option',onChange: function(index){
+                        console.log(index);
+                    }});
         });
     </script>
 </head>

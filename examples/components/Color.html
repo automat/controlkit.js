@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="../../bin/controlKit.js"></script>
+    <script type="text/javascript">
+        window.addEventListener('load',function(){
+            var obj = {
+                color0 : '#ff00ff',
+                color1 : [1,0,1],
+                color2 : [255,0,255]
+            };
+            ControlKit.setup();
+            ControlKit.addPanel().
+                    addColor(obj,'color0').
+                    addColor(obj,'color1',{colorMode:'rgbfv'}).
+                    addColor(obj,'color2',{colorMode:'rgb', onChange: function(){console.log('color changed');}});
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

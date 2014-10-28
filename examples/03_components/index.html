@@ -55,7 +55,7 @@
                 slideValue: 0.1,
                 selectOptions: ['hello', 'bello', 'cello'],
                 selectTarget: 'hello',
-                func: function (x) {
+                func0: function (x) {
                     return Math.sin(x);
                 },
                 func2: function (x) {
@@ -113,7 +113,6 @@
 
             ControlKit.setup({history : true});
             ControlKit.addPanel({label: 'Panel 1 Left', align: 'left', width: 200}).
-                    addGroup().
                         addSubGroup({label: 'SubGroup 1'}).
                             addNumberInput(object, 'number', {label: 'Num'}).
                             addNumberInput(object, 'number', {presets: 'numberPresets', label: 'Num/wP'}).
@@ -156,13 +155,12 @@
                            addValuePlotter(object, 'changeValue6', {label: 'none', height: 100}).
                 addGroup({label: 'Group 2 - Constrained Height'}).
                     addSubGroup({label: 'Function List', height: 200}).
-                        addFunctionPlotter(object, 'func').
+                        addFunctionPlotter(object, 'func0').
                         addFunctionPlotter(object, 'func2');
 
 
 
             ControlKit.addPanel({label: 'Floating Color Panel', align: 'left', fixed: false, position: [650, 200], width: 200}).
-                addGroup().
                     addSubGroup({label: 'System Colors'}).
                         addColor(object, 'color0').
                         addColor(object, 'color1').

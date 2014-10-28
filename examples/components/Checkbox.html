@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="../../bin/controlKit.js"></script>
+    <script type="text/javascript">
+        window.addEventListener('load',function(){
+            var obj = {
+                bool: true
+            };
+
+            ControlKit.setup();
+            ControlKit.addPanel().addCheckbox(obj,'bool',{onChange:function(){console.log('value changed')}});
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

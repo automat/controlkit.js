@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="../../bin/controlKit.js"></script>
+    <script type="text/javascript">
+        var obj = {
+            func0 : function(x){
+                return Math.sin(x);
+            },
+            func1 : function(x,y){
+                return Math.cos(x * 12.5) * Math.sin(y * 25);
+            }
+        };
+
+        window.addEventListener('load',function(){
+            ControlKit.setup();
+            ControlKit.addPanel()
+                    .addFunctionPlotter(obj,'func0')
+                    .addFunctionPlotter(obj,'func1');
+
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>
