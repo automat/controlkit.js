@@ -24,7 +24,9 @@ Alternatively use the standalone version found in ./bin.
 <br/>
 ![Peng!](images/image-2.png)
 
-Control components are constructed per panel.
+The two main elements of ControlKit are containers and components. The later are constructed per panel and
+grouped in Groups and SubGroups. To keep the amount of code necessary to setup complex controls to a minimum,
+container and component initialization are chained to their parent panel. This way you can write:
 
     var obj = {
             number : 1.0,
@@ -45,6 +47,10 @@ Control components are constructed per panel.
                     addGroup().
                         ...
                             close(); //and reopen it later via panel.open();
+
+Customization of groups and components is done via option objects passed on initialization.
+All components are interlinked. This way whenever an object property is changed all other components depending
+on or manipulating the same property get updated.
 <br/>
 <br/>
 ![Peng!](images/image-3.png)
