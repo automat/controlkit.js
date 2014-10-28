@@ -24,7 +24,7 @@ Alternatively use the standalone version found in ./bin.
 <br/>
 ![Peng!](images/image-2.png)
 
-The two main elements of ControlKit are containers and components. The later are constructed per panel and
+The two main elements of ControlKit are containers and components. The latter are constructed per panel and
 grouped in Groups and SubGroups. To keep the amount of code necessary to setup complex controls to a minimum,
 container and component initialization are chained to their parent panel. This way you can write:
 
