@@ -115,10 +115,10 @@
             ControlKit.addPanel({label: 'Panel 1 Left', align: 'left', width: 200})
                         .addSubGroup({label: 'SubGroup 1'})
                             .addNumberInput(object, 'number', {label: 'Num'})
-                            .addNumberInput(object, 'number', {presets: 'numberPresets', label: 'Num/wP'})
+                            .addNumberInput(object, 'number', {presets: object.numberPresets, label: 'Num/wP'})
                         .addSubGroup({label: 'SubGroup 2'})
                             .addStringInput(object, 'string', {label: 'Str'})
-                            .addStringInput(object, 'string', {presets: 'stringPresets', label: 'Str/wP'})
+                            .addStringInput(object, 'string', {presets: object.stringPresets, label: 'Str/wP'})
                         .addSubGroup()
                             .addSlider(object, 'slideValue', 'range', {label: 'Slide'})
                             .addNumberInput(object, 'slideValue');
