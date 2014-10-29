@@ -111,7 +111,7 @@
             object.funcTarget = object.funcs[0];
             object.selectColorTarget = object.selectColorOptions[0];
 
-            ControlKit.setup({history : true});
+            ControlKit.setup();
             ControlKit.addPanel({label: 'Panel 1 Left', align: 'left', width: 200})
                         .addSubGroup({label: 'SubGroup 1'})
                             .addNumberInput(object, 'number', {label: 'Num'})
@@ -179,11 +179,9 @@
             var t = 0, sint;
 
             (function update(){
-
-
                 t += object.slideValue;
 
-                object.changeValue0 = Math.sin(t);//object.funcTarget(t);//sgn(sint);
+                object.changeValue0 = Math.sin(t);
 
                 sint = Math.sin(t);
 

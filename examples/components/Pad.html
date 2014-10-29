@@ -10,7 +10,9 @@
             };
 
             ControlKit.setup();
-            ControlKit.addPanel().addPad(obj,'value');
+            ControlKit.addPanel().addPad(obj,'value',{
+                onChange:function(){console.log('drag');},
+                onFinish:function(){console.log('done');}});
 
         });
     </script>
