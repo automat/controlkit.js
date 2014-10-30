@@ -6,13 +6,10 @@ Object properties can be modified with basic control components such as buttons,
 
 Why.
 
-<br>
+
 [Usage](#usage) — [Setup](#setup) — [Panel](#panel) — [Container](#container) - [Component](#component) - [Styling](#styling) - [Alternatives](#alternatives) -
 [Dependencies](#dependencies) - [ChangeLog](#changeLog) - [License](#license)
-
-
 ___
-
 ##Usage
 
 When using node or browserify
@@ -38,13 +35,14 @@ The two main elements of ControlKit are containers and components. The latter ar
 				.addStringInput(obj,'string');
 				
 
-
+___
 ##Setup
 
 
 ####ControlKit.setup(options) [+](#usage)
 ContolKit is an
 
+---
 ##Container
 
 Components and Groups are 
@@ -55,13 +53,11 @@ Components and Groups are
 
 ####ControlKit.addPanel(options) [+](#usage)
 
-<br/>
-####panel.addGroup(options)
+####panel.addGroup(options) [+](#usage)
 
 Adds a new Group to the Panel.
 
-<br/>
-####panel.addSubGroup(options)
+####panel.addSubGroup(options) [+](#usage)
 
 Adds a new SubGroup to the last added Group.
 
@@ -92,7 +88,7 @@ Adds a new SubGroup to the last added Group.
                 ...
         ...
     
-<br/>
+---
 ##Component
 
 Available component
@@ -118,36 +114,31 @@ Component interlink
 NumberInput, StringInput, Range and Color modifier support optional presets to choose from.
 
     panel.addComponentSupportingPresets(obj,propertyKey,{preset:arrayOfPresetsWithSameTypeAsProperty});
-    
-For an extended documentation of every component initialization just 
-press **+**
-
----
 
 ![NumberInput](images/NumberInput.png)<br/>
 ![NumberInputOption](images/NumberInputOption.png)
-####panel.addNumberInput(object,propertyKey,options)
+####panel.addNumberInput(object,propertyKey,options) [+](#usage)
 
 Adds a new NumberInput to the last added SubGroup.
 
 ![NumberOutput](images/NumberOutput.png)
-####panel.addNumberOutput(object,propertyKey,options)
+####panel.addNumberOutput(object,propertyKey,options) [+](#usage)
 
 Adds a new NumberOutput to the last added SubGroup. In contrast to NumberInput this component doesn't allow modifying the property.
 
 ![StringInput](images/StringInput.png)<br/>
 ![StringInputOption](images/StringInputOption.png)
-####panel.addStringInput(object,propertyKey,options)
+####panel.addStringInput(object,propertyKey,options) [+](#usage)
 
 Adds a new StringInput to the last added SubGroup.
 
 ![StringOutput](images/StringOutput.png)
-####panel.addStringOutput(object,propertyKey,options)
+####panel.addStringOutput(object,propertyKey,options) [+](#usage)
 
 Adds a new StringOutput to the last added SubGroup. In contrast to StringInput this component doesn't allow modifying the property.
 
 ![Slider](images/Slider.png)
-####panel.addSlider(object,propertyKey,rangeKey,options)
+####panel.addSlider(object,propertyKey,rangeKey,options) [+](#usage)
 
 Adds a new Slider to the last added SubGroup.
 
@@ -156,25 +147,25 @@ Adds a new Slider to the last added SubGroup.
     panel.addSlider(obj,'value','range');
 
 ![Range](images/Range.png)
-####panel.addRange(object,propertyKey,options)
+####panel.addRange(object,propertyKey,options) [+](#usage)
 
 Adds a new Checkbox to the last added SubGroup.
 
 ![Button](images/Button.png)
-####panel.addButton(label,onPress,options)
+####panel.addButton(label,onPress,options) [+](#usage)
 
 Adds a new Button to the last added SubGroup.
 
     panel.addButton('fire',function(){console.log('Peng!);});
     
 ![Checkbox](images/Checkbox.png)
-####panel.addCheckbox(object,propertyKey,options)
+####panel.addCheckbox(object,propertyKey,options) [+](#usage)
 
 Adds a new Checkbox to the last added SubGroup.
 
 ![Select](images/Select.png)<br/>
 ![SelectOption](images/SelectOption.png)
-####panel.addSelect(object,propertyKey,options)
+####panel.addSelect(object,propertyKey,options) [+](#usage)
 
 Adds a new Select to the last added SubGroup.
 
@@ -192,7 +183,7 @@ Adds a new Select to the last added SubGroup.
 ![Color](images/Color.png)<br/>
 ![ColorOption](images/ColorOption.png)<br/>
 ![Picker](images/Picker.png)
-####panel.addColor(object,propertyKey,options)
+####panel.addColor(object,propertyKey,options) [+](#usage)
 
 Adds a new Color modifier to the last added SubGroup.
 
@@ -202,21 +193,21 @@ Adds a new Color modifier to the last added SubGroup.
 
 
 ![Pad](images/Pad.png)
-####panel.addPad(object,propertyKey,options)
+####panel.addPad(object,propertyKey,options) [+](#usage)
 
 Adds a new XY-Pad to the last added SubGroup.
 
 ![FunctionPlotter](images/FunctionPlotter.png)
-####panel.addFunctionPlotter(object,propertyKey,options)
+####panel.addFunctionPlotter(object,propertyKey,options) [+](#usage)
 
 Adds a new FunctionPlotter to the last added SubGroup.
 
 ![ValuePlotter](images/ValuePlotter.png)
-####panel.addValuePlotter(object,propertyKey,options)
+####panel.addValuePlotter(object,propertyKey,options) [+](#usage)
 
 Adds a new ValuePlotter to the last added SubGroup.
 
----
+
 
 If a value gets changed externally, eg in an update loop, you can sync ControlKit by using:
 *(be aware that this might have a quite huge performance impact when using complex control setups)*
