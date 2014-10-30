@@ -42,6 +42,13 @@ ___
 ####ControlKit.setup(options)
 ContolKit is an
 
+**Options**
+
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| opacity   | Number   | Overall opacity,default: 1.0                      |
+| useExternalStyle | Boolean | If true, an external style is used instead of the build-in one, default: false |
+
 ---
 ##Container
 
@@ -49,21 +56,52 @@ Components and Groups are
 
 ###Panel
 
+
 ####ControlKit.addPanel(options) -> {[Panel](#panel)}
 
     ControlKit.addPanel();
     //
     var panel = ControllKit.addPanel(); //keep ref
 
-####panel.addGroup(options)  
+**Options**
 
-Adds a new Group to the Panel.
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | Panel label, default: 'Control Panel'             |
+| width     | Number   | Panel width, default: 300                         |
+| ratio     | Number   | The ratio of label (default:40%) and component (default:60%) width |
+| align     | String   | Float 'left' or 'right', multiple panels get aligned next to each other |
+| fixed     | Boolean  | If false the panel can be moved                   |
+| position  | Array    | If unfixed, the panel panel position relative to alignment (eg. if 'left' 0 + position[0] or if 'right' window.innerHeight - position[0] - panelWidth) |
+| opacity   | Number   | Panel opacity                                     |
+| dock      | Boolean  | (Experimental) Indicates whether the panel should be docked to either the left or right window border (depending on params.align), docked panels height equal window height, default: false |
+| history   | Boolean  | (Experimental) Enables a value history for all components, default: false |
 
 ###Group
+
+####panel.addGroup(options)  
+Adds a new Group to the Panel.
+
+**Options**
+
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | Group label, default: ''. If '' or null the group-head collapses |
+| useLabel  | Boolean  | Trigger whether all contained SubGroups and Components should use labels, default: true |
+| enable    | Boolean  | Defines initial state open / closed, default: true|
+| height    | Number   | Defines whether the height of the Group should be constrained to a certain height
 
 ####panel.addSubGroup(options) ->{[Panel](#panel)}
 
 Adds a new SubGroup to the last added Group.
+**Options**
+
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | SubGroup label, default: ''. If '' or null the subgroup-head collapses |
+| useLabel  | Boolean  | Trigger whether all Components should use labels, default: true |
+| enable    | Boolean  | Defines initial state open / closed, default: true|
+| height    | Number   | Defines whether the height of the Group should be constrained to a certain height
 
     //classic init
     ControlKit.addPanel()
@@ -348,7 +386,9 @@ This will inject the new default style into to the packaged version controlKit.j
 ##Alternatives
 
 [dat.gui](https://github.com/dataarts/dat.gui) - The de facto standard  
+[Palette](https://github.com/lehni/palette.js) - Juerg Lehni
 [Guido](https://github.com/fjenett/Guido) - Processing.js compatible, Florian Jenett
+
 
 ---
 ##Depencies 
@@ -358,8 +398,25 @@ browserify
 ---
 ##ChangeLog
 
-0.2.1
+0.1.2 - bump
 
 ---
 ##License
 
+The MIT License (MIT)
+
+Copyright (c) 2013-2014 Henryk Wollik
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
