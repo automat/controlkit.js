@@ -126,35 +126,27 @@ press **+**
 
 ![NumberInput](images/NumberInput.png)<br/>
 ![NumberInputOption](images/NumberInputOption.png)
-
 ####panel.addNumberInput(object,propertyKey,options)
 
 Adds a new NumberInput to the last added SubGroup.
 
-<br/><br/>
 ![NumberOutput](images/NumberOutput.png)
 ####panel.addNumberOutput(object,propertyKey,options)
 
 Adds a new NumberOutput to the last added SubGroup. In contrast to NumberInput this component doesn't allow modifying the property.
 
-<br/><br/>
 ![StringInput](images/StringInput.png)<br/>
 ![StringInputOption](images/StringInputOption.png)
-
 ####panel.addStringInput(object,propertyKey,options)
 
 Adds a new StringInput to the last added SubGroup.
 
-<br/><br/>
 ![StringOutput](images/StringOutput.png)
-
 ####panel.addStringOutput(object,propertyKey,options)
 
 Adds a new StringOutput to the last added SubGroup. In contrast to StringInput this component doesn't allow modifying the property.
 
-<br/>
 ![Slider](images/Slider.png)
-
 ####panel.addSlider(object,propertyKey,rangeKey,options)
 
 Adds a new Slider to the last added SubGroup.
@@ -163,33 +155,25 @@ Adds a new Slider to the last added SubGroup.
     
     panel.addSlider(obj,'value','range');
 
-<br/>
 ![Range](images/Range.png)
-
 ####panel.addRange(object,propertyKey,options)
 
 Adds a new Checkbox to the last added SubGroup.
 
-<br/>
 ![Button](images/Button.png)
-
 ####panel.addButton(label,onPress,options)
 
 Adds a new Button to the last added SubGroup.
 
     panel.addButton('fire',function(){console.log('Peng!);});
     
-<br/>
 ![Checkbox](images/Checkbox.png)
-
 ####panel.addCheckbox(object,propertyKey,options)
 
 Adds a new Checkbox to the last added SubGroup.
 
-<br/>
 ![Select](images/Select.png)<br/>
 ![SelectOption](images/SelectOption.png)
-
 ####panel.addSelect(object,propertyKey,options)
 
 Adds a new Select to the last added SubGroup.
@@ -205,11 +189,9 @@ Adds a new Select to the last added SubGroup.
     //or
     panel.addSelect(obj,'options',{target:'selection'});
 
-<br/>
 ![Color](images/Color.png)<br/>
 ![ColorOption](images/ColorOption.png)<br/>
 ![Picker](images/Picker.png)
-
 ####panel.addColor(object,propertyKey,options)
 
 Adds a new Color modifier to the last added SubGroup.
@@ -218,28 +200,21 @@ Adds a new Color modifier to the last added SubGroup.
     
     panel.addColor(obj,'color',{colorMode:'hex'});
 
-<br/>
-![Pad](images/Pad.png)
 
+![Pad](images/Pad.png)
 ####panel.addPad(object,propertyKey,options)
 
 Adds a new XY-Pad to the last added SubGroup.
 
-<br/>
 ![FunctionPlotter](images/FunctionPlotter.png)
-
 ####panel.addFunctionPlotter(object,propertyKey,options)
 
 Adds a new FunctionPlotter to the last added SubGroup.
 
-<br/>
 ![ValuePlotter](images/ValuePlotter.png)
-
 ####panel.addValuePlotter(object,propertyKey,options)
 
 Adds a new ValuePlotter to the last added SubGroup.
-
-<br/>
 
 ---
 
