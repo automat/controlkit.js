@@ -313,7 +313,7 @@ Adds a new Select to the last added SubGroup.
 
 ![Color](images/Color.png)<br/>
 ![ColorOption](images/ColorOption.png)<br/>
-![Picker](images/Picker.png)
+![Picker](images/ColorPicker.png)
 ####panel.addColor(object,propertyKey,options) -> {[Panel](#panel)}
 
 Adds a new Color modifier to the last added SubGroup.
