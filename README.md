@@ -13,7 +13,7 @@ Why.
 
 ___
 
-#Usage
+##Usage
 
 When using node or browserify
 
@@ -39,13 +39,13 @@ The two main elements of ControlKit are containers and components. The latter ar
 				
 
 
-#Setup
+##Setup
 
 
 ####ControlKit.setup(options) [+](#usage)
 ContolKit is an
 
-#Panel
+##Panel
 
 ####ControlKit.addPanel(options) [+](#usage)
 
@@ -55,15 +55,23 @@ Components and Groups are
     //
     var panel = ControllKit.addPanel(); //keep ref
 
-#Container
+##Container
 
-##Group [+](#usage)
+<h3 style="border-bottom: 1px solid #eee">
+    Group
+    <a name="user-content-button-" class="anchor" href="#button-" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+</h3> 
 
 ####panel.addGroup(options)
 
 Adds a new Group to the Panel.
 
-##SubGroup [+](#usage)
+[+](#usage)
+
+<h3 style="border-bottom: 1px solid #eee">
+    SubGroup
+    <a name="user-content-button-" class="anchor" href="#button-" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+</h3> 
 
 ####panel.addSubGroup(options)
 
@@ -97,7 +105,7 @@ Adds a new SubGroup to the last added Group.
         ...
     
 
-#Component
+##Component
 
 Available component
 
@@ -128,7 +136,10 @@ press **+**
 
 ---
 
-##NumberInput [+](#usage)
+<h3 style="border-bottom: 1px solid #eee">
+    NumberInput
+    <a name="user-content-button-" class="anchor" href="#button-" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+</h3> 
 
 ![NumberInput](images/NumberInput.png)
 ![NumberInputOption](images/NumberInputOption.png)
@@ -137,7 +148,10 @@ press **+**
 
 Adds a new NumberInput to the last added SubGroup.
 
-##NumberOutput [+](#usage)
+<h3 style="border-bottom: 1px solid #eee">
+    NumberOutput
+    <a name="user-content-button-" class="anchor" href="#button-" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+</h3> 
 
 ![NumberOutput](images/NumberOutput.png)
 
@@ -145,7 +159,10 @@ Adds a new NumberInput to the last added SubGroup.
 
 Adds a new NumberOutput to the last added SubGroup. In contrast to NumberInput this component doesn't allow modifying the property.
 
-##StringInput [+](#usage)
+<h3 style="border-bottom: 1px solid #eee">
+    StringInput
+    <a name="user-content-button-" class="anchor" href="#button-" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+</h3> 
 
 ![StringInput](images/StringInput.png)
 ![StringInputOption](images/StringInputOption.png)
@@ -154,7 +171,10 @@ Adds a new NumberOutput to the last added SubGroup. In contrast to NumberInput t
 
 Adds a new StringInput to the last added SubGroup.
 
-##StringOutput [+](#usage)
+<h3 style="border-bottom: 1px solid #eee">
+    StringOutput
+    <a name="user-content-button-" class="anchor" href="#button-" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+</h3> 
 
 ![StringOutput](images/StringOutput.png)
 
@@ -162,7 +182,10 @@ Adds a new StringInput to the last added SubGroup.
 
 Adds a new StringOutput to the last added SubGroup. In contrast to StringInput this component doesn't allow modifying the property.
 
-##Slider [+](#usage)
+<h3 style="border-bottom: 1px solid #eee">
+    Slider
+    <a name="user-content-button-" class="anchor" href="#button-" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+</h3> 
 
 ![Slider](images/Slider.png)
 
@@ -174,7 +197,10 @@ Adds a new Slider to the last added SubGroup.
     
     panel.addSlider(obj,'value','range');
     
-##Range [+](#usage)
+<h3 style="border-bottom: 1px solid #eee">
+    Range
+    <a name="user-content-button-" class="anchor" href="#button-" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+</h3> 
     
 ![Range](images/Range.png)
 
@@ -182,7 +208,10 @@ Adds a new Slider to the last added SubGroup.
 
 Adds a new Checkbox to the last added SubGroup.
 
-##Button [+](#usage)
+<h3 style="border-bottom: 1px solid #eee">
+    Button
+    <a name="user-content-button-" class="anchor" href="#button-" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+</h3> 
 
 ![Button](images/Button.png)
 
@@ -192,7 +221,10 @@ Adds a new Button to the last added SubGroup.
 
     panel.addButton('fire',function(){console.log('Peng!);});
     
-##Checkbox [+](#usage)
+<h3 style="border-bottom: 1px solid #eee">
+    Checkbox
+    <a name="user-content-button-" class="anchor" href="#button-" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+</h3> 
 
 ![Checkbox](images/Checkbox.png)
 
@@ -200,7 +232,10 @@ Adds a new Button to the last added SubGroup.
 
 Adds a new Checkbox to the last added SubGroup.
 
-##Select [+](#usage)
+<h3 style="border-bottom: 1px solid #eee">
+    Select
+    <a name="user-content-button-" class="anchor" href="#button-" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+</h3> 
 
 ![Select](images/Select.png)
 ![SelectOption](images/SelectOption.png)
@@ -220,7 +255,10 @@ Adds a new Select to the last added SubGroup.
     //or
     panel.addSelect(obj,'options',{target:'selection'});
 
-##Color [+](#usage)
+<h3 style="border-bottom: 1px solid #eee">
+    Color
+    <a name="user-content-button-" class="anchor" href="#button-" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+</h3> 
 
 ![Color](images/Color.png)
 ![ColorOption](images/ColorOption.png)
@@ -234,7 +272,10 @@ Adds a new Color modifier to the last added SubGroup.
     
     panel.addColor(obj,'color',{colorMode:'hex'});
 
-##Pad [+](#usage)    
+<h3 style="border-bottom: 1px solid #eee">
+    Pad
+    <a name="user-content-button-" class="anchor" href="#button-" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+</h3>    
 
 ![Pad](images/Pad.png)
 
@@ -242,7 +283,10 @@ Adds a new Color modifier to the last added SubGroup.
 
 Adds a new XY-Pad to the last added SubGroup.
 
-##FunctionPlotter [+](#usage)
+<h3 style="border-bottom: 1px solid #eee">
+    FunctionPlotter
+    <a name="user-content-button-" class="anchor" href="#button-" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+</h3> 
 
 ![FunctionPlotter](images/FunctionPlotter.png)
 
@@ -250,7 +294,10 @@ Adds a new XY-Pad to the last added SubGroup.
 
 Adds a new FunctionPlotter to the last added SubGroup.
 
-##ValuePlotter [+](#usage)
+<h3 style="border-bottom: 1px solid #eee">
+    ValuePlotter
+    <a name="user-content-button-" class="anchor" href="#button-" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+</h3> 
 
 ![ValuePlotter](images/ValuePlotter.png)
 
