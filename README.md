@@ -13,7 +13,7 @@ Why.
 
 ___
 
-#Usage
+##Usage
 
 When using node or browserify
 
@@ -39,15 +39,13 @@ The two main elements of ControlKit are containers and components. The latter ar
 				
 
 
-#Setup
+##Setup
 
 
 ####ControlKit.setup(options) [+](#usage)
 ContolKit is an
 
-#Panel
-
-####ControlKit.addPanel(options) [+](#usage)
+##Container
 
 Components and Groups are 
 
@@ -55,16 +53,14 @@ Components and Groups are
     //
     var panel = ControllKit.addPanel(); //keep ref
 
-#Container
+####ControlKit.addPanel(options) [+](#usage)
 
-##Group [+](#usage)
-
+<br/>
 ####panel.addGroup(options)
 
 Adds a new Group to the Panel.
 
-##SubGroup [+](#usage)
-
+<br/>
 ####panel.addSubGroup(options)
 
 Adds a new SubGroup to the last added Group.
@@ -96,8 +92,8 @@ Adds a new SubGroup to the last added Group.
                 ...
         ...
     
-
-#Component
+<br/>
+##Component
 
 Available component
 
@@ -128,16 +124,13 @@ press **+**
 
 ---
 
-##NumberInput [+](#usage)
-
-![NumberInput](images/NumberInput.png)
+![NumberInput](images/NumberInput.png)<br/>
 ![NumberInputOption](images/NumberInputOption.png)
 
 ####panel.addNumberInput(object,propertyKey,options)
 
 Adds a new NumberInput to the last added SubGroup.
 
-##NumberOutput [+](#usage)
 
 ![NumberOutput](images/NumberOutput.png)
 
@@ -145,24 +138,18 @@ Adds a new NumberInput to the last added SubGroup.
 
 Adds a new NumberOutput to the last added SubGroup. In contrast to NumberInput this component doesn't allow modifying the property.
 
-##StringInput [+](#usage)
-
-![StringInput](images/StringInput.png)
+![StringInput](images/StringInput.png)<br/>
 ![StringInputOption](images/StringInputOption.png)
 
 ####panel.addStringInput(object,propertyKey,options)
 
 Adds a new StringInput to the last added SubGroup.
 
-##StringOutput [+](#usage)
-
 ![StringOutput](images/StringOutput.png)
 
 ####panel.addStringOutput(object,propertyKey,options)
 
 Adds a new StringOutput to the last added SubGroup. In contrast to StringInput this component doesn't allow modifying the property.
-
-##Slider [+](#usage)
 
 ![Slider](images/Slider.png)
 
@@ -173,16 +160,12 @@ Adds a new Slider to the last added SubGroup.
     var obj = {value:0,range:[-1,1]};
     
     panel.addSlider(obj,'value','range');
-    
-##Range [+](#usage)
-    
+   
 ![Range](images/Range.png)
 
 ####panel.addRange(object,propertyKey,options)
 
 Adds a new Checkbox to the last added SubGroup.
-
-##Button [+](#usage)
 
 ![Button](images/Button.png)
 
@@ -192,17 +175,13 @@ Adds a new Button to the last added SubGroup.
 
     panel.addButton('fire',function(){console.log('Peng!);});
     
-##Checkbox [+](#usage)
-
 ![Checkbox](images/Checkbox.png)
 
 ####panel.addCheckbox(object,propertyKey,options)
 
 Adds a new Checkbox to the last added SubGroup.
 
-##Select [+](#usage)
-
-![Select](images/Select.png)
+![Select](images/Select.png)<br/>
 ![SelectOption](images/SelectOption.png)
 
 ####panel.addSelect(object,propertyKey,options)
@@ -220,10 +199,8 @@ Adds a new Select to the last added SubGroup.
     //or
     panel.addSelect(obj,'options',{target:'selection'});
 
-##Color [+](#usage)
-
-![Color](images/Color.png)
-![ColorOption](images/ColorOption.png)
+![Color](images/Color.png)<br/>
+![ColorOption](images/ColorOption.png)<br/>
 ![Picker](images/Picker.png)
 
 ####panel.addColor(object,propertyKey,options)
@@ -234,23 +211,17 @@ Adds a new Color modifier to the last added SubGroup.
     
     panel.addColor(obj,'color',{colorMode:'hex'});
 
-##Pad [+](#usage)    
-
 ![Pad](images/Pad.png)
 
 ####panel.addPad(object,propertyKey,options)
 
 Adds a new XY-Pad to the last added SubGroup.
 
-##FunctionPlotter [+](#usage)
-
 ![FunctionPlotter](images/FunctionPlotter.png)
 
 ####panel.addFunctionPlotter(object,propertyKey,options)
 
 Adds a new FunctionPlotter to the last added SubGroup.
-
-##ValuePlotter [+](#usage)
 
 ![ValuePlotter](images/ValuePlotter.png)
 
