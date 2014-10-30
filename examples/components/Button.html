@@ -5,8 +5,8 @@
     <script type="text/javascript" src="../../bin/controlKit.js"></script>
     <script type="text/javascript">
         window.addEventListener('load',function(){
-            ControlKit.setup();
-            ControlKit.addPanel().addButton('fire',function(){console.log('peng');},{label : 'Push it'});
+            var controlKit = new ControlKit();
+            controlKit.addPanel().addButton('fire',function(){console.log('peng');},{label : 'Push it'});
         });
     </script>
 </head>

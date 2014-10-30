@@ -10,8 +10,8 @@
                 color1 : [1,0,1],
                 color2 : [255,0,255]
             };
-            ControlKit.setup();
-            ControlKit.addPanel()
+            var controlKit = new ControlKit();
+            controlKit.addPanel()
                     .addColor(obj,'color0')
                     .addColor(obj,'color1',{colorMode:'rgbfv'})
                     .addColor(obj,'color2',{colorMode:'rgb', onChange: function(){console.log('color changed');}});

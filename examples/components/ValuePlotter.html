@@ -4,28 +4,26 @@
     <title></title>
     <script type="text/javascript" src="../../bin/controlKit.js"></script>
     <script type="text/javascript">
-        var obj = {
-            value : 0
-        };
-
         window.addEventListener('load',function(){
-            ControlKit.setup();
-            ControlKit.addPanel().addValuePlotter(obj,'value');
+            var obj = {
+                value : 0
+            };
+
+            var controlKit = new ControlKit();
+            controlKit.addPanel().addValuePlotter(obj,'value');
+
+            window.requestAnimationFrame = window.requestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.oRequestAnimationFrame ||
+            window.msRequestAnimationFrame;
+
+            var step = 0;
+            (function update(){
+                obj.value = Math.sin((step++) * 0.125);
+                controlKit.update();
+                requestAnimationFrame(update,null);
+            })()
         });
-
-        window.requestAnimationFrame = window.requestAnimationFrame ||
-                                       window.mozRequestAnimationFrame ||
-                                       window.oRequestAnimationFrame ||
-                                       window.msRequestAnimationFrame;
-
-        var step = 0;
-        (function update(){
-            obj.value = Math.sin((step++) * 0.125);
-            ControlKit.update();
-            requestAnimationFrame(update,null);
-        })()
-
-
     </script>
 </head>
 <body>

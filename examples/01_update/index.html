@@ -25,8 +25,9 @@
             };
             var func = select.value[0];
 
-            ControlKit.setup();
-            ControlKit.addPanel({label: 'Panel'})
+            var controlKit = new ControlKit();
+
+            controlKit.addPanel({label: 'Panel'})
                     .addSelect(select, 'key', {
                         label: 'Function',
                         onChange: function (index) {
@@ -53,7 +54,7 @@
             (function update(){
                 obj.value = func(secondsElapsed * 0.0125);
 
-                ControlKit.update();
+                controlKit.update();
                 secondsElapsed = secondsStart - Date.now();
                 requestAnimationFrame(update,null);
             })();

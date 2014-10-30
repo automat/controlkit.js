@@ -111,8 +111,10 @@
             object.funcTarget = object.funcs[0];
             object.selectColorTarget = object.selectColorOptions[0];
 
-            ControlKit.setup();
-            ControlKit.addPanel({label: 'Panel 1 Left', align: 'left', width: 200})
+
+            var controlKit = new ControlKit();
+
+            controlKit.addPanel({label: 'Panel 1 Left', align: 'left', width: 200})
                         .addSubGroup({label: 'SubGroup 1'})
                             .addNumberInput(object, 'number', {label: 'Num'})
                             .addNumberInput(object, 'number', {presets: object.numberPresets, label: 'Num/wP'})
@@ -124,7 +126,7 @@
                             .addNumberInput(object, 'slideValue');
 
 
-            ControlKit.addPanel({label: 'Panel 2 Left Floated', width: 250, align: 'left'})
+            controlKit.addPanel({label: 'Panel 2 Left Floated', width: 250, align: 'left'})
                     .addGroup({label: 'Group 1'})
                         .addSubGroup({label: 'Sub Group 1'})
                             .addCheckbox(object, 'bool', {label: 'Bool'})
@@ -143,7 +145,7 @@
 
 
 
-            ControlKit.addPanel({label: 'Panel 3 Left Floated', align: 'left', width: 220}).
+            controlKit.addPanel({label: 'Panel 3 Left Floated', align: 'left', width: 220}).
                 addGroup({label: 'Group 1'}).
                     addSubGroup({label: 'Function Selection'}).
                         addFunctionPlotter(object, 'funcTarget', {label: 'none'}).
@@ -160,7 +162,7 @@
 
 
 
-            ControlKit.addPanel({label: 'Floating Color Panel', align: 'left', fixed: false, position: [650, 200], width: 200}).
+            controlKit.addPanel({label: 'Floating Color Panel', align: 'left', fixed: false, position: [650, 200], width: 200}).
                     addSubGroup({label: 'System Colors'}).
                         addColor(object, 'color0').
                         addColor(object, 'color1').
@@ -190,7 +192,7 @@
                 object.changeValue3 = saw(sint);
 
                 object.changeValue6 = object.funcTarget(sint);
-                ControlKit.update();
+                controlKit.update();
                 requestAnimationFrame(update,null);
             })();
 

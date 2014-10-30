@@ -9,8 +9,8 @@
                 bool: true
             };
 
-            ControlKit.setup();
-            ControlKit.addPanel().addCheckbox(obj,'bool',{onChange:function(){console.log('value changed')}});
+            var controlKit = new ControlKit();
+            controlKit.addPanel().addCheckbox(obj,'bool',{onChange:function(){console.log('value changed')}});
         });
     </script>
 </head>

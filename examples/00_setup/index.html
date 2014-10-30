@@ -14,8 +14,9 @@
                 select : ['Option 1', 'Option 2', 'Option 3']
             };
 
-            ControlKit.setup();
-            ControlKit.addPanel({label: 'Panel'})
+            var controlKit = new ControlKit();
+
+            controlKit.addPanel({label: 'Panel'})
                     .addStringInput(obj,'str',{label: 'String'})
                     .addStringInput(obj,'number',{label: 'Number'})
                     .addSlider(obj,'value','valueRange',{label: 'Value'})

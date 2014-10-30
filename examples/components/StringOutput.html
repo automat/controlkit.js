@@ -9,8 +9,8 @@
                 str : 'abc'
             };
 
-            ControlKit.setup();
-            ControlKit.addPanel().addStringOutput(obj,'str',{
+            var controlKit = new ControlKit();
+            controlKit.addPanel().addStringOutput(obj,'str',{
                                     label: 'String' // replace key label with custom one
                                   });
         });

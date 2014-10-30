@@ -10,8 +10,8 @@
                 range : [0,1]
             };
 
-            ControlKit.setup();
-            ControlKit.addPanel()
+            var controlKit = new ControlKit();
+            controlKit.addPanel()
                     .addSlider(obj,'number','range')
                     .addRange(obj,'range');
         });

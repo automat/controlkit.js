@@ -9,8 +9,8 @@
                 str : 'abc'
             };
 
-            ControlKit.setup();
-            ControlKit.addPanel().addStringInput(obj,'str',{
+            var controlKit = new ControlKit();
+            controlKit.addPanel().addStringInput(obj,'str',{
                                     label: 'String', // replace key label with custom one
                                     onChange : function(){  // on enter
                                         console.log('onChange');

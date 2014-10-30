@@ -9,8 +9,8 @@
                 num : 123
             };
 
-            ControlKit.setup();
-            ControlKit.addPanel().addNumberOutput(obj,'num',{
+            var controlKit = new ControlKit();
+            controlKit.addPanel().addNumberOutput(obj,'num',{
                                     label: 'Number', // replace key label with custom one
                                     dp : 4 // display 4 digits after the decimal point
                                 });

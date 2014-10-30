@@ -9,8 +9,8 @@
                 num : 123
             };
 
-            ControlKit.setup();
-            ControlKit.addPanel().addNumberInput(obj,'num',{
+            var controlKit = new ControlKit();
+            controlKit.addPanel().addNumberInput(obj,'num',{
                                     label: 'Number', // replace key label with custom one
                                     onChange : function(){  // on enter
                                         console.log('onChange');

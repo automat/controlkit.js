@@ -14,8 +14,8 @@
         };
 
         window.addEventListener('load',function(){
-            ControlKit.setup();
-            ControlKit.addPanel()
+            var controlKit = new ControlKit();
+            controlKit.addPanel()
                     .addFunctionPlotter(obj,'func0')
                     .addFunctionPlotter(obj,'func1');
 

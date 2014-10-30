@@ -26,9 +26,9 @@
             };
             var func = select.value[0];
 
-            ControlKit.setup();
+            var controlKit = new ControlKit();
 
-            ControlKit.addPanel({label: 'Panel Left', align: 'left', width : 200})
+            controlKit.addPanel({label: 'Panel Left', align: 'left', width : 200})
                     .addSelect(select, 'key', {
                         label: 'Function',
                         onChange: function (index) {
@@ -38,7 +38,7 @@
                     .addFunctionPlotter(select.value, 1)
                     .addFunctionPlotter(select.value, 2);
 
-            ControlKit.addPanel({label: 'Panel Left Left', align : 'left', width: 200})
+            controlKit.addPanel({label: 'Panel Left Left', align : 'left', width: 200})
                     .addNumberInput(obj, 'value')
                     .addNumberOutput(obj, 'value')
                     .addStringInput(obj, 'str')
@@ -46,10 +46,10 @@
                         obj.value *= -1;
                         console.log(obj.value);});
 
-            ControlKit.addPanel({width: 200})
+            controlKit.addPanel({width: 200})
                     .addButton('a button');
 
-            ControlKit.addPanel({label:'Floating Panel', align : 'left', fixed: false, position: [window.innerWidth * 0.5 - 150, window.innerHeight * 0.5]})
+            controlKit.addPanel({label:'Floating Panel', align : 'left', fixed: false, position: [window.innerWidth * 0.5 - 150, window.innerHeight * 0.5]})
                     .addNumberInput(obj, 'value')
                     .addStringInput(obj, 'value');
         });
