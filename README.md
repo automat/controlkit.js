@@ -4,8 +4,12 @@ D R A F T
 ControlKit is a lightweight controller and gui library for browser environments.
 Object properties can be modified with basic control components such as buttons, sliders, string and number inputs, checkboxes, selects, color pickers and range inputs. Some more exotic components like xy-pads, value and function plotters do provide additional control. [more here] ... 
 
+Why.
+
 <br>
-[Usage](#usage) — [Setup](#setup) — [Groups](#groups) — [Components](#components)
+[Usage](#usage) — [Setup](#setup) — [Panel](#panel) — [Group](#group) - [Component](#component) - [Styling](#styling) - [Alternatives](#alternatives) -
+[Dependencies](#dependencies) - [ChangeLog](#changeLog) - [License](#license)
+
 
 ___
 
@@ -38,13 +42,56 @@ The two main elements of ControlKit are containers and components. The latter ar
 ##Setup
 
 
-####ControlKit.setup(options)
+####ControlKit.setup(options) [+](#usage)
+ContolKit is an
 
 ##Panel
 
-####ControlKit.addPanel(options)
+####ControlKit.addPanel(options) [+](#usage)
+
+Components and Groups are 
+
+    ControlKit.addPanel();
+    //
+    var panel = ControllKit.addPanel(); //keep ref
 
 ##Group
+
+####panel.addGroup(options) [+](#usage)
+
+Adds a new Group to the Panel.
+
+####panel.addSubGroup(options) [+](#usage)
+
+Adds a new SubGroup to the last added Group.
+
+    //classic init
+    ControlKit.addPanel()
+        .addGroup()
+            .addSubGroup()
+                .addComponentXY(object,propertyKey);
+                
+    //If components are immediately added after panel creation,
+    //the initial Group and SubGroup are added automatically
+    ControlKit.addPanel()
+        .addComponentXY(object,propertyKey);
+        
+    //multiple levels  
+    ControlKit.addPanel()
+        .addGroup()
+            .addSubGroup()
+                .addComponentXYZ(object,propertyKey)
+                .addComponentXYZ(object,propertyKey)
+                ...
+        .addGroup() // add second Group
+            .addSubGroup()
+                .addComponentXYZ(object,propertyKey)
+                ...
+            .addSubGroup() // add second SubGroup
+                .addComponentXYZ(object,propertyKey)
+                ...
+        ...
+    
 
 ##Component
 
@@ -64,20 +111,148 @@ Component interlink
 		.addNumberInput(obj,'valueA')
 		.addNumberInput(obj,'valueB')
 		.addFunctionPlotter(obj,'func');
-	
 
 
-Excpect for Sliders and .... all components are initialized the same way:
-
-	ControlKit.setup().addPanel()
-		.addComponentXYZ(object,propertyKey,optionalOptions)
-		.addComponentXYZ(object,propertyKey,optionalOptions);
-
-####Button
-
-####Slider
 
 
+NumberInput, StringInput, Range and Color modifier support optional presets to choose from.
+
+    panel.addComponentSupportingPresets(obj,propertyKey,{preset:arrayOfPresetsWithSameTypeAsProperty});
+    
+For an extended documentation of every component initialization just 
+press **+**
+
+---
+![NumberInput](images/NumberInput.png)
+![NumberInputOption](images/NumberInputOption.png)
+
+####panel.addNumberInput(object,propertyKey,options) [+](#usage)
+
+Adds a new NumberInput to the last added SubGroup.
+
+---
+
+![NumberOutput](images/NumberOutput.png)
+
+####panel.addNumberOutput(object,propertyKey,options) [+](#usage)
+
+Adds a new NumberOutput to the last added SubGroup. In contrast to NumberInput this component doesn't allow modifying the property.
+
+---
+
+![StringInput](images/StringInput.png)
+![StringInputOption](images/StringInputOption.png)
+
+####panel.addStringInput(object,propertyKey,options) [+](#usage) 
+
+Adds a new StringInput to the last added SubGroup.
+
+---
+
+![StringOutput](images/StringOutput.png)
+
+####panel.addStringOutput(object,propertyKey,options) [+](#usage)
+
+Adds a new StringOutput to the last added SubGroup. In contrast to StringInput this component doesn't allow modifying the property.
+
+---
+
+![Slider](images/Slider.png)
+
+####panel.addSlider(object,propertyKey,rangeKey,options) [+](#usage)
+
+Adds a new Slider to the last added SubGroup.
+
+    var obj = {value:0,range:[-1,1]};
+    
+    panel.addSlider(obj,'value','range');
+    
+---
+    
+![Range](images/Range.png)
+
+####panel.addRange(object,propertyKey,options) [+](#usage)
+
+Adds a new Checkbox to the last added SubGroup.
+
+---
+
+![Button](images/Button.png)
+
+####panel.addButton(label,onPress,options) [+](#usage)
+
+Adds a new Button to the last added SubGroup.
+
+    panel.addButton('fire',function(){console.log('Peng!);});
+    
+---
+
+![Checkbox](images/Checkbox.png)
+
+####panel.addCheckbox(object,propertyKey,options) [+](#usage)
+
+Adds a new Checkbox to the last added SubGroup.
+
+---
+
+![Select](images/Select.png)
+![SelectOption](images/SelectOption.png)
+
+
+####panel.addSelect(object,propertyKey,options) [+](#usage)
+
+Adds a new Select to the last added SubGroup.
+
+    var obj = {
+        options:['Some','options','to','choose'], 
+        selection : this.options[3]};
+    
+    panel.addSelect(obj,'options',{
+        onChange:function(index){
+            obj.selection = obj.options[index];});
+            
+    //or
+    panel.addSelect(obj,'options',{target:'selection'});
+    
+---
+
+![Color](images/Color.png)
+![ColorOption](images/ColorOption.png)
+![Picker](images/Picker.png)
+
+####panel.addColor(object,propertyKey,options) [+](#usage)
+
+Adds a new Color modifier to the last added SubGroup.
+
+    var obj = {color:'#ff00ff'};
+    
+    panel.addColor(obj,'color',{colorMode:'hex'});
+    
+---
+
+![Pad](images/Pad.png)
+
+####panel.addPad(object,propertyKey,options) [+](#usage)
+
+Adds a new XY-Pad to the last added SubGroup.
+
+---
+
+![FunctionPlotter](images/FunctionPlotter.png)
+
+####panel.addFunctionPlotter(object,propertyKey,options) [+](#usage)
+
+Adds a new FunctionPlotter to the last added SubGroup.
+
+---
+
+![ValuePlotter](images/ValuePlotter.png)
+
+####panel.addValuePlotter(object,propertyKey,options) [+](#usage)
+
+Adds a new ValuePlotter to the last added SubGroup.
+
+---
 
 If a value gets changed externally, eg in an update loop, you can sync ControlKit by using:
 *(be aware that this might have a quite huge performance impact when using complex control setups)*
@@ -86,7 +261,8 @@ If a value gets changed externally, eg in an update loop, you can sync ControlKi
 		ControlKit.update();
 	}
   
-  
+####~~Custom Canvas Component~~ [+](#usage)
+####~~Custom SVG Component~~ [+](#usage)
   
 ##Styling
 
@@ -110,13 +286,16 @@ This will inject the new default style into to the packaged version controlKit.j
 
 ##Alternatives
 
-dat.gui
+[dat.gui](https://github.com/dataarts/dat.gui) - The de facto standard
+[Guido](https://github.com/fjenett/Guido) - Proccesing.js compatible, Florian Jenett
 
-##Depencies
-(dev only)
+##Depencies 
+**DEV ONLY**
 browserify
 
 ##ChangeLog
 
-##Liscence
+0.2.1
+
+##License
 
