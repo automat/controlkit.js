@@ -11,11 +11,12 @@ Object properties can be modified with basic control components such as buttons,
 ___
 ##Usage
 
-When using node or browserify
+When using node or browserify install
 
     npm install controlkit
 
-  
+and require.
+    
     var ControlKit = require('controlkit');
 
 Alternatively use the standalone version found in ./bin.
