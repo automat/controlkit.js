@@ -7,13 +7,13 @@ Object properties can be modified with basic control components such as buttons,
 Why.
 
 <br>
-[Usage](#usage) — [Setup](#setup) — [Panel](#panel) — [Group](#group) - [Component](#component) - [Styling](#styling) - [Alternatives](#alternatives) -
+[Usage](#usage) — [Setup](#setup) — [Panel](#panel) — [Container](#container) - [Component](#component) - [Styling](#styling) - [Alternatives](#alternatives) -
 [Dependencies](#dependencies) - [ChangeLog](#changeLog) - [License](#license)
 
 
 ___
 
-##Usage
+#Usage
 
 When using node or browserify
 
@@ -39,13 +39,13 @@ The two main elements of ControlKit are containers and components. The latter ar
 				
 
 
-##Setup
+#Setup
 
 
 ####ControlKit.setup(options) [+](#usage)
 ContolKit is an
 
-##Panel
+#Panel
 
 ####ControlKit.addPanel(options) [+](#usage)
 
@@ -55,13 +55,17 @@ Components and Groups are
     //
     var panel = ControllKit.addPanel(); //keep ref
 
-##Group
+#Container
 
-####panel.addGroup(options) [+](#usage)
+##Group [+](#usage)
+
+####panel.addGroup(options)
 
 Adds a new Group to the Panel.
 
-####panel.addSubGroup(options) [+](#usage)
+##SubGroup [+](#usage)
+
+####panel.addSubGroup(options)
 
 Adds a new SubGroup to the last added Group.
 
@@ -93,7 +97,7 @@ Adds a new SubGroup to the last added Group.
         ...
     
 
-##Component
+#Component
 
 Available component
 
@@ -123,43 +127,46 @@ For an extended documentation of every component initialization just
 press **+**
 
 ---
+
+##NumberInput [+](#usage)
+
 ![NumberInput](images/NumberInput.png)
 ![NumberInputOption](images/NumberInputOption.png)
 
-####panel.addNumberInput(object,propertyKey,options) [+](#usage)
+####panel.addNumberInput(object,propertyKey,options)
 
 Adds a new NumberInput to the last added SubGroup.
 
----
+##NumberOutput [+](#usage)
 
 ![NumberOutput](images/NumberOutput.png)
 
-####panel.addNumberOutput(object,propertyKey,options) [+](#usage)
+####panel.addNumberOutput(object,propertyKey,options)
 
 Adds a new NumberOutput to the last added SubGroup. In contrast to NumberInput this component doesn't allow modifying the property.
 
----
+##StringInput [+](#usage)
 
 ![StringInput](images/StringInput.png)
 ![StringInputOption](images/StringInputOption.png)
 
-####panel.addStringInput(object,propertyKey,options) [+](#usage) 
+####panel.addStringInput(object,propertyKey,options)
 
 Adds a new StringInput to the last added SubGroup.
 
----
+##StringOutput [+](#usage)
 
 ![StringOutput](images/StringOutput.png)
 
-####panel.addStringOutput(object,propertyKey,options) [+](#usage)
+####panel.addStringOutput(object,propertyKey,options)
 
 Adds a new StringOutput to the last added SubGroup. In contrast to StringInput this component doesn't allow modifying the property.
 
----
+##Slider [+](#usage)
 
 ![Slider](images/Slider.png)
 
-####panel.addSlider(object,propertyKey,rangeKey,options) [+](#usage)
+####panel.addSlider(object,propertyKey,rangeKey,options)
 
 Adds a new Slider to the last added SubGroup.
 
@@ -167,39 +174,38 @@ Adds a new Slider to the last added SubGroup.
     
     panel.addSlider(obj,'value','range');
     
----
+##Range [+](#usage)
     
 ![Range](images/Range.png)
 
-####panel.addRange(object,propertyKey,options) [+](#usage)
+####panel.addRange(object,propertyKey,options)
 
 Adds a new Checkbox to the last added SubGroup.
 
----
+##Button [+](#usage)
 
 ![Button](images/Button.png)
 
-####panel.addButton(label,onPress,options) [+](#usage)
+####panel.addButton(label,onPress,options)
 
 Adds a new Button to the last added SubGroup.
 
     panel.addButton('fire',function(){console.log('Peng!);});
     
----
+##Checkbox [+](#usage)
 
 ![Checkbox](images/Checkbox.png)
 
-####panel.addCheckbox(object,propertyKey,options) [+](#usage)
+####panel.addCheckbox(object,propertyKey,options)
 
 Adds a new Checkbox to the last added SubGroup.
 
----
+##Select [+](#usage)
 
 ![Select](images/Select.png)
 ![SelectOption](images/SelectOption.png)
 
-
-####panel.addSelect(object,propertyKey,options) [+](#usage)
+####panel.addSelect(object,propertyKey,options)
 
 Adds a new Select to the last added SubGroup.
 
@@ -213,42 +219,42 @@ Adds a new Select to the last added SubGroup.
             
     //or
     panel.addSelect(obj,'options',{target:'selection'});
-    
----
+
+##Color [+](#usage)
 
 ![Color](images/Color.png)
 ![ColorOption](images/ColorOption.png)
 ![Picker](images/Picker.png)
 
-####panel.addColor(object,propertyKey,options) [+](#usage)
+####panel.addColor(object,propertyKey,options)
 
 Adds a new Color modifier to the last added SubGroup.
 
     var obj = {color:'#ff00ff'};
     
     panel.addColor(obj,'color',{colorMode:'hex'});
-    
----
+
+##Pad [+](#usage)    
 
 ![Pad](images/Pad.png)
 
-####panel.addPad(object,propertyKey,options) [+](#usage)
+####panel.addPad(object,propertyKey,options)
 
 Adds a new XY-Pad to the last added SubGroup.
 
----
+##FunctionPlotter [+](#usage)
 
 ![FunctionPlotter](images/FunctionPlotter.png)
 
-####panel.addFunctionPlotter(object,propertyKey,options) [+](#usage)
+####panel.addFunctionPlotter(object,propertyKey,options)
 
 Adds a new FunctionPlotter to the last added SubGroup.
 
----
+##ValuePlotter [+](#usage)
 
 ![ValuePlotter](images/ValuePlotter.png)
 
-####panel.addValuePlotter(object,propertyKey,options) [+](#usage)
+####panel.addValuePlotter(object,propertyKey,options)
 
 Adds a new ValuePlotter to the last added SubGroup.
 
