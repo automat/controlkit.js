@@ -39,7 +39,7 @@ ___
 ##Setup
 
 
-####ControlKit.setup(options) [+](#usage)
+####ControlKit.setup(options)
 ContolKit is an
 
 ---
@@ -47,17 +47,21 @@ ContolKit is an
 
 Components and Groups are 
 
+###Panel
+
+####ControlKit.addPanel(options) -> {[Panel](#panel)}
+
     ControlKit.addPanel();
     //
     var panel = ControllKit.addPanel(); //keep ref
 
-####ControlKit.addPanel(options) [+](#usage)
-
-####panel.addGroup(options) [+](#usage)
+####panel.addGroup(options)  
 
 Adds a new Group to the Panel.
 
-####panel.addSubGroup(options) [+](#usage)
+###Group
+
+####panel.addSubGroup(options) ->{[Panel](#panel)}
 
 Adds a new SubGroup to the last added Group.
 
@@ -108,64 +112,120 @@ Component interlink
 		.addNumberInput(obj,'valueB')
 		.addFunctionPlotter(obj,'func');
 
-
-
-
-NumberInput, StringInput, Range and Color modifier support optional presets to choose from.
-
-    panel.addComponentSupportingPresets(obj,propertyKey,{preset:arrayOfPresetsWithSameTypeAsProperty});
+###Built-in components
 
 ![NumberInput](images/NumberInput.png)<br/>
 ![NumberInputOption](images/NumberInputOption.png)
-####panel.addNumberInput(object,propertyKey,options) [+](#usage)
+####panel.addNumberInput(object,propertyKey,options) -> {[Panel](#panel)}
+    
+Adds a new NumberInput to the last added SubGroup. Returns panel.  
+**Options**
 
-Adds a new NumberInput to the last added SubGroup.
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | Component label                                   |
+| onChange  | Function | Callback on change                                |
+| step      | Number   | Amount subbed/added on arrowDown/arrowUp press    |
+| dp        | Number   | Decimal places displayed                          |  
+| presets   | Array    | A set of presets [0,1,2,3,4]                      |       
+
 
 ![NumberOutput](images/NumberOutput.png)
-####panel.addNumberOutput(object,propertyKey,options) [+](#usage)
+####panel.addNumberOutput(object,propertyKey,options) -> {[Panel](#panel)}
 
-Adds a new NumberOutput to the last added SubGroup. In contrast to NumberInput this component doesn't allow modifying the property.
+Adds a new NumberOutput to the last added SubGroup. In contrast to NumberInput this component doesn't allow modifying the property.  
+**Options**
+
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | Component label                                   |
+| dp        | Number   | Decimal places displayed                          |
+
 
 ![StringInput](images/StringInput.png)<br/>
 ![StringInputOption](images/StringInputOption.png)
-####panel.addStringInput(object,propertyKey,options) [+](#usage)
+####panel.addStringInput(object,propertyKey,options) -> {[Panel](#panel)}
 
-Adds a new StringInput to the last added SubGroup.
+Adds a new StringInput to the last added SubGroup.  
+**Options**
+
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | Component label                                   |
+| onChange  | Function | Callback on change                                |
+| presets   | Array    | A set of presets ['abc','def','ghi']              |
+
 
 ![StringOutput](images/StringOutput.png)
-####panel.addStringOutput(object,propertyKey,options) [+](#usage)
+####panel.addStringOutput(object,propertyKey,options) -> {[Panel](#panel)}
 
-Adds a new StringOutput to the last added SubGroup. In contrast to StringInput this component doesn't allow modifying the property.
+Adds a new StringOutput to the last added SubGroup. In contrast to StringInput this component doesn't allow modifying the property.  
+**Options**
+
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | Component label                                   |
+
 
 ![Slider](images/Slider.png)
-####panel.addSlider(object,propertyKey,rangeKey,options) [+](#usage)
+####panel.addSlider(object,propertyKey,rangeKey,options) -> {[Panel](#panel)}
 
 Adds a new Slider to the last added SubGroup.
 
     var obj = {value:0,range:[-1,1]};
     
     panel.addSlider(obj,'value','range');
+**Options**
+
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | Component label                                   |
+| onChange  | Function | Callback on drag                                  |
+| onFinish  | Function | Callback on drag end                              |
+| step      | Number   | Amount subbed/added on arrowDown/arrowUp press    |
+| dp        | Number   | Decimal places displayed                          | 
+
 
 ![Range](images/Range.png)
-####panel.addRange(object,propertyKey,options) [+](#usage)
+####panel.addRange(object,propertyKey,options) -> {[Panel](#panel)}
 
 Adds a new Checkbox to the last added SubGroup.
+**Options**
+
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | Component label                                   |
+| onChange  | Function | Callback on change                                |
+
 
 ![Button](images/Button.png)
-####panel.addButton(label,onPress,options) [+](#usage)
+####panel.addButton(label,onPress,options) -> {[Panel](#panel)}
 
 Adds a new Button to the last added SubGroup.
 
     panel.addButton('fire',function(){console.log('Peng!);});
-    
+**Options**
+
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | Component label                                   |
+
+
 ![Checkbox](images/Checkbox.png)
-####panel.addCheckbox(object,propertyKey,options) [+](#usage)
+####panel.addCheckbox(object,propertyKey,options) -> {[Panel](#panel)}
 
 Adds a new Checkbox to the last added SubGroup.
+**Options**
+
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | Component label                                   |
+| onChange  | Function | Callback on change                                |
+
 
 ![Select](images/Select.png)<br/>
 ![SelectOption](images/SelectOption.png)
-####panel.addSelect(object,propertyKey,options) [+](#usage)
+####panel.addSelect(object,propertyKey,options) -> {[Panel](#panel)}
 
 Adds a new Select to the last added SubGroup.
 
@@ -180,10 +240,19 @@ Adds a new Select to the last added SubGroup.
     //or
     panel.addSelect(obj,'options',{target:'selection'});
 
+**Options**
+
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | Component label                                   |
+| onChange  | Function | Callback on select - function(index){}            |
+| target    | String   | Target property key - property to be set on select|
+
+
 ![Color](images/Color.png)<br/>
 ![ColorOption](images/ColorOption.png)<br/>
 ![Picker](images/Picker.png)
-####panel.addColor(object,propertyKey,options) [+](#usage)
+####panel.addColor(object,propertyKey,options) -> {[Panel](#panel)}
 
 Adds a new Color modifier to the last added SubGroup.
 
@@ -191,23 +260,61 @@ Adds a new Color modifier to the last added SubGroup.
     
     panel.addColor(obj,'color',{colorMode:'hex'});
 
+**Options**
+
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | Component label                                   |
+| onChange  | Function | Callback on change                                |
+| colorMode | String   | The colorMode to be used: 'hex' #ff00ff, 'rgb' [255,0,255], 'rgbfv' [1,0,1] |
+| presets   | Array    | A set of preset colors matching params.colorMode  |
+
 
 ![Pad](images/Pad.png)
-####panel.addPad(object,propertyKey,options) [+](#usage)
+####panel.addPad(object,propertyKey,options) -> {[Panel](#panel)}
 
 Adds a new XY-Pad to the last added SubGroup.
+**Options**
+
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | Component label                                   |
+
 
 ![FunctionPlotter](images/FunctionPlotter.png)
-####panel.addFunctionPlotter(object,propertyKey,options) [+](#usage)
+####panel.addFunctionPlotter(object,propertyKey,options) -> {[Panel](#panel)}
 
 Adds a new FunctionPlotter to the last added SubGroup.
+**Options**
+
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | Component label                                   |
+| lineWidth | Number   | Graph line width                                  |
+| lineColor | Array    | Graph line color [255,255,255]                    | 
 
 ![ValuePlotter](images/ValuePlotter.png)
-####panel.addValuePlotter(object,propertyKey,options) [+](#usage)
+####panel.addValuePlotter(object,propertyKey,options) -> {[Panel](#panel)}
 
 Adds a new ValuePlotter to the last added SubGroup.
+**Options**
+
+| Name      | Type     | Description                                       |
+| --------- | -------- | ------------------------------------------------- |
+| label     | String   | Component label                                   |
+| height    | Number   | Plotter height                                    |
+| resolution| Number   | Graph resolution                                  |
+| lineWidth | Number   | Graph line width                                  |
+| lineColor | Array    | Graph line color [255,255,255]                    |            
 
 
+###Custom Components
+
+####~~Custom Canvas Component~~ 
+####~~Custom SVG Component~~ 
+
+
+###Sync to external change
 
 If a value gets changed externally, eg in an update loop, you can sync ControlKit by using:
 *(be aware that this might have a quite huge performance impact when using complex control setups)*
@@ -216,9 +323,7 @@ If a value gets changed externally, eg in an update loop, you can sync ControlKi
 		ControlKit.update();
 	}
   
-####~~Custom Canvas Component~~ [+](#usage)
-####~~Custom SVG Component~~ [+](#usage)
-  
+---
 ##Styling
 
 If the default styling is too photoshoppy for your taste, you can completly replace it by modifying the default one located in [./style](../master/style/).  
@@ -239,18 +344,22 @@ If for some reason, you want to *completly replace* the default styling. Alter i
 
 This will inject the new default style into to the packaged version controlKit.js and controlKit.min.js within ./bin, but will also completly replace the default module version.
 
+---
 ##Alternatives
 
-[dat.gui](https://github.com/dataarts/dat.gui) - The de facto standard
-[Guido](https://github.com/fjenett/Guido) - Proccesing.js compatible, Florian Jenett
+[dat.gui](https://github.com/dataarts/dat.gui) - The de facto standard  
+[Guido](https://github.com/fjenett/Guido) - Processing.js compatible, Florian Jenett
 
+---
 ##Depencies 
-**DEV ONLY**
+**DEV ONLY** ***!***
 browserify
 
+---
 ##ChangeLog
 
 0.2.1
 
+---
 ##License
 
