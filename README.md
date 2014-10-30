@@ -2,13 +2,12 @@ D R A F T
 ![Peng!](images/image-0.png)
 
 ControlKit is a lightweight controller and gui library for browser environments.
-Object properties can be modified with basic control components such as buttons, sliders, string and number inputs, checkboxes, selects, color pickers and range inputs. Some more exotic components like xy-pads, value and function plotters do provide additional control. [more here] ... 
+Object properties can be modified with basic control components such as buttons, sliders, string and number inputs, checkboxes, selects, color pickers and range inputs. Some more exotic components like xy-pads, value and function plotters do provide additional control.
 
-Why.
+<br/>
 
-
-[Usage](#usage) — [Setup](#setup) — [Panel](#panel) — [Container](#container) - [Component](#component) - [Styling](#styling) - [Alternatives](#alternatives) -
-[Dependencies](#dependencies) - [ChangeLog](#changeLog) - [License](#license)
+[Usage](#usage) — [Setup](#setup) — [Panel](#panel) — [Container](#container) — [Component](#component) — [Styling](#styling) — [Alternatives](#alternatives) —
+[Dependencies](#dependencies) — [ChangeLog](#changeLog) — [License](#license)
 ___
 ##Usage
 
@@ -16,31 +15,22 @@ When using node or browserify
 
     npm install controlkit
 
+  
+    var ControlKit = require('controlkit');
+
 Alternatively use the standalone version found in ./bin.
 
     <script type='text/javascript' src='controlKit.min.js'></script>
    
-The two main elements of ControlKit are containers and components. The latter are constructed per panel and grouped in Groups and SubGroups. To keep the amount of code necessary to setup complex controls to a minimum, container and component initialization are chained to their parent panel. ........
-
-	var obj = {
-		number : 0,
-		string ; 'abc'
-	};
-	
-	ControlKit.setup();
-	ControlKit.addPanel()
-		.addGroup()
-			.addSubGroup()
-				.addNumberInput(obj,'number')
-				.addStringInput(obj,'string');
-				
-
 ___
 ##Setup
 
+####new ControlKit(options) -> {ControlKit}
 
-####ControlKit.setup(options)
-ContolKit is an
+To first step in using ControlKit is to create a new instance with some 
+optional customisations. The instance created will serve as a root element
+for all panels constructed and defines some overall properties such as shared
+opacity, styling ...
 
 **Options**
 
@@ -48,20 +38,52 @@ ContolKit is an
 | --------- | -------- | ------------------------------------------------- |
 | opacity   | Number   | Overall opacity,default: 1.0                      |
 | useExternalStyle | Boolean | If true, an external style is used instead of the build-in one, default: false |
+| history   | Boolean  | (Experimental) Enables a value history for all components, default: false |
+
+
+####~~controlKit.registerKey(key,callback)~~
+####~~controlKit.getPanelById(id)->{Panel}~~
+####~~controlKit.getGroupById(id)->{Group}~~
+####~~controlKit.getSubGroupById(id)->{SubGroup}~~
+####~~controlKit.getComponentById(id)->{Component}~~
+
+###Structure
+
+The two main elements of ControlKit are [containers](#container) and [components](*component*). The latter are constructed per panel and grouped in [Groups](#group) and [SubGroups](#subgroups) which root in [Panels](#panels). To keep the amount of code necessary to setup complex controls to a minimum, groups and components initialisation are chained to their parent panel.
+
+    //html context example
+    ...
+    <script type="text/javascript" src="controlKit.min.js">
+    <script type="text/javascript">
+	window.addEventListener('load',function(){
+    	var obj = {
+    	    number : 0,
+    	    string : 'abc
+    	};
+    	var controlKit = new ControlKit();
+    	    controlKit.addPanel()
+    	        .addGroup()
+    	            .addSubGroup()
+    	                .addNumberInput(obj,'number)
+    	                .addStringInput(obj,'string');
+	});
+	</script>
+	...
 
 ---
 ##Container
 
-Components and Groups are 
-
 ###Panel
 
+The Panel is the main container element. It can either float to the left or right, be draggable or docked. It´s height can adjust to its groups or constrained to a certain height. Floated panels get stacked next to each other.
 
-####ControlKit.addPanel(options) -> {[Panel](#panel)}
+####controlKit.addPanel(options) -> {[Panel](#panel)}
 
-    ControlKit.addPanel();
+Adds a new Panel.
+
+    controlKit.addPanel();
     //
-    var panel = ControllKit.addPanel(); //keep ref
+    var panel = controllKit.addPanel(); //keep ref
 
 **Options**
 
@@ -75,7 +97,6 @@ Components and Groups are
 | position  | Array    | If unfixed, the panel panel position relative to alignment (eg. if 'left' 0 + position[0] or if 'right' window.innerHeight - position[0] - panelWidth) |
 | opacity   | Number   | Panel opacity                                     |
 | dock      | Boolean  | (Experimental) Indicates whether the panel should be docked to either the left or right window border (depending on params.align), docked panels height equal window height, default: false |
-| history   | Boolean  | (Experimental) Enables a value history for all components, default: false |
 
 ###Group
 
@@ -91,6 +112,8 @@ Adds a new Group to the Panel.
 | enable    | Boolean  | Defines initial state open / closed, default: true|
 | height    | Number   | Defines whether the height of the Group should be constrained to a certain height
 
+###SubGroup
+
 ####panel.addSubGroup(options) ->{[Panel](#panel)}
 
 Adds a new SubGroup to the last added Group.
@@ -103,19 +126,19 @@ Adds a new SubGroup to the last added Group.
 | enable    | Boolean  | Defines initial state open / closed, default: true|
 | height    | Number   | Defines whether the height of the Group should be constrained to a certain height
 
-    //classic init
-    ControlKit.addPanel()
+    //default init
+    controlKit.addPanel()
         .addGroup()
             .addSubGroup()
                 .addComponentXY(object,propertyKey);
                 
     //If components are immediately added after panel creation,
     //the initial Group and SubGroup are added automatically
-    ControlKit.addPanel()
+    controlKit.addPanel()
         .addComponentXY(object,propertyKey);
         
     //multiple levels  
-    ControlKit.addPanel()
+    controlKit.addPanel()
         .addGroup()
             .addSubGroup()
                 .addComponentXYZ(object,propertyKey)
@@ -133,9 +156,7 @@ Adds a new SubGroup to the last added Group.
 ---
 ##Component
 
-Available component
-
-Component interlink
+[explain linked components here]
 
 	var obj = {
 		valueA : 0.25,
@@ -145,7 +166,9 @@ Component interlink
 		}
 	}
 	
-	ControlKit.setup().addPanel()
+	var controlKit = new ControlKit();
+	
+	controlKit.addPanel()
 		.addNumberInput(obj,'valueA')
 		.addNumberInput(obj,'valueB')
 		.addFunctionPlotter(obj,'func');
@@ -289,7 +312,7 @@ Adds a new Select to the last added SubGroup.
 
 ![Color](images/Color.png)<br/>
 ![ColorOption](images/ColorOption.png)<br/>
-![Picker](images/picker.png)
+![Picker](images/Picker.png)
 ####panel.addColor(object,propertyKey,options) -> {[Panel](#panel)}
 
 Adds a new Color modifier to the last added SubGroup.
@@ -358,7 +381,7 @@ If a value gets changed externally, eg in an update loop, you can sync ControlKi
 *(be aware that this might have a quite huge performance impact when using complex control setups)*
 
 	update(){	//your update loop
-		ControlKit.update();
+		controlKit.update();
 	}
   
 ---
@@ -370,7 +393,7 @@ Its written in scss and split into [_images.scss](../master/style/_images.scss) 
   
 **Apply your custom style** by either using an *external stylesheet* (eg. when developing a custom style) via:
 
-    ControlKit.setup({useExternalStyle:true});
+    var controlKit = new ControlKit({useExternalStyle:true});
 
 Or create a *standalone version* of controlKit with a custom built-in style using:
 
@@ -385,37 +408,29 @@ This will inject the new default style into to the packaged version controlKit.j
 ---
 ##Alternatives
 
-[dat.gui](https://github.com/dataarts/dat.gui) - The de facto standard  
-[Palette](https://github.com/lehni/palette.js) - Juerg Lehni
-[Guido](https://github.com/fjenett/Guido) - Processing.js compatible, Florian Jenett
+[dat.gui](https://github.com/dataarts/dat.gui) — The de facto standard    
+[Palette](https://github.com/lehni/palette.js) — Juerg Lehni  
+[Guido](https://github.com/fjenett/Guido) — Processing.js compatible, Florian Jenett
 
 
----
 ##Depencies 
-**DEV ONLY** ***!***
+**DEV ONLY** ***!***    
 browserify
 
----
+
 ##ChangeLog
 
-0.1.2 - bump
+0.1.2 — bump
 
----
 ##License
 
 The MIT License (MIT)
 
 Copyright (c) 2013-2014 Henryk Wollik
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
