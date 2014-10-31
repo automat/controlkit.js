@@ -1,4 +1,3 @@
-D R A F T
 ![Peng!](images/image-0.png)
 
 ControlKit is a lightweight controller and gui library for browser environments.
@@ -15,11 +14,15 @@ When using node or browserify install
 
     npm install controlkit
 
-and require.
+and require
     
     var ControlKit = require('controlkit');
 
-Alternatively use the standalone version found in ./bin.
+Alternatively use the standalone version found in ./bin
+    
+    <script type='text/javascript' src='controlKit.js'></script>
+    
+or
 
     <script type='text/javascript' src='controlKit.min.js'></script>
    
@@ -398,11 +401,11 @@ Its written in scss and split into [_images.scss](../master/style/_images.scss) 
 
 Or create a *standalone version* of controlKit with a custom built-in style using:
 
-    utils/node build -o outfilePath -s yourCustomStyleStringOrCssFile
+    utils/node build -o outFileDir -s yourCustomCSS
     
 If for some reason, you want to *completly replace* the default styling. Alter it within the original folder and just run.
 
-	utils/node updateStyle
+	utils/node update
 
 This will inject the new default style into to the packaged version controlKit.js and controlKit.min.js within ./bin, but will also completly replace the default module version.
 
@@ -414,14 +417,15 @@ This will inject the new default style into to the packaged version controlKit.j
 [Guido](https://github.com/fjenett/Guido) — Processing.js compatible, Florian Jenett
 
 
-##Depencies 
-**DEV ONLY** ***!***    
-browserify
+##DevDepencies   
+[browserify](https://github.com/substack/node-browserify)  
+[uglify-js](https://github.com/mishoo/UglifyJS2)
+[clean-css](https://github.com/jakubpawlowicz/clean-css)
 
 
 ##ChangeLog
 
-0.1.2 — bump
+0.1.3 — bump
 
 ##License
 
