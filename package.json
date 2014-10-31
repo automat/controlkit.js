@@ -1,6 +1,6 @@
 {
     "name": "controlkit",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "description": "A lightweight gui and controller library",
     "keywords": [
         "gui",
@@ -14,8 +14,14 @@
         "url": "http://henrykwollik.com"
     },
     "main" : "index.js",
-    "devDependencies" : {"browserify" : "latest"},
-    "repository" : {"type" : "git", "url" : "https://github.com/automat/controlKit.git"},
+    "devDependencies" :
+        {"browserify" : "6.2.x",
+         "uglify-js"  : "2.4.x",
+         "clean-css"  : "2.2.x",
+         "trough"     : "2.3.x"},
+    "repository" :
+        {"type" : "git",
+         "url" : "https://github.com/automat/controlKit.git"},
     "homepage" : "http://github.com/automat/controlKit.js",
     "license": "MIT"
 }
