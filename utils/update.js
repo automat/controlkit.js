@@ -3,23 +3,30 @@
  * Update the build-in style from ../src/style/style.css
  */
 
-var fs = require('fs');
+process.chdir(__dirname);
 
-var string = fs.readFileSync('../style/style.css').toString();
-	string = string.replace(/(\r\n|\n|\r)/gm,"");
+var fs 		   = require('fs'),
+	CleanCSS   = require('clean-css'),
+	browserify = require('browserify'),
+	UglifyJS   = require('uglify-js');
 
-var module =
+fs.writeFileSync('../lib/core/document/Style.js',
 	'var Style = { \n' +
-	'	string : ' + '"' +  string + '"\n' +
+	'	string : ' + '"' +  new CleanCSS().minify(
+			fs.readFileSync('../style/style.css').toString() ) + '"\n' +
 	'}; \n' +
-	'module.exports = Style;';
-
-fs.writeFileSync('../lib/core/document/Style.js',module,null,function(err){
+	'module.exports = Style;',
+	null,function(err){
 	if(err) {
 		console.log(err);
-		process.exit(0);
+		process.exit(1);
 	}
 });
 
-console.log("Built-in style updated.");
-process.exit(1);
+browserify('../index.js')
+	.bundle({standalone:'ControlKit',debug:true})
+ 	.pipe(fs.createWriteStream('../bin/controlKit.js')
+		.on('close',function(){
+			fs.writeFileSync('../bin/controlKit.min.js',
+				UglifyJS.minify(this.path).code);
+	}));
