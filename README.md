@@ -62,7 +62,7 @@ The two main elements of ControlKit are [containers](#container) and [components
 	window.addEventListener('load',function(){
     	var obj = {
     	    number : 0,
-    	    string : 'abc
+    	    string : 'abc'
     	};
     	var controlKit = new ControlKit();
     	    controlKit.addPanel()
