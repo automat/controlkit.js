@@ -31,7 +31,7 @@ ___
 
 ####new ControlKit(options) -> {ControlKit}
 
-To first step in using ControlKit is to create a new instance with some 
+The first step in using ControlKit is to create a new instance with some 
 optional customisations. The instance created will serve as a root element
 for all panels constructed and defines some overall properties such as shared
 opacity, styling ...
@@ -53,7 +53,7 @@ opacity, styling ...
 
 ###Structure
 
-The two main elements of ControlKit are [containers](#container) and [components](*component*). The latter are constructed per panel and grouped in [Groups](#group) and [SubGroups](#subgroups) which root in [Panels](#panels). To keep the amount of code necessary to setup complex controls to a minimum, groups and components initialisation are chained to their parent panel.
+There are two main elements of ControlKit: [containers](#container) and [components](*component*). The latter are constructed per panel and grouped in [Groups](#group) and [SubGroups](#subgroups) which root in [Panels](#panels). To keep the amount of code necessary to set up complex controls to a minimum, groups and components initialisation are chained to their parent panel.
 
     //html context example
     ...
