@@ -1,7 +1,7 @@
 ![Peng!](images/image-0.png)
 
 ControlKit is a lightweight controller and gui library for browser environments.
-Object properties can be modified with basic control components such as buttons, sliders, string and number inputs, checkboxes, selects, color pickers and range inputs. Some more exotic components like xy-pads, value and function plotters do provide additional control.
+Object properties can be modified with basic control components including buttons, sliders, string and number inputs, checkboxes, selects, color pickers and range inputs. Some more exotic components like xy-pads, value and function plotters provide additional control.
 
 <br/>
 
