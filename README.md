@@ -79,7 +79,7 @@ There are two main elements of ControlKit: [containers](#container) and [compone
 
 ###Panel
 
-The Panel is the main container element. It can either float to the left or right, be draggable or docked. It´s height can adjust to its groups or constrained to a certain height. Floated panels get stacked next to each other.
+The Panel is the main container element. It can either float to the left or right, be draggable or docked. It´s height can be adjusted to its groups or constrained to a certain height. Floated panels get stacked next to each other.
 
 ####controlKit.addPanel(options) -> {[Panel](#panel)}
 
