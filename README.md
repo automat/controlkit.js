@@ -1,7 +1,7 @@
 ![Peng!](images/image-0.png)
 
 ControlKit is a lightweight controller and gui library for browser environments.
-Object properties can be modified with basic control components such as buttons, sliders, string and number inputs, checkboxes, selects, color pickers and range inputs. Some more exotic components like xy-pads, value and function plotters do provide additional control.
+Object properties can be modified with basic control components including buttons, sliders, string and number inputs, checkboxes, selects, color pickers and range inputs. Some more exotic components like xy-pads, value and function plotters provide additional control.
 
 <br/>
 
@@ -31,7 +31,7 @@ ___
 
 ####new ControlKit(options) -> {ControlKit}
 
-To first step in using ControlKit is to create a new instance with some 
+The first step in using ControlKit is to create a new instance with some 
 optional customisations. The instance created will serve as a root element
 for all panels constructed and defines some overall properties such as shared
 opacity, styling ...
@@ -53,7 +53,7 @@ opacity, styling ...
 
 ###Structure
 
-The two main elements of ControlKit are [containers](#container) and [components](*component*). The latter are constructed per panel and grouped in [Groups](#group) and [SubGroups](#subgroups) which root in [Panels](#panels). To keep the amount of code necessary to setup complex controls to a minimum, groups and components initialisation are chained to their parent panel.
+There are two main elements of ControlKit: [containers](#container) and [components](*component*). The latter are constructed per panel and grouped in [Groups](#group) and [SubGroups](#subgroups) which root in [Panels](#panels). To keep the amount of code necessary to set up complex controls to a minimum, groups and components initialisation are chained to their parent panel.
 
     //html context example
     ...
@@ -79,7 +79,7 @@ The two main elements of ControlKit are [containers](#container) and [components
 
 ###Panel
 
-The Panel is the main container element. It can either float to the left or right, be draggable or docked. It´s height can adjust to its groups or constrained to a certain height. Floated panels get stacked next to each other.
+The Panel is the main container element. It can either float to the left or right, be draggable or docked. It´s height can be adjusted to its groups or constrained to a certain height. Floated panels get stacked next to each other.
 
 ####controlKit.addPanel(options) -> {[Panel](#panel)}
 
