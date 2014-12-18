@@ -95,7 +95,7 @@ Adds a new Panel.
 | --------- | -------- | ------------------------------------------------- |
 | label     | String   | Panel label, default: 'Control Panel'             |
 | width     | Number   | Panel width, default: 300                         |
-| ratio     | Number   | The ratio of label (default:40%) and component (default:60%) width |
+| ratio     | Number   | The ratio of label (default:30%) and component (default:70%) width |
 | align     | String   | Float 'left' or 'right', multiple panels get aligned next to each other |
 | fixed     | Boolean  | If false the panel can be moved                   |
 | position  | Array    | If unfixed, the panel panel position relative to alignment (eg. if 'left' 0 + position[0] or if 'right' window.innerHeight - position[0] - panelWidth) |
