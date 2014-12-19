@@ -44,6 +44,9 @@ opacity, styling ...
 | useExternalStyle | Boolean | If true, an external style is used instead of the build-in one, default: false |
 | history   | Boolean  | (Experimental) Enables a value history for all components, default: false |
 
+####controlKit.setShortcutEnable(char) -> {void}
+
+Defines the char to be used with ctrl + char for enabling / disabling a ControlKit instance.
 
 ####~~controlKit.registerKey(key,callback)~~
 ####~~controlKit.getPanelById(id)->{Panel}~~
@@ -178,6 +181,14 @@ Adds a new SubGroup to the last added Group.
 		.addFunctionPlotter(obj,'func');
 
 ###Built-in components
+
+####General advice!
+
+All number related components including sliders have an option for specifying the
+amount of decimal places. To prevent weird behaviour when updating an objects number property
+from different number components with different decimal places settings, make sure to use
+the same amount of decimal places in every component modifying the same property.
+
 
 ![NumberInput](images/NumberInput.png)<br/>
 ![NumberInputOption](images/NumberInputOption.png)
