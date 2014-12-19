@@ -434,10 +434,6 @@ This will inject the new default style into to the packaged version controlKit.j
 [clean-css](https://github.com/jakubpawlowicz/clean-css)
 
 
-##ChangeLog
-
-0.1.3 — bump
-
 ##License
 
 The MIT License (MIT)
