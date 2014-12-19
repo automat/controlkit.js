@@ -1,3 +1,11 @@
+0.1.6 / 2014-12-19
+==================
+
+  * version++
+  * fixed overall inverted enabled state caused by renaming
+  * added Picker positition history
+  * changelog update
+
 0.1.5 / 2014-12-19
 ==================
 
@@ -104,5 +112,3 @@
   * cleanup
   * fix: setColorRGBfv
   * fix: dock/fix/non-fix mode +align left/right
-  * fix: enable/disable on init
-  * fix
