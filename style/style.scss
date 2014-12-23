@@ -127,7 +127,7 @@
     vertical-align: top;
     white-space: nowrap;
   }
-  .panel .textAreaWrap{
+  .panel .textarea-wrap {
     @include box-sizing(border-box);
 
     width: 100%;
@@ -166,7 +166,7 @@
       vertical-align: bottom;
       @include component-input-border;
     }
-    .svgWrap, .canvasWrap {
+    .svg-wrap, .canvas-wrap {
       margin: $canvas-wrap-margin;
 
       position: relative;
@@ -217,18 +217,18 @@
 //-----------------------------------------------------------------------------------------//
 
 #controlKit .panel {
-  .inputWPresetWrap, .colorWPresetWrap {
+  .input-with-preset-wrap, .color-with-preset-wrap {
     width: 100%;
     float: left;
   }
-  .inputWPresetWrap input[type='text'], .colorWPresetWrap .color {
+  .input-with-preset-wrap input[type='text'], .color-with-preset-wrap .color {
     padding-right: 25px;
     border-top-right-radius: 2px;
     border-bottom-right-radius: 2px;
     float: left;
   }
 
-  .presetBtn, .presetBtn-active {
+  .button-preset, .button-preset-active {
     @include box-sizing(border-box);
     position: absolute;
     right: 0;
@@ -242,10 +242,10 @@
     border-bottom-right-radius: $button-border-radius;
     box-shadow: $button-box-shadow;
   }
-  .presetBtn-active, .presetBtn:hover{
+  .button-preset-active, .button-preset:hover{
     background: $imageBtnPreset 50% 50% no-repeat, $buttonPreset-hover-background;
   }
-  .presetBtn{
+  .button-preset {
     @include linear-gradient-with-image(#{$buttonPreset-gradient}, $imageBtnPreset 50% 50% no-repeat);
   }
 }
@@ -289,10 +289,10 @@
 //-----------------------------------------------------------------------------------------//
 
 #controlKit .panel{
-  .wrapSlider,.sliderWrap,.sliderSlot,.sliderHandle{
+  .wrap-slider,.slider-wrap,.slider-slot,.slider-handle {
     @include box-sizing(border-box);
   }
-  .wrapSlider{
+  .wrap-slider {
     width: 70%;
     padding: 6px 0 0 0;
     float: right;
@@ -305,19 +305,19 @@
       float: right;
     }
   }
-  .sliderWrap{
+  .slider-wrap {
     float: left;
     cursor: ew-resize;
     width: $slider-width;
   }
-  .sliderSlot{
+  .slider-slot {
     width: 100%;
     height: $slider-height;
     padding: $slider-padding;
     background-color: $slider-slot-background;
     @include component-input-border();
   }
-  .sliderHandle{
+  .slider-handle {
     position: relative;
     width: 100%;
     height: 100%;
@@ -354,48 +354,48 @@
 //-----------------------------------------------------------------------------------------//
 
 #controlKit .panel{
-  .graphSliderXWrap, .graphSliderYWrap {
+  .graph-slider-x-wrap, .graph-slider-y-wrap {
     position: absolute;
     @include box-sizing(border-box);
   }
-  .graphSliderXWrap {
+  .graph-slider-x-wrap {
     bottom: 0;
     left: 0;
     width: 100%;
     padding: 6px 20px 6px 6px;
   }
-  .graphSliderYWrap {
+  .graph-slider-y-wrap {
     top: 0;
     right: 0;
     height: 100%;
     padding: 6px 6px 20px 6px;
   }
-  .graphSliderX, .graphSliderY {
+  .graph-slider-x, .graph-slider-y {
     @include box-sizing(border-box);
     @include border-radius(2px);
     background: rgba(24, 27, 29, 0.5);
     border: 1px solid rgb(24, 27, 29);
   }
-  .graphSliderX {
+  .graph-slider-x {
     height: 8px;
   }
-  .graphSliderY {
+  .graph-slider-y {
     width: 8px;
     height: 100%;
   }
-  .graphSliderXHandle, .graphSliderYHandle {
+  .graph-slider-x-handle, .graph-slider-y-handle {
     @include box-sizing(border-box);
     cursor: pointer;
     border: 1px solid rgb(24, 27, 29);
     background: #303639;
   }
-  .graphSliderXHandle {
+  .graph-slider-x-handle {
     width: 20px;
     height: 100%;
     border-top: none;
     border-bottom: none;
   }
-  .graphSliderYHandle {
+  .graph-slider-y-handle {
     width: 100%;
     height: 20px;
     border-left: none;
@@ -405,7 +405,7 @@
 
 // Range
 //-----------------------------------------------------------------------------------------//
-#controlKit .subGroup .wrap .wrap .wrap{
+#controlKit .sub-group .wrap .wrap .wrap{
   width: 25%;
   padding: 0;
   float: left;
@@ -475,13 +475,13 @@
           background-color: $optionsList-item-hover-background;
         }
       }
-      .liSelected {
+      .li-selected {
         background-color: $optionsList-item-selected-background;
       }
     }
     .color {
       @include box-sizing(border-box);
-      li, .liSelected {
+      li, .li-selected {
         @include box-sizing(border-box);
         padding: 0;
         height: $input-height;
@@ -492,7 +492,7 @@
           font-weight: bold;
         }
       }
-      .liSelected {
+      .li-selected {
         font-weight: bold;
       }
     }
@@ -518,7 +518,7 @@
     text-overflow: ellipsis;
     cursor: default;
   }
-  .panel .head, .picker .head, .panel .panelHead-inactive {
+  .panel .head, .picker .head, .panel .panel-head-inactive {
     height: $panel-head-height;
     padding: $panel-head-padding;
     background: $panel-head-background;
@@ -546,7 +546,7 @@
 // Group
 //-----------------------------------------------------------------------------------------//
 
-#controlKit .panel .groupList .group {
+#controlKit .panel .group-list .group {
   .head {
     height: $group-head-height;
     padding: $group-head-padding;
@@ -578,9 +578,9 @@
 // SubGroup
 //-----------------------------------------------------------------------------------------//
 
-#controlKit .panel .groupList .group {
-  .subGroupList {
-    .subGroup {
+#controlKit .panel .group-list .group {
+  .sub-group-list {
+    .sub-group {
       padding: 0;
       height: auto;
       border-bottom: $subGroup-border;
@@ -673,10 +673,10 @@
     }
   }
   &:last-child {
-    .subGroupList, .scrollBuffer:nth-of-type(3) {
+    .sub-group-list, .scroll-buffer:nth-of-type(3) {
       border-bottom: none;
     }
-    .scrollWrap .subGroupList {
+    .scroll-wrap .sub-group-list {
       //border-bottom: map-1($subG);
 
     }
@@ -688,11 +688,11 @@
 //-----------------------------------------------------------------------------------------//
 
 #controlKit .panel{
-  .scrollWrap{
+  .scroll-wrap {
     position: relative;
     overflow: hidden;
   }
-  .scrollBuffer{
+  .scroll-buffer {
     width: 100%;
     height: $scrollBuffer-height;
     border-top: $scrollBuffer-border-top;
@@ -753,7 +753,7 @@
     box-shadow: $menu-button-box-shadow;
   }
 
-  @mixin menu-btn-background($img, $imgHover) {
+  @mixin menu-button-background($img, $imgHover) {
     background: $img 50% 50% no-repeat, $menu-button-background;
     &:hover {
       background: $imgHover 50% 50% no-repeat, $menu-button-hover-background;
@@ -761,21 +761,19 @@
     }
   }
 
-  .btnHide, .btnShow, .btnClose {
+  .button-menu-hide, .button-menu-show, .button-menu-close {
     width: 20px;
   }
-
-  .btnHide {
-    @include menu-btn-background($imageBtnHide, $imageBtnHideHover);
+  .button-menu-hide {
+    @include menu-button-background($imageBtnHide, $imageBtnHideHover);
   }
-  .btnShow {
-    @include menu-btn-background($imageBtnShow, $imageBtnShowHover);
+  .button-menu-show {
+    @include menu-button-background($imageBtnShow, $imageBtnShowHover);
   }
-  .btnClose {
-    @include menu-btn-background($imageBtnClose, $imageBtnCloseHover);
+  .button-menu-close {
+    @include menu-button-background($imageBtnClose, $imageBtnCloseHover);
   }
-
-  .btnUndo {
+  .button-menu-undo {
     background: $imageBtnUndo 20% 50% no-repeat, $menu-button-background;
     padding: $menu-buttonUndo-padding;
     width: $menu-buttonUndo-width;
@@ -796,29 +794,29 @@
 //-----------------------------------------------------------------------------------------//
 
 #controlKit .panel{
-  .arrowSMax {
+  .arrow-s-max {
     background: $image-arrow-s-max center no-repeat;
   }
-  .arrowSMin {
+  .arrow-s-min {
     background: $image-arrow-s-min center no-repeat;
   }
-  .arrowSMax, .arrowSMin {
+  .arrow-s-max, .arrow-s-min {
     width: 100%;
     height: 20px;
   }
-  .arrowBMax {
+  .arrow-b-max {
     background: $image-arrow-b-max center no-repeat;
   }
-  .arrowBMin {
+  .arrow-b-min {
     background: $image-arrow-b-min center no-repeat;
   }
-  .arrowBSubMax {
+  .arrow-b-sub-max {
     background: $image-arrow-b-sub-max center no-repeat;
   }
-  .arrowBSubMin {
+  .arrow-b-sub-min {
     background: $image-arrow-b-sub-min center no-repeat;
   }
-  .arrowBMax, .arrowBMin, .arrowBSubMax, .arrowBSubMin {
+  .arrow-b-max, .arrow-b-min, .arrow-b-sub-max, .arrow-b-sub-min {
     width: 10px;
     height: 100%;
     float: right;
@@ -860,19 +858,19 @@
     padding: $picker-panel-padding;
     float: left;
   }
-  .fieldWrap {
+  .field-wrap {
     padding: $picker-field-wrap-padding;
   }
-  .sliderWrap {
+  .slider-wrap {
     padding: $picker-slider-wrap-padding;
   }
-  .fieldWrap, .sliderWrap, .inputWrap {
+  .field-wrap, .slider-wrap, .input-wrap {
     height: auto;
     overflow: hidden;
     float: left;
   }
   //FIXME
-  .inputWrap {
+  .input-wrap {
     @include box-sizing(border-box);
     @include border($picker-input-wrap-border, $picker-input-wrap-border-radius);
     box-shadow: $picker-input-wrap-box-shadow;
@@ -880,7 +878,7 @@
     float: right;
     padding: $picker-input-wrap-padding;
   }
-  .inputField{
+  .input-field {
     width: $picker-input-field-width;
     float: right;
     margin-bottom: $picker-input-field-margin-bottom;
@@ -900,7 +898,7 @@
       float: right;
     }
   }
-  .controlsWrap{
+  .controls-wrap {
     @include box-sizing(border-box);
     width: 100%;
     height: auto;
@@ -913,7 +911,7 @@
       margin: $picker-control-button-margin;
     }
   }
-  .colorContrast{
+  .color-contrast {
     @include box-sizing(border-box);
     @include component-input-border;
 
@@ -936,15 +934,15 @@
     float: right;
   }
   .wrap {
-    .inputWrap:nth-of-type(3) {
+    .input-wrap:nth-of-type(3) {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     }
-    .inputWrap:nth-of-type(4) {
+    .input-wrap:nth-of-type(4) {
       border-top: none;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
-      .inputField {
+      .input-field {
         width: 100%;
         .label {
           width: 20%;
@@ -955,7 +953,7 @@
       }
     }
   }
-  .fieldWrap, .sliderWrap {
+  .field-wrap, .slider-wrap {
     background: #1e2224;
     @include component-input-border;
     position: relative;
@@ -968,7 +966,7 @@
       cursor: pointer;
     }
   }
-  .fieldWrap .indicator {
+  .field-wrap .indicator {
     width: $picker-indicator-field-size;
     height: $picker-indicator-field-size;
 
@@ -977,7 +975,7 @@
 
     @include border-radius(50%);
   }
-  .sliderWrap .indicator{
+  .slider-wrap .indicator{
     width: $picker-indicator-slider-width;
     height: $picker-indicator-slider-height;
     @include border-radius($picker-indicator-field-size);
