@@ -232,8 +232,8 @@
     @include box-sizing(border-box);
     position: absolute;
     right: 0;
-    width: $buttonPreset-width;
-    height:$buttonPreset-height;
+    width: $button-preset-width;
+    height: $button-preset-height;
     margin: 0;
     cursor: pointer;
     float: right;
@@ -243,10 +243,10 @@
     box-shadow: $button-box-shadow;
   }
   .button-preset-active, .button-preset:hover{
-    background: $imageBtnPreset 50% 50% no-repeat, $buttonPreset-hover-background;
+    @include linear-gradient-with-image(#{$button-preset-hover-gradient},  $imageBtnPreset 50% 50% no-repeat);
   }
   .button-preset {
-    @include linear-gradient-with-image(#{$buttonPreset-gradient}, $imageBtnPreset 50% 50% no-repeat);
+    @include linear-gradient-with-image(#{$button-preset-gradient}, $imageBtnPreset 50% 50% no-repeat);
   }
 }
 
@@ -406,18 +406,18 @@
 // Range
 //-----------------------------------------------------------------------------------------//
 #controlKit .sub-group .wrap .wrap .wrap{
-  width: 25%;
-  padding: 0;
-  float: left;
+  width: 25% !important;
+  padding: 0 !important;
+  float: left !important;
   .label{
-    width: 100%;
-    padding: $range-label-padding;
+    width: 100% !important;
+    padding: $range-label-padding !important;
 
-    color: $range-label-color;
-    text-align: $range-label-text-align;
-    text-transform: $range-label-text-transform;
-    font-weight: $range-label-font-weight;
-    text-shadow: $range-label-text-shadow;
+    color: $range-label-color !important;
+    text-align: $range-label-text-align  !important;
+    text-transform: $range-label-text-transform  !important;
+    font-weight: $range-label-font-weight !important;
+    text-shadow: $range-label-text-shadow !important;
   }
   input[type='text'] {
     padding: 0;
@@ -561,13 +561,11 @@
       line-height: $group-head-height;
       color: $group-head-label-color;
     }
-
     &:hover {
       border-top: $group-head-hover-border-top;
       @include linear-gradient($group-head-hover-gradient);
     }
   }
-
   li {
     height: $subGroupList-item-height;
     padding: $subGroupList-item-padding;
@@ -586,7 +584,6 @@
       border-bottom: $subGroup-border;
 
       ul {
-        border-top: $subGroup-border;
         overflow: hidden;
         li {
           background: $subGroupList-item-background;
@@ -599,7 +596,6 @@
       &:first-child {
         margin-top: 0;
       }
-
       .head, .head-inactive {
         cursor: pointer;
       }
@@ -607,9 +603,9 @@
         height: $subGroup-head-height;
         padding: $subGroup-head-padding;
         border-top: none;
+        border-bottom: $subGroup-border;
         background-image: none;
         background-color: $subGroup-head-background;
-        margin-bottom: -1px;
         &:hover {
           background-image: none;
           background-color: $subGroup-head-hover-background;
@@ -617,7 +613,6 @@
       }
       .head-inactive {
         @include box-sizing(border-box);
-        cursor: pointer;
         height: $subGroup-head-height;
         padding: $subGroup-head-padding;
 
@@ -832,7 +827,7 @@
 
   @include box-sizing(border-box);
   @include border-radius($picker-panel-border-radius);
-  background-color: $picker-panel-background;
+  background-color: #3b3b3b;
 
   font-family: $picker-panel-font-family;
   font-size: $picker-panel-font-size;
@@ -873,7 +868,6 @@
   .input-wrap {
     @include box-sizing(border-box);
     @include border($picker-input-wrap-border, $picker-input-wrap-border-radius);
-    box-shadow: $picker-input-wrap-box-shadow;
     width: $picker-input-wrap-width;
     float: right;
     padding: $picker-input-wrap-padding;

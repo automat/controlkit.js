@@ -120,7 +120,7 @@ $subGroupList-item-padding: 0 10px 0 10px;
 $subGroupList-item-background: #2e2e2e;
 // base
 $subGroup-margin-top : 6px;
-$subGroup-border: 1px solid #262626;
+$subGroup-border: 1px solid #242424;
 $subGroup-border-radius: $default-border-radius;
 $subGroup-box-shadow: 0 1px 0 0 rgba(59,68,71,1.0);
 // head
@@ -156,7 +156,7 @@ $input-font-size: 11px;
 $input-text-shadow: $default-text-shadow;
 $input-font-family: $default-font-family;
 $input-background: #222729;
-$input-gradient: rgba(0,0,0,0) 0%, rgba(0,0,0,0.125) 100%;
+$input-gradient: rgba(0,0,0,0.075) 0%, rgba(0,0,0,0.125) 100%;
 $input-top-color: rgba(0,0,0,0.0125);
 $input-border-radius: $default-border-radius;
 
@@ -178,10 +178,11 @@ $textarea-wrap-scrollBar-border-radius: $default-border-radius;
 //-----------------------------------------------------------------------------------------//
 // Range
 //-----------------------------------------------------------------------------------------//
-$range-label-padding: 4px 0 0 0;
+$range-label-padding: 8px 0 0 0;
 $range-label-color: #878787;
 $range-label-text-align: center;
 $range-label-text-transform: uppercase;
+$range-label-font-size: 10px;
 $range-label-font-weight: bold;
 $range-label-text-shadow: 1px 1px #1a1a1a;
 
@@ -212,15 +213,13 @@ $button-hover-gradient: #454545 0%, #3b3b3b 100%;
 //-----------------------------------------------------------------------------------------//
 
 // base
-$buttonPreset-width: 20px;
-$buttonPreset-height: $input-height;
-$buttonPreset-box-shadow: 0 1px 0 0 #fff inset;
-$buttonPreset-border-left: 1px solid $component-border-color;
-$buttonPreset-gradient: $button-gradient;
+$button-preset-width: 20px;
+$button-preset-height: $input-height;
+$button-preset-box-shadow: 0 1px 0 0 #fff inset;
+$button-preset-border-left: 1px solid $component-border-color;
+$button-preset-gradient: $button-gradient;
 // hover
-$buttonPreset-hover-gradient: $button-gradient;
-$buttonPreset-hover-bevel-top: none;
-$buttonPreset-hover-background: #1C1C1C;
+$button-preset-hover-gradient: $button-hover-gradient;
 
 //-----------------------------------------------------------------------------------------//
 // Select
@@ -256,8 +255,8 @@ $options-font-family: $default-font-family;
 $options-text-shadow: $default-text-shadow;
 $options-color: #fff;
 $options-font-size: 11px;
-$options-box-shadow: 0 1px 0 0 #566166 inset;
-$options-background: #3c494e;
+$options-box-shadow: 0 1px 0 0 #4a4a4a inset;
+$options-background: #454545;
 
 $optionsList-item-height:              25px;
 $optionsList-item-padding:             0 20px 0 10px;
@@ -314,7 +313,6 @@ $picker-slider-wrap-padding: 3px 13px 3px 3px;
 // input wrap
 $picker-input-wrap-border: $subGroup-border;
 $picker-input-wrap-border-radius: $subGroup-border-radius;
-$picker-input-wrap-box-shadow: $subGroup-box-shadow;
 $picker-input-wrap-width: 140px;
 $picker-input-wrap-padding: 5px 10px 1px 0;
 // input
