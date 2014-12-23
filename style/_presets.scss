@@ -1,313 +1,346 @@
-$defaultFontFamily:   arial,sans-serif;
-$defaultTextShadow:   1px 1px #000;
-$defaultBorderRadius: 2px;
+//-----------------------------------------------------------------------------------------//
+// Utilities
+//-----------------------------------------------------------------------------------------//
 
-/*-------------------------------------------------------------------------------------
- * Panel
- *-------------------------------------------------------------------------------------*/
+@function arr1($arr,$index){
+  @return nth($arr,$index + 1);
+}
 
-$panelColorBg:      #303639;
-$panelBorderRadius: 2px;
-$panelBoxShadow:    0 0 1px 1px rgba(0,0,0,0.25);
+//-----------------------------------------------------------------------------------------//
+// Shared
+//-----------------------------------------------------------------------------------------//
 
-$labelFontSize:   11px;
-$labelFontWeight: bold;
-$labelTextShadow: 0 -1px #000;
+$default-font-family: Arial,sans-serif;
+$default-text-shadow: 1px 1px #000;
+$default-border-radius: 2px;
 
-$panelHeadColorBg:      #1a1d1f;
-$panelHeadHeight:       30px;
-$panelHeadPadding:      0 10px 0 10px;
-$panelHeadBorderTop:    1px solid #202426;
-$panelHeadBorderBottom: 1px solid #111314;
+$color:
+  #1A1A1A,
+  #343434,
+  #2E2E2E,
+  #262626,
+  #000;
 
-$panelHeadLabelFontColor:    #65696b;
-$panelHeadInactiveBorderTop: 1px solid #202426;
+$label-font-size: 11px;
+$label-font-weight: bold;
+$label-text-shadow: 0 1px #000;
 
-/*-------------------------------------------------------------------------------------
- * Components
- *-------------------------------------------------------------------------------------*/
-$compWidth:        70%;
-$compHeight:       25px;
-$compPadding:      6px 0 0 0;
-$compBorderBottom: 1px solid #3b4447;
-$compBorderRadius: 2px;
-$compInsetBorder:  0 0 1px 1px #111314 inset;
-$compInsetShadow:  0 0 1px 2px rgba(0,0,0,0.0125) inset,
-                   $compInsetBorder;
+//-----------------------------------------------------------------------------------------//
+// Comps
+//-----------------------------------------------------------------------------------------//
 
-$compFontSize: 11px;
+// panel base
+$panel-width : 300px;
+$panel-background: arr1($color,0);
+$panel-border-radius: 3px;
+$panel-box-shadow:  0 1px 1px rgba(0, 0, 0, 0.25);
+$panel-font-family: $default-font-family;
+// panel head
+$panel-head-background: arr1($color, 0);
+$panel-head-height: 30px;
+$panel-head-padding: 0 10px 0 10px;
+$panel-head-border-top: 1px solid #202426;
+$panel-head-label-color: #65696b;
 
-$compLabelWidth:      30%;
-$compLabelPadding:    10px 5px 0 0;
-$compLabelFontSize:   $compFontSize;
-$compLabelFontWeight: normal;
-$compLabelFontColor:  #aeb5b8;
-$compLabelTextShadow: $defaultTextShadow;
+//-----------------------------------------------------------------------------------------//
+// Component
+//-----------------------------------------------------------------------------------------//
 
-//Range
-$rangeLabelPadding:       4px 0 0 0;
-$rangeLabelFontColor:     #878787;
-$rangeLabelTextAlign:     center;
-$rangeLabelTextTransform: uppercase;
-$rangeLabelFontWeight:    bold;
-$rangeLabelTextShadow:    1px 1px #1a1a1a;
+// base
+$component-width: 70%;
+$component-height: 25px;
+$component-padding: 5px 0 0 0;
+$component-border-bottom: 1px solid #3b4447;
+$component-border-radius: $default-border-radius;
+$component-border-color: #1F1F1F;
+$component-inset-border: 0 0 0 1px $component-border-color inset;
+$component-inset-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.0125);
+$component-font-family: $default-font-family;
+$component-font-size: 11px;
+//label
+$component-label-width: 30%;
+$component-label-padding: 12px 5px 0 0;
+$component-label-font-size: $component-font-size;
+$component-label-font-weight: normal;
+$component-label-color: #aeb5b8;
+$component-label-text-shadow: $default-text-shadow;
 
-//Slider
-$sliderWidth:   $compWidth;
-$sliderPadding: 0 6px 0 0;
+//-----------------------------------------------------------------------------------------//
+// Menu
+//-----------------------------------------------------------------------------------------//
 
-$sliderSlotBorder:       none;
-$sliderSlotBorderRadius: $defaultBorderRadius;
-$sliderSlotColorBg:      #1e2224;
+// base
+$menu-padding: 5px 0 0 0;
+// button
+$menu-button-width: 20px;
+$menu-button-height: 20px;
+$menu-button-margin-left: 4px;
+$menu-button-border-radius: $component-border-radius;
+$menu-button-background: #1a1d1f;
+$menu-button-box-shadow:  (0 0 0 1px #131313 inset,-1px 2px 0 0 #212527 inset);
+$menu-button-border-bottom: 1px solid #24292b;
+$menu-button-gradient: rgb(26, 29, 31) 0%, rgb(26, 29, 31) 100%;
+$menu-button-font-family: $default-font-family;
+$menu-button-font-size: 10px;
+$menu-button-font-weight: bold;
+$menu-button-color: #aaaaaa;
+$menu-button-text-shadow:  0 -1px #000;
+$menu-button-text-transform: uppercase;
+// button hover
+$menu-button-hover-background: #111314;
+$menu-button-hover-gradient: #fff 0%, #000 100%;
+// button undo
+$menu-buttonUndo-padding: 0 6px 1px 0;
+$menu-buttonUndo-width: 38px;
 
-$sliderHeight:          $compHeight;
-$sliderPadding:         3px;
-$sliderHandleColorBG:   #b32435;
-$sliderHandleGradient:  rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%;
-$sliderHandleBoxShadow: 0 1px 0 0 #0f0f0f;
+//-----------------------------------------------------------------------------------------//
+// Group
+//-----------------------------------------------------------------------------------------//
 
-//Input
-$inputHeight:    $compHeight;
-$inputPadding:   0 0 0 8px;
-$inputBoxShadow: 0 0 1px 2px rgba(0,0,0,0.0125) inset,
-                 0 0 1px 1px #111314 inset;
+// base
+$group-head-height: 38px;
+$group-head-padding: 0 10px 0 10px;
+$group-head-border-top: 1px solid #4f4f4f;
+$group-head-border-bottom: 1px solid #262626;
+$group-head-gradient: #454545 0%, #3b3b3b 100%;
+// label
+$group-head-label-font-size: 12px;
+$group-head-label-color: #fff;
+// hover
+$group-head-hover-border-top: 1px solid #525252;
+$group-head-hover-gradient: #454545 0%, #404040 100%;
 
-$inputFontFamily : $defaultFontFamily;
-$inputFontColor :  #fff;
-$inputFontSize :   11px;
-$inputFontShadow : $defaultTextShadow;
+//-----------------------------------------------------------------------------------------//
+// Group
+//-----------------------------------------------------------------------------------------//
 
-$inputColorBg:     #222729;
-$inputColorText:   #fff;
-$inputGradient:    rgba(0,0,0,0) 0%,
-                   rgba(0,0,0,0.125) 100%;
+$subGroupList-item-height: 35px;
+$subGroupList-item-border-bottom: 1px solid #1e2224;
+$subGroupList-item-padding: 0 10px 0 10px;
+$subGroupList-item-background: #2e2e2e;
+// base
+$subGroup-margin-top : 6px;
+$subGroup-border: 1px solid #262626;
+$subGroup-border-radius: $default-border-radius;
+$subGroup-box-shadow: 0 1px 0 0 rgba(59,68,71,1.0);
+// head
+$subGroup-head-height: 27px;
+$subGroup-head-padding: 0 10px 0 10px;
+$subGroup-head-inset-top: 1px solid #1e2224;
+$subGroup-head-border-bottom: 1px solid #1e2224;
+$subGroup-head-border-top-radius: $default-border-radius;
+$subGroup-head-background: #272727;
+// head - hover
+$subGroup-head-hover-background: #272727;
+// head - inactive
+$subGroup-head-inactive-box-shadow: 0 1px 0 0 #404040 inset;
+$subGroup-head-inactive-gradient: #3b3b3b 0%, #383838 100%;
+$subGroup-head-inactive-hover-box-shadow: 0 1px 0 0 #474747 inset;
+$subGroup-head-inactive-hover-gradient: #404040 0%, #3B3B3B 100%;
+// head - label
+$subGroup-head-label-color: #fff;
+$subGroup-head-label-font-weight: bold;
+$subGroup-head-label-font-size: 11px;
+$subGroup-head-label-text-shadow: $default-text-shadow;
+$subGroup-head-label-text-transform: capitalize;
 
-$inputColorInsetTop: rgba(0,0,0,0.0125);
+//-----------------------------------------------------------------------------------------//
+// Input
+//-----------------------------------------------------------------------------------------//
 
-$inputBorderRadius: $defaultBorderRadius;
+$input-height: $component-height;
+$input-padding: 0 0 0 8px;
+$input-box-shadow: 0 0 1px 2px rgba(0,0,0,0.0125) inset, 0 0 1px 1px #111314 inset;
+$input-color: #fff;
+$input-font-size: 11px;
+$input-text-shadow: $default-text-shadow;
+$input-font-family: $default-font-family;
+$input-background: #222729;
+$input-gradient: rgba(0,0,0,0) 0%, rgba(0,0,0,0.125) 100%;
+$input-top-color: rgba(0,0,0,0.0125);
+$input-border-radius: $default-border-radius;
 
-//Textarea
-$textareaPadding:          5px 8px 2px 8px;
-$textareaWrapBorderRadius: $inputBorderRadius;
-$textareaWrapBoxShadow:    $inputBoxShadow;
-$textareaWrapGradient:     $inputGradient;
-$textareaWrapColorBg:      $inputColorBg;
+//-----------------------------------------------------------------------------------------//
+// Textarea
+//-----------------------------------------------------------------------------------------//
 
-$textareaWrapScrollBarBorder:       1px solid #101213;
-$textareaWrapScrollBarBorderRadius: $defaultBorderRadius;
+//base
+$textarea-padding: 5px 8px 2px 8px;
+//wrap
+$textarea-wrap-border-radius: $input-border-radius;
+$textarea-wrap-box-shadow: $input-box-shadow;
+$textarea-wrap-gradient: $input-gradient;
+$textarea-wrap-background: $input-background;
+//wrap-scrollbar
+$textarea-wrap-scrollBar-border: 1px solid #101213;
+$textarea-wrap-scrollBar-border-radius: $default-border-radius;
 
-//Button
-$buttonHeight :      26px;
-$buttonMargin :      -2px 0 0 0;
-$buttonBorderRadius: $defaultBorderRadius;
+//-----------------------------------------------------------------------------------------//
+// Range
+//-----------------------------------------------------------------------------------------//
+$range-label-padding: 4px 0 0 0;
+$range-label-color: #878787;
+$range-label-text-align: center;
+$range-label-text-transform: uppercase;
+$range-label-font-weight: bold;
+$range-label-text-shadow: 1px 1px #1a1a1a;
 
-$buttonFontFamily: $defaultFontFamily;
-$buttonFontColor:     #fff;
-$buttonFontSize:      10px;
-$buttonFontWeight:    bold;
-$buttonTextShadow:    0 -1px #000;
-$buttonTextTransform: uppercase;
+//-----------------------------------------------------------------------------------------//
+// Button
+//-----------------------------------------------------------------------------------------//
+// base
+$button-height: 26px;
+$button-margin: 0;
+$button-border-radius: $default-border-radius;
+$button-background: #00ff00;
+$button-color: #fff;
+$button-font-family: $default-font-family;
+$button-font-size: 10px;
+$button-font-weight: bold;
+$button-text-shadow: 0 1px #000;
+$button-text-transform: uppercase;
+$button-box-shadow: 0 0 0 1px $component-border-color inset, -1px 2px 0 0 #4a4a4a inset;
+$button-gradient: #404040 0%, #3b3b3b 100%;
+// active
+$button-active-gradient: $button-gradient;
+// hover
+$button-hover-bevel-top: -1px 2px 0 0 #fff inset;
+$button-hover-gradient: #454545 0%, #3b3b3b 100%;
 
-$buttonBgColor: #3c494e;
-$buttonBevelTopColor: #323a44;
-$buttonBevelTop : -1px 2px 0 0 $buttonBevelTopColor inset;
+//-----------------------------------------------------------------------------------------//
+// Button Preset
+//-----------------------------------------------------------------------------------------//
 
-$buttonBoxShadow: 0 0 0 1px #131313 inset,
-                  $buttonBevelTop;
+// base
+$buttonPreset-width: 20px;
+$buttonPreset-height: $input-height;
+$buttonPreset-box-shadow: 0 1px 0 0 #fff inset;
+$buttonPreset-border-left: 1px solid $component-border-color;
+$buttonPreset-gradient: $button-gradient;
+// hover
+$buttonPreset-hover-gradient: $button-gradient;
+$buttonPreset-hover-bevel-top: none;
+$buttonPreset-hover-background: #1C1C1C;
 
-$buttonGradient:       rgba(34,39,41,0) 0%,
-                       rgba(34,39,41,0.65) 100%;
-$buttonGradientActive: rgba(0,0,0,0.1) 0%,
-                       rgba(0,0,0,0) 100%;
+//-----------------------------------------------------------------------------------------//
+// Select
+//-----------------------------------------------------------------------------------------//
 
-$buttonPresetGradient: rgb(58, 70, 75) 0%,
-                       rgb(44, 52, 55) 100%;
+$select-gradient: $button-gradient;
+$select-hover-gradient: $button-hover-gradient;
 
-$buttonPresetWidth:      20px;
-$buttonPresetHeight:     $inputHeight;
-$buttonPresetBoxShadow:  0 1px 0 0 $buttonBevelTopColor inset;
-$buttonPresetBorderLeft: 1px solid #0f1112;
+//-----------------------------------------------------------------------------------------//
+// Slider
+//-----------------------------------------------------------------------------------------//
 
-//Select
-$selectGradient: rgba(58, 70, 75, 1) 0%, rgba(44, 52, 55, 0) 100%;
-
-/*-------------------------------------------------------------------------------------
- * Canvas
- *-------------------------------------------------------------------------------------*/
-
-$canvasWrapMargin : 6px 0 0 0;
-$canvasWrapBorderRadius: $defaultBorderRadius;
-$canvasWrapColorBg:#1e2224;
-$canvasWrapGradient: rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%;
-
-/*-------------------------------------------------------------------------------------
- * ScrollBar
- *-------------------------------------------------------------------------------------*/
-
-$scrollBarWidth:             17px;
-$scrollBarBgColor:           #212628;
-$scrollBarGradient:          rgb(21, 24, 26) 0%, rgba(26, 29, 31,0.0) 100%;
-$scrollBarTrackPadding:      0 3px 0 2px;
-$scrollBarThumbWidth:        13px;
-$scrollBarThumbBorderRadius: 2px;
-$scrollBarThumbBgColor:      #3b484e;
-$scrollBarThumbGradient:     #3a4145 0%,#363c40 100%;
-$scrollBarThumbBorder:       1px solid #15181a;
-$scrollBarThumbBoxShadow:    inset 0 1px 0 0 #434b50;
-
-$scrollBufferHeight:       8px;
-$scrollBufferBorderTop:    1px solid #3b4447;
-$scrollBufferBorderBottom: 1px solid #1e2224;
-
-/*-------------------------------------------------------------------------------------
- * Group & subGroup
- *-------------------------------------------------------------------------------------*/
-
-$groupHeadHeight:       38px;
-$groupHeadBorderTop:    1px solid #566166;
-$groupHeadBorderBottom: 1px solid #1a1d1f;
-$groupHeadPadding:      0 20px 0 15px;
-$groupHeadGradient:     #3c4a4f 0%,#383f47 100%;
-$groupHeadHoverGradient: #3c4a4f 0%,#3c4a4f 100%;
-$groupHeadLabelFontSize:12px;
-$groupHeadLabelFontColor:#fff;
-
-
-$subGroupListPadding:     10px;
-$subGroupListBorderTop:   1px solid #3b4447;
-$subGroupListBorderBottom:1px solid #1e2224;
-
-$subGroupListItemHeight: 35px;
-$subGroupListItemPadding:0 10px 0 10px;
-$subGroupListItemColorBgOdd:#292d30;
-$subGroupListItemColorBgEven: #303639;
-
-$subGroupMarginTop: 6px;
-$subGroupBorder:       1px solid #1e2224;
-$subGroupBorderRadius: $defaultBorderRadius;
-$subGroupBoxShadow:    0 1px 0 0 rgba(59,68,71,1);
-
-$subGroupHeadHeight: 26px;
-$subGroupHeadPadding: 0 10px 0 10px;
-$subGroupHeadBorderTop: none;
-$subGroupHeadBorderBottom: 1px solid #1e2224;
-$subGroupHeadBorderTopRadius: $defaultBorderRadius;
-$subGroupHeadColorBg: #25282b;
-$subGroupHeadHoverColorBg: #222629;
-
-$subGroupHeadInactiveHeight:      $subGroupHeadHeight;
-$subGroupHeadInactivePadding:     $subGroupHeadPadding;
-$subGroupHeadInactiveBoxShadow:   0 1px 0 0 #434b50 inset;
-$subGroupHeadInactiveGradient:    rgb(58, 65, 69) 0%,rgb(54, 60, 64) 100%;
-$subGroupHeadInactiveHoverColorBg: #3A4145;
-
-$subGroupHeadLabelFontColor : #fff;
-$subGroupHeadLabelFontWeight : bold;
-$subGroupHeadLabelFontSize : 11px;
-$subGroupHeadLabelTextShadow :  $defaultTextShadow;
-$subGroupHeadLabelTextTransform :  capitalize;
-
-$subGroupCanvasListItemPadding: 0 10px 0 10px;
-
-/*-------------------------------------------------------------------------------------
- * Menu
- *-------------------------------------------------------------------------------------*/
-
-$menuPadding:             5px 0 0 0;
-
-$menuButtonWidth:         20px;
-$menuButtonHeight:        20px;
-$menuButtonMarginLeft:    4px;
-$menuButtonBorderRadius:  $compBorderRadius;
-$menuButtonColorBg: #1a1d1f;
-$menuButtonFontFamily: $defaultFontFamily;
-$menuButtonFontSize:      10px;
-$menuButtonFontWeight:    bold;
-$menuButtonFontColor:     #aaaaaa;
-$menuButtonTextShadow:    0 -1px #000;
-$menuButtonTextTransform: uppercase;
-
-$menuButtonBoxShadow:     0 0 0 1px #131313 inset,
-                         -1px 2px 0 0 #212527 inset;
-
-$menuButtonHoverBoxShadow: 0 0 0 1px #131313 inset,
-                          -1px 2px 0 0 #121314 inset;
-
-$menuButtonBorderBottom:  1px solid #24292b;
-
-$menuButtonGradient:      rgb(26, 29, 31) 0%, rgb(26, 29, 31) 100%;//rgb(43, 48, 51) 0%,rgb(31, 35, 37) 100%;
-$menuButtonHoverColorBg: #111314;
-
-$menuButtonUndoPadding:   0 6px 1px 0;
-$menuButtonUndoWidth:     38px;
+// base
+$slider-width: $component-width;
+$slider-height: $component-height;
+$slider-padding: 3px;
+// slot
+$slider-slot-border: none;
+$slider-slot-border-radius: $default-border-radius;
+$slider-slot-background: #1e2224;
+// handle
+$slider-handle-background:#b32435;
+$slider-handle-gradient: rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%;
+$slider-handle-box-shadow: 0 1px 0 0 #0f0f0f;
 
 /*-------------------------------------------------------------------------------------
  * Options
  *-------------------------------------------------------------------------------------*/
 
-$optionsBorder:       1px solid #131313;
-$optionsBorderRadius: 2px;
+$options-border: 1px solid #1F1F1F;
+$options-border-radius: 2px;
+$options-font-family: $default-font-family;
+$options-text-shadow: $default-text-shadow;
+$options-color: #fff;
+$options-font-size: 11px;
+$options-box-shadow: 0 1px 0 0 #566166 inset;
+$options-background: #3c494e;
 
-$optionsFontFamily:   $defaultFontFamily;
-$optionsTextShadow:   $defaultTextShadow;
-$optionsFontColor:    #fff;
-$optionsFontSize:     11px;
+$optionsList-item-height:              25px;
+$optionsList-item-padding:             0 20px 0 10px;
+$optionsList-item-hover-background:    #1f2325;
+$optionsList-item-selected-background: #292d30;
 
-$optionsBoxShadow:    0 1px 0 0 #566166 inset;
-$optionsColorBg:      #3c494e;
+//-----------------------------------------------------------------------------------------//
+// Canvas & SVG
+//-----------------------------------------------------------------------------------------//
 
-$optionsListItemHeight:          28px;
-$optionsListItemPadding:         0 20px 0 10px;
-$optionsListItemHoverColorBg:    #1f2325;
-$optionsListItemSelectedColorBg: #292d30;
+$canvas-wrap-margin: 6px 0 0 0;
+$canvas-wrap-border-radius: $default-border-radius;
+$canvas-wrap-background: #1e2224;
+$canvas-wrap-gradient: rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%;
 
-/*-------------------------------------------------------------------------------------
- * Picker
- *-------------------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------------------//
+// ScrollBar
+//-----------------------------------------------------------------------------------------//
 
-$pickerPanelWidth :  360px;
-$pickerBorderRadius: $panelBorderRadius;
-$pickerColorBg:      $panelColorBg;
-$pickerFontFamily:   $defaultFontFamily;
-$pickerFontSize:     11px;
-$pickerFontColor:    #fff;
-$pickerTextShadow:   $defaultTextShadow;
-$pickerPadding:      10px;
+// base
+$scrollBar-width: 15px;
+$scrollBar-background: #212628;
+$scrollBar-gradient: #242424 0%, #2E2E2E 100%;
+// track
+$scrollBar-track-padding: 0 3px 0 2px;
+// thumb
+$scrollBar-thumb-width: 11px;
+$scrollBar-thumb-border-radius: 10px;
+$scrollBar-thumb-background: #343434;
+$scrollBar-thumb-gradient: #2E2E2E 0%,#2E2E2E 100%;
+$scrollBar-thumb-border: 1px solid #1b1f21;
+$scrollBar-thumb-box-shadow: inset 0 1px 0 0 #434b50;
+// buffer
+$scrollBuffer-height: 8px;
+$scrollBuffer-border-top: 1px solid #3b4447;
+$scrollBuffer-border-bottom: 1px solid #1e2224;
 
-$pickerFieldWrapPadding:     3px;
-$pickerSliderWrapPadding:    3px 13px 3px 3px;
-$pickerInputWrapBorder:      $subGroupBorder;
-$pickerInputWrapBorderRadis: $subGroupBorderRadius;
-$pickerInputWrapBoxShadow:   $subGroupBoxShadow;
-$pickerInputWrapWidth:       140px;
-$pickerInputWrapPadding:     5px 10px 1px 0;
+//-----------------------------------------------------------------------------------------//
+// Picker
+//-----------------------------------------------------------------------------------------//
 
-$pickerInputFieldWidth:        50%;
-$pickerInputFieldMarginBottom: 4px;
-$pickerInputFieldRatioLabel:   40%;
-$pickerInputFieldRatioWrap:    60%;
-
-$pickerControlsWrapPadding: 9px 0 0 0;
-$pickerControlButtonWidth: 65px;
-$pickerControlButtonMargin: 0 0 0 10px;
-
-$pickerColorContrastHeight: $compHeight;
-$pickerColorContrastPadding: 3px;
-$pickerColorContrastWidth:   80%;
-$pickerColorContrastMarginBottom : 4px;
-
-$pickerIndicatorColor:     #fff;
-$pickerIndicatorBorder:    2px solid $pickerIndicatorColor;
-$pickerIndicatorBoxShadow: 0 1px #000, 0 1px #000 inset;
-
-$pickerIndicatorFieldSize: 8px;
-$pickerIndicatorSliderWidth: 14px;
-$pickerIndicatorSliderHeight: 3px;
-$pickerIndicatorSliderArrowWidth: 4px;
-$pickerIndicatorSliderArrowHeight: 9px;
-$pickerIndicatorSliderArrowTop: -2px;
-$pickerIndicatorSliderArrowLeft: 19px;
-
-
-
-
+// panel
+$picker-panel-width: 360px;
+$picker-panel-border-radius: $panel-border-radius;
+$picker-panel-background: #343434;
+$picker-panel-font-family: $default-font-family;
+$picker-panel-font-size: 11px;
+$picker-panel-color: #fff;
+$picker-panel-text-shadow: $default-text-shadow;
+$picker-panel-padding: 10px;
+// wraps
+$picker-field-wrap-padding: 3px;
+$picker-slider-wrap-padding: 3px 13px 3px 3px;
+// input wrap
+$picker-input-wrap-border: $subGroup-border;
+$picker-input-wrap-border-radius: $subGroup-border-radius;
+$picker-input-wrap-box-shadow: $subGroup-box-shadow;
+$picker-input-wrap-width: 140px;
+$picker-input-wrap-padding: 5px 10px 1px 0;
+// input
+$picker-input-field-width: 50%;
+$picker-input-field-margin-bottom: 4px;
+$picker-input-field-ratio-label: 40%;
+$picker-input-field-ratio-wrap:  60%;
+// controls wrap
+$picker-controls-wrap-padding: 9px 0 0 0;
+// controls
+$picker-control-button-width: 65px;
+$picker-control-button-margin: 0 0 0 10px;
+// color contrast
+$picker-color-contrast-height: $component-height;
+$picker-color-contrast-padding: 3px;
+$picker-color-contrast-width: 80%;
+$picker-color-contrast-margin-bottom: 4px;
+// indicator
+$picker-indicator-color: #fff;
+$picker-indicator-border: 2px solid $picker-indicator-color;
+$picker-indicator-box-shadow: 0 1px #000, 0 1px #000 inset;
+$picker-indicator-field-size: 8px;
+// indicator slider
+$picker-indicator-slider-width: 14px;
+$picker-indicator-slider-height: 3px;
+$picker-indicator-slider-arrow-width: 4px;
+$picker-indicator-slider-arrow-height: 9px;
+$picker-indicator-slider-arrow-top: -2px;
+$picker-indicator-slider-arrow-left: 19px;

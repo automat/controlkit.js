@@ -1,135 +1,77 @@
-@mixin box-shadow($args...)
-{
-  //-webkit-box-shadow:$args;
-  //-moz-box-shadow:   $args;
-  box-shadow:        $args;
+@mixin linear-gradient($args...){
+  background-image:-o-linear-gradient($args);
+  background-image:linear-gradient($args);
 }
 
-@mixin linear-gradient($args...)
-{
-  //background-image:-webkit-linear-gradient($args);
-  //background-image:-moz-linear-gradient(   $args);
-  background-image:-o-linear-gradient(     $args);
-  background-image:linear-gradient(        $args);
+@mixin linear-gradient-with-background($gradient,$color){
+  background: $color;
+  @include linear-gradient($gradient);
 }
 
-@mixin linear-gradient-with-background($gradient,$bgColor)
-{
-  background: $bgColor;
-  @include linear-gradient(#{$gradient});
+@mixin linear-gradient-with-image($gradient,$image){
+  background: $image, -o-linear-gradient($gradient);
+  background: $image, linear-gradient($gradient);
 }
 
-@mixin v-linear-gradient($args...){@include linear-gradient($args);}
-
-@mixin h-linear-gradient($args...)
-{
-  //background-image: -moz-linear-gradient(left,$args);
-  //background-image: -o-linear-gradient(left,  $args);
+@mixin horizontal-linear-gradient($args...){
   background-image: linear-gradient(to right, $args);
 }
 
-@mixin h-linear-gradient-with-background($gradient,$bgColor)
-{
-  background: $bgColor;
-  @include h-linear-gradient(#{$gradient});
+@mixin horizontal-linear-gradient-with-background($gradient,$background){
+  background: $background;
+  @include horizontal-linear-gradient($gradient);
 }
 
-@mixin linear-gradient-with-image($gradient,$image)
-{
-  //background: $image,-moz-linear-gradient(#{$gradient});
-  background: $image,-o-linear-gradient(#{$gradient});
-  background: $image,linear-gradient(  #{$gradient});
-}
-
-
-@mixin user-select
-{
+@mixin user-select-none(){
   -webkit-touch-callout: none;
-  -webkit-user-select:   none;
-  -khtml-user-select:    none;
-  -moz-user-select:      none;
-  -ms-user-select:       none;
-   user-select:          none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-@mixin box-sizing($type)
-{
-  -webkit-box-sizing: $type;
-  -moz-box-sizing:    $type;
-  box-sizing:         $type;
+@mixin box-sizing($model){
+  -webkit-box-sizing: $model;
+  -moz-box-sizing: $model;
+  box-sizing: $model;
 }
 
-@mixin border-radius($radius)
-{
-  border-radius:         $radius;
-  -moz-border-radius:    $radius;
-  //-webkit-border-radius: $radius;
+@mixin border-radius($radius){
+  border-radius: $radius;
+  -moz-border-radius: $radius;
 }
 
-@mixin border($border,$radius)
-{
+@mixin border($border,$radius){
   border: $border;
-  @include border-radius($radius);
+  @include border-radius($radius)
 }
 
-@mixin arrow($width,$height,$color,$direction)
-{
-  width:  0;
+@mixin arrow($width, $height, $color, $direction) {
+  width: 0;
   height: 0;
 
-  @if($direction == 'up')
-  {
-    border-left:   $width * 0.5 solid transparent;
-    border-right:  $width * 0.5 solid transparent;
+  @if ($direction == 'up') {
+    border-left: $width * 0.5 solid transparent;
+    border-right: $width * 0.5 solid transparent;
     border-bottom: $height solid $color;
   }
 
-  @if($direction == 'down')
-  {
-    border-left:   $width * 0.5 solid transparent;
-    border-right:  $width * 0.5 solid transparent;
-    border-top:    $height solid $color;
+  @if ($direction == 'down') {
+    border-left: $width * 0.5 solid transparent;
+    border-right: $width * 0.5 solid transparent;
+    border-top: $height solid $color;
   }
 
-  @if($direction == 'left')
-  {
-    border-top:    $height * 0.5 solid transparent;
+  @if ($direction == 'left') {
+    border-top: $height * 0.5 solid transparent;
     border-bottom: $height * 0.5 solid transparent;
-    border-right:  $width solid $color;
+    border-right: $width solid $color;
   }
 
-  @if($direction == 'right')
-  {
-    border-top:    $height * 0.5 solid transparent;
+  @if ($direction == 'right') {
+    border-top: $height * 0.5 solid transparent;
     border-bottom: $height * 0.5 solid transparent;
-    border-left:   $width solid $color;
+    border-left: $width solid $color;
   }
 }
-
-@mixin beveled-arrow($width,$height,$color,$direction,$bevelWidth,$bevelTopColor,$bevelBottomColor)
-{
-  @include  arrow($width,$height,$color,$direction);
-
-  &:after,&:before{position: absolute;}
-
-  &:after
-  {
-    content: "";
-    @include  arrow($width - $bevelWidth,$height - $bevelWidth,$bevelTopColor,$direction);
-    top: $bevelWidth;
-    left: -$width*0.5;
-  }
-
-  /*
-  &:before
-  {
-    content: "";
-    @include arrow($width,$height -1,$bevelBottomColor,$direction);
-    top: $bevelWidth * 2;
-    left: -$width * 0.5;
-
-
-  }
-  */
-}
-
