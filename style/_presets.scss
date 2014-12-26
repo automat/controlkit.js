@@ -33,7 +33,7 @@ $label-text-shadow: 0 1px #000;
 $panel-width : 300px;
 $panel-background: arr1($color,0);
 $panel-border-radius: 3px;
-$panel-box-shadow:  0 1px 1px rgba(0, 0, 0, 0.25);
+$panel-box-shadow:  0 2px 2px rgba(0, 0, 0, 0.25);
 $panel-font-family: $default-font-family;
 // panel head
 $panel-head-background: arr1($color, 0);
@@ -87,7 +87,7 @@ $menu-button-color: #aaaaaa;
 $menu-button-text-shadow:  0 -1px #000;
 $menu-button-text-transform: uppercase;
 // button hover
-$menu-button-hover-background: #111314;
+$menu-button-hover-background: #000000;
 $menu-button-hover-gradient: #fff 0%, #000 100%;
 // button undo
 $menu-buttonUndo-padding: 0 6px 1px 0;

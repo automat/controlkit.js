@@ -6,6 +6,7 @@
         body {
             margin: 0;
             padding: 0;
+            background: #111111;
         }
     </style>
     <script type="text/javascript" src="../../bin/controlKit.js"></script>
@@ -118,12 +119,14 @@
             object.selectColorTarget = object.selectColorOptions[0];
 
 
-            var controlKit = new ControlKit();
+            var controlKit = new ControlKit({loadAndSave:true});
 
+//
             controlKit.addPanel({label: 'Panel 1 Left', align: 'left', width: 200})
                         .addSubGroup({label: 'SubGroup 1'})
                             .addNumberInput(object, 'number', {label: 'Num'})
                             .addNumberInput(object, 'number', {presets: object.numberPresets, label: 'Num/wP'})
+                            .addRange(object,'range')
                         .addSubGroup({label: 'SubGroup 2'})
                             .addStringInput(object, 'string', {label: 'Str'})
                             .addStringInput(object, 'string', {presets: object.stringPresets, label: 'Str/wP'})
@@ -150,7 +153,7 @@
                             .addValuePlotter(object, 'changeValue0', {height: 30, label: 'Val 0 x16', resolution: 16, lineWidth: 16});
 
 
-
+//
             controlKit.addPanel({label: 'Panel 3 Left Floated', align: 'left', width: 220}).
                 addGroup({label: 'Group 1'}).
                     addSubGroup({label: 'Function Selection'}).
@@ -167,16 +170,20 @@
                         addFunctionPlotter(object, 'func2');
 
 
-
-            controlKit.addPanel({label: 'Floating Color Panel', align: 'left', fixed: false, position: [650, 200], width: 200}).
-                    addSubGroup({label: 'System Colors'}).
-                        addColor(object, 'color0').
-                        addColor(object, 'color1').
-                        addColor(object, 'color2', {colorMode: 'rgbfv'}).
-                    addSubGroup({label: 'System Colors Compressed'}).
-                        addColor(object, 'color0', {presets: 'selectColorOptions'}).
-                    addSubGroup({label: 'Button Battery'}).
-                        addButton('FIRE');
+            //controlKit._loadState();
+            //controlKit._loadState();
+//
+//
+//
+//            controlKit.addPanel({label: 'Floating Color Panel', align: 'left', fixed: false, position: [650, 200], width: 200}).
+//                    addSubGroup({label: 'System Colors'}).
+//                        addColor(object, 'color0').
+//                        addColor(object, 'color1').
+//                        addColor(object, 'color2', {colorMode: 'rgbfv'}).
+//                    addSubGroup({label: 'System Colors Compressed'}).
+//                        addColor(object, 'color0', {presets: 'selectColorOptions'}).
+//                    addSubGroup({label: 'Button Battery'}).
+//                        addButton('FIRE');
 
 
             window.requestAnimationFrame = window.requestAnimationFrame ||
