@@ -9,17 +9,27 @@
         }
     </style>
     <script type="text/javascript" src="../../bin/controlKit.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../style/style.css">
     <script type="text/javascript">
         window.addEventListener('load',function(){
             var obj = {
                 num : 123
             };
 
-            var controlKit = new ControlKit();
+            var controlKit = new ControlKit({useExternalStyle:true});
             controlKit.addPanel().addNumberInput(obj,'num',{
                                     label: 'Number', // replace key label with custom one
-                                    onChange : function(){  // on enter
-                                        console.log('onChange');
+                                    onBegin : function(value){
+                                        console.log('Previous value:',value);
+                                    },
+                                    onChange : function(value){  // on enter
+                                        console.log('Value changed!','I can even access it',value);
+                                    },
+                                    onFinish : function(){
+                                        console.log('Enter!');
+                                    },
+                                    onError : function(code){
+                                        console.log('Wrong input.',code,'is to blame.')
                                     },
                                     dp : 4, // display 4 digits after the decimal point
                                     step : 10, // amount subbed/added on arrowKeyDown/arrowKeyUp
