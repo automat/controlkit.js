@@ -23,9 +23,9 @@
 
   @include user-select-none();
   pointer-events: none;
-  * {
-    outline: none;
-  }
+//  * {
+//    outline: none;
+//  }
 }
 
 //-----------------------------------------------------------------------------------------//
@@ -84,7 +84,6 @@
   .panel .color,
   .picker input[type='text'] {
     @include box-sizing(border-box);
-    @include user-select-none();
 
     width: 100%;
     height: $input-height;
@@ -94,6 +93,8 @@
     font-size: $input-font-size;
     color: $input-color;
     text-shadow: $input-text-shadow;
+
+    outline: none;
 
     @include linear-gradient-with-background(#{$input-gradient}, $input-background);
     @include component-input-border();
@@ -241,6 +242,7 @@
     border-top-right-radius: $button-border-radius;
     border-bottom-right-radius: $button-border-radius;
     box-shadow: $button-box-shadow;
+    outline: 0;
   }
   .button-preset-active, .button-preset:hover{
     @include linear-gradient-with-image(#{$button-preset-hover-gradient},  $imageBtnPreset 50% 50% no-repeat);
@@ -579,6 +581,9 @@
 
 #controlKit .panel .group-list .group {
   .sub-group-list {
+    .sub-group:last-of-type{
+      border-bottom: none;
+    }
     .sub-group {
       padding: 0;
       height: auto;
