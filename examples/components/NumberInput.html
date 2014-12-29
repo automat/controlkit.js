@@ -9,14 +9,13 @@
         }
     </style>
     <script type="text/javascript" src="../../bin/controlKit.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../style/style.css">
     <script type="text/javascript">
         window.addEventListener('load',function(){
             var obj = {
                 num : 123
             };
 
-            var controlKit = new ControlKit({useExternalStyle:true});
+            var controlKit = new ControlKit();
             controlKit.addPanel().addNumberInput(obj,'num',{
                                     label: 'Number', // replace key label with custom one
                                     onBegin : function(value){
