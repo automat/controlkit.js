@@ -1,3 +1,28 @@
+0.1.7 / 2015-01-02
+==================
+
+  * version++
+  * update build
+  * fixed example
+  * set Panel default width to 200
+  * fixed Style Safari / Firefox input issues, misc
+  * added Node dispatchEvent
+  * moved NumberInput onChange value to obj value set
+  * removed NumberInput_Internal onChange value pass
+  * NumberInput_Internal rewrite
+  * fixed Select state on loaded null selection
+  * fixed 03_components example
+  * added basic json load/save
+  * fixed ScrollBar handle offset, wheel support, experience++
+  * added DocumentEvent wheel event
+  * added Panel scrollbar removeMouseListener on height change
+  * added Mouse getWheelDirection, getHoverElement, listeners
+  * component cleanup
+  * preset Style update
+  * components cleanup
+  * update css classes
+  * style rewrite initial
+
 0.1.6 / 2014-12-19
 ==================
 
