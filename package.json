@@ -1,6 +1,6 @@
 {
     "name": "controlkit",
-    "version": "0.1.7",
+    "version": "0.1.8",
     "description": "A lightweight gui and controller library",
     "keywords": [
         "gui",
@@ -18,7 +18,7 @@
         {"browserify" : "6.2.x",
          "uglify-js"  : "2.4.x",
          "clean-css"  : "2.2.x",
-         "trough"     : "2.3.x"},
+         "through"    : "2.3.x"},
     "repository" :
         {"type" : "git",
          "url" : "https://github.com/automat/controlkit.js.git"},
