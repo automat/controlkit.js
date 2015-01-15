@@ -23,8 +23,8 @@ fs.writeFileSync('../lib/core/document/Style.js',
 	}
 });
 
-browserify('../index.js')
-	.bundle({standalone:'ControlKit',debug:true})
+browserify('../index.js',{standalone:'ControlKit',debug:true})
+	.bundle()
  	.pipe(fs.createWriteStream('../bin/controlKit.js')
 		.on('close',function(){
 			fs.writeFileSync('../bin/controlKit.min.js',

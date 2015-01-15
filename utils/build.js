@@ -42,12 +42,12 @@ var style = through(function(){
 						           '" }; module.exports = Style;');
 					});
 
-browserify('../index.js')
+browserify('../index.js',{
+	standalone:'ControlKit',
+	debug:true})
 	.transform(function(file){
 		return file !== defaultStylePath ? through() : style;})
-	.bundle({
-		standalone:'ControlKit',
-		debug:true})
+	.bundle()
 	.pipe(fs.createWriteStream(
 		path.join(outFileDir,'controlKit.js')).on(
 		'close', function(){
