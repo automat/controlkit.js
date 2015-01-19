@@ -587,7 +587,8 @@
     color: #aaaaaa;
     text-shadow: 0 -1px black;
     text-transform: uppercase;
-    box-shadow: 0 0 0 1px #131313 inset, -1px 2px 0 0 #212527 inset; }
+    box-shadow: 0 0 0 1px #131313 inset, -1px 2px 0 0 #212527 inset;
+    outline: none; }
   #controlKit .panel .menu .button-menu-hide, #controlKit .panel .menu .button-menu-show, #controlKit .panel .menu .button-menu-close,
   #controlKit .panel .menu-active .button-menu-hide,
   #controlKit .panel .menu-active .button-menu-show,
