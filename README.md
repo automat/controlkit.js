@@ -71,7 +71,7 @@ There are two main elements of ControlKit: [containers](#container) and [compone
     	    controlKit.addPanel()
     	        .addGroup()
     	            .addSubGroup()
-    	                .addNumberInput(obj,'number)
+    	                .addNumberInput(obj,'number')
     	                .addStringInput(obj,'string');
 	});
 	</script>
