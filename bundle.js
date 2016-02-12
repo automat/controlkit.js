@@ -1,0 +1,1 @@
+console.error("Error: Cannot find module '/Users/automat/WebstormProjects/controlKit.js-rewrite/main.js' from '/Users/automat/WebstormProjects/controlKit.js-rewrite'")
