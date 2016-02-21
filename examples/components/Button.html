@@ -12,7 +12,17 @@
     <script type="text/javascript">
         window.addEventListener('load',function(){
             var controlKit = new ControlKit();
-            controlKit.addPanel().addButton('fire',function(){console.log('peng');},{label : 'Push it'});
+            controlKit.addPanel().addButton('play',function(){
+                console.log(this);
+
+                if(this.getButtonLabel().toLowerCase() === 'play'){
+                    this.setButtonLabel('pause');
+                } else {
+                    this.setButtonLabel('play')
+                }
+            },{
+                label : 'Push it'
+            });
         });
     </script>
 </head>
