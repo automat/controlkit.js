@@ -38,7 +38,7 @@ export default class DisplayNode extends AbstractNode{
         this._children      = [];
         this._childrenOrder = [];
 
-        this._needsUpdate = true;
+        this._shouldComputeLayout = true;
 
         this._overflow = true;
         this._visible = true;
@@ -103,7 +103,7 @@ export default class DisplayNode extends AbstractNode{
             this._parentNode.removeChild(this);
         }
         this._parentNode.addChild(this);
-        this.forceUpdate();
+        this.forceComputeLayout();
     }
 
     get parentNode(){
@@ -144,7 +144,7 @@ export default class DisplayNode extends AbstractNode{
 
         child._parentNode = this;
         this._children.push(child);
-        this.forceUpdate();
+        this.forceComputeLayout();
     }
 
     appendChildren(nodes){
@@ -162,7 +162,7 @@ export default class DisplayNode extends AbstractNode{
         }
         node._parentNode = this;
         this._children.splice(index, 0, node);
-        this.forceUpdate();
+        this.forceComputeLayout();
     }
 
     appendChildrenAt(nodes,index){
@@ -177,7 +177,7 @@ export default class DisplayNode extends AbstractNode{
         }
         node._parentNode = null;
         this._children.splice(this.indexOf(node), 1);
-        this.forceUpdate();
+        this.forceComputeLayout();
     }
 
     removeChildren(nodes){
@@ -234,17 +234,17 @@ export default class DisplayNode extends AbstractNode{
     // STYLE
     /*----------------------------------------------------------------------------------------------------------------*/
 
-    forceUpdate() {
-        this._needsUpdate = true;
+    forceComputeLayout() {
+        this._shouldComputeLayout = true;
         if(this._parentNode === null || this._parentNode instanceof NodeBase){
             return;
         }
-        this._parentNode.forceUpdate();
+        this._parentNode.forceComputeLayout();
     }
 
     set id(name){
         this._id = name;
-        this.forceUpdate();
+        this.forceComputeLayout();
     }
 
     get id(){
@@ -253,7 +253,7 @@ export default class DisplayNode extends AbstractNode{
 
     set class(name){
         this._class = name;
-        this.forceUpdate();
+        this.forceComputeLayout();
     }
 
     get class(){
@@ -262,15 +262,15 @@ export default class DisplayNode extends AbstractNode{
 
     set style(style){
         this._styleInline = style.copy();
-        this.forceUpdate();
+        this.forceComputeLayout();
     }
 
     get style(){
         return this._styleInline;
     }
 
-    update(){
-        if(this._style.isProcessed && !this._styleInline.isProcessed && !this._needsUpdate){
+    computeLayout(){
+        if(this._style.isProcessed && !this._styleInline.isProcessed && !this._shouldComputeLayout){
             return;
         }
 
@@ -295,10 +295,6 @@ export default class DisplayNode extends AbstractNode{
                 break;
         }
 
-        for(let child of this._children){
-            child.update();
-        }
-
         // get children draw order
         this._childrenOrder = new Array(this._children.length);
         for(let i = 0, l = this._children.length; i < l; ++i){
@@ -313,11 +309,11 @@ export default class DisplayNode extends AbstractNode{
 
 
         for(let child of this._children){
-            child.update();
+            child.computeLayout();
         }
 
         this._style.isProcessed = true;
-        this._needsUpdate = true;
+        this._shouldComputeLayout = true;
     }
 
 
@@ -328,17 +324,17 @@ export default class DisplayNode extends AbstractNode{
     set position(pos){
         this._transform[6] = pos[0];
         this._transform[7] = pos[1];
-        this.forceUpdate();
+        this.forceComputeLayout();
     }
 
     set positionX(x){
         this._transform[6] = x;
-        this.forceUpdate();
+        this.forceComputeLayout();
     }
 
     set positionY(y){
         this._transform[7] = y;
-        this.forceUpdate();
+        this.forceComputeLayout();
     }
 
     get position(){
@@ -359,19 +355,19 @@ export default class DisplayNode extends AbstractNode{
         let diffy = pos[1] - global[1];
         this._transform[6] = diffx;
         this._transform[7] = diffy;
-        this.forceUpdate();
+        this.forceComputeLayout();
     }
 
     set positionGlobalX(x){
         let global = this.positionGlobalX;
         this._transform[6] = x - global;
-        this.forceUpdate();
+        this.forceComputeLayout();
     }
 
     set positionGlobalY(y){
         var posAbsy = this.positionGlobalY;
         this._transform[7] = y - posAbsy;
-        this.forceUpdate();
+        this.forceComputeLayout();
     }
 
     get positionGlobal(){

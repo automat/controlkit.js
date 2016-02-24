@@ -10,7 +10,7 @@ export default class DisplayNodeBase extends AbstractNodeBase{
         this._size = [0,0];
         this._zIndex = 0;
         this._childrenOrder = [];
-        this._needsUpdate = false;
+        this._shouldComputeLayout = false;
     }
 
     appendChild(node){
@@ -78,7 +78,7 @@ export default class DisplayNodeBase extends AbstractNodeBase{
 
     update(){
         for(let child of this._children){
-            child.update();
+            child.computeLayout();
         }
     }
 }

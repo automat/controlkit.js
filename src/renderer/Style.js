@@ -18,6 +18,19 @@ function validateNumber(number){
 }
 
 const Default = {
+    WIDTH : 0,
+    HEIGHT : 0,
+    MINWIDTH : 0,
+    MINHEIGHT : 0,
+    MAXWIDTH : 0,
+    MAXHEIGHT : 0,
+    BORDERWIDTH: [0,0,0,0],
+    FLEXDIRECTION : 'column',
+    JUSTIFYCONTENT : 'flex-start',
+    FLEX : 1,
+    FLEXWRAP : 'wrap',
+    POSITION : 'relative',
+    //
     TOP : null,
     RIGHT : null,
     BOTTOM : null,
@@ -31,6 +44,19 @@ const Default = {
 
 export default class Style{
     constructor(){
+        this._width = Default.WIDTH;
+        this._height = Default.HEIGHT;
+        this._minWidth = Default.MINWIDTH;
+        this._minHeight = Default.MINHEIGHT;
+        this._maxWidth = Default.MAXWIDTH;
+        this._maxHeight = Default.MAXHEIGHT;
+        this._borderWidth = Default.BORDERWIDTH;
+        this._flexDirection = Default.FLEXDIRECTION;
+        this._justifyContent = Default.JUSTIFYCONTENT;
+        this._flex = Default.FLEX;
+        this._flexWrap = Default.FLEXWRAP;
+        this._position = Default.POSITION;
+
         /* box properties */
         this._top = Default.TOP;
         this._right = Default.RIGHT;
