@@ -1,5 +1,9 @@
 const STR_INVALID_ARRAY_LENGTH = 'Invalid array length';
 
+/*----------------------------------------------------------------------------------------------------------------*/
+// UTILS
+/*----------------------------------------------------------------------------------------------------------------*/
+
 function validateNumber(number){
     if(typeof number === 'number'){
         return;
@@ -16,6 +20,10 @@ function validateNumber(number){
         throw new Error('Invalid number');
     }
 }
+
+/*----------------------------------------------------------------------------------------------------------------*/
+// DEFAULTS
+/*----------------------------------------------------------------------------------------------------------------*/
 
 const Default = {
     WIDTH : 0,
@@ -68,6 +76,11 @@ const Default = {
 };
 
 export default class Style{
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // CONSTRUCTOR
+    /*----------------------------------------------------------------------------------------------------------------*/
+
     constructor(){
         this._width = Default.WIDTH;
         this._height = Default.HEIGHT;
@@ -122,15 +135,16 @@ export default class Style{
         this._propertiesSet = {};
     }
 
+    copy(){
+        return new Style().merge(this);
+    }
+
+
     clear(){
         for(let key in this._propertiesSet){
             this['_'+key] = Default[key.toUpperCase()];
             delete this._propertiesSet[key];
         }
-    }
-
-    copy(){
-        return new Style().merge(this);
     }
 
     merge(style){
@@ -141,7 +155,27 @@ export default class Style{
         return this;
     }
 
-    removePropertySet(key){
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // ACTIVE PROPERTIES
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    get propertiesSet(){
+        var out = {};
+        for(let key in this._propertiesSet){
+            let property = this['_' + key];
+            if(Array.isArray(property)){
+                property = property.slice(0);
+            }
+            out[key] = property;
+        }
+        return out;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // PROPERTY SETTER INTERNAL
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    _removePropertySet(key){
         if(this._propertiesSet[key] === undefined){
             throw new Error(`Property "${key}" not set.`);
         }
@@ -168,22 +202,9 @@ export default class Style{
         delete this._propertiesSet[key];
     }
 
-    get propertiesSet(){
-        var out = {};
-        for(let key in this._propertiesSet){
-            let property = this['_' + key];
-            if(Array.isArray(property)){
-                property = property.slice(0);
-            }
-            out[key] = property;
-        }
-        return out;
-    }
-
-
     _setPropertyNumber(key,value){
         if(value === null){
-            this.removePropertySet(key);
+            this._removePropertySet(key);
         } else {
             validateNumber(value);
             this['_'+key] = value;
@@ -193,7 +214,7 @@ export default class Style{
 
     _setPropertyString(key,value){
         if(value === null){
-            this.removePropertySet(key);
+            this._removePropertySet(key);
         } else {
             if(typeof value !== 'string'){
                 throw new Error('Invalid string');
@@ -205,7 +226,7 @@ export default class Style{
 
     _setPropertyNumber4(key,value){
         if(value === null){
-            this.removePropertySet(key);
+            this._removePropertySet(key);
         } else {
             if(!Array.isArray(value)){
                 value = [value];
@@ -258,6 +279,10 @@ export default class Style{
         }
     }
 
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // DIMENSIONS
+    /*----------------------------------------------------------------------------------------------------------------*/
+
     set width(width){
         this._setPropertyNumber('width',width);
     }
@@ -271,6 +296,134 @@ export default class Style{
     get height(){
         return this._height;
     }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // POSITION ABS
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    set top(top){
+        this._setPropertyNumber('top',top);
+    }
+
+    get top(){
+        return this._top;
+    }
+
+    set right(right){
+        this._setPropertyNumber('right',right);
+    }
+
+    get right(){
+        return this._right;
+    }
+
+    set bottom(bottom){
+        this._setPropertyNumber('bottom',bottom);
+    }
+
+    get bottom(){
+        return this._bottom;
+    }
+
+    set left(left){
+        this._setPropertyNumber('left',left);
+    }
+
+    get left(){
+        return this._left;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // MARGIN
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    set margin(margin){
+        this._setPropertyNumber4('margin',margin);
+    }
+
+    get margin(){
+        return this._margin;
+    }
+
+    set marginTop(margin){
+        this._setPropertyNumber('marginTop',margin);
+    }
+
+    get marginTop(){
+        return this._marginTop;
+    }
+
+    set marginRight(margin){
+        this._setPropertyNumber('marginRight',margin);
+    }
+
+    get marginRight(){
+        return this._marginRight;
+    }
+
+    set marginBottom(margin){
+        this._setPropertyNumber('marginBottom',margin);
+    }
+
+    get marginBottom(){
+        return this._marginBottom;
+    }
+
+    set marginLeft(margin){
+        this._setPropertyNumber('marginLeft',margin);
+    }
+
+    get marginLeft(){
+        return this._marginLeft;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // PADDING
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    set padding(padding){
+        this._setPropertyNumber4('padding',padding);
+    }
+
+    get padding(){
+        return this._padding;
+    }
+
+    set paddingTop(top){
+        this._setPropertyNumber('paddingTop',top);
+    }
+
+    get paddingTop(){
+        return this._paddingTop;
+    }
+
+    set paddingRight(right){
+        this._setPropertyNumber('paddingRight',right);
+    }
+
+    get paddingRight(){
+        return this._paddingRight;
+    }
+
+    set paddingBottom(bottom){
+        this._setPropertyNumber('paddingBottom',bottom);
+    }
+
+    get paddingBottom(){
+        return this._paddingBottom;
+    }
+
+    set paddingLeft(left){
+        this._setPropertyNumber('paddingLeft',left);
+    }
+
+    get paddingLeft(){
+        return this._paddingLeft;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // TEXT
+    /*----------------------------------------------------------------------------------------------------------------*/
 
     set fontSize(size){
         this._setPropertyNumber('fontSize',size);
@@ -399,118 +552,6 @@ export default class Style{
     /*----------------------------------------------------------------------------------------------------------------*/
     // BOX PROPERTIES
     /*----------------------------------------------------------------------------------------------------------------*/
-
-    set top(top){
-        this._setPropertyNumber('top',top);
-    }
-
-    get top(){
-        return this._top;
-    }
-
-    set right(right){
-        this._setPropertyNumber('right',right);
-    }
-
-    get right(){
-        return this._right;
-    }
-
-    set bottom(bottom){
-        this._setPropertyNumber('bottom',bottom);
-    }
-
-    get bottom(){
-        return this._bottom;
-    }
-
-    set left(left){
-        this._setPropertyNumber('left',left);
-    }
-
-    get left(){
-        return this._left;
-    }
-
-    set margin(margin){
-        this._setPropertyNumber4('margin',margin);
-    }
-
-    get margin(){
-        return this._margin;
-    }
-
-    set marginTop(margin){
-        this._setPropertyNumber('marginTop',margin);
-    }
-
-    get marginTop(){
-        return this._marginTop;
-    }
-
-    set marginRight(margin){
-        this._setPropertyNumber('marginRight',margin);
-    }
-
-    get marginRight(){
-        return this._marginRight;
-    }
-
-    set marginBottom(margin){
-        this._setPropertyNumber('marginBottom',margin);
-    }
-
-    get marginBottom(){
-        return this._marginBottom;
-    }
-
-    set marginLeft(margin){
-        this._setPropertyNumber('marginLeft',margin);
-    }
-
-    get marginLeft(){
-        return this._marginLeft;
-    }
-
-    set padding(padding){
-        this._setPropertyNumber4('padding',padding);
-    }
-
-    get padding(){
-        return this._padding;
-    }
-
-    set paddingTop(top){
-        this._setPropertyNumber('paddingTop',top);
-    }
-
-    get paddingTop(){
-        return this._paddingTop;
-    }
-
-    set paddingRight(right){
-        this._setPropertyNumber('paddingRight',right);
-    }
-
-    get paddingRight(){
-        return this._paddingRight;
-    }
-
-    set paddingBottom(bottom){
-        this._setPropertyNumber('paddingBottom',bottom);
-    }
-
-    get paddingBottom(){
-        return this._paddingBottom;
-    }
-
-    set paddingLeft(left){
-        this._setPropertyNumber('paddingLeft',left);
-    }
-
-    get paddingLeft(){
-        return this._paddingLeft;
-    }
 
     set overflow(overflow){
         switch (overflow){
