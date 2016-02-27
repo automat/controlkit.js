@@ -13,18 +13,21 @@
         "email": "hwollik@hotmail.com",
         "url": "http://henrykwollik.com"
     },
-    "main" : "index.js",
-    "dependencies" : {
-        "css-parse" : "2.0.0"
+    "main": "index.js",
+    "dependencies": {
+        "css-parse": "2.0.0",
+        "css-layout": "1.1.1"
     },
-    "devDependencies" :
-        {"browserify" : "6.2.x",
-         "uglify-js"  : "2.4.x",
-         "clean-css"  : "2.2.x",
-         "through"    : "2.3.x"},
-    "repository" :
-        {"type" : "git",
-         "url" : "https://github.com/automat/controlkit.js.git"},
-    "homepage" : "http://github.com/automat/controlKit.js",
+    "devDependencies": {
+        "browserify": "6.2.x",
+        "uglify-js": "2.4.x",
+        "clean-css": "2.2.x",
+        "through": "2.3.x"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/automat/controlkit.js.git"
+    },
+    "homepage": "http://github.com/automat/controlKit.js",
     "license": "MIT"
 }
