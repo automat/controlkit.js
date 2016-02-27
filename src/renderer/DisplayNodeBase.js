@@ -16,21 +16,20 @@ export default class DisplayNodeBase extends AbstractNodeBase{
         this._childrenOrder = [];
         this._style = new Style();
         this._layoutNode = {};
-        this._shouldComputeLayout = false;
     }
 
     get layoutNode(){
         return this._layoutNode;
     }
 
-    computeLayout(){
+    updateLayoutNode(){
         this._layoutNode.style = this._style.propertiesSet;
         this._layoutNode.children = this._layoutNode.children || [];
         this._layoutNode.children.length = 0;
         for(let child of this._children){
             this._layoutNode.children.push(child.layoutNode);
         }
-        computeLayout_(this._layoutNode);
+        return this._layoutNode;
     }
 
     get style(){
@@ -85,6 +84,14 @@ export default class DisplayNodeBase extends AbstractNodeBase{
         for(var node of nodes){
             this.removeChild(node);
         }
+    }
+
+    get firstChild(){
+        return this._children[0];
+    }
+
+    get lastChild(){
+        return this._children[this._children.length - 1];
     }
 
     get children(){
