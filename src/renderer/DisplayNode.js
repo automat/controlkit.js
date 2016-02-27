@@ -3,6 +3,7 @@ import * as Matrix33 from "../core/math/Matrix33";
 import NodeBase from "./DisplayNodeBase";
 import NodeType from './NodeType';
 import Style from './Style';
+import LayoutNode from './LayoutNode';
 
 const STR_ERROR_NOT_IMPLEMENTED = 'Function not implemented.';
 const STR_ERROR_INVALID_TYPE    = 'Invalid node type.';
@@ -14,68 +15,56 @@ function containsPoint(point,bounds){
            point[1] <= bounds[3];
 }
 
+function isPercentage(value){
+    return value.indexOf('%') === value.length - 1;
+}
+
+function percentageToNumber(value,total){
+    value = +value.substr(0,value.length-1);
+    return total * 100 / value;
+}
+
 export default class DisplayNode extends AbstractNode{
     constructor(type = NodeType.CONTAINER, ...args){
         super();
 
+        this._type = type;
         this._parentNode = null;
         this._class = null;
-        this._value = null;
-        this._type = type;
         this._id = null;
 
         this._style       = new Style();
         this._styleInline = new Style();
+        this._layoutNode  = {
+            shouldUpdate : true
+        };
 
-        this._zIndex = 0;
+        this._textContent = '';
 
         this._transform = Matrix33.create();
-
-        this._size = [0,0];
         this._boundsGlobal = [0,0,0,0];
         this._boundsAllGlobal  = [0,0,0,0];
 
         this._children      = [];
         this._childrenOrder = [];
 
-        this._shouldComputeLayout = true;
-
         this._overflow = true;
         this._visible = true;
     }
 
-    static create(type = NodeType.CONTAINER,args){
-        switch(type){
-            case NodeType.CONTAINER:
-                return new DisplayNode();
-                break;
-        }
+    set textContent(text){
+        this._textContent = text;
+        this._layoutNode.shouldUpdate = true;
+    }
+
+    get textContent(){
+        return this._textContent;
     }
 
     cloneNode(){}
 
     get type(){
         return this._type;
-    }
-
-    set value(value){
-        if(NodeType[value] === undefined){
-            throw new Error(STR_ERROR_INVALID_TYPE);
-        }
-
-        this._value = value;
-
-        switch(this._value){
-            case NodeType.TEXT:
-                break;
-
-            case NodeType.INPUT_TEXT:
-                break;
-        }
-    }
-
-    get value(){
-        return this._value;
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -102,7 +91,7 @@ export default class DisplayNode extends AbstractNode{
         if(this._parentNode !== null){
             this._parentNode.removeChild(this);
         }
-        this._parentNode.addChild(this);
+        node.appendChild(this);
         this.forceComputeLayout();
     }
 
@@ -135,6 +124,11 @@ export default class DisplayNode extends AbstractNode{
     }
 
     appendChild(child){
+        if(child === this){
+            throw new Error('Child is target node.');
+        } else if(child === this._parentNode){
+            throw new Error('Child is parent node.');
+        }
         if(this.contains(child)){
             return this;
         }
@@ -234,8 +228,13 @@ export default class DisplayNode extends AbstractNode{
     // STYLE
     /*----------------------------------------------------------------------------------------------------------------*/
 
+    //get layout(){
+    //    return this._layoutNode.layout;
+    //}
+
+
     forceComputeLayout() {
-        this._shouldComputeLayout = true;
+        this._layoutNode.shouldUpdate = true;
         if(this._parentNode === null || this._parentNode instanceof NodeBase){
             return;
         }
@@ -269,53 +268,23 @@ export default class DisplayNode extends AbstractNode{
         return this._styleInline;
     }
 
-    computeLayout(){
-        if(this._style.isProcessed && !this._styleInline.isProcessed && !this._shouldComputeLayout){
-            return;
+    get layoutNode(){
+        //if(!this._layoutNode.shouldUpdate){
+        //    return this._layoutNode;
+        //}
+        if(!this._layoutNode.children){
+            this._layoutNode.children = [];
         }
 
-        // Style
-        let style = this._style.copy();
-        style.merge(this._styleInline);
-
-
-        //zindex
-        switch(style.zIndex){
-            case 'auto':
-            case 'inherit':
-            case 'initial':
-                if(this._parentNode !== null){
-                    this._zIndex = this._parentNode._zIndex;
-                } else {
-                    this._zIndex = 0;
-                }
-                break;
-            default:
-                this._zIndex = this._style.zIndex;
-                break;
-        }
-
-        // get children draw order
-        this._childrenOrder = new Array(this._children.length);
-        for(let i = 0, l = this._children.length; i < l; ++i){
-            let child  = this._children[i];
-            let inline = child.style.propertiesSet.zIndex;
-            let zIndex = inline !== undefined ? inline : child.style.zIndex;
-            this._childrenOrder[i] = [i,zIndex];
-        }
-        this._childrenOrder.sort((a, b)=>{
-            return a[1] > b[1] ? 1 : a[1] < b[1] ? -1 : 0
-        });
-
-
+        this._layoutNode.children.length = 0;
         for(let child of this._children){
-            child.computeLayout();
+            this._layoutNode.children.push(child.layoutNode);
         }
 
-        this._style.isProcessed = true;
-        this._shouldComputeLayout = true;
+        this._layoutNode.style = this._style.copy().merge(this._styleInline).propertiesSet;
+        //console.log(this._styleInline.propertiesSet);
+        return this._layoutNode;
     }
-
 
     /*----------------------------------------------------------------------------------------------------------------*/
     // POSITION
@@ -393,37 +362,17 @@ export default class DisplayNode extends AbstractNode{
         return Matrix33.mult(transform,this._parentNode.transformGlobal);
     }
 
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // SIZE
-    /*----------------------------------------------------------------------------------------------------------------*/
-
     get offsetSize(){
-        return this._size.slice(0);
+        return [this._layoutNode.width || 0,this._layoutNode.height || 0];
     }
 
     get offsetWidth(){
-        return this._size[0];
+        return this._layoutNode.width || 0;
     }
 
     get offsetHeight(){
-        return this._size[1];
+        return this._layoutNode.height || 0;
     }
-
-    //set size(size){
-    //    this._size[0] = size[0];
-    //    this._size[1] = size[1];
-    //    this.forceUpdate();
-    //}
-    //
-    //set width(width){
-    //    this._size[0] = width;
-    //    this.forceUpdate();
-    //}
-    //
-    //set height(height){
-    //    this._size[1] = height;
-    //    this.forceUpdate();
-    //}
 
     /*----------------------------------------------------------------------------------------------------------------*/
     // BOUNDS

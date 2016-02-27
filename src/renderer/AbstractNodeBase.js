@@ -8,19 +8,10 @@ export default class AbstractNodeBase extends EventDispatcher{
         super();
         this._type = NodeType.BASE;
         this._style = null;
-        this._children = [];
     }
 
     get type(){
         return this._type;
-    }
-
-    setStyle(style){
-        throw new Error(STR_ERROR_NOT_IMPLEMENTED);
-    }
-
-    getStyle(){
-        return this._style;
     }
 
     appendChild(node){
@@ -40,18 +31,6 @@ export default class AbstractNodeBase extends EventDispatcher{
     }
 
     contains(node){
-        throw new Error(STR_ERROR_NOT_IMPLEMENTED);
-    }
-
-    get size(){
-        throw new Error(STR_ERROR_NOT_IMPLEMENTED);
-    }
-
-    get width(){
-        throw new Error(STR_ERROR_NOT_IMPLEMENTED);
-    }
-
-    get height(){
         throw new Error(STR_ERROR_NOT_IMPLEMENTED);
     }
 }

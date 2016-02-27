@@ -1,20 +1,56 @@
 import AbstractNodeBase from "./AbstractNodeBase";
 import NodeType from "./NodeType";
 import Node from "./DisplayNode";
+import Style from "./Style";
+import computeLayout_ from "css-layout";
 
-const STR_ERROR_INVALID_TYPE = 'Invalid type.';
+const STR_ERR_NODE_TARGET_NODE = 'Node is target node.';
+const STR_ERR_NODE_INVALID = 'Invalid node.';
+const STR_ERR_NODE_NOT_CHILD = 'Node is not child of of target node';
+
 
 export default class DisplayNodeBase extends AbstractNodeBase{
     constructor(){
         super();
-        this._size = [0,0];
-        this._zIndex = 0;
+        this._children = [];
         this._childrenOrder = [];
+        this._style = new Style();
+        this._layoutNode = {};
         this._shouldComputeLayout = false;
     }
 
+    get layoutNode(){
+        return this._layoutNode;
+    }
+
+    computeLayout(){
+        this._layoutNode.style = this._style.propertiesSet;
+        this._layoutNode.children = this._layoutNode.children || [];
+        this._layoutNode.children.length = 0;
+        for(let child of this._children){
+            this._layoutNode.children.push(child.layoutNode);
+        }
+        computeLayout_(this._layoutNode);
+    }
+
+    get style(){
+        return this._style;
+    }
+
+    get layout(){
+        return this._layoutNode.layout;
+    }
+
+    get children(){
+        return this._children;
+    }
+
     appendChild(node){
-        if(this.contains(node)){
+        if(node === this){
+            throw new Error(STR_ERR_NODE_TARGET_NODE);
+        } else if (node === null || node === undefined || !(node instanceof Node)){
+            throw new Error(STR_ERR_NODE_INVALID);
+        } else if(this.contains(node)){
             return;
         }
         if(node._parentNode){
@@ -34,8 +70,12 @@ export default class DisplayNodeBase extends AbstractNodeBase{
     }
 
     removeChild(node){
-        if(!this.contains(node)){
-            throw new Error('Node is not child of node.');
+        if(node === this){
+            throw new Error(STR_ERR_NODE_TARGET_NODE);
+        } else if(node === null || node === undefined || !(node instanceof Node)){
+            throw new Error(STR_ERR_NODE_INVALID);
+        } else if(!this.contains(node)){
+            throw new Error(STR_ERR_NODE_NOT_CHILD);
         }
         node._parentNode = null;
         this._children.splice(this.indexOf(node), 1);
@@ -47,38 +87,39 @@ export default class DisplayNodeBase extends AbstractNodeBase{
         }
     }
 
+    get children(){
+        return this._children;
+    }
+
     contains(node){
+        if(node === this){
+            throw new Error(STR_ERR_NODE_TARGET_NODE);
+        }
         return this._children.indexOf(node) !== -1;
     }
 
     set size(size){
-        this._size[0] = size[0];
-        this._size[1] = size[1];
+        this._style.width  = size[0];
+        this._style.height = size[1];
     }
 
     get size(){
-        return this._size.slice(0);
+        return this._style.width;
     }
 
     set width(width){
-        this._size[0] = width;
+        this._style.width = width;
     }
 
     set height(height){
-        this._size[0] = height;
+        this._style.height = height;
     }
 
     get width(){
-        return this._size[0];
+        return this._style.width;
     }
 
     get height(){
-        return this._size[1];
-    }
-
-    update(){
-        for(let child of this._children){
-            child.computeLayout();
-        }
+        return this._style.height;
     }
 }

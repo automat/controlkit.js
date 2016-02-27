@@ -30,6 +30,14 @@ export default class AbstractNode extends EventDispatcher{
         throw new Error(STR_ERROR_NOT_IMPLEMENTED);
     }
 
+    set textContent(text){
+        throw new Error(STR_ERROR_NOT_IMPLEMENTED);
+    }
+
+    get textContent(){
+        throw new Error(STR_ERROR_NOT_IMPLEMENTED);
+    }
+
     /*----------------------------------------------------------------------------------------------------------------*/
     // EVENT
     /*----------------------------------------------------------------------------------------------------------------*/
