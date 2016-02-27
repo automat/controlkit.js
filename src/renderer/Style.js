@@ -17,12 +17,6 @@ function validateNumber(number){
     }
 }
 
-function validateString(value){
-    if(typeof value !== 'string'){
-        throw new Error('Invalid string');
-    }
-}
-
 const Default = {
     WIDTH : 0,
     HEIGHT : 0,
@@ -30,6 +24,7 @@ const Default = {
     MINHEIGHT : 0,
     MAXWIDTH : 0,
     MAXHEIGHT : 0,
+    BORDERCOLOR : '#000',
     BORDERWIDTH: 0,
     BORDERWIDTHTOP : 0,
     BORDERWIDTHRIGHT : 0,
@@ -42,11 +37,16 @@ const Default = {
     BORDERRADIUSBOTTOMLEFT : 0,
     FLEXDIRECTION : 'column',
     JUSTIFYCONTENT : 'flex-start',
+    ALIGNITEMS : 'stretch',
+    ALIGNSELF : 'flex-start',
     FLEX : 1,
     FLEXWRAP : 'wrap',
     POSITION : 'relative',
+    FONTFAMILY : 'Arial',
     FONTSIZE : 0,
-    TEXTALIGN : 'ltr',
+    LINEHEIGHT : 1.5,
+    WHITESPACE : 'normal',
+    TEXTALIGN : 'left',
     //
     TOP : null,
     RIGHT : null,
@@ -114,9 +114,19 @@ export default class Style{
         this._zIndex = Default.ZINDEX;
 
         this._fontSize = Default.FONTSIZE;
-        this._textAign = Default.TEXTALIGN;
+        this._fontFamily = Default.FONTFAMILY;
+        this._lineHeight = Default.LINEHEIGHT;
+        this._textAlign = Default.TEXTALIGN;
+        this._whiteSpace = Default.WHITESPACE;
 
         this._propertiesSet = {};
+    }
+
+    clear(){
+        for(let key in this._propertiesSet){
+            this['_'+key] = Default[key.toUpperCase()];
+            delete this._propertiesSet[key];
+        }
     }
 
     copy(){
@@ -128,7 +138,6 @@ export default class Style{
         for(let property in propertiesSet_){
             this[property] = propertiesSet_[property];
         }
-        this.isProcessed = false;
         return this;
     }
 
@@ -171,13 +180,6 @@ export default class Style{
         return out;
     }
 
-    get propertiesSetString(){
-        var obj = {};
-        for(let property in this._propertiesSet){
-            obj[property] = this._propertiesSet[property].toString();
-        }
-        return obj;
-    }
 
     _setPropertyNumber(key,value){
         if(value === null){
@@ -193,7 +195,9 @@ export default class Style{
         if(value === null){
             this.removePropertySet(key);
         } else {
-            validateString(value);
+            if(typeof value !== 'string'){
+                throw new Error('Invalid string');
+            }
             this['_'+key] = value;
             this._propertiesSet[key] = true;
         }
@@ -276,6 +280,37 @@ export default class Style{
         return this._fontSize;
     }
 
+    set fontFamily(family){
+        this._setPropertyString('fontFamily',family);
+    }
+
+    get fontFamily(){
+        return this._fontFamily;
+    }
+
+    set lineHeight(height){
+        this._setPropertyNumber('lineHeight',height);
+    }
+
+    get lineHeight(){
+        return this._lineHeight;
+    }
+
+    set textAlign(align){
+        this._setPropertyString('textAlign',align);
+    }
+
+    get textAlign(){
+        return this._textAlign;
+    }
+
+    set whiteSpace(whiteSpace){
+        this._setPropertyString('whiteSpace',whiteSpace);
+    }
+
+    get whiteSpace(){
+        return this._whiteSpace;
+    }
 
     /*----------------------------------------------------------------------------------------------------------------*/
     // BORDER
@@ -286,7 +321,7 @@ export default class Style{
     }
 
     get borderWidth(){
-        return this._borderWidth.slice(0);
+        return this._borderWidth;
     }
 
     set borderWidthTop(width){
@@ -326,7 +361,7 @@ export default class Style{
     }
 
     get borderRadius(){
-        return this._borderRadius.slice(0);
+        return this._borderRadius;
     }
 
     set borderRadiusTopLeft(radius){
@@ -479,7 +514,6 @@ export default class Style{
 
     set overflow(overflow){
         switch (overflow){
-            case 'initial':
             case 'visible':
                 this._overflow = 'visible';
                 break;
@@ -499,7 +533,6 @@ export default class Style{
 
     set visibility(visibility){
         switch (visibility){
-            case 'initial':
             case 'visible':
                 this._overflow = 'visible';
                 break;
