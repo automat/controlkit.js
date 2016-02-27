@@ -26,12 +26,14 @@ function validateNumber(number){
 /*----------------------------------------------------------------------------------------------------------------*/
 
 const Default = {
+    // Dimension
     WIDTH : 0,
     HEIGHT : 0,
     MINWIDTH : 0,
     MINHEIGHT : 0,
     MAXWIDTH : 0,
     MAXHEIGHT : 0,
+    // Border
     BORDERCOLOR : '#000',
     BORDERWIDTH: 0,
     BORDERWIDTHTOP : 0,
@@ -43,33 +45,37 @@ const Default = {
     BORDERRADIUSTOPRIGHT : 0,
     BORDERRADIUSBOTTOMRIGHT : 0,
     BORDERRADIUSBOTTOMLEFT : 0,
+    // Flex
     FLEXDIRECTION : 'column',
     JUSTIFYCONTENT : 'flex-start',
-    ALIGNITEMS : 'stretch',
+    ALIGNITEMS : 'flex-start',
     ALIGNSELF : 'flex-start',
-    FLEX : 1,
+    FLEX : null,
     FLEXWRAP : 'wrap',
-    POSITION : 'relative',
+    // Text
     FONTFAMILY : 'Arial',
     FONTSIZE : 0,
     LINEHEIGHT : 1.5,
     WHITESPACE : 'normal',
     TEXTALIGN : 'left',
-    //
+    // Position abs
     TOP : null,
     RIGHT : null,
     BOTTOM : null,
     LEFT : null,
+    // Margin
     MARGIN : 0,
     MARGINTOP : 0,
     MARGINRIGHT: 0,
     MARGINBOTTOM : 0,
     MARGINLEFT : 0,
+    // Padding
     PADDING : 0,
     PADDINGTOP : 0,
     PADDINGRIGHT: 0,
     PADDINGBOTTOM : 0,
     PADDINGLEFT : 0,
+    POSITION : 'relative',
     OVERFLOW : 'visible',
     VISIBILITY : '',
     ZINDEX : 0
@@ -101,10 +107,14 @@ export default class Style{
         this._borderRadiusBottomRight = Default.BORDERRADIUSBOTTOMRIGHT;
         this._borderRadiusBottomLeft = Default.BORDERRADIUSBOTTOMLEFT;
 
+        // Flex
         this._flexDirection = Default.FLEXDIRECTION;
+        this._alignItems = Default.ALIGNITEMS;
+        this._alignSelf = Default.ALIGNSELF;
         this._justifyContent = Default.JUSTIFYCONTENT;
         this._flex = Default.FLEX;
         this._flexWrap = Default.FLEXWRAP;
+
         this._position = Default.POSITION;
 
         /* box properties */
@@ -212,13 +222,19 @@ export default class Style{
         }
     }
 
-    _setPropertyString(key,value){
+    _setPropertyString(key,value,valids){
         if(value === null){
             this._removePropertySet(key);
         } else {
             if(typeof value !== 'string'){
-                throw new Error('Invalid string');
+                throw new Error('Invalid string.');
             }
+            if(valids && valids.length !== 0){
+                if(valids.indexOf(value) === -1){
+                    throw new Error(`Invalid enum "${value}". Use ${valids.map((item)=>{return `"${item}"`}).join(', ')}.`)
+                }
+            }
+
             this['_'+key] = value;
             this._propertiesSet[key] = true;
         }
@@ -300,6 +316,14 @@ export default class Style{
     /*----------------------------------------------------------------------------------------------------------------*/
     // POSITION ABS
     /*----------------------------------------------------------------------------------------------------------------*/
+
+    set position(position){
+        this._setPropertyString('position',position,['relative','absolute']);
+    }
+
+    get position(){
+        return this._position;
+    }
 
     set top(top){
         this._setPropertyNumber('top',top);
@@ -422,6 +446,42 @@ export default class Style{
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
+    // FLEX
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    set flexDirection(direction){
+        this._setPropertyString('flexDirection',direction,['row','row-reverse','column','column-reverse']);
+    }
+
+    get flexDirection(){
+        return this._flexDirection;
+    }
+
+    set alignItems(align){
+        this._setPropertyString('alignItems',align,['flex-start','center','flex-end','space-between','space-around']);
+    }
+
+    get alignItems(){
+        return this._alignItems;
+    }
+
+    set alignSelf(align){
+        this._setPropertyString('alignSelf',align,['flex-start','center','flex-end','space-between','space-around']);
+    }
+
+    get alignSelf(){
+        return this._alignSelf;
+    }
+
+    set flex(flex){
+        this._setPropertyNumber('flex',flex);
+    }
+
+    get flex(){
+        return this._flex;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
     // TEXT
     /*----------------------------------------------------------------------------------------------------------------*/
 
@@ -450,7 +510,7 @@ export default class Style{
     }
 
     set textAlign(align){
-        this._setPropertyString('textAlign',align);
+        this._setPropertyString('textAlign',align,['left','center','right']);
     }
 
     get textAlign(){
@@ -458,7 +518,7 @@ export default class Style{
     }
 
     set whiteSpace(whiteSpace){
-        this._setPropertyString('whiteSpace',whiteSpace);
+        this._setPropertyString('whiteSpace',whiteSpace,['normal','nowrap']);
     }
 
     get whiteSpace(){
