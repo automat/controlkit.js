@@ -3,7 +3,6 @@ import * as Matrix33 from "../core/math/Matrix33";
 import NodeBase from "./DisplayNodeBase";
 import NodeType from './NodeType';
 import Style from './Style';
-import LayoutNode from './LayoutNode';
 
 const STR_ERROR_NOT_IMPLEMENTED = 'Function not implemented.';
 const STR_ERROR_INVALID_TYPE    = 'Invalid node type.';
@@ -44,7 +43,7 @@ export default class DisplayNode extends AbstractNode{
     }
 
     set textContent(text){
-        this._textContent = text;
+        this._textContent = '' + text;
         this._layoutNode.shouldUpdate = true;
     }
 
@@ -295,8 +294,11 @@ export default class DisplayNode extends AbstractNode{
         }
 
         let style = this._style.copy().merge(this._styleInline).propertiesSet;
-        for(let property in style){
-            this._layoutNode.style[property] = style[property];
+
+        if(style.display !== 'none'){
+            for(let property in style){
+                this._layoutNode.style[property] = style[property];
+            }
         }
 
         return this._layoutNode;
