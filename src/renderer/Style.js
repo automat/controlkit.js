@@ -457,8 +457,16 @@ export default class Style{
         return this._flexDirection;
     }
 
+    set justifyContent(justify){
+        this._setPropertyString('justifyContent',justify,['flex-start', 'center', 'flex-end', 'space-between', 'space-around']);
+    }
+
+    get justifyContent(){
+        return this._justifyContent;
+    }
+
     set alignItems(align){
-        this._setPropertyString('alignItems',align,['flex-start','center','flex-end','space-between','space-around']);
+        this._setPropertyString('alignItems',align,['flex-start', 'center', 'flex-end', 'stretch']);
     }
 
     get alignItems(){
@@ -466,7 +474,7 @@ export default class Style{
     }
 
     set alignSelf(align){
-        this._setPropertyString('alignSelf',align,['flex-start','center','flex-end','space-between','space-around']);
+        this._setPropertyString('alignSelf',align,['flex-start', 'center', 'flex-end', 'stretch']);
     }
 
     get alignSelf(){
@@ -479,6 +487,14 @@ export default class Style{
 
     get flex(){
         return this._flex;
+    }
+
+    set flexWrap(wrap){
+        this._setPropertyString('flexWrap',wrap,['wrap','nowrap']);
+    }
+
+    get flexWrap(){
+        return this._flexWrap;
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -614,18 +630,7 @@ export default class Style{
     /*----------------------------------------------------------------------------------------------------------------*/
 
     set overflow(overflow){
-        switch (overflow){
-            case 'visible':
-                this._overflow = 'visible';
-                break;
-            case 'scroll' :
-            case 'hidden' :
-                this._overflow = overflow;
-                break;
-            default:
-                throw new Error('Overflow type "' + overflow + '" not supported.');
-        }
-        this._propertiesSet['overflow'] = true;
+        this._setPropertyString('overflow',overflow,['visible','hidden','scroll']);
     }
 
     get overflow(){
@@ -633,17 +638,7 @@ export default class Style{
     }
 
     set visibility(visibility){
-        switch (visibility){
-            case 'visible':
-                this._overflow = 'visible';
-                break;
-            case 'hidden' :
-                this._overflow = visibility;
-                break;
-            default:
-                throw new Error('Visibility type "' + visibility + '" not supported.');
-        }
-        this._propertiesSet['visibility'] = true;
+        this._setPropertyString('visibility',visibility,['visible','hidden'])
     }
 
     get visibility(){
