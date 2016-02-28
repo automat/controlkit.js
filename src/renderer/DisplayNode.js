@@ -248,9 +248,11 @@ export default class DisplayNode extends AbstractNode{
         //override
         if(style instanceof Style){
             this._styleInline = style.copy();
+
         //reset
         } else if(style === null){
             this._styleInline.clear();
+
         //populate from object
         } else if(typeof style === 'object'){
             for(let key in style){
@@ -263,6 +265,7 @@ export default class DisplayNode extends AbstractNode{
                 }
                 this._styleInline[key] = style[key];
             }
+
         //Invalid
         } else {
             throw TypeError('Invalid rhs.');
@@ -279,13 +282,11 @@ export default class DisplayNode extends AbstractNode{
             return this._layoutNode;
         }
 
-        this._layoutNode.children = this._layoutNode.children || [];
-        this._layoutNode.children.length = 0;
-        for(let child of this._children){
-            this._layoutNode.children.push(child.layoutNode);
-        }
-
+        //filter inherited and inline merged properties set
+        let style = this._style.copy().merge(this._styleInline).propertiesSet;
         this._layoutNode.style = this._layoutNode.style || {};
+
+        //clear current style
         for(let property in this._layoutNode.style){
             if(property === 'measure'){
                 continue;
@@ -293,12 +294,24 @@ export default class DisplayNode extends AbstractNode{
             delete this._layoutNode.style[property];
         }
 
-        let style = this._style.copy().merge(this._styleInline).propertiesSet;
+        this._layoutNode.children = this._layoutNode.children || [];
+        this._layoutNode.children.length = 0;
 
-        if(style.display !== 'none'){
-            for(let property in style){
-                this._layoutNode.style[property] = style[property];
-            }
+        //return empty style and children on display 'none'
+        if(style.display === 'none'){
+            this._layoutNode.style.display = style.display;
+            return this._layoutNode;
+        }
+
+        //get sub-nodes
+        this._layoutNode.children.length = 0;
+        for(let child of this._children){
+            this._layoutNode.children.push(child.layoutNode);
+        }
+
+        //apply style
+        for(let property in style){
+            this._layoutNode.style[property] = style[property];
         }
 
         return this._layoutNode;
