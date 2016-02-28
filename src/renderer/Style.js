@@ -77,7 +77,8 @@ const Default = {
     PADDINGLEFT : 0,
     POSITION : 'relative',
     OVERFLOW : 'visible',
-    VISIBILITY : '',
+    VISIBILITY : 'visible',
+    DISPLAY : 'flex',
     ZINDEX : 0
 };
 
@@ -135,6 +136,7 @@ export default class Style{
         this._overflow = Default.OVERFLOW;
         this._visibility = Default.VISIBILITY;
         this._zIndex = Default.ZINDEX;
+        this._display = Default.DISPLAY;
 
         this._fontSize = Default.FONTSIZE;
         this._fontFamily = Default.FONTFAMILY;
@@ -643,6 +645,14 @@ export default class Style{
 
     get visibility(){
         return this._visibility;
+    }
+
+    set display(display){
+        this._setPropertyString('display',display,['flex','none']);
+    }
+
+    get display(){
+        return this._display;
     }
 
     set zIndex(index){
