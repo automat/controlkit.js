@@ -2,6 +2,7 @@ import AbstractNode from "./AbstractNode";
 import * as Matrix33 from "../core/math/Matrix33";
 import NodeBase from "./DisplayNodeBase";
 import NodeType from './NodeType';
+import Rect from './Rect';
 import Style from './Style';
 
 const STR_ERROR_NOT_IMPLEMENTED = 'Function not implemented.';
@@ -32,8 +33,9 @@ export default class DisplayNode extends AbstractNode{
         this._textContent = '';
 
         this._transform = Matrix33.create();
-        this._boundsGlobal = [0,0,0,0];
-        this._boundsAllGlobal  = [0,0,0,0];
+
+        this._bounds = {x0 : 0, y0 : 0, x1 : 0, y1 : 0};
+        this._boundsGlobal = {x0 : 0, y0 : 0, x1 : 0, y1 : 0};
 
         this._children      = [];
         this._childrenOrder = [];
@@ -321,139 +323,65 @@ export default class DisplayNode extends AbstractNode{
     // POSITION
     /*----------------------------------------------------------------------------------------------------------------*/
 
-    set position(pos){
-        this._transform[6] = pos[0];
-        this._transform[7] = pos[1];
-        this.forceComputeLayout();
+    get bounds(){
+        let layout = this._layoutNode.layout;
+        this._bounds.x0 = layout.left || 0;
+        this._bounds.x1 = this._bounds.x0 + layout.width || 0;
+        this._bounds.y0 = layout.top || 0;
+        this._bounds.y1 = this._bounds.y0 + layout.height || 0;
+        return this._bounds;
     }
 
-    set positionX(x){
-        this._transform[6] = x;
-        this.forceComputeLayout();
-    }
+    get boundsGlobal(){
+        let layout = this._layoutNode.layout;
 
-    set positionY(y){
-        this._transform[7] = y;
-        this.forceComputeLayout();
-    }
+        let x = layout.left || 0;
+        let y = layout.top || 0;
+        let width  = layout.width || 0;
+        let height = layout.height || 0;
 
-    get position(){
-        return [this._transform[6],this._transform[7]];
-    }
-
-    get positionX(){
-        return this._transform[6];
-    }
-
-    get positionY(){
-        return this._transform[7];
-    }
-
-    set positionGlobal(pos){
-        let global = this.positionGlobal;
-        let diffx = pos[0] - global[0];
-        let diffy = pos[1] - global[1];
-        this._transform[6] = diffx;
-        this._transform[7] = diffy;
-        this.forceComputeLayout();
-    }
-
-    set positionGlobalX(x){
-        let global = this.positionGlobalX;
-        this._transform[6] = x - global;
-        this.forceComputeLayout();
-    }
-
-    set positionGlobalY(y){
-        var posAbsy = this.positionGlobalY;
-        this._transform[7] = y - posAbsy;
-        this.forceComputeLayout();
-    }
-
-    get positionGlobal(){
-        let transform = this.transformGlobal;
-        return [transform[6], transform[7]];
-    }
-
-    get positionGlobalX(){
-        let transform = this.transformGlobal;
-        return transform[6];
-    }
-
-    get positionGlobalY(){
-        let transform = this.transformGlobal;
-        return transform[7];
-    }
-
-    get transformGlobal(){
-        let transform = Matrix33.copy(this._transform);
-        if(this._parentNode === null || this._parentNode instanceof NodeBase){
-            return transform;
+        let parentNode = this._parentNode;
+        while(parentNode !== null && !(parentNode instanceof NodeBase)){
+            layout = parentNode._layoutNode.layout;
+            x += layout.left || 0;
+            y += layout.top || 0;
+            parentNode = parentNode.parentNode;
         }
-        return Matrix33.mult(transform,this._parentNode.transformGlobal);
+        this._boundsGlobal.x0 = x;
+        this._boundsGlobal.x1 = x + width;
+        this._boundsGlobal.y0 = y;
+        this._boundsGlobal.y1 = y + height;
+        return this._boundsGlobal;
     }
 
     get offsetSize(){
-        return [this._layoutNode.width || 0,this._layoutNode.height || 0];
+        return [this._layoutNode.layout.width || 0,this._layoutNode.layout.height || 0];
     }
 
     get offsetWidth(){
-        return this._layoutNode.width || 0;
+        return this._layoutNode.layout.width || 0;
     }
 
     get offsetHeight(){
-        return this._layoutNode.height || 0;
+        return this._layoutNode.layout.height || 0;
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
     // BOUNDS
     /*----------------------------------------------------------------------------------------------------------------*/
 
-    get boundsGlobal(){
-        return this._boundsGlobal.slice(0);
-    }
-
-    get boundsGlobalAll(){
-        let overflow = this._style.overflow = 'hidden';
-        return overflow ? this._boundsGlobal.slice(0) : this._boundsAllGlobal.slice(0);
-    }
-
-    _updateBoundsAllGlobal(){
-        this._boundsAllGlobal = this.boundsGlobal;
-
-        for(var i = 1, l = this._children.length; i < l; ++i){
-            var bounds = this._children[i].boundsGlobal;
-
-            if(bounds[0] < this._boundsAllGlobal[0]){
-                this._boundsAllGlobal[0] = bounds[0];
-            }
-            if(bounds[1] < this._boundsAllGlobal[1]){
-                this._boundsAllGlobal[1] = bounds[1]
-            }
-            if(bounds[2] > this._boundsAllGlobal[2]){
-                this._boundsAllGlobal[2] = bounds[2];
-            }
-            if(bounds[3] > this._boundsAllGlobal[3]){
-                this._boundsAllGlobal[3] = bounds[3];
-            }
+    hitTestPoint(x,y){
+        this._boundsGlobal = this.boundsGlobal;
+        if(x >= this._boundsGlobal.x0 &&
+           x <= this._boundsGlobal.x1 &&
+           y >= this._boundsGlobal.y0 &&
+           y <= this._boundsGlobal.y1){
+            return {
+                node: this,
+                point : [x - this._boundsGlobal.x0, y - this._boundsGlobal.y0]
+            };
         }
-    }
-
-    hitTestBoundsGlobal(point){
-        return containsPoint(point,this._boundsGlobal);
-    }
-
-    hitTestBoundsAllGlobal(point){
-        return containsPoint(point,this._boundsAllGlobal);
-    }
-
-    _updateBoundsGlobal(){
-        var position = this.positionGlobal;
-
-        this._boundsGlobal[0] = position[0];
-        this._boundsGlobal[1] = position[1];
-        this._boundsGlobal[2] = position[0] + this._size[0];
-        this._boundsGlobal[3] = position[1] + this._size[1];
+        return null;
     }
 
     toDescription(){
