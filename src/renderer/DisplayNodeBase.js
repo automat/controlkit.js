@@ -3,6 +3,7 @@ import NodeType from "./NodeType";
 import Node from "./DisplayNode";
 import Style from "./Style";
 import computeLayout_ from "css-layout";
+import MouseEvent from "../input/MouseEvent";
 
 const STR_ERR_NODE_TARGET_NODE = 'Node is target node.';
 const STR_ERR_NODE_INVALID = 'Invalid node.';
@@ -17,6 +18,84 @@ export default class DisplayNodeBase extends AbstractNodeBase{
         this._style = new Style();
         this._layoutNode = {};
     }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // INPUT HANDLE
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    _hitTestChildren(x, y){
+        let path = [];
+        function hitTestNode(node){
+            if(node.hitTestPoint(x,y) === null){
+                return;
+            }
+            path.push(node);
+            for(let child of node.children){
+                hitTestNode(child);
+            }
+        }
+        for(let child of this._children){
+            hitTestNode(child);
+        }
+        if(path.length === 0){
+            return null;
+        }
+        return {
+            node: path[path.length - 1],
+            path: path
+        };
+    }
+
+    handleMouseDown(e){
+        this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN,e));
+        let result = this._hitTestChildren(e.x,e.y);
+        if(result !== null){
+            e.node = result.node;
+            e.path = result.path.unshift(this);
+            for(let node of result.path){
+                node.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN,new MouseEvent(MouseEvent.MOUSE_DOWN,e)));
+            }
+            return;
+        }
+        e.node = null;
+        e.path = [];
+        this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN,e));
+    }
+
+    handleMouseUp(e){
+        //let result = this._hitTestChildren(e.x,e.y);
+        //if(result.node === null){
+        //    return;
+        //}
+    }
+
+    handleMouseMove(e){
+        //let result = this._hitTestChildren(e.x,e.y);
+        //if(result.node === null){
+        //    return;
+        //}
+    }
+
+    handleMouseLeave(e){
+
+    }
+
+    handleKeyDown(e){
+
+    }
+
+    handleKeyUp(e){
+
+    }
+
+    getChildAtPoint(x,y){
+        let result = this._hitTestChildren(x,y);
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // HIERARCHY
+    /*----------------------------------------------------------------------------------------------------------------*/
+
 
     get layoutNode(){
         return this._layoutNode;
@@ -129,4 +208,5 @@ export default class DisplayNodeBase extends AbstractNodeBase{
     get height(){
         return this._style.height;
     }
+
 }
