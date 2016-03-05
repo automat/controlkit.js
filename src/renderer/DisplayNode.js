@@ -351,6 +351,7 @@ export default class DisplayNode extends AbstractNode{
         this._boundsGlobal.x1 = x + width;
         this._boundsGlobal.y0 = y;
         this._boundsGlobal.y1 = y + height;
+
         return this._boundsGlobal;
     }
 
@@ -366,16 +367,10 @@ export default class DisplayNode extends AbstractNode{
         return this._layoutNode.layout.height || 0;
     }
 
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // BOUNDS
-    /*----------------------------------------------------------------------------------------------------------------*/
-
     hitTestPoint(x,y){
-        this._boundsGlobal = this.boundsGlobal;
-        if(x >= this._boundsGlobal.x0 &&
-           x <= this._boundsGlobal.x1 &&
-           y >= this._boundsGlobal.y0 &&
-           y <= this._boundsGlobal.y1){
+        let boundsGlobal = this.boundsGlobal;
+        if(x >= boundsGlobal.x0 && x <= boundsGlobal.x1 &&
+           y >= boundsGlobal.y0 && y <= boundsGlobal.y1){
             return {
                 node: this,
                 point : [x - this._boundsGlobal.x0, y - this._boundsGlobal.y0]
@@ -383,6 +378,10 @@ export default class DisplayNode extends AbstractNode{
         }
         return null;
     }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // BOUNDS
+    /*----------------------------------------------------------------------------------------------------------------*/
 
     toDescription(){
         let inlineStyle = '';
