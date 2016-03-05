@@ -1,16 +1,15 @@
-var Event = require('../core/event/Event');
+import Event from "../core/event/Event";
 
-function MouseEvent(type, data) {
-    Event.call(this, type, data);
+export default class MouseEvent extends Event{
+    constructor(type,data){
+        super(type,data);
+    }
 }
 
-MouseEvent.prototype = Object.create(Event.prototype);
-MouseEvent.prototype.constructor = MouseEvent;
-
-MouseEvent.MOUSE_DOWN   = 'mousedown';
-MouseEvent.MOUSE_UP     = 'mouseup';
-MouseEvent.MOUSE_MOVE   = 'mousemove';
-MouseEvent.MOUSE_DRAG   = 'mousedrag';
+MouseEvent.MOUSE_DOWN = 'mousedown';
+MouseEvent.MOUSE_UP = 'mouseup';
+MouseEvent.MOUSE_MOVE = 'mousemove';
+MouseEvent.MOUSE_DRAG = 'mousedrag';
 MouseEvent.MOUSE_SCROLL = 'mousescroll';
-
-module.exports = MouseEvent;
+MouseEvent.MOUSE_OVER = 'mouseover';
+MouseEvent.MOUSE_LEAVE = 'mouseleave';
