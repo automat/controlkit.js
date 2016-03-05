@@ -1,4 +1,4 @@
-import AbstractNodeBase from "./AbstractNodeBase";
+import AbstractBase from "./AbstractBase";
 import NodeType from "./NodeType";
 import Node from "./DisplayNode";
 import Style from "./Style";
@@ -10,7 +10,7 @@ const STR_ERR_NODE_INVALID = 'Invalid node.';
 const STR_ERR_NODE_NOT_CHILD = 'Node is not child of of target node';
 
 
-export default class DisplayNodeBase extends AbstractNodeBase{
+export default class DisplayBase extends AbstractBase{
     constructor(){
         super();
         this._children = [];
