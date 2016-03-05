@@ -7,17 +7,11 @@ export default class AbstractRenderer extends EventDispatcher{
     constructor(){
         super();
         this._drawDebug = false;
+        this._base = null;
     }
 
-    set drawDebug(debug){
-        if(typeof debug !== 'boolean'){
-            throw new TypeError(STR_ERROR_INVALID_TYPE);
-        }
-        this._drawDebug = debug;
-    }
-
-    get drawDebug(){
-        return this._drawDebug;
+    get base(){
+        return this._base;
     }
 
     draw(){
