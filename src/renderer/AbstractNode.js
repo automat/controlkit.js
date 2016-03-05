@@ -6,7 +6,10 @@ const STR_ERROR_INVALID_TYPE = 'Invalid type.';
 const STR_ERROR_NOT_IMPLEMENTED = 'Function not implemented.';
 
 export default class AbstractNode extends EventDispatcher{
-    constructor(){
+    constructor(type){
+        if(type === NodeType.BASE){
+            throw new Error(STR_ERROR_INVALID_TYPE);
+        }
         super();
     }
 
