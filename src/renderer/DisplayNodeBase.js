@@ -17,6 +17,9 @@ export default class DisplayNodeBase extends AbstractNodeBase{
         this._childrenOrder = [];
         this._style = new Style();
         this._layoutNode = {};
+
+        this._nodeHovered = null;
+        this._boundsGlobal = {x0:0,y0:0,x1:0,y1:0};
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -37,47 +40,46 @@ export default class DisplayNodeBase extends AbstractNodeBase{
         for(let child of this._children){
             hitTestNode(child);
         }
-        if(path.length === 0){
-            return null;
-        }
+        path.unshift(this);
         return {
             node: path[path.length - 1],
             path: path
         };
     }
 
-    handleMouseDown(e){
-        this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN,e));
+    _broadcastMouseEvent(type, e){
         let result = this._hitTestChildren(e.x,e.y);
-        if(result !== null){
-            e.node = result.node;
-            e.path = result.path.unshift(this);
-            for(let node of result.path){
-                node.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN,new MouseEvent(MouseEvent.MOUSE_DOWN,e)));
-            }
-            return;
+        e.node = result.node;
+        e.path = result.path;
+        for(let node of result.path){
+            node.dispatchEvent(new MouseEvent(type,e));
         }
-        e.node = null;
-        e.path = [];
-        this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN,e));
+    }
+
+    handleMouseDown(e){
+        this._broadcastMouseEvent(MouseEvent.MOUSE_DOWN,e);
     }
 
     handleMouseUp(e){
-        //let result = this._hitTestChildren(e.x,e.y);
-        //if(result.node === null){
-        //    return;
-        //}
+        this._broadcastMouseEvent(MouseEvent.MOUSE_UP,e);
     }
 
     handleMouseMove(e){
-        //let result = this._hitTestChildren(e.x,e.y);
-        //if(result.node === null){
-        //    return;
-        //}
-    }
+        let result = this._hitTestChildren(e.x,e.y);
+        e.node = result.node;
+        e.path = result.path;
 
-    handleMouseLeave(e){
+        if(this._nodeHovered !== result.node){
+            if(this._nodeHovered !== null){
+                this._nodeHovered.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_LEAVE,e));
+            }
+            result.node.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_OVER,e));
+            this._nodeHovered = result.node;
+        }
 
+        for(let node of result.path){
+            node.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_MOVE,e));
+        }
     }
 
     handleKeyDown(e){
@@ -92,10 +94,13 @@ export default class DisplayNodeBase extends AbstractNodeBase{
         let result = this._hitTestChildren(x,y);
     }
 
+    get boundsGlobal(){
+        return this._boundsGlobal;
+    }
+
     /*----------------------------------------------------------------------------------------------------------------*/
     // HIERARCHY
     /*----------------------------------------------------------------------------------------------------------------*/
-
 
     get layoutNode(){
         return this._layoutNode;
@@ -117,10 +122,6 @@ export default class DisplayNodeBase extends AbstractNodeBase{
 
     get layout(){
         return this._layoutNode.layout;
-    }
-
-    get children(){
-        return this._children;
     }
 
     appendChild(node){
