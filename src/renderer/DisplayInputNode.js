@@ -1,4 +1,4 @@
-import validateOptions from "../validate-options";
+import validateOption from "validate-option";
 import DisplayNode from "./DisplayNode";
 import NodeType from "./NodeType";
 import KeyboardEvent from "../input/KeyboardEvent";
@@ -13,7 +13,7 @@ const DefaultOptions = {
 
 class DisplayInputNode extends DisplayNode{
     constructor(options){
-        options = validateOptions(options,DefaultOptions);
+        options = validateOption(options,DefaultOptions);
         super(NodeType.INPUT_TEXT);
 
         this._textContentPrev = null;

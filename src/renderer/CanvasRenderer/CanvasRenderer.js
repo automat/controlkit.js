@@ -1,4 +1,4 @@
-import validateOptions from "../../validate-options";
+import validateOption from "validate-option";
 import AbstractRenderer from "../AbstractRenderer";
 import Base from "../Base";
 import DisplayBase from "../DisplayBase";
@@ -17,7 +17,7 @@ const DefaultOptions = {
 export default class CanvasRenderer extends AbstractRenderer {
 
     constructor(canvas,options = {}){
-        options = validateOptions(options,DefaultOptions);
+        options = validateOption(options,DefaultOptions);
         super();
 
         this._canvas = canvas;

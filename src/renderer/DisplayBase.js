@@ -1,4 +1,5 @@
-import validateOptions from "../validate-options";
+import validateOption from "validate-option";
+import validateKeys from "validate-keys";
 
 import AbstractBase from "./AbstractBase";
 import NodeType from "./NodeType";
@@ -14,6 +15,14 @@ import KeyboardEvent from "../input/KeyboardEvent";
 const STR_ERR_NODE_TARGET_NODE = 'Node is target node.';
 const STR_ERR_NODE_INVALID = 'Invalid node.';
 const STR_ERR_NODE_NOT_CHILD = 'Node is not child of of target node';
+
+const CREATE_DETAIL_KEYS = [
+    'type','options','style',
+    'textContent','children',
+    'onMouseDown', 'onMouseUp', 'onMouseOver', 'onMouseLeave','onMouseMove',
+    'onKeyDown', 'onKeyUp', 'onKeyPress',
+    'onFocus', 'onBlur'
+];
 
 export default class DisplayBase extends AbstractBase{
     constructor(){
@@ -37,13 +46,12 @@ export default class DisplayBase extends AbstractBase{
                 break;
 
             case NodeType.INPUT_TEXT:
-                console.log(DisplayInputNode.DefaultOptions);
-                options = validateOptions(options,DisplayInputNode.DefaultOptions);
+                options = validateOption(options,DisplayInputNode.DefaultOptions);
                 node = new DisplayInputNode(options);
                 break;
 
             case NodeType.INPUT_NUMBER:
-                options = validateOptions(options,DisplayInputNode.DefaultOptions);
+                options = validateOption(options,DisplayInputNode.DefaultOptions);
                 options.numeric = true;
                 node = new DisplayInputNode(options);
                 break;
@@ -52,6 +60,8 @@ export default class DisplayBase extends AbstractBase{
     }
 
     createNodeFromDetail(detail){
+        validateKeys(detail,CREATE_DETAIL_KEYS);
+
         let node = this.createNode(detail.type,detail.options);
         if(detail.style){
             node.style = detail.style;
@@ -59,6 +69,20 @@ export default class DisplayBase extends AbstractBase{
         if(detail.textContent){
             node.textContent = detail.textContent;
         }
+
+        function addEventListener(listenerMap){
+            for(let listener in listenerMap){
+                let callback  = detail[listener];
+                let eventType = listenerMap[listener];
+                if(callback === undefined){
+                    continue;
+                }
+                node.addEventListener(eventType,callback);
+            }
+        }
+        addEventListener(MouseEvent.LISTENER_EVENT_MAP);
+        addEventListener(KeyboardEvent.LISTENER_EVENT_MAP);
+
         if(detail.children){
             for(let childDetail of detail.children){
                 node.appendChild(this.createNodeFromDetail(childDetail));

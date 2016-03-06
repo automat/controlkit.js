@@ -1,5 +1,5 @@
 import CanvasRenderer from "./renderer/CanvasRenderer/CanvasRenderer";
-import validateOptions from "./validate-options";
+import validateOption from "validate-option"
 
 const RENDERER_CANVAS = 'renderer-canvas';
 const RENDERER_DOM    = 'renderer-dom';
@@ -15,7 +15,7 @@ const DefaultOptions = {
 
 class ControlKit{
     constructor(options = {}){
-        options = validateOptions(options,DefaultOptions);
+        options = validateOption(options,DefaultOptions);
 
         let rendererOptions = {
             debugDrawLayout : options.debugDrawLayout,
