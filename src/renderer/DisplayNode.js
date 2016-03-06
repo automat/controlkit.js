@@ -1,5 +1,4 @@
 import AbstractNode from "./AbstractNode";
-import * as Matrix33 from "../core/math/Matrix33";
 import NodeBase from "./DisplayBase";
 import NodeType from './NodeType';
 import Rect from './Rect';
@@ -25,16 +24,11 @@ export default class DisplayNode extends AbstractNode{
 
         this._textContent = '';
 
-        this._transform = Matrix33.create();
-
         this._bounds = {x0 : 0, y0 : 0, x1 : 0, y1 : 0};
         this._boundsGlobal = {x0 : 0, y0 : 0, x1 : 0, y1 : 0};
 
         this._children      = [];
         this._childrenOrder = [];
-
-        this._overflow = true;
-        this._visible = true;
     }
 
     set textContent(text){
