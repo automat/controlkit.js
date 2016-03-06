@@ -13,3 +13,13 @@ MouseEvent.MOUSE_DRAG = 'mousedrag';
 MouseEvent.MOUSE_SCROLL = 'mousescroll';
 MouseEvent.MOUSE_OVER = 'mouseover';
 MouseEvent.MOUSE_LEAVE = 'mouseleave';
+
+MouseEvent.LISTENER_EVENT_MAP = {
+    onMouseDown : MouseEvent.MOUSE_DOWN,
+    onMouseUp : MouseEvent.MOUSE_UP,
+    onMouseMove : MouseEvent.MOUSE_MOVE,
+    onMouseDrag : MouseEvent.MOUSE_DRAG,
+    onMouseScroll : MouseEvent.MOUSE_SCROLL,
+    onMouseOver : MouseEvent.MOUSE_OVER,
+    onMouseLeave : MouseEvent.MOUSE_LEAVE
+};
