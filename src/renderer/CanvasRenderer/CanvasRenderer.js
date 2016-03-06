@@ -1,5 +1,5 @@
 import AbstractRenderer from "../AbstractRenderer";
-import NodeBase from "../DisplayNodeBase";
+import Base from "../DisplayBase";
 import Node from "../DisplayNode";
 import computeLayout_ from "css-layout";
 import {rect,roundedRect1,roundedRect4,line,lineH,lineV,fillTextMultiline} from "./DrawUtils";
@@ -16,8 +16,9 @@ export default class CanvasRenderer extends AbstractRenderer {
         super();
 
         this._canvas = canvas;
+        this._canvas.setAttribute('tabIndex',''+1);
         this._ctx = canvas.getContext('2d');
-        this._base = new NodeBase();
+        this._base = new Base();
         this._base.size = [canvas.width, canvas.height];
 
         this._debugDrawLayout = options.debugDrawLayout;
@@ -35,6 +36,7 @@ export default class CanvasRenderer extends AbstractRenderer {
                 ctrlKey : e.ctrlKey
             });
         });
+
         this._canvas.addEventListener('mouseup',function(e){
             self._base.handleMouseUp({
                 x : e.pageX,
@@ -44,6 +46,7 @@ export default class CanvasRenderer extends AbstractRenderer {
                 ctrlKey : e.ctrlKey
             });
         });
+
         this._canvas.addEventListener('mousemove',function(e){
             self._base.handleMouseMove({
                 x : e.pageX,
@@ -52,6 +55,33 @@ export default class CanvasRenderer extends AbstractRenderer {
                 altKey : e.altKey,
                 ctrlKey : e.ctrlKey
             });
+        });
+
+        this._canvas.addEventListener('keydown',function(e){
+            self._base.handleKeyDown({
+                charCode : e.charCode,
+                keyCode : e.keyCode,
+                altKey : e.altKey,
+                ctrlKey : e.ctrlKey
+            });
+        });
+
+        this._canvas.addEventListener('keyup',function(e){
+            self._base.handleKeyUp({
+                charCode : e.charCode,
+                keyCode : e.keyCode,
+                altKey : e.altKey,
+                ctrlKey : e.ctrlKey
+            })
+        });
+
+        this._canvas.addEventListener('keypress',function(e){
+            self._base.handleKeyPress({
+                charCode : e.charCode,
+                keyCode : e.keyCode,
+                altKey : e.altKey,
+                ctrlKey : e.ctrlKey
+            })
         });
 
         if(this._debugDrawHover){
