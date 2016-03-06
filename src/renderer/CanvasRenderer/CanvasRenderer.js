@@ -1,24 +1,29 @@
+import validateOptions from "../../validate-options";
 import AbstractRenderer from "../AbstractRenderer";
-import Base from "../DisplayBase";
+import Base from "../Base";
+import DisplayBase from "../DisplayBase";
 import Node from "../DisplayNode";
 import computeLayout_ from "css-layout";
 import {rect,roundedRect1,roundedRect4,line,lineH,lineV,fillTextMultiline} from "./DrawUtils";
 import {measureText} from "./MeasureUtils";
 import MouseEvent from "../../input/MouseEvent";
 
+const DefaultOptions = {
+    debugDrawLayout : false,
+    debugDrawBounds : false,
+    debugDrawHover  : false
+};
+
 export default class CanvasRenderer extends AbstractRenderer {
 
     constructor(canvas,options = {}){
-        options.debugDrawLayout = options.debugDrawLayout === undefined ? false : options.debugDrawLayout;
-        options.debugDrawBounds = options.debugDrawBounds === undefined ? false : options.debugDrawBounds;
-        options.debugDrawHover  = options.debugDrawHover  === undefined ? false : options.debugDrawHover;
-
+        options = validateOptions(options,DefaultOptions);
         super();
 
         this._canvas = canvas;
         this._canvas.setAttribute('tabIndex',''+1);
         this._ctx = canvas.getContext('2d');
-        this._base = new Base();
+        this._base = new DisplayBase();
         this._base.size = [canvas.width, canvas.height];
 
         this._debugDrawLayout = options.debugDrawLayout;
@@ -90,6 +95,8 @@ export default class CanvasRenderer extends AbstractRenderer {
                 self._debugDrawNodeHovered(e.data.node)
             });
         }
+
+        Base.set(this);
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -379,6 +386,14 @@ export default class CanvasRenderer extends AbstractRenderer {
         ctx.restore();
     }
 
+    _drawNode(node){
+
+
+        for(let child of node.children){
+            this._drawNode(child);
+        }
+    }
+
     /*----------------------------------------------------------------------------------------------------------------*/
     // DRAW
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -403,5 +418,7 @@ export default class CanvasRenderer extends AbstractRenderer {
                 return;
             }
         }
+
+        this._drawNode(this);
     }
 }
