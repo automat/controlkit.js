@@ -1,115 +1,62 @@
+import CanvasRenderer from "./renderer/CanvasRenderer/CanvasRenderer";
+import validateOptions from "./validate-options";
 
-export class Settings{
-    constructor(){
+const RENDERER_CANVAS = 'renderer-canvas';
+const RENDERER_DOM    = 'renderer-dom';
+const RENDERER_WEBGL  = 'renderer-webgl';
 
-    }
-}
+const DefaultOptions = {
+    renderer : RENDERER_DOM,
+    element : null,
+    debugDrawLayout : false,
+    debugDrawBounds : false,
+    debugDrawHover : false
+};
 
-export class Renderer{
-    static CANVAS = 'renderer-canvas';
-    static DOM    = 'renderer-dom';
-    static WEBGL  = 'renderer-webgl';
-}
+class ControlKit{
+    constructor(options = {}){
+        options = validateOptions(options,DefaultOptions);
 
-export default class ControlKit{
-    constructor(element,renderer,settings = new Settings()){
-        this._settings = settings;
+        let rendererOptions = {
+            debugDrawLayout : options.debugDrawLayout,
+            debugDrawBounds : options.debugDrawBounds,
+            debugDrawHover  : options.debugDrawHover
+        };
         this._renderer = null;
 
-        switch(renderer){
-            case Renderer.CANVAS:
+        switch(options.renderer){
+            case RENDERER_CANVAS:
+                if(options.element === null){
+                    if(window && document && document.createElement){
+                        let canvas = document.createElement('canvas');
+                        canvas.width  = window.innerWidth || 800;
+                        canvas.height = window.innerHeight || 600;
+                        canvas.style.width  = canvas.width + 'px';
+                        canvas.style.height = canvas.height + 'px';
+                        document.body.appendChild(canvas);
+                        options.element = canvas;
+                    } else{
+                        throw new Error(`No canvas element passed.`);
+                    }
+                }
+                this._renderer = new CanvasRenderer(options.element, rendererOptions);
                 break;
 
-            case Renderer.DOM:
+            case RENDERER_DOM:
                 break;
 
-            case Renderer.WEBGL:
+            case RENDERER_WEBGL:
+                break;
+
+            default:
+                throw new Error(`Invalid renderer "${options.renderer}"`);
                 break;
         }
     }
-
 }
 
-//var CanvasRenderer = require('./renderer/CanvasRenderer/CanvasRenderer');
-//var DomRenderer    = require('./renderer/DomRenderer/DomRenderer');
-//var WebGLRenderer  = require('./renderer/WebGLRenderer/WebGLRenderer');
-//
-//var Mouse = require('../input/Mouse');
-//
-//var cssParse = require('css-parse');
-//
-//var RENDERER_CANVAS = 'ControlKitRendererCanvas';
-//var RENDERER_DOM    = 'ControlKitRendererDom';
-//var RENDERER_WEBGL  = 'ControlKitRendererWebGL';
-//
-//function ControlKit(element,renderer,options){
-//    options = {};
-//
-//    this._renderer = null;
-//
-//    var cssString = '';
-//
-//    if(options.externalStyle !== undefined){
-//        cssString = cssParse(options.externalStyle);
-//    }
-//
-//    var cssRules = cssParse(cssString);
-//
-//    this._mouse = Mouse.init();
-//
-//    /*----------------------------------------------------------------------------------------------------------------*/
-//    // Style
-//    /*----------------------------------------------------------------------------------------------------------------*/
-//    var self = this;
-//
-//    switch (renderer){
-//
-//        /*------------------------------------------------------------------------------------------------------------*/
-//        // Renderer Canvas
-//        /*------------------------------------------------------------------------------------------------------------*/
-//        case RENDERER_CANVAS:
-//            this._renderer = new CanvasRenderer(element,cssRules);
-//
-//            element.addEventListener('mousedown',function(e){
-//                self._mouse.handleMouseDown(e);
-//            });
-//
-//            element.addEventListener('mousemove',function(e){
-//                self._mouse.handleMouseMove(e);
-//            });
-//
-//            element.addEventListener('mouseup', function(e){
-//                self._mouse.handleMouseUp(e);
-//            });
-//
-//            if(window !== undefined){
-//                window.addEventListener('resize', function(e){
-//                    self._renderer.handleResize({
-//                        width  : window.innerWidth,
-//                        height : window.innerHeight
-//                    });
-//                });
-//            }
-//
-//            break;
-//
-//        /*------------------------------------------------------------------------------------------------------------*/
-//        // Renderer Dom
-//        /*------------------------------------------------------------------------------------------------------------*/
-//        case RENDERER_DOM:
-//            break;
-//
-//        /*------------------------------------------------------------------------------------------------------------*/
-//        // Renderer WebGL
-//        /*------------------------------------------------------------------------------------------------------------*/
-//
-//        case RENDERER_WEBGL:
-//            break;
-//    }
-//}
-//
-//ControlKit.RENDERER_CANVAS = RENDERER_CANVAS;
-//ControlKit.RENDERER_DOM    = RENDERER_DOM;
-//ControlKit.RENDERER_WEBGL  = RENDERER_WEBGL;
-//
-//module.exports = ControlKit;
+ControlKit.RENDERER_CANVAS = RENDERER_CANVAS;
+ControlKit.RENDERER_DOM = RENDERER_DOM;
+ControlKit.RENDERER_WEBGL = RENDERER_WEBGL;
+
+export default ControlKit;
