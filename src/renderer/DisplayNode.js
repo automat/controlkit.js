@@ -1,19 +1,12 @@
 import AbstractNode from "./AbstractNode";
 import * as Matrix33 from "../core/math/Matrix33";
-import NodeBase from "./DisplayNodeBase";
+import NodeBase from "./DisplayBase";
 import NodeType from './NodeType';
 import Rect from './Rect';
 import Style from './Style';
 
 const STR_ERROR_NOT_IMPLEMENTED = 'Function not implemented.';
 const STR_ERROR_INVALID_TYPE    = 'Invalid node type.';
-
-function containsPoint(point,bounds){
-    return point[0] >= bounds[0] &&
-           point[0] <= bounds[2] &&
-           point[1] >= bounds[1] &&
-           point[1] <= bounds[3];
-}
 
 export default class DisplayNode extends AbstractNode{
     constructor(type = NodeType.CONTAINER, ...args){
@@ -373,7 +366,10 @@ export default class DisplayNode extends AbstractNode{
            y >= boundsGlobal.y0 && y <= boundsGlobal.y1){
             return {
                 node: this,
-                point : [x - this._boundsGlobal.x0, y - this._boundsGlobal.y0]
+                point : {
+                    x : x - this._boundsGlobal.x0,
+                    y : y - this._boundsGlobal.y0
+                }
             };
         }
         return null;
