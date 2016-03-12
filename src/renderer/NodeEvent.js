@@ -9,3 +9,9 @@ export default class NodeEvent extends Event{
 NodeEvent.FOCUS = 'focus';
 NodeEvent.BLUR = 'blur';
 NodeEvent.INPUT = 'input';
+
+NodeEvent.LISTENER_EVENT_MAP = {
+    onFocus : NodeEvent.FOCUS,
+    onBlur : NodeEvent.BLUR,
+    onInput : NodeEvent.INPUT
+};
