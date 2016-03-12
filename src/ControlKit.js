@@ -1,9 +1,14 @@
+import EventDispatcher from "./core/event/EventDispatcher";
+import RendererEvent   from "./renderer/RendererEvent";
+
 import CanvasRenderer from "./renderer/CanvasRenderer/CanvasRenderer";
 import validateOption from "validate-option"
 
 const RENDERER_CANVAS = 'renderer-canvas';
 const RENDERER_DOM    = 'renderer-dom';
 const RENDERER_WEBGL  = 'renderer-webgl';
+
+const EMPTY_FUNC = ()=>{};
 
 const DefaultOptions = {
     renderer : RENDERER_DOM,
@@ -13,8 +18,9 @@ const DefaultOptions = {
     debugDrawHover : false
 };
 
-class ControlKit{
+class ControlKit extends EventDispatcher{
     constructor(options = {}){
+        super();
         options = validateOption(options,DefaultOptions);
 
         let rendererOptions = {
@@ -23,6 +29,10 @@ class ControlKit{
             debugDrawHover  : options.debugDrawHover
         };
         this._renderer = null;
+        this._onDraw   = EMPTY_FUNC;
+
+        let self = this;
+
 
         switch(options.renderer){
             case RENDERER_CANVAS:
@@ -40,6 +50,11 @@ class ControlKit{
                     }
                 }
                 this._renderer = new CanvasRenderer(options.element, rendererOptions);
+                this._renderer.addEventListener(RendererEvent.DRAW,(e)=>{
+                    self._onDraw(e);
+                    self.dispatchEvent(e);
+                });
+
                 break;
 
             case RENDERER_DOM:
@@ -52,6 +67,14 @@ class ControlKit{
                 throw new Error(`Invalid renderer "${options.renderer}"`);
                 break;
         }
+    }
+
+    set onDraw(func){
+        this._onDraw = (func === null || func === undefined) ? EMPTY_FUNC : func.bind(this);
+    }
+
+    get onDraw(){
+        return this._onDraw;
     }
 }
 
