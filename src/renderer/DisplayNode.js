@@ -1,8 +1,12 @@
-import AbstractNode from "./AbstractNode";
-import NodeBase from "./DisplayBase";
-import NodeType from './NodeType';
-import Rect from './Rect';
-import Style from './Style';
+import AbstractNode  from "./AbstractNode";
+import NodeBase      from "./DisplayBase";
+import NodeType      from './NodeType';
+import NodeEvent     from './NodeEvent';
+import MouseEvent    from '../input/MouseEvent';
+import KeyboardEvent from '../input/KeyboardEvent';
+import Style         from './Style';
+
+const EMPTY_FUNC = ()=>{};
 
 const STR_ERROR_NOT_IMPLEMENTED = 'Function not implemented.';
 const STR_ERROR_INVALID_TYPE    = 'Invalid node type.';
@@ -29,6 +33,30 @@ export default class DisplayNode extends AbstractNode{
 
         this._children      = [];
         this._childrenOrder = [];
+
+        // first receivers
+        this.__onFocus      = EMPTY_FUNC;
+        this.__onBlur       = EMPTY_FUNC;
+        this.__onMouseDown  = EMPTY_FUNC;
+        this.__onMouseUp    = EMPTY_FUNC;
+        this.__onMouseOver  = EMPTY_FUNC;
+        this.__onMouseLeave = EMPTY_FUNC;
+        this.__onMouseMove  = EMPTY_FUNC;
+        this.__onKeyDown    = EMPTY_FUNC;
+        this.__onKeyPress   = EMPTY_FUNC;
+        this.__onKeyUp      = EMPTY_FUNC;
+
+        let self = this;
+        this.addEventListener(NodeEvent.FOCUS,         function onFocusFirst(e){self.__onFocus(e);});
+        this.addEventListener(NodeEvent.BLUR,          function onBlurFirst(e){self.__onBlur(e);});
+        this.addEventListener(MouseEvent.MOUSE_DOWN,   function onMouseDownFirst(e){self.__onMouseDown(e);});
+        this.addEventListener(MouseEvent.MOUSE_UP,     function onMouseDownFirst(e){self.__onMouseUp(e);});
+        this.addEventListener(MouseEvent.MOUSE_OVER,   function onMouseOverFirst(e){self.__onMouseOver(e);});
+        this.addEventListener(MouseEvent.MOUSE_LEAVE,  function onMouseLeaverFirst(e){self.__onMouseLeave(e);});
+        this.addEventListener(MouseEvent.MOUSE_MOVE,   function onMouseMoveFirst(e){  self.__onMouseMove(e);});
+        this.addEventListener(KeyboardEvent.KEY_DOWN,  function onKeyDown(e){self.__onKeyDown(e);});
+        this.addEventListener(KeyboardEvent.KEY_PRESS, function onKeyPress(e){self.__onKeyPress(e);});
+        this.addEventListener(KeyboardEvent.KEY_UP,    function onKeyUp(e){self.__onKeyUp(e);});
     }
 
     set textContent(text){
@@ -45,6 +73,99 @@ export default class DisplayNode extends AbstractNode{
     get type(){
         return this._type;
     }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // FIRST RECEIVER
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    _setEventHandlerFirst(key,func){
+        let key_ = `__${key}`;
+        if(this[key_] === undefined){
+            throw new Error(`Invalid first handler "${key}"`);
+        }
+        this[key_] = (func === null || func === undefined) ? EMPTY_FUNC : func.bind(this);
+    }
+
+    set onFocus(func){
+        this._setEventHandlerFirst('onFocus',func);
+    }
+
+    get onFocus(){
+        return this.__onFocus;
+    }
+
+    set onBlur(func){
+        this._setEventHandlerFirst('onBlur',func);
+    }
+
+    get onBlur(){
+        return this.__onBlur;
+    }
+
+    set onMouseDown(func){
+        this._setEventHandlerFirst('onMouseDown',func);
+    }
+
+    get onMouseDown(){
+        return this.__onMouseDown;
+    }
+
+    set onMouseUp(func){
+        this._setEventHandlerFirst('onMouseUp',func);
+    }
+
+    get onMouseUp(){
+        return this.__onMouseUp;
+    }
+
+    set onMouseOver(func){
+        this._setEventHandlerFirst('onMouseOver',func);
+    }
+
+    get onMouseOver(){
+        return this.__onMouseOver;
+    }
+
+    set onMouseLeave(func){
+        this._setEventHandlerFirst('onMouseLeave',func);
+    }
+
+    get onMouseLeave(){
+        return this.__onMouseLeave;
+    }
+
+    set onMouseMove(func){
+        this._setEventHandlerFirst('onMouseMove',func);
+    }
+
+    get onMouseMove(){
+        return this.__onMouseMove;
+    }
+
+    set onKeyDown(func){
+        this._setEventHandlerFirst('onKeyDown',func);
+    }
+
+    get onKeyDown(){
+        return this.__onKeyDown;
+    }
+
+    set onKeyPress(func){
+        this._setEventHandlerFirst('onKeyPress',func);
+    }
+
+    get onKeyPress(){
+        return this.__onKeyPress;
+    }
+
+    set onKeyUp(func){
+        this._setEventHandlerFirst('onKeyUp',func);
+    }
+
+    get onKeyUo(){
+        return this.__onKeyUp;
+    }
+
 
     /*----------------------------------------------------------------------------------------------------------------*/
     // HIERARCHY
@@ -209,6 +330,17 @@ export default class DisplayNode extends AbstractNode{
 
     forceComputeLayout() {
         this._layoutNode.shouldUpdate = true;
+        //get children draw order
+        this._childrenOrder.length = this._children.length;
+        for(let i = 0, l = this._children.length; i < l; ++i){
+            let child        = this._children[i];
+            let zIndexInline = child.style.propertiesSet.zIndex;
+            let zIndex       = zIndexInline !== undefined ? zIndexInline : child.style.zIndex;
+            this._childrenOrder[i] = [i,zIndex];
+        }
+        this._childrenOrder.sort((a,b)=>{
+            return a[1] > b[1] ? 1 : a[1] < b[1] ? -1 : 0
+        });
         if(this._parentNode === null || this._parentNode instanceof NodeBase){
             return;
         }
