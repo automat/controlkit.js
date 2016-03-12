@@ -70,18 +70,17 @@ export default class DisplayBase extends AbstractBase{
             node.textContent = detail.textContent;
         }
 
-        function addEventListener(listenerMap){
+        for(let listenerMap of [MouseEvent.LISTENER_EVENT_MAP,
+                                KeyboardEvent.LISTENER_EVENT_MAP,
+                                NodeEvent.LISTENER_EVENT_MAP]){
             for(let listener in listenerMap){
                 let callback  = detail[listener];
-                let eventType = listenerMap[listener];
                 if(callback === undefined){
                     continue;
                 }
-                node.addEventListener(eventType,callback);
+                node[listener] = callback;;
             }
         }
-        addEventListener(MouseEvent.LISTENER_EVENT_MAP);
-        addEventListener(KeyboardEvent.LISTENER_EVENT_MAP);
 
         if(detail.children){
             for(let childDetail of detail.children){
@@ -97,11 +96,14 @@ export default class DisplayBase extends AbstractBase{
 
     _hitTestChildren(x, y){
         let path = [];
+        let point = {x:x,y:y};
         function hitTestNode(node){
-            if(node.hitTestPoint(x,y) === null){
+            let result = node.hitTestPoint(x,y);
+            if(result === null){
                 return;
             }
             path.push(node);
+            point = result.point;
             for(let child of node.children){
                 hitTestNode(child);
             }
@@ -111,8 +113,9 @@ export default class DisplayBase extends AbstractBase{
         }
         path.unshift(this);
         return {
-            node: path[path.length - 1],
-            path: path
+            node : path[path.length - 1],
+            path : path,
+            point : point
         };
     }
 
@@ -120,19 +123,24 @@ export default class DisplayBase extends AbstractBase{
         let result = this._hitTestChildren(e.x,e.y);
         let node   = result.node;
 
+        this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN,e));
+
         e.node = node;
         e.path = result.path;
+        e.point = result.point;
 
-        if(this._nodeFocused !== node){
-            this._nodeFocused = node;
+        if(this._nodeInputFocused !== node){
+            if(this._nodeInputFocused !== null){
+                this._nodeInputFocused.dispatchEvent(new NodeEvent(NodeEvent.BLUR,e));
+            }
             if(node.type === NodeType.INPUT_TEXT){
-                if(this._nodeInputFocused !== null){
-                    this._nodeInputFocused.dispatchEvent(new NodeEvent(NodeEvent.BLUR,e));
-                }
-                this._nodeInputFocused = node;
                 node.dispatchEvent(new NodeEvent(NodeEvent.FOCUS,e));
+                this._nodeInputFocused = node;
+            } else {
+                this._nodeInputFocused = null;
             }
         }
+        this._nodeFocused = node;
         node.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN,e));
     }
 
@@ -140,6 +148,7 @@ export default class DisplayBase extends AbstractBase{
         let result = this._hitTestChildren(e.x,e.y);
         e.node = result.node;
         e.path = result.path;
+        e.point = result.point;
 
         result.node.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP,e));
     }
@@ -148,6 +157,7 @@ export default class DisplayBase extends AbstractBase{
         let result = this._hitTestChildren(e.x,e.y);
         e.node = result.node;
         e.path = result.path;
+        e.point = result.point;
 
         if(this._nodeHovered !== result.node){
             if(this._nodeHovered !== null){
