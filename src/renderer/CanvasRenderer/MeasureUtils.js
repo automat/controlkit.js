@@ -36,3 +36,21 @@ export function measureText(ctx, str, options = {}){
         height : lineOffset
     }
 }
+
+export function nearestCaretPos(ctx, x, str){
+    let chars = str.split('');
+    let string = '';
+    let position = 0;
+    let index = 0;
+    while(position < x && chars.length !== 0){
+        string += chars.shift();
+        position = ctx.measureText(string).width;
+        index++;
+    }
+    return index;
+}
+
+export function measureTextAtCaretPos(ctx,caretPos,str){
+    str = str.substr(0,caretPos);
+    return ctx.measureText(str).width;
+}
