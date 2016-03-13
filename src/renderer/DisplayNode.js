@@ -34,29 +34,29 @@ export default class DisplayNode extends AbstractNode{
         this._children      = [];
         this._childrenOrder = [];
 
-        // first receivers
-        this.__onFocus      = EMPTY_FUNC;
-        this.__onBlur       = EMPTY_FUNC;
-        this.__onMouseDown  = EMPTY_FUNC;
-        this.__onMouseUp    = EMPTY_FUNC;
-        this.__onMouseOver  = EMPTY_FUNC;
-        this.__onMouseLeave = EMPTY_FUNC;
-        this.__onMouseMove  = EMPTY_FUNC;
-        this.__onKeyDown    = EMPTY_FUNC;
-        this.__onKeyPress   = EMPTY_FUNC;
-        this.__onKeyUp      = EMPTY_FUNC;
+        // first receivers user set via eg. node.onFocus = (e)=>{};
+        this._onFocus      = EMPTY_FUNC;
+        this._onBlur       = EMPTY_FUNC;
+        this._onMouseDown  = EMPTY_FUNC;
+        this._onMouseUp    = EMPTY_FUNC;
+        this._onMouseOver  = EMPTY_FUNC;
+        this._onMouseLeave = EMPTY_FUNC;
+        this._onMouseMove  = EMPTY_FUNC;
+        this._onKeyDown    = EMPTY_FUNC;
+        this._onKeyPress   = EMPTY_FUNC;
+        this._onKeyUp      = EMPTY_FUNC;
 
         let self = this;
-        this.addEventListener(NodeEvent.FOCUS,         function onFocusFirst(e){self.__onFocus(e);});
-        this.addEventListener(NodeEvent.BLUR,          function onBlurFirst(e){self.__onBlur(e);});
-        this.addEventListener(MouseEvent.MOUSE_DOWN,   function onMouseDownFirst(e){self.__onMouseDown(e);});
-        this.addEventListener(MouseEvent.MOUSE_UP,     function onMouseDownFirst(e){self.__onMouseUp(e);});
-        this.addEventListener(MouseEvent.MOUSE_OVER,   function onMouseOverFirst(e){self.__onMouseOver(e);});
-        this.addEventListener(MouseEvent.MOUSE_LEAVE,  function onMouseLeaverFirst(e){self.__onMouseLeave(e);});
-        this.addEventListener(MouseEvent.MOUSE_MOVE,   function onMouseMoveFirst(e){  self.__onMouseMove(e);});
-        this.addEventListener(KeyboardEvent.KEY_DOWN,  function onKeyDown(e){self.__onKeyDown(e);});
-        this.addEventListener(KeyboardEvent.KEY_PRESS, function onKeyPress(e){self.__onKeyPress(e);});
-        this.addEventListener(KeyboardEvent.KEY_UP,    function onKeyUp(e){self.__onKeyUp(e);});
+        this.addEventListener(NodeEvent.FOCUS,         function onFocusFirst(e){self.__onFocus(e);self._onFocus(e);});
+        this.addEventListener(NodeEvent.BLUR,          function onBlurFirst(e){self.__onBlur(e);self._onBlur(e);});
+        this.addEventListener(MouseEvent.MOUSE_DOWN,   function onMouseDownFirst(e){self.__onMouseDown(e);self._onMouseDown(e);});
+        this.addEventListener(MouseEvent.MOUSE_UP,     function onMouseDownFirst(e){self.__onMouseUp(e);self._onMouseUp(e);});
+        this.addEventListener(MouseEvent.MOUSE_OVER,   function onMouseOverFirst(e){self.__onMouseOver(e);self._onMouseOver(e);});
+        this.addEventListener(MouseEvent.MOUSE_LEAVE,  function onMouseLeaverFirst(e){self.__onMouseLeave(e);self._onMouseLeave(e);});
+        this.addEventListener(MouseEvent.MOUSE_MOVE,   function onMouseMoveFirst(e){  self.__onMouseMove(e);self._onMouseMove(e);});
+        this.addEventListener(KeyboardEvent.KEY_DOWN,  function onKeyDown(e){self.__onKeyDown(e);self._onKeyDown(e);});
+        this.addEventListener(KeyboardEvent.KEY_PRESS, function onKeyPress(e){self.__onKeyPress(e);self._onKeyPress(e);});
+        this.addEventListener(KeyboardEvent.KEY_UP,    function onKeyUp(e){self.__onKeyUp(e);self._onKeyUp(e);});
     }
 
     set textContent(text){
@@ -75,11 +75,29 @@ export default class DisplayNode extends AbstractNode{
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
+    // INTERNAL FIRST RECEIVER
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    __onFocus(){}
+    __onBlur(){}
+    __onMouseDown(){}
+    __onMouseUp(){}
+    __onMouseOver(){}
+    __onMouseLeave(){}
+    __onMouseMove(){}
+    __onKeyDown(){}
+    __onKeyPress(){}
+    __onKeyUp(){}
+
+    /*----------------------------------------------------------------------------------------------------------------*/
     // FIRST RECEIVER
     /*----------------------------------------------------------------------------------------------------------------*/
 
     _setEventHandlerFirst(key,func){
-        let key_ = `__${key}`;
+        if(key.charAt(0) === '_'){
+            throw new Error('Invalid attempt to set internal handler.');
+        }
+        let key_ = `_${key}`;
         if(this[key_] === undefined){
             throw new Error(`Invalid first handler "${key}"`);
         }
