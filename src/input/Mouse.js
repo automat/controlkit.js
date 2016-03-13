@@ -67,6 +67,10 @@ Mouse.prototype.getDelta = function(out){
     return out;
 };
 
+Mouse.prototype.handleDblClick = function(e){
+    this.dispatchEvent(new MouseEvent(MouseEvent.DBL_CLICK, e));
+};
+
 Mouse.prototype.handleMouseDown = function(e) {
     this._isDown = true;
     this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN, e));
