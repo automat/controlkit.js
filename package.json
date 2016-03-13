@@ -18,7 +18,7 @@
         "css-parse": "2.0.0",
         "css-layout": "1.1.1",
         "validate-keys": "^0.0.1",
-        "validate-option" : "^0.0.1"
+        "validate-option" : "^0.0.4"
     },
     "devDependencies": {
         "browserify": "6.2.x",
