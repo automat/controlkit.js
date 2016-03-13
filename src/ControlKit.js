@@ -18,6 +18,8 @@ const DefaultOptions = {
     debugDrawHover : false
 };
 
+const ERR_STR_NO_CANVAS_PASSED = 'No canvas element passed.';
+
 class ControlKit extends EventDispatcher{
     constructor(options = {}){
         super();
@@ -36,19 +38,26 @@ class ControlKit extends EventDispatcher{
 
         switch(options.renderer){
             case RENDERER_CANVAS:
-                if(options.element === null){
-                    if(window && document && document.createElement){
-                        let canvas = document.createElement('canvas');
-                        canvas.width  = window.innerWidth || 800;
-                        canvas.height = window.innerHeight || 600;
-                        canvas.style.width  = canvas.width + 'px';
-                        canvas.style.height = canvas.height + 'px';
-                        document.body.appendChild(canvas);
-                        options.element = canvas;
-                    } else{
-                        throw new Error(`No canvas element passed.`);
+                if(window && document){
+                    if(options.element === null){
+                        if(document.createElement){
+                            let canvas = document.createElement('canvas');
+                            canvas.width  = window.innerWidth || 800;
+                            canvas.height = window.innerHeight || 600;
+                            canvas.style.width  = canvas.width + 'px';
+                            canvas.style.height = canvas.height + 'px';
+                            document.body.appendChild(canvas);
+                            options.element = canvas;
+                        } else {
+                            throw new Error(ERR_STR_NO_CANVAS_PASSED);
+                        }
                     }
+                    options.element.style.outline = 'none';
+
+                } else if(options.element === null){
+                    throw new Error(ERR_STR_NO_CANVAS_PASSED);
                 }
+
                 this._renderer = new CanvasRenderer(options.element, rendererOptions);
                 this._renderer.addEventListener(RendererEvent.DRAW,(e)=>{
                     self._onDraw(e);
