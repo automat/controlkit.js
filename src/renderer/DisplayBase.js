@@ -78,6 +78,10 @@ export default class DisplayBase extends AbstractBase{
                 if(callback === undefined){
                     continue;
                 }
+                let type = typeof callback;
+                if(type !== 'function'){
+                    throw new Error(`Callback of invalid type ${type}. Must be of type 'function'`);
+                }
                 node[listener] = callback;;
             }
         }
