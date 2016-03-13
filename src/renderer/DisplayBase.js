@@ -150,7 +150,6 @@ export default class DisplayBase extends AbstractBase{
 
     handleDblClick(e){
         this._handleMousePress(MouseEvent.DBL_CLICK,e);
-        console.log('fsdfsd');
     }
 
     handleMouseDown(e){
