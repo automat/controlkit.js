@@ -94,3 +94,19 @@ export function measureTextAtCaretPos(ctx,caretPos,str,options){
     str = str.substr(0,caretPos);
     return measureText(ctx,str,options).width;
 }
+
+export function measureTextAtRange(ctx,range,str,options){
+    options = validateOptions(options,DEFAULT_FONT_OPTIONS);
+
+    let strOffset = str.substr(0,range[0]);
+    let strRange  = str.substr(range[0],range[1]-range[0]);
+
+    let metricsOffset = measureText(ctx,strOffset,options);
+    let metricsToken  = measureText(ctx,strRange,options);
+
+    return {
+        offset : metricsOffset.width,
+        width  : metricsToken.width,
+        height : metricsToken.height
+    };
+}
