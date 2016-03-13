@@ -12,7 +12,49 @@ const DefaultOptions = {
     placeHolder : ''
 };
 
-const TOKEN_SEPERATOR_REGEX = /([\s= ,.:/])+/;///[ ,.:/]+/;
+const TOKEN_SEPERATOR_REGEX = /([\s= ,.:/])+/;
+
+const ASCII_MAP = {
+    '188': '44',
+    '109': '45',
+    '190': '46',
+    '191': '47',
+    '192': '96',
+    '220': '92',
+    '222': '39',
+    '221': '93',
+    '219': '91',
+    '173': '45',
+    '187': '61',
+    '186': '59',
+    '189': '45'
+};
+
+const SHIFT_UP_MAP = {
+    "96": "~",
+    "49": "!",
+    "50": "@",
+    "51": "#",
+    "52": "$",
+    "53": "%",
+    "54": "^",
+    "55": "&",
+    "56": "*",
+    "57": "(",
+    "48": ")",
+    "45": "_",
+    "61": "+",
+    "91": "{",
+    "93": "}",
+    "92": "|",
+    "59": ":",
+    "39": "\"",
+    "44": "<",
+    "46": ">",
+    "47": "?"
+};
+
+const EMPTY_FUNC = ()=>{};
 
 class DisplayInputNode extends DisplayNode{
     constructor(options){
@@ -30,6 +72,23 @@ class DisplayInputNode extends DisplayNode{
         this._caretRange = [0,0];
         this._caretRangeDir = 0;
         this._caretInputPos = {x:0,y:0};
+
+        this._onInput = EMPTY_FUNC;
+
+        let self = this;
+        this.addEventListener(NodeEvent.INPUT,function onInputFirst(e){self._onInput(e);});
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // USER FIRST RECEIVER
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    set onInput(func){
+        super._setEventHandlerFirst('onInput',func);
+    }
+
+    get onInput(){
+        return this._onInput;
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -180,7 +239,11 @@ class DisplayInputNode extends DisplayNode{
     __onMouseUp(e){}
 
     __onKeyDown(e){
-        let keyCode  = e.data.keyCode;
+        let keyCode = e.data.keyCode;
+
+        //TODO: Fix keypress listener, see CanvasRenderer, otherwise this needs to be localized
+        keyCode = ASCII_MAP[keyCode] !== undefined ? ASCII_MAP[keyCode] : keyCode;
+
         if(this._numeric && !this._isNumeric(keyCode)){
             return;
         }
@@ -266,14 +329,20 @@ class DisplayInputNode extends DisplayNode{
 
         //add char at caret pos
         } else {
-            let char = String.fromCharCode(keyCode);
+            this._resetCaretRange();
+
+            let char;
+            if(shiftKey){
+                char = SHIFT_UP_MAP[keyCode];
+                char = char === undefined ? String.fromCharCode(keyCode) : char;
+            } else {
+                char = String.fromCharCode(keyCode).toLowerCase();
+            }
+
             //only modifier pressed
             if(char === ''){
                 return;
             }
-
-            char = char.toLowerCase();
-            char =  shiftKey ? char.toUpperCase() : char;
 
             this._textContent = [front,char,back].join('');
             this._advanceCaretPos(1);
