@@ -19,7 +19,7 @@ const STR_ERR_NODE_NOT_CHILD = 'Node is not child of of target node';
 const CREATE_DETAIL_KEYS = [
     'type','options','style',
     'textContent','children',
-    'onMouseDown', 'onMouseUp', 'onMouseOver', 'onMouseLeave','onMouseMove',
+    'onDblClick','onMouseDown', 'onMouseUp', 'onMouseOver', 'onMouseLeave','onMouseMove',
     'onKeyDown', 'onKeyUp', 'onKeyPress',
     'onFocus', 'onBlur'
 ];
@@ -123,11 +123,11 @@ export default class DisplayBase extends AbstractBase{
         };
     }
 
-    handleMouseDown(e){
+    _handleMousePress(type,e){
         let result = this._hitTestChildren(e.x,e.y);
         let node   = result.node;
 
-        this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN,e));
+        this.dispatchEvent(new MouseEvent(type,e));
 
         e.node = node;
         e.path = result.path;
@@ -145,7 +145,16 @@ export default class DisplayBase extends AbstractBase{
             }
         }
         this._nodeFocused = node;
-        node.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN,e));
+        node.dispatchEvent(new MouseEvent(type,e));
+    }
+
+    handleDblClick(e){
+        this._handleMousePress(MouseEvent.DBL_CLICK,e);
+        console.log('fsdfsd');
+    }
+
+    handleMouseDown(e){
+        this._handleMousePress(MouseEvent.MOUSE_DOWN,e);
     }
 
     handleMouseUp(e){
