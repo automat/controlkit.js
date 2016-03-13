@@ -4,6 +4,7 @@ import NodeType from "./NodeType";
 import KeyboardEvent from "../input/KeyboardEvent";
 import MouseEvent from "../input/MouseEvent";
 import NodeEvent from "./NodeEvent";
+import TextMetrics from './TextMetrics';
 
 const DefaultOptions = {
     numeric : false,
@@ -23,13 +24,9 @@ class DisplayInputNode extends DisplayNode{
         this._placeHolder = options.placeHolder;
 
         this._showCaret = false;
-
-        this.addEventListener(NodeEvent.FOCUS, this._onFocus.bind(this));
-        this.addEventListener(NodeEvent.BLUR, this._onBlur.bind(this));
-        this.addEventListener(KeyboardEvent.KEY_DOWN, this._onKeyDown.bind(this));
-        this.addEventListener(KeyboardEvent.KEY_PRESS, this._onKeyPress.bind(this));
-        this.addEventListener(KeyboardEvent.KEY_UP, this._onKeyUp.bind(this));
-    }
+        this._caretPos = -1;
+        this._caretInputPos = {x:0,y:0};
+  }
 
     _format(){
         if(!this._numeric || this._digits === null){
@@ -40,7 +37,7 @@ class DisplayInputNode extends DisplayNode{
 
     _reflect(){
         if(this._textContentPrev === this._textContent){
-            this.dispatchEvent(new NodeEvent(NodeEvent.INPUT), {string : this._textContent});
+            this.dispatchEvent(new NodeEvent(NodeEvent.INPUT), {textContent : this._textContent});
         }
         this._textContentPrev = this._textContent;
     }
@@ -57,34 +54,72 @@ class DisplayInputNode extends DisplayNode{
         return this._showCaret;
     }
 
-    _onFocus(){
+    set caretPos(index){
+        this._caretPos = index;
+    }
+
+    get caretPos(){
+        return this._caretPos;
+    }
+
+    get caretInputPos(){
+        return {x:this._caretInputPos.x,y:this._caretInputPos.y};
+    }
+
+    _getCaretInputPos(e){
+        this._caretInputPos.x = e.data.point.x;
+        this._caretInputPos.y = e.data.point.y;
+    }
+
+    __onFocus(e){
+        this._getCaretInputPos(e);
         this._showCaret = true;
     }
 
-    _onBlur(){
+    __onBlur(){
+        this._caretPos = -1;
         this._showCaret = false;
     }
 
-    _onKeyDown(e){
+    __onMouseDown(e){
+        this._getCaretInputPos(e);
+        let layoutNode = this.layoutNode;
+        let layout = layoutNode.layout;
+        let style  = layoutNode.style;
+
+        this._caretPos = TextMetrics.nearestCaretPos(
+            this._caretInputPos.x + (layout.paddingLeft || 0),
+            this._textContent, {
+                fontFamily : style.fontFamily,
+                fontSize   : style.fontSize,
+                lineHeight : style.lineHeight
+            }
+        );
+        this._showCaret = true;
+    }
+
+    __onMouseUp(e){}
+
+    __onKeyDown(e){
         if(this._numeric && !this._isNumeric(e.keyCode)){
             return;
         }
-        console.log(e.keyCode);
+        console.log(TextMetrics.measureText('abc'));
 
         this._format();
         this._reflect();
     }
 
-    _onKeyPress(e){
-        if(this._numeric && !this._isNumeric(e.keyCode)){
-            return;
-        }
-
-        this._format();
-        this._reflect();
+    __onKeyPress(e){
+        //if(this._numeric && !this._isNumeric(e.keyCode)){
+        //    return;
+        //}
+        //
+        //this._format();
+        //this._reflect();
     }
 
-    _onKeyUp(e){
+    __onKeyUp(e){
         if(this._numeric && !this._isNumeric(e.keyCode)){
             return;
         }
