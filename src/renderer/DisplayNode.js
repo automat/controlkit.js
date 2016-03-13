@@ -123,6 +123,14 @@ export default class DisplayNode extends AbstractNode{
         return this.__onBlur;
     }
 
+    set onDblClick(func){
+        this._setEventHandlerFirst('onDblClick',func);
+    }
+
+    get onDblClick(){
+        return this.__onDblClick;
+    }
+
     set onMouseDown(func){
         this._setEventHandlerFirst('onMouseDown',func);
     }
