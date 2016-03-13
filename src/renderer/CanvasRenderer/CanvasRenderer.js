@@ -16,7 +16,8 @@ import {
 import {
     measureText,
     nearestCaretPos,
-    measureTextAtCaretPos
+    measureTextAtCaretPos,
+    measureTextAtRange
 } from "./TextMetrics";
 import TextMetricsShared from '../TextMetrics';
 import RendererEvent from "../RendererEvent";
@@ -29,7 +30,7 @@ const DefaultOptions = {
     debugDrawHover  : false
 };
 
-const MOUSE_DOWN_THRESHOLD = 400;
+const MOUSE_DOWN_THRESHOLD = 500;
 
 export default class CanvasRenderer extends AbstractRenderer {
 
@@ -50,7 +51,7 @@ export default class CanvasRenderer extends AbstractRenderer {
         // INPUT HANDLE
         let self = this;
         let mtimestamp = new Date().getTime();
-        let mpress = 0;
+
         this._canvas.addEventListener('mousedown',function rendererMouseDown(e){
             e = {
                 x : e.pageX,
@@ -64,14 +65,8 @@ export default class CanvasRenderer extends AbstractRenderer {
 
             //for consistency across renderers
             let timestamp = new Date().getTime();
-            let diff      = timestamp - mtimestamp;
-
-            mpress++;
-            if(mpress > 1){
-                if(diff <= MOUSE_DOWN_THRESHOLD){
-                    self._base.handleDblClick(e);
-                }
-                mpress = 0;
+            if((timestamp - mtimestamp) <= MOUSE_DOWN_THRESHOLD){
+                self._base.handleDblClick(e);
             }
             mtimestamp = timestamp;
         });
@@ -411,6 +406,15 @@ export default class CanvasRenderer extends AbstractRenderer {
                             lineV(ctx,caretPosX,0,layout.height);
                             ctx.stroke();
                         ctx.restore();
+
+                        if(node.hasCaretRange()){
+                            let metrics = measureTextAtRange(ctx,node.caretRange,node.textContent);
+
+                            ctx.save();
+                                ctx.fillStyle = 'rgba(15,15,15,0.125)';
+                                ctx.fillRect(paddingLeft + metrics.offset,0,metrics.width,layout.height);
+                            ctx.restore();
+                        }
                     }
                 }
             }
@@ -483,12 +487,9 @@ export default class CanvasRenderer extends AbstractRenderer {
                 this._debugDrawNodeBounds(this._base);
             }
             ctx.restore();
-            if(this._debugDrawLayout){
-                return;
-            }
+        } else {
+            this._drawNode(this);
         }
-
-        this._drawNode(this);
         this.dispatchEvent(new RendererEvent(RendererEvent.DRAW));
     }
 }
