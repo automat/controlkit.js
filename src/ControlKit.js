@@ -53,6 +53,8 @@ class ControlKit extends EventDispatcher{
                         }
                     }
                     options.element.style.outline = 'none';
+                    options.element.setAttribute('tabindex',1);
+                    options.element.focus();
 
                 } else if(options.element === null){
                     throw new Error(ERR_STR_NO_CANVAS_PASSED);
