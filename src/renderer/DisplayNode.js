@@ -37,6 +37,7 @@ export default class DisplayNode extends AbstractNode{
         // first receivers user set via eg. node.onFocus = (e)=>{};
         this._onFocus      = EMPTY_FUNC;
         this._onBlur       = EMPTY_FUNC;
+        this._onDblClick   = EMPTY_FUNC;
         this._onMouseDown  = EMPTY_FUNC;
         this._onMouseUp    = EMPTY_FUNC;
         this._onMouseOver  = EMPTY_FUNC;
@@ -49,6 +50,7 @@ export default class DisplayNode extends AbstractNode{
         let self = this;
         this.addEventListener(NodeEvent.FOCUS,         function onFocusFirst(e){self.__onFocus(e);self._onFocus(e);});
         this.addEventListener(NodeEvent.BLUR,          function onBlurFirst(e){self.__onBlur(e);self._onBlur(e);});
+        this.addEventListener(MouseEvent.DBL_CLICK,    function onMouseDownFirst(e){self.__onDblClick(e);self._onDblClick(e);});
         this.addEventListener(MouseEvent.MOUSE_DOWN,   function onMouseDownFirst(e){self.__onMouseDown(e);self._onMouseDown(e);});
         this.addEventListener(MouseEvent.MOUSE_UP,     function onMouseDownFirst(e){self.__onMouseUp(e);self._onMouseUp(e);});
         this.addEventListener(MouseEvent.MOUSE_OVER,   function onMouseOverFirst(e){self.__onMouseOver(e);self._onMouseOver(e);});
@@ -68,11 +70,11 @@ export default class DisplayNode extends AbstractNode{
         return this._textContent;
     }
 
-    cloneNode(){}
-
     get type(){
         return this._type;
     }
+
+    cloneNode(deep){}
 
     /*----------------------------------------------------------------------------------------------------------------*/
     // INTERNAL FIRST RECEIVER
@@ -80,6 +82,7 @@ export default class DisplayNode extends AbstractNode{
 
     __onFocus(){}
     __onBlur(){}
+    __onDblClick(){}
     __onMouseDown(){}
     __onMouseUp(){}
     __onMouseOver(){}
