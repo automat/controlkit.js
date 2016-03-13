@@ -15,6 +15,9 @@ KeyboardEvent.KEY_ENTER = 13;
 KeyboardEvent.KEY_BACKSPACE = 8;
 KeyboardEvent.KEY_DELETE = 46;
 
+KeyboardEvent.KEY_LEFT = 37;
+KeyboardEvent.KEY_RIGHT = 39;
+
 KeyboardEvent.LISTENER_EVENT_MAP = {
     onKeyDown : KeyboardEvent.KEY_DOWN,
     onKeyPress : KeyboardEvent.KEY_PRESS,
