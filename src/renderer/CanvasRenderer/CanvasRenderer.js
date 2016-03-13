@@ -39,7 +39,6 @@ export default class CanvasRenderer extends AbstractRenderer {
         super();
 
         this._canvas = canvas;
-        this._canvas.setAttribute('tabIndex',''+1);
         this._ctx = canvas.getContext('2d');
         this._base = new DisplayBase();
         this._base.size = [canvas.width, canvas.height];
@@ -115,6 +114,7 @@ export default class CanvasRenderer extends AbstractRenderer {
             })
         });
 
+        //FIXME: doesnt get events although focus + tabindex
         this._canvas.addEventListener('keypress',function rendererKeyPress(e){
             e.preventDefault();
             self._base.handleKeyPress({
