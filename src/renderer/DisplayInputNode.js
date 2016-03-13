@@ -12,6 +12,8 @@ const DefaultOptions = {
     placeHolder : ''
 };
 
+const TOKEN_SEPERATOR_REGEX = /([\s= ,.:/])+/;///[ ,.:/]+/;
+
 class DisplayInputNode extends DisplayNode{
     constructor(options){
         options = validateOption(options,DefaultOptions);
@@ -25,26 +27,14 @@ class DisplayInputNode extends DisplayNode{
 
         this._showCaret = false;
         this._caretPos = -1;
+        this._caretRange = [0,0];
+        this._caretRangeDir = 0;
         this._caretInputPos = {x:0,y:0};
-  }
-
-    _format(){
-        if(!this._numeric || this._digits === null){
-            return;
-        }
-        this._textContent = this._textContent.toFixed(this._digits);
     }
 
-    _reflect(){
-        if(this._textContentPrev === this._textContent){
-            this.dispatchEvent(new NodeEvent(NodeEvent.INPUT), {textContent : this._textContent});
-        }
-        this._textContentPrev = this._textContent;
-    }
-
-    _isNumeric(value){
-
-    }
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // GETTER
+    /*----------------------------------------------------------------------------------------------------------------*/
 
     get placeHolder(){
         return this._placeHolder;
@@ -66,23 +56,70 @@ class DisplayInputNode extends DisplayNode{
         return {x:this._caretInputPos.x,y:this._caretInputPos.y};
     }
 
+    get caretRange(){
+        return this._caretRange.slice(0);
+    }
+
+    hasCaretRange(){
+        return this._caretRange[0] !== 0 || this._caretRange[1] !== 0;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // FORMAT
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    _isNumeric(value){
+
+    }
+
+    _format(){
+        if(!this._numeric || this._digits === null){
+            return;
+        }
+        this._textContent = this._textContent.toFixed(this._digits);
+    }
+
+    _reflect(){
+        if(this._textContentPrev === this._textContent){
+            this.dispatchEvent(new NodeEvent(NodeEvent.INPUT), {textContent : this._textContent});
+        }
+        this._textContentPrev = this._textContent;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // CARET + CARET RANGE
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    _advanceCaretPos(dir){
+        this._caretPos = Math.max(
+            -1,Math.min(this._caretPos + 1 * dir, this._textContent.length)
+        );
+    }
+
+    _resetCaretRange(){
+        this._caretRange[0] = 0;
+        this._caretRange[1] = 0;
+    }
+
+    _validateCaretRangeDir(){
+        //swap min/max if necessary
+        let rangeMin = this._caretRange[0];
+        let rangeMax = this._caretRange[1];
+        this._caretRange[0] = Math.min(rangeMin,rangeMax);
+        this._caretRange[1] = Math.max(rangeMin,rangeMax);
+
+        //reset range direction if swapped
+        if(this._caretRange[0] !== rangeMin){
+            this._caretRangeDir = 0;
+        }
+    }
+
     _getCaretInputPos(e){
         this._caretInputPos.x = e.data.point.x;
         this._caretInputPos.y = e.data.point.y;
     }
 
-    __onFocus(e){
-        this._getCaretInputPos(e);
-        this._showCaret = true;
-    }
-
-    __onBlur(){
-        this._caretPos = -1;
-        this._showCaret = false;
-    }
-
-    __onMouseDown(e){
-        this._getCaretInputPos(e);
+    _getCaretPos(){
         let layoutNode = this.layoutNode;
         let layout = layoutNode.layout;
         let style  = layoutNode.style;
@@ -95,16 +132,152 @@ class DisplayInputNode extends DisplayNode{
                 lineHeight : style.lineHeight
             }
         );
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // FIRST RECEIVER
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    __onFocus(e){
+        this._getCaretInputPos(e);
+        this._showCaret = true;
+    }
+
+    __onBlur(){
+        this._caretPos = -1;
+        this._resetCaretRange();
+        this._showCaret = false;
+    }
+
+    __onDblClick(e){
+        this._getCaretInputPos(e);
+        this._getCaretPos();
+
+        let tokens = this._textContent.split(TOKEN_SEPERATOR_REGEX);
+        let index  = 0;
+
+        let max   = this._caretPos + 1;
+        let begin = 0;
+        let end   = 0;
+
+        while(end < max){
+            let token = tokens[index++];
+            begin = end;
+            end  += token.length;
+        }
+        this._caretRange[0] = begin;
+        this._caretRange[1] = end;
+        this._caretRangeDir = 0;
+    }
+
+    __onMouseDown(e){
+        this._getCaretInputPos(e);
+        this._getCaretPos();
+        this._resetCaretRange();
         this._showCaret = true;
     }
 
     __onMouseUp(e){}
 
     __onKeyDown(e){
-        if(this._numeric && !this._isNumeric(e.keyCode)){
+        let keyCode  = e.data.keyCode;
+        if(this._numeric && !this._isNumeric(keyCode)){
             return;
         }
-        console.log(TextMetrics.measureText('abc'));
+        if(keyCode === KeyboardEvent.KEY_UP || keyCode === KeyboardEvent.KEY_DOWN){
+            this._resetCaretRange();
+            return;
+        }
+        let shiftKey = e.data.shiftKey;
+
+        //caret move / caret range increase l
+        if(keyCode === KeyboardEvent.KEY_LEFT){
+            //advance range begin
+            if(shiftKey){
+                if(!this.hasCaretRange()){
+                    this._caretRange[0] = this._caretRange[1] = this._caretPos;
+                }
+                //advance begin left
+                if(this._caretRangeDir !== 1){
+                    this._caretRange[0] = Math.max(0,this._caretRange[0]-1);
+                    this._caretRangeDir = -1;
+                //advance end left
+                } else{
+                    this._caretRange[1] = Math.max(0,this._caretRange[1]-1);
+                }
+            //reset range or advance caret
+            } else {
+                if(this.hasCaretRange()){
+                    this._caretPos = this._caretRange[0];
+                    this._resetCaretRange();
+                } else {
+                    this._advanceCaretPos(-1);
+                }
+            }
+            this._validateCaretRangeDir();
+            return;
+
+        //caret move / caret range increase r
+        } else if(keyCode === KeyboardEvent.KEY_RIGHT){
+            if(shiftKey){
+                if(!this.hasCaretRange()){
+                    this._caretRange[0] = this._caretRange[1] = this._caretPos;
+                }
+                //advance end right
+                if(this._caretRangeDir !== -1){
+                    this._caretRange[1] = Math.min(this._caretRange[1]+1,this._textContent.length);
+                    this._caretRangeDir = 1;
+                //advance begin right
+                } else {
+                    this._caretRange[0] = Math.min(this._caretRange[0]+1,this._textContent.length);
+                }
+            //reset range or advance caret
+            } else {
+                if(this.hasCaretRange()){
+                    this._caretPos = this._caretRange[1];
+                    this._resetCaretRange();
+                } else {
+                    this._advanceCaretPos(1);
+                }
+            }
+            this._validateCaretRangeDir();
+            return;
+        }
+
+        let caretPos = Math.max(0,this._caretPos);
+        let front    = this._textContent.slice(0,caretPos);
+        let back     = this._textContent.slice(caretPos);
+
+        //delete char at caret pos
+        if(keyCode === KeyboardEvent.KEY_BACKSPACE ||
+           keyCode === KeyboardEvent.KEY_DELETE){
+            //range selected, remove chars in range
+            if(this.hasCaretRange()){
+                this._textContent = this._textContent.slice(0,this._caretRange[0]) +
+                                    this._textContent.slice(this._caretRange[1]);
+                this._caretPos = this._caretRange[0];
+                this._resetCaretRange();
+            //remove from caret pos
+            } else {
+                front = front.slice(0,front.length-1);
+                this._textContent = [front,back].join('');
+                this._advanceCaretPos(-1);
+            }
+
+        //add char at caret pos
+        } else {
+            let char = String.fromCharCode(keyCode);
+            //only modifier pressed
+            if(char === ''){
+                return;
+            }
+
+            char = char.toLowerCase();
+            char =  shiftKey ? char.toUpperCase() : char;
+
+            this._textContent = [front,char,back].join('');
+            this._advanceCaretPos(1);
+        }
 
         this._format();
         this._reflect();
