@@ -29,6 +29,8 @@ const DefaultOptions = {
     debugDrawHover  : false
 };
 
+const MOUSE_DOWN_THRESHOLD = 400;
+
 export default class CanvasRenderer extends AbstractRenderer {
 
     constructor(canvas,options = {}){
@@ -47,60 +49,85 @@ export default class CanvasRenderer extends AbstractRenderer {
 
         // INPUT HANDLE
         let self = this;
-        this._canvas.addEventListener('mousedown',function(e){
-            self._base.handleMouseDown({
+        let mtimestamp = new Date().getTime();
+        let mpress = 0;
+        this._canvas.addEventListener('mousedown',function rendererMouseDown(e){
+            e = {
                 x : e.pageX,
                 y : e.pageY,
                 button : e.button,
                 altKey : e.altKey,
-                ctrlKey : e.ctrlKey
-            });
+                ctrlKey : e.ctrlKey,
+                shiftKey : e.shiftKey
+            };
+            self._base.handleMouseDown(e);
+
+            //for consistency across renderers
+            let timestamp = new Date().getTime();
+            let diff      = timestamp - mtimestamp;
+
+            mpress++;
+            if(mpress > 1){
+                if(diff <= MOUSE_DOWN_THRESHOLD){
+                    self._base.handleDblClick(e);
+                }
+                mpress = 0;
+            }
+            mtimestamp = timestamp;
         });
 
-        this._canvas.addEventListener('mouseup',function(e){
+        this._canvas.addEventListener('mouseup',function rendererMouseUp(e){
             self._base.handleMouseUp({
                 x : e.pageX,
                 y : e.pageY,
                 button : e.button,
                 altKey : e.altKey,
-                ctrlKey : e.ctrlKey
+                ctrlKey : e.ctrlKey,
+                shiftKey : e.shiftKey
             });
         });
 
-        this._canvas.addEventListener('mousemove',function(e){
+        this._canvas.addEventListener('mousemove',function rendererMouseMove(e){
             self._base.handleMouseMove({
                 x : e.pageX,
                 y : e.pageY,
                 button : e.button,
                 altKey : e.altKey,
-                ctrlKey : e.ctrlKey
+                ctrlKey : e.ctrlKey,
+                shiftKey : e.shiftKey
             });
         });
 
-        this._canvas.addEventListener('keydown',function(e){
+        this._canvas.addEventListener('keydown',function rendererKeyDown(e){
+            e.preventDefault();
             self._base.handleKeyDown({
                 charCode : e.charCode,
                 keyCode : e.keyCode,
                 altKey : e.altKey,
-                ctrlKey : e.ctrlKey
+                ctrlKey : e.ctrlKey,
+                shiftKey : e.shiftKey
             });
         });
 
-        this._canvas.addEventListener('keyup',function(e){
+        this._canvas.addEventListener('keyup',function rendererKeyUp(e){
+            e.preventDefault();
             self._base.handleKeyUp({
                 charCode : e.charCode,
                 keyCode : e.keyCode,
                 altKey : e.altKey,
-                ctrlKey : e.ctrlKey
+                ctrlKey : e.ctrlKey,
+                shiftKey : e.shiftKey
             })
         });
 
-        this._canvas.addEventListener('keypress',function(e){
+        this._canvas.addEventListener('keypress',function rendererKeyPress(e){
+            e.preventDefault();
             self._base.handleKeyPress({
                 charCode : e.charCode,
                 keyCode : e.keyCode,
                 altKey : e.altKey,
-                ctrlKey : e.ctrlKey
+                ctrlKey : e.ctrlKey,
+                shiftKey : e.shiftKey
             })
         });
 
