@@ -15,6 +15,9 @@ KeyboardEvent.KEY_ENTER = 13;
 KeyboardEvent.KEY_BACKSPACE = 8;
 KeyboardEvent.KEY_DELETE = 46;
 
+KeyboardEvent.KEY_SHIFT = 16;
+KeyboardEvent.KEY_ALT   = 18;
+
 KeyboardEvent.KEY_LEFT = 37;
 KeyboardEvent.KEY_RIGHT = 39;
 
