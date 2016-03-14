@@ -69,7 +69,7 @@ class DisplayInputNode extends DisplayNode{
 
         this._showCaret = false;
         this._caretPos = -1;
-        this._caretRange = [0,0];
+        this._selectionRange = [0,0];
         this._caretRangeDir = 0;
         this._caretInputPos = {x:0,y:0};
 
@@ -115,12 +115,24 @@ class DisplayInputNode extends DisplayNode{
         return {x:this._caretInputPos.x,y:this._caretInputPos.y};
     }
 
-    get caretRange(){
-        return this._caretRange.slice(0);
+    setSelectionRange(min,max){
+        let min_ = Math.max(0,Math.min(Math.min(min,max),this._textContent.length));
+        let max_ = Math.min(this._textContent.length,Math.max(min,max));
+        this._selectionRange[0] = min_;
+        this._selectionRange[1] = max_;
     }
 
-    hasCaretRange(){
-        return this._caretRange[0] !== 0 || this._caretRange[1] !== 0;
+    get selectionRange(){
+        return this._selectionRange.slice(0);
+    }
+
+    isRangeSelected(){
+        return this._selectionRange[0] !== this._selectionRange[1];
+    }
+
+    clearSelectionRange(){
+        this._selectionRange[0] = 0;
+        this._selectionRange[1] = 0;
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -155,20 +167,14 @@ class DisplayInputNode extends DisplayNode{
         );
     }
 
-    _resetCaretRange(){
-        this._caretRange[0] = 0;
-        this._caretRange[1] = 0;
-    }
-
-    _validateCaretRangeDir(){
+    _validateSelectionDir(){
         //swap min/max if necessary
-        let rangeMin = this._caretRange[0];
-        let rangeMax = this._caretRange[1];
-        this._caretRange[0] = Math.min(rangeMin,rangeMax);
-        this._caretRange[1] = Math.max(rangeMin,rangeMax);
-
+        let rangeMin = this._selectionRange[0];
+        let rangeMax = this._selectionRange[1];
+        this._selectionRange[0] = Math.min(rangeMin,rangeMax);
+        this._selectionRange[1] = Math.max(rangeMin,rangeMax);
         //reset range direction if swapped
-        if(this._caretRange[0] !== rangeMin){
+        if(this._selectionRange[0] !== rangeMin){
             this._caretRangeDir = 0;
         }
     }
@@ -193,6 +199,13 @@ class DisplayInputNode extends DisplayNode{
         );
     }
 
+    _insertBetweenSelectionRange(str){
+        this._textContent = this._textContent.slice(0,this._selectionRange[0]) + str +
+                            this._textContent.slice(this._selectionRange[1]);
+        this._caretPos = this._selectionRange[0];
+        this.clearSelectionRange();
+    }
+
     /*----------------------------------------------------------------------------------------------------------------*/
     // FIRST RECEIVER
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -204,7 +217,7 @@ class DisplayInputNode extends DisplayNode{
 
     __onBlur(){
         this._caretPos = -1;
-        this._resetCaretRange();
+        this.clearSelectionRange();
         this._showCaret = false;
     }
 
@@ -220,23 +233,20 @@ class DisplayInputNode extends DisplayNode{
         let end   = 0;
 
         while(end < max){
-            let token = tokens[index++];
             begin = end;
-            end  += token.length;
+            end  += tokens[index++].length;
         }
-        this._caretRange[0] = begin;
-        this._caretRange[1] = end;
+        this._selectionRange[0] = begin;
+        this._selectionRange[1] = end;
         this._caretRangeDir = 0;
     }
 
     __onMouseDown(e){
         this._getCaretInputPos(e);
         this._getCaretPos();
-        this._resetCaretRange();
+        this.clearSelectionRange();
         this._showCaret = true;
     }
-
-    __onMouseUp(e){}
 
     __onKeyDown(e){
         let keyCode = e.data.keyCode;
@@ -248,62 +258,64 @@ class DisplayInputNode extends DisplayNode{
             return;
         }
         if(keyCode === KeyboardEvent.KEY_UP || keyCode === KeyboardEvent.KEY_DOWN){
-            this._resetCaretRange();
+            this.clearSelectionRange();
             return;
         }
         let shiftKey = e.data.shiftKey;
 
-        //caret move / caret range increase l
+        //caret move / selection range increase l
         if(keyCode === KeyboardEvent.KEY_LEFT){
             //advance range begin
             if(shiftKey){
-                if(!this.hasCaretRange()){
-                    this._caretRange[0] = this._caretRange[1] = this._caretPos;
+                //nothing selected set range to caret pos
+                if(!this.isRangeSelected()){
+                    this._selectionRange[0] = this._selectionRange[1] = this._caretPos;
                 }
-                //advance begin left
+                //advance range begin left
                 if(this._caretRangeDir !== 1){
-                    this._caretRange[0] = Math.max(0,this._caretRange[0]-1);
+                    this._selectionRange[0] = Math.max(0,this._selectionRange[0]-1);
                     this._caretRangeDir = -1;
-                //advance end left
+                //advance range end left
                 } else{
-                    this._caretRange[1] = Math.max(0,this._caretRange[1]-1);
+                    this._selectionRange[1] = Math.max(0,this._selectionRange[1]-1);
                 }
             //reset range or advance caret
             } else {
-                if(this.hasCaretRange()){
-                    this._caretPos = this._caretRange[0];
-                    this._resetCaretRange();
+                if(this.isRangeSelected()){
+                    this._caretPos = this._selectionRange[0];
+                    this.clearSelectionRange();
                 } else {
                     this._advanceCaretPos(-1);
                 }
             }
-            this._validateCaretRangeDir();
+            this._validateSelectionDir();
             return;
 
-        //caret move / caret range increase r
+        //caret move / selection range increase r
         } else if(keyCode === KeyboardEvent.KEY_RIGHT){
             if(shiftKey){
-                if(!this.hasCaretRange()){
-                    this._caretRange[0] = this._caretRange[1] = this._caretPos;
+                if(!this.isRangeSelected()){
+                    this._selectionRange[0] = this._selectionRange[1] = this._caretPos;
                 }
                 //advance end right
                 if(this._caretRangeDir !== -1){
-                    this._caretRange[1] = Math.min(this._caretRange[1]+1,this._textContent.length);
+                    this._selectionRange[1] = Math.min(this._selectionRange[1]+1,this._textContent.length);
                     this._caretRangeDir = 1;
                 //advance begin right
                 } else {
-                    this._caretRange[0] = Math.min(this._caretRange[0]+1,this._textContent.length);
+                    this._selectionRange[0] = Math.min(this._selectionRange[0]+1,this._textContent.length);
                 }
+
             //reset range or advance caret
             } else {
-                if(this.hasCaretRange()){
-                    this._caretPos = this._caretRange[1];
-                    this._resetCaretRange();
+                if(this.isRangeSelected()){
+                    this._caretPos = this._selectionRange[1];
+                    this.clearSelectionRange();
                 } else {
                     this._advanceCaretPos(1);
                 }
             }
-            this._validateCaretRangeDir();
+            this._validateSelectionDir();
             return;
         }
 
@@ -315,22 +327,31 @@ class DisplayInputNode extends DisplayNode{
         if(keyCode === KeyboardEvent.KEY_BACKSPACE ||
            keyCode === KeyboardEvent.KEY_DELETE){
             //range selected, remove chars in range
-            if(this.hasCaretRange()){
-                this._textContent = this._textContent.slice(0,this._caretRange[0]) +
-                                    this._textContent.slice(this._caretRange[1]);
-                this._caretPos = this._caretRange[0];
-                this._resetCaretRange();
+            if(this.isRangeSelected()){
+                this._insertBetweenSelectionRange('');
             //remove from caret pos
             } else {
                 front = front.slice(0,front.length-1);
                 this._textContent = [front,back].join('');
                 this._advanceCaretPos(-1);
             }
-
         //add char at caret pos
         } else {
-            this._resetCaretRange();
+            //ctrl or cmd pressed
+            if(e.data.metaKey){
+                // select all
+                if(String.fromCharCode(keyCode) === 'A'){
+                    this.setSelectionRange(0,this._textContent.length);
+                }
+                return;
+            }
+            //just alt or shift pressed
+            if((shiftKey      && keyCode === KeyboardEvent.KEY_SHIFT) ||
+               (e.data.altKey && keyCode === KeyboardEvent.KEY_ALT  )){
+                return;
+            }
 
+            //let char = shiftKey && SHIFT_UP_MAP[keyCode] ? SHIFT_UP_MAP[keyCode]
             let char;
             if(shiftKey){
                 char = SHIFT_UP_MAP[keyCode];
@@ -338,32 +359,17 @@ class DisplayInputNode extends DisplayNode{
             } else {
                 char = String.fromCharCode(keyCode).toLowerCase();
             }
-
-            //only modifier pressed
             if(char === ''){
                 return;
             }
-
-            this._textContent = [front,char,back].join('');
+            //replace text in range with char
+            if(this.isRangeSelected()){
+                this._insertBetweenSelectionRange(char);
+            //add char add caret pos
+            } else {
+                this._textContent = [front,char,back].join('');
+            }
             this._advanceCaretPos(1);
-        }
-
-        this._format();
-        this._reflect();
-    }
-
-    __onKeyPress(e){
-        //if(this._numeric && !this._isNumeric(e.keyCode)){
-        //    return;
-        //}
-        //
-        //this._format();
-        //this._reflect();
-    }
-
-    __onKeyUp(e){
-        if(this._numeric && !this._isNumeric(e.keyCode)){
-            return;
         }
 
         this._format();
