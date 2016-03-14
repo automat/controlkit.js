@@ -92,38 +92,31 @@ export default class CanvasRenderer extends AbstractRenderer {
             });
         });
 
-        this._canvas.addEventListener('keydown',function rendererKeyDown(e){
-            e.preventDefault();
-            self._base.handleKeyDown({
+        function keyInfo(e){
+            return {
                 charCode : e.charCode,
                 keyCode : e.keyCode,
                 altKey : e.altKey,
                 ctrlKey : e.ctrlKey,
-                shiftKey : e.shiftKey
-            });
+                shiftKey : e.shiftKey,
+                metaKey : e.metaKey
+            };
+        }
+
+        this._canvas.addEventListener('keydown',function rendererKeyDown(e){
+            e.preventDefault();
+            self._base.handleKeyDown(keyInfo(e));
         });
 
         this._canvas.addEventListener('keyup',function rendererKeyUp(e){
             e.preventDefault();
-            self._base.handleKeyUp({
-                charCode : e.charCode,
-                keyCode : e.keyCode,
-                altKey : e.altKey,
-                ctrlKey : e.ctrlKey,
-                shiftKey : e.shiftKey
-            })
+            self._base.handleKeyUp(keyInfo(e));
         });
 
         //FIXME: doesnt get events although focus + tabindex
         this._canvas.addEventListener('keypress',function rendererKeyPress(e){
             e.preventDefault();
-            self._base.handleKeyPress({
-                charCode : e.charCode,
-                keyCode : e.keyCode,
-                altKey : e.altKey,
-                ctrlKey : e.ctrlKey,
-                shiftKey : e.shiftKey
-            })
+            self._base.handleKeyPress(keyInfo(e));
         });
 
 
@@ -407,8 +400,8 @@ export default class CanvasRenderer extends AbstractRenderer {
                             ctx.stroke();
                         ctx.restore();
 
-                        if(node.hasCaretRange()){
-                            let metrics = measureTextAtRange(ctx,node.caretRange,node.textContent);
+                        if(node.isRangeSelected()){
+                            let metrics = measureTextAtRange(ctx,node.selectionRange,node.textContent);
 
                             ctx.save();
                                 ctx.fillStyle = 'rgba(15,15,15,0.125)';
