@@ -21,6 +21,7 @@ const CREATE_DETAIL_KEYS = [
     'textContent','children',
     'onDblClick','onMouseDown', 'onMouseUp', 'onMouseOver', 'onMouseLeave','onMouseMove',
     'onKeyDown', 'onKeyUp', 'onKeyPress',
+    'onInput','onChange',
     'onFocus', 'onBlur'
 ];
 
@@ -82,7 +83,8 @@ export default class DisplayBase extends AbstractBase{
                 if(type !== 'function'){
                     throw new Error(`Callback of invalid type ${type}. Must be of type 'function'`);
                 }
-                node[listener] = callback;;
+                //TODO: Add node type check for callback
+                node[listener] = callback;
             }
         }
 
