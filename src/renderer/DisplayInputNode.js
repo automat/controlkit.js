@@ -9,7 +9,8 @@ import TextMetrics from './TextMetrics';
 const DefaultOptions = {
     numeric : false,
     digits : null,
-    placeHolder : ''
+    placeHolder : '',
+    readonly : false
 };
 
 const TOKEN_SEPERATOR_REGEX = /([\s= ,.:/])+/;
@@ -61,7 +62,10 @@ class DisplayInputNode extends DisplayNode{
         options = validateOption(options,DefaultOptions);
         super(NodeType.INPUT_TEXT);
 
+        this.readonly = options.readonly;
+
         this._textContentPrev = null;
+        this._textContentChanged = false;
 
         this._numeric = options.numeric;
         this._digits = options.digits;
@@ -74,9 +78,20 @@ class DisplayInputNode extends DisplayNode{
         this._caretInputPos = {x:0,y:0};
 
         this._onInput = EMPTY_FUNC;
+        this._onChange = EMPTY_FUNC;
 
         let self = this;
-        this.addEventListener(NodeEvent.INPUT,function onInputFirst(e){self._onInput(e);});
+        this.addEventListener(NodeEvent.INPUT,  function onInputFirst(e){self._onInput(e);});
+        this.addEventListener(NodeEvent.CHANGE, function onChangeFirst(e){self._onChange(e);})
+    }
+
+    set textContent(text){
+        super.textContent = text;
+        this._reflect();
+    }
+    //necessary when overriding super.setter
+    get textContent(){
+        return super.textContent;
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -89,6 +104,14 @@ class DisplayInputNode extends DisplayNode{
 
     get onInput(){
         return this._onInput;
+    }
+
+    set onChange(func){
+        super._setEventHandlerFirst('onChange',func);
+    }
+
+    get onChange(){
+        return this._onChange;
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -153,6 +176,7 @@ class DisplayInputNode extends DisplayNode{
     _reflect(){
         if(this._textContentPrev === this._textContent){
             this.dispatchEvent(new NodeEvent(NodeEvent.INPUT), {textContent : this._textContent});
+            this._textContentChanged = true;
         }
         this._textContentPrev = this._textContent;
     }
@@ -211,6 +235,7 @@ class DisplayInputNode extends DisplayNode{
     /*----------------------------------------------------------------------------------------------------------------*/
 
     __onFocus(e){
+        this._textContentChanged = false;
         this._getCaretInputPos(e);
         this._showCaret = true;
     }
@@ -219,6 +244,10 @@ class DisplayInputNode extends DisplayNode{
         this._caretPos = -1;
         this.clearSelectionRange();
         this._showCaret = false;
+
+        if(this._textContentChanged){
+            this.dispatchEvent(new NodeEvent(NodeEvent.CHANGE,{textContent:this._textContent}));
+        }
     }
 
     __onDblClick(e){
@@ -324,8 +353,9 @@ class DisplayInputNode extends DisplayNode{
         let back     = this._textContent.slice(caretPos);
 
         //delete char at caret pos
-        if(keyCode === KeyboardEvent.KEY_BACKSPACE ||
-           keyCode === KeyboardEvent.KEY_DELETE){
+        if(!this.readonly &&
+           (keyCode === KeyboardEvent.KEY_BACKSPACE ||
+            keyCode === KeyboardEvent.KEY_DELETE)){
             //range selected, remove chars in range
             if(this.isRangeSelected()){
                 this._insertBetweenSelectionRange('');
@@ -345,6 +375,11 @@ class DisplayInputNode extends DisplayNode{
                 }
                 return;
             }
+
+            if(this.readonly){
+                return;
+            }
+
             //just alt or shift pressed
             if((shiftKey      && keyCode === KeyboardEvent.KEY_SHIFT) ||
                (e.data.altKey && keyCode === KeyboardEvent.KEY_ALT  )){
