@@ -5,6 +5,7 @@ import NodeEvent     from './NodeEvent';
 import MouseEvent    from '../input/MouseEvent';
 import KeyboardEvent from '../input/KeyboardEvent';
 import Style         from './Style';
+import ClassList     from './DisplayClassList';
 
 const EMPTY_FUNC = ()=>{};
 
@@ -17,7 +18,7 @@ export default class DisplayNode extends AbstractNode{
 
         this._type = type;
         this._parentNode = null;
-        this._class = null;
+        this._classList = new ClassList();
         this._id = null;
 
         this._style       = new Style();
@@ -202,7 +203,7 @@ export default class DisplayNode extends AbstractNode{
 
     getHierarchyBranch(){
         function getNodeProperties(node){
-            return {type: node._type, class: node._class, id: node._id};
+            return {type: node._type, classList: node._classList, id: node._id};
         }
         let branch = [getNodeProperties(this)];
         let parentNode = this._parentNode;
@@ -270,15 +271,6 @@ export default class DisplayNode extends AbstractNode{
         this.forceComputeLayout();
     }
 
-    appendChildren(nodes){
-        for(var node of nodes){
-            if(this.contains(node)){
-                this.removeChild(node);
-            }
-            this.appendChild(node);
-        }
-    }
-
     appendChildAt(node,index){
         if(this.contains(node)){
             this.removeChild(node);
@@ -288,12 +280,6 @@ export default class DisplayNode extends AbstractNode{
         this.forceComputeLayout();
     }
 
-    appendChildrenAt(nodes,index){
-        for(var node of nodes){
-            this.appendChildAt(node,index++);
-        }
-    }
-
     removeChild(node){
         if(!this.contains(node)){
             throw new Error('Node is not child of node.');
@@ -301,12 +287,6 @@ export default class DisplayNode extends AbstractNode{
         node._parentNode = null;
         this._children.splice(this.indexOf(node), 1);
         this.forceComputeLayout();
-    }
-
-    removeChildren(nodes){
-        for(var node of nodes){
-            this.removeChild(node);
-        }
     }
 
     replaceChild(newChild, oldChild){
@@ -334,11 +314,11 @@ export default class DisplayNode extends AbstractNode{
     }
 
     get firstChild(){
-        return this._children[0];
+        return this._children[0] || null;
     }
 
     get lastChild(){
-        return this._children[this._children.length - 1];
+        return this._children[this._children.length - 1] || null;
     }
 
     indexOf(node){
@@ -385,15 +365,6 @@ export default class DisplayNode extends AbstractNode{
         return this._id;
     }
 
-    set class(name){
-        this._class = name;
-        this.forceComputeLayout();
-    }
-
-    get class(){
-        return this._class;
-    }
-
     set style(style){
         //override
         if(style instanceof Style){
@@ -425,6 +396,10 @@ export default class DisplayNode extends AbstractNode{
 
     get style(){
         return this._styleInline;
+    }
+
+    get classList(){
+        return this._classList;
     }
 
     get layoutNode(){
@@ -528,6 +503,10 @@ export default class DisplayNode extends AbstractNode{
             };
         }
         return null;
+    }
+
+    equals(node){
+        return node === this;
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
