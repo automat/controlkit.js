@@ -60,6 +60,27 @@ export default class AbstractNode extends AbstractElement{
         throw new Error(STR_ERROR_NOT_IMPLEMENTED);
     }
 
+    appendChildren(nodes){
+        for(var node of nodes){
+            if(this.contains(node)){
+                this.removeChild(node);
+            }
+            this.appendChild(node);
+        }
+    }
+
+    appendChildrenAt(nodes,index){
+        for(var node of nodes){
+            this.appendChildAt(node,index++);
+        }
+    }
+
+    removeChildren(nodes){
+        for(var node of nodes){
+            this.removeChild(node);
+        }
+    }
+
     /*----------------------------------------------------------------------------------------------------------------*/
     // STYLE
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -72,11 +93,7 @@ export default class AbstractNode extends AbstractElement{
         throw new Error(STR_ERROR_NOT_IMPLEMENTED);
     }
 
-    set class(name){
-        throw new Error(STR_ERROR_NOT_IMPLEMENTED);
-    }
-
-    get class(){
+    get classList(){
         throw new Error(STR_ERROR_NOT_IMPLEMENTED);
     }
 
