@@ -82,8 +82,81 @@ const Default = {
     ZINDEX : 0
 };
 
-export default class Style{
+const CSS_PROPERTY_MAP = {
+    width : 'width', height : 'height',
+    minWidth : 'minWidth', minHeight : 'minHeight',
+    maxWidth : 'maxWidth', maxHeight : 'maxHeight',
+    borderWidth : 'borderWidth',
+    borderRadius : 'borderRadius',
+    flexDirection : 'flexDirection',
+    alignItems : 'alignItems',
+    alignSelf : 'alignSelf',
+    justifyContent : 'justifyContent',
+    flex : 'flex',
+    flexWrap : 'flexWrap',
+    position : 'position',
+    top : 'top',
+    bottom : 'bottom',
+    left : 'left'
+};
 
+const PropertyType = {
+    NUMBER : 'property-type-numeric',
+    STRING : 'property-type-string',
+    MULTI  : 'property-type-multi'
+};
+
+const PROPERTY_INFO = {
+    //dimensions
+    width : {type : PropertyType.NUMBER},
+    height : {type : PropertyType.NUMBER},
+    minWidth : {type : PropertyType.NUMBER},
+    minHeight : {type : PropertyType.NUMBER},
+    maxWidth : {type : PropertyType.NUMBER},
+    maxHeight : {type : PropertyType.NUMBER},
+    //border
+    borderColor : {type : PropertyType.STRING},
+    borderWidth : {type : PropertyType.NUMBER},
+    borderRadius : {type : PropertyType.NUMBER},
+    borderRadiusTopLeft : {type : PropertyType.NUMBER},
+    borderRadiusTopRight : {type : PropertyType.NUMBER},
+    borderRadiusBottomLeft : {type : PropertyType.NUMBER},
+    borderRadiusBottomRight : {type : PropertyType.NUMBER},
+    //flex
+    flexDirection : {type : PropertyType.STRING},
+    alignItems : {type : PropertyType.STRING},
+    alignSelf : {type : PropertyType.STRING},
+    justifyContent : {type : PropertyType.STRING},
+    flex : {type : PropertyType.NUMBER},
+    flexWrap : {type : PropertyType.STRING},
+    //box
+    position : {type : PropertyType.NUMBER},
+    top : {type : PropertyType.NUMBER},
+    right : {type : PropertyType.NUMBER},
+    bottom : {type : PropertyType.NUMBER},
+    left : {type : PropertyType.NUMBER},
+    margin : {type : PropertyType.NUMBER},
+    marginTop : {type : PropertyType.NUMBER},
+    marginRight : {type : PropertyType.NUMBER},
+    marginBottom : {type : PropertyType.NUMBER},
+    marginLeft : {type : PropertyType.NUMBER},
+    padding : {type : PropertyType.NUMBER},
+    paddingTop : {type : PropertyType.NUMBER},
+    paddingRight : {type : PropertyType.NUMBER},
+    paddingBottom : {type : PropertyType.NUMBER},
+    overflow : {type : PropertyType.STRING},
+    visibility : {type : PropertyType.STRING},
+    zIndex : {type : PropertyType.NUMBER},
+    display : {type : PropertyType.STRING},
+    //text
+    fontSize : {type : PropertyType.NUMBER},
+    fontFamily : {type : PropertyType.STRING},
+    lineHeight : {type : PropertyType.NUMBER},
+    textAlign : {type : PropertyType.STRING},
+    whiteSpace:{type:PropertyType.STRING}
+};
+
+class Style{
     /*----------------------------------------------------------------------------------------------------------------*/
     // CONSTRUCTOR
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -663,5 +736,10 @@ export default class Style{
     get zIndex(){
         return this._zIndex;
     }
-
 }
+
+Style.CSS_PROPERTY_MAP = CSS_PROPERTY_MAP;
+Style.PROPERTY_INFO = PROPERTY_INFO;
+Style.PropertyType = PropertyType;
+
+export default Style;
