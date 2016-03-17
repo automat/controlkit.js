@@ -25,7 +25,7 @@ const dataPathCssOut = '../src/StyleSheet.js';
 const dataPathCss = '../style/style.css';
 const dataCss = parse(fs.readFileSync(dataPathCss, 'utf8'), {source : dataPathCss});
 
-let rules = [];
+let rules = {};
 for(let rule of dataCss.stylesheet.rules){
     if(rule.type !== 'rule'){
         continue;
@@ -62,8 +62,10 @@ for(let rule of dataCss.stylesheet.rules){
         // PARSE VALUE
         /*------------------------------------------------------------------------------------------------------------*/
 
-        let info   = STYLE_PROPERTY_INFO[property];
-        let values = declaration.value.split(' ');
+        let info      = STYLE_PROPERTY_INFO[property];
+        let values    = declaration.value.split(' ');
+
+
         switch(info.type){
 
             // NUMBER
@@ -122,10 +124,13 @@ for(let rule of dataCss.stylesheet.rules){
         continue;
     }
 
-    rules.push({
-        selectors : rule.selectors,
-        declarations : declarations
-    });
+    console.log(declarations);
+
+    let selectorRule = rules[selectors] = rules[selectors] || {};
+    for(let declaration of declarations){
+        let property = declaration.property;
+        selectorRule[property] = declaration.value;
+    }
 }
 
 fs.writeFileSync(dataPathCssOut,
