@@ -44,6 +44,14 @@ export default class DisplayClassList{
         return this._tokens.length;
     }
 
+    setFromString(list){
+        this._tokens.length = 0;
+        list = list.split(' ');
+        for(let item of list){
+            this.add(item);
+        }
+    }
+
     toString(){
         return this._tokens.join(' ');
     }
