@@ -1,6 +1,6 @@
 {
     "name": "controlkit",
-    "version": "0.1.8",
+    "version": "0.1.9",
     "description": "A lightweight gui and controller library",
     "keywords": [
         "gui",
