@@ -306,8 +306,7 @@ Adds a new Checkbox to the last added SubGroup.
 Adds a new Select to the last added SubGroup.
 
     var obj = {
-        options:['Some','options','to','choose'], 
-        selection : this.options[3]};
+        options:['Some','options','to','choose']};
     
     panel.addSelect(obj,'options',{
         onChange:function(index){
