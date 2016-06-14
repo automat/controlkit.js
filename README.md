@@ -307,15 +307,22 @@ Adds a new Select to the last added SubGroup.
 
     var obj = {
         options:['Some','options','to','choose'], 
-        selection : this.options[3]};
+        selection : null
+    };
+    obj.selection = obj.options[0];
     
+    //'Some' selected
+    panel.addSelect(obj,'options',{
+        target:'selection'
+    });
+    
+    //No item as preset selected, 'Choose' displayed
     panel.addSelect(obj,'options',{
         onChange:function(index){
-            obj.selection = obj.options[index];});
-            
-    //or
-    panel.addSelect(obj,'options',{target:'selection'});
-
+            obj.selection = obj.options[index];
+    });
+           
+           
 **Options**
 
 | Name      | Type     | Description                                       |
