@@ -1,0 +1,28 @@
+.panel{
+    width: 300px;
+}
+
+.panel-head{
+
+}
+
+.group{
+
+}
+
+.group-head{
+
+}
+
+.subgroup{
+
+}
+
+.subgroup-head{
+    
+}
+
+/*should throw*/
+.panel .sub{
+    width: 300px;
+}
