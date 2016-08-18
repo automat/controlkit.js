@@ -17,8 +17,9 @@
     "dependencies": {
         "css-parse": "2.0.0",
         "css-layout": "1.1.1",
-        "validate-keys": "^0.0.1",
-        "validate-option" : "^0.0.4"
+        "validate-keys": "^0.0.3",
+        "validate-option" : "^0.0.5",
+        "reflect-change" : "file:local_modules/reflect-change"
     },
     "devDependencies": {
         "browserify": "6.2.x",

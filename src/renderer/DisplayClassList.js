@@ -52,6 +52,10 @@ export default class DisplayClassList{
         }
     }
 
+    clear(){
+        this._tokens.length = 0;
+    }
+
     toString(){
         return this._tokens.join(' ');
     }

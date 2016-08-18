@@ -39,7 +39,7 @@ export default class DisplayElement extends AbstractElement{
         }
         node._parentNode = this;
         this._children.splice(index, 0, node);
-        this.forceComputeLayout();
+        this.updateLayout();
     }
 
     appendChildrenAt(nodes,index){
@@ -54,7 +54,7 @@ export default class DisplayElement extends AbstractElement{
         }
         node._parentNode = null;
         this._children.splice(this.indexOf(node), 1);
-        this.forceComputeLayout();
+        this.updateLayout();
     }
 
     removeChildren(nodes){

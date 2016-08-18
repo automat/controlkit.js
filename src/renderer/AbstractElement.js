@@ -54,6 +54,10 @@ export default class AbstractElement extends EventDispatcher{
         throw new Error(STR_ERROR_NOT_IMPLEMENTED);
     }
 
+    get numChildren(){
+        throw new Error(STR_ERROR_NOT_IMPLEMENTED);
+    }
+
     get firstChild(){
         throw new Error(STR_ERROR_NOT_IMPLEMENTED);
     }

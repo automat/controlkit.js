@@ -1,9 +1,15 @@
-import validateOption from "validate-option";
+import validateOption   from "validate-option";
 import AbstractRenderer from "../AbstractRenderer";
-import Base from "../Base";
-import DisplayBase from "../DisplayBase";
-import Node from "../DisplayNode";
-import computeLayout_ from "css-layout";
+
+//import DisplayBase from "../DisplayBase";
+import Base        from "../Base";
+//import BaseEvent   from "../BaseEvent";
+import DisplayTree      from "../DisplayTree";
+import DisplayTreeEvent from "../DisplayTreeEvent";
+import Node        from "../DisplayNode";
+
+import cssComputeLayout from "css-layout";
+
 import {
     rect,
     roundedRect1,
@@ -39,9 +45,17 @@ export default class CanvasRenderer extends AbstractRenderer {
         super();
 
         this._canvas = canvas;
-        this._ctx = canvas.getContext('2d');
-        this._base = new DisplayBase();
-        this._base.size = [canvas.width, canvas.height];
+        this._ctx    = canvas.getContext('2d');
+
+        this._displayTree = new DisplayTree();
+
+        let base  = this._displayTree.base;
+        Base.set(base);
+        base.size = [canvas.width, canvas.height];
+
+        //this._base = new DisplayBase();
+        //this._base.size = [canvas.width, canvas.height];
+        //Base.set(this._base);
 
         this._debugDrawLayout = options.debugDrawLayout;
         this._debugDrawBounds = options.debugDrawBounds;
@@ -60,18 +74,18 @@ export default class CanvasRenderer extends AbstractRenderer {
                 ctrlKey : e.ctrlKey,
                 shiftKey : e.shiftKey
             };
-            self._base.handleMouseDown(e);
+            base.handleMouseDown(e);
 
             //for consistency across renderers
             let timestamp = new Date().getTime();
             if((timestamp - mtimestamp) <= MOUSE_DOWN_THRESHOLD){
-                self._base.handleDblClick(e);
+                base.handleDblClick(e);
             }
             mtimestamp = timestamp;
         });
 
         this._canvas.addEventListener('mouseup',function rendererMouseUp(e){
-            self._base.handleMouseUp({
+            base.handleMouseUp({
                 x : e.pageX,
                 y : e.pageY,
                 button : e.button,
@@ -82,7 +96,7 @@ export default class CanvasRenderer extends AbstractRenderer {
         });
 
         this._canvas.addEventListener('mousemove',function rendererMouseMove(e){
-            self._base.handleMouseMove({
+            base.handleMouseMove({
                 x : e.pageX,
                 y : e.pageY,
                 button : e.button,
@@ -105,22 +119,19 @@ export default class CanvasRenderer extends AbstractRenderer {
 
         this._canvas.addEventListener('keydown',function rendererKeyDown(e){
             e.preventDefault();
-            self._base.handleKeyDown(keyInfo(e));
+            base.handleKeyDown(keyInfo(e));
         });
 
         this._canvas.addEventListener('keyup',function rendererKeyUp(e){
             e.preventDefault();
-            self._base.handleKeyUp(keyInfo(e));
+            base.handleKeyUp(keyInfo(e));
         });
 
         //FIXME: doesnt get events although focus + tabindex
         this._canvas.addEventListener('keypress',function rendererKeyPress(e){
             e.preventDefault();
-            self._base.handleKeyPress(keyInfo(e));
+            base.handleKeyPress(keyInfo(e));
         });
-
-
-        Base.set(this);
 
         TextMetricsShared._measureText = function measureTextShared(str,options){
             return measureText(self._ctx,str,options);
@@ -130,81 +141,95 @@ export default class CanvasRenderer extends AbstractRenderer {
         };
         TextMetricsShared._measureTextAtCaretPos = function measureTextAtCaretPos(pos,str,options){
             return measureTextAtCaretPos(self._ctx,pos,str,options);
-        }
+        };
+
+        //this._base.addEventListener(BaseEvent.UPDATE_LAYOUT,function(){
+        //    console.log('event','update layout');
+        //    //self.computeLayout();
+        //    //self.draw();
+        //});
+
+        this._displayTree.addEventListener(DisplayTreeEvent.UPDATE_LAYOUT,function(){
+
+            self.draw();
+        });
+        this._displayTree.addEventListener(DisplayTreeEvent.UPDATE_DRAW,function(){
+
+        });
+
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
     // COMPUTE LAYOUT
     /*----------------------------------------------------------------------------------------------------------------*/
-
-    computeLayout(){
-        let ctx = this._ctx;
-        this._base.updateLayoutNode();
-
-        function measure(maxWidth = 0, maxHeight = 0){
-            let layout = this._layoutNode.layout;
-            let style = this._layoutNode.style;
-
-            let borderWidth = style.borderWidth || 0;
-            let fontSize = style.fontSize || 0;
-            let paddingTop = style.paddingTop || 0;
-            let paddingRight = style.paddingRight || 0;
-            let paddingLeft = style.paddingLeft || 0;
-            let paddingBottom = style.paddingBottom || 0;
-
-            if(style.padding){
-                paddingTop = paddingRight = paddingBottom = paddingLeft = style.padding;
-            }
-
-            ctx.font = `${fontSize}px ${style.fontFamily || 'Arial'}`;
-
-            let width = 0;
-            let height = 0;
-
-            switch(style.whiteSpace){
-                case 'nowrap':
-                    width = ctx.measureText(this._textContent).width;
-                    height = fontSize;
-                    break;
-
-                case 'normal':
-                default:
-                    let size = measureText(
-                        ctx, this._textContent,{
-                            fontFamily : style.fontFamily,
-                            fontSize : fontSize,
-                            lineHeight : style.lineHeight,
-                            maxWidth : Math.max(layout.width, maxWidth) - (paddingRight + paddingLeft + borderWidth * 2)
-                        }
-                    );
-                    width = size.width;
-                    height = size.height;
-                    break;
-            }
-
-            return {
-                width : Math.max(width, maxWidth),
-                height : Math.max(height, maxHeight)
-            };
-        }
-
-        function inject(node){
-            let style = node.layoutNode.style;
-
-            if(node.textContent && node.textContent.length !== 0){
-                style.measure = style.measure || measure.bind(node);
-            }else if(style.measure){
-                delete style.measure;
-            }
-
-            for(let child of node.children){
-                inject(child);
-            }
-        }
-
-        inject(this._base);
-        computeLayout_(this._base._layoutNode);
-    }
+    //
+    //computeLayout(){
+    //    let ctx = this._ctx;
+    //
+    //    function measure(maxWidth = 0, maxHeight = 0){
+    //        let layout = this._layoutNode.layout;
+    //        let style = this._layoutNode.style;
+    //
+    //        let borderWidth = style.borderWidth || 0;
+    //        let fontSize = style.fontSize || 0;
+    //        let paddingTop = style.paddingTop || 0;
+    //        let paddingRight = style.paddingRight || 0;
+    //        let paddingLeft = style.paddingLeft || 0;
+    //        let paddingBottom = style.paddingBottom || 0;
+    //
+    //        if(style.padding){
+    //            paddingTop = paddingRight = paddingBottom = paddingLeft = style.padding;
+    //        }
+    //
+    //        ctx.font = `${fontSize}px ${style.fontFamily || 'Arial'}`;
+    //
+    //        let width = 0;
+    //        let height = 0;
+    //
+    //        switch(style.whiteSpace){
+    //            case 'nowrap':
+    //                width = ctx.measureText(this._textContent).width;
+    //                height = fontSize;
+    //                break;
+    //
+    //            case 'normal':
+    //            default:
+    //                let size = measureText(
+    //                    ctx, this._textContent,{
+    //                        fontFamily : style.fontFamily,
+    //                        fontSize : fontSize,
+    //                        lineHeight : style.lineHeight,
+    //                        maxWidth : Math.max(layout.width, maxWidth) - (paddingRight + paddingLeft + borderWidth * 2)
+    //                    }
+    //                );
+    //                width = size.width;
+    //                height = size.height;
+    //                break;
+    //        }
+    //
+    //        return {
+    //            width : Math.max(width, maxWidth),
+    //            height : Math.max(height, maxHeight)
+    //        };
+    //    }
+    //
+    //    function inject(node){
+    //        let style = node.layoutNode.style;
+    //
+    //        if(node.textContent && node.textContent.length !== 0){
+    //            style.measure = style.measure || measure.bind(node);
+    //        }else if(style.measure){
+    //            delete style.measure;
+    //        }
+    //
+    //        for(let child of node.children){
+    //            inject(child);
+    //        }
+    //    }
+    //
+    //    inject(this._base);
+    //    cssComputeLayout(this._base.layoutNode);
+    //}
 
     /*----------------------------------------------------------------------------------------------------------------*/
     // DEBUG DRAW
@@ -465,19 +490,19 @@ export default class CanvasRenderer extends AbstractRenderer {
     /*----------------------------------------------------------------------------------------------------------------*/
 
     draw(){
-        this.computeLayout();
-        let ctx = this._ctx;
+        let ctx  = this._ctx;
+        let base = this._displayTree.base;
 
         if(this._debugDrawLayout || this._debugDrawBounds){
-            ctx.clearRect(0, 0, this._base.width, this._base.height);
+            ctx.clearRect(0, 0, base.width, base.height);
             ctx.save();
             if(this._debugDrawLayout){
-                this._debugDrawNodeLayout(this._base);
+                this._debugDrawNodeLayout(base);
             }
             ctx.restore();
             ctx.save();
             if(this._debugDrawBounds){
-                this._debugDrawNodeBounds(this._base);
+                this._debugDrawNodeBounds(base);
             }
             ctx.restore();
         } else {

@@ -238,6 +238,7 @@ class DisplayInputNode extends DisplayNode{
         this._textContentChanged = false;
         this._getCaretInputPos(e);
         this._showCaret = true;
+        this.updateLayout();
     }
 
     __onBlur(){
@@ -248,6 +249,7 @@ class DisplayInputNode extends DisplayNode{
         if(this._textContentChanged){
             this.dispatchEvent(new NodeEvent(NodeEvent.CHANGE,{textContent:this._textContent}));
         }
+        this.updateLayout();
     }
 
     __onDblClick(e){
@@ -268,6 +270,7 @@ class DisplayInputNode extends DisplayNode{
         this._selectionRange[0] = begin;
         this._selectionRange[1] = end;
         this._caretRangeDir = 0;
+        this.updateLayout();
     }
 
     __onMouseDown(e){
@@ -275,6 +278,7 @@ class DisplayInputNode extends DisplayNode{
         this._getCaretPos();
         this.clearSelectionRange();
         this._showCaret = true;
+        this.updateLayout();
     }
 
     __onKeyDown(e){
@@ -288,6 +292,7 @@ class DisplayInputNode extends DisplayNode{
         }
         if(keyCode === KeyboardEvent.KEY_UP || keyCode === KeyboardEvent.KEY_DOWN){
             this.clearSelectionRange();
+            this.updateLayout();
             return;
         }
         let shiftKey = e.data.shiftKey;
@@ -318,6 +323,7 @@ class DisplayInputNode extends DisplayNode{
                 }
             }
             this._validateSelectionDir();
+            this.updateLayout();
             return;
 
         //caret move / selection range increase r
@@ -345,6 +351,7 @@ class DisplayInputNode extends DisplayNode{
                 }
             }
             this._validateSelectionDir();
+            this.updateLayout();
             return;
         }
 
@@ -372,6 +379,7 @@ class DisplayInputNode extends DisplayNode{
                 // select all
                 if(String.fromCharCode(keyCode) === 'A'){
                     this.setSelectionRange(0,this._textContent.length);
+                    this.updateLayout();
                 }
                 return;
             }
@@ -409,6 +417,8 @@ class DisplayInputNode extends DisplayNode{
 
         this._format();
         this._reflect();
+
+        this.updateLayout();
     }
 }
 

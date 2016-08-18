@@ -14,6 +14,12 @@ var Base = {
     },
     createNodesFromDetail : function(details){
         return this._base.createNodesFromDetail(details);
+    },
+    get style(){
+        return this._base.style;
+    },
+    set style(value){
+        this._base.style = value;
     }
 };
 

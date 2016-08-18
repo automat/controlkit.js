@@ -3,7 +3,8 @@ var NodeType = {
     CONTAINER  : 'node-type-container',
     TEXT       : 'node-type-text',
     INPUT_TEXT : 'node-type-input-text',
-    INPUT_NUMBER : 'node-type-input-number'
+    INPUT_NUMBER : 'node-type-input-number',
+    INPUT_BUTTON : 'node-type-input-button'
 };
 
 export default NodeType;

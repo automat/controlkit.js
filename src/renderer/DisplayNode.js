@@ -1,11 +1,14 @@
-import AbstractNode  from "./AbstractNode";
-import NodeBase      from "./DisplayBase";
-import NodeType      from './NodeType';
-import NodeEvent     from './NodeEvent';
-import MouseEvent    from '../input/MouseEvent';
-import KeyboardEvent from '../input/KeyboardEvent';
-import Style         from './Style';
-import ClassList     from './DisplayClassList';
+import AbstractNode    from "./AbstractNode";
+import NodeBase        from "./DisplayBase";
+import NodeType        from './NodeType';
+import NodeEvent       from './NodeEvent';
+import MouseEvent      from '../input/MouseEvent';
+import KeyboardEvent   from '../input/KeyboardEvent';
+import StyleCompositor from './StyleCompositor';
+import Style           from './Style';
+import ClassList       from './DisplayClassList';
+
+import reflectChange  from 'reflect-change';
 
 const EMPTY_FUNC = ()=>{};
 
@@ -18,9 +21,9 @@ export default class DisplayNode extends AbstractNode{
 
         this._type = type;
         this._parentNode = null;
-        this._classList = new ClassList();
         this._id = null;
 
+        this._classList   = new ClassList();
         this._style       = new Style();
         this._styleInline = new Style();
         this._layoutNode  = {
@@ -29,11 +32,25 @@ export default class DisplayNode extends AbstractNode{
 
         this._textContent = '';
 
-        this._bounds = {x0 : 0, y0 : 0, x1 : 0, y1 : 0};
+        this._bounds       = {x0 : 0, y0 : 0, x1 : 0, y1 : 0};
         this._boundsGlobal = {x0 : 0, y0 : 0, x1 : 0, y1 : 0};
 
         this._children      = [];
         this._childrenOrder = [];
+
+        // NOTE: need information when public accessible member changes
+        // style object and a layout update get necessary. Bubble layout update up,
+        // instead of checking every sub-node on redraw.
+        //
+        // displayNode.classList.add('.some-class'); //mark layout as dirty
+        // displayNode.style.fontSize = 10;          //mark layout as dirty
+        //
+        //function onStyleChange(){
+        //
+        //}
+        //
+        //reflectChange(this._classList,  onStyleChange);
+        //reflectChange(this._styleInline,onStyleChange);
 
         // first receivers user set via eg. node.onFocus = (e)=>{};
         this._onFocus      = EMPTY_FUNC;
@@ -222,7 +239,7 @@ export default class DisplayNode extends AbstractNode{
             this._parentNode.removeChild(this);
         }
         node.appendChild(this);
-        this.forceComputeLayout();
+        this.updateLayout();
     }
 
     get parentNode(){
@@ -268,7 +285,7 @@ export default class DisplayNode extends AbstractNode{
 
         child._parentNode = this;
         this._children.push(child);
-        this.forceComputeLayout();
+        this.updateLayout();
     }
 
     appendChildAt(node,index){
@@ -277,7 +294,7 @@ export default class DisplayNode extends AbstractNode{
         }
         node._parentNode = this;
         this._children.splice(index, 0, node);
-        this.forceComputeLayout();
+        this.updateLayout();
     }
 
     removeChild(node){
@@ -286,7 +303,7 @@ export default class DisplayNode extends AbstractNode{
         }
         node._parentNode = null;
         this._children.splice(this.indexOf(node), 1);
-        this.forceComputeLayout();
+        this.updateLayout();
     }
 
     replaceChild(newChild, oldChild){
@@ -337,8 +354,9 @@ export default class DisplayNode extends AbstractNode{
     // STYLE
     /*----------------------------------------------------------------------------------------------------------------*/
 
-    forceComputeLayout() {
+    updateLayout() {
         this._layoutNode.shouldUpdate = true;
+
         //get children draw order
         this._childrenOrder.length = this._children.length;
         for(let i = 0, l = this._children.length; i < l; ++i){
@@ -350,15 +368,23 @@ export default class DisplayNode extends AbstractNode{
         this._childrenOrder.sort((a,b)=>{
             return a[1] > b[1] ? 1 : a[1] < b[1] ? -1 : 0
         });
-        if(this._parentNode === null || this._parentNode instanceof NodeBase){
+        if(this._parentNode === null){
             return;
         }
-        this._parentNode.forceComputeLayout();
+        this._parentNode.updateLayout(true);
+    }
+
+    updateDraw(){
+        this._layoutNode.shouldDraw = true;
+        if(this._parentNode === null){
+            return;
+        }
+        this._parentNode.updateDraw();
     }
 
     set id(name){
         this._id = name;
-        this.forceComputeLayout();
+        this.updateLayout();
     }
 
     get id(){
@@ -391,11 +417,17 @@ export default class DisplayNode extends AbstractNode{
         } else {
             throw TypeError('Invalid rhs.');
         }
-        this.forceComputeLayout();
+        this.updateLayout();
     }
+
 
     get style(){
         return this._styleInline;
+    }
+
+    set classList(list){
+        this._classList.setFromString(list);
+        this._style = StyleCompositor.getStyleForClassList(this._classList);
     }
 
     get classList(){
@@ -422,7 +454,7 @@ export default class DisplayNode extends AbstractNode{
         this._layoutNode.children = this._layoutNode.children || [];
         this._layoutNode.children.length = 0;
 
-        //return empty style and children on display 'none'
+        //return empty layout-node style and children on display 'none'
         if(style.display === 'none'){
             this._layoutNode.style.display = style.display;
             return this._layoutNode;

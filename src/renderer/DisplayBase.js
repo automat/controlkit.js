@@ -1,20 +1,20 @@
 import validateOption from "validate-option";
-import validateKeys from "validate-keys";
+import validateKeys   from "validate-keys";
 
 import AbstractBase from "./AbstractBase";
-import NodeType from "./NodeType";
-import Node from "./DisplayNode";
-import DisplayInputNode from "./DisplayInputNode";
-import Style from "./Style";
-import computeLayout_ from "css-layout";
+import NodeType     from "./NodeType";
+import Node         from "./DisplayNode";
+import InputNode    from "./DisplayInputNode";
+import Style        from "./Style";
 
-import NodeEvent from "./NodeEvent";
-import MouseEvent from "../input/MouseEvent";
+import BaseEvent     from "./BaseEvent";
+import NodeEvent     from "./NodeEvent";
+import MouseEvent    from "../input/MouseEvent";
 import KeyboardEvent from "../input/KeyboardEvent";
 
 const STR_ERR_NODE_TARGET_NODE = 'Node is target node.';
-const STR_ERR_NODE_INVALID = 'Invalid node.';
-const STR_ERR_NODE_NOT_CHILD = 'Node is not child of of target node';
+const STR_ERR_NODE_INVALID     = 'Invalid node.';
+const STR_ERR_NODE_NOT_CHILD   = 'Node is not child of of target node';
 
 const CREATE_DETAIL_KEYS = [
     'type','options','style',
@@ -28,14 +28,16 @@ const CREATE_DETAIL_KEYS = [
 export default class DisplayBase extends AbstractBase{
     constructor(){
         super();
-        this._children = [];
+        this._children      = [];
         this._childrenOrder = [];
-        this._style = new Style();
+
+        this._style      = new Style();
         this._layoutNode = {};
 
         this._nodeHovered = null;
         this._nodeFocused = null;
         this._nodeInputFocused = null;
+
         this._boundsGlobal = {x0 : 0, y0 : 0, x1 : 0, y1 : 0};
     }
 
@@ -47,14 +49,14 @@ export default class DisplayBase extends AbstractBase{
                 break;
 
             case NodeType.INPUT_TEXT:
-                options = validateOption(options,DisplayInputNode.DefaultOptions);
-                node = new DisplayInputNode(options);
+                options = validateOption(options,InputNode.DefaultOptions);
+                node = new InputNode(options);
                 break;
 
             case NodeType.INPUT_NUMBER:
-                options = validateOption(options,DisplayInputNode.DefaultOptions);
+                options = validateOption(options,InputNode.DefaultOptions);
                 options.numeric = true;
-                node = new DisplayInputNode(options);
+                node = new InputNode(options);
                 break;
         }
         return node;
@@ -211,17 +213,18 @@ export default class DisplayBase extends AbstractBase{
     // HIERARCHY
     /*----------------------------------------------------------------------------------------------------------------*/
 
-    get layoutNode(){
-        return this._layoutNode;
-    }
-
-    updateLayoutNode(){
-        this._layoutNode.style = this._style.propertiesSet;
+    updateLayout(){
+        this._layoutNode.style    = this._style.propertiesSet;
         this._layoutNode.children = this._layoutNode.children || [];
+
         this._layoutNode.children.length = 0;
         for(let child of this._children){
             this._layoutNode.children.push(child.layoutNode);
         }
+        this.dispatchEvent(new BaseEvent(BaseEvent.UPDATE_LAYOUT));
+    }
+
+    get layoutNode(){
         return this._layoutNode;
     }
 
@@ -246,6 +249,7 @@ export default class DisplayBase extends AbstractBase{
         }
         node._parentNode = this;
         this._children.push(node);
+        this.updateLayout();
     }
 
     appendChildren(nodes){
@@ -267,6 +271,7 @@ export default class DisplayBase extends AbstractBase{
         }
         node._parentNode = null;
         this._children.splice(this.indexOf(node), 1);
+        this.updateLayout();
     }
 
     removeChildren(nodes){
