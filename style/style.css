@@ -1,28 +1,313 @@
-.panel{
+#control-kit{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    clear: both;
+    pointer-events: none;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #AEB5B8;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+}
+
+#control-kit ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* Input Atomics
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#control-kit button{
+    box-sizing: border-box;
+    height: 25px;
+    border-radius: 2px;
+    line-height: 21px;
+    outline: none;
+
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 11px;
+    color: #FFFFFF;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.50);
+    text-transform: uppercase;
+
+    background: #383838;
+    border: 1px solid #1A1A1A;
+    box-shadow: inset 0 1px 0 0 #424242;
+}
+
+#control-kit input,
+#control-kit{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    height: 25px;
+    color: #FFFFFF;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.50);
+    width: 100%;
+    outline: none;
+}
+
+#control-kit input[type="text"],
+#control-kit input[type="number"],
+#control-kit .input-background{
+    box-sizing: border-box !important;
+    background-image: linear-gradient(-180deg, #212121 0%, #1F1F1F 100%);
+    border: 1px solid #1A1A1A;
+    border-radius: 2px;
+    padding: 0 8px;
+}
+
+#control-kit input[type="number"]{
+    padding-right: 2px;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* Panel
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#control-kit .panel{
+    position: relative;
+    float: right;;
     width: 300px;
+    background: #2E2E2E;
+    border-radius: 2px;
+    overflow: hidden;
+    pointer-events: auto;
+
+    box-shadow: 0 1px 0 0 rgba(0,0,0,0.5);
 }
 
-.panel-head{
+#control-kit .panel-head{
+    box-sizing: border-box;
+    height: 30px;
+    background: #1A1A1A;
+    font-weight: bold;
+    padding: 2px 13px;
+}
+
+#control-kit .panel-head label{
+    display: inline-block;
+    text-transform: capitalize;
+    height: inherit;
+    line-height: 26px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 60%;
+}
+
+#control-kit .head-menu{
+    float: right;
+    width: 40%;
+    padding: 3px 0;
+}
+
+#control-kit .head-menu button{
+    float: right;
+    margin: 0 0 0 2px;
+    height: 20px;
+    line-height: 12px;
+
+    font-size: 10px;
+    color: #65696B;
+
+    border: 1px solid #131313;
+    box-shadow: inset 0 1px 0 0 #212527;
+    background: #1A1A1A;
+}
+
+#control-kit .head-menu .btn-close{
+    width: 20px;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* Group
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#control-kit .group-list{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-sizing: border-box;
+    box-shadow: inset 0 1px 0 0 #363636;
+    overflow-y: scroll;
+}
+
+#control-kit .group{
 
 }
 
-.group{
+#control-kit .group-head{
+    box-sizing: border-box;
+    background: #383838;
+    box-shadow: inset 0 1px 0 0 #424242,inset 0 -1px 0 0 #1E2224;
+    height: 45px;
+}
+
+#control-kit .group-head label{
+    height: 43px;
+    line-height: 44px;
+    padding: 0 13px;
+    color: white;
+    font-weight: bold;
+}
+
+#control-kit .sub-group-list{
+    overflow-y: scroll;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* Sub-Group
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#control-kit .sub-group-head{
+    box-shadow: inset 0 -1px 0 0 #363636;
+    background: #272727;
+    height: 31px;
+    padding: 0 13px;
+    clear: both;
+}
+
+#control-kit .sub-group-head label{
+    color: white;
+    font-weight: bold;
+    text-transform: capitalize;
+    height: 31px;
+    line-height: 29px;
+    float: left;
+}
+
+#control-kit .sub-group-head button{
+    height: 31px;
+    float: right;
+    border: none;
+    background: none;
+    box-shadow: none;
+}
+
+#control-kit .component-list{
 
 }
 
-.group-head{
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* Component
+/*--------------------------------------------------------------------------------------------------------------------*/
 
+#control-kit .component {
+    box-sizing: border-box;
+    padding: 5px 13px;
+    clear: both;
+    width: 100%;
+    height: 37px;
+
+    box-shadow: inset 0 -1px 0 0 #1E2224;
 }
 
-.subgroup{
-
+#control-kit .component{
+    float: left;
+    line-height: 27px;
 }
 
-.subgroup-head{
-    
+/* Type-Text */
+
+#control-kit .component.type-text{
+    height: auto;
 }
 
-/*should throw*/
-.panel .sub{
-    width: 300px;
+#control-kit .component.type-text p{
+    color: #858A8C;
+    line-height: 1.45;
+}
+
+#control-kit .component.type-text p:first-of-type{
+    margin-top: 8px;
+}
+
+/* Type-Input */
+
+#control-kit .component.type-input label{
+    width: 30%;
+}
+
+#control-kit .input-wrap {
+    position: relative;
+    float: right;
+    width: 70%;
+}
+
+#control-kit .input-wrap .input-background{
+    display: block;
+    width: 100%;
+    height: 25px;
+    padding: 0;
+}
+
+#control-kit .input-background .color-batch{
+    width: 100%;
+    height: 23px;
+    line-height: 24px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: 0 1px 1px #000000;
+    border-radius: 1px;
+    overflow: hidden;
+}
+
+#control-kit .input-wrap button{
+    width: 100%;
+}
+
+#control-kit .input-wrap-preset{
+    position: absolute;
+    left: 0;
+    right: 19px;
+}
+
+#control-kit .input-wrap-preset input[type="text"],
+#control-kit .input-wrap-preset input[type="number"]{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#control-kit .input-wrap .btn-preset{
+    position: absolute;
+    width: 20px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    right: 0;
+}
+
+#control-kit .input-wrap.range label{
+    display: block;
+    box-sizing: border-box;
+    width: 20%;
+    text-transform: uppercase;
+    text-align: center;
+    float: left;
+}
+
+#control-kit .input-wrap.range input{
+    box-sizing: border-box;
+    width: 30%;
+    text-align: center;
+    padding-left: 10px;
+    float: left;
+}
+
+#control-kit .btn-select{
+    text-shadow: 0 1px 1px rgba(0,0,0,0.50);
+    text-transform: none;
+    font-weight: normal;
+    text-align: left;
+    padding: 0 8px;
 }
