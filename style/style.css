@@ -21,6 +21,13 @@
     list-style: none;
 }
 
+#control-kit label{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* Input Atomics
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -101,6 +108,7 @@
     line-height: 26px;
     text-overflow: ellipsis;
     overflow: hidden;
+    color: #65696B;
     width: 60%;
 }
 
