@@ -1,6 +1,7 @@
 .idea
 .DS_Store
 .git*
+.temp
 examples/
 utils/
 bin/
