@@ -49,6 +49,8 @@
     background: #383838;
     border: 1px solid #1A1A1A;
     box-shadow: inset 0 1px 0 0 #424242;
+
+    cursor: pointer;
 }
 
 #control-kit input,
@@ -155,7 +157,7 @@
 
 #control-kit .group-head{
     box-sizing: border-box;
-    background: #383838;
+    background-color: #383838;
     box-shadow: inset 0 1px 0 0 #424242,inset 0 -1px 0 0 #1E2224;
     height: 45px;
 }
@@ -168,8 +170,30 @@
     font-weight: bold;
 }
 
+#control-kit .group-head.hide{
+    display: none;
+}
+
 #control-kit .sub-group-list{
     overflow-y: scroll;
+}
+
+#control-kit .group-head,
+#control-kit .sub-group-head,
+#control-kit .btn-preset{
+    background-image: url("assets/images/arrow-down.svg");
+}
+
+#control-kit .group-head.collapse,
+#control-kit .sub-group-head.collapse,
+#control-kit .btn-preset.collapse{
+    background-image: url("assets/images/arrow-up.svg");
+}
+
+#control-kit .group-head,
+#control-kit .sub-group-head{
+    background-repeat: no-repeat;
+    background-position: right 13px center;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -178,7 +202,7 @@
 
 #control-kit .sub-group-head{
     box-shadow: inset 0 -1px 0 0 #363636;
-    background: #272727;
+    background-color: #272727;
     height: 31px;
     padding: 0 13px;
     clear: both;
@@ -205,6 +229,10 @@
 
 }
 
+#control-kit .sub-group-head.hide{
+    display: none;
+}
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* Component
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -222,6 +250,14 @@
 #control-kit .component{
     float: left;
     line-height: 27px;
+}
+
+#control-kit .component.hide-label label{
+    display: none;
+}
+
+#control-kit .component.hide-label .input-wrap{
+    width: 100% !important;
 }
 
 /* Type-Text */
@@ -293,6 +329,8 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     right: 0;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 #control-kit .input-wrap.range label{
@@ -315,7 +353,11 @@
 #control-kit .btn-select{
     text-shadow: 0 1px 1px rgba(0,0,0,0.50);
     text-transform: none;
+    font-size: 12px;
     font-weight: normal;
     text-align: left;
     padding: 0 8px;
+    background-image: url("assets/images/arrow-up-down.svg");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
 }
