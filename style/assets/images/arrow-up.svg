@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>group-head-arrow-up</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="group-head-arrow-up">
+            <g id="Group" transform="translate(1.000000, 2.000000)">
+                <path d="M4.29422684,0.70577316 C4.68401459,0.315985407 5.31277239,0.312772393 5.70577316,0.70577316 L9.29422684,4.29422684 C9.68401459,4.68401459 9.5443356,5 9.00460243,5 L0.995397568,5 C0.445654671,5 0.312772393,4.68722761 0.70577316,4.29422684 L4.29422684,0.70577316 Z" id="Rectangle" fill="#131313"></path>
+                <path d="M4.29422684,1.70577316 C4.68401459,1.31598541 5.31277239,1.31277239 5.70577316,1.70577316 L9.29422684,5.29422684 C9.68401459,5.68401459 9.5443356,6 9.00460243,6 L0.995397568,6 C0.445654671,6 0.312772393,5.68722761 0.70577316,5.29422684 L4.29422684,1.70577316 Z" id="Rectangle" fill="#424242"></path>
+                <path d="M4.29408795,1.70591205 C4.68395241,1.31604759 5.31387329,1.31387329 5.70591205,1.70591205 L9,5 L1,5 L4.29408795,1.70591205 Z" id="Rectangle" fill="#737373"></path>
+            </g>
+        </g>
+    </g>
+</svg>
