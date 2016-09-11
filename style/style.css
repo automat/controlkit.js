@@ -79,6 +79,14 @@
     padding-right: 2px;
 }
 
+#control-kit input[type="text"].readonly,
+#control-kit input[type="number"].readonly{
+    border: 1px solid #1E2224;
+    border-radius: 2px;
+    background-image: none;
+    background: transparent;
+}
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* Panel
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -93,6 +101,10 @@
     pointer-events: auto;
 
     box-shadow: 0 1px 0 0 rgba(0,0,0,0.5);
+}
+
+#control-kit .panel.collapse .group-list{
+    display: none;
 }
 
 #control-kit .panel-head{
@@ -136,6 +148,13 @@
 
 #control-kit .head-menu .btn-close{
     width: 20px;
+    background-image: url('assets/images/arrow-up-dark.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#control-kit .panel.collapse .head-menu .btn-close{
+    background-image: url('assets/images/arrow-down-dark.svg');
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -184,10 +203,15 @@
     background-image: url("assets/images/arrow-down.svg");
 }
 
-#control-kit .group-head.collapse,
-#control-kit .sub-group-head.collapse,
+#control-kit .group.collapse .group-head,
+#control-kit .sub-group.collapse .sub-group-head,
 #control-kit .btn-preset.collapse{
     background-image: url("assets/images/arrow-up.svg");
+}
+
+#control-kit .group.collapse .sub-group-list,
+#control-kit .sub-group.collapse .component-list{
+    display: none;
 }
 
 #control-kit .group-head,
@@ -231,6 +255,10 @@
 
 #control-kit .sub-group-head.hide{
     display: none;
+}
+
+#control-kit .sub-group.collapse .sub-group-head {
+    box-shadow: inset 0 -1px 0 0 #1E2224;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
