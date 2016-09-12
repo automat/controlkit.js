@@ -13,9 +13,6 @@
     "email": "hwollik@hotmail.com",
     "url": "http://henrykwollik.com"
   },
-  "scripts": {
-    "watch-temp": "watchify -o .temp/bundle.js -v -d"
-  },
   "main": "index.js",
   "browserify": {
     "transform": [["babelify", { "presets": ["es2015"] }],"brfs"]
