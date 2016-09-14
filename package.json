@@ -18,7 +18,7 @@
     "transform": [["babelify", { "presets": ["es2015"] }],"brfs"]
   },
   "dependencies": {
-    "validate-option": "^0.0.5",
+    "validate-option": "^0.0.6",
     "brfs": "1.4.3",
     "deep-equal" : "1.0.1",
     "deepcopy" : "0.6.3"
