@@ -344,9 +344,10 @@
 /* Type-Input Slider */
 
 #control-kit .slider{
-    position: relative;
-    box-sizing: border-box;
-    width: 100%;
+    position: absolute;
+    /*box-sizing: border-box;*/
+    left: 0;
+    right: 20px;
     height: 25px;
 }
 
@@ -364,8 +365,29 @@
     right: 0;
     bottom: 0;
     left: 0;
-    /* Rectangle 4: */
     background-image: linear-gradient(-180deg, #B50839 0%, #9C0631 100%);
+}
+
+#control-kit .wrap-slider{
+    position: absolute;
+    left: 0;
+    right: 50px;
+}
+
+#control-kit .slider-wrap-number input[type="number"]{
+    width: 46px;
+    float: right;
+    padding-left: 0;
+    text-align: center;
+}
+
+#control-kit .slider-wrap-number input[type="number"]::-webkit-outer-spin-button,
+#control-kit .slider-wrap-number input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+#control-kit .slider-wrap-number input[type="number"]{
+    -moz-appearance:textfield;
 }
 
 /* Type-Input Preset */
