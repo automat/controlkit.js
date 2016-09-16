@@ -6,6 +6,7 @@ const noop = function(){};
 
 export const DefaultConfig = Object.freeze({
     label : 'none',
+    labelRatio : null,
     annotation : null,
     onChange : noop
 });
@@ -22,6 +23,7 @@ export default class ObjectComponent extends Component{
         config = validateOption(config,DefaultConfig);
         super(parent,{
             label : config.label,
+            labelRatio : config.labelRatio,
             annotation : config.annotation
         });
 
@@ -68,6 +70,30 @@ export default class ObjectComponent extends Component{
      */
     get value(){
         return this._proxy.value;
+    }
+
+    /**
+     * Returns a proxy to the connected object.
+     * @returns {*}
+     */
+    get object(){
+        return this._proxy;
+    }
+
+    /**
+     * Returns the property key.
+     * @returns {String}
+     */
+    get key(){
+        return this._proxy.key;
+    }
+
+    /**
+     * Sets the on property value on change callback.
+     * @param value
+     */
+    set onChange(value){
+        this._onChange = value;
     }
 
     /**
