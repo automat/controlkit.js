@@ -1,13 +1,11 @@
-import createHtml from '../util/createHtml';
 import validateOption from 'validate-option';
+import validateType from '../util/validateType';
+import createHtml from '../util/createHtml';
 
 import ObjectComponent from './ObjectComponent';
 import ComponentPreset from './ComponentPreset';
 
-const template =
-    `<div class="input-wrap">
-        <input type="number" value="1">
-     </div>`;
+const template = '<input type="number" value="1">';
 
 export const DefaultConfig = Object.freeze({
     label : null,
@@ -29,6 +27,8 @@ export default class Number_ extends ObjectComponent{
      * @param {Object} config - The component configuration
      */
     constructor(parent,object,key,config){
+        validateType(object,key,Number);
+
         config = validateOption(config,DefaultConfig);
         config.label = config.label == null ? key : config.label;
 
@@ -48,11 +48,10 @@ export default class Number_ extends ObjectComponent{
 
         //elements
         this._element.classList.add('type-input');
-        this._element.appendChild(createHtml(template));
 
         const step = this._state.step;
         const dp = this._state.dp;
-        this._elementInput = this._element.querySelector('input');
+        this._elementInput = this._elementWrap.appendChild(createHtml(template));
         this._elementInput.setAttribute('step',(step || 1.0).toFixed(dp || 4));
         this._elementInput.addEventListener('input',()=>{
             if(this._state.readonly){
@@ -93,6 +92,12 @@ export default class Number_ extends ObjectComponent{
      * @param {Number[]|null} value
      */
     set preset(value){
+        if(value != null){
+            validateType(value,Array);
+            for(const item of value){
+                validateType(item,Number);
+            }
+        }
         this._preset.options = this._state.preset = value || null;
         this._preset.enable = !!value;
     }
@@ -110,6 +115,9 @@ export default class Number_ extends ObjectComponent{
      * @param {Number|null} value
      */
     set min(value){
+        if(value != null){
+            validateType(value,Number);
+        }
         this._setMinMax('min',value);
     }
 
@@ -126,6 +134,9 @@ export default class Number_ extends ObjectComponent{
      * @param {Number|null} value
      */
     set max(value){
+        if(value != null){
+            validateType(value,Number);
+        }
         this._setMinMax('max',value);
     }
 
@@ -142,6 +153,7 @@ export default class Number_ extends ObjectComponent{
      * @param {Boolean} value
      */
     set readonly(value){
+        validateType(value,Boolean);
         this._elementInput.classList[value ? 'add' : 'remove']('readonly');
         this._elementInput.readOnly = value;
         this._preset.enable = value;
