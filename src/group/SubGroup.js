@@ -23,6 +23,7 @@ const template =
 
 const DefaultConfig = Object.freeze({
     label  : null,
+    labelRatio : null,
     enable : true,
     height : null
 });
@@ -32,13 +33,14 @@ export default class SubGroup extends AbstractGroup{
         config = validateOption(config,DefaultConfig);
         super(parent,{
             label  : config.label,
+            labelRatio : config.labelRatio,
             enable : config.enable,
             height : config.height
         });
 
         this._components = [];
 
-        this._element = createHtml(template);
+        this._element = this._parent.elementList.appendChild(createHtml(template));
         this._elementHead  = this._element.querySelector('.sub-group-head');
         this._elementLabel = this._element.querySelector('label');
         this._elementList  = this._element.querySelector('.component-list');
@@ -49,11 +51,20 @@ export default class SubGroup extends AbstractGroup{
 
         this.label = this._state.label;
         this.enable = this._state.enable;
+        this.componentLabelRatio = this._state.labelRatio;
+    }
+
+    set componentLabelRatio(value){
+        super.componentLabelRatio = value;
+        for(const component of this._components){
+            component.labelRatio = value;
+        }
+        this.emit('size-change');
     }
 
     _addComponent(component){
         this._components.push(component);
-        this._elementList.appendChild(component.element);
+        component.labelRatio = this._state.labelRatio;
         this.emit('size-change');
         return this;
     }
@@ -106,5 +117,4 @@ export default class SubGroup extends AbstractGroup{
         this._components = [];
         super.clear();
     }
-
 }
