@@ -93,6 +93,10 @@
     background: transparent;
 }
 
+#control-kit input[type="checkbox"]{
+    height: auto;
+}
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* Panel
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -165,6 +169,46 @@
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+/* Scroll-Bar
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#control-kit .scroll-wrap .scroll-container{
+    margin-right: 15px;
+}
+
+#control-kit .scroll-bar {
+    box-sizing: border-box;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 15px;
+    background: #1F1F1F;
+    box-shadow: inset 1px 0px 0px 0px #1c1c1c;
+}
+
+#control-kit .scroll-track{
+    position: absolute;
+    top : 2px;
+    right: 2px;
+    bottom: 2px;
+    left: 2px;
+}
+
+#control-kit .scroll-handle{
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 30px;
+
+    background: #383838;
+    border: 1px solid #1A1A1A;
+    box-shadow: inset 0px 2px 0px 0px #424242;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
 /* Group
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -232,6 +276,10 @@
 /* Sub-Group
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+#control-kit .sub-group{
+    position: relative;
+}
+
 #control-kit .sub-group-head{
     box-shadow: inset 0 -1px 0 0 #363636;
     background-color: #272727;
@@ -259,6 +307,7 @@
 
 #control-kit .component-list{
     overflow: hidden;
+    position: relative;
 }
 
 #control-kit .sub-group-head.hide{
