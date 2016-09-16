@@ -1,12 +1,10 @@
-import createHtml from '../util/createHtml';
 import validateOption from 'validate-option';
+import validateType from '../util/validateType';
+import createHtml from '../util/createHtml';
 
 import ObjectComponent from './ObjectComponent';
 
-const template =
-    `<div class="input-wrap">
-        <input type="checkbox">
-     </div>`;
+const template = '<input type="checkbox">';
 
 export const DefaultConfig = Object.freeze({
     label : null,
@@ -22,6 +20,8 @@ export default class Checkbox extends ObjectComponent{
      * @param {Object} config - The component configuration
      */
     constructor(parent,object,key,config){
+        validateType(object,key,Boolean);
+
         config = validateOption(config,DefaultConfig);
         config.label = config.label == null ? key : config.label;
 
@@ -33,13 +33,12 @@ export default class Checkbox extends ObjectComponent{
 
         //elements
         this._element.classList.add('type-input');
-        this._element.appendChild(createHtml(template));
-        this._elementInput = this._element.querySelector('input');
+        this._elementInput = this._elementWrap.appendChild(createHtml(template));
         this._elementInput.addEventListener('input',()=>{
             this.value = this._elementInput.checked;
         });
 
-        //sync
+        //init
         this.sync();
     }
 
