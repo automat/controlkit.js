@@ -4,10 +4,13 @@ import createHtml from '../util/createHtml';
 const template =
     `<li class="component">
         <label></label>
+        <div class="input-wrap">
+        </div>
      </li>`;
 
 export const DefaultConfig = Object.freeze({
     label : 'none',
+    labelRatio : null,
     annotation : null
 });
 
@@ -22,14 +25,17 @@ export default class Component{
 
         this._state = {
             label : config.label,
+            labelRatio : config.labelRatio,
             annotation : config.annotation
         };
 
         this._parent = parent;
-        this._element = createHtml(template);
+        this._element = this._parent.elementList.appendChild(createHtml(template));
         this._elementLabel = this._element.querySelector('label');
+        this._elementWrap = this._element.querySelector('.input-wrap');
 
         this.label = this._state.label;
+        this.labelRatio = this._state.labelRatio;
     };
 
     /**
@@ -54,6 +60,33 @@ export default class Component{
      */
     get label(){
         return this._state.label;
+    }
+
+    /**
+     * Sets the label / input width ratio.
+     * @param {Number} value
+     */
+    set labelRatio(value){
+        this._state.labelRatio = value;
+        if(value == null){
+            this._elementLabel.style.width = null;
+            this._elementWrap.style.width = null;
+        } else{
+            const style = this.computedStyle;
+            const paddingLeft = parseFloat(style.paddingLeft);
+            const paddingRight = parseFloat(style.paddingRight);
+            const width = parseFloat(style.width) - paddingLeft - paddingRight;
+            this._elementLabel.style.width = width * value - (paddingLeft + paddingRight) * 0.25 + 'px';
+            this._elementWrap.style.width = width * (1.0 - value) + 'px';
+        }
+    }
+
+    /**
+     * Returns the label / input width ratio.
+     * @returns {Number}
+     */
+    get labelRatio(){
+        return this._state.labelRatio;
     }
 
     /**
@@ -99,5 +132,9 @@ export default class Component{
      */
     clear(){
         this._element.parentNode.removeChild(this._element);
+    }
+
+    get computedStyle(){
+        return window.getComputedStyle(this._element);
     }
 }
