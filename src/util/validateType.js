@@ -12,7 +12,7 @@ export default function validateType(object_or_value,key_or_expected,expected){
     if(value === null){
         throw new TypeError(`Object value with key "${key_or_expected}" is null.`);
     }
-    if(value !== expected.name.toLowerCase() && !(value instanceof expected)){
+    if(typeof value !== expected.name.toLowerCase() && !(value instanceof expected)){
         throw new TypeError(`Object value with key "${key_or_expected}" is not of type ${expected.name}.`);
     }
 }
