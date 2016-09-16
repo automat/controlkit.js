@@ -1,19 +1,13 @@
-import createHtml from '../util/createHtml';
 import validateOption from 'validate-option';
+import validateType from '../util/validateType';
+import createHtml from '../util/createHtml';
 
 import ObjectComponent from './ObjectComponent';
 import ComponentPreset from './ComponentPreset';
 
 
-const templateSingle =
-    `<div class="input-wrap">
-        <input type="text">
-     </div>`;
-
-const templateMulti =
-    `<div class="input-wrap">
-        <textarea></textarea>
-     </div>`
+const templateSingle = '<input type="text">';
+const templateMulti = '<textarea></textarea>';
 
 export const DefaultConfig = Object.freeze({
     label : null,
@@ -27,6 +21,8 @@ export const DefaultConfig = Object.freeze({
 
 export default class String_ extends ObjectComponent{
     constructor(parent,object,key,config){
+        validateType(object,key,String);
+
         config = validateOption(config,DefaultConfig);
         config.label = config.label == null ? key : config.label;
 
@@ -43,9 +39,7 @@ export default class String_ extends ObjectComponent{
 
         //elements
         this._element.classList.add('type-input');
-        this._element.appendChild(createHtml(templateSingle));
-        this._elementWrap = this._element.querySelector('.input-wrap');
-        this._elementInput = this._element.querySelector('input');
+        this._elementInput = this._elementWrap.appendChild(createHtml(templateSingle));
 
         //preset selection
         this._preset = new ComponentPreset(this._elementInput);
@@ -83,21 +77,21 @@ export default class String_ extends ObjectComponent{
      * @param {boolean} value
      */
     set multiline(value){
-        this._elementWrap.removeChild(this._elementInput);
-        if(value){
-            this._elementInput = document.createElement('textarea');
-        } else {
-            this._elementInput = document.createElement('input');
-            this._elementInput.setAttribute('type','text');
-        }
-        this._elementWrap.appendChild(this._elementInput);
-
-        this._elementInput.addEventListener('input',()=>{
-            if(this._state.readonly){
-                return;
-            }
-            this.value = this._elementInput.value;
-        })
+        // this._elementWrap.removeChild(this._elementInput);
+        // if(value){
+        //     this._elementInput = document.createElement('textarea');
+        // } else {
+        //     this._elementInput = document.createElement('input');
+        //     this._elementInput.setAttribute('type','text');
+        // }
+        // this._elementWrap.appendChild(this._elementInput);
+        //
+        // this._elementInput.addEventListener('input',()=>{
+        //     if(this._state.readonly){
+        //         return;
+        //     }
+        //     this.value = this._elementInput.value;
+        // })
     }
 
     /**
