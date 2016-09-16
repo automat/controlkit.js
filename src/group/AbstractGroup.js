@@ -3,17 +3,24 @@ import EventEmitter from 'events';
 
 const DefaultConfig = Object.freeze({
     label  : null,
+    labelRatio : null,
     enable : true,
     height : null
 });
 
 export default class AbstractGroup extends EventEmitter{
+    /**
+     * @constructor
+     * @param parent
+     * @param config
+     */
     constructor(parent,config){
         config = validateOption(config,DefaultConfig);
         super();
 
         this._state = {
             label  : config.label,
+            labelRatio : config.labelRatio,
             enable : config.enable,
             height : config.height
         };
@@ -25,6 +32,10 @@ export default class AbstractGroup extends EventEmitter{
         this._elementList = null;
     }
 
+    /**
+     * Sets the group head label.
+     * @param {String|null} value
+     */
     set label(value){
         this._state.label = value;
         if(value === null || value === 'none' || value === ''){
@@ -36,28 +47,77 @@ export default class AbstractGroup extends EventEmitter{
         this._elementHead.classList.remove('hide');
     }
 
+    /**
+     * Returns the group head label.
+     * @returns {String|null}
+     */
     get label(){
         return this._state.label;
     }
 
+
+    /**
+     * Sets the groups global label / component width ratio.
+     * @param value
+     */
+    set componentLabelRatio(value){
+        this._state.labelRatio = value;
+    }
+
+    /**
+     * Returns the groups global label / component width ratio.
+     * @returns {*}
+     */
+    get componentLabelRatio(){
+        return this._state.labelRatio;
+    }
+
+    /**
+     * Enables / disables the group.
+     * @param {Boolean} value
+     */
     set enable(value){
         this._state.enable = value;
         this._element.classList[value ? 'remove' : 'add']('collapse');
         this.emit('size-change');
     }
 
+    /**
+     * Returns true if enabled.
+     * @returns {Boolean}
+     */
     get enable(){
         return this._state.enable;
     }
 
+    /**
+     * Returns the groups max height.
+     * @returns {Number|null}
+     */
     get maxHeight(){
         return this._state.height;
     }
 
+    /**
+     * Returns the underlying HTMLElement.
+     * @returns {HTMLElement}
+     */
     get element(){
         return this._element;
     }
 
+    /**
+     * Returns the groups list HTMLElement
+     * @returns {HTMLElement}
+     */
+    get elementList(){
+        return this._elementList;
+    }
+
+    /**
+     * Returns the parent element.
+     * @returns {AbstractGroup|Panel}
+     */
     get parent(){
         return this._parent;
     }
