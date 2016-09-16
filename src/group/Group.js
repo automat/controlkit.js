@@ -14,6 +14,7 @@ const template =
 
 const DefaultConfig = Object.freeze({
     label  : null,
+    labelRatio : null,
     enable : true,
     height : null
 });
@@ -23,9 +24,12 @@ export default class Group extends AbstractGroup{
         config = validateOption(config,DefaultConfig);
         super(parent,{
             label  : config.label,
+            labelRatio : config.labelRatio,
             enable : config.enable,
             height : config.height
         });
+
+        this._state.labelRatio = config.labelRatio;
 
         this._element = createHtml(template);
         this._elementHead  = this._element.querySelector('.group-head');
@@ -40,6 +44,18 @@ export default class Group extends AbstractGroup{
 
         this.label = this._state.label;
         this.enable = this._state.enable;
+        this.componentLabelRatio = this._state.labelRatio;
+    }
+
+    /**
+     * Sets the groups global label / component width ratio.
+     * @param value
+     */
+    set componentLabelRatio(value){
+        super.componentLabelRatio = value;
+        for(const group of this._groups){
+            group.componentLabelRatio = value;
+        }
     }
 
     _backSubGroupValid(){
@@ -51,8 +67,8 @@ export default class Group extends AbstractGroup{
 
     addSubGroup(config){
         const group = new SubGroup(this,config);
+        group.componentLabelRatio = this._state.labelRatio;
         this._groups.push(group);
-        this._elementList.appendChild(group.element);
         group.on('size-change',()=>{this.emit('size-change');});
         return this;
     }
