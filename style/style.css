@@ -119,6 +119,7 @@
     background: #1A1A1A;
     font-weight: bold;
     padding: 2px 13px;
+    overflow: hidden;
 }
 
 #control-kit .panel-head label{
