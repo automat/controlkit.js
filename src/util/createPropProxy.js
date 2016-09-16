@@ -34,6 +34,9 @@ class ObjectProxy{
     get(key){
         return this._proxy[key];
     }
+    get proxy(){
+        return this._proxy;
+    }
 }
 
 let id = 0;
@@ -58,6 +61,12 @@ class ObjectProxyValueHandle{
     }
     removeEventListener(type,cb){
         this._proxy.removeEventListener(type,cb);
+    }
+    get proxy(){
+        return this._proxy;
+    }
+    get key(){
+        return this._propKey;
     }
 }
 
