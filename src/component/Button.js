@@ -2,10 +2,7 @@ import Component from './Component';
 import createHtml from '../util/createHtml';
 import validateOption from 'validate-option';
 
-const template =
-    `<div class="input-wrap">
-        <button></button>
-     </div>`;
+const template = '<button></button>';
 
 export const DefaultConfig = Object.freeze({
     label : 'none',
@@ -27,15 +24,19 @@ export default class Button extends Component{
         });
 
         this._state.name = name;
+        this._onChange = config.onChange;
 
         this._element.classList.add('type-input');
-        this._element.appendChild(createHtml(template));
-        this._elementButton = this._element.querySelector('button');
+        this._elementButton = this._elementWrap.appendChild(createHtml(template));
 
         this.name = this._state.name;
 
         //listener
-        this._elementButton.addEventListener('click',config.onChange.bind(this));
+        this._elementButton.addEventListener('click',()=>{this._onChange.bind(this);});
+    }
+
+    set onChange(value){
+        this._onChange = value;
     }
 
     /**
