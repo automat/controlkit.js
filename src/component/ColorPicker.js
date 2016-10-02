@@ -2,6 +2,10 @@ import createHtml from '../util/createHtml';
 
 import {CSSColorStringMap} from './ColorString';
 
+/*--------------------------------------------------------------------------------------------------------------------*/
+// Template
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 const template =
     `<div id="control-kit-color-picker" class="panel">
         <div class="panel-head">
@@ -47,6 +51,10 @@ const template =
             </div>
         </div>
     </div>`;
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+// Utils
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 const noop = function(){};
 
@@ -126,6 +134,10 @@ function RGBFToHSB(rgbf){
     }
     return [Math.floor(hue * 360),Math.floor(saturation * 100),Math.floor(brightness * 100)];
 }
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+// Color-Picker
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 export default class ColorPicker{
     constructor(){
@@ -360,38 +372,69 @@ export default class ColorPicker{
 
     _removeEventListeners(){};
 
+    /**
+     * Returns the color-pickers x position.
+     * @param value
+     */
     set x(value){
         this._state.x = Math.max(0,Math.min(value,window.innerWidth - this.width));
         this._element.style.left = this._state.x + 'px';
     }
 
+    /**
+     * Returns the color-pickers current x position.
+     * @return {number}
+     */
     get x(){
         return this._state.x;
     }
 
+    /**
+     * Sets the color-pickers y position.
+     * @param value
+     */
     set y(value){
         this._state.y = Math.max(0,Math.min(value,window.innerHeight - this.height));
         this._element.style.top = this._state.y + 'px';
     }
 
+    /**
+     * Returns the color-pickers current y position.
+     * @return {number}
+     */
     get y(){
         return this._state.y;
     }
 
+    /**
+     * Returns the with of the color-picker.
+     * @return {*|number}
+     */
     get width(){
         return this._element.offsetWidth;
     }
 
+    /**
+     * Returns the height of the color-picker.
+     * @return {*|number}
+     */
     get height(){
         return this._element.offsetHeight;
     }
 
+    /**
+     * Opens the color-picker.
+     * @param config
+     */
     open(config){
         this._state.enabled = true;
         this._state.pickCallback = config.onPick || noop;
         this._element.classList.remove('hide');
     }
 
+    /**
+     * Closes the color-picker.
+     */
     close(){
         this._state.enabled = false;
         this._element.classList.add('hide');
@@ -451,44 +494,80 @@ export default class ColorPicker{
         this._elementColorCompareLeft.style.background = hex;
     }
 
+    /**
+     * Sets the color r component.
+     * @param value
+     */
     set colorR(value){
         const rgb = this.colorRGB;
         this.colorRGB = [value,rgb[1],rgb[2]];
     };
 
+    /**
+     * Returns the current color r component.
+     * @return {number}
+     */
     get colorR(){
         return this.colorRGB[0];
     };
 
+    /**
+     * Sets the color g component.
+     * @param value
+     */
     set colorG(value){
         const rgb = this.colorRGB;
         this.colorRGB = [rgb[0],value,rgb[2]];
     };
 
+    /**
+     * Returns the current color g component.
+     * @return {number}
+     */
     get colorG(){
         return this.colorRGB[1];
     };
 
+    /**
+     * Sets the color b component.
+     * @param value
+     */
     set colorB(value){
         const rgb = this.colorRGB;
         this.colorRGB = [rgb[0],rgb[1],value];
     };
 
+    /**
+     * Returns the current color b component.
+     * @return {number}
+     */
     get colorB(){
         return this.colorRGB[2];
     };
 
+    /**
+     * Sets the color from rgb components.
+     * @param value
+     */
     set colorRGB(value){
         this._state.colorMode = 'rgb';
         this._state.colorRGB = value;
         this.sync();
     };
 
+    /**
+     * Returns the current color value in rgbf [1,1,1] representation.
+     * @returns {number[]}
+     */
     get colorRGB(){
         const rgbf = HSBToRGBF(this._state.colorHSB);
         return [Math.floor(rgbf[0] * 255.0),Math.floor(rgbf[1] * 255.0),Math.floor(rgbf[2] * 255.0)]
     };
 
+    /**
+     * Sets the color from rgb string.
+     * @param value
+     */
     set colorRGBString(value){
         if(!isRgbaString(value)){
             throw new Error("Input string not using 'rgb(r,g,b)' or 'rgba(r,g,b,a) format.'");
@@ -498,48 +577,88 @@ export default class ColorPicker{
         this.colorRGB = [+elements[0],+elements[1],+elements[2]];
     };
 
+    /**
+     * Returns the current color value in rgb string rgb(255,255,255) representation.
+     * @returns {string}
+     */
     get colorRGBString(){
         const rgb = this.colorRGB;
         return `rgb(${rgb[0] / 255.0},${rgb[1] / 255.0},${rgb[2] / 255.0})`;
     };
 
+    /**
+     * Sets the color from hsb.
+     * @param value
+     */
     set colorHSB(value){
         this._state.colorMode = 'hsb';
         this._state.colorHSB = value;
         this.sync();
     };
 
+    /**
+     * Returns the current color value in hsb [hue,saturation,brightness] representation.
+     * @returns {number[]}
+     */
     get colorHSB(){
         return this._state.colorHSB.slice(0);
     };
 
+    /**
+     * Sets the current color hsb hue component.
+     * @param value
+     */
     set colorHue(value){
         this._state.colorHSB[0] = value;
         this.colorHSB = this._state.colorHSB;
     };
 
+    /**
+     * Returns the current color hsb hue component.
+     * @returns {number}
+     */
     get colorHue(){
         return this._state.colorHSB[0];
     };
 
+    /**
+     * Sets the current color hsb saturation component.
+     * @param value
+     */
     set colorSaturation(value){
         this._state.colorHSB[1] = value;
         this.colorHSB = this._state.colorHSB;
     };
 
+    /**
+     * Returns the current color hsb saturation value.
+     * @returns {number}
+     */
     get colorSaturation(){
         return this._state.colorHSB[1];
     };
 
+    /**
+     * Set the color hsb brightness component.
+     * @param value
+     */
     set colorBrightness(value){
         this._state.colorHSB[2] = value;
         this.colorHSB = this._state.colorHSB;
     };
 
+    /**
+     * Returns the current color hsb brightness component.
+     * @returns {number}
+     */
     get colorBrightness(){
         return this._state.colorHSB[2];
     };
 
+    /**
+     * Sets the color in hex format.
+     * @param value
+     */
     set colorHEX(value){
         let hex = CSSColorStringMap[value] || CSSColorStringMap[value.toUpperCase()] || value;
         hex = hex.substring(1);
@@ -551,23 +670,43 @@ export default class ColorPicker{
         ];
     };
 
+    /**
+     * Returns the current color value in hex #ffffff format.
+     * @returns {string}
+     */
     get colorHEX(){
         const rgb = this.colorRGB;
         return `#${((rgb[0] | rgb[1] << 8 | rgb[2] << 16) | 1 << 24).toString(16).slice(1)}`;
     };
 
+    /**
+     * Sets the color in rgbf format.
+     * @param value
+     */
     set colorRGBF(value){
         this.colorHSB = RGBFToHSB(value);
     };
 
+    /**
+     * Returns the current color value in rgbf [1,1,1] format.
+     * @returns {number[]}
+     */
     get colorRGBF(){
         return HSBToRGBF(this._state.colorHSB);
     };
 
+    /**
+     * Returns the underlying HTMLElement.
+     * @returns {HTMLElement}
+     */
     get element(){
         return this._element;
     }
 
+    /**
+     * Returns a reference to the current color picker.
+     * @return {ColorPicker|null}
+     */
     static sharedPicker(){
         if(!ColorPicker.__shared){
             ColorPicker.__shared = new ColorPicker();
