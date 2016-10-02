@@ -106,6 +106,13 @@
     height: auto;
 }
 
+#control-kit.non-selectable{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* Panel
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -535,6 +542,10 @@
     width: 370px;
 }
 
+#control-kit-color-picker.hide{
+    display: none;
+}
+
 #control-kit-color-picker input[type="number"]::-webkit-outer-spin-button,
 #control-kit-color-picker input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -569,6 +580,15 @@
 #control-kit-color-picker .color-hue-slider,
 #control-kit-color-picker .color-components{
     height: 160px;
+}
+
+#control-kit-color-picker .color-space-slider,
+#control-kit-color-picker .color-hue-slider{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
 }
 
 #control-kit-color-picker .color-slider {
