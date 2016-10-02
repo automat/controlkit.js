@@ -58,6 +58,15 @@
     cursor: pointer;
 }
 
+#control-kit button:hover{
+    background: #3d3d3d;
+}
+
+#control-kit button:active{
+    box-shadow: inset 0 1px 0 0 #383838;
+    background: #2b2b2b;
+}
+
 #control-kit input,
 #control-kit .slider{
     box-sizing: border-box;
@@ -383,6 +392,7 @@
 }
 
 #control-kit .input-wrap .input-background{
+    position: relative;
     display: block;
     width: 100%;
     height: 25px;
@@ -390,9 +400,14 @@
 }
 
 #control-kit .input-background .color-batch{
-    width: 100%;
-    height: 23px;
-    line-height: 24px;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    bottom: 1px;
+    left: 1px;
+
+    color: #fff;
+    line-height: 22px;
     text-transform: uppercase;
     text-align: center;
     font-weight: bold;
@@ -410,7 +425,6 @@
 
 #control-kit .slider{
     position: absolute;
-    /*box-sizing: border-box;*/
     left: 0;
     right: 20px;
     height: 25px;
@@ -418,10 +432,10 @@
 
 #control-kit .slider-track{
     position: absolute;
-    top: 2px;
-    right: 2px;
-    bottom: 2px;
-    left: 2px;
+    top: 1px;
+    right: 1px;
+    bottom: 1px;
+    left: 1px;
 }
 
 #control-kit .slider-handle{
@@ -508,4 +522,245 @@
     background-image: url("assets/images/arrow-up-down.svg");
     background-repeat: no-repeat;
     background-position: right 6px center;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* Color-Picker
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#control-kit #control-kit-color-picker{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 370px;
+}
+
+#control-kit-color-picker input[type="number"]::-webkit-outer-spin-button,
+#control-kit-color-picker input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#control-kit-color-picker input[type="number"] {
+    -moz-appearance:textfield;
+    padding: 0;
+    text-align: center;
+}
+
+#control-kit-color-picker .color-picker-wrap{
+    padding: 10px 11px;
+}
+
+#control-kit-color-picker .color-picker-settings{
+    text-align: left;
+    overflow: hidden;
+}
+
+#control-kit-color-picker .color-picker-settings .input-background,
+#control-kit-color-picker .color-components{
+    float: left;
+}
+
+#control-kit-color-picker .color-picker-settings .input-background{
+    padding: 0;
+}
+
+#control-kit-color-picker .color-space-slider,
+#control-kit-color-picker .color-hue-slider,
+#control-kit-color-picker .color-components{
+    height: 160px;
+}
+
+#control-kit-color-picker .color-slider {
+    position: absolute;
+    border: 2px solid #fff;
+    box-shadow: 0 1px black,0 1px #000 inset;
+    cursor: pointer;
+}
+
+/* Color Space */
+
+#control-kit-color-picker .color-space-slider{
+    position: relative;
+    width: 160px;
+}
+
+#control-kit-color-picker .color-space {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+}
+
+#control-kit-color-picker .color-space canvas{
+    background: #333;
+    width: 154px;
+    height: 154px;
+}
+
+#control-kit-color-picker .color-space .color-slider {
+    top: 0;
+    width: 8px;
+    height: 8px;
+    margin-left: -6px;
+    margin-top: -6px;
+    border-radius: 8px;
+}
+
+/* Color Hue */
+
+#control-kit-color-picker .color-hue-slider{
+    position: relative;
+    margin-left: 4px;
+    width: 30px
+}
+
+#control-kit-color-picker .color-hue{
+    position: absolute;
+    top: 2px;
+    left: 2px;
+}
+
+#control-kit-color-picker .color-hue .color-slider{
+    top: 0;
+    margin-left: -2px;
+    margin-top: -2px;
+    width: 14px;
+    height: 3px;
+    border-radius: 8px;
+}
+
+#control-kit-color-picker .color-hue .color-slider:before,
+#control-kit-color-picker .color-hue .color-slider:after{
+    content: '';
+    width: 0;
+    height: 0;
+    border-top: 4.5px solid transparent;
+    border-bottom: 4.5px solid transparent;
+    float: right;
+    position: absolute;
+    left: 19px;
+}
+
+#control-kit-color-picker .color-hue .color-slider:before{
+    border-right: 4px solid #000;
+    top: -3px;
+}
+
+#control-kit-color-picker .color-hue .color-slider:after{
+    border-right: 4px solid #fff;
+    top: -2px;
+}
+
+#control-kit-color-picker .color-hue canvas{
+    background: #333;
+}
+
+/* Color Components */
+
+#control-kit-color-picker .color-components{
+    position: relative;
+    margin-left: 4px;
+    width: 150px;
+    display: block;
+    box-sizing: border-box;
+    border: 1px solid #1A1A1A;
+    border-radius: 2px;
+    padding: 0;
+}
+
+#control-kit-color-picker ul{
+    padding: 5px 10px 4px 0;
+    clear: both;
+}
+
+#control-kit-color-picker li{
+    box-sizing: border-box;
+    float: left;
+    width: 50%;
+    padding-bottom: 4px;
+}
+
+#control-kit-color-picker li.color-compare{
+    width: 100%;
+    clear: both;
+}
+
+#control-kit-color-picker .color-compare .input-background{
+    position: relative;
+    width: 80%;
+    height: 25px;
+    float: right;
+    padding: 1px;
+}
+
+#control-kit-color-picker .color-input-wrap{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    box-sizing: border-box;
+    border-top: 1px solid #1A1A1A;
+    padding: 5px 10px;
+}
+
+/* Color Compare */
+
+#control-kit-color-picker .color-compare-left,
+#control-kit-color-picker .color-compare-right {
+    width: 50%;
+    position: absolute;
+    top: 1px;
+    bottom: 1px;
+}
+
+#control-kit-color-picker .color-compare-left {
+    background: #888;
+    left: 1px;
+    border-top-left-radius: 1px;
+    border-bottom-left-radius: 1px;
+}
+
+#control-kit-color-picker .color-compare-right {
+    background: #333;
+    right: 1px;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+}
+
+#control-kit-color-picker li label{
+    float: left;
+    line-height: 25px;
+    display: block;
+    width: 40%;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Color Input */
+
+#control-kit-color-picker li input[type="number"]{
+    display: block;
+    float: right;
+    width: 60%;
+}
+
+#control-kit-color-picker .color-input{
+    width: 86%;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    float: right;
+}
+
+/* Color Controls */
+
+#control-kit-color-picker .color-picker-controls{
+    padding-top: 10px;
+    text-align: right;
+}
+
+#control-kit-color-picker button{
+    display: inline-block;
+    margin-right: 0;
+    margin-left: 5px;
+    width: 71px;
 }
