@@ -26,6 +26,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    pointer-events: none;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -540,6 +541,7 @@
     top: 0;
     left: 0;
     width: 370px;
+    z-index: 10;
 }
 
 #control-kit-color-picker.hide{
