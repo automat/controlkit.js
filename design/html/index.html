@@ -7,6 +7,52 @@
 </head>
 <body>
 <section id="control-kit">
+    <!-- COLOR-PICKER --->
+    <div id="control-kit-color-picker" class="panel">
+        <div class="panel-head">
+            <label>Color Picker</label>
+        </div>
+        <div class="color-picker-wrap">
+            <div class="color-picker-settings">
+                <div class="color-space-slider input-background">
+                    <div class="color-space">
+                        <canvas width="154" height="154"></canvas>
+                        <div class="color-slider"></div>
+                    </div>
+                </div>
+                <div class="color-hue-slider input-background">
+                    <div class="color-hue">
+                        <canvas width="14" height="154"></canvas>
+                        <div class="color-slider"></div>
+                    </div>
+                </div>
+                <div class="color-components">
+                    <ul>
+                        <li><label>H</label><input type="number" value="10"></li>
+                        <li><label>R</label><input type="number" value="44"></li>
+                        <li><label>S</label><input type="number" value="75"></li>
+                        <li><label>G</label><input type="number" value="10"></li>
+                        <li><label>B</label><input type="number" value="50"></li>
+                        <li><label>B</label><input type="number" value="10"></li>
+                        <li class="color-compare">
+                            <div class="input-background">
+                                <div class="color-compare-left"></div>
+                                <div class="color-compare-right"></div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="color-input-wrap">
+                        <input class="color-input" " type="text" value="#333333">
+                    </div>
+                </div>
+            </div>
+            <div class="color-picker-controls">
+                <button>Pick</button>
+                <button>Cancel</button>
+            </div>
+        </div>
+    </div>
+    <!-- PANEL --->
     <div class="panel">
         <div class="panel-head">
             <label>panel panel panel panelfdsfsfssfsfs</label>
@@ -17,16 +63,77 @@
             </div>
         </div>
         <ul class="group-list">
+            <!-- GROUP --->
             <li class="group">
                 <div class="group-head">
                     <label>Group</label>
                 </div>
                 <ul class="sub-group-list">
+                    <!-- SUB-GROUP --->
                     <li class="sub-group">
                         <div class="sub-group-head">
                             <label>sub-group</label>
                         </div>
                         <ul class="component-list">
+                            <li class="scroll-wrap">
+                                <ul class="scroll-container">
+                                    <li class="component type-input">
+                                        <label>Number</label>
+                                        <div class="input-wrap">
+                                            <input type="number" value="1">
+                                        </div>
+                                    </li>
+                                    <li class="component type-input">
+                                        <label>Number</label>
+                                        <div class="input-wrap">
+                                            <input type="number" value="1">
+                                        </div>
+                                    </li>
+                                    <li class="component type-input">
+                                        <label>Number</label>
+                                        <div class="input-wrap">
+                                            <input type="number" value="1">
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="scroll-bar">
+                                    <div class="scroll-track">
+                                        <div class="scroll-handle"></div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- SUB-GROUP --->
+                    <li class="sub-group">
+                        <div class="sub-group-head">
+                            <label>sub-group</label>
+                        </div>
+                        <ul class="component-list">
+                            <!-- SUB-GROUP --->
+                            <!--<li class="component type-input grow">-->
+                                <!--<label>Image</label>-->
+                                <!--<div class="input-wrap">-->
+                                    <!--&lt;!&ndash;<div class="input-background">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<img src="assets/lenna.png">&ndash;&gt;-->
+                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                    <!--<div class="input-wrap-preset">-->
+                                        <!--&lt;!&ndash;<input type="text" value="Some text">&ndash;&gt;-->
+                                        <!--<div class="input-background">-->
+                                            <!--<img src="assets/lenna.png">-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<button class="btn-preset"></button>-->
+                                <!--</div>-->
+                            <!--</li>-->
+                            <!--<li class="component type-input grow">-->
+                                <!--<label>Image</label>-->
+                                <!--<div class="input-wrap">-->
+                                    <!--<div class="input-background">-->
+                                        <!--<img src="assets/lenna.png">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</li>-->
                             <li class="component type-input">
                                 <label>CheckBox</label>
                                 <div class="input-wrap">
@@ -68,14 +175,6 @@
                                 <label>Number</label>
                                 <div class="input-wrap">
                                     <input type="number" value="1" class="readonly">
-                                </div>
-                            </li>
-                            <li class="component type-input">
-                                <label>Image</label>
-                                <div class="input-wrap">
-                                    <div class="input-background">
-
-                                    </div>
                                 </div>
                             </li>
                             <li class="component type-input">
@@ -125,11 +224,13 @@
                     </li>
                 </ul>
             </li>
+            <!-- GROUP --->
             <li class="group">
                 <div class="group-head">
                     <label>Group</label>
                 </div>
                 <ul class="sub-group-list">
+                    <!-- SUB-GROUP --->
                     <li class="sub-group">
                         <div class="sub-group-head">
                             <label>sub-group</label>
