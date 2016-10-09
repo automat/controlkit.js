@@ -212,20 +212,6 @@ export default class ScrollContainer{
         return this._height;
     }
 
-    getContentBoundingClientRect(){
-        const rectElement = this._element.getBoundingClientRect();
-        const rectTarget  = this._target.getBoundingClientRect();
-
-        return {
-            top: rectElement.top,
-            right : rectElement.right,
-            bottom : rectElement.top + rectTarget.height,
-            left : rectElement.left,
-            width : rectElement.width,
-            height : rectTarget.height
-        };
-    }
-
     /**
      * Detaches the scroll-container from the target element and
      * removes all event listeners.
