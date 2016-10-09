@@ -182,6 +182,11 @@ export default class ScrollContainer{
         } else {
             const heightTarget = this._target.offsetHeight;
             height = Math.min(height,heightTarget);
+
+            if(height === heightTarget){
+                this.setHeight(null);
+                return;
+            }
             //update
             if(this._height !== null){
                 this._element.style.height = height + 'px';
