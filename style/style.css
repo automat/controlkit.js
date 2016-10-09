@@ -130,7 +130,20 @@
     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.5);
 }
 
-#control-kit .panel.collapse .group-list{
+#control-kit .panel.fixed{
+    position: absolute;
+}
+
+#control-kit .panel.dragging{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+#control-kit .panel.collapse .group-list,
+#control-kit .panel.collapse .scroll-wrap{
     display: none;
 }
 
@@ -189,8 +202,14 @@
 /* Scroll-Bar
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+.scroll-wrap{
+    position: relative;
+}
+
 #control-kit .scroll-wrap .scroll-container{
+    position: absolute;
     margin-right: 15px;
+    overflow: hidden;
 }
 
 #control-kit .scroll-bar {
@@ -219,10 +238,11 @@
     right: 0;
     top: 0;
     height: 30px;
-
+    border-radius: 16px;
     background: #383838;
     border: 1px solid #1A1A1A;
     box-shadow: inset 0px 2px 0px 0px #424242;
+    cursor: default;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -230,6 +250,7 @@
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 #control-kit .group-list{
+    position: relative;
     margin: 0;
     padding: 0;
     list-style: none;
