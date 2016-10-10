@@ -82,12 +82,7 @@ export default class Panel{
         };
 
         this._scrollContainer = new ScrollContainer(this._elementList);
-
         this._groups = [];
-
-        /*------------------------------------------------------------------------------------------------------------*/
-        // Listener
-        /*------------------------------------------------------------------------------------------------------------*/
 
         //action collaps
         const onCollapse = ()=>{
@@ -164,10 +159,7 @@ export default class Panel{
             window.removeEventListener('resize',onWindowResize);
         };
 
-        /*------------------------------------------------------------------------------------------------------------*/
-        // Init
-        /*------------------------------------------------------------------------------------------------------------*/
-
+        //init
         this.fixed = this._state.fixed;
         this.label = this._state.label;
         this.enable = this._state.enabled;
@@ -176,11 +168,6 @@ export default class Panel{
         this.componentLabelRatio = this._state.labelRatio;
     }
 
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // Internal
-    /*----------------------------------------------------------------------------------------------------------------*/
-
-    _removeEventListeners(){}
 
     _constrainHeight(){
         const top = this._elementHead.getBoundingClientRect().bottom;
@@ -207,10 +194,6 @@ export default class Panel{
             return;
         }
     }
-
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // Setter / Getter
-    /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * If true, the panels position can be set.
@@ -242,7 +225,7 @@ export default class Panel{
     }
 
     /**
-     * Returns the color-pickers current x position.
+     * Returns the panels current x position.
      * @return {number}
      */
     get x(){
@@ -253,7 +236,7 @@ export default class Panel{
     }
 
     /**
-     * Sets the color-pickers y position (if fixed).
+     * Sets the panels y position (if fixed).
      * @param {number} value
      */
     set y(value){
@@ -261,8 +244,8 @@ export default class Panel{
             return;
         }
         this._state.y = Math.max(0,Math.min(value,window.innerHeight - this._elementHead.getBoundingClientRect().height));
-        this._constrainHeight();
         this._element.style.top = this._state.y + 'px';
+        this._constrainHeight();
     }
 
     /**
@@ -397,32 +380,11 @@ export default class Panel{
         return this._elementList;
     }
 
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // Groups
-    /*----------------------------------------------------------------------------------------------------------------*/
-
-    _onGroupSizeChange(){
-        this._constrainHeight();
-    }
-
-    addGroup(config){
-        const group = new Group(this,config);
-        this._groups.push(group);
-        this._elementList.appendChild(group.element);
-        group.componentLabelRatio = this._state.labelRatio;
-        group.on('size-change',()=>{this._onGroupSizeChange();});
-        this._onGroupSizeChange();
-        return this;
-    };
-
-    addSubGroup(config){
-        if(this._groups.length == 0){
-            this.addGroup();
-        }
-        this._groups[this._groups.length - 1].addSubGroup(config);
-        return this;
-    };
-
+    /**
+     * Returns ths last active group.
+     * @return {Group}
+     * @private
+     */
     _backGroupValid(){
         if(this._groups.length == 0){
             this.addGroup();
@@ -430,9 +392,35 @@ export default class Panel{
         return this._groups[this._groups.length - 1];
     }
 
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // Components
-    /*----------------------------------------------------------------------------------------------------------------*/
+    /**
+     * Adds a new group to the panel.
+     * @param config
+     * @return {Panel}
+     */
+    addGroup(config){
+        const group = new Group(this,config);
+        this._groups.push(group);
+        this._elementList.appendChild(group.element);
+        group.componentLabelRatio = this._state.labelRatio;
+        //update height if group changed
+        group.on('size-change',()=>{this._constrainHeight();});
+        //update height to new group element
+        this._constrainHeight();
+        return this;
+    };
+
+    /**
+     * Adds a new sub-group to the active group.
+     * @param config
+     * @return {Panel}
+     */
+    addSubGroup(config){
+        if(this._groups.length == 0){
+            this.addGroup();
+        }
+        this._groups[this._groups.length - 1].addSubGroup(config);
+        return this;
+    };
 
     addButton(name,config){
         this._backGroupValid().addButton(name,config);
@@ -490,9 +478,6 @@ export default class Panel{
 
     addFunctionPlotter(){};
 
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // State
-    /*----------------------------------------------------------------------------------------------------------------*/
 
     sync(){
         for(const group of this._groups){
@@ -513,10 +498,6 @@ export default class Panel{
         const state = Object.assign({},this._state);
         state.groups = this._groups.map((item)=>{return item.getState();});
     }
-
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // Factory
-    /*----------------------------------------------------------------------------------------------------------------*/
 
     static createFromObject(object){
         //validate in object
