@@ -208,6 +208,7 @@
 
 .scroll-wrap{
     position: relative;
+    overflow: hidden;
 }
 
 #control-kit .scroll-wrap .scroll-container{
