@@ -38,6 +38,7 @@ export default class ScrollContainer{
             this._target.style.marginTop = -this._scrollY + 'px';
             this._updateHandlePosition();
             e.preventDefault();
+            e.stopPropagation();
         };
 
         //scroll position relative to handle
@@ -152,7 +153,7 @@ export default class ScrollContainer{
      */
     scrollTo(position){
         this._scrollY = Math.max(0,Math.min(position,this.scrollMax));
-        this._target.style.marginTop = -this._scrollY + 'px';
+        this._target.style.marginTop = this._scrollY == 0 ? null : -this._scrollY + 'px';
 
         this._updateHandleHeight();
         this._updateHandlePosition();
