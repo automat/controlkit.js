@@ -4,6 +4,7 @@ import EventEmitter from 'events';
 class ObjectProxy{
     constructor(object){
         this._emitter = new EventEmitter();
+        this._emitter.setMaxListeners(0);
         this._handle = null;
 
         const self = this;
