@@ -138,7 +138,7 @@ export default class Panel{
                 this.x = this.x;
                 this.y = this.y;
             }
-            this._constrainHeight();
+            this._updateHeight();
         };
 
         //attach listeners head
@@ -167,9 +167,8 @@ export default class Panel{
         this.opacity = this._state.opacity;
         this.componentLabelRatio = this._state.labelRatio;
     }
-
-
-    _constrainHeight(){
+    
+    _updateHeight(){
         const top = this._elementHead.getBoundingClientRect().bottom;
         const max = window.innerHeight;
         const height = this._state.maxHeight ?
@@ -245,7 +244,7 @@ export default class Panel{
         }
         this._state.y = Math.max(0,Math.min(value,window.innerHeight - this._elementHead.getBoundingClientRect().height));
         this._element.style.top = this._state.y + 'px';
-        this._constrainHeight();
+        this._updateHeight();
     }
 
     /**
@@ -403,9 +402,9 @@ export default class Panel{
         this._elementList.appendChild(group.element);
         group.componentLabelRatio = this._state.labelRatio;
         //update height if group changed
-        group.on('size-change',()=>{this._constrainHeight();});
+        group.on('size-change',()=>{this._updateHeight();});
         //update height to new group element
-        this._constrainHeight();
+        this._updateHeight();
         return this;
     };
 
