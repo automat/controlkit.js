@@ -38,6 +38,29 @@ export const DefaultConfig = Object.freeze({
     annotation : null
 });
 
+/**
+ * Formats a value based on min / max constrains and fractional digits allowed.
+ * @param x
+ * @param min
+ * @param max
+ * @param fd
+ * @return {*}
+ */
+export function formatValue(x,min,max,fd){
+    x = +x;
+    if(min != null && max != null){
+        x = Number.isNaN(x) ? min : Math.max(min,Math.min(x,max));
+    } else if(min != null){
+        x = Number.isNaN(x) ? min : Math.max(min,x);
+    } else if(max != null){
+        x = Number.isNaN(x) ? max : Math.min(x,max);
+    } else {
+        x = Number.isNaN(x) ? 0 : x;
+    }
+    x = fd != null ? x.toFixed(fd) : x;
+    return x;
+}
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Number
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -79,14 +102,14 @@ export default class Number_ extends ObjectComponent{
         this._elementInput.setAttribute('max',this._state.max);
 
         const formatValueFromInput = (value)=>{
-            this.value = this._elementInput.value = this._formatValue(value);
+            this.value = this._elementInput.value = formatValue(value);
         };
 
         this._elementInput.addEventListener('input',()=>{
             if(this._state.readonly){
                 return;
             }
-            this.value = this._formatValue(this._elementInput.valueAsNumber);
+            this.value = formatValue(this._elementInput.valueAsNumber);
         });
         //input format on enter
         this._elementInput.addEventListener('change',()=>{
@@ -165,30 +188,6 @@ export default class Number_ extends ObjectComponent{
         }
         this._elementInput.setAttribute(key,value);
         this.sync();
-    }
-
-    /**
-     * Formats a value based on min / max constrains and fractional digits allowed.
-     * @param x
-     * @return {*}
-     * @private
-     */
-    _formatValue(x){
-        const fd  = this._state.fd;
-        const min = this._state.min;
-        const max = this._state.max;
-        x = +x;
-        if(min != null && max != null){
-            x = Number.isNaN(x) ? min : Math.max(min,Math.min(x,max));
-        } else if(min != null){
-            x = Number.isNaN(x) ? min : Math.max(min,x);
-        } else if(max != null){
-            x = Number.isNaN(x) ? max : Math.min(x,max);
-        } else {
-            x = Number.isNaN(x) ? 0 : x;
-        }
-        x = fd != null ? x.toFixed(fd) : x;
-        return x;
     }
 
     /**
@@ -277,6 +276,6 @@ export default class Number_ extends ObjectComponent{
      * got changed externally.
      */
     sync(){
-        this._elementInput.value = this._formatValue(this.value);
+        this._elementInput.value = formatValue(this.value);
     }
 }
