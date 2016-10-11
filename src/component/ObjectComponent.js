@@ -36,7 +36,7 @@ export default class ObjectComponent extends Component{
 
         //proxy callbacks
         const onActionChange = (e)=>{
-            this._onChange.bind(this)();
+            this._onChange.bind(this)(this.value);
             if(e.handle == this._proxy.handle){
                 return;
             }
