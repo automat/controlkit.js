@@ -1,16 +1,13 @@
 import validateOption from 'validate-option';
 import validateType from '../util/validateType';
-import createHtml from '../util/createHtml';
 
 import ObjectComponent from './ObjectComponent';
 import NumberInputInternal from './NumberInputInternal';
 import ComponentPreset from './ComponentPreset';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
-// Template / Defaults
+// Defaults
 /*--------------------------------------------------------------------------------------------------------------------*/
-
-const template = '<input type="number">';
 
 /**
  * Number default config
