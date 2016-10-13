@@ -12,6 +12,7 @@ import {DefaultConfig as PanelDefaultConfig} from './group/Panel';
 import {DefaultConfig as GroupDefaultConfig} from './group/Group';
 import {DefaultConfig as SubGroupDefaultConfig} from './group/SubGroup';
 import {DefaultConfig as NumberDefaultConfig} from './component/Number';
+import {DefaultConfig as SliderDefaultConfig} from './component/Slider';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
@@ -199,10 +200,7 @@ export default class ControlKit{
         //panel
         if(description.groups){
             validateType(description.groups,Array);
-            const config = validateDescription(
-                description,PanelDefaultConfig,
-                excludesDescription.panel
-            );
+            const config = validateDescription(description,PanelDefaultConfig,excludesDescription.panel);
             this.addPanel(config);
             for(const group of description.groups){
                 this.add(group);
@@ -213,10 +211,7 @@ export default class ControlKit{
         //group
         if(description.subGroups){
             validateType(description.subGroups,Array);
-            const config = validateDescription(
-                description,GroupDefaultConfig,
-                excludesDescription.group
-            );
+            const config = validateDescription(description,GroupDefaultConfig,excludesDescription.group);
             this._backPanelValid().addGroup(config);
             for(const subGroups of description.subGroups){
                 this.add(subGroups);
@@ -227,10 +222,7 @@ export default class ControlKit{
         //sub-group
         if(description.components){
             validateType(description.components,Array);
-            const config = validateDescription(
-                description,SubGroupDefaultConfig,
-                excludesDescription.subGroup
-            );
+            const config = validateDescription(description,SubGroupDefaultConfig,excludesDescription.subGroup);
             this._backPanelValid()._backGroupValid().addSubGroup(config);
             for(const component of description.components){
                 this.add(component);
@@ -246,15 +238,12 @@ export default class ControlKit{
         const subGroup = this._backPanelValid()._backGroupValid()._backSubGroupValid();
         switch(description.type){
             case 'number':{
-                const config = validateDescription(
-                    description,NumberDefaultConfig,
-                    excludesDescription.componentObject
-                );
-                subGroup.addNumber(
-                    description.object,
-                    description.key,
-                    config
-                );
+                const config = validateDescription(description,NumberDefaultConfig,excludesDescription.componentObject);
+                subGroup.addNumber(description.object,description.key,config);
+            }break;
+            case 'slider':{
+                const config = validateDescription(description,SliderDefaultConfig,excludesDescription.componentObject);
+                subGroup.addSlider(description.object,description.key,config);
             }break;
             default:
                 throw new Error(`Invalid component type "${description.type}".`);
