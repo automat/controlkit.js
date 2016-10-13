@@ -1,5 +1,5 @@
 import validateOption from 'validate-option';
-import createHtml from '../util/createHtml';
+import createHtml from '../util/create-html';
 import Group from './Group';
 import ScrollContainer from './ScrollContainer';
 
@@ -13,8 +13,10 @@ const template =
             <label></label>
             <div class="head-menu">
                 <button class="btn-close"></button>
-                <button>save</button>
-                <button>load</button>
+                <div class="head-state">
+                    <button class="btn-save">save</button>
+                    <button class="btn-load">load</button>
+                </div>
             </div>
         </div>
         <ul class="group-list"></ul>
@@ -63,9 +65,9 @@ export default class Panel{
         this._root._element.appendChild(this._element);
         this._elementHead = this._element.querySelector('.panel-head');
         this._elementLabel = this._element.querySelector('.panel-head label');
-        this._elementClose = this._element.querySelector('.head-menu button:nth-child(1)');
-        this._elementSave = this._element.querySelector('.head-menu button:nth-child(2)');
-        this._elementLoad = this._element.querySelector('.head-menu button:nth-child(3)');
+        this._elementClose = this._element.querySelector('.btn-close');
+        this._elementSave = this._element.querySelector('.btn-save');
+        this._elementLoad = this._element.querySelector('.btn-load');
         this._elementList = this._element.querySelector('.group-list');
 
         this._state = {
