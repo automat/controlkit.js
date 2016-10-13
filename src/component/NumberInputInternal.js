@@ -93,7 +93,7 @@ export default class NumberInputInternal extends EventEmitter{
             }
             let step = this._step;
             if(step){
-                step *= this._stepShiftMult || 1;
+                step *= e.shiftKey ? (this._stepShiftMult || 1) : 1;
                 if(e.code == 'ArrowUp' || e.code == 'ArrowDown'){
                     step *= e.code == 'ArrowUp' ? 1 : -1;
                     formatInputValue(this._element.valueAsNumber + step);
