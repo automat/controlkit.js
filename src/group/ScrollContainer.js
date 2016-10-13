@@ -1,4 +1,4 @@
-import createHtml from '../util/createHtml';
+import createHtml from '../util/create-html';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template

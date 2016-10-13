@@ -1,7 +1,7 @@
 import validateOption from 'validate-option';
 import deepequal from 'deep-equal';
-import validateType from '../util/validateType';
-import createHtml from '../util/createHtml';
+import validateType from '../util/validate-type';
+import createHtml from '../util/create-html';
 import {normalize,clamp} from '../util/MathUtils';
 
 import ObjectComponent from './ObjectComponent';

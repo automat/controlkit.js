@@ -1,5 +1,5 @@
 import EventEmitter from 'events';
-import createHtml from '../util/createHtml';
+import createHtml from '../util/create-html';
 import ComponentOptions from './ComponentOptions';
 
 const templatePresetWrap = `<div class="input-wrap-preset"></div>`;
@@ -8,6 +8,8 @@ const templatePresetButton = `<button class="btn-preset"></button>`;
 export default class ComponentPreset extends EventEmitter{
     constructor(input){
         super();
+        this.setMaxListeners(0);
+
         this._options = null;
 
         //elements

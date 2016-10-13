@@ -1,4 +1,4 @@
-import createHtml from '../util/createHtml';
+import createHtml from '../util/create-html';
 
 import {CSSColorStringMap} from './ColorString';
 
@@ -7,7 +7,7 @@ import {CSSColorStringMap} from './ColorString';
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 const template =
-    `<div id="control-kit-color-picker" class="panel">
+    `<div id="control-kit-color-picker" class="panel hide">
         <div class="panel-head">
             <label>Color Picker</label>
         </div>
@@ -283,30 +283,29 @@ export default class ColorPicker{
         document.addEventListener('mousemove',onColorHueMouseMove);
         document.addEventListener('mouseup',onColorHueMouseUp);
 
+        const constrain = (input)=>{
+            input.value = Math.min(Math.max(input.min,+input.value),input.max);
+            return input.value;
+        };
+
         const self = this;
         this._elementColorCompHSBH.addEventListener('input',function(){
-            this.value = Math.min(Math.max(this.min,+this.value),this.max);
-            self.colorHue = this.value;
+            self.colorHue = constrain(this);
         });
         this._elementColorCompHSBS.addEventListener('input',function(){
-            this.value = Math.min(Math.max(this.min,+this.value),this.max);
-            self.colorSaturation = this.value;
+            self.colorSaturation = constrain(this);
         });
         this._elementColorCompHSBB.addEventListener('input',function(){
-            this.value = Math.min(Math.max(this.min,+this.value),this.max);
-            self.colorBrightness = this.value;
+            self.colorBrightness = constrain(this);
         });
         this._elementColorCompRGBR.addEventListener('input',function(){
-            this.value = Math.min(Math.max(this.min,+this.value),this.max);
-            self.colorR = this.value;
+            self.colorR = constrain(this);
         });
         this._elementColorCompRGBG.addEventListener('input',function(){
-            this.value = Math.min(Math.max(this.min,+this.value),this.max);
-            self.colorG = this.value;
+            self.colorG = constrain(this);
         });
         this._elementColorCompRGBB.addEventListener('input',function(){
-            this.value = Math.min(Math.max(this.min,+this.value),this.max);
-            self.colorB = this.value;
+            self.colorB = constrain(this);
         });
 
         this._elementBtnPick.addEventListener('click',()=>{
@@ -374,7 +373,7 @@ export default class ColorPicker{
 
     /**
      * Returns the color-pickers x position.
-     * @param value
+     * @param {number} value
      */
     set x(value){
         this._state.x = Math.max(0,Math.min(value,window.innerWidth - this.width));
@@ -391,7 +390,7 @@ export default class ColorPicker{
 
     /**
      * Sets the color-pickers y position.
-     * @param value
+     * @param {number} value
      */
     set y(value){
         this._state.y = Math.max(0,Math.min(value,window.innerHeight - this.height));
@@ -408,7 +407,7 @@ export default class ColorPicker{
 
     /**
      * Returns the with of the color-picker.
-     * @return {*|number}
+     * @return {number}
      */
     get width(){
         return this._element.offsetWidth;
@@ -416,7 +415,7 @@ export default class ColorPicker{
 
     /**
      * Returns the height of the color-picker.
-     * @return {*|number}
+     * @return {number}
      */
     get height(){
         return this._element.offsetHeight;
@@ -496,7 +495,7 @@ export default class ColorPicker{
 
     /**
      * Sets the color r component.
-     * @param value
+     * @param {number} value
      */
     set colorR(value){
         const rgb = this.colorRGB;
@@ -513,7 +512,7 @@ export default class ColorPicker{
 
     /**
      * Sets the color g component.
-     * @param value
+     * @param {number} value
      */
     set colorG(value){
         const rgb = this.colorRGB;
@@ -530,7 +529,7 @@ export default class ColorPicker{
 
     /**
      * Sets the color b component.
-     * @param value
+     * @param {number} value
      */
     set colorB(value){
         const rgb = this.colorRGB;
@@ -547,7 +546,7 @@ export default class ColorPicker{
 
     /**
      * Sets the color from rgb components.
-     * @param value
+     * @param {number[]} value
      */
     set colorRGB(value){
         this._state.colorMode = 'rgb';
@@ -566,7 +565,7 @@ export default class ColorPicker{
 
     /**
      * Sets the color from rgb string.
-     * @param value
+     * @param {string} value
      */
     set colorRGBString(value){
         if(!isRgbaString(value)){
@@ -588,7 +587,7 @@ export default class ColorPicker{
 
     /**
      * Sets the color from hsb.
-     * @param value
+     * @param {number[]} value
      */
     set colorHSB(value){
         this._state.colorMode = 'hsb';
@@ -606,7 +605,7 @@ export default class ColorPicker{
 
     /**
      * Sets the current color hsb hue component.
-     * @param value
+     * @param {number} value
      */
     set colorHue(value){
         this._state.colorHSB[0] = value;
@@ -623,7 +622,7 @@ export default class ColorPicker{
 
     /**
      * Sets the current color hsb saturation component.
-     * @param value
+     * @param {number} value
      */
     set colorSaturation(value){
         this._state.colorHSB[1] = value;
@@ -640,7 +639,7 @@ export default class ColorPicker{
 
     /**
      * Set the color hsb brightness component.
-     * @param value
+     * @param {number} value
      */
     set colorBrightness(value){
         this._state.colorHSB[2] = value;
@@ -657,7 +656,7 @@ export default class ColorPicker{
 
     /**
      * Sets the color in hex format.
-     * @param value
+     * @param {number} value
      */
     set colorHEX(value){
         let hex = CSSColorStringMap[value] || CSSColorStringMap[value.toUpperCase()] || value;

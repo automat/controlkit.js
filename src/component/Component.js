@@ -1,5 +1,10 @@
 import validateOption from 'validate-option';
-import createHtml from '../util/createHtml';
+import createHtml from '../util/create-html';
+import validateType from '../util/validate-type';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+// Template / Defaults
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 const template =
     `<li class="component">
@@ -13,6 +18,10 @@ export const DefaultConfig = Object.freeze({
     labelRatio : null,
     annotation : null
 });
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+// Component
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 export default class Component{
     /**
@@ -36,6 +45,9 @@ export default class Component{
 
         this.label = this._state.label;
         this.labelRatio = this._state.labelRatio;
+        if(this._state.annotation){
+            this.setAnnotation(this._state.annotation.title,this._state.annotation.text);
+        }
     };
 
     /**
@@ -107,12 +119,19 @@ export default class Component{
 
     /**
      * Sets a annotation to be displayed on hover.
-     * @param {String} title - The title of the info annotation.
+     * @param {String} title_or_null - The title of the info annotation.
      * @param {String} text - The annotation body text.
      */
-    setAnnotation(title,text){
+    setAnnotation(title_or_null,text){
+        if(!title_or_null){
+
+
+            return;
+        }
+        validateType(title_or_null,String);
+        validateType(text,String);
         const annotation = this._state.annotation || {};
-        annotation.title = title;
+        annotation.title = title_or_null;
         annotation.text = text;
     }
 

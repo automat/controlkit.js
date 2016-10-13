@@ -1,6 +1,6 @@
 import validateOption from 'validate-option';
-import validateType from '../util/validateType';
-import createHtml from '../util/createHtml';
+import validateType from '../util/validate-type';
+import createHtml from '../util/create-html';
 
 import ObjectComponent from './ObjectComponent';
 

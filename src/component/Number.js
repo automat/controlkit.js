@@ -1,5 +1,5 @@
 import validateOption from 'validate-option';
-import validateType from '../util/validateType';
+import validateType from '../util/validate-type';
 
 import ObjectComponent from './ObjectComponent';
 import NumberInputInternal from './NumberInputInternal';

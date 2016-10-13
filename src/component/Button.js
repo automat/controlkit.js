@@ -1,5 +1,5 @@
 import Component from './Component';
-import createHtml from '../util/createHtml';
+import createHtml from '../util/create-html';
 import validateOption from 'validate-option';
 
 const template = '<button></button>';
@@ -35,6 +35,10 @@ export default class Button extends Component{
         this._elementButton.addEventListener('click',()=>{this._onChange.bind(this);});
     }
 
+    /**
+     * Set the button press callback.
+     * @param value
+     */
     set onChange(value){
         this._onChange = value;
     }
