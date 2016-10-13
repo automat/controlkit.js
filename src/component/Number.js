@@ -3,6 +3,7 @@ import validateType from '../util/validateType';
 import createHtml from '../util/createHtml';
 
 import ObjectComponent from './ObjectComponent';
+import NumberInputInternal from './NumberInputInternal';
 import ComponentPreset from './ComponentPreset';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -32,34 +33,12 @@ export const DefaultConfig = Object.freeze({
     min : null,
     max : null,
     fd : 4,
+    dp : null, //deprecated
     step : 0.25,
     stepShiftMult: 2,
     onChange : function(){},
     annotation : null
 });
-
-/**
- * Formats a value based on min / max constrains and fractional digits allowed.
- * @param x
- * @param min
- * @param max
- * @param fd
- * @return {*}
- */
-export function formatValue(x,min,max,fd){
-    x = +x;
-    if(min != null && max != null){
-        x = Number.isNaN(x) ? min : Math.max(min,Math.min(x,max));
-    } else if(min != null){
-        x = Number.isNaN(x) ? min : Math.max(min,x);
-    } else if(max != null){
-        x = Number.isNaN(x) ? max : Math.min(x,max);
-    } else {
-        x = Number.isNaN(x) ? 0 : x;
-    }
-    x = fd != null ? x.toFixed(fd) : x;
-    return x;
-}
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Number
@@ -77,6 +56,11 @@ export default class Number_ extends ObjectComponent{
 
         config = validateOption(config,DefaultConfig);
         config.label = config.label == null ? key : config.label;
+        config.fd = config.dp != null ? config.dp : config.fd;
+
+        if(config.dp){
+            console.warn('Number option dp is deprecated. Use fd to define the number of fractional digits displayed.');
+        }
 
         super(parent,object,key,{
             label : config.label,
@@ -85,108 +69,38 @@ export default class Number_ extends ObjectComponent{
         });
 
         //state
-        this._state.readonly = config.readonly;
-        this._state.min = config.min;
-        this._state.max = config.max;
-        this._state.fd = config.fd;
-        this._state.step = config.step;
-        this._state.stepShiftMult = config.stepShiftMult;
         this._state.preset = config.preset;
+
+        //input
+        this._input = new NumberInputInternal({
+            readonly : config.readonly,
+            min : config.min,
+            max : config.max,
+            fd : config.fd,
+            step : config.step,
+            stepShiftMult : config.stepShiftMult
+        });
+
+        this._input.on('input',()=>{
+            this.value = this._input.value;
+        });
+
+        this._input.on('change',()=>{
+            this.value = this._input.value;
+        });
 
         //elements
         this._element.classList.add('type-input');
-        this._elementInput = this._elementWrap.appendChild(createHtml(template));
-        //input set step, min, max
-        this._elementInput.setAttribute('step',this._state.step.toFixed(this._state.fd));
-        this._elementInput.setAttribute('min',this._state.min);
-        this._elementInput.setAttribute('max',this._state.max);
-
-        const formatValueFromInput = (value)=>{
-            this.value = this._elementInput.value = formatValue(value);
-        };
-
-        this._elementInput.addEventListener('input',()=>{
-            if(this._state.readonly){
-                return;
-            }
-            this.value = formatValue(this._elementInput.valueAsNumber);
-        });
-        //input format on enter
-        this._elementInput.addEventListener('change',()=>{
-            formatValueFromInput(this._elementInput.value);
-        });
-        //input format on step
-        this._elementInput.addEventListener('keydown',(e)=>{
-            if(this._state.readonly){
-                return;
-            }
-            let step = this._state.step;
-
-            if(step != null){
-                //manual mult stepping
-                if(e.shiftKey){
-                    step *= this._state.stepShiftMult;
-                    switch(e.code){
-                        case 'ArrowUp':
-                            formatValueFromInput(this._elementInput.valueAsNumber + step);
-                            break;
-                        case 'ArrowDown':
-                            formatValueFromInput(this._elementInput.valueAsNumber - step);
-                            break;
-                    }
-                }
-                //build-in step
-                else {
-                    switch(e.code){
-                        case 'ArrowUp':
-                        case 'ArrowDown':
-                            formatValueFromInput(this._elementInput.valueAsNumber);
-                            break;
-                    }
-                }
-            } else {
-                //prevent stepping
-                switch(e.code){
-                    case 'ArrowUp':
-                    case 'ArrowDown':
-                        e.preventDefault();
-                        break;
-                }
-            }
-        });
-
-        //input prevent mouse wheel stepping
-        const onMouseWheel = (e)=>{e.preventDefault();};
-        this._elementInput.addEventListener('mousewheel',onMouseWheel);
-        this._elementInput.addEventListener('wheel',onMouseWheel);
+        this._elementWrap.appendChild(this._input.element);
 
         //preset selection
-        this._preset = new ComponentPreset(this._elementInput);
+        this._preset = new ComponentPreset(this._input.element);
         this._preset.on('change',(option)=>{
             this.value = option;
         });
 
         //init
         this.preset = this._state.preset;
-        this.readonly = this._state.readonly;
-        this.min = this._state.min;
-        this.max = this._state.max;
-        this.sync();
-    }
-
-    /**
-     * Sets the min or max value.
-     * @param key
-     * @param value
-     * @private
-     */
-    _setMinMax(key,value){
-        this._state[key] = value;
-        if(value === null){
-            this._elementInput.removeAttribute(key);
-            return;
-        }
-        this._elementInput.setAttribute(key,value);
         this.sync();
     }
 
@@ -214,14 +128,47 @@ export default class Number_ extends ObjectComponent{
     }
 
     /**
+     * Sets the amount to step the value while pressing arrow up / down key.
+     * If null stepping gets deactivated.
+     * @param {number|null} x
+     */
+    set step(x){
+        this._input.step = x;
+    }
+
+    /**
+     * Returns the stepping value. If null no stepping is deactivated.
+     * @return {number|null}
+     */
+    get step(){
+        return this._input.step;
+    }
+
+    /**
+     * Sets the multiplier for value stepping while holding shift key.
+     * If null step multiplication gets deactivated.
+     * @param {number|null} x
+     */
+    set stepShiftMult(x){
+        this._input.stepShiftMult = x;
+    }
+
+    /**
+     * Returns the stepping multiplier. Returns null if deactivated.
+     * @return {number|null}
+     */
+    get stepShiftMult(){
+        return this._input.stepShiftMult;
+    }
+
+
+    /**
      * Sets a minimum value for the property. If set to null the value gets cleared.
      * @param {Number|null} value
      */
     set min(value){
-        if(value != null){
-            validateType(value,Number);
-        }
-        this._setMinMax('min',value);
+        this._input.min = value;
+        this.value = this._input.value;
     }
 
     /**
@@ -229,7 +176,7 @@ export default class Number_ extends ObjectComponent{
      * @returns {Number|null}
      */
     get min(){
-        return this._state.min;
+        return this._input.min;
     }
 
     /**
@@ -237,10 +184,8 @@ export default class Number_ extends ObjectComponent{
      * @param {Number|null} value
      */
     set max(value){
-        if(value != null){
-            validateType(value,Number);
-        }
-        this._setMinMax('max',value);
+        this._input.max = value;
+        this.value = this._input.value;
     }
 
     /**
@@ -248,7 +193,7 @@ export default class Number_ extends ObjectComponent{
      * @returns {Number|null}
      */
     get max(){
-        return this._state.max;
+        return this._input.max;
     }
 
     /**
@@ -256,11 +201,8 @@ export default class Number_ extends ObjectComponent{
      * @param {Boolean} value
      */
     set readonly(value){
-        validateType(value,Boolean);
-        this._elementInput.classList[value ? 'add' : 'remove']('readonly');
-        this._elementInput.readOnly = value;
+        this._input.readonly = value;
         this._preset.enable = value;
-        this._state.readonly = value;
     }
 
     /**
@@ -268,7 +210,7 @@ export default class Number_ extends ObjectComponent{
      * @returns {Boolean}
      */
     get readonly(){
-        return this._state.readonly;
+        return this._input.readonly;
     }
 
     /**
@@ -276,6 +218,7 @@ export default class Number_ extends ObjectComponent{
      * got changed externally.
      */
     sync(){
-        this._elementInput.value = formatValue(this.value);
+        this._input.value = this.value;
+        this.value = this._input.value;
     }
 }
