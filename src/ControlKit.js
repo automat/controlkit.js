@@ -1,96 +1,339 @@
-import EventDispatcher from "./core/event/EventDispatcher";
-import RendererEvent   from "./renderer/RendererEvent";
+import validateOption from 'validate-option';
+import validateKeys from 'validate-keys';
+import validateType from './util/validate-type';
+import createHtml from './util/create-html';
 
-import CanvasRenderer from "./renderer/CanvasRenderer/CanvasRenderer";
-import validateOption from "validate-option"
+import Panel from './group/Panel';
+import ComponentOptions from './component/ComponentOptions';
+import ColorPicker from './component/ColorPicker';
 
-const RENDERER_CANVAS = 'renderer-canvas';
-const RENDERER_DOM    = 'renderer-dom';
-const RENDERER_WEBGL  = 'renderer-webgl';
+// default configs
+import {DefaultConfig as PanelDefaultConfig} from './group/Panel';
+import {DefaultConfig as GroupDefaultConfig} from './group/Group';
+import {DefaultConfig as SubGroupDefaultConfig} from './group/SubGroup';
+import {DefaultConfig as NumberDefaultConfig} from './component/Number';
 
-const EMPTY_FUNC = ()=>{};
+/*--------------------------------------------------------------------------------------------------------------------*/
+// Template / Defaults
+/*--------------------------------------------------------------------------------------------------------------------*/
 
-const DefaultOptions = {
-    renderer : RENDERER_DOM,
+const template = `<section id="control-kit"></section>`;
+
+/**
+ * Default Control Kit config
+ * @type {Object}
+ * @property {Boolean} enabled
+ * @property {Number} opacity
+ * @property {Boolean} stateSaveLoad
+ * @property {String} shortcutCharHide
+ */
+export const DefaultConfig = Object.freeze({
     element : null,
-    debugDrawLayout : false,
-    debugDrawBounds : false,
-    debugDrawHover : false
+    enabled : true,
+    opacity : 1.0,
+    stateSaveLoad : true,
+    shortcutCharHide : 'h'
+});
+
+function validateDescription(description,defaults,excludes){
+    const config = Object.assign({},description);
+    for(const exclude of excludes){
+        if(description[exclude] === undefined){
+            throw new Error(`Description property "${exclude}" missing.`);
+        }
+        delete config[exclude];
+    }
+    validateKeys(config,Object.keys(defaults));
+    return config;
+}
+
+const excludesDescription = {
+    panel : ['groups'],
+    group : ['subGroups'],
+    subGroup : ['components'],
+    componentObject : ['type','object','key']
 };
 
-const ERR_STR_NO_CANVAS_PASSED = 'No canvas element passed.';
 
-class ControlKit extends EventDispatcher{
-    constructor(options = {}){
-        super();
-        options = validateOption(options,DefaultOptions);
+/*--------------------------------------------------------------------------------------------------------------------*/
+// Control Kit
+/*--------------------------------------------------------------------------------------------------------------------*/
 
-        let rendererOptions = {
-            debugDrawLayout : options.debugDrawLayout,
-            debugDrawBounds : options.debugDrawBounds,
-            debugDrawHover  : options.debugDrawHover
+export default class ControlKit{
+    /**
+     * @constructor
+     * @param config
+     */
+    constructor(config){
+        config = validateOption(config,DefaultConfig);
+
+        //state
+        this._state = {
+            enabled : config.enabled,
+            opacity: config.opacity,
+            stateSaveLoad : config.stateSaveLoad,
+            shortcutCharHide: config.shortcutCharHide,
         };
-        this._renderer = null;
-        this._onDraw   = EMPTY_FUNC;
 
-        let self = this;
+        this._panels = [];
 
+        //element
+        this._element = createHtml(template);
+        (config.element ? config.element : document.body).appendChild(this._element);
 
-        switch(options.renderer){
-            case RENDERER_CANVAS:
-                if(window && document){
-                    if(options.element === null){
-                        if(document.createElement){
-                            let canvas = document.createElement('canvas');
-                            canvas.width  = window.innerWidth || 800;
-                            canvas.height = window.innerHeight || 600;
-                            canvas.style.width  = canvas.width + 'px';
-                            canvas.style.height = canvas.height + 'px';
-                            document.body.appendChild(canvas);
-                            options.element = canvas;
-                        } else {
-                            throw new Error(ERR_STR_NO_CANVAS_PASSED);
-                        }
-                    }
-                    options.element.style.outline = 'none';
-                    options.element.setAttribute('tabindex',1);
-                    options.element.focus();
+        //listeners
+        const onActionShortcut = ()=>{
+            if(e.charCode !== this._state.shortcutCharHide){
+                return;
+            }
+            this.enable = !this.enable;
+        };
+        document.addEventListener('keypress',onActionShortcut);
 
-                } else if(options.element === null){
-                    throw new Error(ERR_STR_NO_CANVAS_PASSED);
-                }
+        this._removeEventListeners = ()=>{
+            document.removeEventListener('keypress',onActionShortcut);
+        };
 
-                this._renderer = new CanvasRenderer(options.element, rendererOptions);
-                this._renderer.addEventListener(RendererEvent.DRAW,(e)=>{
-                    self._onDraw(e);
-                    self.dispatchEvent(e);
-                });
+        //init options
+        const options = ComponentOptions.sharedOptions();
+        this._element.appendChild(options.element);
 
-                break;
+        //init picker
+        const picker = ColorPicker.sharedPicker();
+        this._element.appendChild(picker.element);
+        picker.x = window.innerWidth * 0.5 - picker.width * 0.5;
+        picker.y = window.innerHeight * 0.5 - picker.height * 0.5;
+    }
 
-            case RENDERER_DOM:
-                break;
+    _removeEventListeners(){}
 
-            case RENDERER_WEBGL:
-                break;
+    /**
+     * Returns ths last active panel.
+     * @return {Panel}
+     * @private
+     */
+    _backPanelValid(){
+        if(this._panels.length == 0){
+            this.addPanel();
+        }
+        return this._panels[this._panels.length - 1];
+    }
 
+    /**
+     * Adds a new panel to the control kit.
+     * @param config
+     * @return {*}
+     */
+    addPanel(config){
+        this._panels.push(new Panel(this,config));
+        return this._panels[this._panels.length - 1];
+    }
+
+    /**
+     * Creates a panel from description.
+     * @param description
+     * @example
+     * //create empty panel
+     * controlkit.add({
+     *     label: 'panel'
+     * });
+     * @example
+     * //create panel with group
+     * controlKit.add({
+     *     label : 'panel',
+     *     groups : [
+     *         {label : 'group a'},
+     *         {label : 'group b'}
+     *     ]
+     * });
+     * @example
+     * //create panel with groups and sub-groups
+     * controlKit.add({
+     *     label : 'panel',
+     *     groups : [{
+     *         label : 'group a',
+     *         subGroups : [
+     *             {label : 'sub-group a'},
+     *             {label : 'sub-group b'}
+     *         ]
+     *     }]
+     * });
+     * @example
+     * //create panel with groups, sub-groups and components
+     * controlKit.add({
+     *     label : 'panel',
+     *     groups : [{
+     *         label : 'group a',
+     *         subGroups : [{
+     *             label : 'sub-group a',
+     *             components : [
+     *                 {type:'number',object:obj,key:'property0'},
+     *                 {type:'slider',object:obj,key:'property0',range:[0,1]}
+     *             ]
+     *         }]
+     *     }]
+     * });
+     * @example
+     * //create panel with single auto-created group, sub-groups and components
+     * controlKit.add({
+     *     label : 'panel',
+     *     subGroups : [{
+     *         label : 'sub-group a',
+     *         components : [
+     *             {type:'number',object:obj,key:'property0'},
+     *             {type:'slider',object:obj,key:'property0',range:[0,1]}
+     *         ]
+     *     }]
+     * });
+     * @example
+     * //create panel with single auto-created group, sub-groups and components
+     * controlKit.add({
+     *     label : 'panel',
+     *     components : [
+     *         {type:'number',object:obj,key:'property0'},
+     *         {type:'slider',object:obj,key:'property0',range:[0,1]}
+     *     ]
+     * });
+     */
+    add(description){
+        //panel
+        if(description.groups){
+            validateType(description.groups,Array);
+            const config = validateDescription(
+                description,PanelDefaultConfig,
+                excludesDescription.panel
+            );
+            this.addPanel(config);
+            for(const group of description.groups){
+                this.add(group);
+            }
+            return this;
+        }
+
+        //group
+        if(description.subGroups){
+            validateType(description.subGroups,Array);
+            const config = validateDescription(
+                description,GroupDefaultConfig,
+                excludesDescription.group
+            );
+            this._backPanelValid().addGroup(config);
+            for(const subGroups of description.subGroups){
+                this.add(subGroups);
+            }
+            return this;
+        }
+
+        //sub-group
+        if(description.components){
+            validateType(description.components,Array);
+            const config = validateDescription(
+                description,SubGroupDefaultConfig,
+                excludesDescription.subGroup
+            );
+            this._backPanelValid()._backGroupValid().addSubGroup(config);
+            for(const component of description.components){
+                this.add(component);
+            }
+            return this;
+        }
+
+        //component
+        if(!description.type){
+            throw new Error('Component type description missing.');
+        }
+        validateType(description.type,String);
+        const subGroup = this._backPanelValid()._backGroupValid()._backSubGroupValid();
+        switch(description.type){
+            case 'number':{
+                const config = validateDescription(
+                    description,NumberDefaultConfig,
+                    excludesDescription.componentObject
+                );
+                subGroup.addNumber(
+                    description.object,
+                    description.key,
+                    config
+                );
+            }break;
             default:
-                throw new Error(`Invalid renderer "${options.renderer}"`);
-                break;
+                throw new Error(`Invalid component type "${description.type}".`);
+        }
+
+        return this;
+    }
+
+    /**
+     * If false all control kit panels are hidden.
+     * @param value
+     */
+    set enable(value){
+        this._state.enabled = value;
+        for(const panel of this._panels){
+            panel.enable = value;
         }
     }
 
-    set onDraw(func){
-        this._onDraw = (func === null || func === undefined) ? EMPTY_FUNC : func.bind(this);
+    /**
+     * Returns true if control kit is enabled.
+     * @return {*}
+     */
+    get enable(){
+        return this._state.enabled;
     }
 
-    get onDraw(){
-        return this._onDraw;
+    /**
+     * Returns the underlying root HTMLElement.
+     * @return {HTMLElement}
+     */
+    get element(){
+        return this._element;
     }
+
+    /**
+     * Syncs all component values.
+     */
+    sync(){
+        for(const panel of this._panels){
+            panel.sync();
+        }
+    }
+
+    /**
+     * Saves the current component state.
+     */
+    saveConfig(){}
+
+    /**
+     * Loads component states from external object.
+     */
+    loadConfig(state){}
+
+    /**
+     * Saves the current control kit layout configuration.
+     */
+    saveLayout(){};
+
+    /**
+     * Loads an external control kit layout configuration.
+     */
+    loadLayout(){};
+
+    /**
+     * Completely removes all panels and components.
+     */
+    clear(){
+        for(const panel of this._panels){
+            panel.clear();
+        }
+        this._panels = [];
+    };
+
+    getState(){
+        const state = Object.assign({},this._state);
+        state.panels = this._panels.map((item)=>{return item.getState()});
+        return state;
+    }
+
+
 }
-
-ControlKit.RENDERER_CANVAS = RENDERER_CANVAS;
-ControlKit.RENDERER_DOM = RENDERER_DOM;
-ControlKit.RENDERER_WEBGL = RENDERER_WEBGL;
-
-export default ControlKit;
