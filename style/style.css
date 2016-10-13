@@ -250,6 +250,15 @@
     cursor: default;
 }
 
+#control-kit .group .scroll-wrap .input-wrap input,
+#control-kit .sub-group .scroll-wrap .input-wrap input{
+    width: calc(100% - 5px); /* inset by scroll-bar width / 2 */
+}
+
+#control-kit .group .scroll-wrap .sub-group .scroll-wrap .input-wrap input{
+    width: calc(100% - 10px); /* inset by scroll-bar width */
+}
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* Group
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -455,6 +464,10 @@
     width: 100%;
 }
 
+#control-kit .component .input-wrap input[type="number"]{
+    float: right;
+}
+
 /* Type-Input Slider */
 
 #control-kit .slider{
@@ -462,6 +475,7 @@
     left: 0;
     right: 20px;
     height: 25px;
+    cursor: ew-resize;
 }
 
 #control-kit .slider-track{
