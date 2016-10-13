@@ -1,6 +1,6 @@
 import validateOption from 'validate-option';
 import Component from  './Component';
-import createPropProxy from '../util/createPropProxy';
+import createPropProxy from '../util/create-prop-proxy';
 
 const noop = function(){};
 
