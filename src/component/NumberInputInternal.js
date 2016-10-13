@@ -37,7 +37,7 @@ function formatValue(x,min,max,fd){
     } else {
         x = Number.isNaN(x) ? 0 : x;
     }
-    x = fd != null ? x.toFixed(fd) : x;
+    x = fd ? x.toFixed(fd) : x;
     return x;
 }
 
@@ -69,9 +69,6 @@ export default class NumberInputInternal extends EventEmitter{
         this._value = 0;
 
         this._element = createHtml('<input type="number">');
-        this._element.setAttribute('step',this._step.toFixed(this._fd));
-        this._element.setAttribute('min',this._min);
-        this._element.setAttribute('max',this._max);
 
         const formatInputValue = (x)=>{
             this._value = this._element.value = formatValue(x,this._min,this._max,this._fd);
@@ -81,8 +78,7 @@ export default class NumberInputInternal extends EventEmitter{
             if(this._readonly){
                 return;
             }
-            this._value = formatValue(this._element.valueAsNumber,this.min,this.max,this._fd);
-
+            this._value = formatValue(this._element.valueAsNumber,this._min,this._max,this._fd);
             this.emit('input')
         });
         //format on enter
@@ -96,28 +92,14 @@ export default class NumberInputInternal extends EventEmitter{
                 return;
             }
             let step = this._step;
-
-            if(step != null){
-                //manual mult stepping
-                if(e.shiftKey){
-                    step *= this._stepShiftMult;
-                    switch(e.code){
-                        case 'ArrowUp':
-                            formatInputValue(this._element.valueAsNumber + step);
-                            break;
-                        case 'ArrowDown':
-                            formatInputValue(this._element.valueAsNumber - step);
-                            break;
-                    }
-                }
-                //build-in step
-                else {
-                    switch(e.code){
-                        case 'ArrowUp':
-                        case 'ArrowDown':
-                            formatInputValue(this._element.valueAsNumber);
-                            break;
-                    }
+            if(step){
+                step *= this._stepShiftMult || 1;
+                if(e.code == 'ArrowUp' || e.code == 'ArrowDown'){
+                    step *= e.code == 'ArrowUp' ? 1 : -1;
+                    formatInputValue(this._element.valueAsNumber + step);
+                    this.emit('step');
+                    this.emit('input');
+                    e.preventDefault();
                 }
             } else {
                 //prevent stepping
@@ -136,6 +118,7 @@ export default class NumberInputInternal extends EventEmitter{
 
         this.value = this._value;
         this.readonly = this._readonly;
+        this.step = this._step;
         this.min = this._min;
         this.max = this._max;
     }
