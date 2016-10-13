@@ -30,7 +30,7 @@ const templateNumber =
      </div>`;
 
 /**
- *
+ * Slider default config
  * @type {Object}
  */
 export const DefaultConfig = Object.freeze({
@@ -42,7 +42,8 @@ export const DefaultConfig = Object.freeze({
     step : 1,
     numberInput : true,
     onChange : function(){},
-    annotation : null
+    annotation : null,
+    color : null
 });
 
 /**
@@ -82,6 +83,7 @@ export default class Slider extends ObjectComponent{
         this._state.type = config.type;
         this._state.range = config.range;
         this._state.numberInput = config.numberInput;
+        this._state.color = config.color;
         this._state.dragging = false;
 
         //optional input
@@ -169,6 +171,7 @@ export default class Slider extends ObjectComponent{
 
         //init
         this.range = this._state.range;
+        this.color = this._state.color;
         this.sync();
     }
 
@@ -242,6 +245,23 @@ export default class Slider extends ObjectComponent{
      */
     get max(){
         return this._state.range[1];
+    }
+
+    /**
+     * Sets the slider handle color. If null the default color is used.
+     * @param {null|string} value
+     */
+    set color(value){
+        this._state.color = value;
+        this._elementHandle.style.background = value;
+    }
+
+    /**
+     * Returns the handle color set. Returns null if the default color is used.
+     * @return {null|string}
+     */
+    get color(){
+        return this._state.color;
     }
 
     /**
