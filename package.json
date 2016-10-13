@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "validate-option": "^0.0.6",
+    "validate-keys" : "0.0.3",
     "brfs": "1.4.3",
     "deep-equal" : "1.0.1",
     "deepcopy" : "0.6.3"
