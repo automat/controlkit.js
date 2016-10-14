@@ -175,9 +175,8 @@ export default class Panel{
     _updateHeight(){
         const top = this._elementHead.getBoundingClientRect().bottom;
         const max = window.innerHeight;
-        const height = this._state.maxHeight ?
-                       Math.min(this._state.maxHeight,max - top) :
-                       max < top ? max : null;
+        const height = this._state.maxHeight ? Math.min(this._state.maxHeight,max - top) :
+                       max > top ? (max - top) : null;
         this._scrollContainer.setHeight(height);
     }
 
@@ -188,7 +187,7 @@ export default class Panel{
         }
         this._groups.slice(index,1);
         this._elementList.removeChild(group.element);
-        this._onGroupSizeChange();
+        this._updateHeight();
     }
 
     render(){
@@ -340,6 +339,7 @@ export default class Panel{
     set collapse(value){
         this._state.collapse = value;
         this._element.classList[value ? 'add' : 'remove']('collapse');
+        this._updateHeight();
     }
 
     /**
