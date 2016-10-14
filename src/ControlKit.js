@@ -85,16 +85,16 @@ export default class ControlKit{
         (config.element ? config.element : document.body).appendChild(this._element);
 
         //listeners
-        const onActionShortcut = ()=>{
-            if(e.charCode !== this._state.shortcutCharHide){
+        const onKeyPress = (e)=>{
+            if(e.key !== this._state.shortcutCharHide.toUpperCase() || !e.ctrlKey || !e.shiftKey){
                 return;
             }
             this.enable = !this.enable;
         };
-        document.addEventListener('keypress',onActionShortcut);
+        document.addEventListener('keypress',onKeyPress);
 
         this._removeEventListeners = ()=>{
-            document.removeEventListener('keypress',onActionShortcut);
+            document.removeEventListener('keypress',onKeyPress);
         };
 
         //init options
