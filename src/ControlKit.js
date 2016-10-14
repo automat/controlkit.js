@@ -11,6 +11,7 @@ import ColorPicker from './component/ColorPicker';
 import {DefaultConfig as PanelDefaultConfig} from './group/Panel';
 import {DefaultConfig as GroupDefaultConfig} from './group/Group';
 import {DefaultConfig as SubGroupDefaultConfig} from './group/SubGroup';
+import {DefaultConfig as ButtonDefaultConfig} from  './component/Button';
 import {DefaultConfig as NumberDefaultConfig} from './component/Number';
 import {DefaultConfig as SliderDefaultConfig} from './component/Slider';
 
@@ -52,7 +53,8 @@ const excludesDescription = {
     panel : ['groups'],
     group : ['subGroups'],
     subGroup : ['components'],
-    componentObject : ['type','object','key']
+    componentObject : ['type','object','key'],
+    componentButton : ['type','name']
 };
 
 
@@ -195,8 +197,38 @@ export default class ControlKit{
      *         {type:'slider',object:obj,key:'property0',range:[0,1]}
      *     ]
      * });
+     * @example
+     * //assumptions
+     *
+     * //creates an empty panel
+     * controlKit.add({});
+     *
+     * //creates two empty panels
+     * controlKit.add([
+     *     {},
+     *     {}
+     * ]);
+     *
+     * //creates a default panel + group with two sub-groups including components
+     * controlKit.add([
+     *     {label: 'group a', components : [{type:'number',object:obj,key:'propertyA'}]},
+     *     {label: 'group a', components : [{type:'number',object:obj,key:'propertyB'}]]},
+     * ]);
+     *
+     * //creates a default panel + group + sub-group structure from an array of components
+     * controlKit.add([
+     *      {type:'number',object:obj,key:'property0'},
+     *      {type:'slider',object:obj,key:'property0',range:[0,1]}
+     * ])
      */
     add(description){
+        //array of descriptions
+        if(description instanceof Array){
+            for(const item of description){
+                this.add(item);
+            }
+            return this;
+        }
         //panel
         if(description.groups){
             validateType(description.groups,Array);
@@ -237,6 +269,10 @@ export default class ControlKit{
         validateType(description.type,String);
         const subGroup = this._backPanelValid()._backGroupValid()._backSubGroupValid();
         switch(description.type){
+            case 'button':{
+                const config = validateDescription(description,ButtonDefaultConfig,excludesDescription.componentButton);
+                subGroup.addButton(config.name,config);
+            }break;
             case 'number':{
                 const config = validateDescription(description,NumberDefaultConfig,excludesDescription.componentObject);
                 subGroup.addNumber(description.object,description.key,config);
