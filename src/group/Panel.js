@@ -86,9 +86,10 @@ export default class Panel{
         this._scrollContainer = new ScrollContainer(this._elementList);
         this._groups = [];
 
-        //action collaps
-        const onCollapse = ()=>{
+        //action collapse
+        const onCollapse = (e)=>{
             this.collapse = !this.collapse;
+            e.stopPropagation();
         };
 
         //panel drag
@@ -149,6 +150,7 @@ export default class Panel{
         document.addEventListener('mouseup',onHeadDragEnd);
         this._elementHead.addEventListener('dblclick',onCollapse);
         this._elementClose.addEventListener('click',onCollapse);
+        this._elementClose.addEventListener('dblclick',(e)=>{e.stopPropagation();});
         this._elementLoad.addEventListener('click',onSave);
         this._elementSave.addEventListener('click',onLoad);
 
