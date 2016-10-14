@@ -1,6 +1,7 @@
 import validateOption from 'validate-option';
 import createHtml from '../util/create-html';
 import validateType from '../util/validate-type';
+import EventEmitter from 'events';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
@@ -23,7 +24,7 @@ export const DefaultConfig = Object.freeze({
 // Component
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-export default class Component{
+export default class Component extends EventEmitter{
     /**
      * @constructor
      * @param {SubGroup} parent - The parent sub-group
@@ -31,6 +32,9 @@ export default class Component{
      */
     constructor(parent,config){
         config = validateOption(config,DefaultConfig);
+
+        super();
+        this.setMaxListeners(0);
 
         this._state = {
             label : config.label,
