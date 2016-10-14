@@ -1,4 +1,4 @@
-import StringInputInternal from '../../src/component/StringInputInternal';
+import StringInputInternal from '../../src/component/internal/StringInputInternal';
 
 function main(){
     const a = new StringInputInternal({placeholder:'Single'});

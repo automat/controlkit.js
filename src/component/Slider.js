@@ -5,7 +5,7 @@ import createHtml from '../util/create-html';
 import {normalize,clamp} from '../util/MathUtils';
 
 import ObjectComponent from './ObjectComponent';
-import NumberInputInternal from './NumberInputInternal';
+import NumberInputInternal from './internal/NumberInputInternal';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults

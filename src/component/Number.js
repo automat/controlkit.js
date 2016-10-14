@@ -2,7 +2,7 @@ import validateOption from 'validate-option';
 import validateType from '../util/validate-type';
 
 import ObjectComponent from './ObjectComponent';
-import NumberInputInternal from './NumberInputInternal';
+import NumberInputInternal from './internal/NumberInputInternal';
 import ComponentPreset from './ComponentPreset';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
