@@ -3,9 +3,7 @@
 .git*
 .temp
 examples/
-utils/
 bin/
-images/
 style/
 test/
-README.md
+design/
