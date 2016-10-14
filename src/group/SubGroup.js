@@ -151,6 +151,10 @@ export default class SubGroup extends AbstractGroup{
     _addComponent(component){
         this._components.push(component);
         component.labelRatio = this._state.labelRatio;
+        component.on('size-change',()=>{
+            this._updateHeight();
+            this.emit('size-change');
+        });
         this._updateHeight();
         this.emit('size-change');
         return this;
