@@ -3,6 +3,10 @@ import EventEmitter from 'events';
 import validateType from '../util/validate-type';
 import Reference from '../Reference';
 
+/*--------------------------------------------------------------------------------------------------------------------*/
+// Defaults
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 const DefaultConfig = Object.freeze({
     id : null,
     label  : null,
@@ -10,6 +14,10 @@ const DefaultConfig = Object.freeze({
     enable : true,
     height : null
 });
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+// Abstract Group
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 export default class AbstractGroup extends EventEmitter{
     /**
