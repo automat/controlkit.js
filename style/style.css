@@ -69,6 +69,7 @@
 }
 
 #control-kit input,
+#control-kit textarea,
 #control-kit .slider{
     box-sizing: border-box;
     padding: 0;
@@ -82,6 +83,7 @@
 
 #control-kit input[type="text"],
 #control-kit input[type="number"],
+#control-kit textarea,
 #control-kit .input-background,
 #control-kit .slider{
     box-sizing: border-box !important;
@@ -91,12 +93,30 @@
     padding: 0 8px;
 }
 
-#control-kit input[type="number"]{
+#control-kit textarea{
+    resize: vertical;
+    padding-top: 4px;
+    padding-bottom: 6px;
+    height: auto;
+    margin-bottom: 0;
+    vertical-align: bottom;
+    /*firefox*/
+    overflow:-moz-scrollbars-none;
+}
+
+#control-kit textarea::-webkit-scrollbar{
+    display: none;
+}
+
+
+#control-kit input[type="number"],
+#control-kit textarea{
     padding-right: 2px;
 }
 
 #control-kit input[type="text"].readonly,
-#control-kit input[type="number"].readonly{
+#control-kit input[type="number"].readonly,
+#control-kit textarea.readonly{
     border: 1px solid #1E2224;
     border-radius: 2px;
     background-image: none;
