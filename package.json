@@ -13,6 +13,10 @@
     "email": "hwollik@hotmail.com",
     "url": "http://henrykwollik.com"
   },
+  "scripts": {
+    "create-temp" : "node scripts/create-temp.js",
+    "browserify-temp" : "node scripts/build-temp.js"
+  },
   "main": "index.js",
   "browserify": {
     "transform": [["babelify", { "presets": ["es2015"] }],"brfs"]
@@ -30,7 +34,8 @@
     "clean-css": "2.2.x",
     "through": "2.3.x",
     "babel-preset-es2015": "^6.6.0",
-    "babelify": "^7.2.0"
+    "babelify": "^7.2.0",
+    "minimist" : "1.2.0"
   },
   "repository": {
     "type": "git",
