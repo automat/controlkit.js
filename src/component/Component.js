@@ -55,18 +55,18 @@ export default class Component extends EventEmitter{
     };
 
     /**
-     * Sets the component label. If the value passed is null the label gets
+     * Sets the component label. If the value passed is 'none' the label gets
      * removed.
      * @param {String|null} value
      */
     set label(value){
         this._state.label = value;
-        if(value === null){
+        if(value === 'none'){
             this._elementLabel.innerText = '';
             this._element.classList.add('hide-label');
             return;
         }
-        this._elementLabel.innerText = value === 'none' ? '' : value;
+        this._elementLabel.innerText = value === null ? '' : value;
         this._element.classList.remove('hide-label');
     }
 
