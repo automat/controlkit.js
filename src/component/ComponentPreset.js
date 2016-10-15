@@ -52,12 +52,11 @@ export default class ComponentPreset extends EventEmitter{
      * @param value
      */
     set options(value){
-        if(!(value instanceof Array)){
-            throw new Error('Options not of type "Array".');
-        }
-
         //add
         if(value){
+            if(!(value instanceof Array)){
+                throw new Error('Options not of type "Array".');
+            }
             this._parent.removeChild(this._input);
             this._parent.appendChild(this._elementWrap);
             this._parent.appendChild(this._elementButton);
