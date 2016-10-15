@@ -39,6 +39,7 @@ const noop = ()=>{};
 export default class StringInputInternal extends EventEmitter{
     constructor(config){
         config = validateOption(config,DefaultConfig);
+
         super();
         this.setMaxListeners(0);
 
