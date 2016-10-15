@@ -1,23 +1,37 @@
 import validateOption from 'validate-option';
 import validateType from '../util/validate-type';
-import createHtml from '../util/create-html';
 
+import StringInputInternal from './internal/StringInputInternal';
 import ObjectComponent from './ObjectComponent';
 import ComponentPreset from './ComponentPreset';
 
+/*--------------------------------------------------------------------------------------------------------------------*/
+// Defaults
+/*--------------------------------------------------------------------------------------------------------------------*/
 
-const templateSingle = '<input type="text">';
-const templateMulti = '<textarea></textarea>';
+const noop = ()=>{};
 
+/**
+ * Default config
+ * @type {Object}
+ */
 export const DefaultConfig = Object.freeze({
     label : null,
     readonly : false,
     multiline : false,
-    maxLines : 2,
+    lines : 1,
+    fitToContent : false,
+    maxHeight : null,
+    resize : false,
+    placeholder : null,
     preset: null,
-    onChange : function(){},
+    onChange : noop,
     annotation : null
 });
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+// String
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 export default class String_ extends ObjectComponent{
     constructor(parent,object,key,config){
@@ -33,112 +47,154 @@ export default class String_ extends ObjectComponent{
         });
 
         //state
-        this._state.readonly = config.readonly;
-        this._state.multiline = config.multiline;
         this._state.preset = config.preset;
+
+        //input
+        this._input = new StringInputInternal({
+            readonly : config.readonly,
+            multiline : config.multiline,
+            lines : config.lines,
+            fitToContent : config.fitToContent,
+            maxHeight : config.maxHeight,
+            resize : config.resize,
+            placeholder : config.placeholder
+        });
 
         //elements
         this._element.classList.add('type-input');
-        this._elementInput = this._elementWrap.appendChild(createHtml(templateSingle));
+        this._elementWrap.appendChild(this._input.element);
 
-        //preset selection
-        this._preset = new ComponentPreset(this._elementInput);
+        //height update
+        if(this._input.multiline){
+            const computedStyle = window.getComputedStyle(this._element);
+            const paddingTop = parseInt(computedStyle.paddingTop);
+            const paddingBottom = parseInt(computedStyle.paddingBottom);
+            const offset = 1.5; //FIXME: Non-manual offset set.
+
+            const updateHeight = ()=>{
+                const height = paddingTop + this._input.height + paddingBottom + offset;
+                this._element.style.height = height + 'px';
+            };
+            this._input.on('size-change',updateHeight);
+            updateHeight();
+        }
+
+        //preset
+        this._preset = new ComponentPreset(this._input.element);
         this._preset.on('change',(option)=>{
             this.value = option;
         });
 
         //init
-        this.preset = this._state.preset;
-        this.readonly = this._state.readonly;
-        this.multiline = this._state.multiline;
-        this.maxLines = this._state.maxLines;
+        this.preset = this._state.preset,
         this.sync();
     }
 
     /**
      * Sets the available presets to be used.
-     * @param {Number[]|null} value
+     * @param {string[]|null} value
      */
     set preset(value){
+        if(value != null){
+            validateType(value,Array);
+        }
         this._preset.options = this._state.preset = value || null;
-        this._preset.enable = !!value;
     }
 
     /**
      * Returns the current presets.
-     * @returns {Number[]|null}
+     * @returns {string[]|null}
      */
     get preset(){
-        return this._state.preset ? this._state.preset.slice(0) : null;
+        return this._preset ? this._preset.slice(0) : null;
     }
 
     /**
-     * Enables / disables multiline text.
-     * @param {boolean} value
+     * Sets a placeholder string. If null no placeholder is used.
+     * @param {string|null} value
      */
-    set multiline(value){
-        // this._elementWrap.removeChild(this._elementInput);
-        // if(value){
-        //     this._elementInput = document.createElement('textarea');
-        // } else {
-        //     this._elementInput = document.createElement('input');
-        //     this._elementInput.setAttribute('type','text');
-        // }
-        // this._elementWrap.appendChild(this._elementInput);
-        //
-        // this._elementInput.addEventListener('input',()=>{
-        //     if(this._state.readonly){
-        //         return;
-        //     }
-        //     this.value = this._elementInput.value;
-        // })
+    set placeholder(value){
+        this._input.placeholder = value;
     }
 
     /**
-     * Returns true if multiline text is enabled
-     * @returns {boolean}
+     * Returns the placeholder set. Returns null if no placeholder set.
+     * @return {string|null}
+     */
+    get placeholder(){
+        return this._input.placeholder;
+    }
+
+    /**
+     * Returns true if multiline display is enabled.
+     * @return {boolean}
      */
     get multiline(){
-        return this._state.multiline;
+        return this._input.multiline;
     }
 
     /**
-     * Sets tex maximum number of lines within a multiline string component.
+     * Sets the number of lines displayed. Lines default to 1 of multiline is false.
      * @param {number} value
      */
-    set maxLines(value){
-        this._state.maxLines = value;
-        // if(!this._state.multiline){
-        //     return;
-        // }
-        //calc text area height
+    set lines(value){
+        this._input.lines = value;
     }
 
     /**
-     * Returns the number of lines set.
-     * @returns {number}
+     * Returns the number of lines displayed. Returns 1 if multiline is false.
+     * @return {number}
      */
-    get maxLines(){
-        return this._state.maxLines;
+    get lines(){
+        return this._input.lines;
     }
 
     /**
-     * Enables / disables component write ability.
-     * @param value
+     * If true the multiline input automatically adjusts to its content vertically.
+     * @param {boolean} value
+     */
+    set fitToContent(value){
+        this._input.fitToContent = value;
+    }
+
+    /**
+     * Returns true if the multiline input automatically adjusts to its content vertically.
+     * @return {boolean}
+     */
+    get fitToContent(){
+        return this._input.fitToContent;
+    }
+
+    /**
+     * Sets the maximum height for multiline input. If null no max height gets applied.
+     * @param {number|null} value
+     */
+    set maxHeight(value){
+        this._input.maxHeight = value;
+    }
+
+    /**
+     * Returns the max height set for multiline inputs. Returns null if no max height set.
+     * @return {number|null}
+     */
+    get maxHeight(){
+        return this._input.maxHeight;
+    }
+
+    /**
+     * If true the input is read-only.
+     * @param {boolean} value
      */
     set readonly(value){
-        this._elementInput.classList[value ? 'add' : 'remove']('readonly');
-        this._elementInput.readOnly = value;
-        this._preset.enable = value;
-        this._state.readonly = value;
+        this._input.readonly = value;
     }
 
     /**
-     * Return true if the component is readonly.
-     * @returns {*}
+     * Returns true if the input is read-only.
+     * @return {boolean}
      */
     get readonly(){
-        return this._state.readonly;
+        return this._input.readonly;
     }
 
     /**
@@ -146,7 +202,6 @@ export default class String_ extends ObjectComponent{
      * got changed externally.
      */
     sync(){
-        this._elementInput.value = this.value;
+        this._input.value = this.value;
     }
-
 }
