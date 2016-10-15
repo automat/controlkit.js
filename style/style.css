@@ -98,8 +98,9 @@
     padding-top: 4px;
     padding-bottom: 6px;
     height: auto;
+    min-height: 25px;
     margin-bottom: 0;
-    vertical-align: bottom;
+    /*vertical-align: bottom;*/
     /*firefox*/
     overflow:-moz-scrollbars-none;
 }
