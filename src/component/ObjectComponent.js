@@ -21,6 +21,8 @@ export default class ObjectComponent extends Component{
      */
     constructor(parent,object,key,config){
         config = validateOption(config,DefaultConfig);
+        config.label = !config.label ? key : config.label;
+
         super(parent,{
             label : config.label,
             labelRatio : config.labelRatio,
