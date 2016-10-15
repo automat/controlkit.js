@@ -227,7 +227,7 @@
 /* Scroll-Bar
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-.scroll-wrap{
+#control-kit .scroll-wrap{
     position: relative;
     overflow: hidden;
 }
@@ -281,6 +281,52 @@
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+/* Options
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#control-kit .component-options{
+    box-sizing: border-box;
+    position: absolute;
+    max-width: 300px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #fff;
+    background: #383838;
+    z-index: 2;
+    border: 1px solid #1A1A1A;
+    box-shadow: inset 0px 1px 0px 0px #424242;
+    border-radius: 0px 0px 2px 2px;
+    cursor: pointer;
+    pointer-events:auto;
+}
+
+#control-kit .component-options.hide{
+    display: none;
+}
+
+#control-kit .component-options li{
+    width: 100%;
+    min-height: 25px;
+    font-size: 12px;
+    overflow: hidden;
+}
+
+#control-kit .component-options li:first-of-type:hover{
+    box-shadow: inset 0px 1px 0px 0px #383838;
+}
+
+#control-kit .component-options li:hover{
+    background: #2E2E2E;
+}
+
+#control-kit .component-options li.primitive{
+    box-sizing: border-box;
+    padding: 6px 9px 5px 8px;
+
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
 /* Group
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -323,7 +369,8 @@
 
 #control-kit .group-head,
 #control-kit .sub-group-head,
-#control-kit .btn-preset{
+#control-kit .btn-preset,
+#control-kit .btn-preset:hover{
     background-image: url("assets/images/arrow-down.svg");
 }
 
