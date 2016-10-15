@@ -34,11 +34,11 @@ export default class ComponentOptions extends EventEmitter{
      * @param {HTMLElement} element
      */
     set target(element){
+        this._target = element;
         const bounds = element.getBoundingClientRect();
+        this._element.style.minWidth = bounds.width + 'px';
         this._element.style.left = bounds.left + 'px';
         this._element.style.top = bounds.bottom - 1 + 'px';
-        this._element.style.width = bounds.width + 'px';
-        this._target = element;
     }
 
     /**
@@ -73,7 +73,7 @@ export default class ComponentOptions extends EventEmitter{
             if(item instanceof Number || typeof item === 'number' ||
                item instanceof String || typeof item === 'string'){
                 li.classList.add('primitive');
-                li.innerText = item;
+                li.textContent = item;
             }
             //color
             else if(false) {
