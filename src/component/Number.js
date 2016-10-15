@@ -52,7 +52,6 @@ export default class Number_ extends ObjectComponent{
         validateType(object,key,Number);
 
         config = validateOption(config,DefaultConfig);
-        config.label = config.label == null ? key : config.label;
         config.fd = config.dp != null ? config.dp : config.fd;
 
         if(config.dp){
