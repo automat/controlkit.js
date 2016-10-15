@@ -78,11 +78,17 @@ export default class StringInputInternal extends EventEmitter{
                 if(height == null){
                     return;
                 }
-                if(this._element.offsetHeight == height){
+                const offsetHeight = this._element.offsetHeight;
+                if(offsetHeight == height){
                     return;
                 }
+                height = offsetHeight;
+                //constrain
+                if(this._maxHeight && height > this._maxHeight){
+                    height = this._maxHeight;
+                    this._element.style.height = height + 'px';
+                }
                 this.emit('size-change');
-                height = this._element.offsetHeight;
             };
             const onMouseUp = ()=>{
                 if(height == null || this._element.offsetHeight == height){
