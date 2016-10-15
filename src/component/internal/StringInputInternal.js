@@ -136,12 +136,30 @@ export default class StringInputInternal extends EventEmitter{
     }
 
     /**
+     * Constrains the input to a max height set.
+     * @private
+     */
+    _constrainHeight(){
+        if(!this._maxHeight){
+            return;
+        }
+        const offsetHeight = this._element.offsetHeight;
+        if(offsetHeight == this._maxHeight){
+            return;
+        }
+        this._element.style.height = offsetHeight < this._maxHeight ?
+                                     null : (this._maxHeight + 'px');
+        this.emit('size-change');
+    }
+
+    /**
      * Sets the input value.
      * @param {string} value
      */
     set value(value){
         this._value = value;
         this._element.value = value;
+        this._constrainHeight();
     }
 
     /**
@@ -193,6 +211,8 @@ export default class StringInputInternal extends EventEmitter{
         validateType(value,Number);
         this._lines = value;
         this._element.rows = value;
+        this._updateHeight();
+        this._constrainHeight();
     }
 
     /**
@@ -236,6 +256,7 @@ export default class StringInputInternal extends EventEmitter{
         }
         this._maxHeight = value;
         this._updateHeight();
+        this._constrainHeight();
     }
 
     /**
