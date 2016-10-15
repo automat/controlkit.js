@@ -18,7 +18,7 @@ const templateMulti = '<textarea></textarea>';
  * @property {number} lines - The number of lines to be displayed. (multiline must be enabled)
  * @property {boolean} fitToContent - If true the input automatically vertically grows to its content. (multiline must be enabled)
  * @property {null|number} maxHeight - The maximum height for multiline input.
- *  @property {null|string} placeholder - A placeholder value to be used.
+ * @property {null|string} placeholder - A placeholder value to be used.
  */
 export const DefaultConfig = Object.freeze({
     readonly : false,
@@ -118,9 +118,11 @@ export default class StringInputInternal extends EventEmitter{
         if(!this._fitToContent){
             return;
         }
+        //reset height set
+        this._element.style.height = null;
         const height = this._element.offsetHeight;
         const heightScroll = this._element.scrollHeight;
-        if(height === heightScroll){
+        if(height == heightScroll){
             return;
         }
         this._element.style.height = Math.max(heightScroll,this._maxHeight || 0) + 'px';
@@ -207,7 +209,6 @@ export default class StringInputInternal extends EventEmitter{
         validateType(value,Boolean);
         this._fitToContent = value;
         this._updateHeight();
-
     }
 
     /**
