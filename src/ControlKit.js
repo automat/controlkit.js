@@ -13,6 +13,7 @@ import {DefaultConfig as GroupDefaultConfig} from './group/Group';
 import {DefaultConfig as SubGroupDefaultConfig} from './group/SubGroup';
 import {DefaultConfig as ButtonDefaultConfig} from  './component/Button';
 import {DefaultConfig as NumberDefaultConfig} from './component/Number';
+import {DefaultConfig as StringDefaultConfig} from './component/String';
 import {DefaultConfig as SliderDefaultConfig} from './component/Slider';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -276,6 +277,10 @@ export default class ControlKit{
             case 'number':{
                 const config = validateDescription(description,NumberDefaultConfig,excludesDescription.componentObject);
                 subGroup.addNumber(description.object,description.key,config);
+            }break;
+            case 'string':{
+                const config = validateDescription(description,StringDefaultConfig,excludesDescription.componentObject);
+                subGroup.addString(description.object,description.key,config);
             }break;
             case 'slider':{
                 const config = validateDescription(description,SliderDefaultConfig,excludesDescription.componentObject);
