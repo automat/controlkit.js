@@ -10,10 +10,22 @@ import EventEmitter from 'events';
 const templateSingle = '<input type="text">';
 const templateMulti = '<textarea></textarea>';
 
+/**
+ * Default config
+ * @type {Object}
+ * @property {boolean} readonly - If true the input is readonly.
+ * @property {boolean} multiline - If true multiple lines can be displayed.
+ * @property {number} lines - The number of lines to be displayed. (multiline must be enabled)
+ * @property {boolean} fitToContent - If true the input automatically vertically grows to its content. (multiline must be enabled)
+ * @property {null|number} maxHeight - The maximum height for multiline input.
+ *  @property {null|string} placeholder - A placeholder value to be used.
+ */
 export const DefaultConfig = Object.freeze({
     readonly : false,
     multiline : false,
     lines : 1,
+    fitToContent : false,
+    maxHeight : null,
     resize : false,
     placeholder : null
 });
@@ -34,6 +46,8 @@ export default class StringInputInternal extends EventEmitter{
         this._readonly = config.readonly;
         this._multiline = config.multiline;
         this._lines = config.lines || 1;
+        this._fitToContent = config.fitToContent;
+        this._maxHeight = config.maxHeight;
         this._resize = config.resize;
         this._placeholder = config.placeholder;
 
@@ -45,15 +59,18 @@ export default class StringInputInternal extends EventEmitter{
             }
             this._value = this._element.value;
             this.emit('input');
+            this._updateHeight();
         });
         this._element.addEventListener('change',()=>{
             this._value = this._element.value;
             this.emit('change');
+            this._updateHeight();
         });
 
         //vertical resize event
         if(this._multiline){
             let height = null;
+            //FIXME: Safari does not register ANY events on the resize handler
             this._element.addEventListener('mousedown',()=>{
                 height = this._element.offsetHeight;
             });
@@ -88,8 +105,26 @@ export default class StringInputInternal extends EventEmitter{
         this.value = this._value;
         this.readonly = this._readonly;
         this.lines = this._lines;
+        this.fitToContent = this._fitToContent;
         this.resize = this._resize;
         this.placeholder = this._placeholder;
+    }
+
+    /**
+     * Updates the input height to its content.
+     * @private
+     */
+    _updateHeight(){
+        if(!this._fitToContent){
+            return;
+        }
+        const height = this._element.offsetHeight;
+        const heightScroll = this._element.scrollHeight;
+        if(height === heightScroll){
+            return;
+        }
+        this._element.style.height = Math.max(heightScroll,this._maxHeight || 0) + 'px';
+        this.emit('size-change');
     }
 
     /**
@@ -161,6 +196,50 @@ export default class StringInputInternal extends EventEmitter{
     }
 
     /**
+     * If true the multiline input automatically adjusts to its content vertically.
+     * @param {boolean} value
+     */
+    set fitToContent(value){
+        if(!this._multiline){
+            this._grow = false;
+            return;
+        }
+        validateType(value,Boolean);
+        this._fitToContent = value;
+        this._updateHeight();
+
+    }
+
+    /**
+     * Returns true if the multiline input automatically adjusts to its content vertically.
+     * @return {boolean}
+     */
+    get fitToContent(){
+        return this._fitToContent;
+    }
+
+    /**
+     * Sets the maximum height for multiline input. If null no max height gets applied.
+     * @param {number|null} value
+     */
+    set maxHeight(value){
+        if(!this._multiline){
+            this._maxHeight = null;
+            return;
+        }
+        this._maxHeight = value;
+        this._updateHeight();
+    }
+
+    /**
+     * Returns the max height set for multiline inputs. Returns null if no max height set.
+     * @return {number|null}
+     */
+    get maxHeight(){
+        return this._maxHeight;
+    }
+
+    /**
      * If true the input is read-only.
      * @param {boolean} value
      */
@@ -177,6 +256,14 @@ export default class StringInputInternal extends EventEmitter{
      */
     get readonly(){
         return this._readonly;
+    }
+
+    /**
+     * Returns the current inputs height.
+     * @return {number}
+     */
+    get height(){
+        return this._element.offsetHeight;
     }
 
     /**
