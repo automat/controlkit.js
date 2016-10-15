@@ -295,8 +295,8 @@
     background: #383838;
     z-index: 2;
     border: 1px solid #1A1A1A;
-    box-shadow: inset 0px 1px 0px 0px #424242;
-    border-radius: 0px 0px 2px 2px;
+    box-shadow: inset 0 1px 0 0 #424242;
+    border-radius: 0 0 2px 2px;
     cursor: pointer;
     pointer-events:auto;
 }
