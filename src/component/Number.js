@@ -94,6 +94,7 @@ export default class Number_ extends ObjectComponent{
         this._preset = new ComponentPreset(this._input.element);
         this._preset.on('change',(option)=>{
             this.value = option;
+            this.sync();
         });
 
         //init
