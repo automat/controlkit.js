@@ -7,16 +7,6 @@ import createHtml from '../util/create-html';
 
 const template = '<ul class="component-options"></ul>';
 
-/**
- * The option list type.
- */
-export const Type = Object.freeze({
-    PRIMITIVE : 'primitive',
-    COLOR : 'color',
-    IMAGE : 'image',
-    VIDEO : 'video'
-});
-
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Component options
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -30,7 +20,6 @@ export default class ComponentOptions extends EventEmitter{
         this.setMaxListeners(0);
 
         this._target = null;
-        this._type = Type.PRIMITIVE;
         this._enabled = false;
         this._options = null;
 
@@ -38,21 +27,6 @@ export default class ComponentOptions extends EventEmitter{
         this._element.addEventListener('mousedown',()=>{
             this.enable = false;
         })
-    }
-
-    /**
-     * Sets the type of the list.
-     * @param value
-     */
-    set type(value){
-        this._type = value;
-    }
-
-    /**
-     * Returns the type of the list.
-     */
-    get type(){
-        return this._type;
     }
 
     /**
@@ -80,11 +54,14 @@ export default class ComponentOptions extends EventEmitter{
      * @param {null|*} value
      */
     set options(value){
+        //remove prev elements
         while(this._element.firstChild){
             this._element.removeChild(this._element.firstChild);
         }
+        //hide
         if(!value){
             this._options = null;
+            this.enable = false;
             return;
         }
         this._options = value;
@@ -99,11 +76,21 @@ export default class ComponentOptions extends EventEmitter{
                 li.innerText = item;
             }
             //color
+            else if(false) {
 
+            }
             //image
+            else if(false) {
 
+            }
             //video
+            else if(false){
 
+            }
+            //not supproted
+            else {
+
+            }
             //listener
             li.addEventListener('mousedown',()=>{
                 this.emit('change',this._target,item);
