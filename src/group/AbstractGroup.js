@@ -2,6 +2,7 @@ import validateOption from 'validate-option';
 import EventEmitter from 'events';
 import validateType from '../util/validate-type';
 import Reference from '../Reference';
+import ScrollContainer from './ScrollContainer';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Defaults
@@ -27,6 +28,7 @@ export default class AbstractGroup extends EventEmitter{
      */
     constructor(parent,config){
         config = validateOption(config,DefaultConfig);
+
         super();
         this.setMaxListeners(0);
 
@@ -44,6 +46,15 @@ export default class AbstractGroup extends EventEmitter{
         this._elementHead = null;
         this._elementLabel = null;
         this._elementList = null;
+
+        //optional usable scroll container for main child
+        this._scrollContainer = new ScrollContainer();
+        this._scrollContainer.on('size-change',()=>{this.emit('scroll-size-change');});
+
+        //captured scroll container change parent
+        parent.on('scroll-size-change',()=>{
+            this.emit('scroll-size-change');
+        })
     }
 
     set id(value){
@@ -84,8 +95,7 @@ export default class AbstractGroup extends EventEmitter{
     get label(){
         return this._state.label;
     }
-
-
+    
     /**
      * Sets the groups global label / component width ratio.
      * @param value
