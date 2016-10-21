@@ -1,4 +1,5 @@
 import createHtml from '../util/create-html';
+import EventEmitter from 'events';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template
@@ -18,19 +19,22 @@ const template =
 // Scroll Container
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-export default class ScrollContainer{
+export default class ScrollContainer extends EventEmitter{
     /**
      * @constructor
-     * @param {HTMLElement} target
+     * @param {HTMLElement} [target]
      */
     constructor(target){
+        super();
+        this.setMaxListeners(0);
+
         this._height = null;
         this._scrollY = 0;
         this._trackDragging = false;
         this._handleDragging = false;
 
-        this._target = target;
-        this._parent = this._target.parentNode;
+        this._target = null;
+        this._parent = null;
         this._element = createHtml(template);
         this._elementContainer = this._element.querySelector('.scroll-container');
         this._elementTrack = this._element.querySelector('.scroll-track');
@@ -117,7 +121,9 @@ export default class ScrollContainer{
         this._removeEventListeners = ()=>{
             document.removeEventListener('mousemove',onHandleMouseMove);
             document.removeEventListener('mouseup',onHandleMouseUp);
-        }
+        };
+
+        this.target = target;
     }
 
     /**
@@ -139,6 +145,27 @@ export default class ScrollContainer{
         const max = this._target.offsetHeight - this._element.offsetHeight;
         const ratio = this._elementHandle.offsetHeight / heightTrack;
         this._elementHandle.style.marginTop = this._scrollY / max * (1.0 - ratio) * heightTrack + 'px';
+    }
+
+    set target(target){
+        if(target && !(target instanceof HTMLElement)){
+            throw new Error(`Invalid target ${target}. Target must be HTMLElement or null.`);
+        }
+        if(!target && !this._target){
+            return;
+        }
+        if(this._target){
+            this.setHeight(null);
+        }
+        this._target = target;
+        this._parent = this._target.parentNode;
+        const height = this._height;
+        this._height = null;
+        this.setHeight(height);
+    }
+
+    get target(){
+        return this._target;
     }
 
     /**
@@ -185,6 +212,7 @@ export default class ScrollContainer{
             if(this._height !== null){
                 this._parent.removeChild(this._element);
                 this._parent.appendChild(this._target);
+                this.emit('size-change');
             }
             this.scrollToTop();
         //scroll-container active
@@ -216,6 +244,7 @@ export default class ScrollContainer{
             }
         }
         this._height = height;
+        this.emit('size-change');
     }
 
     /**
