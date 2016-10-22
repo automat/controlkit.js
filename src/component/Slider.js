@@ -192,7 +192,7 @@ export default class Slider extends ObjectComponent{
         for(const item of value){
             validateType(item,Number);
         }
-        const differs = deepequal(value,this._state.range);
+        const differs = !deepequal(value,this._state.range);
         this._state.range = value.slice(0);
         if(differs){
             const min = this._state.range[0];
