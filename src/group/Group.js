@@ -208,6 +208,11 @@ export default class Group extends AbstractGroup{
         return this;
     }
 
+    addImage(image,config){
+        this._backSubGroupValid().addImage(image,config);
+        return this;
+    }
+
     _addSubGroupFromDescription(description){
         //add components to active subgroup
         if(description.items){
