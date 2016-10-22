@@ -9,8 +9,8 @@ const noop = ()=>{};
  */
 export function attachMouseListenersDocumentExtended(element,config){
     config = config || {};
-    config.onMouseDown = config.onMouseDown;
-    config.onMouseMove = config.onMouseMove;
+    config.onMouseDown = config.onMouseDown || noop;
+    config.onMouseMove = config.onMouseMove || noop;
     config.onMouseUp = config.onMouseUp || noop;
     config.onMouseDrag = config.onMouseDrag || noop;
     config.args = config.args || [];
@@ -26,6 +26,7 @@ export function attachMouseListenersDocumentExtended(element,config){
         }
         e_.x = e.pageX - rect.left;
         e_.y = e.pageY - rect.top;
+        e_.rect = rect;
         return e_;
     };
 
@@ -58,7 +59,7 @@ export function attachMouseListenersDocumentExtended(element,config){
         if(!dragging){
             return;
         }
-        config.onMouseUp([attach(e)].concat(config.args));
+        config.onMouseUp.apply(null,[attach(e)].concat(config.args));
         dragging = false;
     };
 
