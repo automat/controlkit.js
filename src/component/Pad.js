@@ -169,6 +169,10 @@ export default class Pad extends ObjectComponent{
         return [this._state.rangeX.slice(0),this._state.rangeY.slice(0)];
     }
 
+    /**
+     * Forces the component to sync with its underlying property e.g. in case it
+     * got changed externally.
+     */
     sync(){
         const rect = this._elementSvg.getBoundingClientRect();
         const width = rect.width;
@@ -221,6 +225,9 @@ export default class Pad extends ObjectComponent{
         );
     }
 
+    /**
+     * Completely clears the component and removes it from its parent element.
+     */
     clear(){
         this._removeEventListeners();
     }
