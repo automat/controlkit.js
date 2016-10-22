@@ -3,6 +3,7 @@ import deepequal from 'deep-equal';
 import validateType from '../util/validate-type';
 import createHtml from '../util/create-html';
 import {normalize,map,clamp} from '../util/math-utils';
+import {attachMouseListenersDocumentExtended} from '../util/listener-utils';
 
 import ObjectComponent from './ObjectComponent';
 
@@ -64,8 +65,8 @@ export default class Pad extends ObjectComponent{
         this._elementSvg = this._elementWrap.querySelector('svg');
 
         //listener input
-        let rect = null;
         const setPosition = (e)=>{
+            const rect = e.rect;
             const x = Math.max(0,Math.min(e.pageX - rect.left,rect.width));
             const y = Math.max(0,Math.min(e.pageY - rect.top,rect.height));
             //map
@@ -78,27 +79,13 @@ export default class Pad extends ObjectComponent{
             ];
             this.sync();
         };
-        let dragging = false;
-        this._elementSvg.addEventListener('mousedown',(e)=>{
-            rect = this._elementSvg.getBoundingClientRect();
-            setPosition(e);
-            dragging = true;
-        });
-        const onDocumentMouseMove = (e)=>{
-            if(!dragging){
-                return;
+        this._removeEventListeners = attachMouseListenersDocumentExtended(
+            this._elementSvg,{
+                onMouseDown : setPosition,
+                onMouseDrag : setPosition,
+                onMouseUp : setPosition
             }
-            setPosition(e);
-        };
-        const onDocumentMouseUp = (e)=>{
-            if(!dragging){
-                return;
-            }
-            setPosition(e);
-            dragging = false;
-        };
-        document.addEventListener('mousemove',onDocumentMouseMove);
-        document.addEventListener('mouseup',onDocumentMouseUp);
+        );
 
         //svg-elements
         this._axes = this._elementSvg.querySelector('.axes');
