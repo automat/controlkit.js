@@ -3,6 +3,7 @@ import deepequal from 'deep-equal';
 import validateType from '../util/validate-type';
 import createHtml from '../util/create-html';
 import {normalize,clamp} from '../util/math-utils';
+import {attachMouseListenersDocumentExtended} from '../util/listener-utils';
 
 import ObjectComponent from './ObjectComponent';
 import NumberInputInternal from './internal/NumberInputInternal';
@@ -126,10 +127,10 @@ export default class Slider extends ObjectComponent{
         this._elementHandle = this._element.querySelector('.slider-handle');
 
         //listener slider
-        const setValue = (pageX)=>{
+        const setValue = (e)=>{
             const rect = this._elementTrack.getBoundingClientRect();
             const width = rect.width;
-            let norm  = Math.max(0,Math.min(pageX - rect.left,width)) / width;
+            let norm  = Math.max(0,Math.min(e.pageX - rect.left,width)) / width;
             let value = this.min + norm * (this.max - this.min);
             switch(this._state.type){
                 case Type.FLOAT:
@@ -141,33 +142,13 @@ export default class Slider extends ObjectComponent{
             }
             this.sync();
         };
-        const onMouseDown = (e)=>{
-            this._state.dragging = true;
-            setValue(e.pageX);
-        };
-        const onMouseMove = (e)=>{
-            if(!this._state.dragging){
-                return;
+        this._removeEventListeners = attachMouseListenersDocumentExtended(
+            this._elementSlider,{
+                onMouseDown : setValue,
+                onMouseDrag : setValue,
+                onMouseUp : setValue
             }
-            setValue(e.pageX);
-        };
-        const onMouseUp = (e)=>{
-            if(!this._state.dragging){
-                return;
-            }
-            this._state.dragging = false;
-            setValue(e.pageX);
-        };
-
-        this._elementSlider.addEventListener('mousedown',onMouseDown);
-        document.addEventListener('mousemove',onMouseMove);
-        document.addEventListener('mouseup',onMouseUp);
-
-        //remove listeners on controlkit cleanup
-        this._removeEventListeners = function(){
-            document.removeEventListener('mousemove',onMouseMove);
-            document.removeEventListener('mouseup',onMouseUp);
-        };
+        );
 
         //init
         this.range = this._state.range;
