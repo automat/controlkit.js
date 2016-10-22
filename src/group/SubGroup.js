@@ -3,7 +3,6 @@ import validateOption from 'validate-option';
 import createHtml from '../util/create-html';
 
 import ObjectComponent from '../component/ObjectComponent';
-import ScrollContainer from './ScrollContainer';
 
 //Components
 import Button from '../component/Button';
@@ -14,6 +13,8 @@ import Select from '../component/Select';
 import Text from '../component/Text';
 import Label from '../component/Label';
 import Slider from '../component/Slider';
+import Color from '../component/Color';
+import Pad from '../component/Pad';
 
 //Component-Defaults
 import {DefaultConfig as ButtonDefaultConfig} from '../component/Button';
@@ -24,7 +25,8 @@ import {DefaultConfig as SelectDefaultConfig} from '../component/Select';
 import {DefaultConfig as TextDefaultConfig} from '../component/Text';
 import {DefaultConfig as LabelDefaultConfig} from '../component/Label';
 import {DefaultConfig as SliderDefaultConfig} from '../component/Slider';
-
+import {DefaultConifg as ColorDefaultConfig} from '../component/Color';
+import {DefaultConfig as PadDefaultConfig} from '../component/Pad';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
@@ -116,7 +118,7 @@ export default class SubGroup extends AbstractGroup{
         this._elementLabel = this._element.querySelector('label');
         this._elementList  = this._element.querySelector('.component-list');
 
-        this._scrollContainer = new ScrollContainer(this._elementList);
+        this._scrollContainer.target = this._elementList;
         this._components = [];
 
         this._elementHead.addEventListener('mousedown',()=>{
@@ -274,6 +276,14 @@ export default class SubGroup extends AbstractGroup{
      */
     addSlider(object,key,config){
         return this._addComponent(new Slider(this,object,key,config));
+    }
+
+    addColor(object,key,config){
+
+    }
+
+    addPad(object,key,config){
+        return this._addComponent(new Pad(this,object,key,config));
     }
 
     _addComponentFromDescription(description){
