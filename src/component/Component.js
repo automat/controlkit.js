@@ -17,7 +17,8 @@ const template =
 export const DefaultConfig = Object.freeze({
     label : 'none',
     labelRatio : null,
-    annotation : null
+    annotation : null,
+    template : null
 });
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -46,6 +47,10 @@ export default class Component extends EventEmitter{
         this._element = this._parent.elementList.appendChild(createHtml(template));
         this._elementLabel = this._element.querySelector('label');
         this._elementWrap = this._element.querySelector('.input-wrap');
+        if(config.template){
+            validateType(config.template,String);
+            this._elementWrap.appendChild(createHtml(config.template));
+        }
 
         this.label = this._state.label;
         this.labelRatio = this._state.labelRatio;
