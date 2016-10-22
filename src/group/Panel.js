@@ -2,6 +2,7 @@ import validateOption from 'validate-option';
 import createHtml from '../util/create-html';
 import Group from './Group';
 import ScrollContainer from './ScrollContainer';
+import EventEmitter from 'events';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
@@ -55,9 +56,12 @@ export const DefaultConfig = Object.freeze({
 // Panel
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-export default class Panel{
+export default class Panel extends EventEmitter{
     constructor(controlKit,config){
         config = validateOption(config,DefaultConfig);
+
+        super();
+        this.setMaxListeners(0);
 
         this._root = controlKit;
 
@@ -84,6 +88,7 @@ export default class Panel{
         };
 
         this._scrollContainer = new ScrollContainer(this._elementList);
+        this._scrollContainer.on('size-change',()=>{this.emit('scroll-size-change');});
         this._groups = [];
 
         //action collapse
@@ -447,7 +452,10 @@ export default class Panel{
 
     addRange(object_or_array,key_or_config,config){};
 
-    addXYPad(object_or_array,key_or_config,config){};
+    addPad(object_or_array,key_or_config,config){
+        this._backGroupValid().addPad(object_or_array,key_or_config,config);
+        return this;
+    };
 
     addLabel(label){
         this._backGroupValid().addLabel(label);
