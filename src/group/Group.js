@@ -203,6 +203,11 @@ export default class Group extends AbstractGroup{
         return this;
     }
 
+    addCanvas(config){
+        this._backSubGroupValid().addCanvas(config);
+        return this;
+    }
+
     _addSubGroupFromDescription(description){
         //add components to active subgroup
         if(description.items){
