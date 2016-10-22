@@ -21,6 +21,7 @@ const templateMulti = '<textarea></textarea>';
  * @property {null|string} placeholder - A placeholder value to be used.
  */
 export const DefaultConfig = Object.freeze({
+    element : null,
     readonly : false,
     multiline : false,
     lines : 1,
@@ -53,7 +54,24 @@ export default class StringInputInternal extends EventEmitter{
         this._placeholder = config.placeholder;
 
         //element
-        this._element = createHtml(this._multiline ? templateMulti : templateSingle);
+        this._element = null;
+        if(config.element){
+            if(this._multiline){
+                if(!(config.element instanceof HTMLTextAreaElement)){
+                    throw new Error('Multiline input set but element passed not instance of HTMLTextAreaElement.');
+                }
+            } else {
+                if(!(config.element instanceof HTMLInputElement)){
+                    throw new Error('Element passed not instance of HTMLInputElement.');
+                } else if(config.element.getAttribute('type') != 'text'){
+                    throw new Error('Element passed not of type "text".');
+                }
+            }
+            this._element = config.element;
+        } else {
+            this._element = createHtml(this._multiline ? templateMulti : templateSingle);
+        }
+
         this._element.addEventListener('input',()=>{
             if(this._readonly){
                 return;
