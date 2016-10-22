@@ -481,9 +481,11 @@ export default class Panel extends EventEmitter{
         return this._backGroupValid().addCanvas(config);
     }
 
-    addColor(object_or_color,key_or_config,config){};
+    addImage(image,config){
+        return this._backGroupValid().addImage(image,config);
+    }
 
-    addImage(object_or_image,key_or_config,config){};
+    addColor(object_or_color,key_or_config,config){};
 
     addImageMatrix(object_or_image_array,key_or_config,config){};
 
