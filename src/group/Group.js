@@ -3,7 +3,6 @@ import validateOption from 'validate-option';
 import createHtml from '../util/create-html';
 
 import SubGroup from './SubGroup';
-import ScrollContainer from './ScrollContainer';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
@@ -45,7 +44,7 @@ export default class Group extends AbstractGroup{
         this._elementLabel = this._element.querySelector('label');
         this._elementList  = this._element.querySelector('.sub-group-list');
 
-        this._scrollContainer = new ScrollContainer(this._elementList);
+        this._scrollContainer.target = this._elementList;
         this._groups = [];
 
         this._elementHead.addEventListener('mousedown',()=>{
@@ -196,6 +195,11 @@ export default class Group extends AbstractGroup{
      */
     addSlider(object,key,config){
         this._backSubGroupValid().addSlider(object,key,config);
+        return this;
+    }
+
+    addPad(object,key,config){
+        this._backSubGroupValid().addPad(object,key,config);
         return this;
     }
 
