@@ -1,5 +1,4 @@
 import Component from './Component';
-import createHtml from '../util/create-html';
 import validateOption from 'validate-option';
 
 const template = '<button></button>';
@@ -20,14 +19,15 @@ export default class Button extends Component{
         name = name || 'button';
         config = validateOption(config,DefaultConfig);
         super(parent,{
-            label:config.label
+            label:config.label,
+            template
         });
 
         this._state.name = name;
         this._onChange = config.onChange;
 
         this._element.classList.add('type-input');
-        this._elementButton = this._elementWrap.appendChild(createHtml(template));
+        this._elementButton = this._element.querySelector('button');
 
         this.name = this._state.name;
 
