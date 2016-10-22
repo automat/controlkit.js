@@ -2,7 +2,7 @@ import validateOption from 'validate-option';
 import deepequal from 'deep-equal';
 import validateType from '../util/validate-type';
 import createHtml from '../util/create-html';
-import {normalize,clamp} from '../util/MathUtils';
+import {normalize,clamp} from '../util/math-utils';
 
 import ObjectComponent from './ObjectComponent';
 import NumberInputInternal from './internal/NumberInputInternal';

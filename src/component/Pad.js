@@ -2,7 +2,7 @@ import validateConfig from 'validate-option';
 import deepequal from 'deep-equal';
 import validateType from '../util/validate-type';
 import createHtml from '../util/create-html';
-import {normalize,map,clamp} from '../util/MathUtils';
+import {normalize,map,clamp} from '../util/math-utils';
 
 import ObjectComponent from './ObjectComponent';
 
@@ -108,6 +108,7 @@ export default class Pad extends ObjectComponent{
 
         //init
         const resize = ()=>{
+            //no offsetWidth for svg
             const size = this._elementSvg.getBoundingClientRect().width;
             this._elementSvg.setAttribute('viewbox',`0 0 ${size} ${size}`);
             this._elementSvg.setAttribute('width',size);
