@@ -1,6 +1,5 @@
 import validateOption from 'validate-option';
 import Component from './Component';
-import createHtml from '../util/create-html';
 import {attachMouseListenersDocumentExtended} from '../util/listener-utils';
 
 const noop = function(){};
@@ -55,14 +54,14 @@ export default class Canvas extends Component{
         config = validateOption(config,DefaultConfig);
 
         super(parent,{
-            label:config.label
+            label:config.label,
+            template
         });
 
         this._draw = config.draw;
 
         //elements
-        this._elementWrap.appendChild(createHtml(template));
-        this._elementCanvas = this._elementWrap.querySelector('canvas');
+        this._elementCanvas = this._element.querySelector('canvas');
         this._elementCanvas.setAttribute('tabindex',1);
 
         this._ctx = this._elementCanvas.getContext('2d');
