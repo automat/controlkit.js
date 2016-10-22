@@ -93,6 +93,12 @@
     padding: 0 8px;
 }
 
+#control-kit .input-background canvas,
+#control-kit .input-background svg{
+    width: 100%;
+    vertical-align: bottom;
+}
+
 #control-kit textarea{
     resize: vertical;
     padding-top: 4px;
@@ -646,6 +652,28 @@
     background-image: url("assets/images/arrow-up-down.svg");
     background-repeat: no-repeat;
     background-position: right 6px center;
+}
+
+/* Type-Input Pad */
+
+#control-kit .svg-pad{
+    cursor: pointer;
+}
+
+#control-kit .svg-pad .axes{
+    stroke: #1A1A1A;
+}
+
+#control-kit .svg-pad .handle{
+    fill: #fff;
+}
+
+#control-kit .svg-pad .handle-shadow{
+    fill: #000;
+}
+
+#control-kit .svg-pad .handle-axes{
+    stroke: #363636;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
