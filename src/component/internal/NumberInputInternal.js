@@ -18,6 +18,7 @@ import EventEmitter from 'events';
  * @property {number} stepShiftMult - The amount the stepping value gets multiplied with when holding shift while stepping.
  */
 export const DefaultConfig = Object.freeze({
+    element : null,
     readonly : false,
     min : null,
     max : null,
@@ -68,7 +69,17 @@ export default class NumberInputInternal extends EventEmitter{
         this._stepShiftMult = config.stepShiftMult || 1;
         this._value = 0;
 
-        this._element = createHtml('<input type="number">');
+        this._element = null;
+        if(config.element){
+            if(!(config.element instanceof HTMLInputElement)){
+                throw new Error('Element passed not instance of HTMLInputElement.');
+            } else if(config.element.type !== 'number'){
+                throw new Error('Element passed not of type "number".');
+            }
+            this._element = config.element;
+        } else {
+            this._element = createHtml('<input type="number">');
+        }
 
         const formatInputValue = (x)=>{
             this._value = this._element.value = formatValue(x,this._min,this._max,this._fd);
