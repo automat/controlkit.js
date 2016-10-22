@@ -1,6 +1,5 @@
 import validateOption from 'validate-option';
 import validateType from '../util/validate-type';
-import createHtml from '../util/create-html';
 
 import ObjectComponent from './ObjectComponent';
 
@@ -28,12 +27,13 @@ export default class Checkbox extends ObjectComponent{
         super(parent,object,key,{
             label : config.label,
             annotation:config.annotation,
-            onChange : config.onChange
+            onChange : config.onChange,
+            template
         });
 
         //elements
         this._element.classList.add('type-input');
-        this._elementInput = this._elementWrap.appendChild(createHtml(template));
+        this._elementInput = this._element.querySelector('input');
         this._elementInput.addEventListener('input',()=>{
             this.value = this._elementInput.checked;
         });
