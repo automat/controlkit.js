@@ -1,7 +1,6 @@
 import validateConfig from 'validate-option';
 import deepequal from 'deep-equal';
 import validateType from '../util/validate-type';
-import createHtml from '../util/create-html';
 import {normalize,map,clamp} from '../util/math-utils';
 import {attachMouseListenersDocumentExtended} from '../util/listener-utils';
 
@@ -52,7 +51,8 @@ export default class Pad extends ObjectComponent{
             label : config.label,
             labelRatio : config.labelRatio,
             annotation : config.annotation,
-            onChange : config.onChange
+            onChange : config.onChange,
+            template
         });
 
         //state
@@ -60,7 +60,6 @@ export default class Pad extends ObjectComponent{
         this._state.rangeY = config.rangeY;
 
         //elements
-        this._elementWrap.appendChild(createHtml(template));
         this._elementSvg = this._elementWrap.querySelector('svg');
 
         //listener input
