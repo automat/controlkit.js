@@ -16,6 +16,7 @@ import Slider from '../component/Slider';
 import Color from '../component/Color';
 import Pad from '../component/Pad';
 import Canvas from '../component/Canvas';
+import Image_ from '../component/Image';
 
 //Component-Defaults
 import {DefaultConfig as ButtonDefaultConfig} from '../component/Button';
@@ -29,6 +30,7 @@ import {DefaultConfig as SliderDefaultConfig} from '../component/Slider';
 import {DefaultConifg as ColorDefaultConfig} from '../component/Color';
 import {DefaultConfig as PadDefaultConfig} from '../component/Pad';
 import {DefaultConfig as CanvasDefaultConfig} from '../component/Canvas';
+import {DefaultConfig as ImageDefaultConfig} from '../component/Image';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
@@ -290,6 +292,10 @@ export default class SubGroup extends AbstractGroup{
 
     addCanvas(config){
         return this._addComponent(new Canvas(this,config));
+    }
+
+    addImage(image,config){
+        return this._addComponent(new Image_(this,image,config));
     }
 
     _addComponentFromDescription(description){
