@@ -461,19 +461,12 @@
     padding: 5px 13px;
     clear: both;
     width: 100%;
-    height: 37px;
-
+    min-height: 37px;
     box-shadow: inset 0 -1px 0 0 #1E2224;
 }
 
 #control-kit .component-list .component:first-of-type{
     box-shadow: inset 0 1px 0 0 #363636, inset 0 -1px 0 0 #1E2224;
-}
-
-#control-kit .component.grow,
-#control-kit .component.grow .input-background,
-#control-kit .component.grow .input-wrap-preset{
-    height: auto;
 }
 
 #control-kit .component{
@@ -520,7 +513,7 @@
     position: relative;
     display: block;
     width: 100%;
-    height: 25px;
+    min-height: 25px;
     padding: 2px;
 }
 
@@ -854,7 +847,7 @@
 #control-kit-color-picker .color-compare .input-background{
     position: relative;
     width: 80%;
-    height: 25px;
+    min-height: 25px;
     float: right;
     padding: 1px;
 }
