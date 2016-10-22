@@ -60,7 +60,6 @@ export default class Pad extends ObjectComponent{
         this._state.rangeY = config.rangeY;
 
         //elements
-        this._element.classList.add('grow');
         this._elementWrap.appendChild(createHtml(template));
         this._elementSvg = this._elementWrap.querySelector('svg');
 
