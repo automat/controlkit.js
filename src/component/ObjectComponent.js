@@ -8,7 +8,8 @@ export const DefaultConfig = Object.freeze({
     label : 'none',
     labelRatio : null,
     annotation : null,
-    onChange : noop
+    onChange : noop,
+    template : null
 });
 
 export default class ObjectComponent extends Component{
@@ -26,7 +27,8 @@ export default class ObjectComponent extends Component{
         super(parent,{
             label : config.label,
             labelRatio : config.labelRatio,
-            annotation : config.annotation
+            annotation : config.annotation,
+            template : config.template
         });
 
         //callbacks
