@@ -9,6 +9,8 @@ import ComponentPreset from './ComponentPreset';
 // Defaults
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+const template = '<input type="number">';
+
 /**
  * Number default config
  * @type {Object}
@@ -61,7 +63,8 @@ export default class Number_ extends ObjectComponent{
         super(parent,object,key,{
             label : config.label,
             annotation:config.annotation,
-            onChange : config.onChange
+            onChange : config.onChange,
+            template
         });
 
         //state
@@ -69,6 +72,7 @@ export default class Number_ extends ObjectComponent{
 
         //input
         this._input = new NumberInputInternal({
+            element : this._element.querySelector('input'),
             readonly : config.readonly,
             min : config.min,
             max : config.max,
@@ -87,7 +91,6 @@ export default class Number_ extends ObjectComponent{
 
         //elements
         this._element.classList.add('type-input');
-        this._elementWrap.appendChild(this._input.element);
 
         //preset selection
         this._preset = new ComponentPreset(this._input.element);
