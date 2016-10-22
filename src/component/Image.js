@@ -1,6 +1,5 @@
 import validateOption from 'validate-option';
 import Component from './Component';
-import createHtml from '../util/create-html';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
@@ -35,12 +34,12 @@ export default class Image_ extends Component{
         config = validateOption(config,DefaultConfig);
 
         super(parent,{
-            label:config.label
+            label:config.label,
+            template
         });
 
         //elements
-        this._elementWrap.appendChild(createHtml(template));
-        this._elementImage = this._elementWrap.querySelector('img');
+        this._elementImage = this._element.querySelector('img');
 
         //init
         this.image = image;
