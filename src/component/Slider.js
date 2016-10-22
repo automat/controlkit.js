@@ -1,7 +1,6 @@
 import validateOption from 'validate-option';
 import deepequal from 'deep-equal';
 import validateType from '../util/validate-type';
-import createHtml from '../util/create-html';
 import {normalize,clamp} from '../util/math-utils';
 import {attachMouseListenersDocumentExtended} from '../util/listener-utils';
 
@@ -77,7 +76,8 @@ export default class Slider extends ObjectComponent{
             label : config.label,
             labelRatio : config.labelRatio,
             annotation : config.annotation,
-            onChange : config.onChange
+            onChange : config.onChange,
+            template : config.numberInput ? templateNumber : template
         });
 
         //state
@@ -106,6 +106,7 @@ export default class Slider extends ObjectComponent{
             }
 
             this._input = new NumberInputInternal({
+                element: this._element.querySelector('input'),
                 min : this._state.range[0],
                 max : this._state.range[1],
                 fd,step
@@ -117,11 +118,12 @@ export default class Slider extends ObjectComponent{
             this._input.on('change',setValue);
             this._input.on('input',setValue);
 
-            this._elementWrap.appendChild(createHtml(templateNumber));
-            this._elementWrap.querySelector('.slider-wrap-number').appendChild(this._input.element);
-        } else {
-            this._elementWrap.appendChild(createHtml(template));
+            // this._elementWrap.appendChild(createHtml(templateNumber));
+            this._element.querySelector('.slider-wrap-number').appendChild(this._input.element);
         }
+        // else {
+        //     this._elementWrap.appendChild(createHtml(template));
+        // }
         this._elementSlider = this._element.querySelector('.slider');
         this._elementTrack = this._element.querySelector('.slider-track');
         this._elementHandle = this._element.querySelector('.slider-handle');
