@@ -49,7 +49,9 @@ export default class AbstractGroup extends EventEmitter{
 
         //optional usable scroll container for main child
         this._scrollContainer = new ScrollContainer();
-        this._scrollContainer.on('size-change',()=>{this.emit('scroll-size-change');});
+        this._scrollContainer.on('size-change',()=>{
+            this.emit('scroll-size-change');
+        });
 
         //captured scroll container change parent
         parent.on('scroll-size-change',()=>{
@@ -95,7 +97,7 @@ export default class AbstractGroup extends EventEmitter{
     get label(){
         return this._state.label;
     }
-    
+
     /**
      * Sets the groups global label / component width ratio.
      * @param value
