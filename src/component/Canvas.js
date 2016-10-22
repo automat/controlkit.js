@@ -61,7 +61,6 @@ export default class Canvas extends Component{
         this._draw = config.draw;
 
         //elements
-        this._element.classList.add('grow');
         this._elementWrap.appendChild(createHtml(template));
         this._elementCanvas = this._elementWrap.querySelector('canvas');
         this._elementCanvas.setAttribute('tabindex',1);
