@@ -126,6 +126,7 @@ export default class Pad extends ObjectComponent{
      * @param {[]} value
      */
     set range(value){
+        //validate
         validateType(value,Array);
         const x = value[0];
         const y = value[1];
@@ -137,6 +138,8 @@ export default class Pad extends ObjectComponent{
         for(const item of y){
             validateType(item,Number);
         }
+
+        //apply
         const differs = !deepequal(x,this._state.rangeX) || !deepequal(y,this._state.rangeY);
         this._state.rangeX = x.slice(0);
         this._state.rangeY = y.slice(0);
