@@ -108,6 +108,14 @@ export default class Pad extends ObjectComponent{
     }
 
     /**
+     * Returns the type name.
+     * @return {string}
+     */
+    static get typeName(){
+        return 'pad';
+    }
+
+    /**
      * Sets the x and y-range.
      * @param {[]} value
      */
