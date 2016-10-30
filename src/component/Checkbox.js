@@ -43,6 +43,14 @@ export default class Checkbox extends ObjectComponent{
     }
 
     /**
+     * Returns the type name.
+     * @return {string}
+     */
+    static get typeName(){
+        return 'boolean';
+    }
+
+    /**
      * Forces the component to sync with its underlying property e.g. in case it
      * got changed externally.
      */
