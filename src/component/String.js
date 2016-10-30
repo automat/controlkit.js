@@ -91,6 +91,14 @@ export default class String_ extends ObjectComponent{
     }
 
     /**
+     * Returns the type name.
+     * @return {string}
+     */
+    static get typeName(){
+        return 'string';
+    }
+
+    /**
      * Sets the available presets to be used.
      * @param {string[]|null} value
      */
