@@ -1,36 +1,25 @@
 import AbstractGroup from './AbstractGroup';
 import validateOption from 'validate-option';
+import validateType from '../util/validate-type';
+import validateDescription from '../util/validate-description';
 import createHtml from '../util/create-html';
 
 import ObjectComponent from '../component/ObjectComponent';
 
 //Components
-import Button from '../component/Button';
-import Number_ from '../component/Number';
-import String_ from  '../component/String';
-import Checkbox from  '../component/Checkbox';
-import Select from '../component/Select';
+import Button,{DefaultConfig as ButtonDefaultConfig} from '../component/Button';
+import Number_,{DefaultConfig as NumberDefaultConfig} from '../component/Number';
+import String_,{DefaultConfig as StringDefaultConfig} from  '../component/String';
+import Checkbox,{DefaultConfig as CheckboxDefaultConfig} from  '../component/Checkbox';
+import Select,{DefaultConfig as SelectDefaultConfig} from '../component/Select';
 import Text from '../component/Text';
-import Label from '../component/Label';
-import Slider from '../component/Slider';
-import Color from '../component/Color';
-import Pad from '../component/Pad';
-import Canvas from '../component/Canvas';
-import Image_ from '../component/Image';
-
-//Component-Defaults
-import {DefaultConfig as ButtonDefaultConfig} from '../component/Button';
-import {DefaultConfig as NumberDefaultConfig} from '../component/Number';
-import {DefaultConfig as StringDefaultConfig} from '../component/String';
-import {DefaultConfig as CheckboxDefaultConfig} from '../component/Checkbox';
-import {DefaultConfig as SelectDefaultConfig} from '../component/Select';
-import {DefaultConfig as TextDefaultConfig} from '../component/Text';
-import {DefaultConfig as LabelDefaultConfig} from '../component/Label';
-import {DefaultConfig as SliderDefaultConfig} from '../component/Slider';
-import {DefaultConifg as ColorDefaultConfig} from '../component/Color';
-import {DefaultConfig as PadDefaultConfig} from '../component/Pad';
-import {DefaultConfig as CanvasDefaultConfig} from '../component/Canvas';
-import {DefaultConfig as ImageDefaultConfig} from '../component/Image';
+import Label,{DefaultConfig as LabelDefaultConfig} from '../component/Label';
+import Slider,{DefaultConfig as SliderDefaultConfig} from '../component/Slider';
+import Color,{DefaultConfig as ColorDefaultConfig} from '../component/Color';
+import Pad,{DefaultConfig as PadDefaultConfig} from '../component/Pad';
+import Canvas,{DefaultConfig as CanvasDefaultConfig} from '../component/Canvas';
+import Svg, {DefaultConfig as SvgDefaultConfig} from '../component/Svg';
+import Image_,{DefaultConfig as ImageDefaultConfig} from '../component/Image';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
@@ -51,57 +40,6 @@ export const DefaultConfig = Object.freeze({
     enable : true,
     height : null
 });
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-// Validation
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-const ComponentConfigs = [
-    ButtonDefaultConfig,
-    NumberDefaultConfig,
-    StringDefaultConfig,
-    CheckboxDefaultConfig,
-    SelectDefaultConfig,
-    TextDefaultConfig,
-    LabelDefaultConfig,
-    SliderDefaultConfig
-];
-
-function validateCompConfigAll(config){
-    for(const key in config){
-        if(key === 'type' || key === 'object' || key === 'key'){
-            continue;
-        }
-        let valid = false;
-        for(const defaults of ComponentConfigs){
-            if(defaults[key] !== undefined){
-                valid = true;
-                break;
-            }
-        }
-        if(!valid){
-            throw new Error(`Invalid component config with key "${key}".`);
-        }
-    }
-}
-
-function validateCompConfig(config,defaults){
-    const dict = {};
-    for(const key in config){
-        if(key === 'type' || key === 'object' || key === 'key'){
-            continue;
-        }
-        if(defaults[key] === undefined){
-            throw Error(`Invalid component config with key "${key}". Keys available ${Object.keys(defaults).sort((a,b)=>{
-                const a_ = a.toLowerCase();
-                const b_ = b.toLowerCase();
-                return a_ < b_ ? -1 : a_ > b_ ? 1 : 0;
-            })}`);
-        }
-        dict[key] = config[key];
-    }
-    return dict;
-}
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // SubGroup
@@ -294,90 +232,88 @@ export default class SubGroup extends AbstractGroup{
         return this._addComponent(new Canvas(this,config));
     }
 
+    addSvg(config){
+        return this._addComponent(new Svg(this,config));
+    }
+
     addImage(image,config){
         return this._addComponent(new Image_(this,image,config));
     }
 
-    _addComponentFromDescription(description){
-        if(!description){
-            throw new Error('Invalid component description.');
-        }
-        //check if non-component config passed
-        validateCompConfigAll(description);
-
-        //check if enough component type info passed
-        let type = description.type;
-        if(!type && (!description.object || !description.key)){
-            throw new Error('');
-        }
-
-        //non-object component creation
-        switch(type){
-            case 'button':
-                return this.addButton(description.name,validateCompConfig(description,ButtonDefaultConfig));
-            case 'label':
-                return this.addLabel(description.label);
-            case 'text':
-                return this.addText(description.title,description.text);
-        }
-
-        //guess type component from property
-        const object = description.object;
-        const key = description.key;
-        const property = object[key];
-        type = type ? ((typeof property === 'number' || property instanceof Number) ? 'number' :
-                       (typeof property === 'boolean' || property instanceof Boolean) ? 'boolean' :
-                       (typeof property === 'string' || property instanceof String) ? 'string' : null) :
-               null;
-        if(!type){
-            throw new Error(`Invalid property type "${typeof object[key]}"`);
-        }
-
-        //create type component
-        switch(type){
-            case 'number': {
-                return this.addNumber(object,key,validateCompConfig(description,NumberDefaultConfig));
-            }
-            case 'boolean': {
-                return this.addCheckbox(object,key,validateCompConfig(description,CheckboxDefaultConfig));
-            }
-            case 'string' : {
-                return this.addString(object,key,validateCompConfig(description,StringDefaultConfig));
-            }
-        }
-    }
-
     /**
-     * Adds components from declaration.
-     * @param description_or_descriptions
-     * @returns {[]}
+     * Adds components from description.
+     * @param description
+     * @return {SubGroup}
+     *
      * @example
-     * //creates a number component
-     * subgroup.add({type:'number',object:obj,key:'property'});
+     * //single component
+     * subGroup.add({type:'number', object:obj, key:'propertyKey'});
      *
-     * //creates a number component with configuration
-     * subgroup.add({type:'number',object:obj,key:'property',step:0.1,fd:2});
-     *
-     * //creates a number component without type specification
-     * subgroup.add({object:obj,key:'property',step:0.1,fd:2});
-     *
-     * //creates multiple components
-     * subgroup.add([
-     *     {type:'number',object:obj,key:'propertyNumber'},
-     *     {type:'string',object,obj,key:'propertyString'},
-     *     {type:'button',onChange:()=>{console.log('pressed');},
-     *     {type:'text',title:'Title',text:'Some text here'}
+     * @example
+     * //multiple components
+     * subGroup.add([
+     *     {type:'number', object:obj, key:'propertyKey'},
+     *     {type:'number', object:obj, key:'propertyKey'}
      * ]);
+     *
      */
-    add(description_or_descriptions){
-        if(description_or_descriptions instanceof Array){
-            const components = new Array(description_or_descriptions.length);
-            for(let i = 0; i < components.length; ++i){
-                components[i] = this._addComponentFromDescription(description_or_descriptions[i]);
+    add(description){
+        if(description instanceof Array){
+            for(const item of description){
+                this.add(item);
             }
-            return components;
+            return this;
         }
-        return [this._addComponentFromDescription(description_or_descriptions)];
+        if(!description.type){
+            throw new Error('Invalid component description. Component type missing.');
+        }
+        switch(description.type){
+            case Button.typeName:{
+                const config = validateDescription(description,ButtonDefaultConfig,['type','name']);
+                this.addButton(description.name,config);
+            }break;
+            case Number_.typeName:{
+                const config = validateDescription(description,NumberDefaultConfig,['type','object','key']);
+                this.addNumber(description.object,description.key,config);
+            }break;
+            case String_.typeName:{
+                const config = validateDescription(description,StringDefaultConfig,['type','object','key']);
+                this.addString(description.object,description.key,config);
+            }break;
+            case Slider.typeName:{
+                const config = validateDescription(description,SliderDefaultConfig,['type','object','key']);
+                this.addSlider(description.object,description.key,config);
+            }break;
+            case Checkbox.typeName:{
+                const config = validateDescription(description,CheckboxDefaultConfig,['type','object','key']);
+                this.addCheckbox(description.object,description.key,config);
+            }break;
+            case Select.typeName:{
+
+            }break;
+            case Text.typeName:{
+
+            }break;
+            case Label.typeName:{
+                const config = validateDescription(description,LabelDefaultConfig,['type']);
+                this.addLabel(config.label);
+            }break;
+            case Pad.typeName:{
+                const config = validateDescription(description,PadDefaultConfig,['type','object','key']);
+                this.addPad(description.object,description.key,config);
+            }break;
+            case Canvas.typeName:{
+                const config = validateDescription(description,CanvasDefaultConfig,['type']);
+                this.addCanvas(config);
+            }break;
+            case Image_.typeName:{
+                const config = validateDescription(description,ImageDefaultConfig,['type','image']);
+                this.addImage(description.image,config);
+            }break;
+            default:
+                throw new Error(`Invalid component type "${description.type}".`);
+        }
+        return this;
     }
 
     sync(){
