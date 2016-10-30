@@ -46,6 +46,14 @@ export default class Image_ extends Component{
     }
 
     /**
+     * Returns the type name.
+     * @return {string}
+     */
+    static get typeName(){
+        return 'image';
+    }
+
+    /**
      * Sets the image to be displayed. Image must be loaded.
      * @param {HTMLImageElement} image
      */
