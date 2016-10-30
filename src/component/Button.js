@@ -36,6 +36,14 @@ export default class Button extends Component{
     }
 
     /**
+     * Returns the type name.
+     * @return {string}
+     */
+    static get typeName(){
+        return 'button';
+    }
+
+    /**
      * Set the button press callback.
      * @param value
      */
