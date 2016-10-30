@@ -1,20 +1,11 @@
 import validateOption from 'validate-option';
-import validateKeys from 'validate-keys';
 import validateType from './util/validate-type';
+import validateDescription from './util/validate-description';
 import createHtml from './util/create-html';
 
-import Panel from './group/Panel';
+import Panel, {DefaultConfig as PanelDefaultConfig} from './group/Panel';
 import ComponentOptions from './component/ComponentOptions';
 import ColorPicker from './component/ColorPicker';
-
-// default configs
-import {DefaultConfig as PanelDefaultConfig} from './group/Panel';
-import {DefaultConfig as GroupDefaultConfig} from './group/Group';
-import {DefaultConfig as SubGroupDefaultConfig} from './group/SubGroup';
-import {DefaultConfig as ButtonDefaultConfig} from  './component/Button';
-import {DefaultConfig as NumberDefaultConfig} from './component/Number';
-import {DefaultConfig as StringDefaultConfig} from './component/String';
-import {DefaultConfig as SliderDefaultConfig} from './component/Slider';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
@@ -37,28 +28,6 @@ export const DefaultConfig = Object.freeze({
     stateSaveLoad : true,
     shortcutCharHide : 'h'
 });
-
-function validateDescription(description,defaults,excludes){
-    const config = Object.assign({},description);
-    for(const exclude of excludes){
-        if(description[exclude] === undefined){
-            throw new Error(`Description property "${exclude}" missing.`);
-        }
-        delete config[exclude];
-    }
-    validateKeys(config,Object.keys(defaults));
-    return config;
-}
-
-const excludesDescription = {
-    panel : ['groups'],
-    group : ['subGroups'],
-    subGroup : ['components'],
-    componentObject : ['type','object','key'],
-    componentButton : ['type','name']
-};
-
-
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Control Kit
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -230,66 +199,13 @@ export default class ControlKit{
             }
             return this;
         }
-        //panel
-        if(description.groups){
-            validateType(description.groups,Array);
-            const config = validateDescription(description,PanelDefaultConfig,excludesDescription.panel);
-            this.addPanel(config);
-            for(const group of description.groups){
-                this.add(group);
-            }
-            return this;
+        if(!description.groups){
+            throw new Error('Invalid panel description. Groups missing. Use {...,groups:[...]}.')
         }
-
-        //group
-        if(description.subGroups){
-            validateType(description.subGroups,Array);
-            const config = validateDescription(description,GroupDefaultConfig,excludesDescription.group);
-            this._backPanelValid().addGroup(config);
-            for(const subGroups of description.subGroups){
-                this.add(subGroups);
-            }
-            return this;
-        }
-
-        //sub-group
-        if(description.components){
-            validateType(description.components,Array);
-            const config = validateDescription(description,SubGroupDefaultConfig,excludesDescription.subGroup);
-            this._backPanelValid()._backGroupValid().addSubGroup(config);
-            for(const component of description.components){
-                this.add(component);
-            }
-            return this;
-        }
-
-        //component
-        if(!description.type){
-            throw new Error('Component type description missing.');
-        }
-        validateType(description.type,String);
-        const subGroup = this._backPanelValid()._backGroupValid()._backSubGroupValid();
-        switch(description.type){
-            case 'button':{
-                const config = validateDescription(description,ButtonDefaultConfig,excludesDescription.componentButton);
-                subGroup.addButton(config.name,config);
-            }break;
-            case 'number':{
-                const config = validateDescription(description,NumberDefaultConfig,excludesDescription.componentObject);
-                subGroup.addNumber(description.object,description.key,config);
-            }break;
-            case 'string':{
-                const config = validateDescription(description,StringDefaultConfig,excludesDescription.componentObject);
-                subGroup.addString(description.object,description.key,config);
-            }break;
-            case 'slider':{
-                const config = validateDescription(description,SliderDefaultConfig,excludesDescription.componentObject);
-                subGroup.addSlider(description.object,description.key,config);
-            }break;
-            default:
-                throw new Error(`Invalid component type "${description.type}".`);
-        }
-
+        validateType(description.groups,Array);
+        const config = validateDescription(description,PanelDefaultConfig,['groups']);
+        this.addPanel(config);
+        this._backPanelValid().add(description.groups);
         return this;
     }
 
@@ -364,6 +280,4 @@ export default class ControlKit{
         state.panels = this._panels.map((item)=>{return item.getState()});
         return state;
     }
-
-
 }
