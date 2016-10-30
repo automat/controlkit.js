@@ -24,6 +24,15 @@ export default class Select extends ObjectComponent{
         this._elementButton = this._element.querySelector('button');
 
     }
+
+    /**
+     * Returns the type name.
+     * @return {string}
+     */
+    static get typeName(){
+        return 'select';
+    }
+
     set value(value){
         // super.value = value;
         // this._elementInput.value = value;
