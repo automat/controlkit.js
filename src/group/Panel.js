@@ -480,15 +480,18 @@ export default class Panel extends EventEmitter{
     };
 
     addCanvas(config){
-        return this._backGroupValid().addCanvas(config);
+        this._backGroupValid().addCanvas(config);
+        return this;
     }
 
     addSvg(config){
-        return this._backGroupValid().addSvg(config);
+        this._backGroupValid().addSvg(config);
+        return this;
     }
 
     addImage(image,config){
-        return this._backGroupValid().addImage(image,config);
+        this._backGroupValid().addImage(image,config);
+        return this;
     }
 
     addColor(object_or_color,key_or_config,config){};
@@ -499,7 +502,10 @@ export default class Panel extends EventEmitter{
 
     addVideoMatrix(object_or_video_array,key_or_config,config){};
 
-    addFunctionPlotter(){};
+    addFunctionPlotter(object,key,config){
+        this._backGroupValid().addFunctionPlotter(object,key,config);
+        return this;
+    };
 
     /**
      * Adds groups from description.
