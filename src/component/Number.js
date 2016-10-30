@@ -105,6 +105,14 @@ export default class Number_ extends ObjectComponent{
     }
 
     /**
+     * Returns the type name.
+     * @return {string}
+     */
+    static get typeName(){
+        return 'number';
+    }
+
+    /**
      * Sets the available presets to be used.
      * @param {Number[]|null} value
      */
