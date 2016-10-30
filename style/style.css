@@ -453,7 +453,7 @@
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
-/* Component
+/* Component-Base
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 #control-kit .component {
@@ -543,7 +543,52 @@
     float: right;
 }
 
-/* Type-Input Slider */
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* Component Preset
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#control-kit .input-wrap-preset{
+    position: absolute;
+    left: 0;
+    right: 19px;
+}
+
+#control-kit .input-wrap-preset input[type="text"],
+#control-kit .input-wrap-preset input[type="number"]{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#control-kit .input-wrap .btn-preset{
+    position: absolute;
+    width: 20px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    right: 0;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+#control-kit .input-wrap.range label{
+    display: block;
+    box-sizing: border-box;
+    width: 20%;
+    text-transform: uppercase;
+    text-align: center;
+    float: left;
+}
+
+#control-kit .input-wrap.range input{
+    box-sizing: border-box;
+    width: 30%;
+    text-align: center;
+    padding-left: 10px;
+    float: left;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* Component Slider
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 #control-kit .slider{
     position: absolute;
@@ -592,48 +637,9 @@
     -moz-appearance:textfield;
 }
 
-/* Type-Input Preset */
-
-#control-kit .input-wrap-preset{
-    position: absolute;
-    left: 0;
-    right: 19px;
-}
-
-#control-kit .input-wrap-preset input[type="text"],
-#control-kit .input-wrap-preset input[type="number"]{
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-#control-kit .input-wrap .btn-preset{
-    position: absolute;
-    width: 20px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    right: 0;
-    background-repeat: no-repeat;
-    background-position: center center;
-}
-
-#control-kit .input-wrap.range label{
-    display: block;
-    box-sizing: border-box;
-    width: 20%;
-    text-transform: uppercase;
-    text-align: center;
-    float: left;
-}
-
-#control-kit .input-wrap.range input{
-    box-sizing: border-box;
-    width: 30%;
-    text-align: center;
-    padding-left: 10px;
-    float: left;
-}
-
-/* Type-Input Select */
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* Component Select
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 #control-kit .btn-select{
     text-shadow: 0 1px 1px rgba(0,0,0,0.50);
@@ -647,7 +653,9 @@
     background-position: right 6px center;
 }
 
-/* Type-Input Pad */
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* Component Pad
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 #control-kit .svg-pad{
     cursor: pointer;
@@ -667,6 +675,24 @@
 
 #control-kit .svg-pad .handle-axes{
     stroke: #363636;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* Component Function Plotter
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#control-kit .svg-function-plotter{
+
+}
+
+#control-kit .svg-function-plotter .axes{
+    stroke: #1A1A1A;
+}
+
+#control-kit .svg-function-plotter .function-graph{
+    stroke: #FF4848;
+    stroke-width: 2px;
+    fill: #FF4848;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
