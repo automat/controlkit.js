@@ -220,6 +220,10 @@ export default class Group extends AbstractGroup{
         return this;
     }
 
+    addFunctionPlotter(object,key,config){
+        this._backSubGroupValid().addFunctionPlotter(object,key,config);
+    }
+
     /**
      * Adds subgroups from descriptions
      * @param description
