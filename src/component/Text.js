@@ -12,6 +12,14 @@ export default class Text extends Component{
         this.text = this._state.text;
     }
 
+    /**
+     * Returns the type name.
+     * @return {string}
+     */
+    static get typeName(){
+        return 'text';
+    }
+
     set title(value){
         this.label = value;
     }
