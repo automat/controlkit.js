@@ -107,6 +107,14 @@ export default class Canvas extends Component{
     }
 
     /**
+     * Returns the type name.
+     * @return {string}
+     */
+    static get typeName(){
+        return 'canvas';
+    }
+
+    /**
      * Returns the canvas 2d context.
      * @return {CanvasRenderingContext2D}
      */
