@@ -1,8 +1,10 @@
 import AbstractGroup from './AbstractGroup';
 import validateOption from 'validate-option';
+import validateType from '../util/validate-type';
+import validateDescription from '../util/validate-description';
 import createHtml from '../util/create-html';
 
-import SubGroup from './SubGroup';
+import SubGroup, {DefaultConfig as SubGroupDefaultConfig} from './SubGroup';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
@@ -208,60 +210,75 @@ export default class Group extends AbstractGroup{
         return this;
     }
 
+    addSvg(config){
+        this._backSubGroupValid().addSvg(config);
+        return this;
+    }
+
     addImage(image,config){
         this._backSubGroupValid().addImage(image,config);
         return this;
     }
 
-    _addSubGroupFromDescription(description){
-        //add components to active subgroup
-        if(description.items){
-            this._backSubGroupValid().add(description.items);
-        }
-        //add subgroup with optional components
-        if(description.groups){
-            for(const group of description){
-
-
-                if(group.items){
-                    this._addSubGroupFromDescription(group.items);
-                }
-            }
-        }
-    }
-
     /**
-     * Adds subgroups and components from description.
-     * @param description_or_descriptions
-     * @returns {Group}
+     * Adds subgroups from descriptions
+     * @param description
+     * @return {Group}
+     *
      * @example
-     * //creates a subgroup
-     * group.add({label:'SubGroup'});
+     * //single sub-group
+     * group.add({label:'sub-group', components : [
+     *      {type:'number', object:obj, key:'propertyKey'},
+     *      {type:'number', object:obj, key:'propertyKey'},
+     * ]);
      *
-     * //creates a subgroup with multiple components
-     * group.add({
-     *     label: 'Subgroup'
-     *     items: [
-     *         {type:'number',object:obj,key:'propertyNumber'},
-     *         {type:'string',object:obj,key:'propertyString'}
-     *     ]
-     * });
-     *
-     * //creates multiple subgroups
-     * group.add([
-     *     {label:'SubGroup A',items:[
-     *         {type:'number',object:obj,key:'propertyNumber'}
-     *     ]},
-     *     {label:'SubGroup B',items:[
-     *         {type:'string',object:obj,key:'propertyString'},
-     *         {type:'slider',object:obj,key:'propertyNumberSlider'},
-     *         {type:'boolean',object:obj,key:'propertyBoolean'}
+     * @example
+     * //multiple sub-groups
+     * group.add([{
+     *         label: 'subgroup a', components: [
+     *             {type:'number', object:obj, key:'propertyKey'},
+     *             {type:'number', object:obj, key:'propertyKey'},
+     *     ]},{
+     *         label: 'subgroup b', components: [
+     *            {type:'number', object:obj, key:'propertyKey'},
+     *            {type:'number', object:obj, key:'propertyKey'},
      *     ]}
      * ]);
      *
+     * @example
+     * //component at last or auto-created sub-group
+     * group.add({type:'number', object:obj, key:'propertyKey'});
+     *
+     * @example
+     * //components at last or auto-created sub-group
+     * groups.add([
+     *     {type:'number', object:obj, key:'propertyKey'},
+     *     {type:'number', object:obj, key:'propertyKey'}
+     * ]);
      */
-    add(description_or_descriptions){
-        this._addSubGroupFromDescription(description_or_descriptions);
+    add(description){
+        if(description instanceof Array){
+            for(const item of description){
+                this.add(item);
+            }
+            return this;
+        }
+        if(!description.components && !description.type || description.components && description.type){
+            throw new Error('Invalid sub-group description. Use {...,components:[...]} to create sub-group or {type:...,...} to create components.');
+        }
+        let components = null;
+        //create sub-group
+        if(description.components){
+            validateType(description.components,Array);
+            const config = validateDescription(description,SubGroupDefaultConfig,['components']);
+            this.addSubGroup(config);
+            components = description.components;
+        }
+        //append component to last sub-group
+        else {
+            components = [description];
+        }
+        this._backSubGroupValid().add(components);
         return this;
     }
 
@@ -278,5 +295,4 @@ export default class Group extends AbstractGroup{
         this._groups = [];
         super.clear();
     }
-
 }
