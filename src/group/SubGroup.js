@@ -20,6 +20,7 @@ import Pad,{DefaultConfig as PadDefaultConfig} from '../component/Pad';
 import Canvas,{DefaultConfig as CanvasDefaultConfig} from '../component/Canvas';
 import Svg, {DefaultConfig as SvgDefaultConfig} from '../component/Svg';
 import Image_,{DefaultConfig as ImageDefaultConfig} from '../component/Image';
+import FunctionPlotter, {DefaultConfig as FunctionPlotterConfig} from '../component/FunctionPlotter';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
@@ -240,6 +241,10 @@ export default class SubGroup extends AbstractGroup{
         return this._addComponent(new Image_(this,image,config));
     }
 
+    addFunctionPlotter(object,key,config){
+        return this._addComponent(new FunctionPlotter(this,object,key,config));
+    }
+
     /**
      * Adds components from description.
      * @param description
@@ -309,6 +314,10 @@ export default class SubGroup extends AbstractGroup{
             case Image_.typeName:{
                 const config = validateDescription(description,ImageDefaultConfig,['type','image']);
                 this.addImage(description.image,config);
+            }break;
+            case FunctionPlotter.typeName:{
+                const config = validateDescription(description,FunctionPlotterConfig,['type','object','key']);
+                this.addFunctionPlotter(description.object,description.key,config);
             }break;
             default:
                 throw new Error(`Invalid component type "${description.type}".`);
