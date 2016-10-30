@@ -1,6 +1,8 @@
 import validateOption from 'validate-option';
+import validateType from '../util/validate-type';
+import validateDescription from '../util/validate-description';
 import createHtml from '../util/create-html';
-import Group from './Group';
+import Group, {DefaultConfig as GroupDefaultConfig} from './Group';
 import ScrollContainer from './ScrollContainer';
 import EventEmitter from 'events';
 
@@ -481,6 +483,10 @@ export default class Panel extends EventEmitter{
         return this._backGroupValid().addCanvas(config);
     }
 
+    addSvg(config){
+        return this._backGroupValid().addSvg(config);
+    }
+
     addImage(image,config){
         return this._backGroupValid().addImage(image,config);
     }
@@ -495,6 +501,90 @@ export default class Panel extends EventEmitter{
 
     addFunctionPlotter(){};
 
+    /**
+     * Adds groups from description.
+     * @param description
+     * @return {Panel}
+     *
+     * @example
+     * //single group
+     * panel.add({label: 'group', subGroups : [
+     *      {label: 'sub group' : components : [
+     *          {type: 'number', object: obj, key: 'property'}
+     *      ]
+     * ]);
+     *
+     * @example
+     * //multiple groups
+     * panel.add([
+     *     {label: 'group', subGroups : [
+     *         {label: 'sub group' : components : [
+     *             {type: 'number', object: obj, key: 'property'}
+     *         ]
+     *     ]},
+     *     {label: 'group', subGroups : [
+     *         {label: 'sub group' : components : [
+     *             {type: 'number', object: obj, key: 'property'}
+     *         ]
+     *     ]}
+     * ]);
+     *
+     * @example
+     * //sub-group
+     * panel.add({label:'sub-group', components:[
+     *     {type: 'number', object: obj, key: 'property'}
+     * ]});
+     *
+     * @example
+     * //sub-groups
+     * panel.add([{
+     *     label:'sub-group-a', components:[
+     *         {type: 'number', object: obj, key: 'property'}
+     *     ]},{
+     *     label:'sub-group-b', components:[
+     *         {type: 'number', object: obj, key: 'property'}
+     *     ]}
+     * ]);
+     *
+     * @example
+     * //component
+     * panel.add({type: 'number', object: obj, key: 'property'});
+     *
+     * @example
+     * //components
+     * panel.add([
+     *     {type: 'number', object: obj, key: 'property'},
+     *     {type: 'number', object: obj, key: 'property'}
+     * ]);
+     */
+    add(description){
+        if(description instanceof Array){
+            for(const item of description){
+                this.add(item);
+            }
+            return this;
+        }
+        if(!description.subGroups && !description.components && !description.type ||
+            description.subGroups && description.components ||
+            description.subGroups && description.type ||
+            description.components && description.type){
+            throw new Error('Invalid group description. Use {...,subGroups:[...]} to create groups, {...,components:[...]} to create sub-groups or {type:...,...} to create components.');
+        }
+        let subGroups = null;
+        //create group
+        if(description.subGroups){
+            validateType(description.subGroups,Array);
+            const config = validateDescription(description,GroupDefaultConfig,['subGroups']);
+            this.addGroup(config);
+            subGroups = description.subGroups;
+        }
+        //append subgroups to last group
+        else {
+            subGroups = [description];
+        }
+        this._backGroupValid().add(subGroups);
+        return this;
+    }
 
     sync(){
         for(const group of this._groups){
