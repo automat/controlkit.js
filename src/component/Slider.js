@@ -118,12 +118,9 @@ export default class Slider extends ObjectComponent{
             this._input.on('change',setValue);
             this._input.on('input',setValue);
 
-            // this._elementWrap.appendChild(createHtml(templateNumber));
             this._element.querySelector('.slider-wrap-number').appendChild(this._input.element);
         }
-        // else {
-        //     this._elementWrap.appendChild(createHtml(template));
-        // }
+
         this._elementSlider = this._element.querySelector('.slider');
         this._elementTrack = this._element.querySelector('.slider-track');
         this._elementHandle = this._element.querySelector('.slider-handle');
@@ -156,6 +153,10 @@ export default class Slider extends ObjectComponent{
         this.range = this._state.range;
         this.color = this._state.color;
         this.sync();
+    }
+
+    static get typeName(){
+        return 'slider';
     }
 
     /**
@@ -259,5 +260,4 @@ export default class Slider extends ObjectComponent{
             this._input.value =  this.value;
         }
     }
-
 }
