@@ -128,6 +128,20 @@ export default class ComponentOptions extends EventEmitter{
     }
 
     /**
+     * Trigger from target and value.
+     * @param target
+     * @param options
+     */
+    trigger(target,options){
+        if(this.enable && this.target === target){
+            this.enable = false;
+            return;
+        }
+        this.target = target;
+        this.options = options;
+    }
+
+    /**
      * Returns the underlying HTMLElement.
      * @return {HTMLElement}
      */
