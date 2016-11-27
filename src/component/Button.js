@@ -4,7 +4,7 @@ import validateOption from 'validate-option';
 const template = '<button></button>';
 
 export const DefaultConfig = Object.freeze({
-    label : 'none',
+    label : null,
     onChange : function(){}
 });
 
