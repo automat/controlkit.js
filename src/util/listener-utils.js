@@ -13,6 +13,7 @@ export function attachMouseListenersDocumentExtended(element,config){
     config.onMouseMove = config.onMouseMove || noop;
     config.onMouseUp = config.onMouseUp || noop;
     config.onMouseDrag = config.onMouseDrag || noop;
+    config.onMouseWheel = config.onMouseWheel || noop;
     config.args = config.args || [];
 
     let rect = null;
@@ -66,6 +67,9 @@ export function attachMouseListenersDocumentExtended(element,config){
     //attach document
     document.addEventListener('mousemove',onDocumentMouseMove);
     document.addEventListener('mouseup',onDocumentMouseUp);
+
+    element.addEventListener('mousewheel',config.onMouseWheel);
+    element.addEventListener('DOMMouseScroll',config.onMouseWheel);
 
     //detach document
     return function(){
