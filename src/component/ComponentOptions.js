@@ -66,7 +66,8 @@ export default class ComponentOptions extends EventEmitter{
         }
         this._options = value;
         //create items
-        for(const item of value){
+        for(let i = 0; i < value.length; ++i){
+            const item = value[i];
             const li = this._element.appendChild(document.createElement('li'));
 
             //number / string
@@ -87,13 +88,13 @@ export default class ComponentOptions extends EventEmitter{
             else if(false){
 
             }
-            //not supproted
+            //not supported
             else {
 
             }
             //listener
             li.addEventListener('mousedown',()=>{
-                this.emit('change',this._target,item);
+                this.emit('change',this._target,item,i);
                 this.enable = false;
             });
         }
