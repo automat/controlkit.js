@@ -36,14 +36,7 @@ export default class ComponentPreset extends EventEmitter{
             this.emit('change',value);
         });
         this._elementButton.addEventListener('click',()=>{
-            //remove
-            if(options.enable && options.target === this._input){
-                options.enable = false;
-                return;
-            }
-            //add
-            options.target = this._input;
-            options.options = this._options;
+            options.trigger(this._input,this._options);
         });
     }
 
