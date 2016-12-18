@@ -18,13 +18,14 @@ export default class Button extends Component{
     constructor(parent,name,config){
         name = name || 'button';
         config = validateOption(config,DefaultConfig);
+
         super(parent,{
             label:config.label,
             template
         });
 
         this._state.name = name;
-        this._onChange = config.onChange;
+        this._onChange = config.onChange.bind(this);
 
         this._element.classList.add('type-input');
         this._elementButton = this._element.querySelector('button');
@@ -32,7 +33,8 @@ export default class Button extends Component{
         this.name = this._state.name;
 
         //listener
-        this._elementButton.addEventListener('click',()=>{this._onChange.bind(this);});
+        this._onChange = null;
+        this.onChange = config.onChange;
     }
 
     /**
@@ -45,10 +47,25 @@ export default class Button extends Component{
 
     /**
      * Set the button press callback.
-     * @param value
+     * @param {function}value
      */
     set onChange(value){
-        this._onChange = value;
+        if(value == this._onChange){
+            return;
+        }
+        if(this._onChange){
+            this._elementButton.removeEventListener('click',this._onChange);
+        }
+        this._onChange = value.bind(this);
+        this._elementButton.addEventListener('click',this._onChange);
+    }
+
+    /**
+     * Returns the button press callback.
+     * @return {function}
+     */
+    get onChange(){
+        return this._onChange;
     }
 
     /**
