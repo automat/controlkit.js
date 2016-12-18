@@ -35,6 +35,7 @@ const template =
  * @property {number} scaleXStep - X-axis scale step.
  */
 export const DefaultConfig = Object.freeze({
+    id : null,
     label : null,
     rangeX : [-1,1],
     rangeY : [-1,1],
@@ -59,6 +60,7 @@ export default class FunctionPlotter extends ObjectComponent{
         config = validateOption(config,DefaultConfig);
 
         super(parent,object,key,{
+            id : config.id,
             label : config.label,
             template
         });
