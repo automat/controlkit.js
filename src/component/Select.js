@@ -13,6 +13,7 @@ const template = '<button class="btn-select"></button>';
 const noop = ()=>{};
 
 export const DefaultConfig = Object.freeze({
+    id : null,
     label : 'select',
     onChange : noop,
     onSelect : noop,
@@ -44,6 +45,7 @@ export default class Select extends ObjectComponent{
         }
 
         super(parent,object,key,{
+            id : config.id,
             label:config.label,
             onChange: config.onChange,
             annotation:config.annotation,
