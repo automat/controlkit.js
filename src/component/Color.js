@@ -30,6 +30,7 @@ const template =
  * @property {null} annotation - A component annotation.
  */
 export const DefaultConfig = Object.freeze({
+    id : null,
     label : null,
     readonly : false,
     preset : null,
@@ -147,6 +148,7 @@ export default class Color extends ObjectComponent{
         }
 
         super(parent,object,key,{
+            id : config.id,
             label : config.label,
             annotation:config.annotation,
             onChange : config.onChange
