@@ -56,10 +56,19 @@ export default class AbstractGroup extends EventEmitter{
         //captured scroll container change parent
         parent.on('scroll-size-change',()=>{
             this.emit('scroll-size-change');
-        })
+        });
+
+        this.id = this._state.id;
     }
 
     set id(value){
+        if(!value){
+            if(this._state.id && Reference.has(this._state.id)){
+                Reference.delete(this._state.id);
+                this._state.id = null;
+            }
+            return;
+        }
         validateType(value,String);
         Reference.set(value,this);
         this._state.id = value;
