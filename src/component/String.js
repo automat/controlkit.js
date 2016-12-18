@@ -16,6 +16,7 @@ const noop = ()=>{};
  * @type {Object}
  */
 export const DefaultConfig = Object.freeze({
+    id : null,
     label : null,
     readonly : false,
     multiline : false,
@@ -41,6 +42,7 @@ export default class String_ extends ObjectComponent{
         config.label = config.label == null ? key : config.label;
 
         super(parent,object,key,{
+            id : config.id,
             label : config.label,
             annotation : config.annotation,
             onChange : config.onChange
