@@ -25,11 +25,14 @@ const Reference = {
 
         map.set(id,object);
     },
+    has : function(id){
+        return map.has(id);
+    },
     get : function(id){
         if(!map.has(id)){
             throw new Error(`Invalid id "${id}".`)
         }
-        map.get(id);
+        return map.get(id);
     },
     delete : function(id){
         if(!map.has(id)){
