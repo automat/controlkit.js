@@ -6,6 +6,7 @@ import ObjectComponent from './ObjectComponent';
 const template = '<input type="checkbox">';
 
 export const DefaultConfig = Object.freeze({
+    id : null,
     label : null,
     onChange : function(){},
     annotation : null
@@ -25,6 +26,7 @@ export default class Checkbox extends ObjectComponent{
         config.label = config.label == null ? key : config.label;
 
         super(parent,object,key,{
+            id : config.id,
             label : config.label,
             annotation:config.annotation,
             onChange : config.onChange,
