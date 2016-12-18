@@ -16,6 +16,7 @@ const template =
  * @property {string} label - The component label
  */
 export const DefaultConfig = Object.freeze({
+    id: null,
     label : 'image'
 });
 
@@ -34,6 +35,7 @@ export default class Image_ extends Component{
         config = validateOption(config,DefaultConfig);
 
         super(parent,{
+            id: config.id,
             label:config.label,
             template
         });
