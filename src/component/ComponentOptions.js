@@ -102,6 +102,17 @@ export default class ComponentOptions extends EventEmitter{
         this.enable = true;
     }
 
+    set optionSelected(value){
+        for(const child of this._element.children){
+            child.classList.remove('selected');
+        }
+        const index = this._options.indexOf(value);
+        if(index == -1){
+            return;
+        }
+        this._element.children[index].classList.add('selected');
+    }
+
     /**
      * Returns the options to select from.
      * @return {null|*}
@@ -131,14 +142,16 @@ export default class ComponentOptions extends EventEmitter{
      * Trigger from target and value.
      * @param target
      * @param options
+     * @param selected
      */
-    trigger(target,options){
+    trigger(target,options,selected){
         if(this.enable && this.target === target){
             this.enable = false;
             return;
         }
         this.target = target;
         this.options = options;
+        this.optionSelected = selected;
     }
 
     /**
