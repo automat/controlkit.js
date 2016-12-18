@@ -19,6 +19,7 @@ const template =
     </li>`;
 
 export const DefaultConfig = Object.freeze({
+    id : null,
     label  : null,
     labelRatio : null,
     enable : true,
@@ -33,6 +34,7 @@ export default class Group extends AbstractGroup{
     constructor(parent,config){
         config = validateOption(config,DefaultConfig);
         super(parent,{
+            id : config.id,
             label  : config.label,
             labelRatio : config.labelRatio,
             enable : config.enable,
