@@ -30,6 +30,7 @@ const template =
  * @property {function} onKeyUp - Callback on key up
  */
 export const DefaultConfig = Object.freeze({
+    id : null,
     label : 'svg',
     init : noop,
     draw : noop,
@@ -51,6 +52,7 @@ export default class Svg extends Component{
         config = validateOption(config,DefaultConfig);
 
         super(parent,{
+            id : config.id,
             label : config.label,
             template
         });
