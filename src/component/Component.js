@@ -2,6 +2,7 @@ import validateOption from 'validate-option';
 import createHtml from '../util/create-html';
 import validateType from '../util/validate-type';
 import EventEmitter from 'events';
+import Reference from '../Reference';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
@@ -15,6 +16,7 @@ const template =
      </li>`;
 
 export const DefaultConfig = Object.freeze({
+    id : null,
     label : 'none',
     labelRatio : null,
     annotation : null,
@@ -38,6 +40,7 @@ export default class Component extends EventEmitter{
         this.setMaxListeners(0);
 
         this._state = {
+            id : config.id,
             label : config.label,
             labelRatio : config.labelRatio,
             annotation : config.annotation
@@ -52,12 +55,38 @@ export default class Component extends EventEmitter{
             this._elementWrap.appendChild(createHtml(config.template));
         }
 
+        this.id = this._state.id;
         this.label = this._state.label;
         this.labelRatio = this._state.labelRatio;
         if(this._state.annotation){
             this.setAnnotation(this._state.annotation.title,this._state.annotation.text);
         }
     };
+
+    /**
+     * Sets the components id.
+     * @param {string|null} value
+     */
+    set id(value){
+        if(!value){
+            if(this._state.id && Reference.has(this._state.id)){
+                Reference.delete(this._state.id);
+                this._state.id = null;
+            }
+            return;
+        }
+        validateType(value,String);
+        Reference.set(value,this);
+        this._state.id = value;
+    }
+
+    /**
+     * Returns the components id.
+     * @return {string|null}
+     */
+    get id(){
+        return this._state.id;
+    }
 
     /**
      * Sets the component label. If the value passed is 'none' the label gets
@@ -164,6 +193,5 @@ export default class Component extends EventEmitter{
      */
     destroy(){
         this._element.parentNode.removeChild(this._element);
-        super.destroy();
     }
 }
