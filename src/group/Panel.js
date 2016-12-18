@@ -469,8 +469,8 @@ export default class Panel extends EventEmitter{
         return this;
     }
 
-    addSelect(object,key_or_object,config){
-        this._backGroupValid().addSelect(object,key_or_object,config);
+    addSelect(object,key,config){
+        this._backGroupValid().addSelect(object,key,config);
         return this;
     };
 
