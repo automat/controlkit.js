@@ -28,6 +28,7 @@ const template =
  * @property {function} onKeyUp - Callback on key up
  */
 export const DefaultConfig = Object.freeze({
+    id : null,
     label : 'canvas',
     init : noop,
     draw : noop,
@@ -54,6 +55,7 @@ export default class Canvas extends Component{
         config = validateOption(config,DefaultConfig);
 
         super(parent,{
+            id: config.id,
             label:config.label,
             template
         });
