@@ -41,6 +41,7 @@ const template =
  * @property {number} opacity - The global panel opacity.
  */
 export const DefaultConfig = Object.freeze({
+    id : null,
     enabled : true,
     fixed: true,
     x: null,
@@ -77,6 +78,7 @@ export default class Panel extends EventEmitter{
         this._elementList = this._element.querySelector('.group-list');
 
         this._state = {
+            id : config.id,
             enabled : config.enabled,
             height : null,
             maxHeight : config.height,
