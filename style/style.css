@@ -326,11 +326,13 @@
     overflow: hidden;
 }
 
-#control-kit .component-options li:first-of-type:hover{
+#control-kit .component-options li:first-of-type:hover,
+#control-kit .component-options li:first-of-type.selected{
     box-shadow: inset 0px 1px 0px 0px #383838;
 }
 
-#control-kit .component-options li:hover{
+#control-kit .component-options li:hover,
+#control-kit .component-options li.selected{
     background: #2E2E2E;
 }
 
@@ -647,7 +649,14 @@
     font-size: 12px;
     font-weight: normal;
     text-align: left;
-    padding: 0 8px;
+    padding: 0 18px 0 8px;
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#control-kit .btn-select,
+#control-kit .btn-select:hover{
     background-image: url("assets/images/arrow-up-down.svg");
     background-repeat: no-repeat;
     background-position: right 6px center;
