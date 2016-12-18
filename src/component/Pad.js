@@ -23,6 +23,7 @@ const template =
     </div>`;
 
 export const DefaultConfig = Object.freeze({
+    id : null,
     label : null,
     labelRatio : null,
     rangeX : [-1,1],
@@ -48,6 +49,7 @@ export default class Pad extends ObjectComponent{
         config = validateConfig(config,DefaultConfig);
 
         super(parent,object,key,{
+            id : config.id,
             label : config.label,
             labelRatio : config.labelRatio,
             annotation : config.annotation,
