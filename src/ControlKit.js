@@ -3,6 +3,7 @@ import validateType from './util/validate-type';
 import validateDescription from './util/validate-description';
 import createHtml from './util/create-html';
 
+import Reference from './Reference';
 import Panel, {DefaultConfig as PanelDefaultConfig} from './group/Panel';
 import ComponentOptions from './component/ComponentOptions';
 import ColorPicker from './component/ColorPicker';
@@ -76,6 +77,10 @@ export default class ControlKit{
         this._element.appendChild(picker.element);
         picker.x = window.innerWidth * 0.5 - picker.width * 0.5;
         picker.y = window.innerHeight * 0.5 - picker.height * 0.5;
+    }
+
+    get(id){
+        return Reference.get(id);
     }
 
     _removeEventListeners(){}
