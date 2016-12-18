@@ -34,6 +34,7 @@ const templateNumber =
  * @type {Object}
  */
 export const DefaultConfig = Object.freeze({
+    id : null,
     label : null,
     labelRatio : null,
     type: 'float',
@@ -73,6 +74,7 @@ export default class Slider extends ObjectComponent{
         }
 
         super(parent,object,key,{
+            id : config.id,
             label : config.label,
             labelRatio : config.labelRatio,
             annotation : config.annotation,
