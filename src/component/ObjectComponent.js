@@ -51,8 +51,8 @@ export default class ObjectComponent extends Component{
     }
 
     _removeEventListeners(){
-        this._proxy.removeEventListener(`${this.key}-change`,this._onChange);
-        this._proxy.removeEventListener(`object-change`,this._onChangeObject);
+        this._proxy.removeListener(`${this.key}-change`,this._onChange);
+        this._proxy.removeListener(`object-change`,this._onChangeObject);
     }
 
     /**
@@ -97,7 +97,7 @@ export default class ObjectComponent extends Component{
         }
         const event = `${this.key}-change`;
         if(this._onChange){
-            this._proxy.removeEventListener(event,this._onChange);
+            this._proxy.removeListener(event,this._onChange);
         }
         const onChange = value.bind(this);
         this._onChange = (e)=>{
@@ -129,7 +129,7 @@ export default class ObjectComponent extends Component{
         }
         const event = `object-change`;
         if(this._onChangeObject){
-            this._proxy.removeEventListener(event,this._onChangeObject);
+            this._proxy.removeListener(event,this._onChangeObject);
         }
         this._onChangeObject = value.bind(this);
         this._proxy.on(event,this._onChangeObject);
