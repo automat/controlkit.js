@@ -268,9 +268,9 @@ export default class ControlKit{
     /**
      * Completely removes all panels and components.
      */
-    clear(){
+    destroy(){
         for(const panel of this._panels){
-            panel.clear();
+            panel.destroy();
         }
         this._panels = [];
     };

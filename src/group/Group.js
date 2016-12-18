@@ -292,11 +292,11 @@ export default class Group extends AbstractGroup{
         }
     }
 
-    clear(){
+    destroy(){
         for(const group in this._groups){
-            group.clear();
+            group.destroy();
         }
         this._groups = [];
-        super.clear();
+        super.destroy();
     }
 }

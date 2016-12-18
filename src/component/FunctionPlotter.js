@@ -221,7 +221,8 @@ export default class FunctionPlotter extends ObjectComponent{
         this._graph.setAttribute('d',path);
     }
 
-    clear(){
+    destroy(){
         this._removeEventListeners();
+        super.destroy();
     }
 }

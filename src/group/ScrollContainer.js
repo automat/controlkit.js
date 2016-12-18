@@ -259,7 +259,7 @@ export default class ScrollContainer extends EventEmitter{
      * Detaches the scroll-container from the target element and
      * removes all event listeners.
      */
-    clear(){
+    destroy(){
         this.setHeight(null);
         this._removeEventListeners();
     }

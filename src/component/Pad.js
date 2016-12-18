@@ -222,7 +222,8 @@ export default class Pad extends ObjectComponent{
     /**
      * Completely clears the component and removes it from its parent element.
      */
-    clear(){
+    destroy(){
         this._removeEventListeners();
+        super.destroy();
     }
 }

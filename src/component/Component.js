@@ -155,14 +155,15 @@ export default class Component extends EventEmitter{
         return Object.assign({},this._state.annotation);
     }
 
+    get computedStyle(){
+        return window.getComputedStyle(this._element);
+    }
+
     /**
      * Completely clears the component and removes it from its parent element.
      */
-    clear(){
+    destroy(){
         this._element.parentNode.removeChild(this._element);
-    }
-
-    get computedStyle(){
-        return window.getComputedStyle(this._element);
+        super.destroy();
     }
 }

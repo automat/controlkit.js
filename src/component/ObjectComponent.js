@@ -152,8 +152,8 @@ export default class ObjectComponent extends Component{
     /**
      * Completely clears the component and removes it from its parent element.
      */
-    clear(){
+    destroy(){
         this._removeEventListeners();
-        super.clear();
+        super.destroy();
     }
 }

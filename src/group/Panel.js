@@ -598,9 +598,9 @@ export default class Panel extends EventEmitter{
         }
     }
 
-    clear(){
+    destroy(){
         for(const group of this._groups){
-            group.clear();
+            group.destroy();
         }
         this._groups = [];
         this._element.parentNode.removeChild(this._element);

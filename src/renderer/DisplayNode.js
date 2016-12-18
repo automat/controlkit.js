@@ -443,7 +443,7 @@ export default class DisplayNode extends AbstractNode{
         let style = this._style.copy().merge(this._styleInline).propertiesSet;
         this._layoutNode.style = this._layoutNode.style || {};
 
-        //clear current style
+        //destroy current style
         for(let property in this._layoutNode.style){
             if(property === 'measure'){
                 continue;

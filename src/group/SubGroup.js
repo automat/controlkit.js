@@ -334,11 +334,11 @@ export default class SubGroup extends AbstractGroup{
         }
     }
 
-    clear(){
+    destroy(){
         for(const component in this._components){
-            component.clear();
+            component.destroy();
         }
         this._components = [];
-        super.clear();
+        super.destroy();
     }
 }
