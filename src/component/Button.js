@@ -4,6 +4,7 @@ import validateOption from 'validate-option';
 const template = '<button></button>';
 
 export const DefaultConfig = Object.freeze({
+    id : null,
     label : null,
     onChange : function(){}
 });
@@ -20,6 +21,7 @@ export default class Button extends Component{
         config = validateOption(config,DefaultConfig);
 
         super(parent,{
+            id : config.id,
             label:config.label,
             template
         });
