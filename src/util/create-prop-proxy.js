@@ -25,7 +25,7 @@ class ObjectProxy{
     on(type,cb){
         this._emitter.on(type,cb);
     }
-    removeEventListener(type,cb){
+    removeListener(type,cb){
         this._emitter.removeListener(type,cb);
     }
     set(handle,key,value){
@@ -60,8 +60,8 @@ class ObjectProxyValueHandle{
     on(type,cb){
         this._proxy.on(type,cb);
     }
-    removeEventListener(type,cb){
-        this._proxy.removeEventListener(type,cb);
+    removeListener(type,cb){
+        this._proxy.removeListener(type,cb);
     }
     get proxy(){
         return this._proxy;
