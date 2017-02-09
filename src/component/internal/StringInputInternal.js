@@ -321,7 +321,7 @@ export default class StringInputInternal extends EventEmitter{
         return this._element;
     }
 
-    clear(){
+    destroy(){
         this._removeEventListeners();
     }
 }
