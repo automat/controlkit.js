@@ -106,6 +106,23 @@ export default class SubGroup extends AbstractGroup{
     }
 
     /**
+     * Removes a component from the sub-group.
+     * @param component
+     * @return {SubGroup}
+     * @private
+     */
+    _removeComponent(component){
+        const index = this._components.indexOf(component);
+        if(index == -1){
+            throw new Error('Invalid component. Component not part of sub-group.');
+        }
+        this._elementList.removeChild(component.element);
+        this._components.splice(index,1);
+        this.emit('size-change');
+        return this;
+    }
+
+    /**
      * Adds a button component.
      * @param name
      * @param [config - Button configuration]
@@ -335,10 +352,9 @@ export default class SubGroup extends AbstractGroup{
     }
 
     destroy(){
-        for(const component in this._components){
+        for(const component of this._components){
             component.destroy();
         }
-        this._components = [];
         super.destroy();
     }
 }
