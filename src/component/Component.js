@@ -192,6 +192,6 @@ export default class Component extends EventEmitter{
      * Completely clears the component and removes it from its parent element.
      */
     destroy(){
-        this._element.parentNode.removeChild(this._element);
+        this._parent._removeComponent(this);
     }
 }
