@@ -9,6 +9,7 @@ import createPropProxy from '../util/create-prop-proxy';
 const noop = function(){};
 
 export const DefaultConfig = Object.freeze({
+    id : null,
     label : 'none',
     labelRatio : null,
     annotation : null,
@@ -34,6 +35,7 @@ export default class ObjectComponent extends Component{
         config.label = !config.label ? key : config.label;
 
         super(parent,{
+            id : config.id,
             label : config.label,
             labelRatio : config.labelRatio,
             annotation : config.annotation,
