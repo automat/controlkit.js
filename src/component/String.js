@@ -215,4 +215,9 @@ export default class String_ extends ObjectComponent{
     sync(){
         this._input.value = this.value;
     }
+
+    destroy(){
+        this._input.destroy();
+        super.destroy();
+    }
 }
