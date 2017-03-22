@@ -105,6 +105,9 @@ Adds a new Panel.
 | opacity   | Number   | Panel opacity                                     |
 | dock      | Boolean  | (Experimental) Indicates whether the panel should be docked to either the left or right window border (depending on params.align), docked panels height equal window height, default: false |
 
+**Panel Visibility**
+Panel Visibility can be changed by using `controlKit.addPanel(options).disable()` or `controlKit.addPanel(options).enable()`
+
 ###Group
 
 ####panel.addGroup(options)  
