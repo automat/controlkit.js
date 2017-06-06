@@ -38,7 +38,7 @@ function formatValue(x,min,max,fd){
     } else {
         x = Number.isNaN(x) ? 0 : x;
     }
-    x = fd ? x.toFixed(fd) : x;
+    x = fd !== null ? x.toFixed(fd) : x;
     return x;
 }
 
