@@ -206,6 +206,10 @@
     width: 60%;
 }
 
+#control-kit.state-load-save-disabled .head-menu .head-state{
+    display: none;
+}
+
 #control-kit .head-menu{
     float: right;
     width: 40%;
