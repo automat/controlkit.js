@@ -277,7 +277,7 @@ export default class ControlKit{
 
     /**
      * Returns true if state load and save functionality is enabled.
-     * @return {Boolean|*}
+     * @return {Boolean}
      */
     get stateLoadSave(){
         return this._state.stateSaveLoad;
