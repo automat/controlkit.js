@@ -98,6 +98,9 @@ export default class Panel extends EventEmitter{
         //action collapse
         const onCollapse = (e)=>{
             this.collapse = !this.collapse;
+            if(!this.collapse){
+                this._updateHeight();
+            }
             e.stopPropagation();
         };
 
