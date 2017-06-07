@@ -37,6 +37,7 @@ export const DefaultConfig = Object.freeze({
 export default class String_ extends ObjectComponent{
     constructor(parent,object,key,config){
         validateType(object,key,String);
+        validateOption(config,DefaultConfig);
 
         config = validateOption(config,DefaultConfig);
         config.label = config.label == null ? key : config.label;
