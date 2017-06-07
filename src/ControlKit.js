@@ -26,7 +26,7 @@ export const DefaultConfig = Object.freeze({
     element : null,
     enabled : true,
     opacity : 1.0,
-    stateSaveLoad : true,
+    stateLoadSave : false,
     shortcutCharHide : 'h'
 });
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -41,21 +41,20 @@ export default class ControlKit{
     constructor(config){
         config = validateOption(config,DefaultConfig);
 
-        //state
+        // state
         this._state = {
             enabled : config.enabled,
             opacity: config.opacity,
-            stateSaveLoad : config.stateSaveLoad,
+            stateLoadSave : config.stateLoadSave,
             shortcutCharHide: config.shortcutCharHide,
         };
 
         this._panels = [];
 
-        //element
-        this._element = createHtml(template);
-        (config.element ? config.element : document.body).appendChild(this._element);
+        // element
+        this._element = (config.element || document.body).appendChild(createHtml(template));
 
-        //listeners
+        // listeners
         const onKeyPress = (e)=>{
             if(e.key !== this._state.shortcutCharHide.toUpperCase() || !e.ctrlKey || !e.shiftKey){
                 return;
@@ -68,15 +67,18 @@ export default class ControlKit{
             document.removeEventListener('keypress',onKeyPress);
         };
 
-        //init options
+        // init options
         const options = ComponentOptions.sharedOptions();
         this._element.appendChild(options.element);
 
-        //init picker
+        // init picker
         const picker = ColorPicker.sharedPicker();
         this._element.appendChild(picker.element);
         picker.x = window.innerWidth * 0.5 - picker.width * 0.5;
         picker.y = window.innerHeight * 0.5 - picker.height * 0.5;
+
+        // init
+        this.stateLoadSave = this._state.stateSaveLoad;
     }
 
     get(id){
@@ -259,6 +261,27 @@ export default class ControlKit{
      * Loads component states from external object.
      */
     loadConfig(state){}
+
+    /**
+     * If true state load and save functionality is enabled.
+     * @param {Boolean} enable
+     */
+    set stateLoadSave(enable){
+        this._state.stateSaveLoad = enable;
+        if(this._state.stateLoadSave){
+            this._element.classList.remove('state-load-save-disabled');
+        } else {
+            this._element.classList.add('state-load-save-disabled');
+        }
+    }
+
+    /**
+     * Returns true if state load and save functionality is enabled.
+     * @return {Boolean|*}
+     */
+    get stateLoadSave(){
+        return this._state.stateSaveLoad;
+    }
 
     /**
      * Saves the current control kit layout configuration.
