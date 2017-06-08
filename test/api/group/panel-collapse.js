@@ -1,4 +1,4 @@
-import ControlKit from '../../index';
+import ControlKit from '../../../index';
 
 window.addEventListener('load',()=>{
     const settings = {number:0};
@@ -10,6 +10,6 @@ window.addEventListener('load',()=>{
         .addNumber(settings,'number');
 
     setInterval(()=>{
-        panel.enable = !panel.enable;
-    },100);
+        panel.collapse = !panel.collapse;
+    },250);
 });
