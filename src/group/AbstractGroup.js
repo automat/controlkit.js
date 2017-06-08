@@ -82,7 +82,7 @@ export default class AbstractGroup extends EventEmitter{
      * Override in sub-class;
      * @private
      */
-    _updateHeight(){};
+    updateHeight(){};
 
     /**
      * Sets the group head label.
@@ -130,7 +130,7 @@ export default class AbstractGroup extends EventEmitter{
     set enable(value){
         this._state.enable = value;
         this._element.classList[value ? 'remove' : 'add']('collapse');
-        this._updateHeight();
+        this.updateHeight();
         this.emit('size-change');
     }
 

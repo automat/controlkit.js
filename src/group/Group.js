@@ -60,7 +60,7 @@ export default class Group extends AbstractGroup{
         this.componentLabelRatio = this._state.labelRatio;
     }
 
-    _updateHeight(){
+    updateHeight(){
         if(this._state.maxHeight == null){
             return;
         }
@@ -102,13 +102,21 @@ export default class Group extends AbstractGroup{
         this._groups.push(group);
         //update height if group changed
         group.on('size-change',()=>{
-            this._updateHeight();
+            this.updateHeight();
             this.emit('size-change');
         });
         //update height to new group element
-        this._updateHeight();
+        this.updateHeight();
         return this;
     }
+
+    _removeSubGroup(subGroup){
+        const index = this._groups.indexOf(subGroup);
+        if(index == -1){
+
+        }
+    }
+
 
     /**
      * Adds a button component to the last subgroup.
@@ -299,6 +307,7 @@ export default class Group extends AbstractGroup{
             group.destroy();
         }
         this._groups = [];
+        this._scrollContainer.destroy();
         super.destroy();
     }
 }

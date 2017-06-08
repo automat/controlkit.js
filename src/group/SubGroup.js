@@ -73,7 +73,7 @@ export default class SubGroup extends AbstractGroup{
         this.componentLabelRatio = this._state.labelRatio;
     }
 
-    _updateHeight(){
+    updateHeight(){
         if(this._state.maxHeight == null){
             return;
         }
@@ -97,10 +97,10 @@ export default class SubGroup extends AbstractGroup{
         this._components.push(component);
         component.labelRatio = this._state.labelRatio;
         component.on('size-change',()=>{
-            this._updateHeight();
+            this.updateHeight();
             this.emit('size-change');
         });
-        this._updateHeight();
+        this.updateHeight();
         this.emit('size-change');
         return this;
     }

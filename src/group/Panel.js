@@ -99,7 +99,7 @@ export default class Panel extends EventEmitter{
         const onCollapse = (e)=>{
             this.collapse = !this.collapse;
             if(!this.collapse){
-                this._updateHeight();
+                this.updateHeight();
             }
             e.stopPropagation();
         };
@@ -153,7 +153,7 @@ export default class Panel extends EventEmitter{
                 this.x = this.x;
                 this.y = this.y;
             }
-            this._updateHeight();
+            this.updateHeight();
         };
 
         //attach listeners head
@@ -184,7 +184,7 @@ export default class Panel extends EventEmitter{
         this.componentLabelRatio = this._state.labelRatio;
     }
     
-    _updateHeight(){
+    updateHeight(){
         const top = this._elementHead.getBoundingClientRect().bottom;
         const max = window.innerHeight;
         const height = this._state.maxHeight ? Math.min(this._state.maxHeight,max - top) :
@@ -199,7 +199,7 @@ export default class Panel extends EventEmitter{
         }
         this._groups.slice(index,1);
         this._elementList.removeChild(group.element);
-        this._updateHeight();
+        this.updateHeight();
     }
 
     render(){
@@ -259,7 +259,7 @@ export default class Panel extends EventEmitter{
         }
         this._state.y = Math.max(0,Math.min(value,window.innerHeight - this._elementHead.getBoundingClientRect().height));
         this._element.style.top = this._state.y + 'px';
-        this._updateHeight();
+        this.updateHeight();
     }
 
     /**
@@ -351,7 +351,7 @@ export default class Panel extends EventEmitter{
     set collapse(value){
         this._state.collapse = value;
         this._element.classList[value ? 'add' : 'remove']('collapse');
-        this._updateHeight();
+        this.updateHeight();
     }
 
     /**
@@ -418,9 +418,9 @@ export default class Panel extends EventEmitter{
         this._elementList.appendChild(group.element);
         group.componentLabelRatio = this._state.labelRatio;
         //update height if group changed
-        group.on('size-change',()=>{this._updateHeight();});
+        group.on('size-change',()=>{this.updateHeight();});
         //update height to new group element
-        this._updateHeight();
+        this.updateHeight();
         return this;
     };
 
