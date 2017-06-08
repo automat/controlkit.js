@@ -30,6 +30,7 @@ const template =
 export const DefaultConfig = Object.freeze({
     id : null,
     label : 'canvas',
+    type : '2d',
     init : noop,
     draw : noop,
     onMouseDown : noop,
@@ -66,7 +67,7 @@ export default class Canvas extends Component{
         this._elementCanvas = this._element.querySelector('canvas');
         this._elementCanvas.setAttribute('tabindex',1);
 
-        this._ctx = this._elementCanvas.getContext('2d');
+        this._ctx = this._elementCanvas.getContext(config.type);
 
         //listeners
         const context = {
