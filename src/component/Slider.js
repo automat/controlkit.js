@@ -103,7 +103,7 @@ export default class Slider extends ObjectComponent{
                     break;
                 case Type.INT:
                     fd = 0;
-                    step = step.toFixed(0);
+                    step = +step.toFixed(0);
                     break;
             }
 
@@ -111,7 +111,8 @@ export default class Slider extends ObjectComponent{
                 element: this._element.querySelector('input'),
                 min : this._state.range[0],
                 max : this._state.range[1],
-                fd,step
+                fd,
+                step
             });
             const setValue = ()=>{
                 this.value = this._input.value;
