@@ -20,14 +20,26 @@ export default class Text extends Component{
         return 'text';
     }
 
+    /**
+     * Sets the title.
+     * @param {String} value
+     */
     set title(value){
         this.label = value;
     }
 
+    /**
+     * Returns the title.
+     * @return {String}
+     */
     get title(){
         return this.label;
     }
 
+    /**
+     * Sets the text content.
+     * @param {String} value
+     */
     set text(value){
         this._state.text = value;
         const paragraphs = this._element.querySelectorAll('p');
@@ -41,6 +53,10 @@ export default class Text extends Component{
         }
     }
 
+    /***
+     * Returns the text content.
+     * @return {String}
+     */
     get text(){
         return this._state.text;
     }
