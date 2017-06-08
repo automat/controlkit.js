@@ -20,7 +20,8 @@ export const DefaultConfig = Object.freeze({
     label : 'none',
     labelRatio : null,
     annotation : null,
-    template : null
+    template : null,
+    hide : false
 });
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -43,7 +44,8 @@ export default class Component extends EventEmitter{
             id : config.id,
             label : config.label,
             labelRatio : config.labelRatio,
-            annotation : config.annotation
+            annotation : config.annotation,
+            hide : config.hide
         };
 
         this._parent = parent;
@@ -86,6 +88,27 @@ export default class Component extends EventEmitter{
      */
     get id(){
         return this._state.id;
+    }
+
+    /**
+     * If true the component is hidden.
+     * @param {Boolean} hide
+     */
+    set hide(hide){
+        if(hide == this._state.hide){
+            return;
+        }
+        this._state.hide = hide;
+        this._element.classList.toggle('hide');
+        this._parent.updateHeight();
+    }
+
+    /**
+     * Returns true if the component is hidden.
+     * @return {Boolean}
+     */
+    get hide(){
+        return this._state.hide;
     }
 
     /**
