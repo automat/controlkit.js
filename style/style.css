@@ -471,6 +471,10 @@
     box-shadow: inset 0 -1px 0 0 #1E2224;
 }
 
+#control-kit .component.hide{
+    display: none;
+}
+
 #control-kit .component-list .component:first-of-type{
     box-shadow: inset 0 1px 0 0 #363636, inset 0 -1px 0 0 #1E2224;
 }
