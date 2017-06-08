@@ -1,4 +1,4 @@
-import ControlKit from '../../index';
+import ControlKit from '../../../index';
 
 window.addEventListener('load',()=>{
 
