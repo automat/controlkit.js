@@ -1,5 +1,6 @@
 import validateOption from 'validate-option';
 import validateType from '../util/validate-type';
+import validateValue from '../util/validate-value';
 import validateDescription from '../util/validate-description';
 import createHtml from '../util/create-html';
 import Group, {DefaultConfig as GroupDefaultConfig} from './Group';
@@ -25,6 +26,20 @@ const template =
         <ul class="group-list"></ul>
     </div>`;
 
+export const AlignmentH = Object.freeze({
+    NONE : null,
+    LEFT : 'left',
+    RIGHT : 'right'
+});
+
+export const AlignmentV = Object.freeze({
+    NONE : null,
+    TOP : 'top',
+    BOTTOM : 'bottom',
+    TOP_STACK : 'top-stack',
+    BOTTOM_STACK : 'bottom-stack'
+});
+
 /**
  * Panel default config
  * @type {Object}
@@ -43,7 +58,9 @@ const template =
 export const DefaultConfig = Object.freeze({
     id : null,
     enabled : true,
-    fixed: true,
+    fixed: false,
+    alignh : null,
+    alignv : null,
     x: null,
     y: null,
     width: 300,
@@ -62,6 +79,12 @@ export const DefaultConfig = Object.freeze({
 export default class Panel extends EventEmitter{
     constructor(controlKit,config){
         config = validateOption(config,DefaultConfig);
+        validateValue(config.alignh,AlignmentH);
+        validateValue(config.alignv,AlignmentV);
+
+        if(config.fixed && (config.alignh || config.alignv)){
+            throw new Error('Panel position "fixed" not compatible with alignment options.');
+        }
 
         super();
         this.setMaxListeners(0);
@@ -88,8 +111,16 @@ export default class Panel extends EventEmitter{
             collapse : config.collapse,
             opacity : config.opacity,
             fixed : config.fixed,
+            alignh : config.alignh,
+            alignv : config.alignv,
             dragging : false
         };
+
+        // auto position
+        this._element.style.position = 'absolute';
+        if(this._state.alignv == AlignmentV.BOTTOM || this._state.alignv == AlignmentV.BOTTOM_STACK){
+            this._elementHead.classList.add('flipped');
+        }
 
         this._scrollContainer = new ScrollContainer(this._elementList);
         this._scrollContainer.on('size-change',()=>{this.emit('scroll-size-change');});
@@ -182,14 +213,17 @@ export default class Panel extends EventEmitter{
         this.collapse = this._state.collapse;
         this.opacity = this._state.opacity;
         this.componentLabelRatio = this._state.labelRatio;
+
+        this._root.updatePanelAutoPosition();
     }
-    
+
     updateHeight(){
         const top = this._elementHead.getBoundingClientRect().bottom;
         const max = window.innerHeight;
         const height = this._state.maxHeight ? Math.min(this._state.maxHeight,max - top) :
                        max > top ? (max - top) : null;
         this._scrollContainer.setHeight(height);
+        this._root.updatePanelAutoPosition();
     }
 
     _removeGroup(group){
@@ -216,6 +250,9 @@ export default class Panel extends EventEmitter{
     set fixed(value){
         this._state.fixed = value;
         this._element.classList[value ? 'add' : 'remove']('fixed');
+        this._element.style.right = null;
+        this._element.style.bottom = null;
+        this._root.updatePanelAutoPosition();
     }
 
     /**
@@ -224,6 +261,42 @@ export default class Panel extends EventEmitter{
      */
     get fixed(){
         return this._state.fixed;
+    }
+
+    /**
+     * Sets the horizontal auto alignment.
+     * @param {String|null} alignment
+     */
+    set alignh(alignment){
+        validateValue(alignment,AlignmentH);
+        this._state.alignh = alignment;
+        this._root.updatePanelAutoPosition();
+    }
+
+    /**
+     * Returns the horizontal auto alignment.
+     * @return {String|null}
+     */
+    get alignh(){
+        return this._state.alignh;
+    }
+
+    /**
+     * Sets the vertical auto alignment.
+     * @param {String|null} alignment
+     */
+    set alignv(alignment){
+        validateValue(alignment,AlignmentV);
+        this._state.alignv = alignment;
+        this._root.updatePanelAutoPosition();
+    }
+
+    /**
+     * Returns the vertical auto alignment.
+     * @return {String|null}
+     */
+    get alignv(){
+        return this._state.alignv;
     }
 
     /**
@@ -610,6 +683,7 @@ export default class Panel extends EventEmitter{
         this._groups = [];
         this._element.parentNode.removeChild(this._element);
         this._removeEventListeners();
+        this._root.updatePanelAutoPosition();
     }
 
     getState(){
