@@ -4,9 +4,14 @@ import validateDescription from './util/validate-description';
 import createHtml from './util/create-html';
 
 import Reference from './Reference';
-import Panel, {DefaultConfig as PanelDefaultConfig} from './group/Panel';
+import Panel, {
+    DefaultConfig as PanelDefaultConfig,
+    AlignmentH as PanelAlignmentH,
+    AlignmentV as PanelAlignmentV
+} from './group/Panel';
 import ComponentOptions from './component/ComponentOptions';
 import ColorPicker from './component/ColorPicker';
+
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
@@ -55,15 +60,21 @@ export default class ControlKit{
         this._element = (config.element || document.body).appendChild(createHtml(template));
 
         // listeners
+        const onResize = ()=>{
+            this.updatePanelAutoPosition();
+        };
         const onKeyPress = (e)=>{
             if(e.key !== this._state.shortcutCharHide.toUpperCase() || !e.ctrlKey || !e.shiftKey){
                 return;
             }
             this.enable = !this.enable;
         };
+        window.addEventListener('resize',onResize);
         document.addEventListener('keypress',onKeyPress);
 
+
         this._removeEventListeners = ()=>{
+            window.removeEventListener('resize',onResize);
             document.removeEventListener('keypress',onKeyPress);
         };
 
@@ -83,6 +94,89 @@ export default class ControlKit{
 
     get(id){
         return Reference.get(id);
+    }
+
+    /**
+     * Updates auto layout panels position.
+     */
+    updatePanelAutoPosition(){
+        const ptl = [0,0];
+        const ptr = [0,0];
+        const pbl = [0,0];
+        const pbr = [0,0];
+        const ptls = [0,0];
+        const ptrs = [0,0];
+        const pbls = [0,0];
+        const pbrs = [0,0];
+
+        for(const panel of this._panels){
+            if(panel.fixed){
+                continue;
+            }
+
+            let pt, pts, pb, pbs, side, sideop;
+
+            // left aligned
+            if(!panel.alignh || panel.alignh == PanelAlignmentH.LEFT){
+                pt = ptl;
+                pts = ptls;
+                pb = pbl;
+                pbs = pbls;
+                side = 'left';
+                sideop = 'right';
+            }
+            // right aligned
+            else {
+                pt = ptr;
+                pts = ptrs;
+                pb = pbr;
+                pbs = pbrs;
+                side = 'right';
+                sideop = 'left';
+            }
+            
+            const style = panel.element.style;
+
+            switch(panel.alignv){
+                // bottom stack
+                case PanelAlignmentV.BOTTOM_STACK:
+                    style[side] = pbs[0] + 'px';
+                    style[sideop] = null;
+                    style.top = null;
+                    style.bottom  = pbs[1] + 'px';
+                    pb[0] += pb[0] == 0 ? panel.width : 0;
+                    pbs[1] += panel.height;
+                    break;
+                // bottom
+                case PanelAlignmentV.BOTTOM:
+                    style[side] = pb[0] + 'px';
+                    style[sideop] = null;
+                    style.top = null;
+                    style.bottom = pb[1] + 'px';
+                    pb[0] += panel.width;
+                    pbs[0] += pbs[0] == 0 ? panel.width : 0;
+                    break;
+                // top stack
+                case PanelAlignmentV.TOP_STACK:
+                    style[side] = pts[0] + 'px';
+                    style[sideop] = null;
+                    style.top = pts[1] + 'px';
+                    style.bottom = null;
+                    pt[0] += pt[0] == 0 ? panel.width : 0;
+                    pts[1] += panel.height;
+                    break;
+                // top
+                case PanelAlignmentV.TOP:
+                default:
+                    style[side] = pt[0] + 'px';
+                    style[sideop] = null;
+                    style.top = pt[1] + 'px';
+                    style.bottom = null;
+                    pt[0] += panel.width;
+                    pts[0] += pts[0] == 0 ? panel.width : 0;
+                    break;
+            }
+        }
     }
 
     _removeEventListeners(){}
