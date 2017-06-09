@@ -241,6 +241,14 @@
     background-image: url('assets/images/arrow-down-dark.svg');
 }
 
+#control-kit .panel-head.flipped .btn-close{
+    background-image: url('assets/images/arrow-down-dark.svg');
+}
+
+#control-kit .panel.collapse .panel-head.flipped .btn-close{
+    background-image: url('assets/images/arrow-up-dark.svg');
+}
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* Scroll-Bar
 /*--------------------------------------------------------------------------------------------------------------------*/
