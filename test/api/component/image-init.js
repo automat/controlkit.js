@@ -1,4 +1,4 @@
-import ControlKit from '../../index';
+import ControlKit from '../../../index';
 
 function loadImages(srcs,success,error){
     let index = 0;
