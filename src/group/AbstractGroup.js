@@ -8,6 +8,15 @@ import ScrollContainer from './ScrollContainer';
 // Defaults
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+/**
+ * Default AbstractGroup config
+ * @type {Object}
+ * @param {string|null} config.id
+ * @param {string|null} config.label
+ * @param {number|null} config.labelRatio
+ * @param {boolean} config.enable
+ * @param {number|null} config.height
+ */
 const DefaultConfig = Object.freeze({
     id : null,
     label  : null,
@@ -24,7 +33,12 @@ export default class AbstractGroup extends EventEmitter{
     /**
      * @constructor
      * @param parent
-     * @param config
+     * @param {object} [config]
+     * @param {string|null} [config.id]
+     * @param {string|null} [config.label]
+     * @param {number|null} [config.labelRatio]
+     * @param {boolean} [config.enable]
+     * @param {number|null} [config.height]
      */
     constructor(parent,config){
         config = validateOption(config,DefaultConfig);
@@ -64,6 +78,10 @@ export default class AbstractGroup extends EventEmitter{
         this.id = this._state.id;
     }
 
+    /**
+     * Sets the groups id.
+     * @param {string|null} value
+     */
     set id(value){
         if(!value){
             if(this._state.id && Reference.has(this._state.id)){
@@ -77,6 +95,10 @@ export default class AbstractGroup extends EventEmitter{
         this._state.id = value;
     }
 
+    /**
+     * Returns the groups id.
+     * @return {string|null}
+     */
     get id(){
         return this._state.id;
     }
