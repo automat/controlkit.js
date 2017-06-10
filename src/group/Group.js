@@ -100,6 +100,7 @@ export default class Group extends AbstractGroup{
         const group = new SubGroup(this,config);
         group.componentLabelRatio = this._state.labelRatio;
         this._groups.push(group);
+
         //update height if group changed
         group.on('size-change',()=>{
             this.updateHeight();
@@ -191,10 +192,11 @@ export default class Group extends AbstractGroup{
     /**
      * Adds a label component to the last subgroup.
      * @param label
+     * @param config
      * @returns {Group}
      */
-    addLabel(label){
-        this._backSubGroupValid().addLabel(label);
+    addLabel(label,config){
+        this._backSubGroupValid().addLabel(label,config);
         return this;
     }
 

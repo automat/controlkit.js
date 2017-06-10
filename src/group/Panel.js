@@ -549,8 +549,8 @@ export default class Panel extends EventEmitter{
         return this;
     };
 
-    addLabel(label){
-        this._backGroupValid().addLabel(label);
+    addLabel(label,config){
+        this._backGroupValid().addLabel(label,config);
         return this;
     };
 

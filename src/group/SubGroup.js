@@ -212,10 +212,11 @@ export default class SubGroup extends AbstractGroup{
     /**
      * Adds a label component.
      * @param label
+     * @param config
      * @returns {*}
      */
-    addLabel(label){
-        return this._addComponent(new Label(this,label));
+    addLabel(label,config){
+        return this._addComponent(new Label(this,label,config));
     }
 
     /**
