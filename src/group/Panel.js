@@ -26,12 +26,24 @@ const template =
         <ul class="group-list"></ul>
     </div>`;
 
+/**
+ * Panel horizontal alignment type
+ * @type {Object}
+ * @property {string} LEFT - align left
+ * @property {string} RIGHT - align right
+ */
 export const AlignmentH = Object.freeze({
     NONE : null,
     LEFT : 'left',
     RIGHT : 'right'
 });
 
+/**
+ * Panel vertical alignment type
+ * @type {Object}
+ * @property {string} TOP - align top
+ * @property {string} BOTTOM - align bottom
+ */
 export const AlignmentV = Object.freeze({
     NONE : null,
     TOP : 'top',
