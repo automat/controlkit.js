@@ -49,8 +49,11 @@ export default class AbstractGroup extends EventEmitter{
 
         //optional usable scroll container for main child
         this._scrollContainer = new ScrollContainer();
+
+        //bubble up container change
         this._scrollContainer.on('size-change',()=>{
             this.emit('scroll-size-change');
+            this.emit('size-change');
         });
 
         //captured scroll container change parent
