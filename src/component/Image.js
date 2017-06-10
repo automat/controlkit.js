@@ -40,12 +40,38 @@ export default class Image_ extends Component{
             template
         });
 
-        //elements
+        this._state.size = [0,0];
+
+        // elements
         this._elementImage = this._element.querySelector('img');
+
+        // image resjze on container resize
+        const onScrollSizeChange = ()=>{
+            const width = this._elementImage.offsetWidth;
+            const height = this._elementImage.offsetHeight;
+            const size = this._state.size;
+
+            if((width == 0 && width == height && size[0] == width && size[0] == size[1]) ||
+               (width == size[0] && height == size[1])){
+                return;
+            }
+
+            size[0] = width;
+            size[1] = height;
+            this.emit('size-change');
+        };
+
+        this._removeEventListeners = ()=>{
+            parent.removeListener('scroll-size-change',onScrollSizeChange);
+        };
+
+        parent.on('scroll-size-change',onScrollSizeChange);
 
         //init
         this.image = image;
     }
+
+    _removeEventListeners(){};
 
     /**
      * Returns the type name.
@@ -61,6 +87,8 @@ export default class Image_ extends Component{
      */
     set image(image){
         this._elementImage.src = image.src;
+        this._state.size[0] = this._elementImage.offsetWidth;
+        this._state.size[1] = this._elementImage.offsetHeight;
         this.emit('size-change');
     }
 
@@ -70,5 +98,10 @@ export default class Image_ extends Component{
      */
     get image(){
         return this._elementImage;
+    }
+
+    destroy(){
+        this._removeEventListeners();
+        super.destroy();
     }
 }
