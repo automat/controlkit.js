@@ -92,8 +92,15 @@ export default class ControlKit{
         this.stateLoadSave = this._state.stateSaveLoad;
     }
 
-    get(id){
-        return Reference.get(id);
+    get(id_or_ids){
+        if(id_or_ids instanceof Array){
+            const items = new Array(id_or_ids.length);
+            for(let i = 0; i < items.length; ++i){
+                items[i] = Reference.get(id_or_ids[i]);
+            }
+            return items;
+        }
+        return Reference.get(id_or_ids);
     }
 
     /**
@@ -134,7 +141,7 @@ export default class ControlKit{
                 side = 'right';
                 sideop = 'left';
             }
-            
+
             const style = panel.element.style;
 
             switch(panel.alignv){
