@@ -36,6 +36,7 @@ const template =
     </li>`;
 
 export const DefaultConfig = Object.freeze({
+    id : null,
     label  : null,
     labelRatio : null,
     enable : true,
@@ -50,6 +51,7 @@ export default class SubGroup extends AbstractGroup{
     constructor(parent,config){
         config = validateOption(config,DefaultConfig);
         super(parent,{
+            id : config.id,
             label  : config.label,
             labelRatio : config.labelRatio,
             enable : config.enable,
@@ -74,10 +76,9 @@ export default class SubGroup extends AbstractGroup{
     }
 
     updateHeight(){
-        if(this._state.maxHeight == null){
-            return;
-        }
-        const height = Math.min(this._elementList.offsetHeight,this._state.maxHeight);
+        const height = this._state.maxHeight ?
+                       Math.min(this._elementList.offsetHeight,this._state.maxHeight) :
+                       this._elementList.offsetHeight;
         this._scrollContainer.setHeight(height);
     }
 
@@ -98,10 +99,8 @@ export default class SubGroup extends AbstractGroup{
         component.labelRatio = this._state.labelRatio;
         component.on('size-change',()=>{
             this.updateHeight();
-            this.emit('size-change');
         });
         this.updateHeight();
-        this.emit('size-change');
         return this;
     }
 
