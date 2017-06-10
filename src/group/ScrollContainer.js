@@ -210,6 +210,11 @@ export default class ScrollContainer extends EventEmitter{
         //scroll-container remove
         if(height === null){
             if(this._height !== null){
+                // FIXME: detachment before proper removal
+                if(!this._element.parentNode){
+                    this._height = null;
+                    return;
+                }
                 this._parent.removeChild(this._element);
                 this._parent.appendChild(this._target);
                 this.emit('size-change');
