@@ -63,6 +63,13 @@ export const Type = Object.freeze({
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 export default class Slider extends ObjectComponent{
+    /**
+     * @constructor
+     * @param parent
+     * @param object
+     * @param key
+     * @param config
+     */
     constructor(parent,object,key,config){
         validateType(object,key,Number);
 
@@ -189,8 +196,13 @@ export default class Slider extends ObjectComponent{
                 this._input.min = min;
                 this._input.max = max;
             }
-
-            this.value = Math.max(min,Math.min(this.value,max));
+            const value = Math.max(min,Math.min(this.value,max));
+            // update slider new range
+            if(value == this.value){
+                this.sync();
+                return;
+            }
+            this.value = value;
         }
     }
 
