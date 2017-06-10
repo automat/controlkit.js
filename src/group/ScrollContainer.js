@@ -147,6 +147,10 @@ export default class ScrollContainer extends EventEmitter{
         this._elementHandle.style.marginTop = this._scrollY / max * (1.0 - ratio) * heightTrack + 'px';
     }
 
+    /**
+     * Sets the target node to be wrapped.
+     * @param {HTMLElement | null}target
+     */
     set target(target){
         if(target && !(target instanceof HTMLElement)){
             throw new Error(`Invalid target ${target}. Target must be HTMLElement or null.`);
@@ -164,6 +168,10 @@ export default class ScrollContainer extends EventEmitter{
         this.setHeight(height);
     }
 
+    /**
+     * Returns the wrapped target node.
+     * @return {HTMLElement|null}
+     */
     get target(){
         return this._target;
     }
