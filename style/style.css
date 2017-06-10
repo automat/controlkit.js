@@ -300,10 +300,12 @@
 #control-kit .group .scroll-wrap .input-wrap input,
 #control-kit .sub-group .scroll-wrap .input-wrap input{
     width: calc(100% - 5px); /* inset by scroll-bar width / 2 */
+    margin-left: 5px;
 }
 
 #control-kit .group .scroll-wrap .sub-group .scroll-wrap .input-wrap input{
     width: calc(100% - 10px); /* inset by scroll-bar width */
+    margin-left: 10px;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
