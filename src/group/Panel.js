@@ -542,8 +542,6 @@ export default class Panel extends EventEmitter{
         return this;
     };
 
-    addRange(object_or_array,key_or_config,config){};
-
     addPad(object_or_array,key_or_config,config){
         this._backGroupValid().addPad(object_or_array,key_or_config,config);
         return this;
@@ -568,6 +566,11 @@ export default class Panel extends EventEmitter{
         this._backGroupValid().addSlider(object_or_number,key_or_array,config);
         return this;
     };
+
+    addRange(object,key,config){
+        this._backGroupValid().addRange(object,key,config);
+        return this;
+    }
 
     addCanvas(config){
         this._backGroupValid().addCanvas(config);

@@ -212,6 +212,11 @@ export default class Group extends AbstractGroup{
         return this;
     }
 
+    addRange(object,key,config){
+        this._backSubGroupValid().addRange(object,key,config);
+        return this;
+    }
+
     addPad(object,key,config){
         this._backSubGroupValid().addPad(object,key,config);
         return this;

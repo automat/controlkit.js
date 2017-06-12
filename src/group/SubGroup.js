@@ -15,6 +15,7 @@ import Select,{DefaultConfig as SelectDefaultConfig} from '../component/Select';
 import Text from '../component/Text';
 import Label,{DefaultConfig as LabelDefaultConfig} from '../component/Label';
 import Slider,{DefaultConfig as SliderDefaultConfig} from '../component/Slider';
+import Range, {DefaultConfig as RangeDefaultConfig} from '../component/Range';
 import Color,{DefaultConfig as ColorDefaultConfig} from '../component/Color';
 import Pad,{DefaultConfig as PadDefaultConfig} from '../component/Pad';
 import Canvas,{DefaultConfig as CanvasDefaultConfig} from '../component/Canvas';
@@ -236,6 +237,25 @@ export default class SubGroup extends AbstractGroup{
      */
     addSlider(object,key,config){
         return this._addComponent(new Slider(this,object,key,config));
+    }
+
+    /**
+     * Adds a range component.
+     * @param object
+     * @param key
+     * @param [config]
+     * @param [config.label]
+     * @param [config.labelRatio]
+     * @param [config.fd]
+     * @param [config.step]
+     * @param [config.range]
+     * @param [config.numberInput]
+     * @param [config.onChange]
+     * @param [config.annotation]
+     * @return {*}
+     */
+    addRange(object,key,config){
+        return this._addComponent(new Range(this,object,key,config));
     }
 
     addColor(object,key,config){
