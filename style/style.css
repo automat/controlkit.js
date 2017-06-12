@@ -297,14 +297,14 @@
     cursor: default;
 }
 
-#control-kit .group .scroll-wrap .input-wrap input,
-#control-kit .sub-group .scroll-wrap .input-wrap input{
-    width: calc(100% - 5px); /* inset by scroll-bar width / 2 */
+#control-kit .group .scroll-wrap .input-wrap,
+#control-kit .sub-group .scroll-wrap .input-wrap{
+    width: calc(70% - 5px); /* inset by scroll-bar width / 2 */
     margin-left: 5px;
 }
 
-#control-kit .group .scroll-wrap .sub-group .scroll-wrap .input-wrap input{
-    width: calc(100% - 10px); /* inset by scroll-bar width */
+#control-kit .group .scroll-wrap .sub-group .scroll-wrap .input-wrap{
+    width: calc(70% - 10px); /* inset by scroll-bar width */
     margin-left: 10px;
 }
 
@@ -596,6 +596,7 @@
     text-transform: uppercase;
     text-align: center;
     float: left;
+    text-transform: uppercase;
 }
 
 #control-kit .input-wrap.range input{
@@ -604,6 +605,39 @@
     text-align: center;
     padding-left: 10px;
     float: left;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* Component Range
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#control-kit .range{
+    width: 100%;
+    clear: both;
+}
+
+#control-kit .range-item{
+    width: calc(50% - 4px);
+    float: left;
+}
+
+#control-kit .range .range-item:nth-of-type(2){
+    margin-left: 8px;
+}
+
+#control-kit .range .range-item label {
+    width: 40%;
+    float: left;
+    display: inline-block;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+#control-kit .range .range-item input[type="number"]{
+    width: 60%;
+    float: left;
+    text-align: center;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
