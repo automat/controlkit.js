@@ -124,7 +124,7 @@ export default class ControlKit{
             let pt, pts, pb, pbs, side, sideop;
 
             // left aligned
-            if(!panel.alignh || panel.alignh == PanelAlignmentH.LEFT){
+            if(panel.alignh == PanelAlignmentH.LEFT){
                 pt = ptl;
                 pts = ptls;
                 pb = pbl;
@@ -207,6 +207,7 @@ export default class ControlKit{
      */
     addPanel(config){
         this._panels.push(new Panel(this,config));
+        this.updatePanelAutoPosition();
         return this._panels[this._panels.length - 1];
     }
 
