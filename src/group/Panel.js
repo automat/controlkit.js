@@ -71,7 +71,7 @@ export const DefaultConfig = Object.freeze({
     id : null,
     enabled : true,
     fixed: false,
-    alignh : null,
+    alignh : AlignmentH.RIGHT,
     alignv : null,
     x: null,
     y: null,
