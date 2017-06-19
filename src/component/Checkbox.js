@@ -36,7 +36,7 @@ export default class Checkbox extends ObjectComponent{
         //elements
         this._element.classList.add('type-input');
         this._elementInput = this._element.querySelector('input');
-        this._elementInput.addEventListener('input',()=>{
+        this._elementInput.addEventListener('click',()=>{
             this.value = this._elementInput.checked;
         });
 
