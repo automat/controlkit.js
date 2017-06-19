@@ -38,7 +38,7 @@ function formatValue(x,min,max,fd){
     } else {
         x = Number.isNaN(x) ? 0 : x;
     }
-    x = fd !== null ? x.toFixed(fd) : x;
+    x = fd !== null ? +x.toFixed(fd) : x;
     return x;
 }
 
@@ -121,6 +121,7 @@ export default class NumberInputInternal extends EventEmitter{
                         break;
                 }
             }
+            e.stopPropagation();
         });
         //prevent mousewheel stepping
         const onMouseWheel = (e)=>{e.preventDefault();};
