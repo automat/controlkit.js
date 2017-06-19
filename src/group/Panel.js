@@ -72,7 +72,7 @@ export const DefaultConfig = Object.freeze({
     enabled : true,
     fixed: false,
     alignh : AlignmentH.RIGHT,
-    alignv : null,
+    alignv : AlignmentV.TOP,
     x: null,
     y: null,
     width: 300,
@@ -225,8 +225,6 @@ export default class Panel extends EventEmitter{
         this.collapse = this._state.collapse;
         this.opacity = this._state.opacity;
         this.componentLabelRatio = this._state.labelRatio;
-
-        this._root.updatePanelAutoPosition();
     }
 
     updateHeight(){
