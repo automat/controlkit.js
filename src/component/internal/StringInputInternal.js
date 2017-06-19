@@ -85,6 +85,9 @@ export default class StringInputInternal extends EventEmitter{
             this.emit('change');
             this._updateHeight();
         });
+        this._element.addEventListener('keydown',(e)=>{
+            e.stopPropagation();
+        });
 
         //vertical resize event
         if(this._multiline){
