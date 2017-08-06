@@ -265,7 +265,7 @@ Adds a new Slider to the last added SubGroup.
 ![Range](images/Range.png)
 #### panel.addRange(object,propertyKey,options) -> {[Panel](#panel)}
 
-Adds a new Checkbox to the last added SubGroup.
+Adds a new Range input to the last added SubGroup.
 **Options**
 
 | Name      | Type     | Description                                       |
