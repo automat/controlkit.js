@@ -78,6 +78,10 @@ export default class AbstractGroup extends EventEmitter{
         this.id = this._id;
     }
 
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Query
+    /*----------------------------------------------------------------------------------------------------------------*/
+
     /**
      * Sets the groups id.
      * @param {string|null} value
@@ -102,6 +106,19 @@ export default class AbstractGroup extends EventEmitter{
     get id(){
         return this._id;
     }
+
+    /**
+     * Returns the parent element.
+     * @returns {AbstractGroup|Panel}
+     */
+    get parent(){
+        return this._parent;
+    }
+
+    /**
+     * Returns the control kit root instance.
+     */
+    get root(){}
 
     /**
      * Override in sub-class;
@@ -189,14 +206,6 @@ export default class AbstractGroup extends EventEmitter{
      */
     get elementList(){
         return this._elementList;
-    }
-
-    /**
-     * Returns the parent element.
-     * @returns {AbstractGroup|Panel}
-     */
-    get parent(){
-        return this._parent;
     }
 
     destroy(){
