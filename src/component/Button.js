@@ -1,6 +1,10 @@
 import Component from './component';
 import validateOption from 'validate-option';
 
+/*--------------------------------------------------------------------------------------------------------------------*/
+// Template / Defaults
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 const template = '<button></button>';
 
 export const DefaultConfig = Object.freeze({
@@ -8,6 +12,10 @@ export const DefaultConfig = Object.freeze({
     label : null,
     onChange : function(){}
 });
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+// Button
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 export default class Button extends Component{
     /**
@@ -26,17 +34,17 @@ export default class Button extends Component{
             template
         });
 
-        this._state.name = name;
-        this._onChange = config.onChange.bind(this);
+        // state
+        this._name = name;
+        this._onChange = null;
 
+        // node
         this._element.classList.add('type-input');
         this._elementButton = this._element.querySelector('button');
 
-        this.name = this._state.name;
-
-        //listener
-        this._onChange = null;
-        this.onChange = config.onChange;
+        // state initial
+        this.name = this._name;
+        this.onChange = config.onChange.bind(this);
     }
 
     /**
@@ -52,7 +60,7 @@ export default class Button extends Component{
      * @param {function}value
      */
     set onChange(value){
-        if(value == this._onChange){
+        if(value === this._onChange){
             return;
         }
         if(this._onChange){
@@ -75,7 +83,7 @@ export default class Button extends Component{
      * @param value
      */
     set name(value){
-        this._state.name = value;
+        this._name = value;
         this._elementButton.innerText = value;
     }
 
@@ -84,6 +92,6 @@ export default class Button extends Component{
      * @returns {*}
      */
     get name(){
-        return this._state.name;
+        return this._name;
     }
 }
