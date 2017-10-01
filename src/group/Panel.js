@@ -101,8 +101,40 @@ export default class Panel extends EventEmitter{
         super();
         this.setMaxListeners(0);
 
-        this._root = controlKit;
+        // state
+        this._id = config.id;
+        this._enabled = config.enabled;
+        this._height = null;
+        this._maxHeight = config.height;
+        this._label = config.label;
+        this._labelRatio = config.labelRatio;
+        this._position = config.position;
+        this._collapse = config.collapse;
+        this._opacity = config.opacity;
+        this._fixed = config.fixed;
+        this._alignh = config.alignh;
+        this._alignv = config.alignv;
+        this._dragging = false;
 
+        // this._state = {
+        //     id : config.id,
+        //     enabled : config.enabled,
+        //     height : null,
+        //     maxHeight : config.height,
+        //     label : config.label,
+        //     labelRatio : config.labelRatio,
+        //     position : [config.x,config.y],
+        //     collapse : config.collapse,
+        //     opacity : config.opacity,
+        //     fixed : config.fixed,
+        //     alignh : config.alignh,
+        //     alignv : config.alignv,
+        //     dragging : false
+        // };
+
+
+        // node
+        this._root = controlKit;
         this._element = createHtml(template);
         this._root._element.appendChild(this._element);
         this._elementHead = this._element.querySelector('.panel-head');
@@ -112,25 +144,9 @@ export default class Panel extends EventEmitter{
         this._elementLoad = this._element.querySelector('.btn-load');
         this._elementList = this._element.querySelector('.group-list');
 
-        this._state = {
-            id : config.id,
-            enabled : config.enabled,
-            height : null,
-            maxHeight : config.height,
-            label : config.label,
-            labelRatio : config.labelRatio,
-            position : [config.x,config.y],
-            collapse : config.collapse,
-            opacity : config.opacity,
-            fixed : config.fixed,
-            alignh : config.alignh,
-            alignv : config.alignv,
-            dragging : false
-        };
-
         // auto position
         this._element.style.position = 'absolute';
-        if(this._state.alignv == AlignmentV.BOTTOM || this._state.alignv == AlignmentV.BOTTOM_STACK){
+        if(this._alignv === AlignmentV.BOTTOM || this._alignv === AlignmentV.BOTTOM_STACK){
             this._elementHead.classList.add('flipped');
         }
 
@@ -155,29 +171,29 @@ export default class Panel extends EventEmitter{
             this.y = y - offsetY;
         };
         const onHeadDragBegin = (e)=>{
-            if(!this._state.fixed){
+            if(!this._fixed){
                 return;
             }
-            this._state.dragging = true;
+            this._dragging = true;
             const rect = this._element.getBoundingClientRect();
             offsetX = e.pageX - rect.left;
             offsetY = e.pageY - rect.top;
             this._element.classList.add('dragging');
         };
         const onHeadDrag = (e)=>{
-            if(!this._state.dragging){
+            if(!this._dragging){
                 return;
             }
             setPositionOffsetted(e.pageX,e.pageY);
         };
         const onHeadDragEnd = (e)=>{
-            if(!this._state.dragging){
+            if(!this._dragging){
                 return;
             }
             setPositionOffsetted(e.pageX,e.pageY);
             offsetX = 0;
             offsetY = 0;
-            this._state.dragging = false;
+            this._dragging = false;
             this._element.classList.remove('dragging');
         };
 
@@ -192,7 +208,7 @@ export default class Panel extends EventEmitter{
         //window resize
         const onWindowResize = ()=>{
             //constrain to viewport
-            if(this._state.fixed){
+            if(this._fixed){
                 this.x = this.x;
                 this.y = this.y;
             }
@@ -219,18 +235,18 @@ export default class Panel extends EventEmitter{
         };
 
         //init
-        this.fixed = this._state.fixed;
-        this.label = this._state.label;
-        this.enable = this._state.enabled;
-        this.collapse = this._state.collapse;
-        this.opacity = this._state.opacity;
-        this.componentLabelRatio = this._state.labelRatio;
+        this.fixed = this._fixed;
+        this.label = this._label;
+        this.enable = this._enabled;
+        this.collapse = this._collapse;
+        this.opacity = this._opacity;
+        this.componentLabelRatio = this._labelRatio;
     }
 
     updateHeight(){
         const top = this._elementHead.getBoundingClientRect().bottom;
         const max = window.innerHeight;
-        const height = this._state.maxHeight ? Math.min(this._state.maxHeight,max - top) :
+        const height = this._maxHeight ? Math.min(this._maxHeight,max - top) :
                        max > top ? (max - top) : null;
         this._scrollContainer.setHeight(height);
         this._root.updatePanelAutoPosition();
@@ -258,7 +274,7 @@ export default class Panel extends EventEmitter{
      * @param value
      */
     set fixed(value){
-        this._state.fixed = value;
+        this._fixed = value;
         this._element.classList[value ? 'add' : 'remove']('fixed');
         this._element.style.right = null;
         this._element.style.bottom = null;
@@ -270,7 +286,7 @@ export default class Panel extends EventEmitter{
      * @return {*}
      */
     get fixed(){
-        return this._state.fixed;
+        return this._fixed;
     }
 
     /**
@@ -279,7 +295,7 @@ export default class Panel extends EventEmitter{
      */
     set alignh(alignment){
         validateValue(alignment,AlignmentH);
-        this._state.alignh = alignment;
+        this._alignh = alignment;
         this._root.updatePanelAutoPosition();
     }
 
@@ -288,7 +304,7 @@ export default class Panel extends EventEmitter{
      * @return {String|null}
      */
     get alignh(){
-        return this._state.alignh;
+        return this._alignh;
     }
 
     /**
@@ -297,7 +313,7 @@ export default class Panel extends EventEmitter{
      */
     set alignv(alignment){
         validateValue(alignment,AlignmentV);
-        this._state.alignv = alignment;
+        this._alignv = alignment;
         this._root.updatePanelAutoPosition();
     }
 
@@ -306,7 +322,7 @@ export default class Panel extends EventEmitter{
      * @return {String|null}
      */
     get alignv(){
-        return this._state.alignv;
+        return this._alignv;
     }
 
     /**
@@ -314,11 +330,11 @@ export default class Panel extends EventEmitter{
      * @param {number} value
      */
     set x(value){
-        if(!this._state.fixed){
+        if(!this._fixed){
             return;
         }
-        this._state.x = Math.max(0,Math.min(value,window.innerWidth - this.width));
-        this._element.style.left = this._state.x + 'px';
+        this._position[0] = Math.max(0,Math.min(value,window.innerWidth - this.width));
+        this._element.style.left = this._position[0] + 'px';
     }
 
     /**
@@ -326,10 +342,10 @@ export default class Panel extends EventEmitter{
      * @return {number}
      */
     get x(){
-        if(!this._state.fixed){
+        if(!this._fixed){
             return this._element.getBoundingClientRect().left;
         }
-        return this._state.x;
+        return this._position[0];
     }
 
     /**
@@ -337,11 +353,11 @@ export default class Panel extends EventEmitter{
      * @param {number} value
      */
     set y(value){
-        if(!this._state.fixed){
+        if(!this._fixed){
             return;
         }
-        this._state.y = Math.max(0,Math.min(value,window.innerHeight - this._elementHead.getBoundingClientRect().height));
-        this._element.style.top = this._state.y + 'px';
+        this._position[1] = Math.max(0,Math.min(value,window.innerHeight - this._elementHead.getBoundingClientRect().height));
+        this._element.style.top = this._position[1] + 'px';
         this.updateHeight();
     }
 
@@ -350,10 +366,10 @@ export default class Panel extends EventEmitter{
      * @return {number}
      */
     get y(){
-        if(!this._state.fixed){
+        if(!this._fixed){
             return this._element.getBoundingClientRect().top;
         }
-        return this._state.y;
+        return this._position[1];
     }
 
     /**
@@ -377,7 +393,7 @@ export default class Panel extends EventEmitter{
      * @param {string} value
      */
     set label(value){
-        this._state.label = value;
+        this._label = value;
         this._elementLabel.innerHTML = value;
     }
 
@@ -386,7 +402,7 @@ export default class Panel extends EventEmitter{
      * @return {string}
      */
     get label(){
-        return this._state.label;
+        return this._label;
     }
 
     /**
@@ -394,7 +410,7 @@ export default class Panel extends EventEmitter{
      * @param {number} value
      */
     set componentLabelRatio(value){
-        this._state.labelRatio = value;
+        this._labelRatio = value;
         for(const group of this._groups){
             group.componentLabelRatio = value;
         }
@@ -406,7 +422,7 @@ export default class Panel extends EventEmitter{
      * @return {number}
      */
     get componentLabelRatio(){
-        return this._state.labelRatio;
+        return this._labelRatio;
     }
 
     /**
@@ -414,7 +430,7 @@ export default class Panel extends EventEmitter{
      * @param {number} value
      */
     set opacity(value){
-        this._state.opacity = value;
+        this._opacity = value;
         this._element.style.opacity = value === 1.0 ? null : value;
     }
 
@@ -424,7 +440,7 @@ export default class Panel extends EventEmitter{
      * @return {number}
      */
     get opacity(){
-        return this._state.opacity;
+        return this._opacity;
     }
 
     /**
@@ -432,7 +448,7 @@ export default class Panel extends EventEmitter{
      * @param {boolean} value
      */
     set collapse(value){
-        this._state.collapse = value;
+        this._collapse = value;
         this._element.classList[value ? 'add' : 'remove']('collapse');
         this.updateHeight();
     }
@@ -442,7 +458,7 @@ export default class Panel extends EventEmitter{
      * @return {boolean}
      */
     get collapse(){
-        return this._state.collapse;
+        return this._collapse;
     }
 
     /**
@@ -450,7 +466,7 @@ export default class Panel extends EventEmitter{
      * @param {boolean} value
      */
     set enable(value){
-        this._state.enabled = value;
+        this._enabled = value;
         this._element.classList[value ? 'remove' : 'add']('hide');
     }
 
@@ -459,7 +475,7 @@ export default class Panel extends EventEmitter{
      * @return {boolean}
      */
     get enable(){
-        return this._state.enabled;
+        return this._enabled;
     }
 
     /**
@@ -484,7 +500,7 @@ export default class Panel extends EventEmitter{
      * @private
      */
     _backGroupValid(){
-        if(this._groups.length == 0){
+        if(this._groups.length === 0){
             this.addGroup();
         }
         return this._groups[this._groups.length - 1];
@@ -499,7 +515,7 @@ export default class Panel extends EventEmitter{
         const group = new Group(this,config);
         this._groups.push(group);
         this._elementList.appendChild(group.element);
-        group.componentLabelRatio = this._state.labelRatio;
+        group.componentLabelRatio = this._labelRatio;
         //update height if group changed
         group.on('size-change',()=>{this.updateHeight();});
         //update height to new group element
@@ -513,7 +529,7 @@ export default class Panel extends EventEmitter{
      * @return {Panel}
      */
     addSubGroup(config){
-        if(this._groups.length == 0){
+        if(this._groups.length === 0){
             this.addGroup();
         }
         this._groups[this._groups.length - 1].addSubGroup(config);
@@ -697,11 +713,6 @@ export default class Panel extends EventEmitter{
         this._element.parentNode.removeChild(this._element);
         this._removeEventListeners();
         this._root.updatePanelAutoPosition();
-    }
-
-    getState(){
-        const state = Object.assign({},this._state);
-        state.groups = this._groups.map((item)=>{return item.getState();});
     }
 
     static createFromObject(object){
