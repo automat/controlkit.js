@@ -41,25 +41,31 @@ export default class Group extends AbstractGroup{
             height : config.height
         });
 
+        // state
         this._labelRatio = config.labelRatio;
+        this._groups = [];
 
+        // node
         this._element = createHtml(template);
         this._elementHead  = this._element.querySelector('.group-head');
         this._elementLabel = this._element.querySelector('label');
         this._elementList  = this._element.querySelector('.sub-group-list');
-
         this._scrollContainer.target = this._elementList;
-        this._groups = [];
 
+        // listener
         this._elementHead.addEventListener('mousedown',()=>{
             this.enable = !this.enable;
         });
 
+        // state initial
         this.label = this._label;
         this.enable = this._enable;
         this.componentLabelRatio = this._labelRatio;
     }
 
+    /**
+     * Forces height update from content.
+     */
     updateHeight(){
         if(this._maxHeight === null){
             return;
