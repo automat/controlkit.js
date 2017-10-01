@@ -76,6 +76,25 @@ export default class SubGroup extends AbstractGroup{
         this.componentLabelRatio = this._labelRatio;
     }
 
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Query Elements
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Return the underlying control kit instance.
+     * @return {*}
+     */
+    get root(){
+        return this._parent.parent.root;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Appearance Modifier
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Forces height update from content.
+     */
     updateHeight(){
         const height = this._maxHeight ?
                        Math.min(this._elementList.offsetHeight,this._maxHeight) :
