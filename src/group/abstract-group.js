@@ -46,15 +46,15 @@ export default class AbstractGroup extends EventEmitter{
         super();
         this.setMaxListeners(0);
 
-        this._state = {
-            id : config.id,
-            label  : config.label,
-            labelRatio : config.labelRatio,
-            enable : config.enable,
-            height: 0,
-            maxHeight : config.height
-        };
+        // state
+        this._id = config.id;
+        this._label = config.label;
+        this._labelRatio = config.labelRatio;
+        this._enable = config.enable;
+        this._height = 0;
+        this._maxHeight = config.height;
 
+        // node
         this._parent  = parent;
         this._element = null;
         this._elementHead = null;
@@ -75,7 +75,7 @@ export default class AbstractGroup extends EventEmitter{
             this.emit('scroll-size-change');
         });
 
-        this.id = this._state.id;
+        this.id = this._id;
     }
 
     /**
@@ -84,15 +84,15 @@ export default class AbstractGroup extends EventEmitter{
      */
     set id(value){
         if(!value){
-            if(this._state.id && Reference.has(this._state.id)){
-                Reference.delete(this._state.id);
-                this._state.id = null;
+            if(this._id && Reference.has(this._id)){
+                Reference.delete(this._id);
+                this._id = null;
             }
             return;
         }
         validateType(value,String);
         Reference.set(value,this);
-        this._state.id = value;
+        this._id = value;
     }
 
     /**
@@ -100,7 +100,7 @@ export default class AbstractGroup extends EventEmitter{
      * @return {string|null}
      */
     get id(){
-        return this._state.id;
+        return this.._id;
     }
 
     /**
@@ -114,7 +114,7 @@ export default class AbstractGroup extends EventEmitter{
      * @param {String|null} value
      */
     set label(value){
-        this._state.label = value;
+        this._label = value;
         if(value === null || value === 'none' || value === ''){
             this._elementLabel.innerText = '';
             this._elementHead.classList.add('hide');
@@ -129,7 +129,7 @@ export default class AbstractGroup extends EventEmitter{
      * @returns {String|null}
      */
     get label(){
-        return this._state.label;
+        return this._label;
     }
 
     /**
@@ -137,7 +137,7 @@ export default class AbstractGroup extends EventEmitter{
      * @param value
      */
     set componentLabelRatio(value){
-        this._state.labelRatio = value;
+        this._labelRatio = value;
     }
 
     /**
@@ -145,7 +145,7 @@ export default class AbstractGroup extends EventEmitter{
      * @returns {*}
      */
     get componentLabelRatio(){
-        return this._state.labelRatio;
+        return this._labelRatio;
     }
 
     /**
@@ -153,7 +153,7 @@ export default class AbstractGroup extends EventEmitter{
      * @param {Boolean} value
      */
     set enable(value){
-        this._state.enable = value;
+        this._enable = value;
         this._element.classList[value ? 'remove' : 'add']('collapse');
         this.updateHeight();
         this.emit('size-change');
@@ -164,7 +164,7 @@ export default class AbstractGroup extends EventEmitter{
      * @returns {Boolean}
      */
     get enable(){
-        return this._state.enable;
+        return this._enable;
     }
 
     /**
@@ -172,7 +172,7 @@ export default class AbstractGroup extends EventEmitter{
      * @returns {Number|null}
      */
     get maxHeight(){
-        return this._state.height;
+        return this._height;
     }
 
     /**
