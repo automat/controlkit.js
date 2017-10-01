@@ -64,6 +64,33 @@ export default class Group extends AbstractGroup{
     }
 
     /**
+     * Completely clears the component and removes it from its parent element.
+     */
+    destroy(){
+        for(const group in this._groups){
+            group.destroy();
+        }
+        this._groups = [];
+        this._scrollContainer.destroy();
+        super.destroy();
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Query Elements
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Returns the underlying controlkit instance.
+     */
+    get root(){
+        return this._parent.root;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Appearance Modifier
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
      * Forces height update from content.
      */
     updateHeight(){
@@ -117,13 +144,22 @@ export default class Group extends AbstractGroup{
         return this;
     }
 
-    _removeSubGroup(subGroup){
+    /**
+     * Removes SubGroup from group
+     * @param subGroup
+     */
+    removeSubGroup(subGroup){
         const index = this._groups.indexOf(subGroup);
         if(index === -1){
-
+            throw new Error('SubGroup not part of group.');
         }
+        this._groups.splice(index,1);
+        this.updateHeight();
     }
 
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Component Modifier
+    /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Adds a button component to the last subgroup.
@@ -313,14 +349,5 @@ export default class Group extends AbstractGroup{
         for(const group of this._groups){
             group.sync();
         }
-    }
-
-    destroy(){
-        for(const group in this._groups){
-            group.destroy();
-        }
-        this._groups = [];
-        this._scrollContainer.destroy();
-        super.destroy();
     }
 }
