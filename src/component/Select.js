@@ -12,6 +12,10 @@ const template = '<button class="btn-select"></button>';
 
 const noop = ()=>{};
 
+/**
+ * Select default config
+ * @type {Object}
+ */
 export const DefaultConfig = Object.freeze({
     id : null,
     label : 'select',
@@ -27,6 +31,13 @@ export const DefaultConfig = Object.freeze({
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 export default class Select extends ObjectComponent{
+    /**
+     * @constructor
+     * @param parent
+     * @param object
+     * @param key
+     * @param config
+     */
     constructor(parent,object,key,config){
         validateType(object,key,Array);
 
