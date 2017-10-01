@@ -2,9 +2,9 @@ import validateOption from 'validate-option';
 import validateType from '../util/validate-type';
 import createHtml from '../util/create-html';
 
-import ObjectComponent from './ObjectComponent';
-import ComponentPreset from './ComponentPreset';
-import {CSSColorStringMap} from './ColorString';
+import ObjectComponent from './object-component';
+import ComponentPreset from './component-preset';
+import {CSSColorStringMap} from './color-string';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults

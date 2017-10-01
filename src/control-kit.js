@@ -3,15 +3,15 @@ import validateType from './util/validate-type';
 import validateDescription from './util/validate-description';
 import createHtml from './util/create-html';
 
-import Reference from './Reference';
-import css from './Style';
+import Reference from './reference';
+import css from './style';
 import Panel, {
     DefaultConfig as PanelDefaultConfig,
     AlignmentH as PanelAlignmentH,
     AlignmentV as PanelAlignmentV
-} from './group/Panel';
-import ComponentOptions from './component/ComponentOptions';
-import ColorPicker from './component/ColorPicker';
+} from './group/panel';
+import ComponentOptions from './component/component-options';
+import ColorPicker from './component/color-picker';
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/

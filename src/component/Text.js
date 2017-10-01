@@ -1,4 +1,4 @@
-import Component from './Component';
+import Component from './component';
 
 export default class Text extends Component{
     constructor(parent,title,text){

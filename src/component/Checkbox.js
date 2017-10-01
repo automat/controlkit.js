@@ -1,7 +1,7 @@
 import validateOption from 'validate-option';
 import validateType from '../util/validate-type';
 
-import ObjectComponent from './ObjectComponent';
+import ObjectComponent from './object-component';
 
 const template = '<input type="checkbox">';
 

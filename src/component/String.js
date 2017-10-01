@@ -1,9 +1,9 @@
 import validateOption from 'validate-option';
 import validateType from '../util/validate-type';
 
-import StringInputInternal from './internal/StringInputInternal';
-import ObjectComponent from './ObjectComponent';
-import ComponentPreset from './ComponentPreset';
+import StringInputInternal from './internal/string-input-internal';
+import ObjectComponent from './object-component';
+import ComponentPreset from './component-preset';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Defaults

@@ -1,2 +1,2 @@
-import ControlKit from "./src/ControlKit";
+import ControlKit from "./src/control-kit";
 export default ControlKit;

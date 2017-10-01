@@ -1,8 +1,8 @@
-import ObjectComponent from '../component/ObjectComponent';
+import ObjectComponent from './object-component';
 import validateType from '../util/validate-type';
 import validateOption from 'validate-option';
 import createPropProxy from '../util/create-prop-proxy';
-import ComponentOptions from './ComponentOptions';
+import ComponentOptions from './component-options';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults

@@ -4,7 +4,7 @@ import validateType from '../util/validate-type';
 import {normalize,map,clamp} from '../util/math-utils';
 import {attachMouseListenersDocumentExtended} from '../util/listener-utils';
 
-import ObjectComponent from './ObjectComponent';
+import ObjectComponent from './object-component';
 
 const noop = ()=>{};
 

@@ -2,7 +2,7 @@ import validateOption from 'validate-option';
 import createHtml from '../util/create-html';
 import validateType from '../util/validate-type';
 import EventEmitter from 'events';
-import Reference from '../Reference';
+import Reference from '../reference';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults

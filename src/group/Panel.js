@@ -3,8 +3,8 @@ import validateType from '../util/validate-type';
 import validateValue from '../util/validate-value';
 import validateDescription from '../util/validate-description';
 import createHtml from '../util/create-html';
-import Group, {DefaultConfig as GroupDefaultConfig} from './Group';
-import ScrollContainer from './ScrollContainer';
+import Group, {DefaultConfig as GroupDefaultConfig} from './group';
+import ScrollContainer from './scroll-container';
 import EventEmitter from 'events';
 
 /*--------------------------------------------------------------------------------------------------------------------*/

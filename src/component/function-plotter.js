@@ -1,6 +1,6 @@
 import validateOption from 'validate-option';
 import validateType from '../util/validate-type';
-import ObjectComponent from './ObjectComponent';
+import ObjectComponent from './object-component';
 import {normalize} from '../util/math-utils';
 import {attachMouseListenersDocumentExtended} from '../util/listener-utils';
 

@@ -1,27 +1,27 @@
-import AbstractGroup from './AbstractGroup';
+import AbstractGroup from './abstract-group';
 import validateOption from 'validate-option';
 import validateType from '../util/validate-type';
 import validateDescription from '../util/validate-description';
 import createHtml from '../util/create-html';
 
-import ObjectComponent from '../component/ObjectComponent';
+import ObjectComponent from '../component/object-component';
 
 //Components
-import Button,{DefaultConfig as ButtonDefaultConfig} from '../component/Button';
-import Number_,{DefaultConfig as NumberDefaultConfig} from '../component/Number';
-import String_,{DefaultConfig as StringDefaultConfig} from  '../component/String';
-import Checkbox,{DefaultConfig as CheckboxDefaultConfig} from  '../component/Checkbox';
-import Select,{DefaultConfig as SelectDefaultConfig} from '../component/Select';
-import Text from '../component/Text';
-import Label,{DefaultConfig as LabelDefaultConfig} from '../component/Label';
-import Slider,{DefaultConfig as SliderDefaultConfig} from '../component/Slider';
-import Range, {DefaultConfig as RangeDefaultConfig} from '../component/Range';
-import Color,{DefaultConfig as ColorDefaultConfig} from '../component/Color';
-import Pad,{DefaultConfig as PadDefaultConfig} from '../component/Pad';
-import Canvas,{DefaultConfig as CanvasDefaultConfig} from '../component/Canvas';
-import Svg, {DefaultConfig as SvgDefaultConfig} from '../component/Svg';
-import Image_,{DefaultConfig as ImageDefaultConfig} from '../component/Image';
-import FunctionPlotter, {DefaultConfig as FunctionPlotterConfig} from '../component/FunctionPlotter';
+import Button,{DefaultConfig as ButtonDefaultConfig} from '../component/button';
+import Number_,{DefaultConfig as NumberDefaultConfig} from '../component/number';
+import String_,{DefaultConfig as StringDefaultConfig} from  '../component/string';
+import Checkbox,{DefaultConfig as CheckboxDefaultConfig} from  '../component/checkbox';
+import Select,{DefaultConfig as SelectDefaultConfig} from '../component/select';
+import Text from '../component/text';
+import Label,{DefaultConfig as LabelDefaultConfig} from '../component/label';
+import Slider,{DefaultConfig as SliderDefaultConfig} from '../component/slider';
+import Range, {DefaultConfig as RangeDefaultConfig} from '../component/range';
+import Color,{DefaultConfig as ColorDefaultConfig} from '../component/color';
+import Pad,{DefaultConfig as PadDefaultConfig} from '../component/pad';
+import Canvas,{DefaultConfig as CanvasDefaultConfig} from '../component/canvas';
+import Svg, {DefaultConfig as SvgDefaultConfig} from '../component/svg';
+import Image_,{DefaultConfig as ImageDefaultConfig} from '../component/image';
+import FunctionPlotter, {DefaultConfig as FunctionPlotterConfig} from '../component/function-plotter';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults

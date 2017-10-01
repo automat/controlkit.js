@@ -1,5 +1,5 @@
 import validateOption from 'validate-option';
-import Component from './Component';
+import Component from './component';
 import {attachMouseListenersDocumentExtended} from '../util/listener-utils';
 
 const noop = function(){};

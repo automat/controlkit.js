@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
 import createHtml from '../util/create-html';
-import ComponentOptions from './ComponentOptions';
+import ComponentOptions from './component-options';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template

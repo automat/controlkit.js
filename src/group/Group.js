@@ -1,10 +1,10 @@
-import AbstractGroup from './AbstractGroup';
+import AbstractGroup from './abstract-group';
 import validateOption from 'validate-option';
 import validateType from '../util/validate-type';
 import validateDescription from '../util/validate-description';
 import createHtml from '../util/create-html';
 
-import SubGroup, {DefaultConfig as SubGroupDefaultConfig} from './SubGroup';
+import SubGroup, {DefaultConfig as SubGroupDefaultConfig} from './sub-group';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults

@@ -4,8 +4,8 @@ import validateType from '../util/validate-type';
 import {normalize,clamp} from '../util/math-utils';
 import {attachMouseListenersDocumentExtended} from '../util/listener-utils';
 
-import ObjectComponent from './ObjectComponent';
-import NumberInputInternal from './internal/NumberInputInternal';
+import ObjectComponent from './object-component';
+import NumberInputInternal from './internal/number-input-internal';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults

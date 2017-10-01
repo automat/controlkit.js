@@ -1,8 +1,8 @@
 import validateOption from 'validate-option';
 import EventEmitter from 'events';
 import validateType from '../util/validate-type';
-import Reference from '../Reference';
-import ScrollContainer from './ScrollContainer';
+import Reference from '../reference';
+import ScrollContainer from './scroll-container';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Defaults

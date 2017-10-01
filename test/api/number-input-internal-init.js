@@ -1,4 +1,4 @@
-import NumberInput from '../../src/component/internal/NumberInputInternal';
+import NumberInput from '../../src/component/internal/number-input-internal';
 
 function main(){
     const input = new NumberInput();

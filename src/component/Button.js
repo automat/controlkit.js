@@ -1,4 +1,4 @@
-import Component from './Component';
+import Component from './component';
 import validateOption from 'validate-option';
 
 const template = '<button></button>';
