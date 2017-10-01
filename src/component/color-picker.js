@@ -1,6 +1,6 @@
 import createHtml from '../util/create-html';
 
-import {CSSColorStringMap} from './color-string';
+import {CSSColorStringMap} from '../util/color-string';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template

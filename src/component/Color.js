@@ -4,7 +4,7 @@ import createHtml from '../util/create-html';
 
 import ObjectComponent from './object-component';
 import ComponentPreset from './component-preset';
-import {CSSColorStringMap} from './color-string';
+import {CSSColorStringMap} from '../util/color-string';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
