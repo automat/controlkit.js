@@ -2,9 +2,10 @@ import validateOption from 'validate-option';
 import validateType from './util/validate-type';
 import validateDescription from './util/validate-description';
 import createHtml from './util/create-html';
+import createStyle from './util/create-style';
 
 import Reference from './reference';
-import css from './style';
+import Style from './style';
 import Panel, {
     DefaultConfig as PanelDefaultConfig,
     AlignmentH as PanelAlignmentH,
@@ -12,7 +13,6 @@ import Panel, {
 } from './group/panel';
 import ComponentOptions from './component/component-options';
 import ColorPicker from './component/color-picker';
-
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
@@ -34,8 +34,9 @@ export const DefaultConfig = Object.freeze({
     opacity : 1.0,
     stateLoadSave : false,
     shortcutCharHide : 'h',
-    useExternalStyle : false
+    useExternalStyle : true
 });
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Control Kit
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -59,13 +60,7 @@ export default class ControlKit{
         // style
         if(!config.useExternalStyle){
             const head = document.head || document.querySelector('head');
-            const style = document.createElement('style');
-            style.type = 'text/css';
-            if(style.stylesheet){
-                style.stylesheet.cssText = css;
-            } else {
-                style.appendChild(document.createTextNode(css));
-            }
+            const style = createStyle(Style);
             head.appendChild(style);
         }
 
