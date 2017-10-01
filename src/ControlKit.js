@@ -4,6 +4,7 @@ import validateDescription from './util/validate-description';
 import createHtml from './util/create-html';
 
 import Reference from './Reference';
+import css from './Style';
 import Panel, {
     DefaultConfig as PanelDefaultConfig,
     AlignmentH as PanelAlignmentH,
@@ -32,7 +33,8 @@ export const DefaultConfig = Object.freeze({
     enabled : true,
     opacity : 1.0,
     stateLoadSave : false,
-    shortcutCharHide : 'h'
+    shortcutCharHide : 'h',
+    useExternalStyle : false
 });
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Control Kit
@@ -54,6 +56,19 @@ export default class ControlKit{
             shortcutCharHide: config.shortcutCharHide,
         };
 
+        // style
+        if(!config.useExternalStyle){
+            const head = document.head || document.querySelector('head');
+            const style = document.createElement('style');
+            style.type = 'text/css';
+            if(style.stylesheet){
+                style.stylesheet.cssText = css;
+            } else {
+                style.appendChild(document.createTextNode(css));
+            }
+            head.appendChild(style);
+        }
+
         this._panels = [];
 
         // element
@@ -71,7 +86,6 @@ export default class ControlKit{
         };
         window.addEventListener('resize',onResize);
         document.addEventListener('keypress',onKeyPress);
-
 
         this._removeEventListeners = ()=>{
             window.removeEventListener('resize',onResize);
