@@ -40,14 +40,6 @@ export default class Component extends EventEmitter{
         super();
         this.setMaxListeners(0);
 
-        // this._state = {
-        //     id : config.id,
-        //     label : config.label,
-        //     labelRatio : config.labelRatio,
-        //     annotation : config.annotation,
-        //     hide : config.hide
-        // };
-
         // state
         this._id = config.id;
         this._label = config.label;
@@ -75,6 +67,41 @@ export default class Component extends EventEmitter{
     };
 
     /**
+     * Completely clears the component and removes it from its parent element.
+     */
+    destroy(){
+        this._parent._removeComponent(this);
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Query Elements
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Returns underlying control kit instance.
+     * @return {*}
+     */
+    get root(){
+        return this._parent.root;
+    }
+
+    /**
+     * Returns the underlying dom element.
+     * @returns {HTMLElement}
+     */
+    get element(){
+        return this._element;
+    }
+
+    /**
+     * Returns the components parent group.
+     * @returns {SubGroup}
+     */
+    get parent(){
+        return this._parent;
+    }
+
+    /**
      * Sets the components id.
      * @param {string|null} value
      */
@@ -87,7 +114,7 @@ export default class Component extends EventEmitter{
             return;
         }
         validateType(value,String);
-        Reference.set(value,this);
+        this.root.setRef(value,this);
         this._id = value;
     }
 
@@ -98,6 +125,18 @@ export default class Component extends EventEmitter{
     get id(){
         return this._id;
     }
+
+    /**
+     * Returns root node computed style.
+     * @return {CSSStyleDeclaration}
+     */
+    get computedStyle(){
+        return window.getComputedStyle(this._element);
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Appearance Modifier
+    /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * If true the component is hidden.
@@ -172,22 +211,6 @@ export default class Component extends EventEmitter{
     }
 
     /**
-     * Returns the underlying dom element.
-     * @returns {HTMLElement}
-     */
-    get element(){
-        return this._element;
-    }
-
-    /**
-     * Returns the components parent group.
-     * @returns {SubGroup}
-     */
-    get parent(){
-        return this._parent;
-    }
-
-    /**
      * Sets a annotation to be displayed on hover.
      * @param {String} title_or_null - The title of the info annotation.
      * @param {String} text - The annotation body text.
@@ -214,16 +237,5 @@ export default class Component extends EventEmitter{
             return null;
         }
         return Object.assign({},this._annotation);
-    }
-
-    get computedStyle(){
-        return window.getComputedStyle(this._element);
-    }
-
-    /**
-     * Completely clears the component and removes it from its parent element.
-     */
-    destroy(){
-        this._parent._removeComponent(this);
     }
 }
