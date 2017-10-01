@@ -15,7 +15,9 @@
   },
   "scripts": {
     "create-temp" : "node scripts/create-temp.js",
-    "browserify-temp" : "node scripts/build-temp.js"
+    "browserify-temp" : "node scripts/build-temp.js",
+    "watch" : "watchify index -s ControlKit -o bin/control-kit.js -v -d",
+    "build" : "browserify index -s ControlKit -o bin/control-kit.js -v -d"
   },
   "main": "index.js",
   "browserify": {
