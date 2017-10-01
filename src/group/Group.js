@@ -41,7 +41,7 @@ export default class Group extends AbstractGroup{
             height : config.height
         });
 
-        this._state.labelRatio = config.labelRatio;
+        this._labelRatio = config.labelRatio;
 
         this._element = createHtml(template);
         this._elementHead  = this._element.querySelector('.group-head');
@@ -55,16 +55,16 @@ export default class Group extends AbstractGroup{
             this.enable = !this.enable;
         });
 
-        this.label = this._state.label;
-        this.enable = this._state.enable;
-        this.componentLabelRatio = this._state.labelRatio;
+        this.label = this._label;
+        this.enable = this._enable;
+        this.componentLabelRatio = this._labelRatio;
     }
 
     updateHeight(){
-        if(this._state.maxHeight == null){
+        if(this._maxHeight === null){
             return;
         }
-        const height = Math.min(this._elementList.offsetHeight,this._state.maxHeight);
+        const height = Math.min(this._elementList.offsetHeight,this._maxHeight);
         this._scrollContainer.setHeight(height);
     }
 
@@ -98,7 +98,7 @@ export default class Group extends AbstractGroup{
      */
     addSubGroup(config){
         const group = new SubGroup(this,config);
-        group.componentLabelRatio = this._state.labelRatio;
+        group.componentLabelRatio = this._labelRatio;
         this._groups.push(group);
 
         //update height if group changed
@@ -113,7 +113,7 @@ export default class Group extends AbstractGroup{
 
     _removeSubGroup(subGroup){
         const index = this._groups.indexOf(subGroup);
-        if(index == -1){
+        if(index === -1){
 
         }
     }
