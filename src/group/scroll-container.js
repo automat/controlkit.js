@@ -110,9 +110,7 @@ export default class ScrollContainer extends EventEmitter{
         this._elementContainer.addEventListener('DOMMouseScroll',onContainerScroll);
         this._elementTrack.addEventListener('mousewheel',onContainerScroll);
         this._elementTrack.addEventListener('DOMMouseScroll',onContainerScroll);
-
         this._elementTrack.addEventListener('mousedown',onTrackMouseDown);
-
         this._elementHandle.addEventListener('mousedown',onHandleMouseDown);
         document.addEventListener('mousemove',onHandleMouseMove);
         document.addEventListener('mouseup',onHandleMouseUp);
