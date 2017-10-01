@@ -94,7 +94,7 @@ export default class ObjectComponent extends Component{
      * @param {function} value
      */
     set onChange(value){
-        if(value == this._onChange){
+        if(value === this._onChange){
             return;
         }
         const event = `${this.key}-change`;
