@@ -50,12 +50,12 @@ export default class ControlKit{
         config = validateOption(config,DefaultConfig);
 
         // state
-        this._state = {
-            enabled : config.enabled,
-            opacity: config.opacity,
-            stateLoadSave : config.stateLoadSave,
-            shortcutCharHide: config.shortcutCharHide,
-        };
+        this._enabled = config.enabled;
+        this._opacity = config.opacity;
+        this._stateSaveLoad = config.stateLoadSave;
+        this._shortcutCharHide = config.shortcutCharHide;
+        this._panels = [];
+        this._reference = new Reference();
 
         // style
         if(!config.useExternalStyle){
@@ -63,8 +63,6 @@ export default class ControlKit{
             const style = createStyle(Style);
             head.appendChild(style);
         }
-
-        this._panels = [];
 
         // element
         this._element = (config.element || document.body).appendChild(createHtml(template));
@@ -74,7 +72,7 @@ export default class ControlKit{
             this.updatePanelAutoPosition();
         };
         const onKeyPress = (e)=>{
-            if(e.key !== this._state.shortcutCharHide.toUpperCase() || !e.ctrlKey || !e.shiftKey){
+            if(e.key !== this._shortcutCharHide.toUpperCase() || !e.ctrlKey || !e.shiftKey){
                 return;
             }
             this.enable = !this.enable;
@@ -98,19 +96,37 @@ export default class ControlKit{
         picker.y = window.innerHeight * 0.5 - picker.height * 0.5;
 
         // init
-        this.stateLoadSave = this._state.stateSaveLoad;
+        this.stateLoadSave = this._stateSaveLoad;
     }
 
-    get(id_or_ids){
-        if(id_or_ids instanceof Array){
-            const items = new Array(id_or_ids.length);
-            for(let i = 0; i < items.length; ++i){
-                items[i] = Reference.get(id_or_ids[i]);
-            }
-            return items;
-        }
-        return Reference.get(id_or_ids);
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Query Elements
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    setRef(id,obj){
+        this._reference.set(id,obj);
     }
+
+    /**
+     * Returns group or component by id.
+     * @param id_or_ids
+     * @return {Array}
+     */
+    get(id_or_ids){
+        return this._reference.get(id_or_ids);
+    }
+
+    /**
+     * Returns the underlying root HTMLElement.
+     * @return {HTMLElement}
+     */
+    get element(){
+        return this._element;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Positioning
+    /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Updates auto layout panels position.
@@ -133,7 +149,7 @@ export default class ControlKit{
             let pt, pts, pb, pbs, side, sideop;
 
             // left aligned
-            if(panel.alignh == PanelAlignmentH.LEFT){
+            if(panel.alignh === PanelAlignmentH.LEFT){
                 pt = ptl;
                 pts = ptls;
                 pb = pbl;
@@ -160,7 +176,7 @@ export default class ControlKit{
                     style[sideop] = null;
                     style.top = null;
                     style.bottom  = pbs[1] + 'px';
-                    pb[0] += pb[0] == 0 ? panel.width : 0;
+                    pb[0] += pb[0] === 0 ? panel.width : 0;
                     pbs[1] += panel.height;
                     break;
                 // bottom
@@ -170,7 +186,7 @@ export default class ControlKit{
                     style.top = null;
                     style.bottom = pb[1] + 'px';
                     pb[0] += panel.width;
-                    pbs[0] += pbs[0] == 0 ? panel.width : 0;
+                    pbs[0] += pbs[0] === 0 ? panel.width : 0;
                     break;
                 // top stack
                 case PanelAlignmentV.TOP_STACK:
@@ -178,7 +194,7 @@ export default class ControlKit{
                     style[sideop] = null;
                     style.top = pts[1] + 'px';
                     style.bottom = null;
-                    pt[0] += pt[0] == 0 ? panel.width : 0;
+                    pt[0] += pt[0] === 0 ? panel.width : 0;
                     pts[1] += panel.height;
                     break;
                 // top
@@ -189,7 +205,7 @@ export default class ControlKit{
                     style.top = pt[1] + 'px';
                     style.bottom = null;
                     pt[0] += panel.width;
-                    pts[0] += pts[0] == 0 ? panel.width : 0;
+                    pts[0] += pts[0] === 0 ? panel.width : 0;
                     break;
             }
         }
@@ -332,7 +348,7 @@ export default class ControlKit{
      * @param value
      */
     set enable(value){
-        this._state.enabled = value;
+        this._enabled = value;
         for(const panel of this._panels){
             panel.enable = value;
         }
@@ -343,15 +359,7 @@ export default class ControlKit{
      * @return {*}
      */
     get enable(){
-        return this._state.enabled;
-    }
-
-    /**
-     * Returns the underlying root HTMLElement.
-     * @return {HTMLElement}
-     */
-    get element(){
-        return this._element;
+        return this._enabled;
     }
 
     /**
@@ -378,8 +386,8 @@ export default class ControlKit{
      * @param {Boolean} enable
      */
     set stateLoadSave(enable){
-        this._state.stateSaveLoad = enable;
-        if(this._state.stateLoadSave){
+        this._stateSaveLoad = enable;
+        if(this._stateLoadSave){
             this._element.classList.remove('state-load-save-disabled');
         } else {
             this._element.classList.add('state-load-save-disabled');
@@ -391,7 +399,7 @@ export default class ControlKit{
      * @return {Boolean}
      */
     get stateLoadSave(){
-        return this._state.stateSaveLoad;
+        return this._stateSaveLoad;
     }
 
     /**
