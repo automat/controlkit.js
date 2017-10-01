@@ -243,15 +243,6 @@ export default class Panel extends EventEmitter{
         this.componentLabelRatio = this._labelRatio;
     }
 
-    updateHeight(){
-        const top = this._elementHead.getBoundingClientRect().bottom;
-        const max = window.innerHeight;
-        const height = this._maxHeight ? Math.min(this._maxHeight,max - top) :
-                       max > top ? (max - top) : null;
-        this._scrollContainer.setHeight(height);
-        this._root.updatePanelAutoPosition();
-    }
-
     _removeGroup(group){
         const index = this._groups.indexOf(group);
         if(index === -1){
@@ -268,6 +259,38 @@ export default class Panel extends EventEmitter{
             return;
         }
     }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Query Elements
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Returns the root control kit instance.
+     * @return {*}
+     */
+    get root(){
+        return this._root;
+    }
+
+    /**
+     * Returns the underlying HTMLElement.
+     * @return {HTMLElement}
+     */
+    get element(){
+        return this._element;
+    }
+
+    /**
+     * Returns the list underlying HTMLElement.
+     * @return {HTMLElement}
+     */
+    get elementList(){
+        return this._elementList;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Alignment Setter / Getter
+    /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * If true, the panels position can be set.
@@ -372,6 +395,10 @@ export default class Panel extends EventEmitter{
         return this._position[1];
     }
 
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Dimension Getter
+    /*----------------------------------------------------------------------------------------------------------------*/
+
     /**
      * Returns the with of the color-picker.
      * @return {number}
@@ -386,6 +413,19 @@ export default class Panel extends EventEmitter{
      */
     get height(){
         return this._element.offsetHeight;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Appearance Modifier
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    updateHeight(){
+        const top = this._elementHead.getBoundingClientRect().bottom;
+        const max = window.innerHeight;
+        const height = this._maxHeight ? Math.min(this._maxHeight,max - top) :
+                       max > top ? (max - top) : null;
+        this._scrollContainer.setHeight(height);
+        this._root.updatePanelAutoPosition();
     }
 
     /**
@@ -478,21 +518,9 @@ export default class Panel extends EventEmitter{
         return this._enabled;
     }
 
-    /**
-     * Returns the underlying HTMLElement.
-     * @return {HTMLElement}
-     */
-    get element(){
-        return this._element;
-    }
-
-    /**
-     * Returns the list underlying HTMLElement.
-     * @return {HTMLElement}
-     */
-    get elementList(){
-        return this._elementList;
-    }
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Elements Modifier
+    /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Returns ths last active group.
