@@ -54,13 +54,14 @@ export default class Number_ extends ObjectComponent{
     constructor(parent,object,key,config){
         validateType(object,key,Number);
 
+        // config validation
         config = validateOption(config,DefaultConfig);
-        config.fd = config.dp != null ? config.dp : config.fd;
-
+        config.fd = config.dp !== null ? config.dp : config.fd;
         if(config.dp){
             console.warn('Number option dp is deprecated. Use fd to define the number of fractional digits displayed.');
         }
 
+        // super
         super(parent,object,key,{
             id : config.id,
             label : config.label,
@@ -69,10 +70,7 @@ export default class Number_ extends ObjectComponent{
             template
         });
 
-        //state
-        this._state.preset = config.preset;
-
-        //input
+        // input
         this._input = new NumberInputInternal({
             element : this._element.querySelector('input'),
             readonly : config.readonly,
@@ -82,27 +80,25 @@ export default class Number_ extends ObjectComponent{
             step : config.step,
             stepShiftMult : config.stepShiftMult
         });
-
         this._input.on('input',()=>{
             this.value = this._input.value;
         });
-
         this._input.on('change',()=>{
             this.value = this._input.value;
         });
 
-        //elements
+        // node
         this._element.classList.add('type-input');
 
-        //preset selection
+        // preset selection
         this._preset = new ComponentPreset(this._input.element);
         this._preset.on('change',(option)=>{
             this.value = option;
             this.sync();
         });
 
-        //init
-        this.preset = this._state.preset;
+        // init
+        this.preset = config.preset;
         this.sync();
     }
 
@@ -119,13 +115,13 @@ export default class Number_ extends ObjectComponent{
      * @param {Number[]|null} value
      */
     set preset(value){
-        if(value != null){
+        if(value !== null){
             validateType(value,Array);
             for(const item of value){
                 validateType(item,Number);
             }
         }
-        this._preset.options = this._state.preset = value || null;
+        this._preset.options = value || null;
         this._preset.enable = !!value;
     }
 
@@ -134,7 +130,7 @@ export default class Number_ extends ObjectComponent{
      * @returns {Number[]|null}
      */
     get preset(){
-        return this._state.preset ? this._state.preset.slice(0) : null;
+        return this._preset.options ? this._preset.options.slice(0) : null;
     }
 
     /**
