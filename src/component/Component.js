@@ -40,14 +40,22 @@ export default class Component extends EventEmitter{
         super();
         this.setMaxListeners(0);
 
-        this._state = {
-            id : config.id,
-            label : config.label,
-            labelRatio : config.labelRatio,
-            annotation : config.annotation,
-            hide : config.hide
-        };
+        // this._state = {
+        //     id : config.id,
+        //     label : config.label,
+        //     labelRatio : config.labelRatio,
+        //     annotation : config.annotation,
+        //     hide : config.hide
+        // };
 
+        // state
+        this._id = config.id;
+        this._label = config.label;
+        this._labelRatio = config.labelRatio;
+        this._annotation = config.annotation;
+        this._hide = config.hide;
+
+        // node
         this._parent = parent;
         this._element = this._parent.elementList.appendChild(createHtml(template));
         this._elementLabel = this._element.querySelector('label');
@@ -57,11 +65,12 @@ export default class Component extends EventEmitter{
             this._elementWrap.appendChild(createHtml(config.template));
         }
 
-        this.id = this._state.id;
-        this.label = this._state.label;
-        this.labelRatio = this._state.labelRatio;
-        if(this._state.annotation){
-            this.setAnnotation(this._state.annotation.title,this._state.annotation.text);
+        // state initial
+        this.id = this._id;
+        this.label = this._label;
+        this.labelRatio = this._labelRatio;
+        if(this._annotation){
+            this.setAnnotation(this._annotation.title,this._annotation.text);
         }
     };
 
@@ -71,15 +80,15 @@ export default class Component extends EventEmitter{
      */
     set id(value){
         if(!value){
-            if(this._state.id && Reference.has(this._state.id)){
-                Reference.delete(this._state.id);
-                this._state.id = null;
+            if(this._id && Reference.has(this._id)){
+                Reference.delete(this._id);
+                this._id = null;
             }
             return;
         }
         validateType(value,String);
         Reference.set(value,this);
-        this._state.id = value;
+        this._id = value;
     }
 
     /**
@@ -87,7 +96,7 @@ export default class Component extends EventEmitter{
      * @return {string|null}
      */
     get id(){
-        return this._state.id;
+        return this._id;
     }
 
     /**
@@ -95,10 +104,10 @@ export default class Component extends EventEmitter{
      * @param {Boolean} hide
      */
     set hide(hide){
-        if(hide == this._state.hide){
+        if(hide === this._hide){
             return;
         }
-        this._state.hide = hide;
+        this._hide = hide;
         this._element.classList.toggle('hide');
         this._parent.updateHeight();
     }
@@ -108,7 +117,7 @@ export default class Component extends EventEmitter{
      * @return {Boolean}
      */
     get hide(){
-        return this._state.hide;
+        return this._hide;
     }
 
     /**
@@ -117,7 +126,7 @@ export default class Component extends EventEmitter{
      * @param {String|null} value
      */
     set label(value){
-        this._state.label = value;
+        this._label = value;
         if(value === 'none'){
             this._elementLabel.innerText = '';
             this._element.classList.add('hide-label');
@@ -132,7 +141,7 @@ export default class Component extends EventEmitter{
      * @returns {*}
      */
     get label(){
-        return this._state.label;
+        return this._label;
     }
 
     /**
@@ -140,8 +149,8 @@ export default class Component extends EventEmitter{
      * @param {Number} value
      */
     set labelRatio(value){
-        this._state.labelRatio = value;
-        if(value == null){
+        this._labelRatio = value;
+        if(value === null){
             this._elementLabel.style.width = null;
             this._elementWrap.style.width = null;
         } else{
@@ -159,7 +168,7 @@ export default class Component extends EventEmitter{
      * @returns {Number}
      */
     get labelRatio(){
-        return this._state.labelRatio;
+        return this._labelRatio;
     }
 
     /**
@@ -191,9 +200,9 @@ export default class Component extends EventEmitter{
         }
         validateType(title_or_null,String);
         validateType(text,String);
-        const annotation = this._state.annotation || {};
-        annotation.title = title_or_null;
-        annotation.text = text;
+        this._annotation  = this._annotation || {};
+        this._annotation.title = title_or_null;
+        this._annotation.text = text;
     }
 
     /**
@@ -201,10 +210,10 @@ export default class Component extends EventEmitter{
      * @returns {*}
      */
     getAnnotation(){
-        if(!this._state.annotation){
+        if(!this._annotation){
             return null;
         }
-        return Object.assign({},this._state.annotation);
+        return Object.assign({},this._annotation);
     }
 
     get computedStyle(){
