@@ -63,7 +63,7 @@ export default class StringInputInternal extends EventEmitter{
             } else {
                 if(!(config.element instanceof HTMLInputElement)){
                     throw new Error('Element passed not instance of HTMLInputElement.');
-                } else if(config.element.getAttribute('type') != 'text'){
+                } else if(config.element.getAttribute('type') !== 'text'){
                     throw new Error('Element passed not of type "text".');
                 }
             }
