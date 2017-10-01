@@ -100,7 +100,7 @@ export default class AbstractGroup extends EventEmitter{
      * @return {string|null}
      */
     get id(){
-        return this.._id;
+        return this._id;
     }
 
     /**
