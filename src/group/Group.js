@@ -42,7 +42,6 @@ export default class Group extends AbstractGroup{
         });
 
         // state
-        this._labelRatio = config.labelRatio;
         this._groups = [];
 
         // node
