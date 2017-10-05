@@ -41,9 +41,6 @@ export default class Group extends AbstractGroup{
             height : config.height
         });
 
-        // state
-        this._groups = [];
-
         // node
         this._element = createHtml(template);
         this._elementHead  = this._element.querySelector('.group-head');
@@ -62,50 +59,17 @@ export default class Group extends AbstractGroup{
         this.componentLabelRatio = this._labelRatio;
     }
 
-    /**
-     * Completely clears the component and removes it from its parent element.
-     */
-    destroy(){
-        for(const group in this._groups){
-            group.destroy();
-        }
-        this._groups = [];
-        this._scrollContainer.destroy();
-        this._parent._removeGroup(this);
-    }
-
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // Sync
-    /*----------------------------------------------------------------------------------------------------------------*/
-
     sync(){
-
+        for(const child of this._children){
+            child.sync();
+        }
     }
 
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // Query Elements
-    /*----------------------------------------------------------------------------------------------------------------*/
-
     /**
-     * Returns the underlying controlkit instance.
+     * Returns the underlying control-kit instance.
      */
     get root(){
         return this._parent.root;
-    }
-
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // Appearance Modifier
-    /*----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Forces height update from content.
-     */
-    updateHeight(){
-        if(this._maxHeight === null){
-            return;
-        }
-        const height = Math.min(this._elementList.offsetHeight,this._maxHeight);
-        this._scrollContainer.setHeight(height);
     }
 
     /**
@@ -114,41 +78,9 @@ export default class Group extends AbstractGroup{
      */
     set componentLabelRatio(value){
         super.componentLabelRatio = value;
-        for(const group of this._groups){
-            group.componentLabelRatio = value;
+        for(const child of this._children){
+            child.componentLabelRatio = value;
         }
-    }
-
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // Sub-Groups & Components Modifier
-    /*----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Returns ths last active sub-group.
-     * @return {SubGroup}
-     * @private
-     */
-    _backSubGroupValid(){
-        if(this._groups.length === 0){
-            this.add({});
-        }
-        return this._groups[this._groups.length - 1];
-    }
-
-    /**
-     * Removes specific sub-group or component from group.
-     * @param subGroup
-     * @return {Group}
-     * @internal
-     */
-    _removeSubGroup(subGroup){
-        const index = this._groups.indexOf(subGroup);
-        if(index === -1){
-            throw new Error('SubGroup not part of group.');
-        }
-        this._groups.splice(index,1);
-        this._elementList.removeChild(subGroup.element);
-        this.updateHeight();
     }
 
     /**
@@ -174,7 +106,10 @@ export default class Group extends AbstractGroup{
     add(config){
         // create single component
         if(config.type){
-            this._backSubGroupValid().add(config);
+            if(this._children.length === 0){
+                this.add({});
+            }
+            this._children[this._children.length - 1].add(config);
             return this;
         }
 
@@ -194,7 +129,7 @@ export default class Group extends AbstractGroup{
         // create single sub-group
         const subGroup = new SubGroup(this,config);
         subGroup.componentLabelRatio = this._labelRatio;
-        this._groups.push(subGroup);
+        this._children.push(subGroup);
 
         // listener on sub-group height change
         subGroup.on('size-change',()=>{
