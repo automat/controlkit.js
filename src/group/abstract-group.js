@@ -78,6 +78,10 @@ export default class AbstractGroup extends EventEmitter{
         this.id = this._id;
     }
 
+    destroy(){
+        this._element.parentNode.removeChild(this._element);
+    }
+
     /*----------------------------------------------------------------------------------------------------------------*/
     // Query
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -119,6 +123,34 @@ export default class AbstractGroup extends EventEmitter{
      * Returns the control kit root instance.
      */
     get root(){}
+
+    /**
+     * Returns the groups max height.
+     * @returns {Number|null}
+     */
+    get maxHeight(){
+        return this._height;
+    }
+
+    /**
+     * Returns the underlying HTMLElement.
+     * @returns {HTMLElement}
+     */
+    get element(){
+        return this._element;
+    }
+
+    /**
+     * Returns the groups list HTMLElement
+     * @returns {HTMLElement}
+     */
+    get elementList(){
+        return this._elementList;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Appearance
+    /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Override in sub-class;
@@ -182,33 +214,5 @@ export default class AbstractGroup extends EventEmitter{
      */
     get enable(){
         return this._enable;
-    }
-
-    /**
-     * Returns the groups max height.
-     * @returns {Number|null}
-     */
-    get maxHeight(){
-        return this._height;
-    }
-
-    /**
-     * Returns the underlying HTMLElement.
-     * @returns {HTMLElement}
-     */
-    get element(){
-        return this._element;
-    }
-
-    /**
-     * Returns the groups list HTMLElement
-     * @returns {HTMLElement}
-     */
-    get elementList(){
-        return this._elementList;
-    }
-
-    destroy(){
-        this._element.parentNode.removeChild(this._element);
     }
 }
