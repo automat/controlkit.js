@@ -640,6 +640,22 @@
     text-align: center;
 }
 
+#control-kit .component.hide-sub-label .range-item label{
+    display: none;
+}
+
+#control-kit .component.hide-sub-label .range-item {
+    width: calc(50% - 2px);
+}
+
+#control-kit .component.hide-sub-label .range-item:nth-of-type(2){
+    margin-left: 4px;
+}
+
+#control-kit .component.hide-sub-label .range-item input[type="number"]{
+    width: 100%;
+}
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* Component Slider
 /*--------------------------------------------------------------------------------------------------------------------*/
