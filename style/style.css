@@ -608,6 +608,53 @@
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+/* Component Number Array
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#control-kit .number-array{
+    width: 100%;
+    clear: both;
+}
+
+#control-kit .number-array ul{
+    margin: -2px 2px;
+    width: 100%;
+    clear: both;
+}
+
+#control-kit .number-array input[type="number"]{
+    float: left;
+}
+
+#control-kit .number-array li{
+    box-sizing: border-box;
+    display: block;
+    float: left;
+    width: 100%;
+    padding: 2px;
+}
+
+#control-kit .number-array.col-2 li{
+    width: 50%;
+}
+
+#control-kit .number-array.col-3 li{
+    width: 33%;
+}
+
+#control-kit .number-array.col-4 li{
+    width: 25%;
+}
+
+#control-kit .number-array.col-5 li{
+    width: 20%;
+}
+
+#control-kit .number-array.col-6 li{
+    width: 16%;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
 /* Component Range
 /*--------------------------------------------------------------------------------------------------------------------*/
 
