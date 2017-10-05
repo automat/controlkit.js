@@ -1,7 +1,6 @@
 import AbstractGroup from './abstract-group';
 import validateOption from 'validate-option';
 import validateType from '../util/validate-type';
-import validateDescription from '../util/validate-description';
 import createHtml from '../util/create-html';
 import createObjectPartial from '../util/create-object-partial';
 
