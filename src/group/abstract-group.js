@@ -53,6 +53,7 @@ export default class AbstractGroup extends EventEmitter{
         this._enable = config.enable;
         this._height = 0;
         this._maxHeight = config.height;
+        this._children = [];
 
         // node
         this._parent  = parent;
@@ -81,7 +82,24 @@ export default class AbstractGroup extends EventEmitter{
     /**
      * Removes group from parent
      */
-    destroy(){}
+    destroy(){
+        for(const child of this._children){
+            child.destroy();
+        }
+        this._children = [];
+        this._scrollContainer.destroy();
+        this._parent._removeChild(this);
+    }
+
+    _removeChild(child){
+        const index = this._children.indexOf(child);
+        if(index === -1){
+            throw new Error(`Invalid child.`);
+        }
+        this._elementList.removeChild(child.element);
+        this._children.splice(index,1);
+        this.emit('size-change');
+    }
 
     /*----------------------------------------------------------------------------------------------------------------*/
     // Query
@@ -154,10 +172,15 @@ export default class AbstractGroup extends EventEmitter{
     /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Override in sub-class;
-     * @private
+     * Forces height update from content.
      */
-    updateHeight(){};
+
+    updateHeight(){
+        const height = this._maxHeight ?
+                       Math.min(this._elementList.offsetHeight,this._maxHeight) :
+                       this._elementList.offsetHeight;
+        this._scrollContainer.setHeight(height);
+    };
 
     /**
      * Sets the group head label.
