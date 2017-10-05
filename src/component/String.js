@@ -40,7 +40,7 @@ export default class String_ extends ObjectComponent{
         validateOption(config,DefaultConfig);
 
         config = validateOption(config,DefaultConfig);
-        config.label = config.label == null ? key : config.label;
+        config.label = config.label === null ? key : config.label;
 
         super(parent,object,key,{
             id : config.id,
@@ -48,9 +48,6 @@ export default class String_ extends ObjectComponent{
             annotation : config.annotation,
             onChange : config.onChange
         });
-
-        //state
-        this._state.preset = config.preset;
 
         //input
         this._input = new StringInputInternal({
@@ -90,7 +87,7 @@ export default class String_ extends ObjectComponent{
         });
 
         //init
-        this.preset = this._state.preset;
+        this.preset = config.preset;
         this.sync();
     }
 
@@ -107,10 +104,10 @@ export default class String_ extends ObjectComponent{
      * @param {string[]|null} value
      */
     set preset(value){
-        if(value != null){
+        if(value !== null){
             validateType(value,Array);
         }
-        this._preset.options = this._state.preset = value || null;
+        this._preset.options = value || null;
     }
 
     /**
@@ -118,7 +115,7 @@ export default class String_ extends ObjectComponent{
      * @returns {string[]|null}
      */
     get preset(){
-        return this._preset ? this._preset.slice(0) : null;
+        return this._preset.options;
     }
 
     /**
