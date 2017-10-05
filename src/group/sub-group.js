@@ -2,6 +2,7 @@ import AbstractGroup from './abstract-group';
 import validateOption from 'validate-option';
 import validateType from '../util/validate-type';
 import validateDescription from '../util/validate-description';
+import createObjectPartial from '../util/create-object-partial';
 import createHtml from '../util/create-html';
 
 import ObjectComponent from '../component/object-component';
@@ -22,6 +23,22 @@ import Canvas,{DefaultConfig as CanvasDefaultConfig} from '../component/canvas';
 import Svg, {DefaultConfig as SvgDefaultConfig} from '../component/svg';
 import Image_,{DefaultConfig as ImageDefaultConfig} from '../component/image';
 import FunctionPlotter, {DefaultConfig as FunctionPlotterConfig} from '../component/function-plotter';
+
+const ComponentByTypeName = {};
+ComponentByTypeName[Button.typeName] = Button;
+ComponentByTypeName[Number_.typeName] = Number_;
+ComponentByTypeName[String_.typeName] = String_;
+ComponentByTypeName[Checkbox.typeName] = Checkbox;
+ComponentByTypeName[Select.typeName] = Select;
+ComponentByTypeName[Text.typeName] = Text;
+ComponentByTypeName[Label.typeName] = Label;
+ComponentByTypeName[Slider.typeName] = Slider;
+ComponentByTypeName[Range.typeName] = Range;
+ComponentByTypeName[Color.typeName] = Color;
+ComponentByTypeName[Canvas.typeName] = Canvas;
+ComponentByTypeName[Svg.typeName] = Svg;
+ComponentByTypeName[Image_.typeName] = Image_;
+ComponentByTypeName[FunctionPlotter.typeName] = FunctionPlotter;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Template / Defaults
@@ -80,6 +97,14 @@ export default class SubGroup extends AbstractGroup{
         this.componentLabelRatio = this._labelRatio;
     }
 
+    destroy(){
+        for(const component of this._components){
+            component.destroy();
+        }
+        this.parent.remove(this);
+        super.destroy();
+    }
+
     /*----------------------------------------------------------------------------------------------------------------*/
     // Query Elements
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -118,270 +143,94 @@ export default class SubGroup extends AbstractGroup{
         this.emit('size-change');
     }
 
-    _addComponent(component){
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Component Modifier
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Adds a component
+     * @param config
+     * @return {SubGroup}
+     */
+    add(config){
+        const type = config.type;
+        if(!ComponentByTypeName[type]){
+            throw new Error(`Invalid component type "${type}"`);
+        }
+
+        // extract component config
+        config = createObjectPartial(config,['type']);
+
+        // create component
+        let component = null;
+        switch(type){
+            // Button
+            case Button.typeName:
+                const name = config.name;
+                config = createObjectPartial(config,['name']);
+                component = new Button(this,name,config);
+                break;
+
+            // Text
+            case Text.typeName:
+                const title = config.title;
+                const text = config.text;
+                component = new Text(title,text);
+                break;
+
+            // Label
+            case Label.typeName:
+                const label = config.label;
+                component = new Label(this,label);
+                break;
+
+            // Image
+            case Image_.typeName:
+                const image = config.image;
+                config = createObjectPartial(config,['image']);
+                component = new Image_(this,image,config);
+                break;
+
+            // Pad. Canvas, Svg, config only
+            case Pad.typeName:
+            case Canvas.typeName:
+            case Svg.typeName:
+                component = new ComponentByTypeName[type](this,config);
+                break;
+
+            // All Component with default init scheme (object,key,config)
+            default:
+                const object = config.object;
+                const key = config.key;
+                config = createObjectPartial(config,['object','key']);
+                component = new ComponentByTypeName[type](this,object,key,config);
+        }
+
+        // add component
         this._components.push(component);
         component.labelRatio = this._labelRatio;
         component.on('size-change',()=>{
             this.updateHeight();
         });
         this.updateHeight();
+
+        // return root
         return this;
     }
 
     /**
-     * Removes a component from the sub-group.
+     * Removes a component.
      * @param component
      * @return {SubGroup}
-     * @private
      */
-    _removeComponent(component){
+    remove(component){
         const index = this._components.indexOf(component);
-        if(index == -1){
+        if(index === -1){
             throw new Error('Invalid component. Component not part of sub-group.');
         }
         this._elementList.removeChild(component.element);
         this._components.splice(index,1);
         this.emit('size-change');
-        return this;
-    }
-
-    /**
-     * Adds a button component.
-     * @param name
-     * @param [config - Button configuration]
-     * @param [config.label]
-     * @param [config.onChange]
-     * @returns {*}
-     */
-    addButton(name,config){
-        return this._addComponent(new Button(this,name,config));
-    }
-
-    /**
-     * Adds a number component.
-     * @param object
-     * @param key
-     * @param [config]
-     * @param [config.label]
-     * @param [config.readonly]
-     * @param [config.preset]
-     * @param [config.min]
-     * @param [config.max]
-     * @param [config.fd]
-     * @param [config.step]
-     * @param [config.onChange]
-     * @param [config.annotation]
-     * @returns {*}
-     */
-    addNumber(object,key,config){
-        return this._addComponent(new Number_(this,object,key,config));
-    }
-
-    /**
-     * Adds a string component.
-     * @param object
-     * @param key
-     * @param [config]
-     * @param [config.label]
-     * @param [config.readonly]
-     * @param [config.multiline]
-     * @param [config.maxLines]
-     * @param [config.preset]
-     * @param [config.onChange]
-     * @param [config.annotation]
-     * @returns {*}
-     */
-    addString(object,key,config){
-        return this._addComponent(new String_(this,object,key,config));
-    }
-
-    /**
-     * Adds a checkbox component.
-     * @param object
-     * @param key
-     * @param [config]
-     * @param [config.label]
-     * @param [config.onChange]
-     * @param [config.annotation]
-     * @returns {*}
-     */
-    addCheckbox(object,key,config){
-        return this._addComponent(new Checkbox(this,object,key,config));
-    }
-
-    /**
-     * Adds a select component.
-     * @param object
-     * @param key
-     * @param [config]
-     * @param [config.label]
-     * @param [config.onChange]
-     * @param [config.annotation]
-     * @returns {*}
-     */
-    addSelect(object,key,config){
-        return this._addComponent(new Select(this,object,key,config));
-    }
-
-    /**
-     * Adds a text component.
-     * @param title
-     * @param text
-     * @returns {*}
-     */
-    addText(title,text){
-        return this._addComponent(new Text(this,title,text));
-    }
-
-    /**
-     * Adds a label component.
-     * @param label
-     * @param config
-     * @returns {*}
-     */
-    addLabel(label,config){
-        return this._addComponent(new Label(this,label,config));
-    }
-
-    /**
-     * Adds a slider component.
-     * @param object
-     * @param key
-     * @param [config]
-     * @param [config.label]
-     * @param [config.labelRatio]
-     * @param [config.fd]
-     * @param [config.step]
-     * @param [config.range]
-     * @param [config.numberInput]
-     * @param [config.onChange]
-     * @param [config.annotation]
-     * @returns {*}
-     */
-    addSlider(object,key,config){
-        return this._addComponent(new Slider(this,object,key,config));
-    }
-
-    /**
-     * Adds a range component.
-     * @param object
-     * @param key
-     * @param [config]
-     * @param [config.label]
-     * @param [config.labelRatio]
-     * @param [config.fd]
-     * @param [config.step]
-     * @param [config.range]
-     * @param [config.numberInput]
-     * @param [config.onChange]
-     * @param [config.annotation]
-     * @return {*}
-     */
-    addRange(object,key,config){
-        return this._addComponent(new Range(this,object,key,config));
-    }
-
-    addColor(object,key,config){
-
-    }
-
-    addPad(object,key,config){
-        return this._addComponent(new Pad(this,object,key,config));
-    }
-
-    addCanvas(config){
-        return this._addComponent(new Canvas(this,config));
-    }
-
-    addSvg(config){
-        return this._addComponent(new Svg(this,config));
-    }
-
-    addImage(image,config){
-        return this._addComponent(new Image_(this,image,config));
-    }
-
-    addFunctionPlotter(object,key,config){
-        return this._addComponent(new FunctionPlotter(this,object,key,config));
-    }
-
-    /**
-     * Adds components from description.
-     * @param description
-     * @return {SubGroup}
-     *
-     * @example
-     * //single component
-     * subGroup.add({type:'number', object:obj, key:'propertyKey'});
-     *
-     * @example
-     * //multiple components
-     * subGroup.add([
-     *     {type:'number', object:obj, key:'propertyKey'},
-     *     {type:'number', object:obj, key:'propertyKey'}
-     * ]);
-     *
-     */
-    add(description){
-        if(description instanceof Array){
-            for(const item of description){
-                this.add(item);
-            }
-            return this;
-        }
-        if(!description.type){
-            throw new Error('Invalid component description. Component type missing.');
-        }
-        switch(description.type){
-            case Button.typeName:{
-                const config = validateDescription(description,ButtonDefaultConfig,['type','name']);
-                this.addButton(description.name,config);
-            }break;
-            case Number_.typeName:{
-                const config = validateDescription(description,NumberDefaultConfig,['type','object','key']);
-                this.addNumber(description.object,description.key,config);
-            }break;
-            case String_.typeName:{
-                const config = validateDescription(description,StringDefaultConfig,['type','object','key']);
-                this.addString(description.object,description.key,config);
-            }break;
-            case Slider.typeName:{
-                const config = validateDescription(description,SliderDefaultConfig,['type','object','key']);
-                this.addSlider(description.object,description.key,config);
-            }break;
-            case Checkbox.typeName:{
-                const config = validateDescription(description,CheckboxDefaultConfig,['type','object','key']);
-                this.addCheckbox(description.object,description.key,config);
-            }break;
-            case Select.typeName:{
-
-            }break;
-            case Text.typeName:{
-
-            }break;
-            case Label.typeName:{
-                const config = validateDescription(description,LabelDefaultConfig,['type']);
-                this.addLabel(config.label);
-            }break;
-            case Pad.typeName:{
-                const config = validateDescription(description,PadDefaultConfig,['type','object','key']);
-                this.addPad(description.object,description.key,config);
-            }break;
-            case Canvas.typeName:{
-                const config = validateDescription(description,CanvasDefaultConfig,['type']);
-                this.addCanvas(config);
-            }break;
-            case Image_.typeName:{
-                const config = validateDescription(description,ImageDefaultConfig,['type','image']);
-                this.addImage(description.image,config);
-            }break;
-            case FunctionPlotter.typeName:{
-                const config = validateDescription(description,FunctionPlotterConfig,['type','object','key']);
-                this.addFunctionPlotter(description.object,description.key,config);
-            }break;
-            default:
-                throw new Error(`Invalid component type "${description.type}".`);
-        }
         return this;
     }
 
@@ -392,12 +241,5 @@ export default class SubGroup extends AbstractGroup{
             }
             component.sync();
         }
-    }
-
-    destroy(){
-        for(const component of this._components){
-            component.destroy();
-        }
-        super.destroy();
     }
 }
