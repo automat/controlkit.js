@@ -3,6 +3,7 @@ import validateType from './util/validate-type';
 import validateDescription from './util/validate-description';
 import createHtml from './util/create-html';
 import createStyle from './util/create-style';
+import createObjectPartial from './util/create-object-partial';
 
 import Reference from './reference';
 import Style from './style';
@@ -99,6 +100,29 @@ export default class ControlKit{
         this.stateLoadSave = this._stateSaveLoad;
     }
 
+    /**
+     * Completely removes all panels and components.
+     */
+    destroy(){
+        for(const panel of this._panels){
+            panel.destroy();
+        }
+        this._panels = [];
+    };
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Sync
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Syncs all component values.
+     */
+    sync(){
+        for(const panel of this._panels){
+            panel.sync();
+        }
+    }
+
     /*----------------------------------------------------------------------------------------------------------------*/
     // Query Elements
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -122,6 +146,63 @@ export default class ControlKit{
      */
     get element(){
         return this._element;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Modifiers
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Returns ths last active panel.
+     * @return {Panel}
+     * @private
+     */
+    _backPanelValid(){
+        if(this._panels.length === 0){
+            this.add({});
+        }
+        return this._panels[this._panels.length - 1];
+    }
+
+    /**
+     * Adds a
+     * @param config
+     */
+    add(config){
+        if(config.tyoe){
+            return this._backPanelValid().add(config);
+        }
+        // extract groups & components
+        const groups = config.groups;
+        const comps = config.comps;
+        config = createObjectPartial(config,['groups','comps']);
+
+        // create new panel
+        const panel = new Panel(this,config);
+        this._panels.push(panel);
+        this.updatePanelAutoPosition();
+
+        // create panel groups
+        if(groups){
+            for(const group of groups){
+                panel.add(group);
+            }
+        }
+
+        // create panel comps
+        if(comps){
+            for(const comp of comps){
+                panel.add(comp);
+            }
+        }
+
+        return panel;
+    }
+
+    /* LEGACY MODIFIERS */
+
+    addPanel(){
+        return this.add({});
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -214,136 +295,6 @@ export default class ControlKit{
     _removeEventListeners(){}
 
     /**
-     * Returns ths last active panel.
-     * @return {Panel}
-     * @private
-     */
-    _backPanelValid(){
-        if(this._panels.length == 0){
-            this.addPanel();
-        }
-        return this._panels[this._panels.length - 1];
-    }
-
-    /**
-     * Adds a new panel to the control kit.
-     * @param config
-     * @return {*}
-     */
-    addPanel(config){
-        this._panels.push(new Panel(this,config));
-        this.updatePanelAutoPosition();
-        return this._panels[this._panels.length - 1];
-    }
-
-    /**
-     * Creates a panel from description.
-     * @param description
-     * @example
-     * //create empty panel
-     * controlkit.add({
-     *     label: 'panel'
-     * });
-     * @example
-     * //create panel with group
-     * controlKit.add({
-     *     label : 'panel',
-     *     groups : [
-     *         {label : 'group a'},
-     *         {label : 'group b'}
-     *     ]
-     * });
-     * @example
-     * //create panel with groups and sub-groups
-     * controlKit.add({
-     *     label : 'panel',
-     *     groups : [{
-     *         label : 'group a',
-     *         subGroups : [
-     *             {label : 'sub-group a'},
-     *             {label : 'sub-group b'}
-     *         ]
-     *     }]
-     * });
-     * @example
-     * //create panel with groups, sub-groups and components
-     * controlKit.add({
-     *     label : 'panel',
-     *     groups : [{
-     *         label : 'group a',
-     *         subGroups : [{
-     *             label : 'sub-group a',
-     *             components : [
-     *                 {type:'number',object:obj,key:'property0'},
-     *                 {type:'slider',object:obj,key:'property0',range:[0,1]}
-     *             ]
-     *         }]
-     *     }]
-     * });
-     * @example
-     * //create panel with single auto-created group, sub-groups and components
-     * controlKit.add({
-     *     label : 'panel',
-     *     subGroups : [{
-     *         label : 'sub-group a',
-     *         components : [
-     *             {type:'number',object:obj,key:'property0'},
-     *             {type:'slider',object:obj,key:'property0',range:[0,1]}
-     *         ]
-     *     }]
-     * });
-     * @example
-     * //create panel with single auto-created group, sub-groups and components
-     * controlKit.add({
-     *     label : 'panel',
-     *     components : [
-     *         {type:'number',object:obj,key:'property0'},
-     *         {type:'slider',object:obj,key:'property0',range:[0,1]}
-     *     ]
-     * });
-     * @example
-     * //assumptions
-     *
-     * //creates an empty panel
-     * controlKit.add({});
-     *
-     * //creates two empty panels
-     * controlKit.add([
-     *     {},
-     *     {}
-     * ]);
-     *
-     * //creates a default panel + group with two sub-groups including components
-     * controlKit.add([
-     *     {label: 'group a', components : [{type:'number',object:obj,key:'propertyA'}]},
-     *     {label: 'group a', components : [{type:'number',object:obj,key:'propertyB'}]]},
-     * ]);
-     *
-     * //creates a default panel + group + sub-group structure from an array of components
-     * controlKit.add([
-     *      {type:'number',object:obj,key:'property0'},
-     *      {type:'slider',object:obj,key:'property0',range:[0,1]}
-     * ])
-     */
-    add(description){
-        //array of descriptions
-        if(description instanceof Array){
-            for(const item of description){
-                this.add(item);
-            }
-            return this;
-        }
-        if(!description.groups){
-            throw new Error('Invalid panel description. Groups missing. Use {...,groups:[...]}.')
-        }
-        validateType(description.groups,Array);
-        const config = validateDescription(description,PanelDefaultConfig,['groups']);
-        this.addPanel(config);
-        this._backPanelValid().add(description.groups);
-        return this;
-    }
-
-    /**
      * If false all control kit panels are hidden.
      * @param value
      */
@@ -362,14 +313,9 @@ export default class ControlKit{
         return this._enabled;
     }
 
-    /**
-     * Syncs all component values.
-     */
-    sync(){
-        for(const panel of this._panels){
-            panel.sync();
-        }
-    }
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Config
+    /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Saves the current component state.
@@ -411,20 +357,4 @@ export default class ControlKit{
      * Loads an external control kit layout configuration.
      */
     loadLayout(){};
-
-    /**
-     * Completely removes all panels and components.
-     */
-    destroy(){
-        for(const panel of this._panels){
-            panel.destroy();
-        }
-        this._panels = [];
-    };
-
-    getState(){
-        const state = Object.assign({},this._state);
-        state.panels = this._panels.map((item)=>{return item.getState()});
-        return state;
-    }
 }
