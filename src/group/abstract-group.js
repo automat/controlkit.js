@@ -78,9 +78,10 @@ export default class AbstractGroup extends EventEmitter{
         this.id = this._id;
     }
 
-    destroy(){
-        this._element.parentNode.removeChild(this._element);
-    }
+    /**
+     * Removes group from parent
+     */
+    destroy(){}
 
     /*----------------------------------------------------------------------------------------------------------------*/
     // Query
