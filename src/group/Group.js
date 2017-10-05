@@ -116,7 +116,7 @@ export default class Group extends AbstractGroup{
         // extract groups & components
         const subGroups = config.groups;
         const comps = config.comps;
-        config = createObjectPartial(config,['groups','compss']);
+        config = createObjectPartial(config,['groups','comps']);
 
         // create multiple sub-groups
         if(subGroups){
