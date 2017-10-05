@@ -75,9 +75,6 @@ export default class SubGroup extends AbstractGroup{
             height : config.height
         });
 
-        // state
-        this._components = [];
-
         // node
         this._element = this._parent.elementList.appendChild(createHtml(template));
         this._elementHead  = this._element.querySelector('.sub-group-head');
@@ -96,21 +93,14 @@ export default class SubGroup extends AbstractGroup{
         this.componentLabelRatio = this._labelRatio;
     }
 
-    /**
-     * Removes sub-group from parent group and destroys all components.
-     */
-    destroy(){
-        for(const component of this._components){
-            component.destroy();
+    sync(){
+        for(const child of this._children){
+            if(!child instanceof ObjectComponent){
+                continue;
+            }
+            child.sync();
         }
-        this._components = [];
-        this._scrollContainer.destroy();
-        this.parent._removeSubGroup(this);
     }
-
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // Query Elements
-    /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Return the underlying control kit instance.
@@ -120,51 +110,16 @@ export default class SubGroup extends AbstractGroup{
         return this._parent.parent.root;
     }
 
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // Appearance Modifier
-    /*----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Forces height update from content.
-     */
-    updateHeight(){
-        const height = this._maxHeight ?
-                       Math.min(this._elementList.offsetHeight,this._maxHeight) :
-                       this._elementList.offsetHeight;
-        this._scrollContainer.setHeight(height);
-    }
-
     /**
      * Sets the groups global label / component width ratio.
      * @param value
      */
     set componentLabelRatio(value){
         super.componentLabelRatio = value;
-        for(const component of this._components){
+        for(const component of this._children){
             component.labelRatio = value;
         }
         this.emit('size-change');
-    }
-
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // Component Modifier
-    /*----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Removes a component.
-     * @param component
-     * @return {SubGroup}
-     * @internal
-     */
-    _removeComponent(component){
-        const index = this._components.indexOf(component);
-        if(index === -1){
-            throw new Error('Invalid component. Component not part of sub-group.');
-        }
-        this._elementList.removeChild(component.element);
-        this._components.splice(index,1);
-        this.emit('size-change');
-        return this;
     }
 
     /**
@@ -227,7 +182,7 @@ export default class SubGroup extends AbstractGroup{
         }
 
         // add component
-        this._components.push(component);
+        this._children.push(component);
         component.labelRatio = this._labelRatio;
         component.on('size-change',()=>{
             this.updateHeight();
@@ -236,16 +191,5 @@ export default class SubGroup extends AbstractGroup{
 
         // return root
         return this;
-    }
-
-
-
-    sync(){
-        for(const component of this._components){
-            if(!component instanceof ObjectComponent){
-                continue;
-            }
-            component.sync();
-        }
     }
 }
