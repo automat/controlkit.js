@@ -33,6 +33,7 @@ ComponentByTypeName[Text.typeName] = Text;
 ComponentByTypeName[Label.typeName] = Label;
 ComponentByTypeName[Slider.typeName] = Slider;
 ComponentByTypeName[Range.typeName] = Range;
+ComponentByTypeName[Pad.typeName] = Pad;
 ComponentByTypeName[Color.typeName] = Color;
 ComponentByTypeName[Canvas.typeName] = Canvas;
 ComponentByTypeName[Svg.typeName] = Svg;
@@ -166,8 +167,7 @@ export default class SubGroup extends AbstractGroup{
                 component = new Image_(this,image,config);
                 break;
 
-            // Pad. Canvas, Svg, config only
-            case Pad.typeName:
+            // Canvas, Svg, config only
             case Canvas.typeName:
             case Svg.typeName:
                 component = new ComponentByTypeName[type](this,config);
