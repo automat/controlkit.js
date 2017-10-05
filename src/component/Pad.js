@@ -58,8 +58,8 @@ export default class Pad extends ObjectComponent{
         });
 
         //state
-        this._state.rangeX = config.rangeX;
-        this._state.rangeY = config.rangeY;
+        this._rangeX = config.rangeX;
+        this._rangeY = config.rangeY;
 
         //elements
         this._elementSvg = this._elementWrap.querySelector('svg');
@@ -70,8 +70,8 @@ export default class Pad extends ObjectComponent{
             const x = Math.max(0,Math.min(e.pageX - rect.left,rect.width));
             const y = Math.max(0,Math.min(e.pageY - rect.top,rect.height));
             //map
-            const rangeX = this._state.rangeX;
-            const rangeY = this._state.rangeY;
+            const rangeX = this._rangeX;
+            const rangeY = this._rangeY;
             //apply
             this.value = [
                 map(x,0,rect.width,rangeX[0],rangeX[1]),
@@ -105,7 +105,7 @@ export default class Pad extends ObjectComponent{
         };
         parent.on('scroll-size-change',resize);
 
-        this.range = [this._state.rangeX,this._state.rangeY];
+        this.range = [this._rangeX,this._rangeY];
         resize();
     }
 
@@ -136,16 +136,16 @@ export default class Pad extends ObjectComponent{
         }
 
         //apply
-        const differs = !deepequal(x,this._state.rangeX) || !deepequal(y,this._state.rangeY);
-        this._state.rangeX = x.slice(0);
-        this._state.rangeY = y.slice(0);
+        const differs = !deepequal(x,this._rangeX) || !deepequal(y,this._rangeY);
+        this._rangeX = x.slice(0);
+        this._rangeY = y.slice(0);
         if(!differs){
             return;
         }
-        const minx = this._state.rangeX[0];
-        const maxx = this._state.rangeX[1];
-        const miny = this._state.rangeY[0];
-        const maxy = this._state.rangeY[1];
+        const minx = this._rangeX[0];
+        const maxx = this._rangeX[1];
+        const miny = this._rangeY[0];
+        const maxy = this._rangeY[1];
 
         //constrain
         const valueX = this.value[0];
@@ -162,7 +162,7 @@ export default class Pad extends ObjectComponent{
      * @return {[]}
      */
     get range(){
-        return [this._state.rangeX.slice(0),this._state.rangeY.slice(0)];
+        return [this._rangeX.slice(0),this._rangeY.slice(0)];
     }
 
     /**
@@ -175,8 +175,8 @@ export default class Pad extends ObjectComponent{
         const height = rect.height;
 
         const value = this.value;
-        const rangeX = this._state.rangeX;
-        const rangeY = this._state.rangeY;
+        const rangeX = this._rangeX;
+        const rangeY = this._rangeY;
 
         //range
         const xmin = rangeX[0];
