@@ -42,6 +42,7 @@ export const DefaultConfig = Object.freeze({
     dp : null, //deprecated
     step : 0.25,
     stepShiftMult: 2,
+    hideLabels : false,
     onChange : function(){},
     annotation : null
 });
@@ -63,7 +64,7 @@ export default class Range extends ObjectComponent{
         validateType(object[key][1],Number);
 
         config = validateOption(config,DefaultConfig);
-        config.fd = config.dp != null ? config.dp : config.fd;
+        config.fd = config.dp !== null ? config.dp : config.fd;
 
         if(config.dp){
             console.warn('Range option dp is deprecated. Use fd to define the number of fractional digits displayed.');
@@ -76,6 +77,8 @@ export default class Range extends ObjectComponent{
             onChange : config.onChange,
             template
         });
+
+        this._hideLabels = false;
 
         // input
         this._inputMin = new NumberInputInternal({
@@ -111,6 +114,7 @@ export default class Range extends ObjectComponent{
         this._element.classList.add('type-input');
 
         // init
+        this.hideLabels = config.hideLabels;
         this.sync();
     }
 
@@ -171,6 +175,27 @@ export default class Range extends ObjectComponent{
      */
     get readonly(){
         return this._inputMin.readonly;
+    }
+
+    /**
+     * If true min / max labels are hidden.
+     * @param {boolean} hide
+     */
+    set hideLabels(hide){
+        if(hide){
+            this._element.classList.add('hide-sub-label');
+        } else {
+            this._element.classList.remove('hide-sub-label');
+        }
+        this._hideLabels = hide;
+    }
+
+    /**
+     * Returns true if min / ma x labels are hidden.
+     * @return {boolean}
+     */
+    get hideLabels(){
+        return this._hideLabels;
     }
 
     /**
