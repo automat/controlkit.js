@@ -49,7 +49,7 @@ export default class Checkbox extends ObjectComponent{
      * @return {string}
      */
     static get typeName(){
-        return 'boolean';
+        return 'checkbox';
     }
 
     /**
