@@ -71,7 +71,7 @@ export default class Group extends AbstractGroup{
         }
         this._groups = [];
         this._scrollContainer.destroy();
-        super.destroy();
+        this._parent._removeGroup(this);
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -79,9 +79,7 @@ export default class Group extends AbstractGroup{
     /*----------------------------------------------------------------------------------------------------------------*/
 
     sync(){
-        for(const group of this._groups){
-            group.sync();
-        }
+
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -135,6 +133,22 @@ export default class Group extends AbstractGroup{
             this.add({});
         }
         return this._groups[this._groups.length - 1];
+    }
+
+    /**
+     * Removes specific sub-group or component from group.
+     * @param subGroup
+     * @return {Group}
+     * @internal
+     */
+    _removeSubGroup(subGroup){
+        const index = this._groups.indexOf(subGroup);
+        if(index === -1){
+            throw new Error('SubGroup not part of group.');
+        }
+        this._groups.splice(index,1);
+        this._elementList.removeChild(subGroup.element);
+        this.updateHeight();
     }
 
     /**
@@ -200,28 +214,5 @@ export default class Group extends AbstractGroup{
 
         // return group root
         return this;
-    }
-
-    /**
-     * Removes specific sub-group or component from group.
-     * @param object
-     * @return {Group}
-     */
-    remove(object){
-        // remove sub-group
-        if(object instanceof SubGroup){
-            const index = this._groups.indexOf(object);
-            if(index === -1){
-                throw new Error('SubGroup not part of group.');
-            }
-            this._groups.splice(index,1);
-            this.updateHeight();
-            return this;
-        }
-
-        // remove component
-        // TODO: Add
-
-        throw new Error(`Object of type "${typeof object}" not removable.`);
     }
 }
