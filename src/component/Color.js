@@ -36,11 +36,11 @@ export const DefaultConfig = Object.freeze({
     preset : null,
     onChange : function(){},
     annotation : null,
-    colorType : null
+    mode : null
 });
 
 function validateColorStringRgba(x){
-    if(x.indexOf('rgba') == -1){
+    if(x.indexOf('rgba') === -1){
         throw new Error(`Invalid rgba color string format ${x}.`);
     }
 }
@@ -134,16 +134,19 @@ export default class Color extends ObjectComponent{
         if(object[key] === undefined){
             throw new Error(`Object value with key "${key}" is undefined.`);
         }
-        if(!(typeof object[key] == 'string' || object[key] instanceof String || object[key] instanceof Array)){
+        if(!(typeof object[key] === 'string' || object[key] instanceof String || object[key] instanceof Array)){
             throw new Error(`Object value with key "${key}" is invalid property type. Must be "string" or "array".`);
         }
 
         config = validateOption(config,DefaultConfig);
 
-        let type = null;
-        if(!config.colorType){
+        let mode = null;
+        if(!config.mode){
             if(object[key] instanceof Array){
-                validateColorArray()
+                validateColorArray(object[key]);
+                mode = Type.ARRAY;
+            } else {
+                mode = Type.STRING;
             }
         }
 
@@ -155,8 +158,8 @@ export default class Color extends ObjectComponent{
         });
 
         //state
-        this._state.type = type;
-        this._state.preset = config.preset;
+        this._mode = mode;
+        this._preset = null;
 
         //elements
         this._element.classList.add('type-input');
@@ -164,29 +167,32 @@ export default class Color extends ObjectComponent{
         this._elementBatch = this._element.querySelector('.color-batch');
 
         //preset selection
-        this._preset = new ComponentPreset(this._input.element);
-        this._preset.on('change',(option)=>{
-            // this.value = option;
-            // this.sync();
-        });
+        // this._preset = new ComponentPreset(this._input.element);
+        // this._preset.on('change',(option)=>{
+        //     // this.value = option;
+        //     // this.sync();
+        // });
 
         //init
-        this.preset = this._state.preset;
+        // this.preset = config.preset;
         this.sync();
+    }
+
+    static get typeName(){
+        return 'color';
     }
 
     sync(){
         const value = this.value;
-        switch(this._state.type){
+        switch(this._mode){
             case Type.STRING:
                 validateType(value,String);
                 break;
             case Type.ARRAY:
                 validateColorArray(value);
-
                 break;
             default:
-                throw new Error(`Invalid type "${this._state.type}".`);
+                throw new Error(`Invalid Mode "${this._mode}".`);
         }
 
         this._elementBatch.style.background = this.value;
