@@ -42,7 +42,7 @@ export const DefaultConfig = Object.freeze({
     dp : null, //deprecated
     step : 0.25,
     stepShiftMult: 2,
-    hideLabels : false,
+    hideSubLabel : false,
     onChange : function(){},
     annotation : null
 });
@@ -78,7 +78,7 @@ export default class Range extends ObjectComponent{
             template
         });
 
-        this._hideLabels = false;
+        this._hideSubLabel = false;
 
         // input
         this._inputMin = new NumberInputInternal({
@@ -114,7 +114,7 @@ export default class Range extends ObjectComponent{
         this._element.classList.add('type-input');
 
         // init
-        this.hideLabels = config.hideLabels;
+        this.hideSubLabel = config.hideSubLabel;
         this.sync();
     }
 
@@ -181,21 +181,21 @@ export default class Range extends ObjectComponent{
      * If true min / max labels are hidden.
      * @param {boolean} hide
      */
-    set hideLabels(hide){
+    set hideSubLabel(hide){
         if(hide){
             this._element.classList.add('hide-sub-label');
         } else {
             this._element.classList.remove('hide-sub-label');
         }
-        this._hideLabels = hide;
+        this._hideSubLabel = hide;
     }
 
     /**
      * Returns true if min / ma x labels are hidden.
      * @return {boolean}
      */
-    get hideLabels(){
-        return this._hideLabels;
+    get hideSubLabel(){
+        return this._hideSubLabel;
     }
 
     /**
