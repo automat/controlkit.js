@@ -3,6 +3,7 @@ import validateOption from 'validate-option';
 import validateType from '../util/validate-type';
 import validateDescription from '../util/validate-description';
 import createHtml from '../util/create-html';
+import createObjectPartial from '../util/create-object-partial';
 
 import SubGroup, {DefaultConfig as SubGroupDefaultConfig} from './sub-group';
 
@@ -75,6 +76,16 @@ export default class Group extends AbstractGroup{
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
+    // Sync
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    sync(){
+        for(const group of this._groups){
+            group.sync();
+        }
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
     // Query Elements
     /*----------------------------------------------------------------------------------------------------------------*/
 
@@ -111,242 +122,107 @@ export default class Group extends AbstractGroup{
         }
     }
 
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Sub-Groups & Components Modifier
+    /*----------------------------------------------------------------------------------------------------------------*/
+
     /**
      * Returns ths last active sub-group.
      * @return {SubGroup}
      * @private
      */
     _backSubGroupValid(){
-        if(this._groups.length == 0){
-            this.addSubGroup();
+        if(this._groups.length === 0){
+            this.add({});
         }
         return this._groups[this._groups.length - 1];
     }
 
     /**
-     * Adds a subgroup.
+     * Adds a sub-group or sub-group components.
      * @param config
-     * @returns {Group}
-     */
-    addSubGroup(config){
-        const group = new SubGroup(this,config);
-        group.componentLabelRatio = this._labelRatio;
-        this._groups.push(group);
-
-        //update height if group changed
-        group.on('size-change',()=>{
-            this.updateHeight();
-            this.emit('size-change');
-        });
-        //update height to new group element
-        this.updateHeight();
-        return this;
-    }
-
-    /**
-     * Removes SubGroup from group
-     * @param subGroup
-     */
-    removeSubGroup(subGroup){
-        const index = this._groups.indexOf(subGroup);
-        if(index === -1){
-            throw new Error('SubGroup not part of group.');
-        }
-        this._groups.splice(index,1);
-        this.updateHeight();
-    }
-
-    /*----------------------------------------------------------------------------------------------------------------*/
-    // Component Modifier
-    /*----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Adds a button component to the last subgroup.
-     * @param name
-     * @param config
-     * @returns {Group}
-     */
-    addButton(name,config){
-        this._backSubGroupValid().addButton(name,config);
-        return this;
-    }
-
-    /**
-     * Adds a number component to the last subgroup.
-     * @param object
-     * @param key
-     * @param config
-     * @returns {Group}
-     */
-    addNumber(object,key,config){
-        this._backSubGroupValid().addNumber(object,key,config);
-        return this;
-    }
-
-    /**
-     * Adds a string component to the last subgroup.
-     * @param object
-     * @param key
-     * @param config
-     * @returns {Group}
-     */
-    addString(object,key,config){
-        this._backSubGroupValid().addString(object,key,config);
-        return this;
-    }
-
-    /**
-     * Adds a checkbox component to the last subgroup.
-     * @param object
-     * @param key
-     * @param config
-     * @returns {Group}
-     */
-    addCheckbox(object,key,config){
-        this._backSubGroupValid().addCheckbox(object,key,config);
-        return this;
-    }
-
-    /**
-     * Adds a select component to the last subgroup.
-     * @param object
-     * @param key
-     * @param config
-     * @returns {Group}
-     */
-    addSelect(object,key,config){
-        this._backSubGroupValid().addSelect(object,key,config);
-        return this;
-    }
-
-    /**
-     * Adds a text component to the last subgroup.
-     * @param title
-     * @param text
-     * @returns {Group}
-     */
-    addText(title,text){
-        this._backSubGroupValid().addText(title,text);
-        return this;
-    }
-
-    /**
-     * Adds a label component to the last subgroup.
-     * @param label
-     * @param config
-     * @returns {Group}
-     */
-    addLabel(label,config){
-        this._backSubGroupValid().addLabel(label,config);
-        return this;
-    }
-
-    /**
-     * Adds a slider component to the last subgroup.
-     * @param object
-     * @param key
-     * @param config
-     * @returns {Group}
-     */
-    addSlider(object,key,config){
-        this._backSubGroupValid().addSlider(object,key,config);
-        return this;
-    }
-
-    addRange(object,key,config){
-        this._backSubGroupValid().addRange(object,key,config);
-        return this;
-    }
-
-    addPad(object,key,config){
-        this._backSubGroupValid().addPad(object,key,config);
-        return this;
-    }
-
-    addCanvas(config){
-        this._backSubGroupValid().addCanvas(config);
-        return this;
-    }
-
-    addSvg(config){
-        this._backSubGroupValid().addSvg(config);
-        return this;
-    }
-
-    addImage(image,config){
-        this._backSubGroupValid().addImage(image,config);
-        return this;
-    }
-
-    addFunctionPlotter(object,key,config){
-        this._backSubGroupValid().addFunctionPlotter(object,key,config);
-    }
-
-    /**
-     * Adds subgroups from descriptions
-     * @param description
      * @return {Group}
      *
      * @example
-     * //single sub-group
-     * group.add({label:'sub-group', components : [
-     *      {type:'number', object:obj, key:'propertyKey'},
-     *      {type:'number', object:obj, key:'propertyKey'},
-     * ]);
+     * // creates empty sub-group
+     * group.add({label:'sub-group'});
      *
      * @example
-     * //multiple sub-groups
-     * group.add([{
-     *         label: 'subgroup a', components: [
-     *             {type:'number', object:obj, key:'propertyKey'},
-     *             {type:'number', object:obj, key:'propertyKey'},
-     *     ]},{
-     *         label: 'subgroup b', components: [
-     *            {type:'number', object:obj, key:'propertyKey'},
-     *            {type:'number', object:obj, key:'propertyKey'},
-     *     ]}
-     * ]);
+     * // creates sub-group with single number component
+     * group.add({
+     *  comps : [
+     *      {type: 'number', object, key}
+     * });
      *
      * @example
-     * //component at last or auto-created sub-group
-     * group.add({type:'number', object:obj, key:'propertyKey'});
-     *
-     * @example
-     * //components at last or auto-created sub-group
-     * groups.add([
-     *     {type:'number', object:obj, key:'propertyKey'},
-     *     {type:'number', object:obj, key:'propertyKey'}
-     * ]);
+     * // adds component to last sub-group, creates new if non added already
+     * group.add({type:'number',object,key});
      */
-    add(description){
-        if(description instanceof Array){
-            for(const item of description){
-                this.add(item);
+    add(config){
+        // create single component
+        if(config.type){
+            this._backSubGroupValid().add(config);
+            return this;
+        }
+
+        // extract groups & components
+        const subGroups = config.groups;
+        const comps = config.comps;
+        config = createObjectPartial(config,['groups','compss']);
+
+        // create multiple sub-groups
+        if(subGroups){
+            for(const group of config.groups){
+                this.add(group);
             }
             return this;
         }
-        if(!description.components && !description.type || description.components && description.type){
-            throw new Error('Invalid sub-group description. Use {...,components:[...]} to create sub-group or {type:...,...} to create components.');
+
+        // create single sub-group
+        const subGroup = new SubGroup(this,config);
+        subGroup.componentLabelRatio = this._labelRatio;
+        this._groups.push(subGroup);
+
+        // listener on sub-group height change
+        subGroup.on('size-change',()=>{
+            this.updateHeight();
+            this.emit('size-change');
+        });
+
+        // update height to initial new sub-group height
+        this.updateHeight();
+
+        // create sub-group components
+        if(comps){
+            for(const comp of comps){
+                this.add(comp);
+            }
         }
-        let components = null;
-        //create sub-group
-        if(description.components){
-            validateType(description.components,Array);
-            const config = validateDescription(description,SubGroupDefaultConfig,['components']);
-            this.addSubGroup(config);
-            components = description.components;
-        }
-        //append component to last sub-group
-        else {
-            components = [description];
-        }
-        this._backSubGroupValid().add(components);
+
+        // return group root
         return this;
     }
 
-    sync(){
-        for(const group of this._groups){
-            group.sync();
+    /**
+     * Removes specific sub-group or component from group.
+     * @param object
+     * @return {Group}
+     */
+    remove(object){
+        // remove sub-group
+        if(object instanceof SubGroup){
+            const index = this._groups.indexOf(object);
+            if(index === -1){
+                throw new Error('SubGroup not part of group.');
+            }
+            this._groups.splice(index,1);
+            this.updateHeight();
+            return this;
         }
+
+        // remove component
+        // TODO: Add
+
+        throw new Error(`Object of type "${typeof object}" not removable.`);
     }
 }
