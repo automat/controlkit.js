@@ -96,12 +96,16 @@ export default class SubGroup extends AbstractGroup{
         this.componentLabelRatio = this._labelRatio;
     }
 
+    /**
+     * Removes sub-group from parent group and destroys all components.
+     */
     destroy(){
         for(const component of this._components){
             component.destroy();
         }
-        this.parent.remove(this);
-        super.destroy();
+        this._components = [];
+        this._scrollContainer.destroy();
+        this.parent._removeSubGroup(this);
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -145,6 +149,23 @@ export default class SubGroup extends AbstractGroup{
     /*----------------------------------------------------------------------------------------------------------------*/
     // Component Modifier
     /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Removes a component.
+     * @param component
+     * @return {SubGroup}
+     * @internal
+     */
+    _removeComponent(component){
+        const index = this._components.indexOf(component);
+        if(index === -1){
+            throw new Error('Invalid component. Component not part of sub-group.');
+        }
+        this._elementList.removeChild(component.element);
+        this._components.splice(index,1);
+        this.emit('size-change');
+        return this;
+    }
 
     /**
      * Adds a component
@@ -217,21 +238,7 @@ export default class SubGroup extends AbstractGroup{
         return this;
     }
 
-    /**
-     * Removes a component.
-     * @param component
-     * @return {SubGroup}
-     */
-    remove(component){
-        const index = this._components.indexOf(component);
-        if(index === -1){
-            throw new Error('Invalid component. Component not part of sub-group.');
-        }
-        this._elementList.removeChild(component.element);
-        this._components.splice(index,1);
-        this.emit('size-change');
-        return this;
-    }
+
 
     sync(){
         for(const component of this._components){
