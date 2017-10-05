@@ -104,7 +104,7 @@ export default class ObjectComponent extends Component{
         const onChange = value.bind(this);
         this._onChange = (e)=>{
             onChange(this.value);
-            if(e.handle == this._proxy.handle){
+            if(e.handle === this._proxy.handle){
                 return;
             }
             this.sync();
