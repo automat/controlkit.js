@@ -90,21 +90,21 @@ export default class Slider extends ObjectComponent{
         });
 
         //state
-        this._state.type = config.type;
-        this._state.range = config.range;
-        this._state.numberInput = config.numberInput;
-        this._state.color = config.color;
-        this._state.dragging = false;
+        this._type = config.type;
+        this._range = config.range;
+        this._numberInput = config.numberInput;
+        this._color = config.color;
+        this._dragging = false;
 
         //optional input
         this._input = null;
 
         //elements
         this._element.classList.add('type-input');
-        if(this._state.numberInput){
+        if(this._numberInput){
             let fd = 0;
             let step = config.step || 1;
-            switch(this._state.type){
+            switch(this._type){
                 case Type.FLOAT:
                     fd = 2;
                     break;
@@ -116,8 +116,8 @@ export default class Slider extends ObjectComponent{
 
             this._input = new NumberInputInternal({
                 element: this._element.querySelector('input'),
-                min : this._state.range[0],
-                max : this._state.range[1],
+                min : this._range[0],
+                max : this._range[1],
                 fd,
                 step
             });
@@ -141,7 +141,7 @@ export default class Slider extends ObjectComponent{
             const width = rect.width;
             let norm  = Math.max(0,Math.min(e.pageX - rect.left,width)) / width;
             let value = this.min + norm * (this.max - this.min);
-            switch(this._state.type){
+            switch(this._type){
                 case Type.FLOAT:
                     this.value = value;
                     break;
@@ -160,8 +160,8 @@ export default class Slider extends ObjectComponent{
         );
 
         //init
-        this.range = this._state.range;
-        this.color = this._state.color;
+        this.range = this._range;
+        this.color = this._color;
         this.sync();
     }
 
@@ -174,7 +174,7 @@ export default class Slider extends ObjectComponent{
      * @return {boolean|*}
      */
     hasNumberInput(){
-        return this._state.numberInput;
+        return this._numberInput;
     }
 
     /**
@@ -186,13 +186,13 @@ export default class Slider extends ObjectComponent{
         for(const item of value){
             validateType(item,Number);
         }
-        const differs = !deepequal(value,this._state.range);
-        this._state.range = value.slice(0);
+        const differs = !deepequal(value,this._range);
+        this._range = value.slice(0);
         if(differs){
-            const min = this._state.range[0];
-            const max = this._state.range[1];
+            const min = this._range[0];
+            const max = this._range[1];
 
-            if(this._state.numberInput){
+            if(this._numberInput){
                 this._input.min = min;
                 this._input.max = max;
             }
@@ -211,7 +211,7 @@ export default class Slider extends ObjectComponent{
      * @returns {Number[]}
      */
     get range(){
-        return this._state.range.slice(0);
+        return this._range.slice(0);
     }
 
     /**
@@ -235,7 +235,7 @@ export default class Slider extends ObjectComponent{
      * @returns {Number}
      */
     get min(){
-        return this._state.range[0];
+        return this._range[0];
     }
 
     /**
@@ -243,7 +243,7 @@ export default class Slider extends ObjectComponent{
      * @returns {Number}
      */
     get max(){
-        return this._state.range[1];
+        return this._range[1];
     }
 
     /**
@@ -251,7 +251,7 @@ export default class Slider extends ObjectComponent{
      * @param {null|string} value
      */
     set color(value){
-        this._state.color = value;
+        this._color = value;
         this._elementHandle.style.background = value;
     }
 
@@ -260,7 +260,7 @@ export default class Slider extends ObjectComponent{
      * @return {null|string}
      */
     get color(){
-        return this._state.color;
+        return this._color;
     }
 
     /**
@@ -271,7 +271,7 @@ export default class Slider extends ObjectComponent{
         const width = +this._elementTrack.offsetWidth;
         const value = clamp(normalize(this.value,this.min,this.max),0.0,1.0);
         this._elementHandle.style.right = (1.0 - value) * width + 'px';
-        if(this._state.numberInput){
+        if(this._numberInput){
             this._input.value =  this.value;
         }
     }
