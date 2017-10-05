@@ -236,7 +236,7 @@ export default class Panel extends EventEmitter{
         this._root.updatePanelAutoPosition();
     }
 
-    _removeGroup(group){
+    _removeChild(group){
         const index = this._groups.indexOf(group);
         if(index === -1){
             throw new Error('Group not part of panel.');
