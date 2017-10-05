@@ -1,21 +1,13 @@
 import ControlKit from '../../../index';
 
-window.addEventListener('load',()=>{
-    const settings = {number:0};
+window.addEventListener('load',() =>{
+    const settings = {number : 0};
 
-    new ControlKit().addPanel()
-        .addGroup()
-        .addNumber(settings,'number')
-        .addNumber(settings,'number')
-        .addNumber(settings,'number')
-        .addNumber(settings,'number')
-        .addNumber(settings,'number')
-        .addNumber(settings,'number')
-        .addNumber(settings,'number')
-        .addNumber(settings,'number')
-        .addNumber(settings,'number')
-        .addNumber(settings,'number')
-        .addNumber(settings,'number')
-        .addNumber(settings,'number')
-        .addNumber(settings,'number');
+    new ControlKit().add({
+        label : 'panel',
+        groups : [{
+            label : 'group a',
+            comps : [{type : 'number',object : settings,key : 'number'}]
+        }]
+    })
 });

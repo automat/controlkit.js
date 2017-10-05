@@ -10,21 +10,35 @@ window.addEventListener('load',()=>{
         string2 : 'ghi'
     };
     const controlKit = new ControlKit();
-    controlKit.addPanel({height:250})
-        .addGroup({label : 'group',height : 50})
-        .addSubGroup({label : 'sub-group',height : 100})
-        .addNumber(settings,'number0',{id : 'number0'})
-        .addString(settings,'string0',{id : 'string0'})
-        .addNumber(settings,'number1',{id : 'number1'})
-        .addString(settings,'string1',{id : 'string1'})
-        .addNumber(settings,'number2',{id : 'number2'})
-        .addString(settings,'string2',{id : 'string2'})
-        .addGroup()
-        .addSubGroup({label : 'sub-group'})
-        .addNumber(settings,'number0')
-        .addString(settings,'string0')
-        .addNumber(settings,'number1')
-        .addString(settings,'string1');
+    controlKit.add({
+        height: 250,
+        groups : [{
+            label: 'group',
+            height: 50,
+            groups : [{
+                label : 'sub-group',
+                height : 150,
+                comps : [
+                    {type:'number',object:settings,key:'number0',id:'number0'},
+                    {type:'string',object:settings,key:'string0',id:'string0'},
+                    {type:'number',object:settings,key:'number1',id:'number1'},
+                    {type:'string',object:settings,key:'string1',id:'string1'},
+                    {type:'number',object:settings,key:'number2',id:'number2'},
+                    {type:'string',object:settings,key:'string2',id:'string2'}
+                ]
+            }]
+        },{
+            groups : [{
+                label : 'sub-group',
+                comps : [
+                    {type:'number',object:settings,key:'number0'},
+                    {type:'string',object:settings,key:'string0'},
+                    {type:'number',object:settings,key:'number1'},
+                    {type:'string',object:settings,key:'string1'}
+                ]
+            }]
+        }]
+    });
 
 
     let number0, string0, number1, string1, number2, string2;
