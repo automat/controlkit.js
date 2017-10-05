@@ -124,6 +124,16 @@ export default class ScrollContainer extends EventEmitter{
         this.target = target;
     }
 
+
+    /**
+     * Detaches the scroll-container from the target element and
+     * removes all event listeners.
+     */
+    destroy(){
+        this.setHeight(null);
+        this._removeEventListeners();
+    }
+
     /**
      * Updates the handle height relative to the content height.
      * @private
@@ -144,6 +154,10 @@ export default class ScrollContainer extends EventEmitter{
         const ratio = this._elementHandle.offsetHeight / heightTrack;
         this._elementHandle.style.marginTop = this._scrollY / max * (1.0 - ratio) * heightTrack + 'px';
     }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Target & Height
+    /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Sets the target node to be wrapped.
@@ -175,6 +189,78 @@ export default class ScrollContainer extends EventEmitter{
     }
 
     /**
+     * Sets the scroll-container height. If null the scroll-container gets removed.
+     * @param height
+     */
+    setHeight(height){
+        //scroll-container remove
+        if(height === null){
+            if(this._height !== null){
+                // FIXME: detachment before proper removal
+                if(!this._element.parentNode){
+                    this._height = null;
+                    return;
+                }
+                this._parent.removeChild(this._element);
+                this._parent.appendChild(this._target);
+                this.emit('size-change');
+            }
+            this.scrollToTop();
+        }
+
+        //scroll-container active
+        else {
+            const heightTarget = this._target.offsetHeight;
+            height = Math.min(height,heightTarget);
+
+            // height equals target height, remove scroll container
+            if(height === heightTarget){
+                this.setHeight(null);
+                return;
+            }
+
+            // height restricted set
+            if(this._height !== null){
+                this._element.style.height = height + 'px';
+                const diff = heightTarget - this._scrollY;
+
+                // prev scroll value exceeding available height
+                if(diff < height){
+                    this.scrollToBottom();
+                }
+                // update handle position / height relative to scroll height
+                else {
+                    this._updateHandleHeight();
+                    this._updateHandlePosition();
+                }
+
+                // scroll-container initial add
+            } else {
+                this._elementContainer.appendChild(this._target);
+                this._parent.appendChild(this._element);
+                this._element.style.height = height + 'px';
+                this.scrollToTop();
+            }
+        }
+
+        // propagate
+        this._height = height;
+        this.emit('size-change');
+    }
+
+    /**
+     * Returns the container´s current height.
+     * @return {null|*|number}
+     */
+    get height(){
+        return this._height;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Scroll
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
      * Scrolls the target element to top.
      */
     scrollToTop(){
@@ -194,7 +280,7 @@ export default class ScrollContainer extends EventEmitter{
      */
     scrollTo(position){
         this._scrollY = Math.max(0,Math.min(position,this.scrollMax));
-        this._target.style.marginTop = this._scrollY == 0 ? null : -this._scrollY + 'px';
+        this._target.style.marginTop = this._scrollY === 0 ? null : -this._scrollY + 'px';
 
         this._updateHandleHeight();
         this._updateHandlePosition();
@@ -206,72 +292,5 @@ export default class ScrollContainer extends EventEmitter{
      */
     get scrollMax(){
         return this._target.offsetHeight - this._element.offsetHeight;
-    }
-
-    /**
-     * Sets the scroll-container height. If null the scroll-container gets removed.
-     * @param height
-     */
-    setHeight(height){
-        //scroll-container remove
-        if(height === null){
-            if(this._height !== null){
-                // FIXME: detachment before proper removal
-                if(!this._element.parentNode){
-                    this._height = null;
-                    return;
-                }
-                this._parent.removeChild(this._element);
-                this._parent.appendChild(this._target);
-                this.emit('size-change');
-            }
-            this.scrollToTop();
-        //scroll-container active
-        } else {
-            const heightTarget = this._target.offsetHeight;
-            height = Math.min(height,heightTarget);
-
-            if(height === heightTarget){
-                this.setHeight(null);
-                return;
-            }
-            //update
-            if(this._height !== null){
-                this._element.style.height = height + 'px';
-                //target offsetted
-                const diff = heightTarget - this._scrollY;
-                if(diff < height){
-                    this.scrollToBottom();
-                } else {
-                    this._updateHandleHeight();
-                    this._updateHandlePosition();
-                }
-            //scroll-container add
-            } else {
-                this._elementContainer.appendChild(this._target);
-                this._parent.appendChild(this._element);
-                this._element.style.height = height + 'px';
-                this.scrollToTop();
-            }
-        }
-        this._height = height;
-        this.emit('size-change');
-    }
-
-    /**
-     * Returns the container´s current height.
-     * @return {null|*|number}
-     */
-    get height(){
-        return this._height;
-    }
-
-    /**
-     * Detaches the scroll-container from the target element and
-     * removes all event listeners.
-     */
-    destroy(){
-        this.setHeight(null);
-        this._removeEventListeners();
     }
 }
