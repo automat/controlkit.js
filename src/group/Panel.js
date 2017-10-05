@@ -3,6 +3,7 @@ import validateType from '../util/validate-type';
 import validateValue from '../util/validate-value';
 import validateDescription from '../util/validate-description';
 import createHtml from '../util/create-html';
+import createObjectPartial from '../util/create-object-partial';
 import Group, {DefaultConfig as GroupDefaultConfig} from './group';
 import ScrollContainer from './scroll-container';
 import EventEmitter from 'events';
@@ -116,23 +117,6 @@ export default class Panel extends EventEmitter{
         this._alignv = config.alignv;
         this._dragging = false;
 
-        // this._state = {
-        //     id : config.id,
-        //     enabled : config.enabled,
-        //     height : null,
-        //     maxHeight : config.height,
-        //     label : config.label,
-        //     labelRatio : config.labelRatio,
-        //     position : [config.x,config.y],
-        //     collapse : config.collapse,
-        //     opacity : config.opacity,
-        //     fixed : config.fixed,
-        //     alignh : config.alignh,
-        //     alignv : config.alignv,
-        //     dragging : false
-        // };
-
-
         // node
         this._root = controlKit;
         this._element = createHtml(template);
@@ -243,6 +227,16 @@ export default class Panel extends EventEmitter{
         this.componentLabelRatio = this._labelRatio;
     }
 
+    destroy(){
+        for(const group of this._groups){
+            group.destroy();
+        }
+        this._groups = [];
+        this._element.parentNode.removeChild(this._element);
+        this._removeEventListeners();
+        this._root.updatePanelAutoPosition();
+    }
+
     _removeGroup(group){
         const index = this._groups.indexOf(group);
         if(index === -1){
@@ -253,10 +247,13 @@ export default class Panel extends EventEmitter{
         this.updateHeight();
     }
 
-    render(){
-        if(!this._enabled){
+    /*----------------------------------------------------------------------------------------------------------------*/
+    // Sync
+    /*----------------------------------------------------------------------------------------------------------------*/
 
-            return;
+    sync(){
+        for(const group of this._groups){
+            group.sync();
         }
     }
 
@@ -419,6 +416,9 @@ export default class Panel extends EventEmitter{
     // Appearance Modifier
     /*----------------------------------------------------------------------------------------------------------------*/
 
+    /**
+     * Updates panel height to its content or restricted height.
+     */
     updateHeight(){
         const top = this._elementHead.getBoundingClientRect().bottom;
         const max = window.innerHeight;
@@ -529,222 +529,189 @@ export default class Panel extends EventEmitter{
      */
     _backGroupValid(){
         if(this._groups.length === 0){
-            this.addGroup();
+            this.add({});
         }
         return this._groups[this._groups.length - 1];
     }
 
     /**
-     * Adds a new group to the panel.
+     * Adds group, sub-group or component
      * @param config
-     * @return {Panel}
+     *
+     * @example
+     * // creates an empty group
+     * panel.add({})
+     *
+     * @example
+     * // creates a group with components
+     * panel.add({
+     *     label: 'group a',
+     *     comps: [
+     *         {type: 'number', object, key}
+     *     ]
+     * });
+     *
+     * @example
+     * // creates a group with multiple one level sub-groups
+     * panel.add({
+     *     groups : [{
+     *         label : 'group a',
+     *         comps : [
+     *             {type: 'number', object, key}
+     *         ]
+     *     },{
+     *         label : 'group b',
+     *         comps : [
+     *             {type: 'number', object, key}
+     *         ]
+     *     }]
+     * });
+     *
+     * @example
+     * // creates a group with multiple multi-level sub-groups
+     * panel.add({
+     *     groups : [{
+     *         label : 'group a',
+     *         groups : [{
+     *             label : 'group a-a',
+     *             comps : [
+     *                 {type:'number', object, key}
+     *             ]
+     *         }]
+     *     },{
+     *         label : 'group b',
+     *         groups : [{
+     *             label : 'group b-a',
+     *             comps : [
+     *                 {type:'number', object, key}
+     *             ]
+     *         },{
+     *             label : 'group b-b',
+     *             comps : [
+     *                 {type:'number', object, key}
+     *             ]
+     *         }]
+     *     },{
+     *         label : 'group c',
+     *         comps : [
+     *             {type: 'number', object, key}
+     *         ]
+     *     }]
+     * });
      */
-    addGroup(config){
+    add(config){
+        // add single component to last sub-group
+        if(config.type){
+            this._backGroupValid().add(config);
+            return this;
+        }
+
+        // extract groups & components
+        const groups = config.groups;
+        const comps = config.comps;
+        config = createObjectPartial(config,['groups','comps']);
+
+        // create multiple groups
+        if(groups){
+            for(const group of groups){
+                this.add(group);
+            }
+            return this;
+        }
+
+        // create single group
         const group = new Group(this,config);
         this._groups.push(group);
         this._elementList.appendChild(group.element);
         group.componentLabelRatio = this._labelRatio;
-        //update height if group changed
-        group.on('size-change',()=>{this.updateHeight();});
-        //update height to new group element
+
+        // listener on group height change
+        group.on('size-change',()=>{
+            this.updateHeight();
+        });
+
+        // update height to initial new group height
         this.updateHeight();
-        return this;
-    };
 
-    /**
-     * Adds a new sub-group to the active group.
-     * @param config
-     * @return {Panel}
-     */
-    addSubGroup(config){
-        if(this._groups.length === 0){
-            this.addGroup();
+        // create sub-group components
+        if(comps){
+            for(const comp of comps){
+                this.add(comp);
+            }
         }
-        this._groups[this._groups.length - 1].addSubGroup(config);
-        return this;
-    };
 
-    addButton(name,config){
-        this._backGroupValid().addButton(name,config);
-        return this;
-    };
-
-    addCheckbox(object_or_boolean,key_or_config,config){
-        this._backGroupValid().addCheckbox(object_or_boolean,key_or_config,config);
-        return this;
-    };
-
-    addString(object_or_string,key_or_config,config){
-        this._backGroupValid().addString(object_or_string,key_or_config,config);
-        return this;
-    };
-
-    addNumber(object_or_number,key_or_config,config){
-        this._backGroupValid().addNumber(object_or_number,key_or_config,config);
-        return this;
-    };
-
-    addPad(object_or_array,key_or_config,config){
-        this._backGroupValid().addPad(object_or_array,key_or_config,config);
-        return this;
-    };
-
-    addLabel(label,config){
-        this._backGroupValid().addLabel(label,config);
-        return this;
-    };
-
-    addText(title,text){
-        this._backGroupValid().addText(title,text);
+        // return panel root
         return this;
     }
 
-    addSelect(object,key,config){
-        this._backGroupValid().addSelect(object,key,config);
-        return this;
-    };
+    /* LEGACY MODIFIER */
+    
+    addGroup(config){
+        return this.add(config || {});
+    }
 
-    addSlider(object_or_number,key_or_array,config){
-        this._backGroupValid().addSlider(object_or_number,key_or_array,config);
-        return this;
-    };
+    addSubGroup(config){
+        return this._backGroupValid().add(config || {});
+    }
+
+    addButton(name,config){
+        return this.add(Object.assign({type:'button', name},config));
+    }
+
+    addNumber(object,key,config){
+        return this.add(Object.assign({type:'number',object,key},config));
+    }
+    
+    addString(object,key,config){
+        return this.add(Object.assign({type:'string',object,key},config));
+    }
+
+    addCheckbox(object,key,config){
+        return this.add(Object.assign({type:'checkbox',object,key},config));
+    }
+    
+    addSelect(object,key,config){
+        return this.add(Object.assign({type:'select',object,key},config));
+    }
+
+    addText(title,text){
+        return this.add({type:'text',title,text});
+    }
+
+    addLabel(label,config){
+        return this.add(Object.assign({type:'label',label},config));
+    }
+
+    addSlider(object,key,config){
+        return this.add(Object.assign({type:'slider',object,key},config));
+    }
 
     addRange(object,key,config){
-        this._backGroupValid().addRange(object,key,config);
-        return this;
+        return this.add(Object.assign({type:'range',object,key},config));
+    }
+
+    addColor(object,key,config){
+        return this.add(Object.assign({type:'color',object,key},config));
+    }
+
+    addPad(object,key,config){
+        return this.add(Object.assign({type:'pad',object,key},config));
     }
 
     addCanvas(config){
-        this._backGroupValid().addCanvas(config);
-        return this;
+        return this.add(Object.assign({type:'canvas'},config));
     }
 
     addSvg(config){
-        this._backGroupValid().addSvg(config);
-        return this;
+        return this.add(Object.assign({type:'svg'},config));
     }
 
-    addImage(image,config){
-        this._backGroupValid().addImage(image,config);
-        return this;
+    addImage(config){
+        return this.add(Object.assign({type:'image'},config));
     }
-
-    addColor(object_or_color,key_or_config,config){};
-
-    addImageMatrix(object_or_image_array,key_or_config,config){};
-
-    addVideo(object_or_video,key_or_config,config){};
-
-    addVideoMatrix(object_or_video_array,key_or_config,config){};
 
     addFunctionPlotter(object,key,config){
-        this._backGroupValid().addFunctionPlotter(object,key,config);
-        return this;
-    };
-
-    /**
-     * Adds groups from description.
-     * @param description
-     * @return {Panel}
-     *
-     * @example
-     * //single group
-     * panel.add({label: 'group', subGroups : [
-     *      {label: 'sub group' : components : [
-     *          {type: 'number', object: obj, key: 'property'}
-     *      ]
-     * ]);
-     *
-     * @example
-     * //multiple groups
-     * panel.add([
-     *     {label: 'group', subGroups : [
-     *         {label: 'sub group' : components : [
-     *             {type: 'number', object: obj, key: 'property'}
-     *         ]
-     *     ]},
-     *     {label: 'group', subGroups : [
-     *         {label: 'sub group' : components : [
-     *             {type: 'number', object: obj, key: 'property'}
-     *         ]
-     *     ]}
-     * ]);
-     *
-     * @example
-     * //sub-group
-     * panel.add({label:'sub-group', components:[
-     *     {type: 'number', object: obj, key: 'property'}
-     * ]});
-     *
-     * @example
-     * //sub-groups
-     * panel.add([{
-     *     label:'sub-group-a', components:[
-     *         {type: 'number', object: obj, key: 'property'}
-     *     ]},{
-     *     label:'sub-group-b', components:[
-     *         {type: 'number', object: obj, key: 'property'}
-     *     ]}
-     * ]);
-     *
-     * @example
-     * //component
-     * panel.add({type: 'number', object: obj, key: 'property'});
-     *
-     * @example
-     * //components
-     * panel.add([
-     *     {type: 'number', object: obj, key: 'property'},
-     *     {type: 'number', object: obj, key: 'property'}
-     * ]);
-     */
-    add(description){
-        if(description instanceof Array){
-            for(const item of description){
-                this.add(item);
-            }
-            return this;
-        }
-        if(!description.subGroups && !description.components && !description.type ||
-            description.subGroups && description.components ||
-            description.subGroups && description.type ||
-            description.components && description.type){
-            throw new Error('Invalid group description. Use {...,subGroups:[...]} to create groups, {...,components:[...]} to create sub-groups or {type:...,...} to create components.');
-        }
-        let subGroups = null;
-        //create group
-        if(description.subGroups){
-            validateType(description.subGroups,Array);
-            const config = validateDescription(description,GroupDefaultConfig,['subGroups']);
-            this.addGroup(config);
-            subGroups = description.subGroups;
-        }
-        //append subgroups to last group
-        else {
-            subGroups = [description];
-        }
-        this._backGroupValid().add(subGroups);
-        return this;
-    }
-
-    sync(){
-        for(const group of this._groups){
-            group.sync();
-        }
-    }
-
-    destroy(){
-        for(const group of this._groups){
-            group.destroy();
-        }
-        this._groups = [];
-        this._element.parentNode.removeChild(this._element);
-        this._removeEventListeners();
-        this._root.updatePanelAutoPosition();
-    }
-
-    static createFromObject(object){
-        //validate in object
+        return this.add(Object.assign({type : 'function-plotter',object,key},config));
     }
 }
 
