@@ -188,13 +188,7 @@ export default class ControlKit{
             }
         }
 
-        // create panel comps
-        if(comps){
-            for(const comp of comps){
-                panel.add(comp);
-            }
-        }
-
+        // return panel as root
         return panel;
     }
 
