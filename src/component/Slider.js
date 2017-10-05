@@ -198,7 +198,7 @@ export default class Slider extends ObjectComponent{
             }
             const value = Math.max(min,Math.min(this.value,max));
             // update slider new range
-            if(value == this.value){
+            if(value === this.value){
                 this.sync();
                 return;
             }
