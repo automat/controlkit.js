@@ -533,6 +533,7 @@ export default class Panel extends EventEmitter{
         return this._groups[this._groups.length - 1];
     }
 
+
     /**
      * Adds group, sub-group or component
      * @param config
@@ -610,15 +611,7 @@ export default class Panel extends EventEmitter{
         const comps = config.comps;
         config = createObjectPartial(config,['groups','comps']);
 
-        // create multiple groups
-        if(groups){
-            for(const group of groups){
-                this.add(group);
-            }
-            return this;
-        }
-
-        // create single group
+        // create group
         const group = new Group(this,config);
         this._groups.push(group);
         this._elementList.appendChild(group.element);
@@ -632,7 +625,14 @@ export default class Panel extends EventEmitter{
         // update height to initial new group height
         this.updateHeight();
 
-        // create sub-group components
+        // create sub-group
+        if(groups){
+            for(const group_ of groups){
+                group.add(group_);
+            }
+        }
+
+        // create sub-group components at default sub-group
         if(comps){
             for(const comp of comps){
                 this.add(comp);
