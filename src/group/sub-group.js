@@ -124,6 +124,22 @@ export default class SubGroup extends AbstractGroup{
     }
 
     /**
+     * Removes a component.
+     * @param component
+     * @return {SubGroup}
+     * @internal
+     */
+    _removeComponent(component){
+        const index = this._children.indexOf(component);
+        if(index === -1){
+            throw new Error('Invalid component. Component not part of sub-group.');
+        }
+        this._elementList.removeChild(component.element);
+        this._children.splice(index,1);
+        this.emit('size-change');
+    }
+
+    /**
      * Adds a component
      * @param config
      * @return {SubGroup}
