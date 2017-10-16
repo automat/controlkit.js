@@ -1,15 +1,16 @@
 import Component from './component';
 
+
+
 export default class Text extends Component{
     constructor(parent,title,text){
         super(parent,{label:title});
 
-        this._state.text = text;
+        this._text = null;
 
         this._element.classList.add('type-text');
 
-        this.title = this._state.label;
-        this.text = this._state.text;
+        this.text = text;
     }
 
     /**
@@ -41,7 +42,7 @@ export default class Text extends Component{
      * @param {String} value
      */
     set text(value){
-        this._state.text = value;
+        this._text = value;
         const paragraphs = this._element.querySelectorAll('p');
         for(let i = 0; i < paragraphs.length; ++i){
             this._element.removeChild(paragraphs[i]);
@@ -58,6 +59,6 @@ export default class Text extends Component{
      * @return {String}
      */
     get text(){
-        return this._state.text;
+        return this._text;
     }
 }
