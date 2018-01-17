@@ -4171,10 +4171,10 @@ var Node = require('./document/Node'),
 var EventDispatcher = require('./event/EventDispatcher'),
     ComponentEvent  = require('./ComponentEvent');
 
-function Component(parent,label) {
+function Component(parent, params) {
     EventDispatcher.apply(this,arguments);
 
-    label = parent.usesLabels() ? label : 'none';
+    params.label = parent.usesLabels() ? params.label : 'none';
 
     this._parent  = parent;
     this._enabled = true;
@@ -4184,15 +4184,26 @@ function Component(parent,label) {
         wrap.setStyleClass(CSS.Wrap);
         root.addChild(wrap);
 
-    if (label !== undefined) {
-        if (label.length != 0 && label != 'none') {
+    params.ratio = params.ratio || getParentRatio(parent);
+
+    if (params.ratio) {
+        wrap.setStyleProperty('width', params.ratio + '%');
+    }
+
+    if (params.label !== undefined) {
+        if (params.label.length != 0 && params.label != 'none') {
             var label_ = this._lablNode = new Node(Node.SPAN);
                 label_.setStyleClass(CSS.Label);
-                label_.setProperty('innerHTML', label);
-                root.addChild(label_);
+                label_.setProperty('innerHTML', params.label);
+
+            if (params.ratio) {
+                label_.setStyleProperty('width', (100 - params.ratio) + '%');
+            }
+
+            root.addChild(label_);
         }
 
-        if (label == 'none') {
+        if (params.label == 'none') {
             wrap.setStyleProperty('marginLeft', '0');
             wrap.setStyleProperty('width', '100%');
         }
@@ -4227,6 +4238,14 @@ Component.prototype.onEnable = function () {
 Component.prototype.onDisable = function () {
     this.disable();
 };
+
+// Helper to crawl upwards until a ratio is found, or undefined
+getParentRatio = function(node) {
+    while (!node._ratio && node._parent) {
+        node = node._parent;
+    }
+    return node._ratio;
+}
 
 module.exports = Component;
 },{"./ComponentEvent":31,"./document/CSS":42,"./document/Node":45,"./event/EventDispatcher":49}],31:[function(require,module,exports){
@@ -4362,7 +4381,7 @@ function ObjectComponent(parent, obj, key, params) {
     params = params || {};
     params.label = params.label || key;
 
-    Component.apply(this, [parent, params.label]);
+    Component.apply(this, [parent, params]);
 
     this._obj = obj;
     this._key = key;
@@ -5973,6 +5992,7 @@ function Panel(controlKit,params){
     this._width      = Math.max(DEFAULT_PANEL_WIDTH_MIN,
                        Math.min(params.width,DEFAULT_PANEL_WIDTH_MAX));
     this._height     = params.height ?  Math.max(0,Math.min(params.height,window.innerHeight)) : null;
+    this._ratio      = params.ratio;
     this._fixed      = params.fixed;
     this._dock       = params.dock;
     this._position   = params.position;
