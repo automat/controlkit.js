@@ -338,7 +338,7 @@ function Button(parent,label,onPress,params) {
     params       = params       || {};
     params.label = params.label || DEFAULT_LABEL;
 
-    Component.apply(this,[parent,params.label]);
+    Component.apply(this,[parent,params]);
 
     var node = this._inputNode = new Node(Node.INPUT_BUTTON);
 
