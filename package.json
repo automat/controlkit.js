@@ -1,7 +1,7 @@
 {
-    "name": "controlkit",
+    "name": "@brunoimbrizi/controlkit",
     "version": "0.1.9",
-    "description": "A lightweight gui and controller library",
+    "description": "Fork of automat/controlkit.js",
     "keywords": [
         "gui",
         "controller",
@@ -9,9 +9,7 @@
         "interface"
     ],
     "author": {
-        "name": "Henryk Wollik",
-        "email": "hwollik@hotmail.com",
-        "url": "http://henrykwollik.com"
+        "name": "Bruno Imbrizi"
     },
     "main" : "index.js",
     "devDependencies" :
@@ -21,7 +19,7 @@
          "through"    : "2.3.x"},
     "repository" :
         {"type" : "git",
-         "url" : "https://github.com/automat/controlkit.js.git"},
-    "homepage" : "http://github.com/automat/controlKit.js",
+         "url" : "https://github.com/brunoimbrizi/controlkit.js.git"},
+    "homepage" : "http://github.com/brunoimbrizi/controlKit.js",
     "license": "MIT"
 }
