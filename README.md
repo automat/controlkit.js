@@ -1,17 +1,15 @@
 Fork of [automat/controlkit.js](https://github.com/automat/controlkit.js) with a few updates.
-
 ___
-##Usage
 
-When using node or browserify install
+## Installation
 
     npm install @brunoimbrizi/controlkit
 
-and require
+## Usage
     
     var ControlKit = require('@brunoimbrizi/controlkit');
-
 ___
-##More
+
+## More
 
 [Original README](https://github.com/automat/controlkit.js)
