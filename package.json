@@ -1,6 +1,6 @@
 {
   "name": "@brunoimbrizi/controlkit",
-  "version": "0.1.91",
+  "version": "0.1.92",
   "description": "Fork of automat/controlkit.js",
   "keywords": [
     "gui",
