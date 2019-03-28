@@ -1,6 +1,6 @@
 {
   "name": "@brunoimbrizi/controlkit",
-  "version": "0.1.94",
+  "version": "0.1.96",
   "description": "Fork of automat/controlkit.js",
   "keywords": [
     "gui",
@@ -18,17 +18,17 @@
     "package.json",
     "README.md"
   ],
-  "main" : "index.js",
-  "devDependencies" : {
-    "browserify" : "6.2.x",
-    "uglify-js"  : "2.4.x",
-    "clean-css"  : "2.2.x",
-    "through"    : "2.3.x"
+  "main": "index.js",
+  "devDependencies": {
+    "browserify": "6.2.x",
+    "uglify-js": "2.4.x",
+    "clean-css": "2.2.x",
+    "through": "2.3.x"
   },
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/brunoimbrizi/controlkit.js.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brunoimbrizi/controlkit.js.git"
   },
-  "homepage" : "http://github.com/brunoimbrizi/controlKit.js",
+  "homepage": "http://github.com/brunoimbrizi/controlKit.js",
   "license": "MIT"
 }
