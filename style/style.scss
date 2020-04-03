@@ -17,7 +17,7 @@
 #controlKit {
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   width: 100%;
   height: 100%;
 
@@ -44,6 +44,7 @@
   overflow: hidden;
   opacity: 1.0;
   float: left;
+  height: 100%;
 
   width: $panel-width;
   @include border-radius($panel-border-radius);
@@ -111,7 +112,8 @@
     height: $button-height;
     margin: $button-margin;
 
-    @include linear-gradient($button-gradient);
+    // @include linear-gradient($button-gradient);
+    background: #333;
 
     border: none;
     outline: 0;
@@ -120,6 +122,9 @@
 
     font-family: $button-font-family;
     color: $button-color;
+  }
+  .panel .button {
+    width: 78%;
   }
   .panel textarea{
     padding: $textarea-padding;
@@ -202,14 +207,15 @@
 #controlKit{
   .panel .button, .picker .button {
     font-size: $button-font-size;
-    font-weight: $button-font-weight;
+    // font-weight: $button-font-weight;
     text-shadow: $button-text-shadow;
     text-transform: $button-text-transform;
     &:hover {
       @include linear-gradient($button-hover-gradient);
     }
     &:active {
-      @include linear-gradient($button-active-gradient);
+      // @include linear-gradient($button-active-gradient);
+      background: #111;
     }
   }
 }
@@ -257,7 +263,7 @@
 
 #controlKit .panel{
   input[type='checkbox']{
-    margin: 6px 0 0 0;
+    // margin: 6px 0 0 0;
   }
 }
 
@@ -278,12 +284,23 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    color: $input-color;
+
+    box-shadow: 0 0 0 1px $component-border-color inset, -1px -2px 0 0 #4a4a4a inset;
   }
   .select {
-    @include linear-gradient-with-image(#{$select-gradient}, $imageSelect 100% 50% no-repeat);
+    // @include linear-gradient-with-image(#{$select-gradient}, $imageSelect 100% 50% no-repeat);
+    background-color: #222;
+    background-image: $imageSelect;
+    background-repeat: no-repeat;
+    background-position: center right;
   }
   .select:hover, .select-active {
-    @include linear-gradient-with-image(#{$select-hover-gradient}, $imageSelect 100% 50% no-repeat);
+    // @include linear-gradient-with-image(#{$select-hover-gradient}, $imageSelect 100% 50% no-repeat);
+    background-color: #333;
+    background-image: $imageSelect;
+    background-repeat: no-repeat;
+    background-position: center right;
   }
 }
 
@@ -295,13 +312,13 @@
     @include box-sizing(border-box);
   }
   .wrap-slider {
-    width: 70%;
+    width: $component-width;
     padding: 6px 0 0 0;
     float: right;
     height: 100%;
 
     input[type='text'] {
-      width: 25%;
+      width: 20%;
       text-align: center;
       padding: 0;
       float: right;
@@ -324,7 +341,7 @@
     width: 100%;
     height: 100%;
     @include linear-gradient-with-background(#{$slider-handle-gradient},$slider-handle-background);
-    box-shadow: $slider-handle-box-shadow;
+    // box-shadow: $slider-handle-box-shadow;
   }
 }
 
@@ -451,7 +468,7 @@
     font-family: $options-font-family;
     font-size: $options-font-size;
     color: $options-color;
-    text-shadow: $options-text-shadow;
+    // text-shadow: $options-text-shadow;
     overflow: hidden;
 
     ul {
@@ -539,7 +556,7 @@
   .panel .head, .picker .head {
     .label {
       cursor: pointer;
-      line-height: $panel-head-height;
+      line-height: $panel-head-line-height;
       color: $panel-head-label-color
     }
   }
@@ -556,7 +573,8 @@
     border-top: $group-head-border-top;
     border-bottom: $group-head-border-bottom;
 
-    @include linear-gradient($group-head-gradient);
+    // @include linear-gradient($group-head-gradient);
+    background: #000;
     cursor: pointer;
 
     .label {
@@ -566,7 +584,8 @@
     }
     &:hover {
       border-top: $group-head-hover-border-top;
-      @include linear-gradient($group-head-hover-gradient);
+      // @include linear-gradient($group-head-hover-gradient);
+      background: #333;
     }
   }
   li {
@@ -614,7 +633,8 @@
         background-color: $subGroup-head-background;
         &:hover {
           background-image: none;
-          background-color: $subGroup-head-hover-background;
+          // background-color: $subGroup-head-hover-background;
+          background: #333;
         }
       }
       .head-inactive {
@@ -623,12 +643,16 @@
         padding: $subGroup-head-padding;
 
         box-shadow: $subGroup-head-inactive-box-shadow;
-        @include linear-gradient($subGroup-head-inactive-gradient);
+        // @include linear-gradient($subGroup-head-inactive-gradient);
+        background-color: $subGroup-head-background;
+        cursor: pointer;
 
         &:hover {
           box-shadow: $subGroup-head-inactive-hover-box-shadow;
           background-image: none;
-          @include linear-gradient($subGroup-head-inactive-hover-gradient);
+          // @include linear-gradient($subGroup-head-inactive-hover-gradient);
+          background: #333;
+          cursor: pointer;
         }
       }
       .head .label, .head-inactive .label {
@@ -732,6 +756,8 @@
 #controlKit .panel .menu,
 #controlKit .panel .menu-active,
 #controlKit .picker .menu {
+  display: none;
+
   float: right;
   padding: $menu-padding;
 
@@ -855,10 +881,12 @@
     background: $image-arrow-b-min center no-repeat;
   }
   .arrow-b-sub-max {
-    background: $image-arrow-b-sub-max center no-repeat;
+    // background: $image-arrow-b-sub-max center no-repeat;
+    background: $image-arrow-b-max center no-repeat;
   }
   .arrow-b-sub-min {
-    background: $image-arrow-b-sub-min center no-repeat;
+    // background: $image-arrow-b-sub-min center no-repeat;
+    background: $image-arrow-b-min center no-repeat;
   }
   .arrow-b-max, .arrow-b-min, .arrow-b-sub-max, .arrow-b-sub-min {
     width: 10px;

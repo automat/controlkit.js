@@ -10,9 +10,9 @@
 // Shared
 //-----------------------------------------------------------------------------------------//
 
-$default-font-family: Arial,sans-serif;
+$default-font-family: monospace;
 $default-text-shadow: 1px 1px #000;
-$default-border-radius: 2px;
+$default-border-radius: 0px;
 
 $color:
   #1A1A1A,
@@ -21,7 +21,7 @@ $color:
   #262626,
   #000;
 
-$label-font-size: 11px;
+$label-font-size: 10px;
 $label-font-weight: bold;
 $label-text-shadow: 0 1px #000;
 
@@ -38,7 +38,8 @@ $panel-font-family: $default-font-family;
 // panel head
 $panel-head-background: arr1($color, 0);
 $panel-head-height: 30px;
-$panel-head-padding: 0 10px 0 10px;
+$panel-head-line-height: 32px;
+$panel-head-padding: 0 20px 0 10px;
 $panel-head-border-top: 1px solid #202426;
 $panel-head-label-color: #65696b;
 
@@ -48,7 +49,7 @@ $panel-head-label-color: #65696b;
 
 // base
 $component-width: 70%;
-$component-height: 25px;
+$component-height: 18px;
 $component-padding: 5px 0 0 0;
 $component-border-bottom: 1px solid #3b4447;
 $component-border-radius: $default-border-radius;
@@ -56,10 +57,10 @@ $component-border-color: #1F1F1F;
 $component-inset-border: 0 0 0 1px $component-border-color inset;
 $component-inset-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.0125);
 $component-font-family: $default-font-family;
-$component-font-size: 11px;
+$component-font-size: 10px;
 //label
 $component-label-width: 30%;
-$component-label-padding: 12px 5px 0 0;
+$component-label-padding: 10px 6px 0 0;
 $component-label-font-size: $component-font-size;
 $component-label-font-weight: normal;
 $component-label-color: #aeb5b8;
@@ -81,7 +82,7 @@ $menu-button-box-shadow:  (0 0 0 1px #131313 inset,-1px 2px 0 0 #212527 inset);
 $menu-button-border-bottom: 1px solid #24292b;
 $menu-button-gradient: rgb(26, 29, 31) 0%, rgb(26, 29, 31) 100%;
 $menu-button-font-family: $default-font-family;
-$menu-button-font-size: 10px;
+$menu-button-font-size: 11px;
 $menu-button-font-weight: bold;
 $menu-button-color: #aaaaaa;
 $menu-button-text-shadow:  0 -1px #000;
@@ -98,8 +99,8 @@ $menu-buttonUndo-width: 38px;
 //-----------------------------------------------------------------------------------------//
 
 // base
-$group-head-height: 38px;
-$group-head-padding: 0 10px 0 10px;
+$group-head-height: 32px;
+$group-head-padding: 0 20px 0 10px;
 $group-head-border-top: 1px solid #4f4f4f;
 $group-head-border-bottom: 1px solid #262626;
 $group-head-gradient: #454545 0%, #3b3b3b 100%;
@@ -114,10 +115,10 @@ $group-head-hover-gradient: #454545 0%, #404040 100%;
 // Group
 //-----------------------------------------------------------------------------------------//
 
-$subGroupList-item-height: 35px;
-$subGroupList-item-border-bottom: 1px solid #222729;
+$subGroupList-item-height: 32px;
+$subGroupList-item-border-bottom: 1px solid #2e2e2e;
 $subGroupList-item-padding: 0 10px 0 10px;
-$subGroupList-item-background: #2e2e2e;
+$subGroupList-item-background: auto;
 // base
 $subGroup-margin-top : 6px;
 $subGroup-border: 1px solid #242424;
@@ -125,13 +126,13 @@ $subGroup-border-radius: $default-border-radius;
 $subGroup-box-shadow: 0 1px 0 0 rgba(59,68,71,1.0);
 // head
 $subGroup-head-height: 27px;
-$subGroup-head-padding: 0 10px 0 10px;
+$subGroup-head-padding: 0 20px 0 10px;
 $subGroup-head-inset-top: 1px solid #1e2224;
 $subGroup-head-border-bottom: 1px solid #1e2224;
 $subGroup-head-border-top-radius: $default-border-radius;
-$subGroup-head-background: #272727;
+$subGroup-head-background: #111;
 // head - hover
-$subGroup-head-hover-background: #272727;
+$subGroup-head-hover-background: #333;
 // head - inactive
 $subGroup-head-inactive-box-shadow: 0 1px 0 0 #404040 inset;
 $subGroup-head-inactive-gradient: #3b3b3b 0%, #383838 100%;
@@ -155,7 +156,7 @@ $input-color: #fff;
 $input-font-size: 11px;
 $input-text-shadow: $default-text-shadow;
 $input-font-family: $default-font-family;
-$input-background: #222729;
+$input-background: #222;
 $input-gradient: rgba(0,0,0,0.075) 0%, rgba(0,0,0,0.125) 100%;
 $input-top-color: rgba(0,0,0,0.0125);
 $input-border-radius: $default-border-radius;
@@ -165,7 +166,7 @@ $input-border-radius: $default-border-radius;
 //-----------------------------------------------------------------------------------------//
 
 //base
-$textarea-padding: 5px 8px 2px 8px;
+$textarea-padding: 3px 8px 2px 8px;
 //wrap
 $textarea-wrap-border-radius: $input-border-radius;
 $textarea-wrap-box-shadow: $input-box-shadow;
@@ -178,7 +179,7 @@ $textarea-wrap-scrollBar-border-radius: $default-border-radius;
 //-----------------------------------------------------------------------------------------//
 // Range
 //-----------------------------------------------------------------------------------------//
-$range-label-padding: 8px 0 0 0;
+$range-label-padding: 5px 0 0 0;
 $range-label-color: #878787;
 $range-label-text-align: center;
 $range-label-text-transform: uppercase;
@@ -190,13 +191,13 @@ $range-label-text-shadow: 1px 1px #1a1a1a;
 // Button
 //-----------------------------------------------------------------------------------------//
 // base
-$button-height: 26px;
+$button-height: 20px;
 $button-margin: 0;
 $button-border-radius: $default-border-radius;
 $button-background: #00ff00;
-$button-color: #fff;
+$button-color: #aaa;
 $button-font-family: $default-font-family;
-$button-font-size: 10px;
+$button-font-size: 11px;
 $button-font-weight: bold;
 $button-text-shadow: 0 1px #000;
 $button-text-transform: uppercase;
@@ -233,15 +234,15 @@ $select-hover-gradient: $button-hover-gradient;
 //-----------------------------------------------------------------------------------------//
 
 // base
-$slider-width: $component-width;
+$slider-width: 78%;
 $slider-height: $component-height;
-$slider-padding: 3px;
+$slider-padding: 4px 2px;
 // slot
 $slider-slot-border: none;
 $slider-slot-border-radius: $default-border-radius;
 $slider-slot-background: #1e2224;
 // handle
-$slider-handle-background:#b32435;
+$slider-handle-background:#0000ea;
 $slider-handle-gradient: rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%;
 $slider-handle-box-shadow: 0 1px 0 0 #0f0f0f;
 
@@ -253,15 +254,15 @@ $options-border: 1px solid #1F1F1F;
 $options-border-radius: 2px;
 $options-font-family: $default-font-family;
 $options-text-shadow: $default-text-shadow;
-$options-color: #fff;
-$options-font-size: 11px;
-$options-box-shadow: 0 1px 0 0 #4a4a4a inset;
-$options-background: #454545;
+$options-color: $input-color;
+$options-font-size: 10px;
+$options-box-shadow: 0 -1px 0 0 #4a4a4a inset;
+$options-background: #333;
 
-$optionsList-item-height:              25px;
+$optionsList-item-height:              22px;
 $optionsList-item-padding:             0 20px 0 10px;
-$optionsList-item-hover-background:    #1f2325;
-$optionsList-item-selected-background: #292d30;
+$optionsList-item-hover-background:    #0000ea;
+$optionsList-item-selected-background: #222;
 
 //-----------------------------------------------------------------------------------------//
 // Canvas & SVG
@@ -269,7 +270,7 @@ $optionsList-item-selected-background: #292d30;
 
 $canvas-wrap-margin: 6px 0 0 0;
 $canvas-wrap-border-radius: $default-border-radius;
-$canvas-wrap-background: #1e2224;
+$canvas-wrap-background: #222;
 $canvas-wrap-gradient: rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%;
 
 //-----------------------------------------------------------------------------------------//

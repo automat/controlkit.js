@@ -5,7 +5,7 @@
 
 @mixin linear-gradient-with-background($gradient,$color){
   background: $color;
-  @include linear-gradient($gradient);
+  // @include linear-gradient($gradient);
 }
 
 @mixin linear-gradient-with-image($gradient,$image){
