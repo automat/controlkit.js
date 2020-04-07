@@ -6,7 +6,6 @@
   top: 0;
   right: 0;
   width: 100%;
-  height: 100%;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -14,6 +13,8 @@
   -ms-user-select: none;
   user-select: none;
   pointer-events: none; }
+  #controlKit.full {
+    height: 100%; }
 
 #controlKit .panel {
   -webkit-box-sizing: border-box;
@@ -484,6 +485,8 @@
     #controlKit .panel .group-list .group .sub-group-list .sub-group ul li {
       background: auto;
       border-bottom: 1px solid #2e2e2e; }
+      #controlKit .panel .group-list .group .sub-group-list .sub-group ul li:hover .slider-slot, #controlKit .panel .group-list .group .sub-group-list .sub-group ul li:hover input[type='text'] {
+        background-color: #333; }
     #controlKit .panel .group-list .group .sub-group-list .sub-group ul li:last-of-type {
       border-bottom: none; }
   #controlKit .panel .group-list .group .sub-group-list .sub-group:first-child {
