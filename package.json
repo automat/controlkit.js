@@ -30,8 +30,5 @@
     "url": "https://github.com/brunoimbrizi/controlkit.js.git"
   },
   "homepage": "http://github.com/brunoimbrizi/controlKit.js",
-  "license": "MIT",
-  "dependencies": {
-    "node-sass": "^4.13.1"
-  }
+  "license": "MIT"
 }
